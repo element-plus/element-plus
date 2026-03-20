@@ -11,10 +11,10 @@
   flex-direction: column;
   text-align: center;
   box-sizing: border-box;
-  padding: var(--el-empty-padding);
+  padding: getCssVar('empty-padding');
 
   @include e(image) {
-    width: var(--el-empty-image-width);
+    width: getCssVar('empty-image-width');
 
     img {
       user-select: none;
@@ -34,16 +34,16 @@
   }
 
   @include e(description) {
-    margin-top: var(--el-empty-description-margin-top);
+    margin-top: getCssVar('empty-description-margin-top');
 
     p {
       margin: 0;
-      font-size: var(--el-font-size-base);
-      color: var(--el-text-color-secondary);
+      font-size: getCssVar('font-size', 'base');
+      color: getCssVar('text-color', 'secondary');
     }
   }
 
   @include e(bottom) {
-    margin-top: var(--el-empty-bottom-margin-top);
+    margin-top: getCssVar('empty-bottom-margin-top');
   }
 }

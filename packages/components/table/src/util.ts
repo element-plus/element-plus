@@ -1,60 +1,89 @@
-import { createPopper } from '@popperjs/core'
-import { get } from 'lodash-unified'
-import escapeHtml from 'escape-html'
-import { hasOwn, off, on } from '@element-plus/utils'
-import { useZIndex } from '@element-plus/hooks'
-import type {
-  IPopperOptions,
-  PopperInstance,
-} from '@element-plus/components/popper'
-import type { Nullable } from '@element-plus/utils'
+import { Comment, Fragment, createVNode, isVNode, render } from 'vue'
+import { flatMap, get, isNull, merge } from 'lodash-unified'
+import {
+  ensureArray,
+  getProp,
+  hasOwn,
+  isArray,
+  isBoolean,
+  isFunction,
+  isNumber,
+  isObject,
+  isString,
+  isUndefined,
+  throwError,
+} from '@element-plus/utils'
+import ElTooltip, {
+  type ElTooltipProps,
+} from '@element-plus/components/tooltip'
+
+import type { DefaultRow, Table, TreeProps } from './table/defaults'
 import type { TableColumnCtx } from './table-column/defaults'
+import type { CSSProperties, VNode, VNodeArrayChildren } from 'vue'
 
-export const getCell = function (event: Event): HTMLElement {
-  let cell = event.target as HTMLElement
+export type TableOverflowTooltipOptions = Partial<
+  Pick<
+    ElTooltipProps,
+    | 'appendTo'
+    | 'effect'
+    | 'enterable'
+    | 'hideAfter'
+    | 'offset'
+    | 'placement'
+    | 'popperClass'
+    | 'popperOptions'
+    | 'showAfter'
+    | 'showArrow'
+    | 'transition'
+  >
+>
 
-  while (cell && cell.tagName.toUpperCase() !== 'HTML') {
-    if (cell.tagName.toUpperCase() === 'TD') {
-      return cell
-    }
-    cell = cell.parentNode as HTMLElement
-  }
+export type TableOverflowTooltipFormatter<T extends DefaultRow> = (data: {
+  row: T
+  column: TableColumnCtx<T>
+  cellValue: any
+}) => VNode | string
 
-  return null
+type RemovePopperFn = (() => void) & {
+  trigger?: HTMLElement
+  vm?: VNode
 }
 
-const isObject = function (obj: unknown): boolean {
-  return obj !== null && typeof obj === 'object'
+type CompareValue<T> = {
+  value: T
+  index: number
+  key: any[] | null
 }
 
-export const orderBy = function <T>(
+export const getCell = function (event: Event) {
+  return (event.target as HTMLElement)?.closest('td')
+}
+
+export const orderBy = function <T extends DefaultRow>(
   array: T[],
-  sortKey: string,
-  reverse: string | number,
-  sortMethod,
-  sortBy: string | (string | ((a: T, b: T, array?: T[]) => number))[]
+  sortKey: string | null,
+  reverse: string | number | null,
+  sortMethod: TableColumnCtx<T>['sortMethod'] | null,
+  sortBy: string | string[] | ((a: T, index: number, array?: T[]) => string)
 ) {
   if (
     !sortKey &&
     !sortMethod &&
-    (!sortBy || (Array.isArray(sortBy) && !sortBy.length))
+    (!sortBy || (isArray(sortBy) && !sortBy.length))
   ) {
     return array
   }
-  if (typeof reverse === 'string') {
+  if (isString(reverse)) {
     reverse = reverse === 'descending' ? -1 : 1
   } else {
     reverse = reverse && reverse < 0 ? -1 : 1
   }
   const getKey = sortMethod
     ? null
-    : function (value, index) {
+    : function (value: T, index: number) {
         if (sortBy) {
-          if (!Array.isArray(sortBy)) {
-            sortBy = [sortBy]
-          }
-          return sortBy.map((by) => {
-            if (typeof by === 'string') {
+          return flatMap(ensureArray(sortBy), (by) => {
+            if (isString(by)) {
               return get(value, by)
             } else {
               return by(value, index, array)
@@ -64,24 +93,26 @@ export const orderBy = function <T>(
         if (sortKey !== '$key') {
           if (isObject(value) && '$value' in value) value = value.$value
         }
-        return [isObject(value) ? get(value, sortKey) : value]
+        return [
+          isObject(value) ? (sortKey ? get(value, sortKey) : null) : value,
+        ]
       }
-  const compare = function (a, b) {
+  const compare = function (a: CompareValue<T>, b: CompareValue<T>) {
     if (sortMethod) {
       return sortMethod(a.value, b.value)
     }
-    for (let i = 0, len = a.key.length; i < len; i++) {
-      if (a.key[i] < b.key[i]) {
+    for (let i = 0, len = a.key?.length ?? 0; i < len; i++) {
+      if (a.key?.[i] < b.key?.[i]) {
         return -1
       }
-      if (a.key[i] > b.key[i]) {
+      if (a.key?.[i] > b.key?.[i]) {
         return 1
       }
     }
     return 0
   }
   return array
-    .map((value, index) => {
+    .map<CompareValue<T>>((value: T, index) => {
       return {
         value,
         index,
@@ -99,7 +130,7 @@ export const orderBy = function <T>(
     .map((item) => item.value)
 }
 
-export const getColumnById = function <T>(
+export const getColumnById = function <T extends DefaultRow>(
   table: {
     columns: TableColumnCtx<T>[]
   },
@@ -114,7 +145,7 @@ export const getColumnById = function <T>(
   return column
 }
 
-export const getColumnByKey = function <T>(
+export const getColumnByKey = function <T extends DefaultRow>(
   table: {
     columns: TableColumnCtx<T>[]
   },
@@ -128,10 +159,12 @@ export const getColumnByKey = function <T>(
       break
     }
   }
+  if (!column)
+    throwError('ElTable', `No column matching with column-key: ${columnKey}`)
   return column
 }
 
-export const getColumnByCell = function <T>(
+export const getColumnByCell = function <T extends DefaultRow>(
   table: {
     columns: TableColumnCtx<T>[]
   },
@@ -147,68 +180,86 @@ export const getColumnByCell = function <T>(
   return null
 }
 
-export const getRowIdentity = <T>(
+export const getRowIdentity = <T extends DefaultRow>(
   row: T,
-  rowKey: string | ((row: T) => any)
+  rowKey: string | ((row: T) => string) | null
 ): string => {
   if (!row) throw new Error('Row is required when get row identity')
-  if (typeof rowKey === 'string') {
+  if (isString(rowKey)) {
     if (!rowKey.includes('.')) {
       return `${row[rowKey]}`
     }
     const key = rowKey.split('.')
-    let current = row
+    let current: any = row
     for (const element of key) {
       current = current[element]
     }
+    //TODO: "current" is now any, we just satisfies typecheck here
+    // but this function can actually return a number
     return `${current}`
-  } else if (typeof rowKey === 'function') {
+  } else if (isFunction(rowKey)) {
     return rowKey.call(null, row)
   }
+  return ''
 }
 
-export const getKeysMap = function <T>(
+export const getKeysMap = function <T extends DefaultRow>(
   array: T[],
-  rowKey: string
-): Record<string, { row: T; index: number }> {
-  const arrayMap = {}
-  ;(array || []).forEach((row, index) => {
+  rowKey: string | null,
+  flatten = false,
+  childrenKey = 'children'
+): Record<PropertyKey, { row: T; index: number }> {
+  const data = array || []
+  const arrayMap: Record<string, { row: T; index: number }> = {}
+
+  data.forEach((row, index) => {
     arrayMap[getRowIdentity(row, rowKey)] = { row, index }
+
+    if (flatten) {
+      const children = row[childrenKey]
+      if (isArray(children)) {
+        Object.assign(arrayMap, getKeysMap(children, rowKey, true, childrenKey))
+      }
+    }
   })
+
   return arrayMap
 }
 
-export function mergeOptions<T, K>(defaults: T, config: K): T & K {
+export function mergeOptions<T extends DefaultRow, K extends DefaultRow>(
+  defaults: T,
+  config: K
+): T & K {
   const options = {} as T & K
-  let key
+  let key: keyof T & keyof K
   for (key in defaults) {
     options[key] = defaults[key]
   }
   for (key in config) {
-    if (hasOwn(config as unknown as Record<string, any>, key)) {
+    if (hasOwn(config, key)) {
       const value = config[key]
-      if (typeof value !== 'undefined') {
-        options[key] = value
+      if (!isUndefined(value)) {
+        options[key as keyof K] = value
       }
     }
   }
   return options
 }
 
-export function parseWidth(width: number | string): number | string {
+export function parseWidth(width?: number | string): number | string {
   if (width === '') return width
-  if (width !== undefined) {
+  if (!isUndefined(width)) {
     width = Number.parseInt(width as string, 10)
     if (Number.isNaN(width)) {
       width = ''
     }
   }
-  return width
+  return width!
 }
 
 export function parseMinWidth(minWidth: number | string): number | string {
   if (minWidth === '') return minWidth
-  if (minWidth !== undefined) {
+  if (!isUndefined(minWidth)) {
     minWidth = parseWidth(minWidth)
     if (Number.isNaN(minWidth)) {
       minWidth = 80
@@ -217,11 +268,11 @@ export function parseMinWidth(minWidth: number | string): number | string {
   return minWidth
 }
 
-export function parseHeight(height: number | string) {
-  if (typeof height === 'number') {
+export function parseHeight(height: number | string | null) {
+  if (isNumber(height)) {
     return height
   }
-  if (typeof height === 'string') {
+  if (isString(height)) {
     if (/^\d+(?:px)?$/.test(height)) {
       return Number.parseInt(height, 10)
     } else {
@@ -231,67 +282,117 @@ export function parseHeight(height: number | string) {
   return null
 }
 
-// https://github.com/reduxjs/redux/blob/master/src/compose.js
-export function compose(...funcs) {
+// https://github.com/reduxjs/redux/blob/master/src/compose.ts
+export function compose(...funcs: ((...args: any[]) => void)[]) {
   if (funcs.length === 0) {
-    return (arg) => arg
+    return <T>(arg: T) => arg
   }
   if (funcs.length === 1) {
     return funcs[0]
   }
   return funcs.reduce(
     (a, b) =>
-      (...args) =>
+      (...args: any[]) =>
         a(b(...args))
   )
 }
 
-export function toggleRowStatus<T>(
+export function toggleRowStatus<T extends DefaultRow>(
   statusArr: T[],
   row: T,
-  newVal: boolean
+  newVal?: boolean,
+  tableTreeProps?: TreeProps,
+  selectable?: ((row: T, index: number) => boolean) | null,
+  rowIndex?: number,
+  rowKey?: string | null
 ): boolean {
+  let _rowIndex = rowIndex ?? 0
   let changed = false
-  const index = statusArr.indexOf(row)
+
+  const getIndex = () => {
+    if (!rowKey) {
+      return statusArr.indexOf(row)
+    }
+
+    const id = getRowIdentity(row, rowKey)
+
+    return statusArr.findIndex((item) => getRowIdentity(item, rowKey) === id)
+  }
+
+  const index = getIndex()
+
   const included = index !== -1
+  const isRowSelectable = selectable?.call(null, row, _rowIndex)
 
-  const addRow = () => {
-    statusArr.push(row)
-    changed = true
-  }
-  const removeRow = () => {
-    statusArr.splice(index, 1)
-    changed = true
-  }
-
-  if (typeof newVal === 'boolean') {
-    if (newVal && !included) {
-      addRow()
-    } else if (!newVal && included) {
-      removeRow()
-    }
-  } else {
-    if (included) {
-      removeRow()
+  const toggleStatus = (type: 'add' | 'remove') => {
+    if (type === 'add') {
+      statusArr.push(row)
     } else {
-      addRow()
+      statusArr.splice(index, 1)
     }
+    changed = true
+  }
+  const getChildrenCount = <T extends DefaultRow>(row: T) => {
+    let count = 0
+    const children = tableTreeProps?.children && row[tableTreeProps.children]
+    if (children && isArray(children)) {
+      count += children.length
+      children.forEach((item) => {
+        count += getChildrenCount(item)
+      })
+    }
+    return count
+  }
+
+  if (!selectable || isRowSelectable) {
+    if (isBoolean(newVal)) {
+      if (newVal && !included) {
+        toggleStatus('add')
+      } else if (!newVal && included) {
+        toggleStatus('remove')
+      }
+    } else {
+      included ? toggleStatus('remove') : toggleStatus('add')
+    }
+  }
+
+  if (
+    !tableTreeProps?.checkStrictly &&
+    tableTreeProps?.children &&
+    isArray(row[tableTreeProps.children])
+  ) {
+    row[tableTreeProps.children].forEach((item: T) => {
+      const childChanged = toggleRowStatus(
+        statusArr,
+        item,
+        newVal ?? !included,
+        tableTreeProps,
+        selectable,
+        _rowIndex + 1,
+        rowKey
+      )
+      _rowIndex += getChildrenCount(item) + 1
+      if (childChanged) {
+        changed = childChanged
+      }
+    })
   }
   return changed
 }
 
-export function walkTreeNode(
-  root,
-  cb,
+export function walkTreeNode<T extends DefaultRow>(
+  root: T[],
+  cb: (parent: any, children: T | T[] | null, level: number) => void,
   childrenKey = 'children',
-  lazyKey = 'hasChildren'
+  lazyKey = 'hasChildren',
+  lazy = false
 ) {
-  const isNil = (array) => !(Array.isArray(array) && array.length)
+  const isNil = (array: any): array is null => !(isArray(array) && array.length)
 
-  function _walker(parent, children, level) {
+  function _walker(parent: any, children: T | T[], level: number) {
     cb(parent, children, level)
-    children.forEach((item) => {
-      if (item[lazyKey]) {
+    children.forEach((item: any) => {
+      if (item[lazyKey] && lazy) {
         cb(item, null, level + 1)
         return
       }
@@ -302,8 +403,8 @@ export function walkTreeNode(
     })
   }
 
-  root.forEach((item) => {
-    if (item[lazyKey]) {
+  root.forEach((item: any) => {
+    if (item[lazyKey] && lazy) {
       cb(item, null, 0)
       return
     }
@@ -314,92 +415,150 @@ export function walkTreeNode(
   })
 }
 
-export let removePopper
+const getTableOverflowTooltipProps = <T extends DefaultRow>(
+  props: TableOverflowTooltipOptions,
+  innerText: string,
+  row: T,
+  column: TableColumnCtx<T> | null
+) => {
+  // merge popperOptions
+  const popperOptions = {
+    strategy: 'fixed',
+    ...props.popperOptions,
+  }
 
-export function createTablePopper(
-  trigger: HTMLElement,
-  popperContent: string,
-  popperOptions: Partial<IPopperOptions>,
-  tooltipEffect: string
-) {
-  const { nextZIndex } = useZIndex()
-  function renderContent(): HTMLDivElement {
-    const isLight = tooltipEffect === 'light'
-    const content = document.createElement('div')
-    content.className = `el-popper ${isLight ? 'is-light' : 'is-dark'}`
-    popperContent = escapeHtml(popperContent)
-    content.innerHTML = popperContent
-    content.style.zIndex = String(nextZIndex())
-    document.body.appendChild(content)
-    return content
-  }
-  function renderArrow(): HTMLDivElement {
-    const arrow = document.createElement('div')
-    arrow.className = 'el-popper__arrow'
-    return arrow
-  }
-  function showPopper() {
-    popperInstance && popperInstance.update()
-  }
-  removePopper = function removePopper() {
-    try {
-      popperInstance && popperInstance.destroy()
-      content && document.body.removeChild(content)
-      off(trigger, 'mouseenter', showPopper)
-      off(trigger, 'mouseleave', removePopper)
-    } catch {}
-  }
-  let popperInstance: Nullable<PopperInstance> = null
-  const content = renderContent()
-  const arrow = renderArrow()
-  content.appendChild(arrow)
+  const tooltipFormatterContent = isFunction(column?.tooltipFormatter)
+    ? column.tooltipFormatter({
+        row,
+        column,
+        cellValue: getProp(row, column.property).value,
+      })
+    : undefined
 
-  popperInstance = createPopper(trigger, content, {
-    modifiers: [
-      {
-        name: 'offset',
-        options: {
-          offset: [0, 8],
-        },
-      },
-      {
-        name: 'arrow',
-        options: {
-          element: arrow,
-          padding: 10,
-        },
-      },
-    ],
-    ...popperOptions,
-  })
-  on(trigger, 'mouseenter', showPopper)
-  on(trigger, 'mouseleave', removePopper)
-  return popperInstance
+  if (isVNode(tooltipFormatterContent)) {
+    return {
+      slotContent: tooltipFormatterContent,
+      content: null,
+      ...props,
+      popperOptions,
+    }
+  }
+
+  return {
+    slotContent: null,
+    content: tooltipFormatterContent ?? innerText,
+    ...props,
+    popperOptions,
+  }
 }
 
-export const isFixedColumn = <T>(
+export let removePopper: RemovePopperFn | null = null
+
+export function createTablePopper<T extends DefaultRow>(
+  props: TableOverflowTooltipOptions,
+  popperContent: string,
+  row: T,
+  column: TableColumnCtx<T> | null,
+  trigger: HTMLElement | null,
+  table: Table<DefaultRow>
+) {
+  const tableOverflowTooltipProps = getTableOverflowTooltipProps(
+    props,
+    popperContent,
+    row,
+    column
+  )
+  const mergedProps = {
+    ...tableOverflowTooltipProps,
+    slotContent: undefined,
+  }
+  if (removePopper?.trigger === trigger) {
+    const comp = removePopper.vm?.component
+    merge(comp?.props, mergedProps)
+    if (comp && tableOverflowTooltipProps.slotContent) {
+      comp.slots.content = () => [tableOverflowTooltipProps.slotContent]
+    }
+    return
+  }
+  removePopper?.()
+  const parentNode = table?.refs.tableWrapper
+  const ns = parentNode?.dataset.prefix
+  const vm = createVNode(
+    ElTooltip,
+    {
+      virtualTriggering: true,
+      virtualRef: trigger,
+      appendTo: parentNode,
+      placement: 'top',
+      transition: 'none', // Default does not require transition
+      offset: 0,
+      hideAfter: 0,
+      ...mergedProps,
+    },
+    tableOverflowTooltipProps.slotContent
+      ? {
+          content: () => tableOverflowTooltipProps.slotContent,
+        }
+      : undefined
+  )
+  vm.appContext = { ...table.appContext, ...table }
+  const container = document.createElement('div')
+  render(vm, container)
+  vm.component!.exposed!.onOpen()
+  const scrollContainer = parentNode?.querySelector(`.${ns}-scrollbar__wrap`)
+  removePopper = () => {
+    if (vm.component?.exposed?.onClose) {
+      vm.component.exposed.onClose()
+    }
+    render(null, container)
+    const currentRemovePopper = removePopper as RemovePopperFn
+    scrollContainer?.removeEventListener('scroll', currentRemovePopper)
+    currentRemovePopper.trigger = undefined
+    currentRemovePopper.vm = undefined
+    removePopper = null
+  }
+  removePopper.trigger = trigger ?? undefined
+  removePopper.vm = vm
+  scrollContainer?.addEventListener('scroll', removePopper)
+}
+
+function getCurrentColumns<T extends DefaultRow>(
+  column: TableColumnCtx<T>
+): TableColumnCtx<T>[] {
+  if (column.children) {
+    return flatMap(column.children, getCurrentColumns)
+  } else {
+    return [column]
+  }
+}
+
+function getColSpan<T extends DefaultRow>(
+  colSpan: number,
+  column: TableColumnCtx<T>
+) {
+  return colSpan + column.colSpan
+}
+
+export const isFixedColumn = <T extends DefaultRow>(
   index: number,
-  fixed: string | boolean,
+  fixed: string | boolean | undefined,
   store: any,
   realColumns?: TableColumnCtx<T>[]
 ) => {
   let start = 0
   let after = index
+  const columns = store.states.columns.value
   if (realColumns) {
-    if (realColumns[index].colSpan > 1) {
-      // fixed column not supported in grouped header
-      return {}
-    }
-    // handle group
-    for (let i = 0; i < index; i++) {
-      start += realColumns[i].colSpan
-    }
-    after = start + realColumns[index].colSpan - 1
+    // fixed column supported in grouped header
+    const curColumns = getCurrentColumns(realColumns[index])
+    const preColumns = columns.slice(0, columns.indexOf(curColumns[0]))
+
+    start = preColumns.reduce(getColSpan, 0)
+    after = start + curColumns.reduce(getColSpan, 0) - 1
   } else {
     start = index
   }
   let fixedLayout
-  const columns = store.states.columns
   switch (fixed) {
     case 'left':
       if (after < store.states.fixedLeafColumnsLength.value) {
@@ -409,7 +568,7 @@ export const isFixedColumn = <T>(
     case 'right':
       if (
         start >=
-        columns.value.length - store.states.rightFixedLeafColumnsLength.value
+        columns.length - store.states.rightFixedLeafColumnsLength.value
       ) {
         fixedLayout = 'right'
       }
@@ -419,7 +578,7 @@ export const isFixedColumn = <T>(
         fixedLayout = 'left'
       } else if (
         start >=
-        columns.value.length - store.states.rightFixedLeafColumnsLength.value
+        columns.length - store.states.rightFixedLeafColumnsLength.value
       ) {
         fixedLayout = 'right'
       }
@@ -433,23 +592,32 @@ export const isFixedColumn = <T>(
     : {}
 }
 
-export const getFixedColumnsClass = <T>(
+export const getFixedColumnsClass = <T extends DefaultRow>(
   namespace: string,
   index: number,
-  fixed: string | boolean,
+  fixed: string | boolean | undefined,
   store: any,
-  realColumns?: TableColumnCtx<T>[]
+  realColumns?: TableColumnCtx<T>[],
+  offset = 0
 ) => {
   const classes: string[] = []
-  const { direction, start } = isFixedColumn(index, fixed, store, realColumns)
+  const { direction, start, after } = isFixedColumn(
+    index,
+    fixed,
+    store,
+    realColumns
+  )
   if (direction) {
     const isLeft = direction === 'left'
     classes.push(`${namespace}-fixed-column--${direction}`)
-    if (isLeft && start === store.states.fixedLeafColumnsLength.value - 1) {
+    if (
+      isLeft &&
+      after + offset === store.states.fixedLeafColumnsLength.value - 1
+    ) {
       classes.push('is-last-column')
     } else if (
       !isLeft &&
-      start ===
+      start - offset ===
         store.states.columns.value.length -
           store.states.rightFixedLeafColumnsLength.value
     ) {
@@ -459,47 +627,70 @@ export const getFixedColumnsClass = <T>(
   return classes
 }
 
-function getOffset<T>(offset: number, column: TableColumnCtx<T>) {
+function getOffset<T extends DefaultRow>(
+  offset: number,
+  column: TableColumnCtx<T>
+) {
   return (
     offset +
-    (column.realWidth === null || Number.isNaN(column.realWidth)
+    (isNull(column.realWidth) || Number.isNaN(column.realWidth)
       ? Number(column.width)
       : column.realWidth)
   )
 }
 
-export const getFixedColumnOffset = <T>(
+export const getFixedColumnOffset = <T extends DefaultRow>(
   index: number,
-  fixed: string | boolean,
+  fixed: string | boolean | undefined,
   store: any,
   realColumns?: TableColumnCtx<T>[]
 ) => {
-  const { direction, start = 0 } = isFixedColumn(
-    index,
-    fixed,
-    store,
-    realColumns
-  )
+  const {
+    direction,
+    start = 0,
+    after = 0,
+  } = isFixedColumn(index, fixed, store, realColumns)
   if (!direction) {
     return
   }
-  const styles: any = {}
+  const styles: CSSProperties = {}
   const isLeft = direction === 'left'
   const columns = store.states.columns.value
   if (isLeft) {
-    styles.left = columns.slice(0, index).reduce(getOffset, 0)
+    styles.left = columns.slice(0, start).reduce(getOffset, 0)
   } else {
     styles.right = columns
-      .slice(start + 1)
+      .slice(after + 1)
       .reverse()
       .reduce(getOffset, 0)
   }
   return styles
 }
 
-export const ensurePosition = (style, key: string) => {
+export const ensurePosition = <T extends CSSProperties>(
+  style: T | undefined,
+  key: keyof T
+) => {
   if (!style) return
   if (!Number.isNaN(style[key])) {
-    style[key] = `${style[key]}px`
+    style[key] = `${style[key]}px` as any
   }
+}
+
+export function ensureValidVNode(
+  vnodes: VNodeArrayChildren
+): VNodeArrayChildren | null {
+  return vnodes.some((child) => {
+    if (!isVNode(child)) return true
+    if (child.type === Comment) return false
+    if (
+      child.type === Fragment &&
+      !ensureValidVNode(child.children as VNodeArrayChildren)
+    ) {
+      return false
+    }
+    return true
+  })
+    ? vnodes
+    : null
 }

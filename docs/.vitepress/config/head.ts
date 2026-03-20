@@ -1,8 +1,3 @@
-import fs from 'fs'
-import path from 'path'
-import { vpRoot } from '@element-plus/build'
-import { languages } from '../utils/lang'
-import { features } from './features'
 import type { HeadConfig } from 'vitepress'
 
 export const head: HeadConfig[] = [
@@ -11,31 +6,44 @@ export const head: HeadConfig[] = [
     {
       rel: 'icon',
       href: '/images/element-plus-logo-small.svg',
+      type: 'image/svg+xm',
     },
   ],
   [
-    'link',
+    'meta',
     {
-      rel: 'stylesheet',
-      href: '//fonts.loli.net/css?family=Inter:300,400,500,600|Open+Sans:400,600;display=swap',
+      property: 'og:image',
+      content: '/images/element-plus-og-image.png',
     },
   ],
   [
-    'link',
+    'meta',
     {
-      rel: 'stylesheet',
-      href: '//unpkg.com/nprogress@0.2.0/nprogress.css',
+      property: 'og:image:width',
+      content: '1200',
     },
   ],
   [
-    'script',
-    {},
-    `;(() => {
-      window.supportedLangs = ${JSON.stringify(languages)}
-    })()`,
+    'meta',
+    {
+      property: 'og:image:height',
+      content: '630',
+    },
   ],
-
-  ['script', {}, fs.readFileSync(path.resolve(vpRoot, 'lang.js'), 'utf-8')],
+  [
+    'meta',
+    {
+      property: 'og:description',
+      content: 'A Vue 3 based component library for designers and developers',
+    },
+  ],
+  [
+    'meta',
+    {
+      name: 'baidu-site-verification',
+      content: 'codeva-q5gBxYcfOs',
+    },
+  ],
   [
     'script',
     {
@@ -46,6 +54,17 @@ export const head: HeadConfig[] = [
   [
     'script',
     {},
+    `if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then((registrations) => {
+        registrations.forEach(sw => sw.unregister())
+      })
+    }`,
+  ],
+  [
+    'script',
+    {
+      async: 'true',
+    },
     `window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
@@ -53,21 +72,34 @@ gtag('config', 'UA-175337989-1');`,
   ],
   [
     'script',
-    {},
-    `(function(h,o,t,j,a,r){
-      h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-      h._hjSettings={hjid:2894908,hjsv:6};
-      a=o.getElementsByTagName('head')[0];
-      r=o.createElement('script');r.async=1;
-      r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-      a.appendChild(r);
-  })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');`,
+    {
+      async: 'true',
+      src: 'https://www.googletagmanager.com/gtag/js?id=G-M74ZHEQ1M1',
+    },
   ],
-]
-if (features.theme) {
-  head.push([
+  [
     'script',
     {},
-    fs.readFileSync(path.resolve(vpRoot, 'dark-mode.js'), 'utf-8'),
-  ])
-}
+    `
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-M74ZHEQ1M1');
+    `,
+  ],
+  [
+    'script',
+    {
+      async: 'true',
+    },
+    `
+  var resource = document.createElement('link');
+  resource.setAttribute("rel", "stylesheet");
+  resource.setAttribute("href","https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,800|Open+Sans:400,600;display=swap");
+  resource.setAttribute("type","text/css");
+  var head = document.querySelector('head');
+  head.appendChild(resource);
+    `,
+  ],
+]

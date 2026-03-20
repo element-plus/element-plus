@@ -1,7 +1,9 @@
 import { withInstall } from '@element-plus/utils'
 import Result from './src/result.vue'
 
-export const ElResult = withInstall(Result)
+import type { SFCWithInstall } from '@element-plus/utils'
+
+export const ElResult: SFCWithInstall<typeof Result> = withInstall(Result)
 
 export default ElResult
 

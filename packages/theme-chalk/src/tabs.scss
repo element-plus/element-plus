@@ -2,29 +2,42 @@
 @use 'common/var' as *;
 
 @include b(tabs) {
+  @include set-component-css-var('tabs', $tabs);
+  display: flex;
+
   @include e(header) {
     padding: 0;
     position: relative;
     margin: 0 0 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  @include e(header-vertical) {
+    flex-direction: column;
   }
   @include e(active-bar) {
     position: absolute;
     bottom: 0;
     left: 0;
     height: 2px;
-    background-color: var(--el-color-primary);
+    background-color: getCssVar('color-primary');
     z-index: 1;
-    transition: width var(--el-transition-duration)
-        var(--el-transition-function-ease-in-out-bezier),
-      transform var(--el-transition-duration)
-        var(--el-transition-function-ease-in-out-bezier);
+    transition:
+      width getCssVar('transition-duration')
+        getCssVar('transition-function-ease-in-out-bezier'),
+      transform getCssVar('transition-duration')
+        getCssVar('transition-function-ease-in-out-bezier');
     list-style: none;
+    &.is-bottom {
+      bottom: auto;
+    }
   }
   @include e(new-tab) {
     display: flex;
     align-items: center;
     justify-content: center;
-    float: right;
+    flex-shrink: 0;
     border: 1px solid getCssVar('border-color');
     height: 20px;
     width: 20px;
@@ -33,7 +46,7 @@
     border-radius: 3px;
     text-align: center;
     font-size: 12px;
-    color: var(--el-text-color-primary);
+    color: getCssVar('text-color', 'primary');
     cursor: pointer;
     transition: all 0.15s;
 
@@ -48,13 +61,17 @@
     }
 
     &:hover {
-      color: var(--el-color-primary);
+      color: getCssVar('color-primary');
     }
+  }
+  @include e(new-tab-vertical) {
+    margin-left: 0;
   }
   @include e(nav-wrap) {
     overflow: hidden;
     margin-bottom: -1px;
     position: relative;
+    flex: 1 auto;
 
     &::after {
       content: '';
@@ -63,8 +80,13 @@
       bottom: 0;
       width: 100%;
       height: 2px;
-      background-color: var(--el-border-color-light);
-      z-index: var(--el-index-normal);
+      background-color: getCssVar('border-color-light');
+      z-index: getCssVar('index-normal');
+    }
+
+    &.is-bottom::after {
+      top: 0;
+      bottom: auto;
     }
 
     @include when(scrollable) {
@@ -80,7 +102,14 @@
     cursor: pointer;
     line-height: 44px;
     font-size: 12px;
-    color: var(--el-text-color-secondary);
+    color: getCssVar('text-color', 'secondary');
+    width: 20px;
+    text-align: center;
+
+    @include when(disabled) {
+      color: getCssVar('text-color', 'disabled');
+      cursor: not-allowed;
+    }
   }
   @include e(nav-next) {
     right: 0;
@@ -89,11 +118,12 @@
     left: 0;
   }
   @include e(nav) {
+    display: flex;
     white-space: nowrap;
     position: relative;
-    transition: transform var(--el-transition-duration);
+    transition: transform getCssVar('transition-duration');
     float: left;
-    z-index: calc(var(--el-index-normal) + 1);
+    z-index: calc(#{getCssVar('index-normal')} + 1);
 
     @include when(stretch) {
       min-width: 100%;
@@ -106,14 +136,15 @@
   }
   @include e(item) {
     padding: 0 20px;
-    height: 40px;
+    height: getCssVar('tabs', 'header-height');
     box-sizing: border-box;
-    line-height: 40px;
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     list-style: none;
-    font-size: 14px;
+    font-size: getCssVar('font-size-base');
     font-weight: 500;
-    color: var(--el-text-color-primary);
+    color: getCssVar('text-color', 'primary');
     position: relative;
 
     &:focus,
@@ -121,54 +152,81 @@
       outline: none;
     }
 
+    &:focus-visible {
+      box-shadow: 0 0 2px 2px getCssVar('color-primary') inset;
+      border-radius: 3px;
+    }
+
     & .is-icon-close {
       border-radius: 50%;
       text-align: center;
-      transition: all var(--el-transition-duration)
-        var(--el-transition-function-ease-in-out-bezier);
+      transition: all getCssVar('transition-duration')
+        getCssVar('transition-function-ease-in-out-bezier');
       margin-left: 5px;
+
       &:before {
         transform: scale(0.9);
         display: inline-block;
       }
 
       &:hover {
-        background-color: var(--el-text-color-placeholder);
+        background-color: getCssVar('text-color', 'placeholder');
         color: $color-white;
-      }
-
-      svg {
-        margin-top: 1px;
       }
     }
 
     @include when(active) {
-      color: var(--el-color-primary);
+      color: getCssVar('color-primary');
     }
 
     &:hover {
-      color: var(--el-color-primary);
+      color: getCssVar('color-primary');
       cursor: pointer;
     }
 
     @include when(disabled) {
-      color: var(--el-disabled-text-color);
-      cursor: default;
+      color: getCssVar('disabled-text-color');
+      cursor: not-allowed;
     }
   }
   @include e(content) {
     overflow: hidden;
     position: relative;
+    flex-grow: 1;
+  }
+  @include m((top, bottom)) {
+    > .#{$namespace}-tabs__header {
+      .#{$namespace}-tabs__item:nth-child(2) {
+        padding-left: 0;
+      }
+      .#{$namespace}-tabs__item:last-child {
+        padding-right: 0;
+      }
+    }
+
+    &.#{$namespace}-tabs--border-card,
+    &.#{$namespace}-tabs--card {
+      > .#{$namespace}-tabs__header {
+        .#{$namespace}-tabs__item:nth-child(2) {
+          padding-left: 20px;
+        }
+        .#{$namespace}-tabs__item:last-child {
+          padding-right: 20px;
+        }
+      }
+    }
   }
   @include m(card) {
     > .#{$namespace}-tabs__header {
-      border-bottom: 1px solid var(--el-border-color-light);
+      border-bottom: 1px solid getCssVar('border-color-light');
+      height: getCssVar('tabs', 'header-height');
+      box-sizing: border-box;
     }
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__nav-wrap::after {
       content: none;
     }
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__nav {
-      border: 1px solid var(--el-border-color-light);
+      border: 1px solid getCssVar('border-color-light');
       border-bottom: none;
       border-radius: 4px 4px 0 0;
       box-sizing: border-box;
@@ -181,23 +239,24 @@
       font-size: 12px;
       width: 0;
       height: 14px;
-      vertical-align: middle;
-      line-height: 15px;
       overflow: hidden;
-      top: -1px;
       right: -2px;
       transform-origin: 100% 50%;
     }
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__item {
+      margin-top: -1px;
       border-bottom: 1px solid transparent;
-      border-left: 1px solid var(--el-border-color-light);
-      transition: color var(--el-transition-duration)
-          var(--el-transition-function-ease-in-out-bezier),
-        padding var(--el-transition-duration)
-          var(--el-transition-function-ease-in-out-bezier);
+      border-left: 1px solid getCssVar('border-color-light');
+      transition:
+        color getCssVar('transition-duration')
+          getCssVar('transition-function-ease-in-out-bezier'),
+        padding getCssVar('transition-duration')
+          getCssVar('transition-function-ease-in-out-bezier');
+
       &:first-child {
         border-left: none;
       }
+
       &.is-closable {
         &:hover {
           padding-left: 13px;
@@ -208,8 +267,9 @@
           }
         }
       }
+
       &.is-active {
-        border-bottom-color: $color-white;
+        border-bottom-color: getCssVar('bg-color');
 
         &.is-closable {
           padding-left: 20px;
@@ -223,7 +283,7 @@
     }
   }
   @include m(border-card) {
-    background: $color-white;
+    background: getCssVar('bg-color', 'overlay');
     border: 1px solid getCssVar('border-color');
 
     > .#{$namespace}-tabs__content {
@@ -231,18 +291,18 @@
     }
     > .#{$namespace}-tabs__header {
       background-color: getCssVar('fill-color', 'light');
-      border-bottom: 1px solid var(--el-border-color-light);
+      border-bottom: 1px solid getCssVar('border-color-light');
       margin: 0;
     }
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__nav-wrap::after {
       content: none;
     }
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__item {
-      transition: all var(--el-transition-duration)
-        var(--el-transition-function-ease-in-out-bezier);
+      transition: all getCssVar('transition-duration')
+        getCssVar('transition-function-ease-in-out-bezier');
       border: 1px solid transparent;
       margin-top: -1px;
-      color: var(--el-text-color-secondary);
+      color: getCssVar('text-color', 'secondary');
 
       &:first-child {
         margin-left: -1px;
@@ -253,16 +313,18 @@
       }
 
       &.is-active {
-        color: var(--el-color-primary);
-        background-color: $color-white;
+        color: getCssVar('color-primary');
+        background-color: getCssVar('bg-color', 'overlay');
         border-right-color: getCssVar('border-color');
         border-left-color: getCssVar('border-color');
       }
+
       &:not(.is-disabled):hover {
-        color: var(--el-color-primary);
+        color: getCssVar('color-primary');
       }
+
       &.is-disabled {
-        color: var(--el-disabled-text-color);
+        color: getCssVar('disabled-text-color');
       }
     }
 
@@ -272,31 +334,9 @@
       margin-left: 0;
     }
   }
-  @include m((top, bottom)) {
-    .#{$namespace}-tabs__item.is-top:nth-child(2),
-    .#{$namespace}-tabs__item.is-bottom:nth-child(2) {
-      padding-left: 0;
-    }
-    .#{$namespace}-tabs__item.is-top:last-child,
-    .#{$namespace}-tabs__item.is-bottom:last-child {
-      padding-right: 0;
-    }
-
-    &.#{$namespace}-tabs--border-card,
-    &.#{$namespace}-tabs--card,
-    .#{$namespace}-tabs--left,
-    .#{$namespace}-tabs--right {
-      > .#{$namespace}-tabs__header {
-        .#{$namespace}-tabs__item:nth-child(2) {
-          padding-left: 20px;
-        }
-        .#{$namespace}-tabs__item:last-child {
-          padding-right: 20px;
-        }
-      }
-    }
-  }
   @include m(bottom) {
+    flex-direction: column;
+
     .#{$namespace}-tabs__header.is-bottom {
       margin-bottom: 0;
       margin-top: 10px;
@@ -306,15 +346,18 @@
         border-bottom: 0;
         border-top: 1px solid getCssVar('border-color');
       }
+
       .#{$namespace}-tabs__nav-wrap.is-bottom {
         margin-top: -1px;
         margin-bottom: 0;
       }
+
       .#{$namespace}-tabs__item.is-bottom:not(.is-active) {
         border: 1px solid transparent;
       }
+
       .#{$namespace}-tabs__item.is-bottom {
-        margin: 0 -1px -1px -1px;
+        margin: 0 -1px -1px;
       }
     }
   }
@@ -352,11 +395,17 @@
         i {
           transform: rotateZ(90deg);
         }
+
+        @include when(disabled) {
+          cursor: not-allowed;
+        }
       }
+
       > .#{$namespace}-tabs__nav-prev {
         left: auto;
         top: 0;
       }
+
       > .#{$namespace}-tabs__nav-next {
         right: auto;
         bottom: 0;
@@ -376,21 +425,27 @@
 
     .#{$namespace}-tabs__nav.is-left,
     .#{$namespace}-tabs__nav.is-right {
-      float: none;
+      flex-direction: column;
     }
-    .#{$namespace}-tabs__item.is-left,
+
+    .#{$namespace}-tabs__item.is-left {
+      justify-content: flex-end;
+    }
+
     .#{$namespace}-tabs__item.is-right {
-      display: block;
+      justify-content: flex-start;
     }
   }
   @include m(left) {
+    flex-direction: row;
+
     .#{$namespace}-tabs__header.is-left {
-      float: left;
       margin-bottom: 0;
       margin-right: 10px;
     }
     .#{$namespace}-tabs__nav-wrap.is-left {
       margin-right: -1px;
+
       &::after {
         left: auto;
         right: 0;
@@ -408,19 +463,22 @@
       .#{$namespace}-tabs__active-bar.is-left {
         display: none;
       }
+
       .#{$namespace}-tabs__item.is-left {
         border-left: none;
-        border-right: 1px solid var(--el-border-color-light);
+        border-right: 1px solid getCssVar('border-color-light');
         border-bottom: none;
-        border-top: 1px solid var(--el-border-color-light);
+        border-top: 1px solid getCssVar('border-color-light');
         text-align: left;
       }
+
       .#{$namespace}-tabs__item.is-left:first-child {
-        border-right: 1px solid var(--el-border-color-light);
+        border-right: 1px solid getCssVar('border-color-light');
         border-top: none;
       }
+
       .#{$namespace}-tabs__item.is-left.is-active {
-        border: 1px solid var(--el-border-color-light);
+        border: 1px solid getCssVar('border-color-light');
         border-right-color: #fff;
         border-left: none;
         border-bottom: none;
@@ -428,6 +486,7 @@
         &:first-child {
           border-top: none;
         }
+
         &:last-child {
           border-bottom: none;
         }
@@ -435,7 +494,7 @@
 
       .#{$namespace}-tabs__nav {
         border-radius: 4px 0 0 4px;
-        border-bottom: 1px solid var(--el-border-color-light);
+        border-bottom: 1px solid getCssVar('border-color-light');
         border-right: none;
       }
 
@@ -448,6 +507,7 @@
       .#{$namespace}-tabs__header.is-left {
         border-right: 1px solid getCssVar('border-color');
       }
+
       .#{$namespace}-tabs__item.is-left {
         border: 1px solid transparent;
         margin: -1px 0 -1px -1px;
@@ -459,16 +519,21 @@
         }
       }
     }
+
+    // only for SSR
+    > .#{$namespace}-tabs__content + .#{$namespace}-tabs__header {
+      order: -1;
+    }
   }
   @include m(right) {
     .#{$namespace}-tabs__header.is-right {
-      float: right;
       margin-bottom: 0;
       margin-left: 10px;
     }
 
     .#{$namespace}-tabs__nav-wrap.is-right {
       margin-left: -1px;
+
       &::after {
         left: 0;
         right: auto;
@@ -483,16 +548,19 @@
       .#{$namespace}-tabs__active-bar.is-right {
         display: none;
       }
+
       .#{$namespace}-tabs__item.is-right {
         border-bottom: none;
-        border-top: 1px solid var(--el-border-color-light);
+        border-top: 1px solid getCssVar('border-color-light');
       }
+
       .#{$namespace}-tabs__item.is-right:first-child {
-        border-left: 1px solid var(--el-border-color-light);
+        border-left: 1px solid getCssVar('border-color-light');
         border-top: none;
       }
+
       .#{$namespace}-tabs__item.is-right.is-active {
-        border: 1px solid var(--el-border-color-light);
+        border: 1px solid getCssVar('border-color-light');
         border-left-color: #fff;
         border-right: none;
         border-bottom: none;
@@ -500,6 +568,7 @@
         &:first-child {
           border-top: none;
         }
+
         &:last-child {
           border-bottom: none;
         }
@@ -507,7 +576,7 @@
 
       .#{$namespace}-tabs__nav {
         border-radius: 0 4px 4px 0;
-        border-bottom: 1px solid var(--el-border-color-light);
+        border-bottom: 1px solid getCssVar('border-color-light');
         border-left: none;
       }
     }
@@ -515,6 +584,7 @@
       .#{$namespace}-tabs__header.is-right {
         border-left: 1px solid getCssVar('border-color');
       }
+
       .#{$namespace}-tabs__item.is-right {
         border: 1px solid transparent;
         margin: -1px -1px -1px 0;
@@ -527,29 +597,41 @@
       }
     }
   }
+  @include m(top) {
+    flex-direction: column;
+
+    // only for SSR
+    > .#{$namespace}-tabs__content + .#{$namespace}-tabs__header {
+      order: -1;
+    }
+  }
 }
 
 .slideInRight-transition,
 .slideInLeft-transition {
   display: inline-block;
 }
+
 .slideInRight-enter {
-  animation: slideInRight-enter var(--el-transition-duration);
+  animation: slideInRight-enter getCssVar('transition-duration');
 }
+
 .slideInRight-leave {
   position: absolute;
   left: 0;
   right: 0;
-  animation: slideInRight-leave var(--el-transition-duration);
+  animation: slideInRight-leave getCssVar('transition-duration');
 }
+
 .slideInLeft-enter {
-  animation: slideInLeft-enter var(--el-transition-duration);
+  animation: slideInLeft-enter getCssVar('transition-duration');
 }
+
 .slideInLeft-leave {
   position: absolute;
   left: 0;
   right: 0;
-  animation: slideInLeft-leave var(--el-transition-duration);
+  animation: slideInLeft-leave getCssVar('transition-duration');
 }
 
 @keyframes slideInRight-enter {
@@ -565,6 +647,7 @@
     transform: translateX(0);
   }
 }
+
 @keyframes slideInRight-leave {
   0% {
     transform-origin: 0 0;
@@ -578,6 +661,7 @@
     opacity: 0;
   }
 }
+
 @keyframes slideInLeft-enter {
   0% {
     opacity: 0;
@@ -591,6 +675,7 @@
     transform: translateX(0);
   }
 }
+
 @keyframes slideInLeft-leave {
   0% {
     transform-origin: 0 0;

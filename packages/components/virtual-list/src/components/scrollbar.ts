@@ -3,30 +3,36 @@ import {
   defineComponent,
   h,
   onBeforeUnmount,
-  onMounted,
   reactive,
   ref,
   unref,
   watch,
   withModifiers,
 } from 'vue'
-import { isClient } from '@vueuse/core'
 import { BAR_MAP } from '@element-plus/components/scrollbar'
-import { cAF, off, on, rAF } from '@element-plus/utils'
-
+import { cAF, rAF } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
 import { HORIZONTAL, SCROLLBAR_MIN_SIZE, ScrollbarDirKey } from '../defaults'
 import { virtualizedScrollbarProps } from '../props'
 import { renderThumbStyle } from '../utils'
 
 import type { CSSProperties } from 'vue'
 
+interface ScrollState {
+  isDragging: boolean
+  traveled: number
+  [key: string]: unknown
+}
+
 const ScrollBar = defineComponent({
   name: 'ElVirtualScrollBar',
   props: virtualizedScrollbarProps,
   emits: ['scroll', 'start-move', 'stop-move'],
   setup(props, { emit }) {
-    const GAP = 4 // top 2 + bottom 2 | left 2 + right 2
+    const GAP = computed(() => props.startGap + props.endGap) // top 2 + bottom 2 | left 2 + right 2
 
+    const nsVirtualScrollbar = useNamespace('virtual-scrollbar')
+    const nsScrollbar = useNamespace('scrollbar')
     // DOM refs
     const trackRef = ref<HTMLElement>()
     const thumbRef = ref<HTMLElement>()
@@ -36,19 +42,23 @@ const ScrollBar = defineComponent({
     let onselectstartStore: null | typeof document.onselectstart = null
 
     // data
-    const state = reactive({
+    const state = reactive<ScrollState>({
       isDragging: false,
       traveled: 0,
     })
 
     const bar = computed(() => BAR_MAP[props.layout])
 
-    const trackSize = computed(() => props.clientSize! - GAP)
+    const trackSize = computed(() => props.clientSize! - unref(GAP))
 
     const trackStyle = computed<CSSProperties>(() => ({
       position: 'absolute',
-      width: HORIZONTAL === props.layout ? `${trackSize.value}px` : '6px',
-      height: HORIZONTAL === props.layout ? '6px' : `${trackSize.value}px`,
+      width: `${
+        HORIZONTAL === props.layout ? trackSize.value : props.scrollbarSize
+      }px`,
+      height: `${
+        HORIZONTAL === props.layout ? props.scrollbarSize : trackSize.value
+      }px`,
       [ScrollbarDirKey[props.layout]]: '2px',
       right: '2px',
       bottom: '2px',
@@ -57,25 +67,22 @@ const ScrollBar = defineComponent({
 
     const thumbSize = computed(() => {
       const ratio = props.ratio!
-      const clientSize = props.clientSize!
       if (ratio >= 100) {
         return Number.POSITIVE_INFINITY
       }
 
       if (ratio >= 50) {
-        return (ratio * clientSize) / 100
+        return (ratio * trackSize.value) / 100
       }
 
-      const SCROLLBAR_MAX_SIZE = clientSize / 3
+      const SCROLLBAR_MAX_SIZE = trackSize.value / 3
       return Math.floor(
         Math.min(
-          Math.max(ratio * clientSize, SCROLLBAR_MIN_SIZE),
+          Math.max((ratio * trackSize.value) / 100, SCROLLBAR_MIN_SIZE),
           SCROLLBAR_MAX_SIZE
         )
       )
     })
-
-    // const sizeRange = computed(() => props.size - thumbSize.value)
 
     const thumbStyle = computed<CSSProperties>(() => {
       if (!Number.isFinite(thumbSize.value)) {
@@ -86,7 +93,7 @@ const ScrollBar = defineComponent({
 
       const thumb = `${thumbSize.value}px`
 
-      const style: CSSProperties = renderThumbStyle(
+      const style = renderThumbStyle(
         {
           bar: bar.value,
           size: thumb,
@@ -99,12 +106,12 @@ const ScrollBar = defineComponent({
     })
 
     const totalSteps = computed(() =>
-      Math.floor(props.clientSize! - thumbSize.value - GAP)
+      Math.ceil(props.clientSize! - thumbSize.value - unref(GAP))
     )
 
     const attachEvents = () => {
-      on(window, 'mousemove', onMouseMove)
-      on(window, 'mouseup', onMouseUp)
+      window.addEventListener('mousemove', onMouseMove)
+      window.addEventListener('mouseup', onMouseUp)
 
       const thumbEl = unref(thumbRef)
 
@@ -113,13 +120,13 @@ const ScrollBar = defineComponent({
       onselectstartStore = document.onselectstart
       document.onselectstart = () => false
 
-      on(thumbEl, 'touchmove', onMouseMove)
-      on(thumbEl, 'touchend', onMouseUp)
+      thumbEl.addEventListener('touchmove', onMouseMove, { passive: true })
+      thumbEl.addEventListener('touchend', onMouseUp)
     }
 
     const detachEvents = () => {
-      off(window, 'mousemove', onMouseMove)
-      off(window, 'mouseup', onMouseUp)
+      window.removeEventListener('mousemove', onMouseMove)
+      window.removeEventListener('mouseup', onMouseUp)
 
       document.onselectstart = onselectstartStore
       onselectstartStore = null
@@ -127,11 +134,11 @@ const ScrollBar = defineComponent({
       const thumbEl = unref(thumbRef)
       if (!thumbEl) return
 
-      off(thumbEl, 'touchmove', onMouseMove)
-      off(thumbEl, 'touchend', onMouseUp)
+      thumbEl.removeEventListener('touchmove', onMouseMove)
+      thumbEl.removeEventListener('touchend', onMouseUp)
     }
 
-    const onThumbMouseDown = (e: Event) => {
+    const onThumbMouseDown = (e: Event | KeyboardEvent | MouseEvent) => {
       e.stopImmediatePropagation()
       if (
         (e as KeyboardEvent).ctrlKey ||
@@ -142,8 +149,8 @@ const ScrollBar = defineComponent({
 
       state.isDragging = true
       state[bar.value.axis] =
-        e.currentTarget![bar.value.offset] -
-        (e[bar.value.client] -
+        (e.currentTarget as HTMLElement)[bar.value.offset] -
+        ((e as MouseEvent)[bar.value.client] -
           (e.currentTarget as HTMLElement).getBoundingClientRect()[
             bar.value.direction
           ])
@@ -159,7 +166,7 @@ const ScrollBar = defineComponent({
       detachEvents()
     }
 
-    const onMouseMove = (e: Event) => {
+    const onMouseMove = (e: MouseEvent | TouchEvent) => {
       const { isDragging } = state
       if (!isDragging) return
       if (!thumbRef.value || !trackRef.value) return
@@ -172,11 +179,12 @@ const ScrollBar = defineComponent({
       // to get the relative position of the pointer to the track.
       const offset =
         (trackRef.value.getBoundingClientRect()[bar.value.direction] -
-          e[bar.value.client]) *
+          (e as MouseEvent)[bar.value.client]) *
         -1
 
       // find where the thumb was clicked on.
-      const thumbClickPosition = thumbRef.value[bar.value.offset] - prevPage
+      const thumbClickPosition =
+        thumbRef.value[bar.value.offset] - (prevPage as number)
       /**
        *  +--------------+                                   +--------------+
        *  |              -  <--------- thumb.offsetTop       |              |
@@ -199,13 +207,7 @@ const ScrollBar = defineComponent({
       // using totalSteps ÷ totalSize getting each step's size * distance to get the new
       // scroll offset to scrollTo
       frameHandle = rAF(() => {
-        state.traveled = Math.max(
-          0,
-          Math.min(
-            distance,
-            totalSteps.value // 2 is the top value
-          )
-        )
+        state.traveled = Math.max(0, Math.min(distance, totalSteps.value))
         emit('scroll', distance, totalSteps.value)
       })
     }
@@ -221,8 +223,6 @@ const ScrollBar = defineComponent({
       state.traveled = Math.max(0, Math.min(distance, totalSteps.value))
       emit('scroll', distance, totalSteps.value)
     }
-
-    const onScrollbarTouchStart = (e: Event) => e.preventDefault()
 
     watch(
       () => props.scrollFrom,
@@ -242,15 +242,7 @@ const ScrollBar = defineComponent({
       }
     )
 
-    onMounted(() => {
-      if (!isClient) return
-
-      on(trackRef.value!, 'touchstart', onScrollbarTouchStart)
-      on(thumbRef.value!, 'touchstart', onThumbMouseDown)
-    })
-
     onBeforeUnmount(() => {
-      off(trackRef.value!, 'touchstart', onScrollbarTouchStart)
       detachEvents()
     })
 
@@ -260,15 +252,23 @@ const ScrollBar = defineComponent({
         {
           role: 'presentation',
           ref: trackRef,
-          class: 'el-virtual-scrollbar',
+          class: [
+            nsVirtualScrollbar.b(),
+            props.class,
+            (props.alwaysOn || state.isDragging) && 'always-on',
+          ],
           style: trackStyle.value,
-          onMousedown: withModifiers(clickTrackHandler, ['stop', 'prevent']),
+          onMousedown: withModifiers(clickTrackHandler as (e: Event) => void, [
+            'stop',
+            'prevent',
+          ]),
+          onTouchstartPrevent: onThumbMouseDown,
         },
         h(
           'div',
           {
             ref: thumbRef,
-            class: 'el-scrollbar__thumb',
+            class: nsScrollbar.e('thumb'),
             style: thumbStyle.value,
             onMousedown: onThumbMouseDown,
           },

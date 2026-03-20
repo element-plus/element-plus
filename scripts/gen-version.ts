@@ -1,17 +1,26 @@
-import fs from 'fs'
+import { writeFile } from 'fs/promises'
 import path from 'path'
+import consola from 'consola'
+import { epRoot } from '@element-plus/build-utils'
 import pkg from '../packages/element-plus/package.json' // need to be checked
-const tagVer = process.env.TAG_VERSION
-let version = ''
 
-if (tagVer) {
-  version = tagVer.startsWith('v') ? tagVer.slice(1) : tagVer
-} else {
-  version = pkg.version
+function getVersion() {
+  const tagVer = process.env.TAG_VERSION
+  if (tagVer) {
+    return tagVer.startsWith('v') ? tagVer.slice(1) : tagVer
+  } else {
+    return pkg.version
+  }
 }
 
-fs.writeFileSync(
-  path.resolve(__dirname, '../packages/element-plus/version.ts'),
-  `export const version = '${version}'
-`
-)
+const version = getVersion()
+
+async function main() {
+  consola.info(`Version: ${version}`)
+  await writeFile(
+    path.resolve(epRoot, 'version.ts'),
+    `export const version = '${version}'\n`
+  )
+}
+
+main()

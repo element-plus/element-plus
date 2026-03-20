@@ -5,12 +5,17 @@
 @forward 'function';
 @forward '_var';
 @use 'config' as *;
+@use 'sass:string';
+@use 'sass:map';
+
+$B: null;
+$E: null;
 
 // Break-points
 @mixin res($key, $map: $breakpoints) {
   // loop breakpoint Map, return if present
-  @if map-has-key($map, $key) {
-    @media only screen and #{unquote(map-get($map, $key))} {
+  @if map.has-key($map, $key) {
+    @media only screen and #{string.unquote(map.get($map, $key))} {
       @content;
     }
   } @else {
@@ -54,7 +59,7 @@
 
 // BEM
 @mixin b($block) {
-  $B: $namespace + '-' + $block !global;
+  $B: $namespace + $common-separator + $block !global;
 
   .#{$B} {
     @content;
@@ -192,7 +197,7 @@
 }
 
 @mixin picker-popper($background, $border, $box-shadow) {
-  &.#{$namespace}-popper[role='tooltip'] {
+  &.#{$namespace}-popper {
     background: $background;
     border: $border;
     box-shadow: $box-shadow;
@@ -231,5 +236,22 @@
     box-shadow: 0 0 0 1px $color inset !important;
   } @else {
     box-shadow: 0 0 0 1px $color inset;
+  }
+}
+
+@mixin reset-button($outline-offset: 2px) {
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  appearance: none;
+  border: none;
+  border-radius: getCssVar('border-radius', 'base');
+  outline: none;
+  transition: transform getCssVar('transition-duration-fast') ease-in-out;
+
+  &:focus-visible {
+    outline: 2px solid getCssVar('color-primary');
+    outline-offset: $outline-offset;
   }
 }

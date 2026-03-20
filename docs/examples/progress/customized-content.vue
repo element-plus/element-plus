@@ -1,7 +1,7 @@
 <template>
   <div class="demo-progress">
     <el-progress :percentage="50">
-      <el-button type="text">Content</el-button>
+      <el-button text>Content</el-button>
     </el-progress>
     <el-progress
       :text-inside="true"
@@ -40,7 +40,7 @@ import { Check } from '@element-plus/icons-vue'
 }
 .demo-progress .el-progress--line {
   margin-bottom: 15px;
-  width: 350px;
+  max-width: 600px;
 }
 .demo-progress .el-progress--circle {
   margin-right: 15px;

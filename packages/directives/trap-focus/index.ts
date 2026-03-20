@@ -1,24 +1,26 @@
 import { nextTick } from 'vue'
-import { obtainAllFocusableElements, off, on } from '@element-plus/utils'
+import { getEventCode, obtainAllFocusableElements } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
+
 import type { ObjectDirective } from 'vue'
 
 export const FOCUSABLE_CHILDREN = '_trap-focus-children'
 export const TRAP_FOCUS_HANDLER = '_trap-focus-handler'
 
-export interface ITrapFocusElement extends HTMLElement {
+export interface TrapFocusElement extends HTMLElement {
   [FOCUSABLE_CHILDREN]: HTMLElement[]
   [TRAP_FOCUS_HANDLER]: (e: KeyboardEvent) => void
 }
 
-const FOCUS_STACK = []
+const FOCUS_STACK: TrapFocusElement[] = []
 
 const FOCUS_HANDLER = (e: KeyboardEvent) => {
   // Getting the top layer.
   if (FOCUS_STACK.length === 0) return
+  const code = getEventCode(e)
   const focusableElement =
     FOCUS_STACK[FOCUS_STACK.length - 1][FOCUSABLE_CHILDREN]
-  if (focusableElement.length > 0 && e.code === EVENT_CODE.tab) {
+  if (focusableElement.length > 0 && code === EVENT_CODE.tab) {
     if (focusableElement.length === 1) {
       e.preventDefault()
       if (document.activeElement !== focusableElement[0]) {
@@ -41,7 +43,7 @@ const FOCUS_HANDLER = (e: KeyboardEvent) => {
     // the is critical since jsdom did not implement user actions, you can only mock it
     // DELETE ME: when testing env switches to puppeteer
     if (process.env.NODE_ENV === 'test') {
-      const index = focusableElement.indexOf(e.target)
+      const index = focusableElement.indexOf(e.target as HTMLElement)
       if (index !== -1) {
         focusableElement[goingBackward ? index - 1 : index + 1]?.focus()
       }
@@ -50,14 +52,14 @@ const FOCUS_HANDLER = (e: KeyboardEvent) => {
 }
 
 const TrapFocus: ObjectDirective = {
-  beforeMount(el: ITrapFocusElement) {
+  beforeMount(el: TrapFocusElement) {
     el[FOCUSABLE_CHILDREN] = obtainAllFocusableElements(el)
     FOCUS_STACK.push(el)
     if (FOCUS_STACK.length <= 1) {
-      on(document, 'keydown', FOCUS_HANDLER)
+      document.addEventListener('keydown', FOCUS_HANDLER)
     }
   },
-  updated(el: ITrapFocusElement) {
+  updated(el: TrapFocusElement) {
     nextTick(() => {
       el[FOCUSABLE_CHILDREN] = obtainAllFocusableElements(el)
     })
@@ -65,7 +67,7 @@ const TrapFocus: ObjectDirective = {
   unmounted() {
     FOCUS_STACK.shift()
     if (FOCUS_STACK.length === 0) {
-      off(document, 'keydown', FOCUS_HANDLER)
+      document.removeEventListener('keydown', FOCUS_HANDLER)
     }
   },
 }

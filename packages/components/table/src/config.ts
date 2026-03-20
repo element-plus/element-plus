@@ -2,17 +2,17 @@ import { h } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowRight, Loading } from '@element-plus/icons-vue'
-import { getProp } from '@element-plus/utils'
+import { getProp, isBoolean, isFunction, isNumber } from '@element-plus/utils'
 
 import type { VNode } from 'vue'
 import type { TableColumnCtx } from './table-column/defaults'
 import type { Store } from './store'
-import type { TreeNode } from './table/defaults'
+import type { DefaultRow, TreeNode } from './table/defaults'
 
 const defaultClassNames = {
   selection: 'table-column--selection',
   expand: 'table__expand-column',
-}
+} as const
 
 export const cellStarts = {
   default: {
@@ -38,14 +38,14 @@ export const cellStarts = {
   },
 }
 
-export const getDefaultClassName = (type) => {
-  return defaultClassNames[type] || ''
+export const getDefaultClassName = (type: string) => {
+  return defaultClassNames[type as keyof typeof defaultClassNames] || ''
 }
 
 // 这些选项不应该被覆盖
 export const cellForced = {
   selection: {
-    renderHeader<T>({ store }: { store: Store<T> }) {
+    renderHeader<T extends DefaultRow>({ store }: { store: Store<T> }) {
       function isDisabled() {
         return store.states.data.value && store.states.data.value.length === 0
       }
@@ -55,11 +55,12 @@ export const cellForced = {
         indeterminate:
           store.states.selection.value.length > 0 &&
           !store.states.isAllSelected.value,
-        'onUpdate:modelValue': store.toggleAllSelection,
+        'onUpdate:modelValue': store.toggleAllSelection ?? undefined,
         modelValue: store.states.isAllSelected.value,
+        ariaLabel: store.t('el.table.selectAllLabel'),
       })
     },
-    renderCell<T>({
+    renderCell<T extends DefaultRow>({
       row,
       column,
       store,
@@ -68,7 +69,7 @@ export const cellForced = {
       row: T
       column: TableColumnCtx<T>
       store: Store<T>
-      $index: string
+      $index: number
     }) {
       return h(ElCheckbox, {
         disabled: column.selectable
@@ -80,16 +81,21 @@ export const cellForced = {
         },
         onClick: (event: Event) => event.stopPropagation(),
         modelValue: store.isSelected(row),
+        ariaLabel: store.t('el.table.selectRowLabel'),
       })
     },
     sortable: false,
     resizable: false,
   },
   index: {
-    renderHeader<T>({ column }: { column: TableColumnCtx<T> }) {
+    renderHeader<T extends DefaultRow>({
+      column,
+    }: {
+      column: TableColumnCtx<T>
+    }) {
       return column.label || '#'
     },
-    renderCell<T>({
+    renderCell<T extends DefaultRow>({
       column,
       $index,
     }: {
@@ -99,9 +105,9 @@ export const cellForced = {
       let i = $index + 1
       const index = column.index
 
-      if (typeof index === 'number') {
+      if (isNumber(index)) {
         i = $index + index
-      } else if (typeof index === 'function') {
+      } else if (isFunction(index)) {
         i = index($index)
       }
       return h('div', {}, [i])
@@ -109,35 +115,64 @@ export const cellForced = {
     sortable: false,
   },
   expand: {
-    renderHeader<T>({ column }: { column: TableColumnCtx<T> }) {
+    renderHeader<T extends DefaultRow>({
+      column,
+    }: {
+      column: TableColumnCtx<T>
+    }) {
       return column.label || ''
     },
-    renderCell<T>({
+    renderCell<T extends DefaultRow>({
+      column,
       row,
       store,
       expanded,
+      $index,
     }: {
+      column: TableColumnCtx<T>
       row: T
       store: Store<T>
       expanded: boolean
+      $index: number
     }) {
       const { ns } = store
       const classes = [ns.e('expand-icon')]
-      if (expanded) {
+
+      if (!column.renderExpand && expanded) {
         classes.push(ns.em('expand-icon', 'expanded'))
       }
       const callback = function (e: Event) {
         e.stopPropagation()
         store.toggleRowExpansion(row)
       }
+      const isRowExpandable =
+        store.states.rowExpandable.value?.(row, $index) ?? true
+      if (!isRowExpandable) {
+        classes.push(ns.is('disabled'))
+      }
       return h(
-        'div',
+        'button',
         {
+          type: 'button',
+          disabled: !isRowExpandable,
+          'aria-label': store.t(
+            expanded ? 'el.table.collapseRowLabel' : 'el.table.expandRowLabel'
+          ),
+          'aria-expanded': expanded,
           class: classes,
           onClick: callback,
         },
         {
           default: () => {
+            if (column.renderExpand) {
+              return [
+                column.renderExpand({
+                  expanded,
+                  expandable: isRowExpandable,
+                }),
+              ]
+            }
+
             return [
               h(ElIcon, null, {
                 default: () => {
@@ -154,7 +189,7 @@ export const cellForced = {
   },
 }
 
-export function defaultRenderCell<T>({
+export function defaultRenderCell<T extends DefaultRow>({
   row,
   column,
   $index,
@@ -171,7 +206,7 @@ export function defaultRenderCell<T>({
   return value?.toString?.() || ''
 }
 
-export function treeCellPrefix<T>(
+export function treeCellPrefix<T extends DefaultRow>(
   {
     row,
     treeNode,
@@ -181,11 +216,11 @@ export function treeCellPrefix<T>(
     treeNode: TreeNode
     store: Store<T>
   },
-  createPlacehoder = false
+  createPlaceholder = false
 ) {
   const { ns } = store
   if (!treeNode) {
-    if (createPlacehoder) {
+    if (createPlaceholder) {
       return [
         h('span', {
           class: ns.e('placeholder'),
@@ -195,8 +230,11 @@ export function treeCellPrefix<T>(
     return null
   }
   const ele: VNode[] = []
-  const callback = function (e) {
+  const callback = function (e: Event) {
     e.stopPropagation()
+    if (treeNode.loading) {
+      return
+    }
     store.loadOrToggle(row)
   }
   if (treeNode.indent) {
@@ -207,7 +245,7 @@ export function treeCellPrefix<T>(
       })
     )
   }
-  if (typeof treeNode.expanded === 'boolean' && !treeNode.noLazyChildren) {
+  if (isBoolean(treeNode.expanded) && !treeNode.noLazyChildren) {
     const expandClasses = [
       ns.e('expand-icon'),
       treeNode.expanded ? ns.em('expand-icon', 'expanded') : '',
@@ -219,8 +257,15 @@ export function treeCellPrefix<T>(
 
     ele.push(
       h(
-        'div',
+        'button',
         {
+          type: 'button',
+          'aria-label': store.t(
+            treeNode.expanded
+              ? 'el.table.collapseRowLabel'
+              : 'el.table.expandRowLabel'
+          ),
+          'aria-expanded': treeNode.expanded,
           class: expandClasses,
           onClick: callback,
         },
@@ -229,7 +274,7 @@ export function treeCellPrefix<T>(
             return [
               h(
                 ElIcon,
-                { class: { [ns.is('loading')]: treeNode.loading } },
+                { class: ns.is('loading', treeNode.loading) },
                 {
                   default: () => [h(icon)],
                 }

@@ -1,0 +1,84 @@
+name: Publish Docs Deploy (Manual)
+
+on: workflow_dispatch
+
+jobs:
+  deploy-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.19.0
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm i --frozen-lockfile
+
+      - name: Init Crowdin token
+        run: pnpm run docs:crowdin-credentials
+        env:
+          CROWDIN_TOKEN: ${{secrets.CROWDIN_TOKEN}}
+
+      - name: Pull Crowdin translations
+        run: cd docs && pnpm exec crowdin download -l zh-CN && pnpm exec crowdin download -l es-ES
+
+      - name: Generate common locale
+        run: pnpm docs:gen-locale
+
+      - name: Install latest Element Plus
+        run: cd docs && pnpm i element-plus@latest
+
+      - name: Get Latest Release Version
+        id: get_release
+        run: |
+          LATEST_VERSION=$(curl -s https://api.github.com/repos/element-plus/element-plus/releases/latest | jq -r '.tag_name')
+          echo "latest_version=${LATEST_VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Build Metadata
+        run: cd internal/metadata && pnpm build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build website
+        run: pnpm docs:build
+        env:
+          DOC_ENV: production
+          NODE_OPTIONS: --max-old-space-size=8192
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
+          folder: docs/.vitepress/dist
+          git-config-name: ElementPlusBot
+          git-config-email: element-plus@outlook.com
+          commit-message: website deploy ${{ steps.get_release.outputs.latest_version }}
+
+      - name: Deploy to Vercel
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        with:
+          token: ${{ secrets.EP_BOT_TOKEN }}
+          branch: main
+          folder: docs/.vitepress/dist
+          repository-name: element-plus/vercel-publish
+          git-config-name: ElementPlusBot
+          git-config-email: element-plus@outlook.com
+
+      - name: Deploy to Vercel Main
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        with:
+          token: ${{ secrets.EP_BOT_TOKEN }}
+          branch: main
+          folder: docs/.vitepress/dist
+          repository-name: element-plus/vercel-publish-main
+          git-config-name: ElementPlusBot
+          git-config-email: element-plus@outlook.com

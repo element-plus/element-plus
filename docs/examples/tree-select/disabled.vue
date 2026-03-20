@@ -1,5 +1,5 @@
 <template>
-  <el-tree-select v-model="value" :data="data" />
+  <el-tree-select v-model="value" :data="data" style="width: 240px" />
 </template>
 
 <script lang="ts" setup>
@@ -81,4 +81,3 @@ const data = [
   },
 ]
 </script>
-```

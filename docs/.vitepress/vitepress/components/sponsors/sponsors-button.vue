@@ -8,7 +8,9 @@
         </a>
       </template>
       <a href="mailto:element-plus@outlook.com" target="_blank">
-        <el-button :round="round">{{ homeLang['20'] }}</el-button>
+        <el-button style="overflow: hidden" :round="round">{{
+          homeLang['20']
+        }}</el-button>
       </a>
     </el-tooltip>
   </div>
@@ -18,6 +20,7 @@
 import { computed } from 'vue'
 import { useLang } from '../../composables/lang'
 import homeLocale from '../../../i18n/pages/home.json'
+
 const lang = useLang()
 const homeLang = computed(() => homeLocale[lang.value])
 

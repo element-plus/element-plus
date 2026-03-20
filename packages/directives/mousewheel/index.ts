@@ -1,24 +1,56 @@
 import normalizeWheel from 'normalize-wheel-es'
-import { isFirefox } from '@element-plus/utils'
-import type { DirectiveBinding, ObjectDirective } from 'vue'
 
-const mousewheel = function (element, callback) {
-  if (element && element.addEventListener) {
-    const fn = function (this: any, event) {
-      const normalized = normalizeWheel(event)
-      callback && Reflect.apply(callback, this, [event, normalized])
-    }
-    if (isFirefox()) {
-      element.addEventListener('DOMMouseScroll', fn)
-    } else {
-      element.onmousewheel = fn
-    }
+import type { ObjectDirective } from 'vue'
+import type { NormalizedWheelEvent } from 'normalize-wheel-es'
+
+export const SCOPE = '_Mousewheel'
+
+export interface WheelElement extends HTMLElement {
+  [SCOPE]: null | {
+    wheelHandler?: (event: WheelEvent) => void
   }
 }
 
-const Mousewheel: ObjectDirective = {
-  beforeMount(el: HTMLElement, binding: DirectiveBinding) {
+export type MousewheelCallback = (
+  e: WheelEvent,
+  normalized: NormalizedWheelEvent
+) => void
+
+const mousewheel = function (
+  element: WheelElement,
+  callback: MousewheelCallback
+) {
+  if (element && element.addEventListener) {
+    removeWheelHandler(element)
+
+    const fn = function (this: HTMLElement, event: WheelEvent) {
+      const normalized = normalizeWheel(event)
+      callback && Reflect.apply(callback, this, [event, normalized])
+    }
+
+    element[SCOPE] = { wheelHandler: fn }
+    element.addEventListener('wheel', fn, { passive: true })
+  }
+}
+
+const removeWheelHandler = (element: WheelElement) => {
+  if (element[SCOPE]?.wheelHandler) {
+    element.removeEventListener('wheel', element[SCOPE].wheelHandler)
+    element[SCOPE] = null
+  }
+}
+
+const Mousewheel: ObjectDirective<WheelElement, MousewheelCallback> = {
+  beforeMount(el, binding) {
     mousewheel(el, binding.value)
+  },
+  unmounted(el) {
+    removeWheelHandler(el)
+  },
+  updated(el, binding) {
+    if (binding.value !== binding.oldValue) {
+      mousewheel(el, binding.value)
+    }
   },
 }
 

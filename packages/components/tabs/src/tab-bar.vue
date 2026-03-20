@@ -1,27 +1,31 @@
 <template>
   <div
+    v-if="renderActiveBar"
     ref="barRef"
-    :class="[ns.e('active-bar'), ns.is(rootTabs.props.tabPosition)]"
+    :class="[ns.e('active-bar'), ns.is(rootTabs!.props.tabPosition)]"
     :style="barStyle"
   />
 </template>
-<script lang="ts" setup>
-import { getCurrentInstance, inject, nextTick, ref, watch } from 'vue'
-import { useResizeObserver } from '@vueuse/core'
-import { capitalize, throwError } from '@element-plus/utils'
-import { tabsRootContextKey } from '@element-plus/tokens'
-import { useNamespace } from '@element-plus/hooks'
-import { tabBarProps } from './tab-bar'
 
+<script lang="ts" setup>
+import { computed, inject, nextTick, onBeforeUnmount, ref, watch } from 'vue'
+import { useResizeObserver } from '@vueuse/core'
+import { capitalize, isUndefined, throwError } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
+import { tabsRootContextKey } from './constants'
+
+import type { TabBarProps } from './tab-bar'
 import type { CSSProperties } from 'vue'
 
 const COMPONENT_NAME = 'ElTabBar'
 defineOptions({
-  name: 'ElTabBar',
+  name: COMPONENT_NAME,
 })
-const props = defineProps(tabBarProps)
+const props = withDefaults(defineProps<TabBarProps>(), {
+  tabs: () => [],
+  tabRefs: () => ({}),
+})
 
-const instance = getCurrentInstance()!
 const rootTabs = inject(tabsRootContextKey)
 if (!rootTabs) throwError(COMPONENT_NAME, '<el-tabs><el-tab-bar /></el-tabs>')
 
@@ -29,6 +33,17 @@ const ns = useNamespace('tabs')
 
 const barRef = ref<HTMLDivElement>()
 const barStyle = ref<CSSProperties>()
+/**
+ * when defaultValue is not set, the bar is always shown.
+ *
+ * when defaultValue is set, the bar will be hidden until style is calculated
+ * to avoid the bar showing in the wrong position on initial render.
+ */
+const renderActiveBar = computed(
+  () =>
+    isUndefined(rootTabs.props.defaultValue) ||
+    Boolean(barStyle.value?.transform)
+)
 
 const getBarStyle = (): CSSProperties => {
   let offset = 0
@@ -38,28 +53,26 @@ const getBarStyle = (): CSSProperties => {
     ? 'width'
     : 'height'
   const sizeDir = sizeName === 'width' ? 'x' : 'y'
+  const position = sizeDir === 'x' ? 'left' : 'top'
 
   props.tabs.every((tab) => {
-    const $el = instance.parent?.refs?.[`tab-${tab.paneName}`] as HTMLElement
+    if (isUndefined(tab.paneName)) return false
+    const $el = props.tabRefs[tab.paneName]
     if (!$el) return false
 
     if (!tab.active) {
       return true
     }
 
+    offset = $el[`offset${capitalize(position)}`]
     tabSize = $el[`client${capitalize(sizeName)}`]
-    const position = sizeDir === 'x' ? 'left' : 'top'
-    offset =
-      $el.getBoundingClientRect()[position] -
-      ($el.parentElement?.getBoundingClientRect()[position] ?? 0)
+
     const tabStyles = window.getComputedStyle($el)
 
     if (sizeName === 'width') {
-      if (props.tabs.length > 1) {
-        tabSize -=
-          Number.parseFloat(tabStyles.paddingLeft) +
-          Number.parseFloat(tabStyles.paddingRight)
-      }
+      tabSize -=
+        Number.parseFloat(tabStyles.paddingLeft) +
+        Number.parseFloat(tabStyles.paddingRight)
       offset += Number.parseFloat(tabStyles.paddingLeft)
     }
     return false
@@ -73,15 +86,33 @@ const getBarStyle = (): CSSProperties => {
 
 const update = () => (barStyle.value = getBarStyle())
 
+const tabObservers = [] as ReturnType<typeof useResizeObserver>[]
+const observerTabs = () => {
+  tabObservers.forEach((observer) => observer.stop())
+  tabObservers.length = 0
+
+  Object.values(props.tabRefs).forEach((tab) => {
+    tabObservers.push(useResizeObserver(tab, update))
+  })
+}
+
 watch(
   () => props.tabs,
   async () => {
     await nextTick()
     update()
+
+    observerTabs()
   },
   { immediate: true }
 )
-useResizeObserver(barRef, () => update())
+const barObserver = useResizeObserver(barRef, () => update())
+
+onBeforeUnmount(() => {
+  tabObservers.forEach((observer) => observer.stop())
+  tabObservers.length = 0
+  barObserver.stop()
+})
 
 defineExpose({
   /** @description tab root html element */

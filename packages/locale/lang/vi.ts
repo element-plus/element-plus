@@ -1,9 +1,22 @@
 export default {
   name: 'vi',
   el: {
+    breadcrumb: {
+      label: 'Đường dẫn',
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Xóa',
+      defaultLabel: 'bộ chọn màu',
+      description: 'màu hiện tại là {color}. nhấn enter để chọn màu mới.',
+      alphaLabel: 'chọn độ trong suốt',
+      alphaDescription: 'độ trong suốt {alpha}, màu hiện tại là {color}',
+      hueLabel: 'chọn tông màu',
+      hueDescription: 'tông màu {hue}, màu hiện tại là {color}',
+      svLabel: 'chọn độ bão hòa và độ sáng',
+      svDescription:
+        'độ bão hòa {saturation}, độ sáng {brightness}, màu hiện tại là {color}',
+      predefineDescription: 'chọn {value} làm màu',
     },
     datepicker: {
       now: 'Hiện tại',
@@ -11,6 +24,10 @@ export default {
       cancel: 'Hủy',
       clear: 'Xóa',
       confirm: 'OK',
+      dateTablePrompt: 'Sử dụng các phím mũi tên và enter để chọn ngày',
+      monthTablePrompt: 'Sử dụng các phím mũi tên và enter để chọn tháng',
+      yearTablePrompt: 'Sử dụng các phím mũi tên và enter để chọn năm',
+      selectedDate: 'Ngày đã chọn',
       selectDate: 'Chọn ngày',
       selectTime: 'Chọn giờ',
       startDate: 'Ngày bắt đầu',
@@ -34,7 +51,6 @@ export default {
       month10: 'Tháng 10',
       month11: 'Tháng 11',
       month12: 'Tháng 12',
-      // week: 'week',
       weeks: {
         sun: 'CN',
         mon: 'T2',
@@ -43,6 +59,15 @@ export default {
         thu: 'T5',
         fri: 'T6',
         sat: 'T7',
+      },
+      weeksFull: {
+        sun: 'Chủ nhật',
+        mon: 'Thứ hai',
+        tue: 'Thứ ba',
+        wed: 'Thứ tư',
+        thu: 'Thứ năm',
+        fri: 'Thứ sáu',
+        sat: 'Thứ bảy',
       },
       months: {
         jan: 'Th.1',
@@ -59,29 +84,54 @@ export default {
         dec: 'Th.12',
       },
     },
+    inputNumber: {
+      decrease: 'giảm số',
+      increase: 'tăng số',
+    },
     select: {
       loading: 'Đang tải',
       noMatch: 'Dữ liệu không phù hợp',
-      noData: 'Không tìm thấy dữ liệu',
+      noData: 'Không có dữ liệu',
       placeholder: 'Chọn',
+    },
+    mention: {
+      loading: 'Đang tải',
+    },
+    dropdown: {
+      toggleDropdown: 'Bật/tắt menu thả xuống',
     },
     cascader: {
       noMatch: 'Dữ liệu không phù hợp',
       loading: 'Đang tải',
       placeholder: 'Chọn',
-      noData: 'Không tìm thấy dữ liệu',
+      noData: 'Không có dữ liệu',
     },
     pagination: {
-      goto: 'Nhảy tới',
+      goto: 'Đến trang',
       pagesize: '/trang',
       total: 'Tổng {total}',
       pageClassifier: '',
+      page: 'Trang',
+      prev: 'Đến trang trước',
+      next: 'Đến trang sau',
+      currentPage: 'trang {pager}',
+      prevPages: '{pager} trang trước',
+      nextPages: '{pager} trang sau',
+      deprecationWarning:
+        'Phát hiện cách sử dụng không còn được hỗ trợ, vui lòng tham khảo tài liệu el-pagination để biết thêm chi tiết',
+    },
+    dialog: {
+      close: 'Đóng hộp thoại này',
+    },
+    drawer: {
+      close: 'Đóng hộp thoại này',
     },
     messagebox: {
       title: 'Thông báo',
       confirm: 'OK',
       cancel: 'Hủy',
       error: 'Dữ liệu không hợp lệ',
+      close: 'Đóng hộp thoại này',
     },
     upload: {
       deleteTip: 'Nhấn xoá để xoá',
@@ -89,23 +139,43 @@ export default {
       preview: 'Xem trước',
       continue: 'Tiếp tục',
     },
+    slider: {
+      defaultLabel: 'thanh trượt giữa {min} và {max}',
+      defaultRangeStartLabel: 'chọn giá trị bắt đầu',
+      defaultRangeEndLabel: 'chọn giá trị kết thúc',
+    },
     table: {
       emptyText: 'Không có dữ liệu',
       confirmFilter: 'Xác nhận',
       resetFilter: 'Làm mới',
-      clearFilter: 'Xóa hết',
+      clearFilter: 'Tất cả',
       sumText: 'Tổng',
+      selectAllLabel: 'Chọn tất cả các hàng',
+      selectRowLabel: 'Chọn hàng này',
+      expandRowLabel: 'Mở rộng hàng này',
+      collapseRowLabel: 'Thu gọn hàng này',
+      sortLabel: 'Sắp xếp theo {column}',
+      filterLabel: 'Lọc theo {column}',
+    },
+    tag: {
+      close: 'Đóng thẻ này',
+    },
+    tour: {
+      next: 'Tiếp',
+      previous: 'Trước',
+      finish: 'Hoàn thành',
+      close: 'Đóng hộp thoại này',
     },
     tree: {
       emptyText: 'Không có dữ liệu',
     },
     transfer: {
       noMatch: 'Dữ liệu không phù hợp',
-      noData: 'Không tìm thấy dữ liệu',
+      noData: 'Không có dữ liệu',
       titles: ['Danh sách 1', 'Danh sách 2'],
       filterPlaceholder: 'Nhập từ khóa',
       noCheckedFormat: '{total} mục',
-      hasCheckedFormat: '{checked}/{total} đã chọn ',
+      hasCheckedFormat: '{checked}/{total} đã chọn',
     },
     image: {
       error: 'LỖI',
@@ -114,8 +184,13 @@ export default {
       title: 'Quay lại',
     },
     popconfirm: {
-      confirmButtonText: 'Ok',
-      cancelButtonText: 'Huỷ',
+      confirmButtonText: 'Có',
+      cancelButtonText: 'Không',
+    },
+    carousel: {
+      leftArrow: 'Mũi tên qua trái',
+      rightArrow: 'Mũi tên qua phải',
+      indicator: 'Chuyển carousel đến mục {index}',
     },
   },
 }

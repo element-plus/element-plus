@@ -1,7 +1,10 @@
-import { isFunction } from '@vue/shared'
-import { throwError } from '@element-plus/utils'
+import {
+  isFunction,
+  isNumber,
+  isUndefined,
+  throwError,
+} from '@element-plus/utils'
 import createGrid from '../builders/build-grid'
-
 import {
   AUTO_ALIGNMENT,
   CENTERED_ALIGNMENT,
@@ -10,27 +13,32 @@ import {
   SMART_ALIGNMENT,
   START_ALIGNMENT,
 } from '../defaults'
-import type { VirtualizedGridProps } from '../props'
 
-import type { Alignment, GridCache, ItemSize, ListItem } from '../types'
+import type { GridInstance } from '../builders/build-grid'
+import type { VirtualizedGridProps } from '../props'
+import type { Alignment, GridCache, ItemSize } from '../types'
 
 const { max, min, floor } = Math
 const SCOPE = 'ElDynamicSizeGrid'
 
 type Props = VirtualizedGridProps
 type CacheItemType = 'column' | 'row'
+type Indices = {
+  columnIndex?: number
+  rowIndex?: number
+}
 
 // generates props access key via type
 const ACCESS_SIZER_KEY_MAP = {
   column: 'columnWidth',
   row: 'rowHeight',
-}
+} as const
 
 // generates cache access key via type
 const ACCESS_LAST_VISITED_KEY_MAP = {
   column: 'lastVisitedColumnIndex',
   row: 'lastVisitedRowIndex',
-}
+} as const
 
 const getItemFromCache = (
   props: Props,
@@ -40,9 +48,9 @@ const getItemFromCache = (
 ) => {
   const [cachedItems, sizer, lastVisited] = [
     gridCache[type],
-    props[ACCESS_SIZER_KEY_MAP[type]],
+    props[ACCESS_SIZER_KEY_MAP[type]] as ItemSize,
     gridCache[ACCESS_LAST_VISITED_KEY_MAP[type]],
-  ] as [Record<string, ListItem>, ItemSize, number]
+  ]
 
   if (index > lastVisited) {
     let offset = 0
@@ -122,7 +130,7 @@ const findItem = (
   const [cache, lastVisitedIndex] = [
     gridCache[type],
     gridCache[ACCESS_LAST_VISITED_KEY_MAP[type]],
-  ] as [Record<string, ListItem>, number]
+  ]
 
   const lastVisitedItemOffset =
     lastVisitedIndex > 0 ? cache[lastVisitedIndex].offset : 0
@@ -233,7 +241,7 @@ const getOffset = (
   }
 }
 
-const FixedSizeGrid = createGrid({
+const DynamicSizeGrid = createGrid({
   name: 'ElDynamicSizeGrid',
   getColumnPosition: (props, idx, cache) => {
     const item = getItemFromCache(props, idx, cache, 'column')
@@ -319,7 +327,59 @@ const FixedSizeGrid = createGrid({
 
     return stopIndex
   },
+  injectToInstance: (instance, cache) => {
+    const resetAfter = (
+      { columnIndex, rowIndex }: Indices,
+      forceUpdate?: boolean
+    ) => {
+      forceUpdate = isUndefined(forceUpdate) ? true : forceUpdate
 
+      if (isNumber(columnIndex)) {
+        cache.value.lastVisitedColumnIndex = Math.min(
+          cache.value.lastVisitedColumnIndex,
+          columnIndex - 1
+        )
+      }
+
+      if (isNumber(rowIndex)) {
+        cache.value.lastVisitedRowIndex = Math.min(
+          cache.value.lastVisitedRowIndex,
+          rowIndex - 1
+        )
+      }
+
+      instance.exposed?.getItemStyleCache.value(-1, null, null)
+
+      if (forceUpdate) instance.proxy?.$forceUpdate()
+    }
+
+    const resetAfterColumnIndex = (
+      columnIndex: number,
+      forceUpdate: boolean
+    ) => {
+      resetAfter(
+        {
+          columnIndex,
+        },
+        forceUpdate
+      )
+    }
+
+    const resetAfterRowIndex = (rowIndex: number, forceUpdate: boolean) => {
+      resetAfter(
+        {
+          rowIndex,
+        },
+        forceUpdate
+      )
+    }
+
+    Object.assign(instance.proxy!, {
+      resetAfterColumnIndex,
+      resetAfterRowIndex,
+      resetAfter,
+    })
+  },
   initCache: ({
     estimatedColumnWidth = DEFAULT_DYNAMIC_LIST_ITEM_SIZE,
     estimatedRowHeight = DEFAULT_DYNAMIC_LIST_ITEM_SIZE,
@@ -337,7 +397,7 @@ const FixedSizeGrid = createGrid({
     return cache
   },
 
-  clearCache: true,
+  clearCache: false,
 
   validateProps: ({ columnWidth, rowHeight }) => {
     if (process.env.NODE_ENV !== 'production') {
@@ -355,7 +415,7 @@ const FixedSizeGrid = createGrid({
         throwError(
           SCOPE,
           `
-          "columnWidth" must be passed as function,
+          "rowHeight" must be passed as function,
             instead ${typeof rowHeight} was given.
         `
         )
@@ -364,4 +424,13 @@ const FixedSizeGrid = createGrid({
   },
 })
 
-export default FixedSizeGrid
+export default DynamicSizeGrid
+
+export type ResetAfterIndex = (idx: number, forceUpdate: boolean) => void
+export type ResetAfterIndices = (indices: Indices, forceUpdate: boolean) => void
+
+export type DynamicSizeGridInstance = GridInstance & {
+  resetAfterColumnIndex: ResetAfterIndex
+  resetAfterRowIndex: ResetAfterIndex
+  resetAfter: ResetAfterIndices
+}

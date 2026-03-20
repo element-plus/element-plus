@@ -1,19 +1,9 @@
 <template>
-  <button
+  <component
+    :is="tag"
     ref="_ref"
-    :class="[
-      ns.b(),
-      ns.m(_type),
-      ns.m(_size),
-      ns.is('disabled', _disabled),
-      ns.is('loading', loading),
-      ns.is('plain', plain),
-      ns.is('round', round),
-      ns.is('circle', circle),
-    ]"
-    :disabled="_disabled || loading"
-    :autofocus="autofocus"
-    :type="nativeType"
+    v-bind="_props"
+    :class="buttonKls"
     :style="buttonStyle"
     @click="handleClick"
   >
@@ -33,106 +23,68 @@
     >
       <slot />
     </span>
-  </button>
+  </component>
 </template>
 
 <script lang="ts" setup>
-import { Text, computed, inject, ref, useSlots } from 'vue'
-import { TinyColor } from '@ctrl/tinycolor'
+import { computed, markRaw } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
-import {
-  useDisabled,
-  useFormItem,
-  useGlobalConfig,
-  useNamespace,
-  useSize,
-} from '@element-plus/hooks'
-import { buttonGroupContextKey } from '@element-plus/tokens'
-import { buttonEmits, buttonProps } from './button'
+import { Loading } from '@element-plus/icons-vue'
+import { useNamespace } from '@element-plus/hooks'
+import { useButton } from './use-button'
+import { buttonEmits } from './button'
+import { useButtonCustomStyle } from './button-custom'
+
+import type { ButtonProps } from './button'
 
 defineOptions({
   name: 'ElButton',
 })
 
-const props = defineProps(buttonProps)
+const props = withDefaults(defineProps<ButtonProps>(), {
+  disabled: undefined,
+  type: '',
+  nativeType: 'button',
+  loadingIcon: markRaw(Loading),
+  plain: undefined,
+  text: undefined,
+  round: undefined,
+  dashed: undefined,
+  autoInsertSpace: undefined,
+  tag: 'button',
+})
+
 const emit = defineEmits(buttonEmits)
-const slots = useSlots()
 
-const buttonGroupContext = inject(buttonGroupContextKey, undefined)
-const globalConfig = useGlobalConfig('button')
+const buttonStyle = useButtonCustomStyle(props)
 const ns = useNamespace('button')
-const { form } = useFormItem()
-const _size = useSize(computed(() => buttonGroupContext?.size))
-const _disabled = useDisabled()
-const _ref = ref<HTMLButtonElement>()
-
-const _type = computed(() => props.type || buttonGroupContext?.type || '')
-const autoInsertSpace = computed(
-  () => props.autoInsertSpace ?? globalConfig.value?.autoInsertSpace ?? false
-)
-
-// add space between two characters in Chinese
-const shouldAddSpace = computed(() => {
-  const defaultSlot = slots.default?.()
-  if (autoInsertSpace.value && defaultSlot?.length === 1) {
-    const slot = defaultSlot[0]
-    if (slot?.type === Text) {
-      const text = slot.children as string
-      return /^\p{Unified_Ideograph}{2}$/u.test(text.trim())
-    }
-  }
-  return false
-})
-
-// calculate hover & active color by custom color
-// only work when custom color
-const buttonStyle = computed(() => {
-  let styles: Record<string, string> = {}
-
-  const buttonColor = props.color
-
-  if (buttonColor) {
-    const color = new TinyColor(buttonColor)
-    const shadeBgColor = color.shade(20).toString()
-    if (props.plain) {
-      styles = {
-        '--el-button-bg-color': color.tint(90).toString(),
-        '--el-button-text-color': buttonColor,
-        '--el-button-hover-text-color': 'var(--el-color-white)',
-        '--el-button-hover-bg-color': buttonColor,
-        '--el-button-hover-border-color': buttonColor,
-        '--el-button-active-bg-color': shadeBgColor,
-        '--el-button-active-text-color': 'var(--el-color-white)',
-        '--el-button-active-border-color': shadeBgColor,
-      }
-    } else {
-      const tintBgColor = color.tint(30).toString()
-      styles = {
-        '--el-button-bg-color': buttonColor,
-        '--el-button-border-color': buttonColor,
-        '--el-button-hover-bg-color': tintBgColor,
-        '--el-button-hover-border-color': tintBgColor,
-        '--el-button-active-bg-color': shadeBgColor,
-        '--el-button-active-border-color': shadeBgColor,
-      }
-    }
-
-    if (_disabled.value) {
-      const disabledButtonColor = color.tint(50).toString()
-      styles['--el-button-disabled-bg-color'] = disabledButtonColor
-      styles['--el-button-disabled-border-color'] = disabledButtonColor
-    }
-  }
-
-  return styles
-})
-
-const handleClick = (evt: MouseEvent) => {
-  if (props.nativeType === 'reset') {
-    form?.resetFields()
-  }
-  emit('click', evt)
-}
+const {
+  _ref,
+  _size,
+  _type,
+  _disabled,
+  _props,
+  _plain,
+  _round,
+  _text,
+  _dashed,
+  shouldAddSpace,
+  handleClick,
+} = useButton(props, emit)
+const buttonKls = computed(() => [
+  ns.b(),
+  ns.m(_type.value),
+  ns.m(_size.value),
+  ns.is('disabled', _disabled.value),
+  ns.is('loading', props.loading),
+  ns.is('plain', _plain.value),
+  ns.is('round', _round.value),
+  ns.is('circle', props.circle),
+  ns.is('text', _text.value),
+  ns.is('dashed', _dashed.value),
+  ns.is('link', props.link),
+  ns.is('has-bg', props.bg),
+])
 
 defineExpose({
   /** @description button html element */

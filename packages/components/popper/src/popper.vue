@@ -3,21 +3,26 @@
 </template>
 
 <script lang="ts" setup>
-import { provide, ref } from 'vue'
-import { POPPER_INJECTION_KEY } from '@element-plus/tokens'
+import { computed, provide, ref } from 'vue'
+import { POPPER_INJECTION_KEY } from './constants'
 
 import type { Instance as PopperInstance } from '@popperjs/core'
-import type { ElPopperInjectionContext } from '@element-plus/tokens'
+import type { ElPopperInjectionContext } from './constants'
+import type { PopperProps } from './popper'
 
 defineOptions({
-  name: 'ElPopperRoot',
+  name: 'ElPopper',
   inheritAttrs: false,
+})
+const props = withDefaults(defineProps<PopperProps>(), {
+  role: 'tooltip',
 })
 
 const triggerRef = ref<HTMLElement>()
 const popperInstanceRef = ref<PopperInstance>()
 const contentRef = ref<HTMLElement>()
 const referenceRef = ref<HTMLElement>()
+const role = computed(() => props.role)
 
 const popperProvides = {
   /**
@@ -36,6 +41,10 @@ const popperProvides = {
    * @description popper reference element
    */
   referenceRef,
+  /**
+   * @description role determines how aria attributes are distributed
+   */
+  role,
 } as ElPopperInjectionContext
 
 defineExpose(popperProvides)

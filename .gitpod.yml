@@ -1,0 +1,3 @@
+tasks:
+  - init: pnpm i
+    command: pnpm dev

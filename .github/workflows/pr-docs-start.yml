@@ -1,0 +1,18 @@
+name: PR Docs Start
+
+on:
+  pull_request_target:
+    types: [opened]
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: create
+        uses: actions-cool/maintain-one-comment@v3.1.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            <img width="400" src="https://user-images.githubusercontent.com/17680888/145667098-5fc781c7-4c6d-463a-af06-133e9195c01b.png">
+            <!-- ELEMENT_PLUS_PREVIEW -->
+          body-include: '<!-- ELEMENT_PLUS_PREVIEW -->'

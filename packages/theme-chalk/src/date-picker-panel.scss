@@ -1,0 +1,34 @@
+@use 'common/var' as *;
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+
+@forward './date-picker/date-table.scss';
+@forward './date-picker/month-table.scss';
+@forward './date-picker/year-table.scss';
+@forward './date-picker/time-spinner.scss';
+@forward './date-picker/picker.scss';
+@forward './date-picker/date-picker.scss';
+@forward './date-picker/date-range-picker.scss';
+@forward './date-picker/time-range-picker.scss';
+@forward './date-picker/time-picker.scss';
+
+@include b(picker-panel) {
+  @include when(border) {
+    border: solid 1px getCssVar('border-color-lighter');
+
+    @include e(body-wrapper) {
+      position: relative;
+    }
+    &.#{$namespace}-picker-panel *[slot='sidebar'],
+    &.#{$namespace}-picker-panel__sidebar {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 110px;
+      border-right: 1px solid getCssVar('datepicker-inner-border-color');
+      box-sizing: border-box;
+      padding-top: 6px;
+      overflow: auto;
+    }
+  }
+}

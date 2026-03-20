@@ -1,145 +1,167 @@
 <template>
   <div
-    ref="popperContentRef"
+    ref="contentRef"
+    v-bind="contentAttrs"
     :style="contentStyle"
     :class="contentClass"
-    role="tooltip"
+    tabindex="-1"
     @mouseenter="(e) => $emit('mouseenter', e)"
     @mouseleave="(e) => $emit('mouseleave', e)"
   >
-    <slot />
+    <el-focus-trap
+      :loop="loop"
+      :trapped="trapped"
+      :trap-on-focus-in="true"
+      :focus-trap-el="contentRef"
+      :focus-start-el="focusStartRef"
+      @focus-after-trapped="onFocusAfterTrapped"
+      @focus-after-released="onFocusAfterReleased"
+      @focusin="onFocusInTrap"
+      @focusout-prevented="onFocusoutPrevented"
+      @release-requested="onReleaseRequested"
+    >
+      <slot />
+    </el-focus-trap>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, onMounted, provide, ref, unref, watch } from 'vue'
-import { createPopper } from '@popperjs/core'
-import { useNamespace, useZIndex } from '@element-plus/hooks'
+import { inject, onBeforeUnmount, onMounted, provide, unref, watch } from 'vue'
+import { isNil } from 'lodash-unified'
+import { NOOP, isElement } from '@element-plus/utils'
+import ElFocusTrap from '@element-plus/components/focus-trap'
+import { formItemContextKey } from '@element-plus/components/form'
+import { POPPER_CONTENT_INJECTION_KEY } from './constants'
+import { popperContentEmits, popperContentPropsDefaults } from './content'
 import {
-  POPPER_CONTENT_INJECTION_KEY,
-  POPPER_INJECTION_KEY,
-} from '@element-plus/tokens'
-import { usePopperContentProps } from './content'
-import { buildPopperOptions, unwrapMeasurableEl } from './utils'
+  usePopperContent,
+  usePopperContentDOM,
+  usePopperContentFocusTrap,
+} from './composables'
 
 import type { WatchStopHandle } from 'vue'
+import type { PopperContentProps } from './content'
 
 defineOptions({
   name: 'ElPopperContent',
 })
 
-defineEmits(['mouseenter', 'mouseleave'])
+const emit = defineEmits(popperContentEmits)
 
-const props = defineProps(usePopperContentProps)
+const props = withDefaults(
+  defineProps<PopperContentProps>(),
+  popperContentPropsDefaults
+)
 
-const { popperInstanceRef, contentRef, triggerRef } = inject(
-  POPPER_INJECTION_KEY,
-  undefined
-)!
-const { nextZIndex } = useZIndex()
-const ns = useNamespace('popper')
-const popperContentRef = ref<HTMLElement>()
-const arrowRef = ref<HTMLElement>()
-const arrowOffset = ref<number>()
-provide(POPPER_CONTENT_INJECTION_KEY, {
-  arrowRef,
-  arrowOffset,
+const {
+  focusStartRef,
+  trapped,
+
+  onFocusAfterReleased,
+  onFocusAfterTrapped,
+  onFocusInTrap,
+  onFocusoutPrevented,
+  onReleaseRequested,
+} = usePopperContentFocusTrap(props, emit)
+
+const { attributes, arrowRef, contentRef, styles, instanceRef, role, update } =
+  usePopperContent(props)
+
+const {
+  ariaModal,
+  arrowStyle,
+  contentAttrs,
+  contentClass,
+  contentStyle,
+  updateZIndex,
+} = usePopperContentDOM(props, {
+  styles,
+  attributes,
+  role,
 })
-const contentZIndex = ref(props.zIndex || nextZIndex())
 
-const computedReference = computed(
-  () => unwrapMeasurableEl(props.referenceEl) || unref(triggerRef)
-)
+const formItemContext = inject(formItemContextKey, undefined)
 
-const contentStyle = computed(
-  () => [{ zIndex: unref(contentZIndex) }, props.popperStyle] as any
-)
+provide(POPPER_CONTENT_INJECTION_KEY, {
+  arrowStyle,
+  arrowRef,
+})
 
-const contentClass = computed(() => [
-  ns.b(),
-  ns.is('pure', props.pure),
-  ns.is(props.effect),
-  props.popperClass,
-])
-
-const createPopperInstance = ({ referenceEl, popperContentEl, arrowEl }) => {
-  const options = buildPopperOptions(props, {
-    arrowEl,
-    arrowOffset: unref(arrowOffset),
+if (formItemContext) {
+  // disallow auto-id from inside popper content
+  provide(formItemContextKey, {
+    ...formItemContext,
+    addInputId: NOOP,
+    removeInputId: NOOP,
   })
-
-  return createPopper(referenceEl, popperContentEl, options)
 }
 
-const updatePopper = () => {
-  unref(popperInstanceRef)?.update()
-  contentZIndex.value = props.zIndex || nextZIndex()
+let triggerTargetAriaStopWatch: WatchStopHandle | undefined = undefined
+
+const updatePopper = (shouldUpdateZIndex = true) => {
+  update()
+  shouldUpdateZIndex && updateZIndex()
 }
 
 const togglePopperAlive = () => {
-  const monitorable = { name: 'eventListeners', enabled: props.visible }
-  unref(popperInstanceRef)?.setOptions?.((options) => ({
-    ...options,
-    modifiers: [...(options.modifiers || []), monitorable],
-  }))
-  updatePopper()
+  updatePopper(false)
+  if (props.visible && props.focusOnShow) {
+    trapped.value = true
+  } else if (props.visible === false) {
+    trapped.value = false
+  }
 }
 
 onMounted(() => {
-  let updateHandle: WatchStopHandle
   watch(
-    computedReference,
-    (referenceEl) => {
-      updateHandle?.()
-      const popperInstance = unref(popperInstanceRef)
-      popperInstance?.destroy?.()
-      if (referenceEl) {
-        const popperContentEl = unref(popperContentRef)!
-        contentRef.value = popperContentEl
+    () => props.triggerTargetEl,
+    (triggerTargetEl, prevTriggerTargetEl) => {
+      triggerTargetAriaStopWatch?.()
+      triggerTargetAriaStopWatch = undefined
 
-        popperInstanceRef.value = createPopperInstance({
-          referenceEl,
-          popperContentEl,
-          arrowEl: unref(arrowRef),
-        })
+      const el = unref(triggerTargetEl || contentRef.value)
+      const prevEl = unref(prevTriggerTargetEl || contentRef.value)
 
-        updateHandle = watch(
-          () => referenceEl.getBoundingClientRect(),
-          () => updatePopper(),
-          {
-            immediate: true,
-          }
+      if (isElement(el)) {
+        triggerTargetAriaStopWatch = watch(
+          [role, () => props.ariaLabel, ariaModal, () => props.id],
+          (watches) => {
+            ;['role', 'aria-label', 'aria-modal', 'id'].forEach((key, idx) => {
+              isNil(watches[idx])
+                ? el.removeAttribute(key)
+                : el.setAttribute(key, watches[idx]!)
+            })
+          },
+          { immediate: true }
         )
-      } else {
-        popperInstanceRef.value = undefined
+      }
+      if (prevEl !== el && isElement(prevEl)) {
+        ;['role', 'aria-label', 'aria-modal', 'id'].forEach((key) => {
+          prevEl.removeAttribute(key)
+        })
       }
     },
-    {
-      immediate: true,
-    }
+    { immediate: true }
   )
 
   watch(() => props.visible, togglePopperAlive, { immediate: true })
+})
 
-  watch(
-    () =>
-      buildPopperOptions(props, {
-        arrowEl: unref(arrowRef),
-        arrowOffset: unref(arrowOffset),
-      }),
-    (option) => popperInstanceRef.value?.setOptions(option)
-  )
+onBeforeUnmount(() => {
+  triggerTargetAriaStopWatch?.()
+  triggerTargetAriaStopWatch = undefined
+  contentRef.value = undefined
 })
 
 defineExpose({
   /**
    * @description popper content element
    */
-  popperContentRef,
+  popperContentRef: contentRef,
   /**
    * @description popperjs instance
    */
-  popperInstanceRef,
+  popperInstanceRef: instanceRef,
   /**
    * @description method for updating popper
    */

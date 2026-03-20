@@ -1,0 +1,112 @@
+import { nextTick, ref } from 'vue'
+import { mount } from '@vue/test-utils'
+import { afterEach, describe, expect, it, vi } from 'vitest'
+import { POPPER_INJECTION_KEY } from '@element-plus/components/popper'
+import ElTrigger from '../src/trigger.vue'
+
+import type { VueWrapper } from '@vue/test-utils'
+import type { PopperTriggerInstance } from '../src/trigger'
+
+const AXIOM = 'rem is the best girl'
+
+const popperInjection = {
+  triggerRef: ref(null),
+  popperInstanceRef: ref(null),
+  contentRef: ref(null),
+}
+
+const mountTrigger = (props = {}) =>
+  mount(<ElTrigger {...props}>{AXIOM}</ElTrigger>, {
+    global: {
+      provide: {
+        [POPPER_INJECTION_KEY as symbol]: popperInjection,
+      },
+    },
+  }) as unknown as VueWrapper<PopperTriggerInstance>
+
+describe('<ElPopperTrigger />', () => {
+  let wrapper: VueWrapper<PopperTriggerInstance>
+
+  afterEach(() => {
+    popperInjection.triggerRef.value = null
+  })
+  describe('rendering', () => {
+    it('should be able to render with children', async () => {
+      wrapper = mountTrigger()
+      await nextTick()
+
+      expect(popperInjection.triggerRef.value).not.toBeNull()
+      expect(wrapper.text()).toEqual(AXIOM)
+    })
+
+    it('should be able to render for virtual ref', async () => {
+      wrapper = mountTrigger({
+        virtualTriggering: true,
+      })
+
+      await nextTick()
+
+      expect(wrapper.text()).not.toEqual(AXIOM)
+
+      const virtualRef = document.createElement('div')
+      await wrapper.setProps({
+        virtualRef,
+      })
+
+      expect(popperInjection.triggerRef.value).toStrictEqual
+    })
+  })
+
+  describe('can attach handlers', () => {
+    it('should be able to attach handlers to the trigger', async () => {
+      const onClick = vi.fn()
+      const virtualRef = document.createElement('div')
+      wrapper = mountTrigger({
+        onClick,
+        virtualTriggering: true,
+        virtualRef,
+      })
+      await nextTick()
+      expect(onClick).not.toHaveBeenCalled()
+      const evt = new MouseEvent('click')
+      virtualRef.dispatchEvent(evt)
+      await nextTick()
+      expect(onClick).toHaveBeenCalled()
+    })
+    it('should cleanup listeners when triggerRef changes', async () => {
+      const onClick = vi.fn()
+      const first = document.createElement('p')
+      const removeSpy = vi.spyOn(first, 'removeEventListener')
+      const addSpy = vi.spyOn(first, 'addEventListener')
+
+      wrapper = mountTrigger({
+        onClick,
+        virtualTriggering: true,
+        virtualRef: first,
+      })
+      await nextTick()
+
+      await wrapper.setProps({
+        virtualRef: {
+          getBoundingClientRect: () => {
+            return {
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              width: 0,
+              height: 0,
+              x: 0,
+              y: 0,
+              toJSON: () => ({}),
+            } as DOMRect
+          },
+        },
+      })
+      await nextTick()
+
+      expect(addSpy).toHaveBeenCalledWith('click', onClick, false)
+      expect(removeSpy).toHaveBeenCalledWith('click', onClick, false)
+    })
+  })
+})

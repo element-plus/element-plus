@@ -1,0 +1,20 @@
+@use 'sass:color';
+@use 'sass:string';
+
+@function rgb2hex($color) {
+  @return string.unquote('#' + #{string.slice(color.ie-hex-str($color), 4)});
+}
+
+// rgba color above solid color
+@function mix-overlay-color($upper, $lower) {
+  $opacity: color.alpha($upper);
+
+  $red: color.channel($upper, 'red', $space: rgb) * $opacity +
+    color.channel($lower, 'red', $space: rgb) * (1 - $opacity);
+  $green: color.channel($upper, 'green', $space: rgb) * $opacity +
+    color.channel($lower, 'green', $space: rgb) * (1 - $opacity);
+  $blue: color.channel($upper, 'blue', $space: rgb) * $opacity +
+    color.channel($lower, 'blue', $space: rgb) * (1 - $opacity);
+
+  @return rgb2hex(rgb($red, $green, $blue));
+}

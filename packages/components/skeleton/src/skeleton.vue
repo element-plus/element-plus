@@ -2,7 +2,7 @@
   <template v-if="uiLoading">
     <div :class="[ns.b(), ns.is('animated', animated)]" v-bind="$attrs">
       <template v-for="i in count" :key="i">
-        <slot v-if="loading" :key="i" name="template">
+        <slot v-if="uiLoading" :key="i" name="template">
           <el-skeleton-item :class="ns.is('first')" variant="p" />
           <el-skeleton-item
             v-for="item in rows"
@@ -25,13 +25,18 @@
 <script lang="ts" setup>
 import { toRef } from 'vue'
 import { useNamespace, useThrottleRender } from '@element-plus/hooks'
-import { skeletonProps } from './skeleton'
 import ElSkeletonItem from './skeleton-item.vue'
+
+import type { SkeletonProps } from './skeleton.ts'
 
 defineOptions({
   name: 'ElSkeleton',
 })
-const props = defineProps(skeletonProps)
+const props = withDefaults(defineProps<SkeletonProps>(), {
+  loading: true,
+  count: 1,
+  rows: 3,
+})
 
 const ns = useNamespace('skeleton')
 const uiLoading = useThrottleRender(toRef(props, 'loading'), props.throttle)

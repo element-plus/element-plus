@@ -8,36 +8,47 @@
 
 @include b(popper) {
   position: absolute;
-  border-radius: var(--el-popper-border-radius);
+  border-radius: getCssVar('popper', 'border-radius');
   padding: 5px 11px;
   z-index: 2000;
   font-size: 12px;
   line-height: 20px;
   min-width: 10px;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: normal;
   visibility: visible;
 
   $arrow-selector: #{& + '__arrow'};
 
   @include when(dark) {
-    color: var(--el-color-white);
-    background: var(--el-text-color-primary);
-    border: 1px solid var(--el-text-color-primary);
+    @include set-css-var-value(
+      ('fill-color', 'blank'),
+      getCssVar('popper', 'bg-color-dark')
+    );
 
-    #{$arrow-selector}::before {
-      border: 1px solid var(--el-text-color-primary);
-      background: var(--el-text-color-primary);
+    color: getCssVar('bg-color');
+    background: getCssVar('popper', 'bg-color-dark');
+    border: 1px solid getCssVar('text-color', 'primary');
+
+    > #{$arrow-selector}::before {
+      border: 1px solid getCssVar('text-color', 'primary');
+      background: getCssVar('popper', 'bg-color-dark');
       right: 0;
     }
   }
 
   @include when(light) {
-    background: var(--el-color-white);
-    border: 1px solid var(--el-border-color-light);
+    @include set-css-var-value(
+      ('fill-color', 'blank'),
+      getCssVar('popper', 'bg-color-light')
+    );
 
-    #{$arrow-selector}::before {
-      border: 1px solid var(--el-border-color-light);
-      background: var(--el-color-white);
+    background: getCssVar('popper', 'bg-color-light');
+    border: 1px solid getCssVar('border-color', 'light');
+
+    > #{$arrow-selector}::before {
+      border: 1px solid getCssVar('border-color', 'light');
+      background: getCssVar('popper', 'bg-color-light');
       right: 0;
     }
   }
@@ -59,7 +70,7 @@
       z-index: -1;
       content: ' ';
       transform: rotate(45deg);
-      background: var(--el-text-color-primary);
+      background: getCssVar('text-color', 'primary');
       box-sizing: border-box;
     }
   }
@@ -96,7 +107,7 @@
     $adjacency
       in ('top': 'left', 'bottom': 'right', 'left': 'bottom', 'right': 'top')
   {
-    &[data-popper-placement^='#{$placement}'] {
+    &[data-popper-placement^='#{$placement}'] > {
       #{$arrow-selector}::before {
         border-#{$placement}-color: transparent !important;
         border-#{$adjacency}-color: transparent !important;

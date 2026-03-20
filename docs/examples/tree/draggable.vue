@@ -1,5 +1,6 @@
 <template>
   <el-tree
+    style="max-width: 600px"
     :allow-drop="allowDrop"
     :allow-drag="allowDrag"
     :data="data"
@@ -16,47 +17,43 @@
 </template>
 
 <script lang="ts" setup>
-import type Node from 'element-plus/es/components/tree/src/model/node'
-import type { DragEvents } from 'element-plus/es/components/tree/src/model/useDragNode'
-import type { DropType } from 'element-plus/es/components/tree/src/tree.type'
+import type {
+  AllowDropType,
+  NodeDropType,
+  RenderContentContext,
+} from 'element-plus'
 
-const handleDragStart = (node: Node, ev: DragEvents) => {
+type Node = RenderContentContext['node']
+
+const handleDragStart = (node: Node, ev: DragEvent) => {
   console.log('drag start', node)
 }
-const handleDragEnter = (
-  draggingNode: Node,
-  dropNode: Node,
-  ev: DragEvents
-) => {
+const handleDragEnter = (draggingNode: Node, dropNode: Node, ev: DragEvent) => {
   console.log('tree drag enter:', dropNode.label)
 }
-const handleDragLeave = (
-  draggingNode: Node,
-  dropNode: Node,
-  ev: DragEvents
-) => {
+const handleDragLeave = (draggingNode: Node, dropNode: Node, ev: DragEvent) => {
   console.log('tree drag leave:', dropNode.label)
 }
-const handleDragOver = (draggingNode: Node, dropNode: Node, ev: DragEvents) => {
+const handleDragOver = (draggingNode: Node, dropNode: Node, ev: DragEvent) => {
   console.log('tree drag over:', dropNode.label)
 }
 const handleDragEnd = (
   draggingNode: Node,
-  dropNode: Node,
-  dropType: DropType,
-  ev: DragEvents
+  dropNode: Node | null,
+  dropType: NodeDropType,
+  ev: DragEvent
 ) => {
   console.log('tree drag end:', dropNode && dropNode.label, dropType)
 }
 const handleDrop = (
   draggingNode: Node,
   dropNode: Node,
-  dropType: DropType,
-  ev: DragEvents
+  dropType: Exclude<NodeDropType, 'none'>,
+  ev: DragEvent
 ) => {
   console.log('tree drop:', dropNode.label, dropType)
 }
-const allowDrop = (draggingNode: Node, dropNode: Node, type: DropType) => {
+const allowDrop = (draggingNode: Node, dropNode: Node, type: AllowDropType) => {
   if (dropNode.data.label === 'Level two 3-1') {
     return type !== 'inner'
   } else {

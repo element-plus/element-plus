@@ -1,13 +1,16 @@
 import {
   Comment,
+  Fragment,
   computed,
+  createTextVNode,
   getCurrentInstance,
   h,
   ref,
+  renderSlot,
   unref,
   watchEffect,
 } from 'vue'
-import { debugWarn } from '@element-plus/utils'
+import { debugWarn, isArray, isUndefined } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import {
   cellForced,
@@ -15,20 +18,22 @@ import {
   getDefaultClassName,
   treeCellPrefix,
 } from '../config'
-import { parseMinWidth, parseWidth } from '../util'
-import type { ComputedRef } from 'vue'
-import type { TableColumn, TableColumnCtx } from './defaults'
+import { ensureValidVNode, parseMinWidth, parseWidth } from '../util'
 
-function useRender<T>(
+import type { ComputedRef, RendererNode, Slots, VNode } from 'vue'
+import type { TableColumn, TableColumnCtx } from './defaults'
+import type { DefaultRow, Table } from '../table/defaults'
+
+function useRender<T extends DefaultRow>(
   props: TableColumnCtx<T>,
-  slots,
-  owner: ComputedRef<any>
+  slots: Slots,
+  owner: ComputedRef<Table<T>>
 ) {
   const instance = getCurrentInstance() as TableColumn<T>
   const columnId = ref('')
   const isSubColumn = ref(false)
-  const realAlign = ref<string>()
-  const realHeaderAlign = ref<string>()
+  const realAlign = ref<string | null>()
+  const realHeaderAlign = ref<string | null | undefined>()
   const ns = useNamespace('table')
   watchEffect(() => {
     realAlign.value = props.align ? `is-${props.align}` : null
@@ -42,7 +47,7 @@ function useRender<T>(
     // nextline help render
     realHeaderAlign.value
   })
-  const columnOrTableParent = computed(() => {
+  const columnOrTableParent = computed<Table<T> | TableColumn<T>>(() => {
     let parent: any = instance.vnode.vParent || instance.parent
     while (parent && !parent.tableId && !parent.columnId) {
       parent = parent.vnode.vParent || parent.parent
@@ -50,7 +55,7 @@ function useRender<T>(
     return parent
   })
   const hasTreeColumn = computed<boolean>(() => {
-    const { store } = instance.parent
+    const { store } = (instance.parent as Table<T>)!
     if (!store) return false
     const { treeData } = store.states
     const treeDataValue = treeData.value
@@ -64,22 +69,25 @@ function useRender<T>(
     if (realMinWidth.value) {
       column.minWidth = realMinWidth.value
     }
+    if (!realWidth.value && realMinWidth.value) {
+      column.width = undefined
+    }
     if (!column.minWidth) {
       column.minWidth = 80
     }
     column.realWidth = Number(
-      column.width === undefined ? column.minWidth : column.width
+      isUndefined(column.width) ? column.minWidth : column.width
     )
     return column
   }
   const setColumnForcedProps = (column: TableColumnCtx<T>) => {
     // 对于特定类型的 column，某些属性不允许设置
     const type = column.type
-    const source = cellForced[type] || {}
+    const source = cellForced[type as keyof typeof cellForced] || {}
     Object.keys(source).forEach((prop) => {
-      const value = source[prop]
-      if (prop !== 'className' && value !== undefined) {
-        column[prop] = value
+      const value = source[prop as keyof typeof source]
+      if (prop !== 'className' && !isUndefined(value)) {
+        ;(column as any)[prop] = value
       }
     })
     const className = getDefaultClassName(type)
@@ -92,13 +100,13 @@ function useRender<T>(
     return column
   }
 
-  const checkSubColumn = (children: TableColumn<T> | TableColumn<T>[]) => {
-    if (Array.isArray(children)) {
+  const checkSubColumn = (children: VNode | VNode[]) => {
+    if (isArray(children)) {
       children.forEach((child) => check(child))
     } else {
       check(children)
     }
-    function check(item: TableColumn<T>) {
+    function check(item: any) {
       if (item?.type?.name === 'ElTableColumn') {
         item.vParent = instance
       }
@@ -106,6 +114,7 @@ function useRender<T>(
   }
   const setColumnRenders = (column: TableColumnCtx<T>) => {
     // renderHeader 属性不推荐使用。
+    //@ts-expect-error
     if (props.renderHeader) {
       debugWarn(
         'TableColumn',
@@ -115,13 +124,33 @@ function useRender<T>(
       column.renderHeader = (scope) => {
         // help render
         instance.columnConfig.value['label']
-        const renderHeader = slots.header
-        return renderHeader ? renderHeader(scope) : column.label
+
+        if (slots.header) {
+          const slotResult = slots.header(scope)
+          // Manual valid check to support v-if fallback
+          // and bypass renderSlot to support HMR
+          if (ensureValidVNode(slotResult)) {
+            return h(Fragment, slotResult)
+          }
+        }
+
+        return createTextVNode(column.label)
+      }
+    }
+
+    if (slots['filter-icon']) {
+      column.renderFilterIcon = (scope) => {
+        return renderSlot(slots, 'filter-icon', scope)
+      }
+    }
+
+    if (slots.expand) {
+      column.renderExpand = (scope) => {
+        return renderSlot(slots, 'expand', scope)
       }
     }
 
     let originRenderCell = column.renderCell
-    const hasTreeColumnValue = hasTreeColumn.value
     // TODO: 这里的实现调整
     if (column.type === 'expand') {
       // 对于展开行，renderCell 不允许配置的。在上一步中已经设置过，这里需要简单封装一下。
@@ -133,14 +162,14 @@ function useRender<T>(
           },
           [originRenderCell(data)]
         )
-      owner.value.renderExpanded = (data) => {
-        return slots.default ? slots.default(data) : slots.default
+      owner.value.renderExpanded = (row) => {
+        return slots.default ? slots.default(row) : slots.default
       }
     } else {
       originRenderCell = originRenderCell || defaultRenderCell
       // 对 renderCell 进行包装
       column.renderCell = (data) => {
-        let children = null
+        let children: VNode | VNode[] | null = null
         if (slots.default) {
           const vnodes = slots.default(data)
           children = vnodes.some((v) => v.type !== Comment)
@@ -149,8 +178,13 @@ function useRender<T>(
         } else {
           children = originRenderCell(data)
         }
+
+        const { columns } = owner.value.store.states
+        const firstUserColumnIndex = columns.value.findIndex(
+          (item) => item.type === 'default'
+        )
         const shouldCreatePlaceholder =
-          hasTreeColumnValue && data.cellIndex === 0
+          hasTreeColumn.value && data.cellIndex === firstUserColumnIndex
         const prefix = treeCellPrefix(data, shouldCreatePlaceholder)
         const props = {
           class: 'cell',
@@ -170,18 +204,25 @@ function useRender<T>(
     }
     return column
   }
-  const getPropsData = (...propsKey: unknown[]) => {
-    return propsKey.reduce((prev, cur) => {
-      if (Array.isArray(cur)) {
-        cur.forEach((key) => {
-          prev[key] = props[key]
-        })
-      }
-      return prev
-    }, {})
+  const getPropsData = (...propsKey: string[][]) => {
+    return propsKey.reduce(
+      (prev, cur) => {
+        if (isArray(cur)) {
+          cur.forEach((key) => {
+            prev[key] = props[key as keyof TableColumnCtx<T>]
+          })
+        }
+        return prev
+      },
+      {} as Record<string, any>
+    )
   }
-  const getColumnElIndex = (children, child) => {
+  const getColumnElIndex = (children: T[], child: RendererNode | null) => {
     return Array.prototype.indexOf.call(children, child)
+  }
+
+  const updateColumnOrder = () => {
+    owner.value.store.commit('updateColumnOrder', instance.columnConfig.value)
   }
 
   return {
@@ -195,6 +236,7 @@ function useRender<T>(
     setColumnRenders,
     getPropsData,
     getColumnElIndex,
+    updateColumnOrder,
   }
 }
 

@@ -1,58 +1,46 @@
 import path from 'path'
-import { nodeResolve } from '@rollup/plugin-node-resolve'
-import { rollup } from 'rollup'
-import commonjs from '@rollup/plugin-commonjs'
+import { rolldown } from 'rolldown'
+import { replacePlugin } from 'rolldown/plugins'
 import vue from '@vitejs/plugin-vue'
-import DefineOptions from 'unplugin-vue-define-options/rollup'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-import esbuild from 'rollup-plugin-esbuild'
-import { parallel } from 'gulp'
-import glob from 'fast-glob'
-import { camelCase, upperFirst } from 'lodash'
-import { version } from '../../../../packages/element-plus/version'
-import { ElementPlusAlias } from '../plugins/element-plus-alias'
+import { glob } from 'tinyglobby'
+import { camelCase, upperFirst } from 'lodash-unified'
+import {
+  PKG_BRAND_NAME,
+  PKG_CAMELCASE_LOCAL_NAME,
+  PKG_CAMELCASE_NAME,
+} from '@element-plus/build-constants'
 import {
   epOutput,
   epRoot,
-  formatBundleFilename,
-  generateExternal,
+  execCommand,
   localeRoot,
-  withTaskName,
-  writeBundles,
-} from '../utils'
-import { EP_BRAND_NAME } from '../constants'
-import { target } from '../build-info'
+} from '@element-plus/build-utils'
+import { version } from '../../../../packages/element-plus/version'
+import { ElementPlusAlias } from '../plugins/element-plus-alias'
+import { formatBundleFilename, generateExternal, writeBundles } from '../utils'
+import { SupplyValidator } from '../plugins/supply-validator'
 
-const banner = `/*! ${EP_BRAND_NAME} v${version} */\n`
+import type { Plugin } from 'rolldown'
+
+const banner = `/*! ${PKG_BRAND_NAME} v${version} */\n`
 
 async function buildFullEntry(minify: boolean) {
-  const bundle = await rollup({
+  const plugins: Plugin[] = [
+    ElementPlusAlias(),
+    vue() as Plugin,
+    vueJsx() as Plugin,
+    replacePlugin({
+      'process.env.NODE_ENV': '"production"',
+    }),
+    SupplyValidator(),
+  ]
+
+  const bundle = await rolldown({
     input: path.resolve(epRoot, 'index.ts'),
-    plugins: [
-      ElementPlusAlias(),
-      DefineOptions(),
-      vue({
-        isProduction: true,
-      }),
-      vueJsx(),
-      nodeResolve({
-        extensions: ['.mjs', '.js', '.json', '.ts'],
-      }),
-      commonjs(),
-      esbuild({
-        exclude: [],
-        minify,
-        sourceMap: minify,
-        target,
-        loaders: {
-          '.vue': 'ts',
-        },
-        define: {
-          'process.env.NODE_ENV': JSON.stringify('production'),
-        },
-      }),
-    ],
-    external: await generateExternal({ full: true }),
+    plugins,
+    external: generateExternal({ full: true }),
+    treeshake: true,
   })
   await writeBundles(bundle, [
     {
@@ -63,12 +51,13 @@ async function buildFullEntry(minify: boolean) {
         formatBundleFilename('index.full', minify, 'js')
       ),
       exports: 'named',
-      name: 'ElementPlus',
+      name: PKG_CAMELCASE_NAME,
       globals: {
         vue: 'Vue',
       },
       sourcemap: minify,
       banner,
+      minify,
     },
     {
       format: 'esm',
@@ -79,12 +68,14 @@ async function buildFullEntry(minify: boolean) {
       ),
       sourcemap: minify,
       banner,
+      minify,
     },
   ])
 }
 
 async function buildFullLocale(minify: boolean) {
-  const files = await glob(`${path.resolve(localeRoot, 'lang')}/*.ts`, {
+  const files = await glob(`**/*.ts`, {
+    cwd: path.resolve(localeRoot, 'lang'),
     absolute: true,
   })
   return Promise.all(
@@ -92,15 +83,8 @@ async function buildFullLocale(minify: boolean) {
       const filename = path.basename(file, '.ts')
       const name = upperFirst(camelCase(filename))
 
-      const bundle = await rollup({
+      const bundle = await rolldown({
         input: file,
-        plugins: [
-          esbuild({
-            minify,
-            sourceMap: minify,
-            target,
-          }),
-        ],
       })
       await writeBundles(bundle, [
         {
@@ -111,9 +95,10 @@ async function buildFullLocale(minify: boolean) {
             formatBundleFilename(filename, minify, 'js')
           ),
           exports: 'default',
-          name: `ElementPlusLocale${name}`,
+          name: `${PKG_CAMELCASE_LOCAL_NAME}${name}`,
           sourcemap: minify,
           banner,
+          minify,
         },
         {
           format: 'esm',
@@ -124,6 +109,7 @@ async function buildFullLocale(minify: boolean) {
           ),
           sourcemap: minify,
           banner,
+          minify,
         },
       ])
     })
@@ -133,7 +119,9 @@ async function buildFullLocale(minify: boolean) {
 export const buildFull = (minify: boolean) => async () =>
   Promise.all([buildFullEntry(minify), buildFullLocale(minify)])
 
-export const buildFullBundle = parallel(
-  withTaskName('buildFullMinified', buildFull(true)),
-  withTaskName('buildFull', buildFull(false))
-)
+export const buildFullBundle = () => {
+  return Promise.all([
+    execCommand(buildFull(true), 'buildFullMinified'),
+    execCommand(buildFull(false), 'buildFull'),
+  ])
+}

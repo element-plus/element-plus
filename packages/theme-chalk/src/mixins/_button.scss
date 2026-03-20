@@ -1,5 +1,3 @@
-@use 'sass:map';
-
 @use '../mixins/var' as *;
 @use '../mixins/function' as *;
 @use '../common/var' as *;
@@ -62,6 +60,77 @@
   }
 }
 
+@mixin button-dashed($type) {
+  $button-color-types: (
+    '': (
+      'text-color': (
+        'color',
+        $type,
+      ),
+      'bg-color': (
+        'color',
+        $type,
+        'light-9',
+      ),
+      'border-color': (
+        'color',
+        $type,
+        'light-5',
+      ),
+    ),
+    'hover': (
+      'text-color': (
+        'color',
+        $type,
+      ),
+      'bg-color': (
+        'color',
+        $type,
+        'light-9',
+      ),
+      'border-color': (
+        'color',
+        $type,
+        'light-3',
+      ),
+    ),
+    'active': (
+      'text-color': (
+        'color',
+        $type,
+        'dark-2',
+      ),
+      'bg-color': (
+        'color',
+        $type,
+        'light-9',
+      ),
+      'border-color': (
+        'color',
+        $type,
+        'dark-2',
+      ),
+    ),
+  );
+
+  @each $type, $typeMap in $button-color-types {
+    @each $typeColor, $list in $typeMap {
+      @include css-var-from-global(('button', $type, $typeColor), $list);
+    }
+  }
+
+  &.is-disabled {
+    &,
+    &:hover,
+    &:focus,
+    &:active {
+      color: getCssVar('color', $type, 'light-5');
+      background-color: getCssVar('color', $type, 'light-9');
+      border-color: getCssVar('color', $type, 'light-8');
+    }
+  }
+}
+
 @mixin button-variant($type) {
   $button-color-types: (
     '': (
@@ -77,11 +146,26 @@
         'color',
         $type,
       ),
+      'outline-color': (
+        'color',
+        $type,
+        'light-5',
+      ),
+      'active-color': (
+        'color',
+        $type,
+        'dark-2',
+      ),
     ),
     'hover': (
       'text-color': (
         'color',
         'white',
+      ),
+      'link-text-color': (
+        'color',
+        $type,
+        'light-5',
       ),
       'bg-color': (
         'color',
@@ -130,8 +214,14 @@
     }
   }
 
-  &.is-plain {
+  &.is-plain,
+  &.is-text,
+  &.is-link {
     @include button-plain($type);
+  }
+
+  &.is-dashed {
+    @include button-dashed($type);
   }
 }
 

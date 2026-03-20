@@ -1,11 +1,5 @@
-@use 'sass:map';
-
 @use 'mixins/mixins' as *;
 @use 'common/var' as *;
-
-.#{$namespace}-icon-loading {
-  animation: rotating 2s linear infinite;
-}
 
 .#{$namespace}-icon--right {
   margin-left: 5px;

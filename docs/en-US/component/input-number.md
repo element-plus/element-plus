@@ -23,7 +23,7 @@ When inputting invalid string to the input box, input value will emit `NaN` to t
 
 ## Disabled
 
-:::demo The `disabled` attribute accepts a `boolean`, and if the value is `true`, the component is disabled. If you just need to control the value within a range, you can add `min` attribute to set the minimum value and `max` to set the maximum value. By default, the minimum value is `0`.
+:::demo The `disabled` attribute accepts a `boolean`, and if the value is `true`, the component is disabled. If you just need to control the value within a range, you can add `min` attribute to set the minimum value and `max` to set the maximum value. By default, the minimum value is `Number.MIN_SAFE_INTEGER`.
 
 input-number/disabled
 
@@ -79,35 +79,76 @@ input-number/controlled
 
 :::
 
-## Attributes
+## Custom Icon ^(2.6.3)
 
-| Attribute             | Description                                      | Type               | Accepted Values | Default     |
-| --------------------- | ------------------------------------------------ | ------------------ | --------------- | ----------- |
-| model-value / v-model | binding value                                    | number / undefined | —               | —           |
-| min                   | the minimum allowed value                        | number             | —               | `-Infinity` |
-| max                   | the maximum allowed value                        | number             | —               | `Infinity`  |
-| step                  | incremental step                                 | number             | —               | 1           |
-| step-strictly         | whether input value can only be multiple of step | boolean            | —               | false       |
-| precision             | precision of input value                         | number             | —               | —           |
-| size                  | size of the component                            | string             | large/small     | default     |
-| disabled              | whether the component is disabled                | boolean            | —               | false       |
-| controls              | whether to enable the control buttons            | boolean            | —               | true        |
-| controls-position     | position of the control buttons                  | string             | right           | -           |
-| name                  | same as `name` in native input                   | string             | —               | —           |
-| label                 | label text                                       | string             | —               | —           |
-| placeholder           | placeholder in input                             | string             | -               | -           |
+:::demo Use `decrease-icon` and `increase-icon` to set custom icons.
 
-## Events
+input-number/custom
 
-| Event Name | Description                     | Parameters                                             |
-| ---------- | ------------------------------- | ------------------------------------------------------ |
-| change     | triggers when the value changes | (currentValue: number \| NaN, oldValue: number \| NaN) |
-| blur       | triggers when Input blurs       | (event: Event)                                         |
-| focus      | triggers when Input focuses     | (event: Event)                                         |
+:::
 
-## Methods
+## With prefix and suffix ^(2.8.4)
 
-| Method | Description                      | Parameters |
-| ------ | -------------------------------- | ---------- |
-| focus  | get focus the input component    | -          |
-| blur   | remove focus the input component | —          |
+:::demo Use the prefix and suffix named slots.
+
+input-number/with-prefix-suffix
+
+:::
+
+:::tip
+
+For precision purposes, the input number is limited from [Number.MIN_SAFE_INTEGER](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MIN_SAFE_INTEGER) to [Number.MAX_SAFE_INTEGER](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER).
+
+:::
+
+## API
+
+### Attributes
+
+| Name                          | Description                                      | Type                                          | Default                 |
+| ----------------------------- | ------------------------------------------------ | --------------------------------------------- | ----------------------- |
+| model-value / v-model         | binding value                                    | ^[number] / ^[null]                           | —                       |
+| min                           | the minimum allowed value                        | ^[number]                                     | Number.MIN_SAFE_INTEGER |
+| max                           | the maximum allowed value                        | ^[number]                                     | Number.MAX_SAFE_INTEGER |
+| step                          | incremental step                                 | ^[number]                                     | 1                       |
+| step-strictly                 | whether input value can only be multiple of step | ^[boolean]                                    | false                   |
+| precision                     | precision of input value                         | ^[number]                                     | —                       |
+| size                          | size of the component                            | ^[enum]`'large' \| 'default' \| 'small'`      | default                 |
+| readonly ^(2.2.16)            | same as `readonly` in native input               | ^[boolean]                                    | false                   |
+| disabled                      | whether the component is disabled                | ^[boolean]                                    | false                   |
+| controls                      | whether to enable the control buttons            | ^[boolean]                                    | true                    |
+| controls-position             | position of the control buttons                  | ^[enum]`'' \| 'right'`                        | —                       |
+| name                          | same as `name` in native input                   | ^[string]                                     | —                       |
+| aria-label ^(a11y) ^(2.7.2)   | same as `aria-label` in native input             | ^[string]                                     | —                       |
+| placeholder                   | same as `placeholder` in native input            | ^[string]                                     | —                       |
+| id                            | same as `id` in native input                     | ^[string]                                     | —                       |
+| value-on-clear ^(2.2.0)       | value should be set when input box is cleared    | ^[number] / ^[null] / ^[enum]`'min' \| 'max'` | —                       |
+| validate-event                | whether to trigger form validation               | ^[boolean]                                    | true                    |
+| label ^(a11y) ^(deprecated)   | same as `aria-label` in native input             | ^[string]                                     | —                       |
+| inputmode ^(2.10.3)           | same as `inputmode` in native input              | ^[string]                                     | —                       |
+| align ^(2.10.5)               | alignment for the inner input text               | ^[enum]`'left' \| 'center' \| 'right'`        | 'center'                |
+| disabled-scientific ^(2.10.5) | disables input of scientific notation (e.g. 'e') | ^[boolean]                                    | false                   |
+
+### Slots
+
+| Name                   | Description                           |
+| ---------------------- | ------------------------------------- |
+| decrease-icon ^(2.6.3) | custom input box button decrease icon |
+| increase-icon ^(2.6.3) | custom input box button increase icon |
+| prefix ^(2.8.4)        | content as Input prefix               |
+| suffix ^(2.8.4)        | content as Input suffix               |
+
+### Events
+
+| Name   | Description                     | Type                                                                                    |
+| ------ | ------------------------------- | --------------------------------------------------------------------------------------- |
+| change | triggers when the value changes | ^[Function]`(currentValue: number \| undefined, oldValue: number \| undefined) => void` |
+| blur   | triggers when Input blurs       | ^[Function]`(event: FocusEvent) => void`                                                |
+| focus  | triggers when Input focuses     | ^[Function]`(event: FocusEvent) => void`                                                |
+
+### Exposes
+
+| Name  | Description                      | Type                    |
+| ----- | -------------------------------- | ----------------------- |
+| focus | get focus the input component    | ^[Function]`() => void` |
+| blur  | remove focus the input component | ^[Function]`() => void` |

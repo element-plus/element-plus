@@ -1,5 +1,6 @@
 import { isNil } from 'lodash-unified'
-import { throwError } from '@element-plus/utils'
+import { isArray, isString, throwError } from '@element-plus/utils'
+
 import type {
   UploadProgressEvent,
   UploadRequestHandler,
@@ -70,8 +71,19 @@ export const ajaxUpload: UploadRequestHandler = (option) => {
   const formData = new FormData()
   if (option.data) {
     for (const [key, value] of Object.entries(option.data)) {
-      if (Array.isArray(value)) formData.append(key, ...value)
-      else formData.append(key, value)
+      if (isArray(value)) {
+        if (
+          value.length === 2 &&
+          value[0] instanceof Blob &&
+          isString(value[1])
+        ) {
+          formData.append(key, value[0], value[1])
+        } else {
+          value.forEach((item) => {
+            formData.append(key, item)
+          })
+        }
+      } else formData.append(key, value)
     }
   }
   formData.append(option.filename, option.file, option.file.name)

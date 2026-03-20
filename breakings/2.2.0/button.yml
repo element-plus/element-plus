@@ -1,0 +1,17 @@
+- scope: 'component'
+  name: 'el-button'
+  type: 'props'
+  version: '2.2.0'
+  commit_hash: 'a4aad5a'
+  description: |
+    We want to make text button more like a button, instead of like a text/link.
+    In addition with design changes, text button now looks more like a button.
+    Because the API `type` also represents how the button looks like, so we decided to add a
+    new API `text` to represent the text button.
+  props:
+    - api: 'type'
+      before: '"primary" | "success" | "warning" | "danger" | "info" | "text"'
+      after: '"primary" | "success" | "warning" | "danger" | "info"'
+    - api: 'text'
+      before: '-'
+      after: 'boolean'

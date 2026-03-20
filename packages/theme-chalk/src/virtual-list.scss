@@ -28,6 +28,9 @@
 @include b(virtual-scrollbar) {
   opacity: 0;
   transition: opacity 340ms ease-out;
+  &.always-on {
+    opacity: 1;
+  }
 }
 
 @include b(vg) {

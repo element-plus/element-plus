@@ -1,10 +1,8 @@
 import fs from 'fs/promises'
 import path from 'path'
 
-main()
-
 async function main() {
-  const threshold = process.env.THRESHOLD || 40
+  const threshold = Number(process.env.THRESHOLD) || 40
   let output: string
   const diffOutput = await fs.readFile(
     path.resolve(__dirname, '..', 'tmp/diff.txt'),
@@ -54,3 +52,5 @@ ${table}
 
   await fs.writeFile(path.resolve(__dirname, '..', 'tmp/diff.md'), output)
 }
+
+main()

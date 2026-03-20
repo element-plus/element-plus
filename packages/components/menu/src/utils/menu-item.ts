@@ -1,17 +1,21 @@
-import { triggerEvent } from '@element-plus/utils'
+// @ts-nocheck
+import { getEventCode, triggerEvent } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import SubMenu from './submenu'
 
 class MenuItem {
   public submenu: SubMenu = null
-  constructor(public domNode: HTMLElement) {
+  constructor(
+    public domNode: HTMLElement,
+    namespace: string
+  ) {
     this.submenu = null
-    this.init()
+    this.init(namespace)
   }
 
-  init(): void {
+  init(namespace: string): void {
     this.domNode.setAttribute('tabindex', '0')
-    const menuChild = this.domNode.querySelector('.el-menu')
+    const menuChild = this.domNode.querySelector(`.${namespace}-menu`)
     if (menuChild) {
       this.submenu = new SubMenu(this, menuChild)
     }
@@ -20,8 +24,10 @@ class MenuItem {
 
   addListeners(): void {
     this.domNode.addEventListener('keydown', (event: KeyboardEvent) => {
+      const code = getEventCode(event)
       let prevDef = false
-      switch (event.code) {
+
+      switch (code) {
         case EVENT_CODE.down: {
           triggerEvent(event.currentTarget as HTMLElement, 'mouseenter')
           this.submenu && this.submenu.gotoSubIndex(0)
@@ -40,6 +46,7 @@ class MenuItem {
           break
         }
         case EVENT_CODE.enter:
+        case EVENT_CODE.numpadEnter:
         case EVENT_CODE.space: {
           prevDef = true
           ;(event.currentTarget as HTMLElement).click()

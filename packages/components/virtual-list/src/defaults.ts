@@ -1,6 +1,6 @@
 export const DEFAULT_DYNAMIC_LIST_ITEM_SIZE = 50
 
-export const ITEM_RENDER_EVT = 'item-rendered'
+export const ITEM_RENDER_EVT = 'itemRendered'
 export const SCROLL_EVT = 'scroll'
 
 export const FORWARD = 'forward'
@@ -21,11 +21,6 @@ export const RTL = 'rtl'
 export const RTL_OFFSET_NAG = 'negative'
 export const RTL_OFFSET_POS_ASC = 'positive-ascending'
 export const RTL_OFFSET_POS_DESC = 'positive-descending'
-
-export const PageKey = {
-  [HORIZONTAL]: 'pageX',
-  [VERTICAL]: 'pageY',
-}
 
 export const ScrollbarSizeKey = {
   [HORIZONTAL]: 'height',

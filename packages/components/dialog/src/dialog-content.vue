@@ -1,61 +1,84 @@
 <template>
-  <div
-    ref="dialogRef"
-    :class="[
-      ns.b(),
-      ns.is('fullscreen', fullscreen),
-      ns.is('draggable', draggable),
-      { [ns.m('center')]: center },
-      customClass,
-    ]"
-    aria-modal="true"
-    role="dialog"
-    :aria-label="title || 'dialog'"
-    :style="style"
-    @click.stop
-  >
-    <div ref="headerRef" :class="ns.e('header')">
-      <slot name="title">
-        <span :class="ns.e('title')">
+  <div :ref="composedDialogRef" :class="dialogKls" :style="style" tabindex="-1">
+    <header
+      ref="headerRef"
+      :class="[ns.e('header'), headerClass, { 'show-close': showClose }]"
+    >
+      <slot name="header">
+        <span role="heading" :aria-level="ariaLevel" :class="ns.e('title')">
           {{ title }}
         </span>
       </slot>
-    </div>
-    <div :class="ns.e('body')">
+      <button
+        v-if="showClose"
+        :aria-label="t('el.dialog.close')"
+        :class="ns.e('headerbtn')"
+        type="button"
+        @click="$emit('close')"
+      >
+        <el-icon :class="ns.e('close')">
+          <component :is="closeIcon || Close" />
+        </el-icon>
+      </button>
+    </header>
+    <div :id="bodyId" :class="[ns.e('body'), bodyClass]">
       <slot />
     </div>
-    <div v-if="$slots.footer" :class="ns.e('footer')">
+    <footer v-if="$slots.footer" :class="[ns.e('footer'), footerClass]">
       <slot name="footer" />
-    </div>
-    <button
-      v-if="showClose"
-      aria-label="close"
-      :class="ns.e('headerbtn')"
-      type="button"
-      @click="$emit('close')"
-    >
-      <el-icon :class="ns.e('close')">
-        <component :is="closeIcon || Close" />
-      </el-icon>
-    </button>
+    </footer>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { inject } from 'vue'
+import { computed, inject } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
-import { CloseComponents } from '@element-plus/utils'
-import { dialogInjectionKey } from '@element-plus/tokens'
-import { dialogContentEmits, dialogContentProps } from './dialog-content'
+import { FOCUS_TRAP_INJECTION_KEY } from '@element-plus/components/focus-trap'
+import { useDraggable, useLocale } from '@element-plus/hooks'
+import { CloseComponents, composeRefs } from '@element-plus/utils'
+import { dialogInjectionKey } from './constants'
+import {
+  dialogContentEmits,
+  dialogContentPropsDefaults,
+} from './dialog-content'
 
+import type { DialogContentProps } from './dialog-content'
+
+const { t } = useLocale()
 const { Close } = CloseComponents
 
 defineOptions({ name: 'ElDialogContent' })
-defineProps(dialogContentProps)
+const props = withDefaults(
+  defineProps<DialogContentProps>(),
+  dialogContentPropsDefaults
+)
 defineEmits(dialogContentEmits)
 
-const { dialogRef, headerRef, ns, style } = inject(dialogInjectionKey)!
-// const { focusTrapRef, onKeydown } = inject(FOCUS_TRAP_INJECTION_KEY)!
+const { dialogRef, headerRef, bodyId, ns, style } = inject(dialogInjectionKey)!
+const { focusTrapRef } = inject(FOCUS_TRAP_INJECTION_KEY)!
 
-// const composedDialogRef = composeRefs(focusTrapRef, dialogRef)
+const composedDialogRef = composeRefs(focusTrapRef, dialogRef)
+
+const draggable = computed(() => !!props.draggable)
+const overflow = computed(() => !!props.overflow)
+const { resetPosition, updatePosition, isDragging } = useDraggable(
+  dialogRef,
+  headerRef,
+  draggable,
+  overflow
+)
+
+const dialogKls = computed(() => [
+  ns.b(),
+  ns.is('fullscreen', props.fullscreen),
+  ns.is('draggable', draggable.value),
+  ns.is('dragging', isDragging.value),
+  ns.is('align-center', !!props.alignCenter),
+  { [ns.m('center')]: props.center },
+])
+
+defineExpose({
+  resetPosition,
+  updatePosition,
+})
 </script>

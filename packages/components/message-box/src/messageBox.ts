@@ -1,11 +1,13 @@
-import { h, render, watch } from 'vue'
-import { isClient } from '@vueuse/core'
+import { createVNode, isVNode, markRaw, render } from 'vue'
 import {
+  debugWarn,
   hasOwn,
+  isClient,
+  isElement,
+  isFunction,
   isObject,
   isString,
   isUndefined,
-  isVNode,
 } from '@element-plus/utils'
 import MessageBoxConstructor from './index.vue'
 
@@ -14,6 +16,7 @@ import type {
   Action,
   Callback,
   ElMessageBoxOptions,
+  ElMessageBoxShortcutMethod,
   IElMessageBox,
   MessageBoxData,
   MessageBoxState,
@@ -25,21 +28,53 @@ const messageInstance = new Map<
   ComponentPublicInstance<{ doClose: () => void }>, // marking doClose as function
   {
     options: any
-    callback: Callback
+    callback: Callback | undefined
     resolve: (res: any) => void
     reject: (reason?: any) => void
   }
 >()
+
+const getAppendToElement = (props: any): HTMLElement => {
+  let appendTo: HTMLElement | null = document.body
+  if (props.appendTo) {
+    if (isString(props.appendTo)) {
+      appendTo = document.querySelector<HTMLElement>(props.appendTo)
+    }
+    if (isElement(props.appendTo)) {
+      appendTo = props.appendTo
+    }
+
+    // should fallback to default value with a warning
+    if (!isElement(appendTo)) {
+      debugWarn(
+        'ElMessageBox',
+        'the appendTo option is not an HTMLElement. Falling back to document.body.'
+      )
+      appendTo = document.body
+    }
+  }
+  return appendTo
+}
 
 const initInstance = (
   props: any,
   container: HTMLElement,
   appContext: AppContext | null = null
 ) => {
-  const vnode = h(MessageBoxConstructor, props)
+  const vnode = createVNode(
+    MessageBoxConstructor,
+    props,
+    isFunction(props.message) || isVNode(props.message)
+      ? {
+          default: isFunction(props.message)
+            ? props.message
+            : () => props.message,
+        }
+      : null
+  )
   vnode.appContext = appContext
   render(vnode, container)
-  document.body.appendChild(container.firstElementChild!)
+  getAppendToElement(props).appendChild(container.firstElementChild!)
   return vnode.component
 }
 
@@ -85,7 +120,7 @@ const showMessage = (options: any, appContext?: AppContext | null) => {
 
   const instance = initInstance(options, container, appContext)!
 
-  // This is how we use message box programmably.
+  // This is how we use message box programmatically.
   // Maybe consider releasing a template version?
   // get component instance like v2.
   const vm = instance.proxy as ComponentPublicInstance<
@@ -97,24 +132,13 @@ const showMessage = (options: any, appContext?: AppContext | null) => {
 
   for (const prop in options) {
     if (hasOwn(options, prop) && !hasOwn(vm.$props, prop)) {
-      vm[prop as string] = options[prop]
+      if (prop === 'closeIcon' && isObject(options[prop])) {
+        vm[prop as keyof ComponentPublicInstance] = markRaw(options[prop])
+      } else {
+        vm[prop as keyof ComponentPublicInstance] = options[prop]
+      }
     }
   }
-
-  watch(
-    () => vm.message,
-    (newVal, oldVal) => {
-      if (isVNode(newVal)) {
-        // Override slots since message is vnode type.
-        instance.slots.default = () => [newVal]
-      } else if (isVNode(oldVal) && !isVNode(newVal)) {
-        delete instance.slots.default
-      }
-    },
-    {
-      immediate: true,
-    }
-  )
 
   // change visibility after everything is settled
   vm.visible = true
@@ -130,7 +154,7 @@ function MessageBox(
   appContext: AppContext | null = null
 ): Promise<{ value: string; action: Action } | Action> {
   if (!isClient) return Promise.reject()
-  let callback
+  let callback: Callback | undefined
   if (isString(options) || isVNode(options)) {
     options = {
       message: options,
@@ -140,7 +164,10 @@ function MessageBox(
   }
 
   return new Promise((resolve, reject) => {
-    const vm = showMessage(options, appContext ?? MessageBox._context)
+    const vm = showMessage(
+      options,
+      appContext ?? (MessageBox as IElMessageBox)._context
+    )
     // collect this vm in order to handle upcoming events.
     messageInstance.set(vm, {
       options,
@@ -153,7 +180,7 @@ function MessageBox(
 
 const MESSAGE_BOX_VARIANTS = ['alert', 'confirm', 'prompt'] as const
 const MESSAGE_BOX_DEFAULT_OPTS: Record<
-  typeof MESSAGE_BOX_VARIANTS[number],
+  (typeof MESSAGE_BOX_VARIANTS)[number],
   Partial<ElMessageBoxOptions>
 > = {
   alert: { closeOnPressEscape: false, closeOnClickModal: false },
@@ -162,30 +189,32 @@ const MESSAGE_BOX_DEFAULT_OPTS: Record<
 }
 
 MESSAGE_BOX_VARIANTS.forEach((boxType) => {
-  MessageBox[boxType] = messageBoxFactory(boxType)
+  ;(MessageBox as IElMessageBox)[boxType] = messageBoxFactory(
+    boxType
+  ) as ElMessageBoxShortcutMethod
 })
 
-function messageBoxFactory(boxType: typeof MESSAGE_BOX_VARIANTS[number]) {
+function messageBoxFactory(boxType: (typeof MESSAGE_BOX_VARIANTS)[number]) {
   return (
-    message: string,
-    titleOrOpts: string | ElMessageBoxOptions,
+    message: string | VNode,
+    title: string | ElMessageBoxOptions,
     options?: ElMessageBoxOptions,
     appContext?: AppContext | null
   ) => {
-    let title: string
-    if (isObject(titleOrOpts)) {
-      options = titleOrOpts
-      title = ''
-    } else if (isUndefined(titleOrOpts)) {
-      title = ''
+    let titleOrOpts = ''
+    if (isObject(title)) {
+      options = title as ElMessageBoxOptions
+      titleOrOpts = ''
+    } else if (isUndefined(title)) {
+      titleOrOpts = ''
     } else {
-      title = titleOrOpts
+      titleOrOpts = title as string
     }
 
     return MessageBox(
       Object.assign(
         {
-          title,
+          title: titleOrOpts,
           message,
           type: '',
           ...MESSAGE_BOX_DEFAULT_OPTS[boxType],
@@ -210,7 +239,6 @@ MessageBox.close = () => {
 
   messageInstance.clear()
 }
-
-MessageBox._context = null
+;(MessageBox as IElMessageBox)._context = null
 
 export default MessageBox as IElMessageBox

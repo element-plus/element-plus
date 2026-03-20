@@ -56,7 +56,7 @@ import { ref } from 'vue'
 const value1 = ref('')
 const value2 = ref('')
 
-const defaultTime1 = [new Date(2000, 1, 1, 12, 0, 0)] // '12:00:00'
+const defaultTime1 = new Date(2000, 1, 1, 12, 0, 0) // '12:00:00'
 const defaultTime2 = [
   new Date(2000, 1, 1, 12, 0, 0),
   new Date(2000, 2, 1, 8, 0, 0),

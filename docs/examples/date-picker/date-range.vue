@@ -1,4 +1,9 @@
 <template>
+  <el-radio-group v-model="size" aria-label="size control" class="mb-4">
+    <el-radio-button value="large">large</el-radio-button>
+    <el-radio-button value="default">default</el-radio-button>
+    <el-radio-button value="small">small</el-radio-button>
+  </el-radio-group>
   <div class="demo-date-picker">
     <div class="block">
       <span class="demonstration">Default</span>
@@ -8,6 +13,7 @@
         range-separator="To"
         start-placeholder="Start date"
         end-placeholder="End date"
+        :size="size"
       />
     </div>
     <div class="block">
@@ -20,6 +26,7 @@
         start-placeholder="Start date"
         end-placeholder="End date"
         :shortcuts="shortcuts"
+        :size="size"
       />
     </div>
   </div>
@@ -27,6 +34,8 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
+const size = ref<'default' | 'large' | 'small'>('default')
 
 const value1 = ref('')
 const value2 = ref('')
@@ -61,6 +70,7 @@ const shortcuts = [
   },
 ]
 </script>
+
 <style scoped>
 .demo-date-picker {
   display: flex;
@@ -68,19 +78,40 @@ const shortcuts = [
   padding: 0;
   flex-wrap: wrap;
 }
+
 .demo-date-picker .block {
-  padding: 30px 0;
+  padding: 1.5rem 0;
   text-align: center;
   border-right: solid 1px var(--el-border-color);
   flex: 1;
+  min-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
 .demo-date-picker .block:last-child {
   border-right: none;
 }
+
 .demo-date-picker .demonstration {
   display: block;
   color: var(--el-text-color-secondary);
   font-size: 14px;
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
+}
+
+@media screen and (max-width: 1200px) {
+  .demo-date-picker .block {
+    flex: 0 0 100%;
+    padding: 1rem 0;
+    min-width: auto;
+    border-right: none;
+    border-bottom: solid 1px var(--el-border-color);
+  }
+
+  .demo-date-picker .block:last-child {
+    border-bottom: none;
+  }
 }
 </style>

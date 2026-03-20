@@ -4,6 +4,10 @@
 
 $directions: rtl, ltr, ttb, btt;
 
+.#{$namespace}-overlay.is-drawer {
+  overflow: hidden;
+}
+
 @include b(drawer) {
   @include set-component-css-var('drawer', $drawer);
 }
@@ -11,13 +15,11 @@ $directions: rtl, ltr, ttb, btt;
 @include b(drawer) {
   position: absolute;
   box-sizing: border-box;
-  background-color: var(--el-drawer-bg-color);
+  background-color: getCssVar('drawer', 'bg-color');
   display: flex;
   flex-direction: column;
   box-shadow: getCssVar('box-shadow', 'dark');
-  overflow: hidden;
-
-  transition: all var(--el-transition-duration);
+  transition: all getCssVar('transition-duration');
 
   @each $direction in $directions {
     .#{$direction} {
@@ -25,13 +27,18 @@ $directions: rtl, ltr, ttb, btt;
     }
   }
 
+  &__sr-focus:focus {
+    outline: none !important;
+  }
+
   &__header {
     align-items: center;
-    color: rgb(114, 118, 123);
+    color: getCssVar('text-color', 'primary');
     display: flex;
     margin-bottom: 32px;
-    padding: var(--el-drawer-padding-primary);
+    padding: getCssVar('drawer-padding-primary');
     padding-bottom: 0;
+    overflow: hidden;
     & > :first-child {
       flex: 1;
     }
@@ -41,39 +48,60 @@ $directions: rtl, ltr, ttb, btt;
     margin: 0;
     flex: 1;
     line-height: inherit;
-    font-size: 1rem;
+    font-size: 16px;
   }
 
   @include e(footer) {
-    padding: var(--el-drawer-padding-primary);
+    padding: getCssVar('drawer-padding-primary');
     padding-top: 10px;
     text-align: right;
+    overflow: hidden;
   }
 
   &__close-btn {
+    display: inline-flex;
     border: none;
     cursor: pointer;
-    font-size: var(--el-font-size-extra-large);
+    font-size: getCssVar('font-size-extra-large');
     color: inherit;
     background-color: transparent;
     outline: none;
+    &:focus,
     &:hover {
       i {
-        color: var(--el-color-primary);
+        color: getCssVar('color-primary');
       }
-    }
-    .#{$namespace}-icon {
-      font-size: inherit;
-      vertical-align: text-bottom;
     }
   }
 
   &__body {
     flex: 1;
-    padding: var(--el-drawer-padding-primary);
+    padding: getCssVar('drawer-padding-primary');
     overflow: auto;
     & > * {
       box-sizing: border-box;
+    }
+  }
+
+  @include when(dragging) {
+    transition: none;
+  }
+
+  @include e(dragger) {
+    position: absolute;
+    background-color: transparent;
+    user-select: none;
+    transition: all 0.2s;
+
+    &::before {
+      content: '';
+      position: absolute;
+      background-color: transparent;
+      transition: all 0.2s;
+    }
+
+    &:hover::before {
+      background-color: getCssVar('color-primary');
     }
   }
 
@@ -82,6 +110,20 @@ $directions: rtl, ltr, ttb, btt;
     height: 100%;
     top: 0;
     bottom: 0;
+
+    > .#{$namespace}-drawer__dragger {
+      height: 100%;
+      width: getCssVar('drawer-dragger-size');
+      top: 0;
+      bottom: 0;
+      cursor: ew-resize;
+
+      &::before {
+        top: 0;
+        bottom: 0;
+        width: 3px;
+      }
+    }
   }
 
   &.ttb,
@@ -89,29 +131,85 @@ $directions: rtl, ltr, ttb, btt;
     width: 100%;
     left: 0;
     right: 0;
+
+    > .#{$namespace}-drawer__dragger {
+      width: 100%;
+      height: getCssVar('drawer-dragger-size');
+      left: 0;
+      right: 0;
+      cursor: ns-resize;
+
+      &::before {
+        left: 0;
+        right: 0;
+        height: 3px;
+      }
+    }
   }
 
   &.ltr {
     left: 0;
+
+    > .#{$namespace}-drawer__dragger {
+      right: 0;
+
+      &::before {
+        right: -2px;
+      }
+    }
   }
 
   &.rtl {
     right: 0;
+
+    > .#{$namespace}-drawer__dragger {
+      left: 0;
+
+      &::before {
+        left: -2px;
+      }
+    }
   }
 
   &.ttb {
     top: 0;
+
+    > .#{$namespace}-drawer__dragger {
+      bottom: 0;
+
+      &::before {
+        bottom: -2px;
+      }
+    }
   }
 
   &.btt {
     bottom: 0;
+
+    > .#{$namespace}-drawer__dragger {
+      top: 0;
+
+      &::before {
+        top: -2px;
+      }
+    }
+  }
+}
+
+.#{$namespace}-modal-drawer {
+  &.is-penetrable {
+    pointer-events: none;
+
+    .#{$namespace}-drawer {
+      pointer-events: auto;
+    }
   }
 }
 
 .#{$namespace}-drawer-fade {
   &-enter-active,
   &-leave-active {
-    transition: all var(--el-transition-duration);
+    transition: all getCssVar('transition-duration');
   }
 
   &-enter-from,
@@ -125,12 +223,7 @@ $directions: rtl, ltr, ttb, btt;
 
   &-enter-from,
   &-leave-to {
-    opacity: 0;
-  }
-
-  &-enter-to,
-  &-leave-from {
-    opacity: 1;
+    background-color: transparent !important;
   }
 
   &-enter-from,

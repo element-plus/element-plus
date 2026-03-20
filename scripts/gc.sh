@@ -1,13 +1,13 @@
 #! /bin/bash
 
-NAME=$1
+NAME=$(echo $1 | sed -E "s/([A-Z])/-\1/g" | sed -E "s/^-//g" | sed -E "s/_/-/g" | tr "A-Z" "a-z")
 
 FILE_PATH=$(cd "$(dirname "${BASH_SOURCE[0]}")/../packages" && pwd)
 
 re="[[:space:]]+"
 
 if [ "$#" -ne 1 ] || [[ $NAME =~ $re ]] || [ "$NAME" == "" ]; then
-  echo "Usage: pnpm gc \${name} with no space"
+  echo "Usage: pnpm gen \${name} with no space"
   exit 1
 fi
 
@@ -19,62 +19,97 @@ if [ -d "$DIRNAME" ]; then
   exit 1
 fi
 
-NORMALIZED_NAME=""
-for i in $(echo $NAME | sed 's/[_|-]\([a-z]\)/\ \1/;s/^\([a-z]\)/\ \1/'); do
-  C=$(echo "${i:0:1}" | tr "[:lower:]" "[:upper:]")
-  NORMALIZED_NAME="$NORMALIZED_NAME${C}${i:1}"
-done
-NAME=$NORMALIZED_NAME
+NAME=$(echo $NAME | awk -F'-' '{ for(i=1; i<=NF; i++) { $i = toupper(substr($i,1,1)) tolower(substr($i,2)) } print $0 }' OFS='')
+PROP_NAME=$(echo "${NAME:0:1}" | tr '[:upper:]' '[:lower:]')${NAME:1}
 
 mkdir -p "$DIRNAME"
 mkdir -p "$DIRNAME/src"
+mkdir -p "$DIRNAME/style"
 mkdir -p "$DIRNAME/__tests__"
 
-cat > $DIRNAME/src/index.vue <<EOF
+cat > $DIRNAME/src/$INPUT_NAME.vue <<EOF
 <template>
   <div>
-    <slot></slot>
+    <slot />
   </div>
 </template>
-<script lang='ts'>
-import { defineComponent } from 'vue'
-export default defineComponent({
-  name: 'El${NAME}',
-  props: { },
-  setup(props) {
-    // init here
-  },
+
+<script lang="ts" setup>
+import { ${PROP_NAME}Emits, ${PROP_NAME}Props } from './$INPUT_NAME'
+
+defineOptions({
+  name: 'El$NAME',
 })
+
+const props = defineProps(${PROP_NAME}Props)
+const emit = defineEmits(${PROP_NAME}Emits)
+
+// init here
 </script>
-<style>
-</style>
+EOF
+
+cat > $DIRNAME/src/$INPUT_NAME.ts <<EOF
+import { buildProps } from '@element-plus/utils'
+
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
+
+export const ${PROP_NAME}Props = buildProps({} as const)
+export type ${NAME}Props = ExtractPropTypes<typeof ${PROP_NAME}Props>
+export type ${NAME}PropsPublic = ExtractPublicPropTypes<typeof ${PROP_NAME}Props>
+
+export const ${PROP_NAME}Emits = {}
+export type ${NAME}Emits = typeof ${PROP_NAME}Emits
+EOF
+
+cat > $DIRNAME/src/instance.ts <<EOF
+import type $NAME from './$INPUT_NAME.vue'
+
+export type ${NAME}Instance = InstanceType<typeof $NAME> & unknown
 EOF
 
 cat <<EOF >"$DIRNAME/index.ts"
-import { App } from 'vue'
-import ${NAME} from './src/index.vue'
+import { withInstall } from '@element-plus/utils'
+import $NAME from './src/$INPUT_NAME.vue'
+import type { SFCWithInstall } from '@element-plus/utils'
 
-${NAME}.install = (app: App): void => {
-  app.component(${NAME}.name, ${NAME})
-}
+export const El$NAME: SFCWithInstall<typeof $NAME> = withInstall($NAME)
+export default El$NAME
 
-export default ${NAME}
+export * from './src/$INPUT_NAME'
+export type { ${NAME}Instance } from './src/instance'
 EOF
 
-cat > $DIRNAME/__tests__/$INPUT_NAME.spec.ts <<EOF
+cat > $DIRNAME/__tests__/$INPUT_NAME.test.tsx <<EOF
 import { mount } from '@vue/test-utils'
-import $NAME from '../src/index.vue'
+import { describe, expect, test } from 'vitest'
+import $NAME from '../src/$INPUT_NAME.vue'
 
 const AXIOM = 'Rem is the best girl'
 
 describe('$NAME.vue', () => {
   test('render test', () => {
-    const wrapper = mount($NAME, {
-      slots: {
-        default: AXIOM,
-      },
-    })
+    const wrapper = mount(() => <$NAME>{AXIOM}</$NAME>)
+
     expect(wrapper.text()).toEqual(AXIOM)
   })
 })
 EOF
+
+cat > $DIRNAME/style/index.ts <<EOF
+import '@element-plus/components/base/style'
+import '@element-plus/theme-chalk/src/$INPUT_NAME.scss'
+EOF
+
+cat > $DIRNAME/style/css.ts <<EOF
+import '@element-plus/components/base/style/css'
+import '@element-plus/theme-chalk/el-$INPUT_NAME.css'
+EOF
+
+cat > $FILE_PATH/theme-chalk/src/$INPUT_NAME.scss <<EOF
+EOF
+
+perl -0777 -pi -e "s/\n\n/\nexport * from '.\/$INPUT_NAME'\n\n/" $FILE_PATH/components/index.ts
+
+TYPE_PATH=$(cd "$(dirname "${BASH_SOURCE[0]}")/../typings" && pwd)
+
+perl -0777 -pi -e "s/\n\s+}/\n    El$NAME: typeof import('element-plus')['El$NAME']\n  }/" $TYPE_PATH/global.d.ts

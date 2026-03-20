@@ -8,34 +8,18 @@
   </span>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { usePagination } from '../usePagination'
-import type { ExtractPropTypes } from 'vue'
+import { paginationTotalProps } from './total'
 
-const paginationTotalProps = {
-  total: {
-    type: Number,
-    default: 1000,
-  },
-} as const
-export type PaginationTotalProps = ExtractPropTypes<typeof paginationTotalProps>
+const { t } = useLocale()
+const ns = useNamespace('pagination')
+const { disabled } = usePagination()
 
-export default defineComponent({
+defineOptions({
   name: 'ElPaginationTotal',
-
-  props: paginationTotalProps,
-
-  setup() {
-    const { t } = useLocale()
-    const ns = useNamespace('pagination')
-    const { disabled } = usePagination()
-    return {
-      t,
-      ns,
-      disabled,
-    }
-  },
 })
+
+defineProps(paginationTotalProps)
 </script>

@@ -3,43 +3,43 @@
     <slot />
   </section>
 </template>
-<script lang="ts">
-import { computed, defineComponent } from 'vue'
+
+<script lang="ts" setup>
+import { computed, useSlots } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 
 import type { Component, VNode } from 'vue'
 
-export default defineComponent({
-  name: 'ElContainer',
-  props: {
-    direction: {
-      type: String,
-      default: '',
-    },
-  },
-  setup(props, { slots }) {
-    const ns = useNamespace('container')
+interface ContainerProps {
+  /**
+   * @description layout direction for child elements
+   */
+  direction?: 'horizontal' | 'vertical'
+}
 
-    const isVertical = computed(() => {
-      if (props.direction === 'vertical') {
-        return true
-      } else if (props.direction === 'horizontal') {
-        return false
-      }
-      if (slots && slots.default) {
-        const vNodes: VNode[] = slots.default()
-        return vNodes.some((vNode) => {
-          const tag = (vNode.type as Component).name
-          return tag === 'ElHeader' || tag === 'ElFooter'
-        })
-      } else {
-        return false
-      }
+defineOptions({
+  name: 'ElContainer',
+})
+
+const props = defineProps<ContainerProps>()
+const slots = useSlots()
+
+const ns = useNamespace('container')
+
+const isVertical = computed(() => {
+  if (props.direction === 'vertical') {
+    return true
+  } else if (props.direction === 'horizontal') {
+    return false
+  }
+  if (slots && slots.default) {
+    const vNodes: VNode[] = slots.default()
+    return vNodes.some((vNode) => {
+      const tag = (vNode.type as Component).name
+      return tag === 'ElHeader' || tag === 'ElFooter'
     })
-    return {
-      isVertical,
-      ns,
-    }
-  },
+  } else {
+    return false
+  }
 })
 </script>

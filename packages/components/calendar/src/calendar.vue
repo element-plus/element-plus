@@ -3,7 +3,10 @@
     <div :class="ns.e('header')">
       <slot name="header" :date="i18nDate">
         <div :class="ns.e('title')">{{ i18nDate }}</div>
-        <div v-if="validatedRange.length === 0" :class="ns.e('button-group')">
+        <div
+          v-if="validatedRange.length === 0 && controllerType === 'button'"
+          :class="ns.e('button-group')"
+        >
           <el-button-group>
             <el-button size="small" @click="selectDate('prev-month')">
               {{ t('el.datepicker.prevMonth') }}
@@ -16,12 +19,22 @@
             </el-button>
           </el-button-group>
         </div>
+        <div
+          v-else-if="validatedRange.length === 0 && controllerType === 'select'"
+          :class="ns.e('select-controller')"
+        >
+          <select-controller
+            :date="date"
+            :formatter="formatter"
+            @date-change="handleDateChange"
+          />
+        </div>
       </slot>
     </div>
     <div v-if="validatedRange.length === 0" :class="ns.e('body')">
       <date-table :date="date" :selected-day="realSelectedDay" @pick="pickDay">
-        <template v-if="$slots.dateCell" #dateCell="data">
-          <slot name="dateCell" v-bind="data" />
+        <template v-if="$slots['date-cell']" #date-cell="data">
+          <slot name="date-cell" v-bind="data" />
         </template>
       </date-table>
     </div>
@@ -35,8 +48,8 @@
         :hide-header="index !== 0"
         @pick="pickDay"
       >
-        <template v-if="$slots.dateCell" #dateCell="data">
-          <slot name="dateCell" v-bind="data" />
+        <template v-if="$slots['date-cell']" #date-cell="data">
+          <slot name="date-cell" v-bind="data" />
         </template>
       </date-table>
     </div>
@@ -44,199 +57,44 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
-import dayjs from 'dayjs'
+import { computed } from 'vue'
 import { ElButton, ElButtonGroup } from '@element-plus/components/button'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { debugWarn } from '@element-plus/utils'
 import DateTable from './date-table.vue'
-import { calendarEmits, calendarProps } from './calendar'
+import { useCalendar } from './use-calendar'
+import { calendarEmits } from './calendar'
+import SelectController from './select-controller.vue'
 
-import type { CalendarDateType } from './calendar'
-import type { ComputedRef } from 'vue'
-import type { Dayjs } from 'dayjs'
-
-const COMPONENT_NAME = 'ElCalendar'
-
-defineOptions({
-  name: 'ElCalendar',
-})
-
-const props = defineProps(calendarProps)
-const emit = defineEmits(calendarEmits)
+import type { CalendarProps } from './calendar'
 
 const ns = useNamespace('calendar')
 
-const { t, lang } = useLocale()
-const selectedDay = ref<Dayjs>()
-const now = dayjs().locale(lang.value)
-
-const prevMonthDayjs = computed(() => {
-  return date.value.subtract(1, 'month').date(1)
+const COMPONENT_NAME = 'ElCalendar'
+defineOptions({
+  name: COMPONENT_NAME,
 })
 
-const nextMonthDayjs = computed(() => {
-  return date.value.add(1, 'month').date(1)
+const props = withDefaults(defineProps<CalendarProps>(), {
+  controllerType: 'button',
 })
+const emit = defineEmits(calendarEmits)
 
-const prevYearDayjs = computed(() => {
-  return date.value.subtract(1, 'year').date(1)
-})
+const {
+  calculateValidatedDateRange,
+  date,
+  pickDay,
+  realSelectedDay,
+  selectDate,
+  validatedRange,
+  handleDateChange,
+} = useCalendar(props, emit, COMPONENT_NAME)
 
-const nextYearDayjs = computed(() => {
-  return date.value.add(1, 'year').date(1)
-})
+const { t } = useLocale()
 
 const i18nDate = computed(() => {
   const pickedMonth = `el.datepicker.month${date.value.format('M')}`
   return `${date.value.year()} ${t('el.datepicker.year')} ${t(pickedMonth)}`
 })
-
-const realSelectedDay = computed<Dayjs | undefined>({
-  get() {
-    if (!props.modelValue) return selectedDay.value
-    return date.value
-  },
-  set(val) {
-    if (!val) return
-    selectedDay.value = val
-    const result = val.toDate()
-
-    emit('input', result)
-    emit('update:modelValue', result)
-  },
-})
-
-const date: ComputedRef<Dayjs> = computed(() => {
-  if (!props.modelValue) {
-    if (realSelectedDay.value) {
-      return realSelectedDay.value
-    } else if (validatedRange.value.length) {
-      return validatedRange.value[0][0]
-    }
-    return now
-  } else {
-    return dayjs(props.modelValue).locale(lang.value)
-  }
-})
-
-// https://github.com/element-plus/element-plus/issues/3155
-// Calculate the validate date range according to the start and end dates
-const calculateValidatedDateRange = (
-  startDayjs: Dayjs,
-  endDayjs: Dayjs
-): [Dayjs, Dayjs][] => {
-  const firstDay = startDayjs.startOf('week')
-  const lastDay = endDayjs.endOf('week')
-  const firstMonth = firstDay.get('month')
-  const lastMonth = lastDay.get('month')
-
-  // Current mouth
-  if (firstMonth === lastMonth) {
-    return [[firstDay, lastDay]]
-  }
-  // Two adjacent months
-  else if (firstMonth + 1 === lastMonth) {
-    const firstMonthLastDay = firstDay.endOf('month')
-    const lastMonthFirstDay = lastDay.startOf('month')
-
-    // Whether the last day of the first month and the first day of the last month is in the same week
-    const isSameWeek = firstMonthLastDay.isSame(lastMonthFirstDay, 'week')
-    const lastMonthStartDay = isSameWeek
-      ? lastMonthFirstDay.add(1, 'week')
-      : lastMonthFirstDay
-
-    return [
-      [firstDay, firstMonthLastDay],
-      [lastMonthStartDay.startOf('week'), lastDay],
-    ]
-  }
-  // Three consecutive months (compatible: 2021-01-30 to 2021-02-28)
-  else if (firstMonth + 2 === lastMonth) {
-    const firstMonthLastDay = firstDay.endOf('month')
-    const secondMonthFirstDay = firstDay.add(1, 'month').startOf('month')
-
-    // Whether the last day of the first month and the second month is in the same week
-    const secondMonthStartDay = firstMonthLastDay.isSame(
-      secondMonthFirstDay,
-      'week'
-    )
-      ? secondMonthFirstDay.add(1, 'week')
-      : secondMonthFirstDay
-
-    const secondMonthLastDay = secondMonthStartDay.endOf('month')
-    const lastMonthFirstDay = lastDay.startOf('month')
-
-    // Whether the last day of the second month and the last day of the last month is in the same week
-    const lastMonthStartDay = secondMonthLastDay.isSame(
-      lastMonthFirstDay,
-      'week'
-    )
-      ? lastMonthFirstDay.add(1, 'week')
-      : lastMonthFirstDay
-
-    return [
-      [firstDay, firstMonthLastDay],
-      [secondMonthStartDay.startOf('week'), secondMonthLastDay],
-      [lastMonthStartDay.startOf('week'), lastDay],
-    ]
-  }
-  // Other cases
-  else {
-    debugWarn(
-      COMPONENT_NAME,
-      'start time and end time interval must not exceed two months'
-    )
-    return []
-  }
-}
-
-// if range is valid, we get a two-digit array
-const validatedRange = computed(() => {
-  if (!props.range) return []
-  const rangeArrDayjs = props.range.map((_) => dayjs(_).locale(lang.value))
-  const [startDayjs, endDayjs] = rangeArrDayjs
-  if (startDayjs.isAfter(endDayjs)) {
-    debugWarn(COMPONENT_NAME, 'end time should be greater than start time')
-    return []
-  }
-  if (startDayjs.isSame(endDayjs, 'month')) {
-    // same month
-    return calculateValidatedDateRange(startDayjs, endDayjs)
-  } else {
-    // two months
-    if (startDayjs.add(1, 'month').month() !== endDayjs.month()) {
-      debugWarn(
-        COMPONENT_NAME,
-        'start time and end time interval must not exceed two months'
-      )
-      return []
-    }
-    return calculateValidatedDateRange(startDayjs, endDayjs)
-  }
-})
-
-const pickDay = (day: Dayjs) => {
-  realSelectedDay.value = day
-}
-
-const selectDate = (type: CalendarDateType) => {
-  let day: Dayjs
-  if (type === 'prev-month') {
-    day = prevMonthDayjs.value
-  } else if (type === 'next-month') {
-    day = nextMonthDayjs.value
-  } else if (type === 'prev-year') {
-    day = prevYearDayjs.value
-  } else if (type === 'next-year') {
-    day = nextYearDayjs.value
-  } else {
-    day = now
-  }
-
-  if (day.isSame(date.value, 'day')) return
-  pickDay(day)
-}
 
 defineExpose({
   /** @description currently selected date */

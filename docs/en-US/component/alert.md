@@ -11,7 +11,7 @@ Displays important alert messages.
 
 Alert components are non-overlay elements in the page that does not disappear automatically.
 
-:::demo Alert provides 4 types of themes defined by `type`, whose default value is `info`.
+:::demo Alert provides 5 types of themes defined by `type`, whose default value is `info`. `primary` has been added in ^(2.9.11).
 
 alert/basic
 
@@ -41,7 +41,7 @@ alert/close-button
 
 Displaying an icon improves readability.
 
-:::demo Setting the `show-icon` attribute displays an icon that corresponds with the current Alert type.
+:::demo Setting the `show-icon` attribute displays an icon that corresponds with the current Alert type. Or use the `icon` slot to customize icon.
 
 alert/icon
 
@@ -77,28 +77,29 @@ alert/icon-description
 
 ## Alert API
 
-### Alert Attributes
+### Attributes
 
-| Name          | Description                       | Type                                          | Default   | Required |
-| ------------- | --------------------------------- | --------------------------------------------- | --------- | -------- |
-| `title`       | alert title.                      | `string`                                      | —         | No       |
-| `type`        | alert type.                       | `'success' \| 'warning' \| 'info' \| 'error'` | `'info'`  | No       |
-| `description` | descriptive text.                 | `string`                                      | —         | No       |
-| `closable`    | whether closable or not.          | `boolean`                                     | `true`    | No       |
-| `center`      | whether to center the text.       | `boolean`                                     | `false`   | No       |
-| `close-text`  | customized close button text.     | `string`                                      | —         | No       |
-| `show-icon`   | whether a type icon is displayed. | `boolean`                                     | `false`   | No       |
-| `effect`      | theme style.                      | `'light' \| 'dark'`                           | `'light'` | No       |
+| Name        | Description                              | Type                                                                       | Default |
+| ----------- | ---------------------------------------- | -------------------------------------------------------------------------- | ------- |
+| title       | alert title.                             | ^[string]                                                                  | —       |
+| type        | alert type.                              | ^[enum]`'primary' (2.9.11) \| 'success' \| 'warning' \| 'info' \| 'error'` | info    |
+| description | descriptive text.                        | ^[string]                                                                  | —       |
+| closable    | whether alert can be dismissed.          | ^[boolean]                                                                 | true    |
+| center      | whether content is placed in the center. | ^[boolean]                                                                 | false   |
+| close-text  | customized close button text.            | ^[string]                                                                  | —       |
+| show-icon   | whether a type icon is displayed.        | ^[boolean]                                                                 | false   |
+| effect      | theme style.                             | ^[enum]`'light' \| 'dark'`                                                 | light   |
 
-### Alert Events
+### Events
 
-| Name    | Description                   | Type                        |
-| ------- | ----------------------------- | --------------------------- |
-| `close` | trigger when alert is closed. | `(evt: MouseEvent) => void` |
+| Name  | Description                   | Type                                     |
+| ----- | ----------------------------- | ---------------------------------------- |
+| close | trigger when alert is closed. | ^[Function]`(event: MouseEvent) => void` |
 
-### Alert Slots
+### Slots
 
-| Name      | Description                       |
-| --------- | --------------------------------- |
-| `default` | content of the alert description. |
-| `title`   | content of the alert title.       |
+| Name          | Description                       |
+| ------------- | --------------------------------- |
+| default       | content of the alert description. |
+| title         | content of the alert title.       |
+| icon ^(2.9.7) | content of the alert icon.        |

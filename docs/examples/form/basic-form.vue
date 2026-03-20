@@ -1,5 +1,5 @@
 <template>
-  <el-form :model="form" label-width="120px">
+  <el-form :model="form" label-width="auto" style="max-width: 600px">
     <el-form-item label="Activity name">
       <el-input v-model="form.name" />
     </el-form-item>
@@ -34,16 +34,24 @@
     </el-form-item>
     <el-form-item label="Activity type">
       <el-checkbox-group v-model="form.type">
-        <el-checkbox label="Online activities" name="type" />
-        <el-checkbox label="Promotion activities" name="type" />
-        <el-checkbox label="Offline activities" name="type" />
-        <el-checkbox label="Simple brand exposure" name="type" />
+        <el-checkbox value="Online activities" name="type">
+          Online activities
+        </el-checkbox>
+        <el-checkbox value="Promotion activities" name="type">
+          Promotion activities
+        </el-checkbox>
+        <el-checkbox value="Offline activities" name="type">
+          Offline activities
+        </el-checkbox>
+        <el-checkbox value="Simple brand exposure" name="type">
+          Simple brand exposure
+        </el-checkbox>
       </el-checkbox-group>
     </el-form-item>
     <el-form-item label="Resources">
       <el-radio-group v-model="form.resource">
-        <el-radio label="Sponsor" />
-        <el-radio label="Venue" />
+        <el-radio value="Sponsor">Sponsor</el-radio>
+        <el-radio value="Venue">Venue</el-radio>
       </el-radio-group>
     </el-form-item>
     <el-form-item label="Activity form">

@@ -6,6 +6,7 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
+
 import type { CSSProperties } from 'vue'
 
 interface Mark {
@@ -28,8 +29,10 @@ const marks = reactive<Marks>({
   },
 })
 </script>
+
 <style scoped>
 .slider-demo-block {
+  max-width: 600px;
   display: flex;
   align-items: center;
 }

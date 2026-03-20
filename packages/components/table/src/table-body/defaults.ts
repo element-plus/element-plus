@@ -6,8 +6,9 @@ import type {
   DefaultRow,
   Table,
 } from '../table/defaults'
+import type { TableOverflowTooltipOptions } from '../util'
 
-interface TableBodyProps<T> {
+interface TableBodyProps<T extends DefaultRow> {
   store: Store<T>
   stripe?: boolean
   context: Table<T>
@@ -15,26 +16,28 @@ interface TableBodyProps<T> {
   rowStyle: ColumnStyle<T>
   fixed: string
   highlight: boolean
-  tooltipEffect: string
+  tooltipEffect?: string
+  tooltipOptions?: TableOverflowTooltipOptions
 }
 
 const defaultProps = {
   store: {
     required: true,
-    type: Object as PropType<TableBodyProps<DefaultRow>['store']>,
+    type: Object as PropType<TableBodyProps<any>['store']>,
   },
   stripe: Boolean,
   tooltipEffect: String,
+  tooltipOptions: {
+    type: Object as PropType<TableBodyProps<any>['tooltipOptions']>,
+  },
   context: {
     default: () => ({}),
-    type: Object as PropType<TableBodyProps<DefaultRow>['context']>,
+    type: Object as PropType<TableBodyProps<any>['context']>,
   },
   rowClassName: [String, Function] as PropType<
-    TableBodyProps<DefaultRow>['rowClassName']
+    TableBodyProps<any>['rowClassName']
   >,
-  rowStyle: [Object, Function] as PropType<
-    TableBodyProps<DefaultRow>['rowStyle']
-  >,
+  rowStyle: [Object, Function] as PropType<TableBodyProps<any>['rowStyle']>,
   fixed: {
     type: String,
     default: '',

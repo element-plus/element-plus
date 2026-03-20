@@ -1,7 +1,7 @@
 import { ElAffix } from '@element-plus/components/affix'
 import { ElAlert } from '@element-plus/components/alert'
 import { ElAutocomplete } from '@element-plus/components/autocomplete'
-import { ElAvatar } from '@element-plus/components/avatar'
+import { ElAvatar, ElAvatarGroup } from '@element-plus/components/avatar'
 import { ElBacktop } from '@element-plus/components/backtop'
 import { ElBadge } from '@element-plus/components/badge'
 import {
@@ -23,6 +23,7 @@ import {
 import { ElCol } from '@element-plus/components/col'
 import { ElCollapse, ElCollapseItem } from '@element-plus/components/collapse'
 import { ElCollapseTransition } from '@element-plus/components/collapse-transition'
+import { ElColorPickerPanel } from '@element-plus/components/color-picker-panel'
 import { ElColorPicker } from '@element-plus/components/color-picker'
 import { ElConfigProvider } from '@element-plus/components/config-provider'
 import {
@@ -33,6 +34,7 @@ import {
   ElMain,
 } from '@element-plus/components/container'
 import { ElDatePicker } from '@element-plus/components/date-picker'
+import { ElDatePickerPanel } from '@element-plus/components/date-picker-panel'
 import {
   ElDescriptions,
   ElDescriptionsItem,
@@ -52,11 +54,13 @@ import { ElImage } from '@element-plus/components/image'
 import { ElImageViewer } from '@element-plus/components/image-viewer'
 import { ElInput } from '@element-plus/components/input'
 import { ElInputNumber } from '@element-plus/components/input-number'
+import { ElInputTag } from '@element-plus/components/input-tag'
 import { ElLink } from '@element-plus/components/link'
 import {
   ElMenu,
   ElMenuItem,
   ElMenuItemGroup,
+  ElSubMenu,
 } from '@element-plus/components/menu'
 import { ElPageHeader } from '@element-plus/components/page-header'
 import { ElPagination } from '@element-plus/components/pagination'
@@ -82,28 +86,40 @@ import { ElSelectV2 } from '@element-plus/components/select-v2'
 import { ElSkeleton, ElSkeletonItem } from '@element-plus/components/skeleton'
 import { ElSlider } from '@element-plus/components/slider'
 import { ElSpace } from '@element-plus/components/space'
+import { ElStatistic } from '@element-plus/components/statistic'
+import { ElCountdown } from '@element-plus/components/countdown'
 import { ElStep, ElSteps } from '@element-plus/components/steps'
 import { ElSwitch } from '@element-plus/components/switch'
 import { ElTable, ElTableColumn } from '@element-plus/components/table'
+import { ElAutoResizer, ElTableV2 } from '@element-plus/components/table-v2'
 import { ElTabPane, ElTabs } from '@element-plus/components/tabs'
 import { ElTag } from '@element-plus/components/tag'
+import { ElText } from '@element-plus/components/text'
 import { ElTimePicker } from '@element-plus/components/time-picker'
 import { ElTimeSelect } from '@element-plus/components/time-select'
 import { ElTimeline, ElTimelineItem } from '@element-plus/components/timeline'
 import { ElTooltip } from '@element-plus/components/tooltip'
-import { ElTooltipV2 } from '@element-plus/components/tooltip-v2'
 import { ElTransfer } from '@element-plus/components/transfer'
 import { ElTree } from '@element-plus/components/tree'
 import { ElTreeSelect } from '@element-plus/components/tree-select'
 import { ElTreeV2 } from '@element-plus/components/tree-v2'
 import { ElUpload } from '@element-plus/components/upload'
+import { ElWatermark } from '@element-plus/components/watermark'
+import { ElTour, ElTourStep } from '@element-plus/components/tour'
+import { ElAnchor, ElAnchorLink } from '@element-plus/components/anchor'
+import { ElSegmented } from '@element-plus/components/segmented'
+import { ElMention } from '@element-plus/components/mention'
+import { ElSplitter, ElSplitterPanel } from '@element-plus/components/splitter'
+
 import type { Plugin } from 'vue'
 
 export default [
   ElAffix,
   ElAlert,
   ElAutocomplete,
+  ElAutoResizer,
   ElAvatar,
+  ElAvatarGroup,
   ElBacktop,
   ElBadge,
   ElBreadcrumb,
@@ -124,6 +140,7 @@ export default [
   ElCollapse,
   ElCollapseItem,
   ElCollapseTransition,
+  ElColorPickerPanel,
   ElColorPicker,
   ElConfigProvider,
   ElContainer,
@@ -132,6 +149,7 @@ export default [
   ElHeader,
   ElMain,
   ElDatePicker,
+  ElDatePickerPanel,
   ElDescriptions,
   ElDescriptionsItem,
   ElDialog,
@@ -148,10 +166,12 @@ export default [
   ElImageViewer,
   ElInput,
   ElInputNumber,
+  ElInputTag,
   ElLink,
   ElMenu,
   ElMenuItem,
   ElMenuItemGroup,
+  ElSubMenu,
   ElPageHeader,
   ElPagination,
   ElPopconfirm,
@@ -173,23 +193,35 @@ export default [
   ElSkeletonItem,
   ElSlider,
   ElSpace,
+  ElStatistic,
+  ElCountdown,
   ElSteps,
   ElStep,
   ElSwitch,
   ElTable,
   ElTableColumn,
+  ElTableV2,
   ElTabs,
   ElTabPane,
   ElTag,
+  ElText,
   ElTimePicker,
   ElTimeSelect,
   ElTimeline,
   ElTimelineItem,
   ElTooltip,
-  ElTooltipV2,
   ElTransfer,
   ElTree,
   ElTreeSelect,
   ElTreeV2,
   ElUpload,
+  ElWatermark,
+  ElTour,
+  ElTourStep,
+  ElAnchor,
+  ElAnchorLink,
+  ElSegmented,
+  ElMention,
+  ElSplitter,
+  ElSplitterPanel,
 ] as Plugin[]

@@ -1,10 +1,8 @@
 @use 'mixins/mixins' as *;
 
 @include b(aside) {
-  --el-aside-width: 300px;
-
   overflow: auto;
   box-sizing: border-box;
   flex-shrink: 0;
-  width: var(--el-aside-width);
+  width: var(#{getCssVarName('aside', 'width')}, 300px);
 }

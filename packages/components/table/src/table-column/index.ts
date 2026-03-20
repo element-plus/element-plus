@@ -10,18 +10,21 @@ import {
   ref,
 } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
-import { isString } from '@element-plus/utils'
+import { useGlobalConfig } from '@element-plus/components/config-provider'
+import { isArray, isString, isUndefined } from '@element-plus/utils'
 import { cellStarts } from '../config'
 import { compose, mergeOptions } from '../util'
 import useWatcher from './watcher-helper'
 import useRender from './render-helper'
 import defaultProps from './defaults'
-import type { TableColumn, TableColumnCtx } from './defaults'
 
+import type { VNode } from 'vue'
+import type { TableColumn, TableColumnCtx } from './defaults'
 import type { DefaultRow } from '../table/defaults'
 
 let columnIdSeed = 1
 
+//TODO: when vue 3.3 we can set this component a generic: https://github.com/vuejs/core/pull/7963
 export default defineComponent({
   name: 'ElTableColumn',
   components: {
@@ -30,6 +33,7 @@ export default defineComponent({
   props: defaultProps,
   setup(props, { slots }) {
     const instance = getCurrentInstance() as TableColumn<DefaultRow>
+    const globalConfig = useGlobalConfig('table')
     const columnConfig = ref<Partial<TableColumnCtx<DefaultRow>>>({})
     const owner = computed(() => {
       let parent = instance.parent as any
@@ -54,17 +58,31 @@ export default defineComponent({
       getPropsData,
       getColumnElIndex,
       realAlign,
-    } = useRender(props as unknown as TableColumnCtx<unknown>, slots, owner)
+      updateColumnOrder,
+    } = useRender(props as unknown as TableColumnCtx<DefaultRow>, slots, owner)
 
     const parent = columnOrTableParent.value
     columnId.value = `${
-      parent.tableId || parent.columnId
+      ('tableId' in parent && parent.tableId) ||
+      ('columnId' in parent && parent.columnId)
     }_column_${columnIdSeed++}`
     onBeforeMount(() => {
       isSubColumn.value = owner.value !== parent
 
-      const type = props.type || 'default'
+      const type = (props.type as keyof typeof cellStarts) || 'default'
       const sortable = props.sortable === '' ? true : props.sortable
+      //The selection column should not be affected by `showOverflowTooltip`.
+      const showOverflowTooltip =
+        type === 'selection'
+          ? false
+          : isUndefined(props.showOverflowTooltip)
+            ? (parent.props.showOverflowTooltip ??
+              globalConfig.value?.showOverflowTooltip)
+            : props.showOverflowTooltip
+      const tooltipFormatter = isUndefined(props.tooltipFormatter)
+        ? (parent.props.tooltipFormatter ??
+          globalConfig.value?.tooltipFormatter)
+        : props.tooltipFormatter
       const defaults = {
         ...cellStarts[type],
         id: columnId.value,
@@ -72,12 +90,13 @@ export default defineComponent({
         property: props.prop || props.property,
         align: realAlign,
         headerAlign: realHeaderAlign,
-        showOverflowTooltip:
-          props.showOverflowTooltip || props.showTooltipWhenOverflow,
+        showOverflowTooltip,
+        tooltipFormatter,
         // filter 相关属性
         filterable: props.filters || props.filterMethod,
         filteredValue: [],
         filterPlacement: '',
+        filterClassName: '',
         isColumnGroup: false,
         isSubColumn: false,
         filterOpened: false,
@@ -109,6 +128,7 @@ export default defineComponent({
         'filterOpened',
         'filteredValue',
         'filterPlacement',
+        'filterClassName',
       ]
 
       let column = getPropsData(basicProps, sortProps, selectProps, filterProps)
@@ -120,7 +140,7 @@ export default defineComponent({
         setColumnWidth,
         setColumnForcedProps
       )
-      column = chains(column)
+      column = chains(column) as unknown as TableColumnCtx<DefaultRow>
       columnConfig.value = column
 
       // 注册 watcher
@@ -130,7 +150,7 @@ export default defineComponent({
     onMounted(() => {
       const parent = columnOrTableParent.value
       const children = isSubColumn.value
-        ? parent.vnode.el.children
+        ? parent.vnode.el?.children
         : parent.refs.hiddenColumns?.children
       const getColumnIndex = () =>
         getColumnElIndex(children || [], instance.vnode.el)
@@ -140,19 +160,28 @@ export default defineComponent({
         owner.value.store.commit(
           'insertColumn',
           columnConfig.value,
-          isSubColumn.value ? parent.columnConfig.value : null
+          isSubColumn.value
+            ? 'columnConfig' in parent && parent.columnConfig.value
+            : null,
+          updateColumnOrder
         )
     })
     onBeforeUnmount(() => {
-      owner.value.store.commit(
-        'removeColumn',
-        columnConfig.value,
-        isSubColumn.value ? parent.columnConfig.value : null
-      )
+      const getColumnIndex = columnConfig.value.getColumnIndex
+      const columnIndex = getColumnIndex ? getColumnIndex() : -1
+      columnIndex > -1 &&
+        owner.value.store.commit(
+          'removeColumn',
+          columnConfig.value,
+          isSubColumn.value
+            ? 'columnConfig' in parent && parent.columnConfig.value
+            : null,
+          updateColumnOrder
+        )
     })
     instance.columnId = columnId.value
 
-    instance.columnConfig = columnConfig
+    instance.columnConfig = columnConfig as any
     return
   },
   render() {
@@ -163,20 +192,23 @@ export default defineComponent({
         $index: -1,
       })
       const children = []
-      if (Array.isArray(renderDefault)) {
+      if (isArray(renderDefault)) {
         for (const childNode of renderDefault) {
           if (
-            childNode.type?.name === 'ElTableColumn' ||
+            (childNode.type as any)?.name === 'ElTableColumn' ||
             childNode.shapeFlag & 2
           ) {
             children.push(childNode)
           } else if (
             childNode.type === Fragment &&
-            Array.isArray(childNode.children)
+            isArray(childNode.children)
           ) {
             childNode.children.forEach((vnode) => {
               // No rendering when vnode is dynamic slot or text
-              if (vnode?.patchFlag !== 1024 && !isString(vnode?.children)) {
+              if (
+                (vnode as VNode)?.patchFlag !== 1024 &&
+                !isString((vnode as VNode)?.children)
+              ) {
                 children.push(vnode)
               }
             })

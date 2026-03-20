@@ -1,7 +1,9 @@
 <template>
-  <el-input-number v-model="num1" size="large" />
-  <el-input-number v-model="num2" class="mx-4" />
-  <el-input-number v-model="num3" size="small" />
+  <div class="flex flex-wrap items-center gap-4">
+    <el-input-number v-model="num1" size="large" />
+    <el-input-number v-model="num2" />
+    <el-input-number v-model="num3" size="small" />
+  </div>
 </template>
 
 <script lang="ts" setup>

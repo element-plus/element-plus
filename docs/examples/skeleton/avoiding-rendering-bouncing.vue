@@ -11,7 +11,7 @@
       :throttle="500"
     >
       <template #template>
-        <el-skeleton-item variant="image" style="width: 240px; height: 240px" />
+        <el-skeleton-item variant="image" style="width: 240px; height: 265px" />
         <div style="padding: 14px">
           <el-skeleton-item variant="h3" style="width: 50%" />
           <div
@@ -38,7 +38,7 @@
             <span>Delicious hamburger</span>
             <div class="bottom card-header">
               <div class="time">{{ currentDate }}</div>
-              <el-button type="text" class="button">operation button</el-button>
+              <el-button text class="button">operation button</el-button>
             </div>
           </div>
         </el-card>

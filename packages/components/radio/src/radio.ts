@@ -1,78 +1,123 @@
-import { computed, inject, ref } from 'vue'
 import { buildProps, isBoolean, isNumber, isString } from '@element-plus/utils'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { radioGroupKey } from '@element-plus/tokens'
-import { useDisabled, useSize, useSizeProp } from '@element-plus/hooks'
-import type { ExtractPropTypes, SetupContext } from 'vue'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { useSizeProp } from '@element-plus/hooks'
 
+import type { ExtractPublicPropTypes } from 'vue'
+import type { ComponentSize } from '@element-plus/constants'
+import type Radio from './radio.vue'
+
+export interface RadioPropsBase {
+  /**
+   * @description binding value
+   */
+  modelValue?: string | number | boolean
+  /**
+   * @description size of the Radio
+   */
+  size?: ComponentSize
+  /**
+   * @description whether Radio is disabled
+   */
+  disabled?: boolean
+  /**
+   * @description the label of Radio
+   */
+  label?: string | number | boolean
+  /**
+   * @description the value of Radio
+   */
+  value?: string | number | boolean
+  /**
+   * @description native `name` attribute
+   */
+  name?: string
+}
+
+export interface RadioProps extends RadioPropsBase {
+  /**
+   * @description whether to add a border around Radio
+   */
+  border?: boolean
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `RadioPropsBase` instead.
+ */
 export const radioPropsBase = buildProps({
-  size: useSizeProp,
-  disabled: Boolean,
-  label: {
-    type: [String, Number, Boolean],
-    default: '',
-  },
-})
-export const radioProps = buildProps({
-  ...radioPropsBase,
+  /**
+   * @description binding value
+   */
   modelValue: {
     type: [String, Number, Boolean],
-    default: '',
+    default: undefined,
   },
+  /**
+   * @description size of the Radio
+   */
+  size: useSizeProp,
+  /**
+   * @description whether Radio is disabled
+   */
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
+  /**
+   * @description the label of Radio
+   */
+  label: {
+    type: [String, Number, Boolean],
+    default: undefined,
+  },
+  /**
+   * @description the value of Radio
+   */
+  value: {
+    type: [String, Number, Boolean],
+    default: undefined,
+  },
+  /**
+   * @description native `name` attribute
+   */
   name: {
     type: String,
-    default: '',
+    default: undefined,
   },
+})
+
+/**
+ * @deprecated Removed after 3.0.0, Use `RadioProps` instead.
+ */
+export const radioProps = buildProps({
+  ...radioPropsBase,
+  /**
+   * @description whether to add a border around Radio
+   */
   border: Boolean,
 } as const)
-export type RadioProps = ExtractPropTypes<typeof radioProps>
 
 export const radioEmits = {
-  [UPDATE_MODEL_EVENT]: (val: string | number | boolean) =>
+  [UPDATE_MODEL_EVENT]: (val: string | number | boolean | undefined) =>
     isString(val) || isNumber(val) || isBoolean(val),
-  change: (val: string | number | boolean) =>
+  [CHANGE_EVENT]: (val: string | number | boolean | undefined) =>
     isString(val) || isNumber(val) || isBoolean(val),
 }
+
+/**
+ * @deprecated Removed after 3.0.0, Use `RadioProps` instead.
+ */
+export type RadioPropsPublic = ExtractPublicPropTypes<typeof radioProps>
 export type RadioEmits = typeof radioEmits
+export type RadioInstance = InstanceType<typeof Radio> & unknown
 
-export const useRadio = (
-  props: { label: RadioProps['label']; modelValue?: RadioProps['modelValue'] },
-  emit: SetupContext<RadioEmits>['emit']
-) => {
-  const radioRef = ref<HTMLInputElement>()
-  const radioGroup = inject(radioGroupKey, undefined)
-  const isGroup = computed(() => !!radioGroup)
-  const modelValue = computed<RadioProps['modelValue']>({
-    get() {
-      return isGroup.value ? radioGroup!.modelValue : props.modelValue!
-    },
-    set(val) {
-      if (isGroup.value) {
-        radioGroup!.changeEvent(val)
-      } else {
-        emit(UPDATE_MODEL_EVENT, val)
-      }
-      radioRef.value!.checked = props.modelValue === props.label
-    },
-  })
-
-  const size = useSize(computed(() => radioGroup?.size))
-  const disabled = useDisabled(computed(() => radioGroup?.disabled))
-  const focus = ref(false)
-  const tabIndex = computed(() => {
-    return disabled.value || (isGroup.value && modelValue.value !== props.label)
-      ? -1
-      : 0
-  })
-
-  return {
-    radioRef,
-    isGroup,
-    radioGroup,
-    focus,
-    size,
-    disabled,
-    tabIndex,
-    modelValue,
-  }
-}
+/**
+ * @description default values for RadioProps
+ */
+export const radioPropsDefaults = {
+  modelValue: undefined,
+  disabled: undefined,
+  label: undefined,
+  value: undefined,
+  name: undefined,
+  border: false,
+} as const

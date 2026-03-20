@@ -3,132 +3,160 @@
     <el-overlay
       v-show="visible"
       :z-index="zIndex"
-      :overlay-class="['is-message-box', modalClass]"
+      :overlay-class="[ns.is('message-box'), modalClass]"
       :mask="modal"
     >
       <div
-        class="el-overlay-message-box"
+        role="dialog"
+        :aria-label="title"
+        aria-modal="true"
+        :aria-describedby="!showInput ? contentId : undefined"
+        :class="`${ns.namespace.value}-overlay-message-box`"
         @click="overlayEvent.onClick"
         @mousedown="overlayEvent.onMousedown"
         @mouseup="overlayEvent.onMouseup"
       >
-        <div
-          ref="rootRef"
-          v-trap-focus
-          role="dialog"
-          :aria-label="title || 'dialog'"
-          aria-modal="true"
-          :class="[
-            'el-message-box',
-            customClass,
-            { 'el-message-box--center': center, 'is-draggable': draggable },
-          ]"
-          :style="customStyle"
-          @click.stop=""
+        <el-focus-trap
+          loop
+          :trapped="visible"
+          :focus-trap-el="rootRef"
+          :focus-start-el="focusStartRef"
+          @release-requested="onCloseRequested"
         >
           <div
-            v-if="title !== null && title !== undefined"
-            ref="headerRef"
-            class="el-message-box__header"
+            ref="rootRef"
+            :class="[
+              ns.b(),
+              customClass,
+              ns.is('draggable', draggable),
+              ns.is('dragging', isDragging),
+              { [ns.m('center')]: center },
+            ]"
+            :style="customStyle"
+            tabindex="-1"
+            @click.stop=""
           >
-            <div class="el-message-box__title">
-              <el-icon
-                v-if="iconComponent && center"
-                class="el-message-box__status"
-                :class="typeClass"
-              >
-                <component :is="iconComponent" />
-              </el-icon>
-              <span>{{ title }}</span>
-            </div>
-            <button
-              v-if="showClose"
-              type="button"
-              class="el-message-box__headerbtn"
-              aria-label="Close"
-              @click="
-                handleAction(distinguishCancelAndClose ? 'close' : 'cancel')
-              "
-              @keydown.prevent.enter="
-                handleAction(distinguishCancelAndClose ? 'close' : 'cancel')
-              "
+            <div
+              v-if="title !== null && title !== undefined"
+              ref="headerRef"
+              :class="[ns.e('header'), { 'show-close': showClose }]"
             >
-              <el-icon class="el-message-box__close">
-                <close />
-              </el-icon>
-            </button>
-          </div>
-          <div class="el-message-box__content">
-            <div class="el-message-box__container">
-              <el-icon
-                v-if="iconComponent && !center && hasMessage"
-                class="el-message-box__status"
-                :class="typeClass"
+              <div :class="ns.e('title')">
+                <el-icon
+                  v-if="iconComponent && center"
+                  :class="[ns.e('status'), typeClass]"
+                >
+                  <component :is="iconComponent" />
+                </el-icon>
+                <span>{{ title }}</span>
+              </div>
+              <button
+                v-if="showClose"
+                type="button"
+                :class="ns.e('headerbtn')"
+                :aria-label="t('el.messagebox.close')"
+                @click="
+                  handleAction(distinguishCancelAndClose ? 'close' : 'cancel')
+                "
+                @keydown.prevent.enter="
+                  handleAction(distinguishCancelAndClose ? 'close' : 'cancel')
+                "
               >
-                <component :is="iconComponent" />
-              </el-icon>
-              <div v-if="hasMessage" class="el-message-box__message">
-                <slot>
-                  <p v-if="!dangerouslyUseHTMLString">{{ message }}</p>
-                  <p v-else v-html="message" />
-                </slot>
+                <el-icon :class="ns.e('close')">
+                  <component :is="closeIcon || 'close'" />
+                </el-icon>
+              </button>
+            </div>
+            <div :id="contentId" :class="ns.e('content')">
+              <div :class="ns.e('container')">
+                <el-icon
+                  v-if="iconComponent && !center && hasMessage"
+                  :class="[ns.e('status'), typeClass]"
+                >
+                  <component :is="iconComponent" />
+                </el-icon>
+                <div v-if="hasMessage" :class="ns.e('message')">
+                  <slot>
+                    <component
+                      :is="showInput ? 'label' : 'p'"
+                      v-if="!dangerouslyUseHTMLString"
+                      :for="showInput ? inputId : undefined"
+                      v-text="message"
+                    />
+                    <component
+                      :is="showInput ? 'label' : 'p'"
+                      v-else
+                      :for="showInput ? inputId : undefined"
+                      v-html="message"
+                    />
+                  </slot>
+                </div>
+              </div>
+              <div v-show="showInput" :class="ns.e('input')">
+                <el-input
+                  :id="inputId"
+                  ref="inputRef"
+                  v-model="inputValue"
+                  :type="inputType"
+                  :placeholder="inputPlaceholder"
+                  :aria-invalid="validateError"
+                  :class="{ invalid: validateError }"
+                  @keydown.enter="handleInputEnter"
+                />
+                <div
+                  :class="ns.e('errormsg')"
+                  :style="{
+                    visibility: !!editorErrorMessage ? 'visible' : 'hidden',
+                  }"
+                >
+                  {{ editorErrorMessage }}
+                </div>
               </div>
             </div>
-            <div v-show="showInput" class="el-message-box__input">
-              <el-input
-                ref="inputRef"
-                v-model="inputValue"
-                :type="inputType"
-                :placeholder="inputPlaceholder"
-                :class="{ invalid: validateError }"
-                @keydown.enter="handleInputEnter"
-              />
-              <div
-                class="el-message-box__errormsg"
-                :style="{
-                  visibility: !!editorErrorMessage ? 'visible' : 'hidden',
-                }"
+            <div :class="ns.e('btns')">
+              <el-button
+                v-if="showCancelButton"
+                :type="cancelButtonType === 'text' ? '' : cancelButtonType"
+                :text="cancelButtonType === 'text'"
+                :loading="cancelButtonLoading"
+                :loading-icon="cancelButtonLoadingIcon"
+                :class="[cancelButtonClass]"
+                :round="roundButton"
+                :size="btnSize"
+                @click="handleAction('cancel')"
+                @keydown.prevent.enter="handleAction('cancel')"
               >
-                {{ editorErrorMessage }}
-              </div>
+                {{ cancelButtonText || t('el.messagebox.cancel') }}
+              </el-button>
+              <el-button
+                v-show="showConfirmButton"
+                ref="confirmRef"
+                :type="confirmButtonType === 'text' ? '' : confirmButtonType"
+                :text="confirmButtonType === 'text'"
+                :loading="confirmButtonLoading"
+                :loading-icon="confirmButtonLoadingIcon"
+                :class="[confirmButtonClasses]"
+                :round="roundButton"
+                :disabled="confirmButtonDisabled"
+                :size="btnSize"
+                @click="handleAction('confirm')"
+                @keydown.prevent.enter="handleAction('confirm')"
+              >
+                {{ confirmButtonText || t('el.messagebox.confirm') }}
+              </el-button>
             </div>
           </div>
-          <div class="el-message-box__btns">
-            <el-button
-              v-if="showCancelButton"
-              :loading="cancelButtonLoading"
-              :class="[cancelButtonClass]"
-              :round="roundButton"
-              :size="btnSize"
-              @click="handleAction('cancel')"
-              @keydown.prevent.enter="handleAction('cancel')"
-            >
-              {{ cancelButtonText || t('el.messagebox.cancel') }}
-            </el-button>
-            <el-button
-              v-show="showConfirmButton"
-              ref="confirmRef"
-              type="primary"
-              :loading="confirmButtonLoading"
-              :class="[confirmButtonClasses]"
-              :round="roundButton"
-              :disabled="confirmButtonDisabled"
-              :size="btnSize"
-              @click="handleAction('confirm')"
-              @keydown.prevent.enter="handleAction('confirm')"
-            >
-              {{ confirmButtonText || t('el.messagebox.confirm') }}
-            </el-button>
-          </div>
-        </div>
+        </el-focus-trap>
       </div>
     </el-overlay>
   </transition>
 </template>
+
 <script lang="ts">
 import {
   computed,
   defineComponent,
+  markRaw,
   nextTick,
   onBeforeUnmount,
   onMounted,
@@ -141,34 +169,32 @@ import ElButton from '@element-plus/components/button'
 import { TrapFocus } from '@element-plus/directives'
 import {
   useDraggable,
-  useLocale,
+  useId,
   useLockscreen,
-  useModal,
-  usePreventGlobal,
-  useRestoreActive,
   useSameTarget,
-  useSize,
-  useZIndex,
 } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import { ElOverlay } from '@element-plus/components/overlay'
 import {
   TypeComponents,
   TypeComponentsMap,
+  isFunction,
+  isString,
   isValidComponentSize,
-  off,
-  on,
 } from '@element-plus/utils'
-import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
+import { Loading } from '@element-plus/icons-vue'
+import ElFocusTrap from '@element-plus/components/focus-trap'
+import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
 
-import type { PropType } from 'vue'
+import type { ComponentPublicInstance, PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type {
   Action,
   MessageBoxState,
   MessageBoxType,
 } from './message-box.type'
+import type { InputInstance } from '@element-plus/components/input'
 
 export default defineComponent({
   name: 'ElMessageBox',
@@ -177,6 +203,7 @@ export default defineComponent({
   },
   components: {
     ElButton,
+    ElFocusTrap,
     ElInput,
     ElOverlay,
     ElIcon,
@@ -214,10 +241,8 @@ export default defineComponent({
     },
     center: Boolean,
     draggable: Boolean,
-    roundButton: {
-      default: false,
-      type: Boolean,
-    },
+    overflow: Boolean,
+    roundButton: Boolean,
     container: {
       type: String, // default append to body
       default: 'body',
@@ -230,29 +255,45 @@ export default defineComponent({
   emits: ['vanish', 'action'],
   setup(props, { emit }) {
     // const popup = usePopup(props, doClose)
-    const { t } = useLocale()
+    const {
+      locale,
+      zIndex,
+      ns,
+      size: btnSize,
+    } = useGlobalComponentSettings(
+      'message-box',
+      computed(() => props.buttonSize)
+    )
+
+    const { t } = locale
+    const { nextZIndex } = zIndex
+
     const visible = ref(false)
-    const { nextZIndex } = useZIndex()
     // s represents state
     const state = reactive<MessageBoxState>({
+      // autofocus element when open message-box
+      autofocus: true,
       beforeClose: null,
       callback: null,
       cancelButtonText: '',
       cancelButtonClass: '',
       confirmButtonText: '',
       confirmButtonClass: '',
+      cancelButtonType: '',
+      confirmButtonType: 'primary',
       customClass: '',
       customStyle: {},
       dangerouslyUseHTMLString: false,
       distinguishCancelAndClose: false,
       icon: '',
+      closeIcon: '',
       inputPattern: null,
       inputPlaceholder: '',
       inputType: 'text',
-      inputValue: null,
-      inputValidator: null,
+      inputValue: '',
+      inputValidator: undefined,
       inputErrorMessage: '',
-      message: null,
+      message: '',
       modalFade: true,
       modalClass: '',
       showCancelButton: false,
@@ -263,6 +304,8 @@ export default defineComponent({
       action: '' as Action,
       confirmButtonLoading: false,
       cancelButtonLoading: false,
+      confirmButtonLoadingIcon: markRaw(Loading),
+      cancelButtonLoadingIcon: markRaw(Loading),
       confirmButtonDisabled: false,
       editorErrorMessage: '',
       // refer to: https://github.com/ElemeFE/element/commit/2999279ae34ef10c373ca795c87b020ed6753eed
@@ -274,24 +317,22 @@ export default defineComponent({
 
     const typeClass = computed(() => {
       const type = state.type
-      return type && TypeComponentsMap[type]
-        ? `el-message-box-icon--${type}`
-        : ''
+      return { [ns.bm('icon', type)]: type && TypeComponentsMap[type] }
     })
 
-    const btnSize = useSize(
-      computed(() => props.buttonSize),
-      { prop: true, form: true, formItem: true }
-    )
+    const contentId = useId()
+    const inputId = useId()
 
-    const iconComponent = computed(
-      () => state.icon || TypeComponentsMap[state.type] || ''
-    )
+    const iconComponent = computed(() => {
+      const type = state.type
+      return state.icon || (type && TypeComponentsMap[type]) || ''
+    })
     const hasMessage = computed(() => !!state.message)
     const rootRef = ref<HTMLElement>()
     const headerRef = ref<HTMLElement>()
-    const inputRef = ref<HTMLElement>()
-    const confirmRef = ref<HTMLElement>()
+    const focusStartRef = ref<HTMLElement>()
+    const inputRef = ref<InputInstance>()
+    const confirmRef = ref<ComponentPublicInstance>()
 
     const confirmButtonClasses = computed(() => state.confirmButtonClass)
 
@@ -299,7 +340,7 @@ export default defineComponent({
       () => state.inputValue,
       async (val) => {
         await nextTick()
-        if (props.boxType === 'prompt' && val !== null) {
+        if (props.boxType === 'prompt' && val) {
           validate()
         }
       },
@@ -310,10 +351,12 @@ export default defineComponent({
       () => visible.value,
       (val) => {
         if (val) {
-          if (props.boxType === 'alert' || props.boxType === 'confirm') {
-            nextTick().then(() => {
-              confirmRef.value?.$el?.focus?.()
-            })
+          if (props.boxType !== 'prompt') {
+            if (state.autofocus) {
+              focusStartRef.value = confirmRef.value?.$el ?? rootRef.value
+            } else {
+              focusStartRef.value = rootRef.value
+            }
           }
           state.zIndex = nextZIndex()
         }
@@ -321,7 +364,11 @@ export default defineComponent({
         if (val) {
           nextTick().then(() => {
             if (inputRef.value && inputRef.value.$el) {
-              getInputElement().focus()
+              if (state.autofocus) {
+                focusStartRef.value = getInputElement() ?? rootRef.value
+              } else {
+                focusStartRef.value = rootRef.value
+              }
             }
           })
         } else {
@@ -332,18 +379,19 @@ export default defineComponent({
     )
 
     const draggable = computed(() => props.draggable)
-    useDraggable(rootRef, headerRef, draggable)
+    const overflow = computed(() => props.overflow)
+    const { isDragging } = useDraggable(rootRef, headerRef, draggable, overflow)
 
     onMounted(async () => {
       await nextTick()
       if (props.closeOnHashChange) {
-        on(window, 'hashchange', doClose)
+        window.addEventListener('hashchange', doClose)
       }
     })
 
     onBeforeUnmount(() => {
       if (props.closeOnHashChange) {
-        off(window, 'hashchange', doClose)
+        window.removeEventListener('hashchange', doClose)
       }
     })
 
@@ -363,8 +411,8 @@ export default defineComponent({
 
     const overlayEvent = useSameTarget(handleWrapperClick)
 
-    const handleInputEnter = (e: KeyboardEvent) => {
-      if (state.inputType !== 'textarea') {
+    const handleInputEnter = (e: KeyboardEvent | Event) => {
+      if (state.inputType !== 'textarea' && !inputRef.value?.isComposing) {
         e.preventDefault()
         return handleAction('confirm')
       }
@@ -394,7 +442,7 @@ export default defineComponent({
           return false
         }
         const inputValidator = state.inputValidator
-        if (typeof inputValidator === 'function') {
+        if (isFunction(inputValidator)) {
           const validateResult = inputValidator(state.inputValue)
           if (validateResult === false) {
             state.editorErrorMessage =
@@ -402,7 +450,7 @@ export default defineComponent({
             state.validateError = true
             return false
           }
-          if (typeof validateResult === 'string') {
+          if (isString(validateResult)) {
             state.editorErrorMessage = validateResult
             state.validateError = true
             return false
@@ -415,8 +463,8 @@ export default defineComponent({
     }
 
     const getInputElement = () => {
-      const inputRefs = inputRef.value.$refs
-      return (inputRefs.input || inputRefs.textarea) as HTMLElement
+      const inputRefs = inputRef.value?.$refs
+      return (inputRefs?.input ?? inputRefs?.textarea) as HTMLElement
     }
 
     const handleClose = () => {
@@ -427,46 +475,40 @@ export default defineComponent({
     // any other message box and close any other dialog-ish elements
     // e.g. Dialog has a close on press esc feature, and when it closes, it calls
     // props.beforeClose method to make a intermediate state by callout a message box
-    // for some verification or alerting. then if we allow global event liek this
+    // for some verification or alerting. then if we allow global event like this
     // to dispatch, it could callout another message box.
-    if (props.closeOnPressEscape) {
-      useModal(
-        {
-          handleClose,
-        },
-        visible
-      )
-    } else {
-      usePreventGlobal(
-        visible,
-        'keydown',
-        (e: KeyboardEvent) => e.code === EVENT_CODE.esc
-      )
+    const onCloseRequested = () => {
+      if (props.closeOnPressEscape) {
+        handleClose()
+      }
     }
 
     // locks the screen to prevent scroll
     if (props.lockScroll) {
-      useLockscreen(visible)
+      useLockscreen(visible, { ns })
     }
-
-    // restore to prev active element.
-    useRestoreActive(visible)
 
     return {
       ...toRefs(state),
+      ns,
       overlayEvent,
       visible,
       hasMessage,
       typeClass,
+      contentId,
+      inputId,
       btnSize,
       iconComponent,
       confirmButtonClasses,
       rootRef,
+      focusStartRef,
       headerRef,
       inputRef,
+      isDragging,
       confirmRef,
       doClose, // for outside usage
       handleClose, // for out side usage
+      onCloseRequested,
       handleWrapperClick,
       handleInputEnter,
       handleAction,

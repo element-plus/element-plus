@@ -1,11 +1,13 @@
+// @ts-nocheck
 import { nextTick } from 'vue'
-import { isFunction } from '@vue/shared'
 import { throttle } from 'lodash-unified'
 import {
   getOffsetTopDistance,
   getScrollContainer,
+  isFunction,
   throwError,
 } from '@element-plus/utils'
+import { useDeprecated } from '@element-plus/hooks'
 
 import type { ComponentPublicInstance, ObjectDirective } from 'vue'
 
@@ -122,6 +124,17 @@ const InfiniteScroll: ObjectDirective<
   async mounted(el, binding) {
     const { instance, value: cb } = binding
 
+    useDeprecated(
+      {
+        scope: SCOPE,
+        from: 'the directive v-infinite-scroll',
+        replacement: 'the el-scrollbar infinite scroll',
+        version: '3.0.0',
+        ref: 'https://element-plus.org/en-US/component/scrollbar#infinite-scroll',
+      },
+      true
+    )
+
     if (!isFunction(cb)) {
       throwError(SCOPE, "'v-infinite-scroll' binding value must be a function")
     }
@@ -161,6 +174,7 @@ const InfiniteScroll: ObjectDirective<
     container.addEventListener('scroll', onScroll)
   },
   unmounted(el) {
+    if (!el[SCOPE]) return
     const { container, onScroll } = el[SCOPE]
 
     container?.removeEventListener('scroll', onScroll)
@@ -169,10 +183,11 @@ const InfiniteScroll: ObjectDirective<
   async updated(el) {
     if (!el[SCOPE]) {
       await nextTick()
-    }
-    const { containerEl, cb, observer } = el[SCOPE]
-    if (containerEl.clientHeight && observer) {
-      checkFull(el, cb)
+    } else {
+      const { containerEl, cb, observer } = el[SCOPE]
+      if (containerEl.clientHeight && observer) {
+        checkFull(el, cb)
+      }
     }
   },
 }

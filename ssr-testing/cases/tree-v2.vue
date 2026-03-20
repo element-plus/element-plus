@@ -1,5 +1,5 @@
 <template>
-  <el-tree-v2 :data="data" :props="props" :height="208" />
+  <el-tree-v2 :data="data" :props="props" :height="200" />
 </template>
 <script lang="ts" setup>
 interface Tree {

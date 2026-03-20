@@ -9,7 +9,10 @@ import {
   WarningFilled,
 } from '@element-plus/icons-vue'
 import { definePropType } from './props'
+
 import type { Component } from 'vue'
+
+export type IconPropType = string | Component
 
 export const iconPropType = definePropType<string | Component>([
   String,
@@ -30,6 +33,7 @@ export const TypeComponents = {
 }
 
 export const TypeComponentsMap = {
+  primary: InfoFilled,
   success: SuccessFilled,
   warning: WarningFilled,
   error: CircleCloseFilled,
@@ -41,3 +45,6 @@ export const ValidateComponentsMap = {
   success: CircleCheck,
   error: CircleClose,
 }
+
+// All icon components have the same type, so we can pick any one of them to get the type
+export type IconComponent = typeof Loading

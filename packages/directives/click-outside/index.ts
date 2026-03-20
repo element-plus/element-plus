@@ -1,12 +1,10 @@
-import { isClient } from '@vueuse/core'
-import { isElement } from '@element-plus/utils'
+import { isArray, isClient, isElement } from '@element-plus/utils'
 
 import type {
   ComponentPublicInstance,
   DirectiveBinding,
   ObjectDirective,
 } from 'vue'
-import type { Nullable } from '@element-plus/utils'
 
 type DocumentHandler = <T extends MouseEvent>(mouseup: T, mousedown: T) => void
 type FlushList = Map<
@@ -19,15 +17,17 @@ type FlushList = Map<
 
 const nodeList: FlushList = new Map()
 
-let startClick: MouseEvent
-
 if (isClient) {
+  let startClick: MouseEvent | undefined
   document.addEventListener('mousedown', (e: MouseEvent) => (startClick = e))
   document.addEventListener('mouseup', (e: MouseEvent) => {
-    for (const handlers of nodeList.values()) {
-      for (const { documentHandler } of handlers) {
-        documentHandler(e as MouseEvent, startClick)
+    if (startClick) {
+      for (const handlers of nodeList.values()) {
+        for (const { documentHandler } of handlers) {
+          documentHandler(e as MouseEvent, startClick)
+        }
       }
+      startClick = undefined
     }
   })
 }
@@ -37,7 +37,7 @@ function createDocumentHandler(
   binding: DirectiveBinding
 ): DocumentHandler {
   let excludes: HTMLElement[] = []
-  if (Array.isArray(binding.arg)) {
+  if (isArray(binding.arg)) {
     excludes = binding.arg
   } else if (isElement(binding.arg)) {
     // due to current implementation on binding type is wrong the type casting is necessary here
@@ -46,7 +46,7 @@ function createDocumentHandler(
   return function (mouseup, mousedown) {
     const popperRef = (
       binding.instance as ComponentPublicInstance<{
-        popperRef: Nullable<HTMLElement>
+        popperRef: HTMLElement
       }>
     ).popperRef
     const mouseUpTarget = mouseup.target as Node
@@ -78,24 +78,24 @@ function createDocumentHandler(
   }
 }
 
-const ClickOutside: ObjectDirective = {
-  beforeMount(el: HTMLElement, binding: DirectiveBinding) {
+const ClickOutside: ObjectDirective<HTMLElement, any> = {
+  beforeMount(el, binding) {
     // there could be multiple handlers on the element
     if (!nodeList.has(el)) {
       nodeList.set(el, [])
     }
 
-    nodeList.get(el).push({
+    nodeList.get(el)!.push({
       documentHandler: createDocumentHandler(el, binding),
       bindingFn: binding.value,
     })
   },
-  updated(el: HTMLElement, binding: DirectiveBinding) {
+  updated(el, binding) {
     if (!nodeList.has(el)) {
       nodeList.set(el, [])
     }
 
-    const handlers = nodeList.get(el)
+    const handlers = nodeList.get(el)!
     const oldHandlerIndex = handlers.findIndex(
       (item) => item.bindingFn === binding.oldValue
     )
@@ -111,7 +111,7 @@ const ClickOutside: ObjectDirective = {
       handlers.push(newHandler)
     }
   },
-  unmounted(el: HTMLElement) {
+  unmounted(el) {
     // remove all listeners when a component unmounted
     nodeList.delete(el)
   },

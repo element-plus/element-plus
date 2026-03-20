@@ -1,9 +1,14 @@
 import { unref } from 'vue'
 import { isArray } from '@element-plus/utils'
-import type { Ref } from 'vue'
-import type { Trigger } from './tooltip'
 
-export const isTriggerType = (trigger: Trigger | Trigger[], type: Trigger) => {
+import type { Arrayable } from '@element-plus/utils'
+import type { Ref } from 'vue'
+import type { TooltipTriggerType } from './trigger'
+
+export const isTriggerType = (
+  trigger: Arrayable<TooltipTriggerType>,
+  type: TooltipTriggerType
+) => {
   if (isArray(trigger)) {
     return trigger.includes(type)
   }
@@ -11,8 +16,8 @@ export const isTriggerType = (trigger: Trigger | Trigger[], type: Trigger) => {
 }
 
 export const whenTrigger = (
-  trigger: Ref<Trigger | Trigger[]>,
-  type: Trigger,
+  trigger: Ref<Arrayable<TooltipTriggerType>>,
+  type: TooltipTriggerType,
   handler: (e: Event) => void
 ) => {
   return (e: Event) => {

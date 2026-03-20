@@ -10,11 +10,16 @@
     "strict": true,
     "noImplicitAny": false,
     "skipLibCheck": true,
+    "lib": ["ESNext", "DOM"],
     "paths": {
-      "element-plus": ["../packages/element-plus"]
+      "element-plus": ["../packages/element-plus"],
+      "~/*": ["./.vitepress/vitepress/*"],
+      "vue": ["./node_modules/vue"]
     },
-    "types": ["../typings/components"]
+    "types": ["unplugin-icons/types/vue"],
+    "jsx": "preserve",
+    "jsxImportSource": "vue"
   },
-  "include": ["**/*", ".vitepress/**/*"],
+  "include": ["**/*", ".vitepress/**/*", "../typings/global.d.ts"],
   "exclude": ["node_modules"]
 }

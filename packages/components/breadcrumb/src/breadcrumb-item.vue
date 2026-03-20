@@ -1,47 +1,43 @@
 <template>
   <span :class="ns.e('item')">
     <span
-      ref="link"
       :class="[ns.e('inner'), ns.is('link', !!to)]"
       role="link"
       @click="onClick"
     >
       <slot />
     </span>
-    <el-icon v-if="separatorIcon" :class="ns.e('separator')">
-      <component :is="separatorIcon" />
+    <el-icon v-if="breadcrumbContext?.separatorIcon" :class="ns.e('separator')">
+      <component :is="breadcrumbContext.separatorIcon" />
     </el-icon>
     <span v-else :class="ns.e('separator')" role="presentation">
-      {{ separator }}
+      {{ breadcrumbContext?.separator }}
     </span>
   </span>
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance, inject, ref } from 'vue'
+import { getCurrentInstance, inject } from 'vue'
 import ElIcon from '@element-plus/components/icon'
-import { breadcrumbKey } from '@element-plus/tokens'
 import { useNamespace } from '@element-plus/hooks'
-import { breadcrumbItemProps } from './breadcrumb-item'
+import { breadcrumbKey } from './constants'
 
 import type { Router } from 'vue-router'
-import type { BreadcrumbProps } from './breadcrumb'
+import type { BreadcrumbItemProps } from './breadcrumb-item'
 
 defineOptions({
   name: 'ElBreadcrumbItem',
 })
 
-const props = defineProps(breadcrumbItemProps)
+const props = withDefaults(defineProps<BreadcrumbItemProps>(), {
+  to: '',
+})
 
 const instance = getCurrentInstance()!
-const router = instance.appContext.config.globalProperties.$router as Router
-const breadcrumbInjection = inject(breadcrumbKey, {} as BreadcrumbProps)!
-
+const breadcrumbContext = inject(breadcrumbKey, undefined)
 const ns = useNamespace('breadcrumb')
 
-const { separator, separatorIcon } = breadcrumbInjection
-
-const link = ref<HTMLSpanElement>()
+const router = instance.appContext.config.globalProperties.$router as Router
 
 const onClick = () => {
   if (!props.to || !router) return

@@ -10,10 +10,10 @@
     height: 100%;
     display: inline-block;
     overflow: hidden;
-    z-index: calc(var(--el-index-normal) - 1);
+    z-index: calc(getCssVar('index', 'normal') - 1);
 
     @include when(active) {
-      z-index: calc(var(--el-index-normal) - 1);
+      z-index: calc(getCssVar('index', 'normal') - 1);
     }
 
     @include when(animating) {
@@ -23,17 +23,25 @@
     @include m(card) {
       width: 50%;
       transition: transform 0.4s ease-in-out;
+
       &.is-in-stage {
         cursor: pointer;
-        z-index: var(--el-index-normal);
+        z-index: getCssVar('index', 'normal');
+
         &:hover .#{$namespace}-carousel__mask,
         &.is-hover .#{$namespace}-carousel__mask {
           opacity: 0.12;
         }
       }
+
       &.is-active {
-        z-index: calc(var(--el-index-normal) + 1);
+        z-index: calc(getCssVar('index', 'normal') + 1);
       }
+    }
+
+    @include m(card-vertical) {
+      width: 100%;
+      height: 50%;
     }
   }
 
@@ -43,8 +51,8 @@
     height: 100%;
     top: 0;
     left: 0;
-    background-color: $color-white;
+    background-color: getCssVar('color', 'white');
     opacity: 0.24;
-    transition: var(--el-transition-duration-fast);
+    transition: getCssVar('transition-duration', 'fast');
   }
 }

@@ -1,21 +1,11 @@
 <template>
   <div
-    v-show="type !== 'hidden'"
     :class="[
-      type === 'textarea' ? nsTextarea.b() : nsInput.b(),
-      nsInput.m(inputSize),
-      nsInput.is('disabled', inputDisabled),
-      nsInput.is('exceed', inputExceed),
+      containerKls,
       {
-        [nsInput.b('group')]: $slots.prepend || $slots.append,
         [nsInput.bm('group', 'append')]: $slots.append,
         [nsInput.bm('group', 'prepend')]: $slots.prepend,
-        [nsInput.m('prefix')]: $slots.prefix || prefixIcon,
-        [nsInput.m('suffix')]:
-          $slots.suffix || suffixIcon || clearable || showPassword,
-        [nsInput.m('suffix--password-clear')]: showClear && showPwdVisible,
       },
-      $attrs.class,
     ]"
     :style="containerStyle"
     @mouseenter="handleMouseEnter"
@@ -28,79 +18,99 @@
         <slot name="prepend" />
       </div>
 
-      <input
-        ref="input"
-        :class="nsInput.e('inner')"
-        v-bind="attrs"
-        :type="showPassword ? (passwordVisible ? 'text' : 'password') : type"
-        :disabled="inputDisabled"
-        :readonly="readonly"
-        :autocomplete="autocomplete"
-        :tabindex="tabindex"
-        :aria-label="label"
-        :placeholder="placeholder"
-        :style="inputStyle"
-        @compositionstart="handleCompositionStart"
-        @compositionupdate="handleCompositionUpdate"
-        @compositionend="handleCompositionEnd"
-        @input="handleInput"
-        @focus="handleFocus"
-        @blur="handleBlur"
-        @change="handleChange"
-        @keydown="handleKeydown"
-      />
-
-      <!-- prefix slot -->
-      <span v-if="$slots.prefix || prefixIcon" :class="nsInput.e('prefix')">
-        <span :class="nsInput.e('prefix-inner')">
-          <slot name="prefix" />
-          <el-icon v-if="prefixIcon" :class="nsInput.e('icon')">
-            <component :is="prefixIcon" />
-          </el-icon>
-        </span>
-      </span>
-
-      <!-- suffix slot -->
-      <span v-if="suffixVisible" :class="nsInput.e('suffix')">
-        <span :class="nsInput.e('suffix-inner')">
-          <template v-if="!showClear || !showPwdVisible || !isWordLimitVisible">
-            <slot name="suffix" />
-            <el-icon v-if="suffixIcon" :class="nsInput.e('icon')">
-              <component :is="suffixIcon" />
+      <div ref="wrapperRef" :class="wrapperKls">
+        <!-- prefix slot -->
+        <span v-if="$slots.prefix || prefixIcon" :class="nsInput.e('prefix')">
+          <span :class="nsInput.e('prefix-inner')">
+            <slot name="prefix" />
+            <el-icon v-if="prefixIcon" :class="nsInput.e('icon')">
+              <component :is="prefixIcon" />
             </el-icon>
-          </template>
-          <el-icon
-            v-if="showClear"
-            :class="[nsInput.e('icon'), nsInput.e('clear')]"
-            @mousedown.prevent
-            @click="clear"
-          >
-            <circle-close />
-          </el-icon>
-          <el-icon
-            v-if="showPwdVisible"
-            :class="[nsInput.e('icon'), nsInput.e('clear')]"
-            @click="handlePasswordVisible"
-          >
-            <component :is="passwordIcon" />
-          </el-icon>
-          <span v-if="isWordLimitVisible" :class="nsInput.e('count')">
-            <span :class="nsInput.e('count-inner')">
-              {{ textLength }} / {{ attrs.maxlength }}
-            </span>
           </span>
         </span>
-        <el-icon
-          v-if="validateState && validateIcon && needStatusIcon"
-          :class="[
-            nsInput.e('icon'),
-            nsInput.e('validateIcon'),
-            nsInput.is('loading', validateState === 'validating'),
-          ]"
-        >
-          <component :is="validateIcon" />
-        </el-icon>
-      </span>
+
+        <input
+          :id="inputId"
+          ref="input"
+          :class="nsInput.e('inner')"
+          v-bind="attrs"
+          :name="name"
+          :minlength="minlength"
+          :maxlength="maxlength"
+          :type="showPassword ? (passwordVisible ? 'text' : 'password') : type"
+          :disabled="inputDisabled"
+          :readonly="readonly"
+          :autocomplete="autocomplete"
+          :tabindex="tabindex"
+          :aria-label="ariaLabel"
+          :placeholder="placeholder"
+          :style="inputStyle"
+          :form="form"
+          :autofocus="autofocus"
+          :role="containerRole"
+          :inputmode="inputmode"
+          @compositionstart="handleCompositionStart"
+          @compositionupdate="handleCompositionUpdate"
+          @compositionend="handleCompositionEnd"
+          @input="handleInput"
+          @change="handleChange"
+          @keydown="handleKeydown"
+        />
+
+        <!-- suffix slot -->
+        <span v-if="suffixVisible" :class="nsInput.e('suffix')">
+          <span :class="nsInput.e('suffix-inner')">
+            <template
+              v-if="!showClear || !showPwdVisible || !isWordLimitVisible"
+            >
+              <slot name="suffix" />
+              <el-icon v-if="suffixIcon" :class="nsInput.e('icon')">
+                <component :is="suffixIcon" />
+              </el-icon>
+            </template>
+            <el-icon
+              v-if="showClear"
+              :class="[nsInput.e('icon'), nsInput.e('clear')]"
+              @mousedown.prevent="NOOP"
+              @click="clear"
+            >
+              <component :is="clearIcon" />
+            </el-icon>
+            <el-icon
+              v-if="showPwdVisible"
+              :class="[nsInput.e('icon'), nsInput.e('password')]"
+              @click="handlePasswordVisible"
+              @mousedown.prevent="NOOP"
+              @mouseup.prevent="NOOP"
+            >
+              <slot name="password-icon" :visible="passwordVisible">
+                <component :is="passwordIcon" />
+              </slot>
+            </el-icon>
+            <span
+              v-if="isWordLimitVisible"
+              :class="[
+                nsInput.e('count'),
+                nsInput.is('outside', wordLimitPosition === 'outside'),
+              ]"
+            >
+              <span :class="nsInput.e('count-inner')">
+                {{ textLength }} / {{ maxlength }}
+              </span>
+            </span>
+            <el-icon
+              v-if="validateState && validateIcon && needStatusIcon"
+              :class="[
+                nsInput.e('icon'),
+                nsInput.e('validateIcon'),
+                nsInput.is('loading', validateState === 'validating'),
+              ]"
+            >
+              <component :is="validateIcon" />
+            </el-icon>
+          </span>
+        </span>
+      </div>
 
       <!-- append slot -->
       <div v-if="$slots.append" :class="nsInput.be('group', 'append')">
@@ -111,16 +121,29 @@
     <!-- textarea -->
     <template v-else>
       <textarea
+        :id="inputId"
         ref="textarea"
-        :class="nsTextarea.e('inner')"
+        :class="[
+          nsTextarea.e('inner'),
+          nsInput.is('focus', isFocused),
+          nsTextarea.is('clearable', clearable),
+        ]"
         v-bind="attrs"
+        :name="name"
+        :minlength="minlength"
+        :maxlength="maxlength"
         :tabindex="tabindex"
         :disabled="inputDisabled"
         :readonly="readonly"
         :autocomplete="autocomplete"
         :style="textareaStyle"
-        :aria-label="label"
+        :aria-label="ariaLabel"
         :placeholder="placeholder"
+        :form="form"
+        :autofocus="autofocus"
+        :rows="rows"
+        :role="containerRole"
+        :inputmode="inputmode"
         @compositionstart="handleCompositionStart"
         @compositionupdate="handleCompositionUpdate"
         @compositionend="handleCompositionEnd"
@@ -130,8 +153,23 @@
         @change="handleChange"
         @keydown="handleKeydown"
       />
-      <span v-if="isWordLimitVisible" :class="nsInput.e('count')">
-        {{ textLength }} / {{ attrs.maxlength }}
+      <el-icon
+        v-if="showClear"
+        :class="[nsTextarea.e('icon'), nsTextarea.e('clear')]"
+        @mousedown.prevent="NOOP"
+        @click="clear"
+      >
+        <component :is="clearIcon" />
+      </el-icon>
+      <span
+        v-if="isWordLimitVisible"
+        :style="countStyle"
+        :class="[
+          nsInput.e('count'),
+          nsInput.is('outside', wordLimitPosition === 'outside'),
+        ]"
+      >
+        {{ textLength }} / {{ maxlength }}
       </span>
     </template>
   </div>
@@ -140,10 +178,8 @@
 <script lang="ts" setup>
 import {
   computed,
-  getCurrentInstance,
   nextTick,
   onMounted,
-  onUpdated,
   ref,
   shallowRef,
   toRef,
@@ -151,76 +187,117 @@ import {
   useSlots,
   watch,
 } from 'vue'
-import { isClient } from '@vueuse/core'
+import { useResizeObserver } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
 import { ElIcon } from '@element-plus/components/icon'
+import { Hide, View } from '@element-plus/icons-vue'
 import {
-  CircleClose,
-  Hide as IconHide,
-  View as IconView,
-} from '@element-plus/icons-vue'
+  useFormDisabled,
+  useFormItem,
+  useFormItemInputId,
+  useFormSize,
+} from '@element-plus/components/form'
 import {
+  NOOP,
   ValidateComponentsMap,
   debugWarn,
-  isKorean,
+  isClient,
   isObject,
 } from '@element-plus/utils'
 import {
   useAttrs,
-  useDisabled,
-  useFormItem,
+  useComposition,
+  useCursor,
+  useFocusController,
   useNamespace,
-  useSize,
 } from '@element-plus/hooks'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { calcTextareaHeight } from './utils'
-import { inputEmits, inputProps } from './input'
+import {
+  CHANGE_EVENT,
+  INPUT_EVENT,
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
+import { calcTextareaHeight, looseToNumber } from './utils'
+import { inputEmits, inputPropsDefaults } from './input'
+
 import type { StyleValue } from 'vue'
+import type { InputProps } from './input'
 
 type TargetElement = HTMLInputElement | HTMLTextAreaElement
-const PENDANT_MAP = {
-  suffix: 'append',
-  prefix: 'prepend',
-} as const
 
+const COMPONENT_NAME = 'ElInput'
 defineOptions({
-  name: 'ElInput',
+  name: COMPONENT_NAME,
   inheritAttrs: false,
 })
-const props = defineProps(inputProps)
+const props = withDefaults(defineProps<InputProps>(), inputPropsDefaults)
 const emit = defineEmits(inputEmits)
 
-const instance = getCurrentInstance()!
 const rawAttrs = useRawAttrs()
+const attrs = useAttrs()
 const slots = useSlots()
 
-const attrs = useAttrs()
-const { form, formItem } = useFormItem()
-const inputSize = useSize()
-const inputDisabled = useDisabled()
+const containerKls = computed(() => [
+  props.type === 'textarea' ? nsTextarea.b() : nsInput.b(),
+  nsInput.m(inputSize.value),
+  nsInput.is('disabled', inputDisabled.value),
+  nsInput.is('exceed', inputExceed.value),
+  {
+    [nsInput.b('group')]: slots.prepend || slots.append,
+    [nsInput.m('prefix')]: slots.prefix || props.prefixIcon,
+    [nsInput.m('suffix')]:
+      slots.suffix || props.suffixIcon || props.clearable || props.showPassword,
+    [nsInput.bm('suffix', 'password-clear')]:
+      showClear.value && showPwdVisible.value,
+    [nsInput.b('hidden')]: props.type === 'hidden',
+  },
+  rawAttrs.class,
+])
+
+const wrapperKls = computed(() => [
+  nsInput.e('wrapper'),
+  nsInput.is('focus', isFocused.value),
+])
+
+const { form: elForm, formItem: elFormItem } = useFormItem()
+const { inputId } = useFormItemInputId(props, {
+  formItemContext: elFormItem,
+})
+const inputSize = useFormSize()
+const inputDisabled = useFormDisabled()
 const nsInput = useNamespace('input')
 const nsTextarea = useNamespace('textarea')
 
 const input = shallowRef<HTMLInputElement>()
 const textarea = shallowRef<HTMLTextAreaElement>()
 
-const focused = ref(false)
 const hovering = ref(false)
-const isComposing = ref(false)
 const passwordVisible = ref(false)
+const countStyle = ref<StyleValue>()
 const textareaCalcStyle = shallowRef(props.inputStyle)
 
 const _ref = computed(() => input.value || textarea.value)
 
-const needStatusIcon = computed(() => form?.statusIcon ?? false)
-const validateState = computed(() => formItem?.validateState || '')
-const validateIcon = computed(() => ValidateComponentsMap[validateState.value])
-const passwordIcon = computed(() =>
-  passwordVisible.value ? IconView : IconHide
+// wrapperRef for type="text", handleFocus and handleBlur for type="textarea"
+const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
+  _ref,
+  {
+    disabled: inputDisabled,
+    afterBlur() {
+      if (props.validateEvent) {
+        elFormItem?.validate?.('blur').catch((err) => debugWarn(err))
+      }
+    },
+  }
 )
+
+const needStatusIcon = computed(() => elForm?.statusIcon ?? false)
+const validateState = computed(() => elFormItem?.validateState || '')
+const validateIcon = computed(
+  () => validateState.value && ValidateComponentsMap[validateState.value]
+)
+const passwordIcon = computed(() => (passwordVisible.value ? View : Hide))
 const containerStyle = computed<StyleValue>(() => [
   rawAttrs.style as StyleValue,
-  props.inputStyle,
 ])
 const textareaStyle = computed<StyleValue>(() => [
   props.inputStyle,
@@ -236,30 +313,25 @@ const showClear = computed(
     !inputDisabled.value &&
     !props.readonly &&
     !!nativeInputValue.value &&
-    (focused.value || hovering.value)
+    (isFocused.value || hovering.value)
 )
 const showPwdVisible = computed(
-  () =>
-    props.showPassword &&
-    !inputDisabled.value &&
-    !props.readonly &&
-    (!!nativeInputValue.value || focused.value)
+  () => props.showPassword && !inputDisabled.value && !!nativeInputValue.value
 )
 const isWordLimitVisible = computed(
   () =>
     props.showWordLimit &&
-    !!attrs.value.maxlength &&
+    !!props.maxlength &&
     (props.type === 'text' || props.type === 'textarea') &&
     !inputDisabled.value &&
     !props.readonly &&
     !props.showPassword
 )
-const textLength = computed(() => Array.from(nativeInputValue.value).length)
+const textLength = computed(() => nativeInputValue.value.length)
 const inputExceed = computed(
   () =>
     // show exceed style if length of initial value greater then maxlength
-    !!isWordLimitVisible.value &&
-    textLength.value > Number(attrs.value.maxlength)
+    !!isWordLimitVisible.value && textLength.value > Number(props.maxlength)
 )
 const suffixVisible = computed(
   () =>
@@ -270,125 +342,160 @@ const suffixVisible = computed(
     isWordLimitVisible.value ||
     (!!validateState.value && needStatusIcon.value)
 )
+const hasModelModifiers = computed(
+  () => !!Object.keys(props.modelModifiers).length
+)
+
+const [recordCursor, setCursor] = useCursor(input)
+
+useResizeObserver(textarea, (entries) => {
+  onceInitSizeTextarea()
+  if (
+    !isWordLimitVisible.value ||
+    (props.resize !== 'both' && props.resize !== 'horizontal')
+  )
+    return
+  const entry = entries[0]
+  const { width } = entry.contentRect
+  countStyle.value = {
+    /** right: 100% - width + padding(22) - right(10) */
+    right: `calc(100% - ${width + 22 - 10}px)`,
+  }
+})
 
 const resizeTextarea = () => {
   const { type, autosize } = props
 
-  if (!isClient || type !== 'textarea') return
+  if (!isClient || type !== 'textarea' || !textarea.value) return
 
   if (autosize) {
     const minRows = isObject(autosize) ? autosize.minRows : undefined
     const maxRows = isObject(autosize) ? autosize.maxRows : undefined
+    const textareaStyle = calcTextareaHeight(textarea.value, minRows, maxRows)
+
+    // If the scrollbar is displayed, the height of the textarea needs more space than the calculated height.
+    // If set textarea height in this case, the scrollbar will not hide.
+    // So we need to hide scrollbar first, and reset it in next tick.
+    // see https://github.com/element-plus/element-plus/issues/8825
     textareaCalcStyle.value = {
-      ...calcTextareaHeight(textarea.value!, minRows, maxRows),
+      overflowY: 'hidden',
+      ...textareaStyle,
     }
+
+    nextTick(() => {
+      // NOTE: Force repaint to make sure the style set above is applied.
+      textarea.value!.offsetHeight
+      textareaCalcStyle.value = textareaStyle
+    })
   } else {
     textareaCalcStyle.value = {
-      minHeight: calcTextareaHeight(textarea.value!).minHeight,
+      minHeight: calcTextareaHeight(textarea.value).minHeight,
     }
   }
 }
+
+const createOnceInitResize = (resizeTextarea: () => void) => {
+  let isInit = false
+  return () => {
+    if (isInit || !props.autosize) return
+    const isElHidden = textarea.value?.offsetParent === null
+    if (!isElHidden) {
+      setTimeout(resizeTextarea)
+      isInit = true
+    }
+  }
+}
+// fix: https://github.com/element-plus/element-plus/issues/12074
+const onceInitSizeTextarea = createOnceInitResize(resizeTextarea)
 
 const setNativeInputValue = () => {
   const input = _ref.value
-  if (!input || input.value === nativeInputValue.value) return
-  input.value = nativeInputValue.value
+  const formatterValue = props.formatter
+    ? props.formatter(nativeInputValue.value)
+    : nativeInputValue.value
+  if (!input || input.value === formatterValue || props.type === 'file') return
+  input.value = formatterValue
 }
 
-const calcIconOffset = (place: 'prefix' | 'suffix') => {
-  const { el } = instance.vnode
-  if (!el) return
-  const elList = Array.from(
-    (el as Element).querySelectorAll<HTMLSpanElement>(`.${nsInput.e(place)}`)
-  )
-  const target = elList.find((item) => item.parentNode === el)
-  if (!target) return
-
-  const pendant = PENDANT_MAP[place]
-
-  if (slots[pendant]) {
-    target.style.transform = `translateX(${place === 'suffix' ? '-' : ''}${
-      el.querySelector(`.${nsInput.be('group', pendant)}`).offsetWidth
-    }px)`
-  } else {
-    target.removeAttribute('style')
+const formatValue = (value: string) => {
+  const { trim, number } = props.modelModifiers
+  if (trim) {
+    value = value.trim()
   }
-}
-
-const updateIconOffset = () => {
-  calcIconOffset('prefix')
-  calcIconOffset('suffix')
+  if (number) {
+    value = `${looseToNumber(value)}`
+  }
+  if (props.formatter && props.parser) {
+    value = props.parser(value)
+  }
+  return value
 }
 
 const handleInput = async (event: Event) => {
-  const { value } = event.target as TargetElement
-
   // should not emit input during composition
   // see: https://github.com/ElemeFE/element/issues/10516
   if (isComposing.value) return
 
+  const { lazy } = props.modelModifiers
+  let { value } = event.target as TargetElement
+  if (lazy) {
+    emit(INPUT_EVENT, value)
+    return
+  }
+
+  value = formatValue(value)
+
   // hack for https://github.com/ElemeFE/element/issues/8548
   // should remove the following line when we don't support IE
-  if (value === nativeInputValue.value) return
+  if (String(value) === nativeInputValue.value) {
+    // preserve native features while being compatible with #9501
+    if (props.formatter) {
+      setNativeInputValue()
+    }
+    return
+  }
 
+  recordCursor()
   emit(UPDATE_MODEL_EVENT, value)
-  emit('input', value)
+  emit(INPUT_EVENT, value)
 
   // ensure native input value is controlled
   // see: https://github.com/ElemeFE/element/issues/12850
   await nextTick()
+
+  if ((props.formatter && props.parser) || !hasModelModifiers.value) {
+    setNativeInputValue()
+  }
+  setCursor()
+}
+
+const handleChange = async (event: Event) => {
+  let { value } = event.target as TargetElement
+
+  value = formatValue(value)
+  if (props.modelModifiers.lazy) {
+    emit(UPDATE_MODEL_EVENT, value)
+  }
+  emit(CHANGE_EVENT, value, event)
+
+  await nextTick()
   setNativeInputValue()
 }
 
-const handleChange = (event: Event) => {
-  emit('change', (event.target as TargetElement).value)
-}
-
-const handleCompositionStart = (event: CompositionEvent) => {
-  emit('compositionstart', event)
-  isComposing.value = true
-}
-
-const handleCompositionUpdate = (event: CompositionEvent) => {
-  emit('compositionupdate', event)
-  const text = (event.target as HTMLInputElement)?.value
-  const lastCharacter = text[text.length - 1] || ''
-  isComposing.value = !isKorean(lastCharacter)
-}
-
-const handleCompositionEnd = (event: CompositionEvent) => {
-  emit('compositionend', event)
-  if (isComposing.value) {
-    isComposing.value = false
-    handleInput(event)
-  }
-}
+const {
+  isComposing,
+  handleCompositionStart,
+  handleCompositionUpdate,
+  handleCompositionEnd,
+} = useComposition({ emit, afterComposition: handleInput })
 
 const handlePasswordVisible = () => {
   passwordVisible.value = !passwordVisible.value
-  focus()
 }
 
-const focus = async () => {
-  // see: https://github.com/ElemeFE/element/issues/18573
-  await nextTick()
-  _ref.value?.focus()
-}
+const focus = () => _ref.value?.focus()
 
 const blur = () => _ref.value?.blur()
-
-const handleFocus = (event: FocusEvent) => {
-  focused.value = true
-  emit('focus', event)
-}
-
-const handleBlur = (event: FocusEvent) => {
-  focused.value = false
-  emit('blur', event)
-  if (props.validateEvent) {
-    formItem?.validate?.('blur').catch((err) => debugWarn(err))
-  }
-}
 
 const handleMouseLeave = (evt: MouseEvent) => {
   hovering.value = false
@@ -408,11 +515,11 @@ const select = () => {
   _ref.value?.select()
 }
 
-const clear = () => {
+const clear = (evt?: MouseEvent) => {
   emit(UPDATE_MODEL_EVENT, '')
-  emit('change', '')
-  emit('clear')
-  emit('input', '')
+  emit(CHANGE_EVENT, '')
+  emit('clear', evt)
+  emit(INPUT_EVENT, '')
 }
 
 watch(
@@ -420,7 +527,7 @@ watch(
   () => {
     nextTick(() => resizeTextarea())
     if (props.validateEvent) {
-      formItem?.validate?.('change').catch((err) => debugWarn(err))
+      elFormItem?.validate?.('change').catch((err) => debugWarn(err))
     }
   }
 )
@@ -428,7 +535,29 @@ watch(
 // native input value is set explicitly
 // do not use v-model / :value in template
 // see: https://github.com/ElemeFE/element/issues/14521
-watch(nativeInputValue, () => setNativeInputValue())
+watch(nativeInputValue, (newValue) => {
+  if (!_ref.value) {
+    return
+  }
+  const { trim, number } = props.modelModifiers
+  const elValue = _ref.value.value
+  const displayValue =
+    (number || props.type === 'number') && !/^0\d/.test(elValue)
+      ? `${looseToNumber(elValue)}`
+      : elValue
+
+  if (displayValue === newValue) {
+    return
+  }
+
+  if (document.activeElement === _ref.value && _ref.value.type !== 'range') {
+    if (trim && displayValue.trim() === newValue) {
+      return
+    }
+  }
+
+  setNativeInputValue()
+})
 
 // when change between <input> and <textarea>,
 // update DOM dependent value and styles
@@ -439,20 +568,18 @@ watch(
     await nextTick()
     setNativeInputValue()
     resizeTextarea()
-    updateIconOffset()
   }
 )
 
-onMounted(async () => {
+onMounted(() => {
+  if (!props.formatter && props.parser) {
+    debugWarn(
+      COMPONENT_NAME,
+      'If you set the parser, you also need to set the formatter.'
+    )
+  }
   setNativeInputValue()
-  updateIconOffset()
-  await nextTick()
-  resizeTextarea()
-})
-
-onUpdated(async () => {
-  await nextTick()
-  updateIconOffset()
+  nextTick(resizeTextarea)
 })
 
 defineExpose({
@@ -467,6 +594,9 @@ defineExpose({
 
   /** @description from props (used on unit test) */
   autosize: toRef(props, 'autosize'),
+
+  /** @description is input composing */
+  isComposing,
 
   /** @description HTML input element native method */
   focus,

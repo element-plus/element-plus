@@ -1,26 +1,37 @@
 import path from 'path'
 import { createApp } from 'vue'
 import { renderToString } from '@vue/server-renderer'
-import { beforeAll, describe, expect, it } from 'vitest'
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import puppeteer from 'puppeteer'
-import glob from 'fast-glob'
-import ElementPlus, { ID_INJECTION_KEY } from '../dist/element-plus'
+import { globSync } from 'tinyglobby'
+import ElementPlus, {
+  ID_INJECTION_KEY,
+  ZINDEX_INJECTION_KEY,
+} from '../dist/element-plus'
 
 import type { Browser } from 'puppeteer'
 
 const projectRoot = process.cwd()
 const testRoot = path.resolve(projectRoot, 'ssr-testing')
-const demoRoot = path.resolve(testRoot, 'cases')
+const demoRoot = path.resolve(testRoot, 'cases').replace(/\\/g, '/')
 describe('Cypress Button', () => {
   let browser: Browser
   beforeAll(async () => {
-    browser = await puppeteer.launch()
+    browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    })
+  })
+
+  afterAll(() => {
+    if (browser) {
+      browser.close()
+    }
   })
 
   describe('when initialized', () => {
-    const demoPaths = glob
-      .sync(`${demoRoot}/*.vue`)
-      .map((demo) => demo.slice(demoRoot.length + 1))
+    const demoPaths = globSync(`${demoRoot}/*.vue`, { absolute: true }).map(
+      (demo) => demo.slice(demoRoot.length + 1)
+    )
 
     it.each(demoPaths)(`render %s correctly`, async (demoPath) => {
       const page = await browser.newPage()
@@ -42,6 +53,9 @@ describe('Cypress Button', () => {
           prefix: 100,
           current: 0,
         })
+        .provide(ZINDEX_INJECTION_KEY, {
+          current: 0,
+        })
 
       const html = await renderToString(app)
 
@@ -49,15 +63,6 @@ describe('Cypress Button', () => {
         document.querySelector('#root')!.innerHTML = innerHTML
       }, html)
 
-      // SSR testing don't need screenshots.
-      // const screenshotPath = demoPath
-      //   .split('/')
-      //   .join('-')
-      //   .replace(/\.vue$/, '.png')
-      // await page.screenshot({
-      //   path: path.join(testRoot, 'screenshots', screenshotPath),
-      //   fullPage: true,
-      // })
       await page.close()
       expect(true).toBe(true)
     })

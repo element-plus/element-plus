@@ -1,7 +1,12 @@
-import { buildProps, definePropType } from '@element-plus/utils'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import type { ExtractPropTypes } from 'vue'
-import type Calendar from './calendar.vue'
+import {
+  buildProps,
+  definePropType,
+  isArray,
+  isDate,
+} from '@element-plus/utils'
+import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+
+import type { ExtractPublicPropTypes } from 'vue'
 
 export type CalendarDateType =
   | 'prev-month'
@@ -10,24 +15,72 @@ export type CalendarDateType =
   | 'next-year'
   | 'today'
 
+const isValidRange = (range: unknown): range is [Date, Date] =>
+  isArray(range) && range.length === 2 && range.every((item) => isDate(item))
+
+export interface CalendarProps {
+  /**
+   * @description binding value
+   */
+  modelValue?: Date
+  /**
+   * @description time range, including start time and end time.
+   *   Start time must be start day of week, end time must be end day of week, the time span cannot exceed two months.
+   */
+  range?: [Date, Date]
+  /**
+   * @description type of the controller for the Calendar header
+   */
+  controllerType?: 'button' | 'select'
+  /**
+   * @description format label when `controller-type` is 'select'
+   */
+  formatter?: (value: number, type: 'year' | 'month') => string | number
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `CalendarProps` instead.
+ */
 export const calendarProps = buildProps({
+  /**
+   * @description binding value
+   */
   modelValue: {
     type: Date,
   },
+  /**
+   * @description time range, including start time and end time.
+   *   Start time must be start day of week, end time must be end day of week, the time span cannot exceed two months.
+   */
   range: {
     type: definePropType<[Date, Date]>(Array),
-    validator: (range: unknown): range is [Date, Date] =>
-      Array.isArray(range) &&
-      range.length === 2 &&
-      range.every((item) => item instanceof Date),
+    validator: isValidRange,
+  },
+  /**
+   * @description type of the controller for the Calendar header
+   */
+  controllerType: {
+    type: String,
+    values: ['button', 'select'],
+    default: 'button',
+  },
+  /**
+   * @description format label when `controller-type` is 'select'
+   */
+  formatter: {
+    type: definePropType<
+      (value: number, type: 'year' | 'month') => string | number
+    >(Function),
   },
 } as const)
-export type CalendarProps = ExtractPropTypes<typeof calendarProps>
+
+/**
+ *  @deprecated Removed after 3.0.0, Use `CalendarProps` instead.
+ */
+export type CalendarPropsPublic = ExtractPublicPropTypes<typeof calendarProps>
 
 export const calendarEmits = {
-  [UPDATE_MODEL_EVENT]: (value: Date) => value instanceof Date,
-  input: (value: Date) => value instanceof Date,
+  [UPDATE_MODEL_EVENT]: (value: Date) => isDate(value),
+  [INPUT_EVENT]: (value: Date) => isDate(value),
 }
 export type CalendarEmits = typeof calendarEmits
-
-export type CalendarInstance = InstanceType<typeof Calendar>

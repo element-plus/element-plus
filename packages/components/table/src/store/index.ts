@@ -1,17 +1,18 @@
 import { getCurrentInstance, nextTick, unref } from 'vue'
-import { useNamespace } from '@element-plus/hooks'
+import { isNull } from 'lodash-unified'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import useWatcher from './watcher'
 
 import type { Ref } from 'vue'
 import type { TableColumnCtx } from '../table-column/defaults'
-import type { Filter, Sort, Table } from '../table/defaults'
+import type { DefaultRow, Filter, Sort, Table } from '../table/defaults'
 
-interface WatcherPropsData<T> {
+interface WatcherPropsData<T extends DefaultRow> {
   data: Ref<T[]>
-  rowKey: Ref<string>
+  rowKey: Ref<string | null>
 }
 
-function replaceColumn<T>(
+function replaceColumn<T extends DefaultRow>(
   array: TableColumnCtx<T>[],
   column: TableColumnCtx<T>
 ) {
@@ -25,7 +26,7 @@ function replaceColumn<T>(
   })
 }
 
-function sortColumn<T>(array: TableColumnCtx<T>[]) {
+function sortColumn<T extends DefaultRow>(array: TableColumnCtx<T>[]) {
   array.forEach((item) => {
     item.no = item.getColumnIndex?.()
     if (item.children?.length) {
@@ -35,10 +36,12 @@ function sortColumn<T>(array: TableColumnCtx<T>[]) {
   array.sort((cur, pre) => cur.no - pre.no)
 }
 
-function useStore<T>() {
+function useStore<T extends DefaultRow>() {
   const instance = getCurrentInstance() as Table<T>
   const watcher = useWatcher<T>()
   const ns = useNamespace('table')
+  const { t } = useLocale()
+
   type StoreStates = typeof watcher.states
   const mutations = {
     setData(states: StoreStates, data: T[]) {
@@ -55,7 +58,6 @@ function useStore<T>() {
       )
       if (unref(states.reserveSelection)) {
         instance.store.assertRowKey()
-        instance.store.updateSelectionByRowKey()
       } else {
         if (dataInstanceChanged) {
           instance.store.clearSelection()
@@ -72,7 +74,8 @@ function useStore<T>() {
     insertColumn(
       states: StoreStates,
       column: TableColumnCtx<T>,
-      parent: TableColumnCtx<T>
+      parent: TableColumnCtx<T>,
+      updateColumnOrder: () => void
     ) {
       const array = unref(states._columns)
       let newColumns = []
@@ -83,11 +86,12 @@ function useStore<T>() {
         if (parent && !parent.children) {
           parent.children = []
         }
-        parent.children.push(column)
+        parent.children?.push(column)
         newColumns = replaceColumn(array, parent)
       }
       sortColumn(newColumns)
       states._columns.value = newColumns
+      states.updateOrderFns.push(updateColumnOrder)
       if (column.type === 'selection') {
         states.selectable.value = column.selectable
         states.reserveSelection.value = column.reserveSelection
@@ -98,20 +102,35 @@ function useStore<T>() {
       }
     },
 
+    updateColumnOrder(states: StoreStates, column: TableColumnCtx<T>) {
+      const newColumnIndex = column.getColumnIndex?.()
+      if (newColumnIndex === column.no) return
+
+      sortColumn(states._columns.value)
+
+      if (instance.$ready) {
+        instance.store.updateColumns()
+      }
+    },
+
     removeColumn(
       states: StoreStates,
       column: TableColumnCtx<T>,
-      parent: TableColumnCtx<T>
+      parent: TableColumnCtx<T>,
+      updateColumnOrder: () => void
     ) {
       const array = unref(states._columns) || []
       if (parent) {
-        parent.children.splice(
+        parent.children?.splice(
           parent.children.findIndex((item) => item.id === column.id),
           1
         )
-        if (parent.children.length === 0) {
-          delete parent.children
-        }
+        // fix #10699, delete parent.children immediately will trigger again
+        nextTick(() => {
+          if (parent.children?.length === 0) {
+            delete parent.children
+          }
+        })
         states._columns.value = replaceColumn(array, parent)
       } else {
         const index = array.indexOf(column)
@@ -120,6 +139,9 @@ function useStore<T>() {
           states._columns.value = array
         }
       }
+
+      const updateFnIndex = states.updateOrderFns.indexOf(updateColumnOrder)
+      updateFnIndex > -1 && states.updateOrderFns.splice(updateFnIndex, 1)
 
       if (instance.$ready) {
         instance.store.updateColumns() // hack for dynamics remove column
@@ -143,19 +165,23 @@ function useStore<T>() {
 
     changeSortCondition(states: StoreStates, options: Sort) {
       // 修复 pr https://github.com/ElemeFE/element/pull/15012 导致的 bug
-      const { sortingColumn: column, sortProp: prop, sortOrder: order } = states
-      if (unref(order) === null) {
+      // https://github.com/element-plus/element-plus/pull/4640
+      const { sortingColumn, sortProp, sortOrder } = states
+      const columnValue = unref(sortingColumn),
+        propValue = unref(sortProp),
+        orderValue = unref(sortOrder)
+      if (isNull(orderValue)) {
         states.sortingColumn.value = null
         states.sortProp.value = null
       }
-      const ingore = { filter: true }
-      instance.store.execQuery(ingore)
+      const ignore = { filter: true }
+      instance.store.execQuery(ignore)
 
       if (!options || !(options.silent || options.init)) {
         instance.emit('sort-change', {
-          column: unref(column),
-          prop: unref(prop),
-          order: unref(order),
+          column: columnValue,
+          prop: propValue,
+          order: orderValue,
         })
       }
 
@@ -174,10 +200,10 @@ function useStore<T>() {
     },
 
     toggleAllSelection() {
-      instance.store.toggleAllSelection()
+      instance.store.toggleAllSelection?.()
     },
 
-    rowSelectedChanged(_states, row: T) {
+    rowSelectedChanged(_states: StoreStates, row: T) {
       instance.store.toggleRowSelection(row)
       instance.store.updateAllSelected()
     },
@@ -186,14 +212,17 @@ function useStore<T>() {
       states.hoverRow.value = row
     },
 
-    setCurrentRow(_states, row: T) {
+    setCurrentRow(_states: StoreStates, row: T) {
       instance.store.updateCurrentRow(row)
     },
   }
-  const commit = function (name: keyof typeof mutations, ...args) {
+  const commit = function (name: keyof typeof mutations, ...args: any[]) {
     const mutations = instance.store.mutations
     if (mutations[name]) {
-      mutations[name].apply(instance, [instance.store.states].concat(args))
+      ;(mutations[name] as any).apply(instance, [
+        instance.store.states,
+        ...args,
+      ])
     } else {
       throw new Error(`Action not found: ${name}`)
     }
@@ -203,17 +232,20 @@ function useStore<T>() {
   }
   return {
     ns,
+    t,
     ...watcher,
     mutations,
     commit,
     updateTableScrollY,
   }
 }
+
 export default useStore
 
-class HelperStore<T> {
+class HelperStore<T extends DefaultRow> {
   Return = useStore<T>()
 }
+
 type StoreFilter = Record<string, string[]>
-type Store<T> = HelperStore<T>['Return']
+type Store<T extends DefaultRow> = HelperStore<T>['Return']
 export type { WatcherPropsData, Store, StoreFilter }

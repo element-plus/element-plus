@@ -5,21 +5,36 @@
 @use 'common/var' as *;
 
 @include b(autocomplete) {
+  @include set-component-css-var('input', $input);
+}
+
+@include b(autocomplete) {
+  width: getCssVar('input-width');
   position: relative;
   display: inline-block;
 
   @include e(popper) {
     @include picker-popper(
-      $color-white,
-      1px solid var(--el-border-color-light),
-      var(--el-box-shadow-light)
+      getCssVar('bg-color', 'overlay'),
+      1px solid getCssVar('border-color', 'light'),
+      getCssVar('box-shadow', 'light')
     );
   }
 }
 
 @include b(autocomplete-suggestion) {
-  border-radius: var(--el-border-radius-base);
+  border-radius: getCssVar('border-radius', 'base');
   box-sizing: border-box;
+
+  @include e(header) {
+    padding: 10px;
+    border-bottom: 1px solid getCssVar('border-color', 'lighter');
+  }
+
+  @include e(footer) {
+    padding: 10px;
+    border-top: 1px solid getCssVar('border-color', 'lighter');
+  }
 
   @include e(wrap) {
     max-height: 280px;
@@ -37,13 +52,11 @@
     margin: 0;
     line-height: 34px;
     cursor: pointer;
-    color: var(--el-text-color-regular);
-    font-size: var(--el-font-size-base);
+    color: getCssVar('text-color', 'regular');
+    font-size: getCssVar('font-size', 'base');
     list-style: none;
     text-align: left;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    @include utils-ellipsis;
 
     &:hover {
       background-color: map.get($select-option, 'hover-background');
@@ -55,7 +68,7 @@
 
     &.divider {
       margin-top: 6px;
-      border-top: 1px solid var(--el-color-black);
+      border-top: 1px solid getCssVar('color', 'black');
     }
 
     &.divider:last-child {
@@ -65,20 +78,18 @@
 
   @include when(loading) {
     li {
-      text-align: center;
+      cursor: default;
       height: 100px;
-      line-height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
       font-size: 20px;
-      color: var(--el-text-color-secondary);
-      @include utils-vertical-center;
+      color: getCssVar('text-color', 'secondary');
 
       &:hover {
-        background-color: var(--el-color-white);
+        background-color: getCssVar('bg-color', 'overlay');
       }
-    }
-
-    & .#{$namespace}-icon-loading {
-      vertical-align: middle;
     }
   }
 }

@@ -1,4 +1,5 @@
 @use 'sass:map';
+@use 'sass:color';
 
 @use 'config';
 @use 'function' as *;
@@ -37,7 +38,11 @@
 // set all css var for component by map
 @mixin set-component-css-var($name, $variables) {
   @each $attribute, $value in $variables {
-    #{getCssVarName($name, $attribute)}: #{$value};
+    @if $attribute == 'default' {
+      #{getCssVarName($name)}: #{$value};
+    } @else {
+      #{getCssVarName($name, $attribute)}: #{$value};
+    }
   }
 }
 
@@ -45,9 +50,9 @@
   $color: map.get($colors, $type, 'base');
   @include set-css-var-value(
     ('color', $type, 'rgb'),
-    #{red($color),
-    green($color),
-    blue($color)}
+    #{color.channel($color, 'red', $space: rgb),
+    color.channel($color, 'green', $space: rgb),
+    color.channel($color, 'blue', $space: rgb)}
   );
 }
 

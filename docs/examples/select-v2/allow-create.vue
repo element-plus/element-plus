@@ -7,6 +7,7 @@
         placeholder="Please select"
         style="width: 240px; margin-right: 16px; vertical-align: middle"
         allow-create
+        default-first-option
         filterable
         multiple
         clearable
@@ -17,6 +18,7 @@
         placeholder="Please select"
         style="width: 240px; vertical-align: middle"
         allow-create
+        default-first-option
         filterable
         clearable
       />
@@ -31,6 +33,7 @@
         placeholder="Please select"
         style="width: 240px; margin-right: 16px; vertical-align: middle"
         allow-create
+        default-first-option
         filterable
         multiple
         clearable
@@ -42,10 +45,11 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
 
 const value1 = ref([])
-const value2 = ref('')
+const value2 = ref()
 const value3 = ref([])
 const options = Array.from({ length: 1000 }).map((_, idx) => ({
   value: `Option ${idx + 1}`,

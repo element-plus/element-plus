@@ -3,34 +3,34 @@
     <slot />
   </header>
 </template>
-<script lang="ts">
-import { computed, defineComponent } from 'vue'
+
+<script lang="ts" setup>
+import { computed } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 
 import type { CSSProperties } from 'vue'
 
-export default defineComponent({
-  name: 'ElHeader',
-  props: {
-    height: {
-      type: String,
-      default: null,
-    },
-  },
-  setup(props) {
-    const ns = useNamespace('header')
+interface HeaderProps {
+  /**
+   * @description height of the header
+   */
+  height?: string | null
+}
 
-    return {
-      style: computed(
-        () =>
-          (props.height
-            ? {
-                '--el-header-height': props.height,
-              }
-            : {}) as CSSProperties
-      ),
-      ns,
-    }
-  },
+defineOptions({
+  name: 'ElHeader',
+})
+
+const props = withDefaults(defineProps<HeaderProps>(), {
+  height: null,
+})
+
+const ns = useNamespace('header')
+const style = computed(() => {
+  return props.height
+    ? (ns.cssVarBlock({
+        height: props.height,
+      }) as CSSProperties)
+    : {}
 })
 </script>

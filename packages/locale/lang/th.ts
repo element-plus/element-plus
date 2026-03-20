@@ -1,9 +1,23 @@
 export default {
   name: 'th',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb', // to be translated
+    },
     colorpicker: {
       confirm: 'ตกลง',
       clear: 'ล้างข้อมูล',
+      defaultLabel: 'color picker', // to be translated
+      description:
+        'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
+      svLabel: 'pick saturation and brightness value', // to be translated
+      svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
+      predefineDescription: 'select {value} as the color', // to be translated
     },
     datepicker: {
       now: 'ตอนนี้',
@@ -11,6 +25,11 @@ export default {
       cancel: 'ยกเลิก',
       clear: 'ล้างข้อมูล',
       confirm: 'ตกลง',
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month', // to be translated
+      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
+      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
+      selectedDate: 'Selected date', // to be translated
       selectDate: 'เลือกวันที่',
       selectTime: 'เลือกเวลา',
       startDate: 'วันที่เริ่มต้น',
@@ -34,7 +53,6 @@ export default {
       month10: 'ตุลาคม',
       month11: 'พฤศจิกายน',
       month12: 'ธันวาคม',
-      // week: 'week',
       weeks: {
         sun: 'อา',
         mon: 'จ',
@@ -44,26 +62,45 @@ export default {
         fri: 'ศ',
         sat: 'ส',
       },
-      months: {
-        jan: 'มกรา',
-        feb: 'กุมภา',
-        mar: 'มีนา',
-        apr: 'เมษา',
-        may: 'พฤษภา',
-        jun: 'มิถุนา',
-        jul: 'กรกฎา',
-        aug: 'สิงหา',
-        sep: 'กันยา',
-        oct: 'ตุลา',
-        nov: 'พฤศจิกา',
-        dec: 'ธันวา',
+      weeksFull: {
+        sun: 'Sunday', // to be translated
+        mon: 'Monday', // to be translated
+        tue: 'Tuesday', // to be translated
+        wed: 'Wednesday', // to be translated
+        thu: 'Thursday', // to be translated
+        fri: 'Friday', // to be translated
+        sat: 'Saturday', // to be translated
       },
+      months: {
+        jan: 'ม.ค.',
+        feb: 'ก.พ.',
+        mar: 'มี.ค.',
+        apr: 'เม.ย.',
+        may: 'พ.ค.',
+        jun: 'มิ.ย.',
+        jul: 'ก.ค.',
+        aug: 'ส.ค.',
+        sep: 'ก.ย.',
+        oct: 'ต.ค.',
+        nov: 'พ.ย.',
+        dec: 'ธ.ค.',
+      },
+    },
+    inputNumber: {
+      decrease: 'decrease number', // to be translated
+      increase: 'increase number', // to be translated
     },
     select: {
       loading: 'กำลังโหลด',
       noMatch: 'ไม่พบข้อมูลที่ตรงกัน',
       noData: 'ไม่พบข้อมูล',
       placeholder: 'เลือก',
+    },
+    mention: {
+      loading: 'กำลังโหลด',
+    },
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown', // to be translated
     },
     cascader: {
       noMatch: 'ไม่พบข้อมูลที่ตรงกัน',
@@ -76,12 +113,27 @@ export default {
       pagesize: '/หน้า',
       total: 'ทั้งหมด {total}',
       pageClassifier: '',
+      page: 'Page', // to be translated
+      prev: 'Go to previous page', // to be translated
+      next: 'Go to next page', // to be translated
+      currentPage: 'page {pager}', // to be translated
+      prevPages: 'Previous {pager} pages', // to be translated
+      nextPages: 'Next {pager} pages', // to be translated
+      deprecationWarning:
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
+    },
+    dialog: {
+      close: 'Close this dialog', // to be translated
+    },
+    drawer: {
+      close: 'Close this dialog', // to be translated
     },
     messagebox: {
       title: 'ข้อความ',
       confirm: 'ตกลง',
       cancel: 'ยกเลิก',
       error: 'คุณป้อนข้อมูลไม่ถูกต้อง',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'กดปุ่ม "ลบ" เพื่อลบออก',
@@ -89,12 +141,32 @@ export default {
       preview: 'ตัวอย่าง',
       continue: 'ทำต่อ',
     },
+    slider: {
+      defaultLabel: 'slider between {min} and {max}', // to be translated
+      defaultRangeStartLabel: 'pick start value', // to be translated
+      defaultRangeEndLabel: 'pick end value', // to be translated
+    },
     table: {
       emptyText: 'ไม่พบข้อมูล',
       confirmFilter: 'ยืนยัน',
       resetFilter: 'รีเซ็ต',
       clearFilter: 'ทั้งหมด',
       sumText: 'รวม',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
+      sortLabel: 'Sort by {column}', // to be translated
+      filterLabel: 'Filter by {column}', // to be translated
+    },
+    tag: {
+      close: 'Close this tag', // to be translated
+    },
+    tour: {
+      next: 'ถัดไป',
+      previous: 'ย้อนกลับ',
+      finish: 'เสร็จสิ้น',
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'ไม่พบข้อมูล',
@@ -116,6 +188,11 @@ export default {
     popconfirm: {
       confirmButtonText: 'Yes', // to be translated
       cancelButtonText: 'No', // to be translated
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
   },
 }

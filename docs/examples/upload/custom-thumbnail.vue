@@ -32,9 +32,10 @@
   </el-upload>
 
   <el-dialog v-model="dialogVisible">
-    <img width="100%" :src="dialogImageUrl" alt="" />
+    <img w-full :src="dialogImageUrl" alt="Preview Image" />
   </el-dialog>
 </template>
+
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { Delete, Download, Plus, ZoomIn } from '@element-plus/icons-vue'

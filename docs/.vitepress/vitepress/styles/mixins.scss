@@ -5,8 +5,9 @@
 @mixin with-bg {
   background-color: var(--bg-color);
   color: var(--text-color);
-  transition: border-color var(--el-transition-duration),
-    background-color var(--el-transition-duration);
+  transition:
+    border-color var(--el-transition-duration),
+    background-color var(--el-transition-duration-fast);
 }
 
 @mixin with-border {
@@ -23,7 +24,7 @@ $breakpoints: (
 ) !default;
 
 @mixin respond-to($breakpoint) {
-  @if #{map.has-key($breakpoints, $breakpoints)} {
+  @if #{map.has-key($breakpoints, $breakpoint)} {
     @media screen and (min-width: #{map.get($breakpoints, $breakpoint)}) {
       @content;
     }

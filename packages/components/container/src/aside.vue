@@ -3,31 +3,30 @@
     <slot />
   </aside>
 </template>
-<script lang="ts">
-import { computed, defineComponent } from 'vue'
+
+<script lang="ts" setup>
+import { computed } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 
 import type { CSSProperties } from 'vue'
 
-export default defineComponent({
-  name: 'ElAside',
-  props: {
-    width: {
-      type: String,
-      default: null,
-    },
-  },
-  setup(props) {
-    const ns = useNamespace('aside')
+interface AsideProps {
+  /**
+   * @description width of the side section
+   */
+  width?: string | null
+}
 
-    return {
-      style: computed(() => {
-        return props.width
-          ? ({ '--el-aside-width': props.width } as CSSProperties)
-          : {}
-      }),
-      ns,
-    }
-  },
+defineOptions({
+  name: 'ElAside',
 })
+const props = withDefaults(defineProps<AsideProps>(), {
+  width: null,
+})
+
+const ns = useNamespace('aside')
+const style = computed(
+  () =>
+    (props.width ? ns.cssVarBlock({ width: props.width }) : {}) as CSSProperties
+)
 </script>

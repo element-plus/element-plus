@@ -34,8 +34,12 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-const dropdown1 = ref()
+
+import type { DropdownInstance } from 'element-plus'
+
+const dropdown1 = ref<DropdownInstance>()
 function handleVisible2(visible: any) {
+  if (!dropdown1.value) return
   if (visible) {
     dropdown1.value.handleClose()
   } else {
@@ -43,9 +47,11 @@ function handleVisible2(visible: any) {
   }
 }
 function showClick() {
+  if (!dropdown1.value) return
   dropdown1.value.handleOpen()
 }
 </script>
+
 <style scoped>
 .example-showcase .el-dropdown-link {
   cursor: pointer;

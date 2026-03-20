@@ -1,9 +1,10 @@
-import { computed, inject, unref } from 'vue'
-import { isClient } from '@vueuse/core'
-import { debugWarn } from '@element-plus/utils'
+import { getCurrentInstance, inject, unref } from 'vue'
+import { computedEager } from '@vueuse/core'
+import { debugWarn, isClient } from '@element-plus/utils'
+import { useGetDerivedNamespace } from '../use-namespace'
 
-import type { InjectionKey, Ref } from 'vue'
 import type { MaybeRef } from '@vueuse/core'
+import type { InjectionKey, Ref } from 'vue'
 
 export type ElIdInjectionContext = {
   prefix: number
@@ -18,9 +19,14 @@ const defaultIdInjection = {
 export const ID_INJECTION_KEY: InjectionKey<ElIdInjectionContext> =
   Symbol('elIdInjection')
 
-export const useId = (deterministicId?: MaybeRef<string>): Ref<string> => {
-  const idInjection = inject(ID_INJECTION_KEY, defaultIdInjection)
+export const useIdInjection = (): ElIdInjectionContext => {
+  return getCurrentInstance()
+    ? inject(ID_INJECTION_KEY, defaultIdInjection)
+    : defaultIdInjection
+}
 
+export const useId = (deterministicId?: MaybeRef<string>): Ref<string> => {
+  const idInjection = useIdInjection()
   if (!isClient && idInjection === defaultIdInjection) {
     debugWarn(
       'IdInjection',
@@ -32,10 +38,13 @@ usage: app.provide(ID_INJECTION_KEY, {
     )
   }
 
-  const idRef = computed(
+  const namespace = useGetDerivedNamespace()
+
+  // NOTE: Here we use `computedEager` to calculate the id value immediately, avoiding inconsistent id generation due to the lazy feature of `computed` when server rendering.
+  const idRef = computedEager(
     () =>
       unref(deterministicId) ||
-      `el-id-${idInjection.prefix}-${idInjection.current++}`
+      `${namespace.value}-id-${idInjection.prefix}-${idInjection.current++}`
   )
 
   return idRef

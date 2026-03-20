@@ -1,0 +1,43 @@
+name: 🧪 Unit Test
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Unit Test (${{ matrix.node-name }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.19.0, 22, 24]
+        include:
+          - node-version: 20.19.0
+            node-name: LTS
+          - node-version: 22
+            node-name: Current
+          - node-version: 24
+            node-name: New
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm i --frozen-lockfile
+
+      - name: Test
+        run: pnpm test

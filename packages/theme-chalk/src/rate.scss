@@ -14,6 +14,14 @@ $rate-height: map.merge(
   $rate-height
 );
 
+$rate-size: () !default;
+$rate-size: map.merge(
+  (
+    'small': 14px,
+  ),
+  $rate-size
+);
+
 @include b(rate) {
   @include set-component-css-var('rate', $rate);
 }
@@ -25,7 +33,20 @@ $rate-height: map.merge(
 
   &:focus,
   &:active {
-    outline-width: 0;
+    outline: none;
+  }
+
+  &:focus-visible {
+    @include e(item) {
+      & .#{bem('rate', 'icon')} {
+        @include when(focus-visible) {
+          outline: 2px solid getCssVar('rate', 'outline-color');
+          transition:
+            outline-offset 0s,
+            outline 0s;
+        }
+      }
+    }
   }
 
   @include e(item) {
@@ -34,15 +55,16 @@ $rate-height: map.merge(
     position: relative;
     font-size: 0;
     vertical-align: middle;
-    color: var(--el-rate-void-color);
+    color: getCssVar('rate-void-color');
+    line-height: normal;
   }
 
   & .#{bem('rate', 'icon')} {
     position: relative;
     display: inline-block;
-    font-size: var(--el-rate-icon-size);
-    margin-right: var(--el-rate-icon-margin);
-    transition: var(--el-transition-duration);
+    font-size: getCssVar('rate-icon-size');
+    margin-right: getCssVar('rate-icon-margin');
+    transition: getCssVar('transition-duration');
 
     &.hover {
       transform: scale(1.15);
@@ -66,10 +88,16 @@ $rate-height: map.merge(
     display: inline-block;
     overflow: hidden;
     color: getCssVar('rate', 'fill-color');
+
+    @include m('box') {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
   }
 
   @include e(text) {
-    font-size: var(--el-rate-font-size);
+    font-size: getCssVar('rate-font-size');
     vertical-align: middle;
     color: getCssVar('rate', 'text-color');
   }
@@ -77,12 +105,16 @@ $rate-height: map.merge(
   @each $size in (large, small) {
     @include m($size) {
       height: map.get($rate-height, $size);
+
+      & .#{bem('rate', 'icon')} {
+        font-size: map.get($rate-size, $size);
+      }
     }
   }
 
   @include when(disabled) {
     @include e(item) {
-      cursor: auto;
+      cursor: not-allowed;
       color: getCssVar('rate', 'disabled-void-color');
     }
   }

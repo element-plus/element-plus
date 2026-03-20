@@ -12,7 +12,8 @@
   box-sizing: border-box;
   background: var(--bg-color-mute);
   cursor: pointer;
-  transition: border-color var(--el-transition-duration),
+  transition:
+    border-color var(--el-transition-duration),
     background-color var(--el-transition-duration);
 
   &:hover {
@@ -27,7 +28,8 @@
     background-color: var(--bg-color);
     transform: translateX(0);
     color: var(--text-color-light);
-    transition: border-color var(--el-transition-duration),
+    transition:
+      border-color var(--el-transition-duration),
       background-color var(--el-transition-duration),
       transform var(--el-transition-duration);
 
@@ -50,5 +52,10 @@
   &__icon {
     width: 16px;
     height: 16px;
+  }
+
+  &:focus-visible {
+    outline: -webkit-focus-ring-color auto 1px;
+    outline-offset: 1px;
   }
 }

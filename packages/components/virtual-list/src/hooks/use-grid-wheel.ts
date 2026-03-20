@@ -1,4 +1,4 @@
-import { cAF, isFirefox, rAF } from '@element-plus/utils'
+import { cAF, rAF } from '@element-plus/utils'
 
 import type { ComputedRef } from 'vue'
 
@@ -24,27 +24,41 @@ export const useGridWheel = (
       (x < 0 && atXStartEdge.value) || (x > 0 && atXEndEdge.value)
     const yEdgeReached =
       (y < 0 && atYStartEdge.value) || (y > 0 && atYEndEdge.value)
-    return xEdgeReached && yEdgeReached
+    return xEdgeReached || yEdgeReached
   }
 
   const onWheel = (e: WheelEvent) => {
     cAF(frameHandle!)
 
-    const x = e.deltaX
-    const y = e.deltaY
+    let x = e.deltaX
+    let y = e.deltaY
+    // Simulate native behavior when using touch pad/track pad for wheeling.
+    if (Math.abs(x) > Math.abs(y)) {
+      y = 0
+    } else {
+      x = 0
+    }
 
-    if (
-      hasReachedEdge(xOffset, yOffset) &&
-      hasReachedEdge(xOffset + x, yOffset + y)
-    )
+    // Special case for windows machine with shift key + wheel scrolling
+    if (e.shiftKey && y !== 0) {
+      x = y
+      y = 0
+    }
+
+    if (hasReachedEdge(x, y)) {
+      // #23524
+      // Prevent browser back navigation when the table can still scroll
+      // horizontally but the Y-axis normalization dropped the X delta and the Y edge was hit instead.
+      if (e.deltaX !== 0 && x === 0) {
+        e.preventDefault()
+      }
       return
+    }
 
     xOffset += x
     yOffset += y
 
-    if (!isFirefox()) {
-      e.preventDefault()
-    }
+    e.preventDefault()
 
     frameHandle = rAF(() => {
       onWheelDelta(xOffset, yOffset)

@@ -1,29 +1,137 @@
-import { NOOP } from '@vue/shared'
 import {
+  NOOP,
   buildProps,
   definePropType,
+  isNumber,
   isObject,
   isString,
 } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import type { ExtractPropTypes } from 'vue'
+import {
+  CHANGE_EVENT,
+  INPUT_EVENT,
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
+import { inputProps } from '@element-plus/components/input'
+
+import type { ExtractPublicPropTypes } from 'vue'
 import type Autocomplete from './autocomplete.vue'
 import type { Placement } from '@element-plus/components/popper'
+import type { Awaitable } from '@element-plus/utils'
+import type { InputProps } from '@element-plus/components/input'
+import type { ElTooltipContentProps } from '@element-plus/components/tooltip'
 
+export type AutocompleteData = Record<string, any>[]
+export type AutocompleteFetchSuggestionsCallback = (
+  data: AutocompleteData
+) => void
+export type AutocompleteFetchSuggestions =
+  | ((
+      queryString: string,
+      cb: AutocompleteFetchSuggestionsCallback
+    ) => Awaitable<AutocompleteData> | void)
+  | AutocompleteData
+
+export type AutocompletePlacement =
+  | 'top'
+  | 'top-start'
+  | 'top-end'
+  | 'bottom'
+  | 'bottom-start'
+  | 'bottom-end'
+
+export interface AutocompleteProps extends InputProps {
+  /**
+   * @description key name of the input suggestion object for display
+   */
+  valueKey?: string
+  /**
+   * @description binding value
+   */
+  modelValue?: string | number
+  /**
+   * @description debounce delay when typing, in milliseconds
+   */
+  debounce?: number
+  /**
+   * @description placement of the popup menu
+   */
+  placement?: AutocompletePlacement
+  /**
+   * @description a method to fetch input suggestions. When suggestions are ready, invoke `callback(data:[])` to return them to Autocomplete
+   */
+  fetchSuggestions?: AutocompleteFetchSuggestions
+  /**
+   * @description custom class name for autocomplete's dropdown
+   */
+  popperClass?: ElTooltipContentProps['popperClass']
+  /**
+   * @description custom style for autocomplete's dropdown
+   */
+  popperStyle?: ElTooltipContentProps['popperStyle']
+  /**
+   * @description whether show suggestions when input focus
+   */
+  triggerOnFocus?: boolean
+  /**
+   * @description whether to emit a `select` event on enter when there is no autocomplete match
+   */
+  selectWhenUnmatched?: boolean
+  /**
+   * @description whether to hide the loading icon in remote search
+   */
+  hideLoading?: boolean
+  /**
+   * @description whether select dropdown is teleported to the body
+   */
+  teleported?: ElTooltipContentProps['teleported']
+  /**
+   * @description which select dropdown appends to
+   */
+  appendTo?: ElTooltipContentProps['appendTo']
+  /**
+   * @description whether to highlight first item in remote search suggestions by default
+   */
+  highlightFirstItem?: boolean
+  /**
+   * @description whether the width of the dropdown is the same as the input
+   */
+  fitInputWidth?: boolean
+  /**
+   * @description whether keyboard navigation loops from end to start
+   */
+  loopNavigation?: boolean
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `AutocompleteProps` instead.
+ */
 export const autocompleteProps = buildProps({
+  ...inputProps,
+  /**
+   * @description key name of the input suggestion object for display
+   */
   valueKey: {
     type: String,
     default: 'value',
   },
+  /**
+   * @description binding value
+   */
   modelValue: {
     type: [String, Number],
     default: '',
   },
+  /**
+   * @description debounce delay when typing, in milliseconds
+   */
   debounce: {
     type: Number,
     default: 300,
   },
+  /**
+   * @description placement of the popup menu
+   */
   placement: {
     type: definePropType<Placement>(String),
     values: [
@@ -36,53 +144,79 @@ export const autocompleteProps = buildProps({
     ],
     default: 'bottom-start',
   },
+  /**
+   * @description a method to fetch input suggestions. When suggestions are ready, invoke `callback(data:[])` to return them to Autocomplete
+   */
   fetchSuggestions: {
-    type: definePropType<
-      | ((
-          queryString: string,
-          cb: (data: { value: string }[]) => void
-        ) => { value: string }[] | Promise<{ value: string }[]> | void)
-      | { value: string }[]
-    >([Function, Array]),
+    type: definePropType<AutocompleteFetchSuggestions>([Function, Array]),
     default: NOOP,
   },
-  popperClass: {
-    type: String,
-    default: '',
-  },
+  /**
+   * @description custom class name for autocomplete's dropdown
+   */
+  popperClass: useTooltipContentProps.popperClass,
+  /**
+   * @description custom style for autocomplete's dropdown
+   */
+  popperStyle: useTooltipContentProps.popperStyle,
+  /**
+   * @description whether show suggestions when input focus
+   */
   triggerOnFocus: {
     type: Boolean,
     default: true,
   },
-  selectWhenUnmatched: {
-    type: Boolean,
-    default: false,
-  },
-  hideLoading: {
-    type: Boolean,
-    default: false,
-  },
-  popperAppendToBody: {
-    type: Boolean,
-    default: undefined,
-  },
+  /**
+   * @description whether to emit a `select` event on enter when there is no autocomplete match
+   */
+  selectWhenUnmatched: Boolean,
+  /**
+   * @description whether to hide the loading icon in remote search
+   */
+  hideLoading: Boolean,
+  /**
+   * @description whether select dropdown is teleported to the body
+   */
   teleported: useTooltipContentProps.teleported,
-  highlightFirstItem: {
+  /**
+   * @description which select dropdown appends to
+   */
+  appendTo: useTooltipContentProps.appendTo,
+  /**
+   * @description whether to highlight first item in remote search suggestions by default
+   */
+  highlightFirstItem: Boolean,
+  /**
+   * @description whether the width of the dropdown is the same as the input
+   */
+  fitInputWidth: Boolean,
+  /**
+   * @description whether keyboard navigation loops from end to start
+   */
+  loopNavigation: {
     type: Boolean,
-    default: false,
+    default: true,
   },
 } as const)
-export type AutocompleteProps = ExtractPropTypes<typeof autocompleteProps>
+
+/**
+ * @deprecated Removed after 3.0.0, Use `AutocompleteProps` instead.
+ */
+export type AutocompletePropsPublic = ExtractPublicPropTypes<
+  typeof autocompleteProps
+>
 
 export const autocompleteEmits = {
-  [UPDATE_MODEL_EVENT]: (value: string) => isString(value),
-  input: (value: string) => isString(value),
-  change: (value: string) => isString(value),
+  [UPDATE_MODEL_EVENT]: (value: string | number) =>
+    isString(value) || isNumber(value),
+  [INPUT_EVENT]: (value: string | number) => isString(value) || isNumber(value),
+  [CHANGE_EVENT]: (value: string | number) =>
+    isString(value) || isNumber(value),
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
   clear: () => true,
-  select: (item: { value: any }) => isObject(item),
+  select: (item: Record<string, any>) => isObject(item),
 }
 export type AutocompleteEmits = typeof autocompleteEmits
 
-export type AutocompleteInstance = InstanceType<typeof Autocomplete>
+export type AutocompleteInstance = InstanceType<typeof Autocomplete> & unknown

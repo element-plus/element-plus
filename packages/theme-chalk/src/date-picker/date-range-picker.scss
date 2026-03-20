@@ -1,6 +1,7 @@
 @use '../mixins/mixins' as *;
 @use '../common/var' as *;
 @use '../mixins/var' as *;
+@use './utils.scss' as *;
 
 @include b(date-range-picker) {
   @include set-component-css-var('datepicker', $datepicker);
@@ -11,6 +12,10 @@
 
   &.has-sidebar {
     width: 756px;
+  }
+
+  &.has-time .#{$namespace}-picker-panel__body-wrapper {
+    position: relative;
   }
 
   table {
@@ -46,15 +51,37 @@
     }
   }
 
+  @include e(header-label) {
+    font-size: 16px;
+    font-weight: 500;
+    padding: 0 5px;
+    line-height: 22px;
+    text-align: center;
+    cursor: pointer;
+    color: getCssVar('text-color', 'regular');
+
+    &:hover {
+      color: getCssVar('datepicker-hover-text-color');
+    }
+    &:focus-visible {
+      outline: none;
+      color: getCssVar('datepicker-hover-text-color');
+    }
+
+    &.active {
+      color: getCssVar('datepicker-active-color');
+    }
+  }
+
   @include e(content) {
-    float: left;
+    display: table-cell;
     width: 50%;
     box-sizing: border-box;
     margin: 0;
     padding: 16px;
 
     @include when(left) {
-      border-right: 1px solid var(--el-datepicker-inner-border-color);
+      border-right: 1px solid getCssVar('datepicker-inner-border-color');
     }
     .#{$namespace}-date-range-picker__header {
       div {
@@ -75,7 +102,7 @@
 
   @include e(time-header) {
     position: relative;
-    border-bottom: 1px solid var(--el-datepicker-inner-border-color);
+    border-bottom: 1px solid getCssVar('datepicker-inner-border-color');
     font-size: 12px;
     padding: 8px 5px 5px 5px;
     display: table;
@@ -86,7 +113,7 @@
       font-size: 20px;
       vertical-align: middle;
       display: table-cell;
-      color: var(--el-datepicker-icon-color);
+      color: getCssVar('datepicker-icon-color');
     }
   }
 
@@ -104,6 +131,11 @@
     }
     .#{$namespace}-time-panel {
       position: absolute;
+    }
+  }
+  @include when(disabled) {
+    @include e(header-label) {
+      @include disable;
     }
   }
 }

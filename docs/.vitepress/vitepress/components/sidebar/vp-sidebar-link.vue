@@ -1,38 +1,44 @@
 <script lang="ts" setup>
-import { useRoute } from 'vitepress'
+import { computed, ref, watch } from 'vue'
+import { useRoute, withBase } from 'vitepress'
 import { isActive } from '../../utils'
 
 import type { Link } from '../../types'
 
-defineProps<{
+const props = defineProps<{
   item: Link
 }>()
 
 defineEmits(['close'])
 
+const sidebarItem = ref<HTMLElement>()
+
 const route = useRoute()
+
+const activeLink = computed<boolean>(() =>
+  isActive(route.data.relativePath, props.item.link)
+)
+
+watch([activeLink, sidebarItem], ([active, el]) => {
+  if (active && el) {
+    el.scrollIntoView?.({ block: 'nearest' })
+  }
+})
 </script>
 
 <template>
   <a
+    ref="sidebarItem"
     :class="{
       link: true,
-      active: isActive(route, item.link),
+      active: activeLink,
       'flex items-center': item.promotion,
     }"
-    :href="item.link"
+    :href="withBase(item.link)"
     @click="$emit('close')"
   >
     <p class="link-text">{{ item.text }}</p>
-    <ElTag
-      v-if="item.promotion"
-      class="ml-2"
-      size="small"
-      effect="plain"
-      hit
-      style="border-radius: 9999px"
-      >{{ item.promotion }}</ElTag
-    >
+    <VersionTag v-if="item.promotion" :version="item.promotion" />
   </a>
 </template>
 
@@ -50,6 +56,10 @@ const route = useRoute()
   .link-text {
     margin: 0;
   }
+
+  .link-text + * {
+    margin-left: 0.5rem;
+  }
 }
 
 .link:hover .link-text {
@@ -59,6 +69,7 @@ const route = useRoute()
 
 .link.active {
   background-color: var(--link-active-bg-color);
+
   .link-text {
     font-weight: 600;
     color: var(--brand-color);

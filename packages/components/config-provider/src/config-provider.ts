@@ -1,76 +1,30 @@
 import { defineComponent, renderSlot, watch } from 'vue'
-import { buildProps, definePropType } from '@element-plus/utils'
-import { provideGlobalConfig } from '@element-plus/hooks'
+import { provideGlobalConfig } from './hooks/use-global-config'
+import { configProviderProps } from './config-provider-props'
 
-import { componentSizes } from '@element-plus/constants'
-import type { ExtractPropTypes } from 'vue'
-import type { ExperimentalFeatures } from '@element-plus/tokens'
-import type { Language } from '@element-plus/locale'
-import type { ButtonConfigContext } from '@element-plus/components/button'
 import type { MessageConfigContext } from '@element-plus/components/message'
 
-export const messageConfig: MessageConfigContext = {}
+export const messageConfig: MessageConfigContext = {
+  placement: 'top',
+}
 
-export const configProviderProps = buildProps({
-  // Controlling if the users want a11y features.
-  a11y: {
-    type: Boolean,
-    default: true,
-  },
-
-  locale: {
-    type: definePropType<Language>(Object),
-  },
-
-  size: {
-    type: String,
-    values: componentSizes,
-    default: '',
-  },
-
-  button: {
-    type: definePropType<ButtonConfigContext>(Object),
-  },
-
-  experimentalFeatures: {
-    type: definePropType<ExperimentalFeatures>(Object),
-  },
-
-  // Controls if we should handle keyboard navigation
-  keyboardNavigation: {
-    type: Boolean,
-    default: true,
-  },
-
-  message: {
-    type: definePropType<MessageConfigContext>(Object),
-  },
-
-  zIndex: {
-    type: Number,
-  },
-
-  namespace: {
-    type: String,
-    default: 'el',
-  },
-} as const)
-
-export default defineComponent({
+const ConfigProvider = defineComponent({
   name: 'ElConfigProvider',
   props: configProviderProps,
 
   setup(props, { slots }) {
+    const config = provideGlobalConfig(props)
     watch(
       () => props.message,
       (val) => {
-        Object.assign(messageConfig, val ?? {})
+        Object.assign(messageConfig, config?.value?.message ?? {}, val ?? {})
       },
       { immediate: true, deep: true }
     )
-    const config = provideGlobalConfig(props)
     return () => renderSlot(slots, 'default', { config: config?.value })
   },
 })
+export type ConfigProviderInstance = InstanceType<typeof ConfigProvider> &
+  unknown
 
-export type ConfigProviderProps = ExtractPropTypes<typeof configProviderProps>
+export default ConfigProvider

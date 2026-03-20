@@ -1,16 +1,41 @@
 import { buildProps, iconPropType } from '@element-plus/utils'
-import type { ExtractPropTypes } from 'vue'
-import type Breadcrumb from './breadcrumb.vue'
 
+import type { ExtractPublicPropTypes } from 'vue'
+import type { IconPropType } from '@element-plus/utils'
+
+export interface BreadcrumbProps {
+  /**
+   * @description separator character
+   */
+  separator?: string
+  /**
+   * @description icon component of icon separator
+   */
+  separatorIcon?: IconPropType
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `BreadcrumbProps` instead.
+ */
 export const breadcrumbProps = buildProps({
+  /**
+   * @description separator character
+   */
   separator: {
     type: String,
     default: '/',
   },
+  /**
+   * @description icon component of icon separator
+   */
   separatorIcon: {
     type: iconPropType,
-    default: '',
   },
 } as const)
-export type BreadcrumbProps = ExtractPropTypes<typeof breadcrumbProps>
-export type BreadcrumbInstance = InstanceType<typeof Breadcrumb>
+
+/**
+ * @deprecated Removed after 3.0.0, Use `BreadcrumbProps` instead.
+ */
+export type BreadcrumbPropsPublic = ExtractPublicPropTypes<
+  typeof breadcrumbProps
+>

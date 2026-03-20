@@ -1,5 +1,3 @@
-@use 'sass:map';
-
 @use 'mixins/mixins' as *;
 @use 'mixins/var' as *;
 @use 'common/var' as *;
@@ -8,30 +6,30 @@
   @include set-component-css-var('alert', $alert);
 
   width: 100%;
-  padding: var(--el-alert-padding);
+  padding: getCssVar('alert', 'padding');
   margin: 0;
   box-sizing: border-box;
-  border-radius: var(--el-alert-border-radius-base);
+  border-radius: getCssVar('alert', 'border-radius-base');
   position: relative;
-  background-color: var(--el-color-white);
+  background-color: getCssVar('color', 'white');
   overflow: hidden;
   opacity: 1;
   display: flex;
   align-items: center;
-  transition: opacity var(--el-transition-duration-fast);
+  transition: opacity getCssVar('transition-duration', 'fast');
 
   @include when(light) {
     .#{$namespace}-alert__close-btn {
-      color: var(--el-text-color-placeholder);
+      color: getCssVar('text-color', 'placeholder');
     }
   }
 
   @include when(dark) {
     .#{$namespace}-alert__close-btn {
-      color: var(--el-color-white);
+      color: getCssVar('color', 'white');
     }
     .#{$namespace}-alert__description {
-      color: var(--el-color-white);
+      color: getCssVar('color', 'white');
     }
   }
 
@@ -39,66 +37,74 @@
     justify-content: center;
   }
 
-  @each $type in (success, info, warning, error) {
+  @each $type in (primary, success, info, warning, error) {
     @include m($type) {
-      --el-alert-bg-color: #{map.get($colors, $type, 'light-9')};
+      @include css-var-from-global(
+        ('alert', 'bg-color'),
+        ('color', $type, 'light-9')
+      );
 
       &.is-light {
-        background-color: var(--el-alert-bg-color);
-        color: var(--el-color-#{$type});
+        background-color: getCssVar('alert', 'bg-color');
+        color: getCssVar('color', $type);
 
         .#{$namespace}-alert__description {
-          color: var(--el-color-#{$type});
+          color: getCssVar('color', $type);
         }
       }
 
       &.is-dark {
-        background-color: var(--el-color-#{$type});
-        color: var(--el-color-white);
+        background-color: getCssVar('color', $type);
+        color: getCssVar('color', 'white');
       }
     }
   }
 
   @include e(content) {
-    display: table-cell;
-    padding: 0 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
 
   & .#{$namespace}-alert__icon {
-    font-size: var(--el-alert-icon-size);
-    width: var(--el-alert-icon-size);
+    font-size: getCssVar('alert', 'icon-size');
+    width: getCssVar('alert', 'icon-size');
+    margin-right: 8px;
+
     @include when(big) {
-      font-size: var(--el-alert-icon-large-size);
-      width: var(--el-alert-icon-large-size);
+      font-size: getCssVar('alert', 'icon-large-size');
+      width: getCssVar('alert', 'icon-large-size');
+      margin-right: 12px;
     }
   }
 
   @include e(title) {
-    font-size: var(--el-alert-title-font-size);
-    line-height: 18px;
-    vertical-align: text-top;
-    @include when(bold) {
-      font-weight: bold;
+    font-size: getCssVar('alert', 'title-font-size');
+    line-height: 24px;
+
+    &.with-description {
+      font-size: getCssVar('alert', 'title-with-description-font-size');
     }
   }
 
   & .#{$namespace}-alert__description {
-    font-size: var(--el-alert-description-font-size);
-    margin: 5px 0 0 0;
+    font-size: getCssVar('alert', 'description-font-size');
+    margin: 0;
   }
 
   & .#{$namespace}-alert__close-btn {
-    font-size: var(--el-alert-close-font-size);
+    font-size: getCssVar('alert', 'close-font-size');
     opacity: 1;
     position: absolute;
     top: 12px;
-    right: 15px;
+    right: 16px;
     cursor: pointer;
 
     @include when(customed) {
       font-style: normal;
-      font-size: var(--el-alert-close-customed-font-size);
-      top: 9px;
+      font-size: getCssVar('alert', 'close-customed-font-size');
+      line-height: 24px;
+      top: 8px;
     }
   }
 }

@@ -1,17 +1,21 @@
 import {
+  Fragment,
   computed,
   defineComponent,
   getCurrentInstance,
   h,
+  mergeProps,
   nextTick,
+  onActivated,
   onMounted,
   onUpdated,
   ref,
   resolveDynamicComponent,
   unref,
 } from 'vue'
-import { isClient } from '@vueuse/core'
-import { hasOwn, isNumber, isString } from '@element-plus/utils'
+import { useEventListener } from '@vueuse/core'
+import { hasOwn, isClient, isNumber, isString } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
 import { useCache } from '../hooks/use-cache'
 import useWheel from '../hooks/use-wheel'
 import Scrollbar from '../components/scrollbar'
@@ -25,6 +29,7 @@ import {
   ITEM_RENDER_EVT,
   RTL,
   RTL_OFFSET_NAG,
+  RTL_OFFSET_POS_ASC,
   RTL_OFFSET_POS_DESC,
   SCROLL_EVT,
 } from '../defaults'
@@ -52,9 +57,12 @@ const createList = ({
     setup(props, { emit, expose }) {
       validateProps(props)
       const instance = getCurrentInstance()!
+
+      const ns = useNamespace('vl')
+
       const dynamicSizeCache = ref(initCache(props, instance))
 
-      const getItemStyleCache = useCache()
+      const getItemStyleCache = useCache<CSSProperties>()
       // refs
       // here windowRef and innerRef can be type of HTMLElement
       // or user defined component type, depends on the type passed
@@ -135,6 +143,10 @@ const createList = ({
           height: horizontal ? '100%' : `${size}px`,
           pointerEvents: unref(states).isScrolling ? 'none' : undefined,
           width: horizontal ? `${size}px` : '100%',
+
+          // fix scrolling issues in Firefox.
+          margin: 0,
+          boxSizing: 'border-box',
         }
       })
 
@@ -153,7 +165,7 @@ const createList = ({
         },
         (offset) => {
           ;(
-            scrollbarRef.value as any as {
+            scrollbarRef.value as {
               onMouseUp: () => void
             }
           ).onMouseUp?.()
@@ -165,6 +177,10 @@ const createList = ({
           )
         }
       )
+
+      useEventListener(windowRef, 'wheel', onWheel, {
+        passive: false,
+      })
 
       const emitEvents = () => {
         const { total } = props
@@ -334,12 +350,9 @@ const createList = ({
         return style
       }
 
-      // TODO:
-      // perf optimization here, reset isScrolling with debounce.
+      // TODO: perf optimization here, reset isScrolling with debounce.
 
       const resetIsScrolling = () => {
-        // timer = null
-
         states.value.isScrolling = false
         nextTick(() => {
           getItemStyleCache.value(-1, null, null)
@@ -381,11 +394,11 @@ const createList = ({
               // This is not the case for all browsers though (e.g. Chrome reports values as positive, measured relative to the left).
               // So we need to determine which browser behavior we're dealing with, and mimic it.
               switch (getRTLOffsetType()) {
-                case 'negative': {
+                case RTL_OFFSET_NAG: {
                   windowElement.scrollLeft = -scrollOffset
                   break
                 }
-                case 'positive-ascending': {
+                case RTL_OFFSET_POS_ASC: {
                   windowElement.scrollLeft = scrollOffset
                   break
                 }
@@ -405,7 +418,12 @@ const createList = ({
         }
       })
 
+      onActivated(() => {
+        unref(windowRef)!.scrollTop = unref(states).scrollOffset
+      })
+
       const api = {
+        ns,
         clientSize,
         estimatedTotalSize,
         windowStyle,
@@ -452,10 +470,10 @@ const createList = ({
         total,
         onScroll,
         onScrollbarScroll,
-        onWheel,
         states,
         useIsScrolling,
         windowStyle,
+        ns,
       } = ctx
 
       const [start, end] = itemsToRender
@@ -468,13 +486,16 @@ const createList = ({
       if (total > 0) {
         for (let i = start; i <= end; i++) {
           children.push(
-            ($slots.default as Slot)?.({
-              data,
-              key: i,
-              index: i,
-              isScrolling: useIsScrolling ? states.isScrolling : undefined,
-              style: getItemStyle(i),
-            })
+            h(
+              Fragment,
+              { key: i },
+              ($slots.default as Slot)?.({
+                data,
+                index: i,
+                isScrolling: useIsScrolling ? states.isScrolling : undefined,
+                style: getItemStyle(i),
+              })
+            )
           )
         }
       }
@@ -482,10 +503,10 @@ const createList = ({
       const InnerNode = [
         h(
           Inner as VNode,
-          {
+          mergeProps(ctx.innerProps, {
             style: innerStyle,
             ref: 'innerRef',
-          },
+          }),
           !isString(Inner)
             ? {
                 default: () => children,
@@ -503,15 +524,15 @@ const createList = ({
         scrollFrom:
           states.scrollOffset / (this.estimatedTotalSize - clientSize),
         total,
+        alwaysOn: states.scrollbarAlwaysOn,
       })
 
       const listContainer = h(
         Container as VNode,
         {
-          class: ['el-vl__window', className],
+          class: [ns.e('window'), className],
           style: windowStyle,
           onScroll,
-          onWheel,
           ref: 'windowRef',
           key: 0,
         },
@@ -522,10 +543,7 @@ const createList = ({
         'div',
         {
           key: 0,
-          class: [
-            'el-vl__wrapper',
-            states.scrollbarAlwaysOn ? 'always-on' : '',
-          ],
+          class: [ns.e('wrapper'), states.scrollbarAlwaysOn ? 'always-on' : ''],
         },
         [listContainer, scrollbar]
       )

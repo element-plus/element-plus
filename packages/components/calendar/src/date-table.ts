@@ -1,8 +1,8 @@
 import { buildProps, definePropType, isObject } from '@element-plus/utils'
 import { rangeArr } from '@element-plus/components/time-picker'
-import type { ExtractPropTypes } from 'vue'
+
+import type { ExtractPublicPropTypes } from 'vue'
 import type { Dayjs } from 'dayjs'
-import type DateTable from './date-table.vue'
 
 export type CalendarDateCellType = 'next' | 'prev' | 'current'
 export type CalendarDateCell = {
@@ -26,6 +26,16 @@ export const toNestedArr = (days: CalendarDateCell[]) =>
     return days.slice(start, start + 7)
   })
 
+export interface DateTableProps {
+  selectedDay?: Dayjs
+  range?: [Dayjs, Dayjs]
+  date: Dayjs
+  hideHeader?: boolean
+}
+
+/**
+ *  @deprecated Removed after 3.0.0, Use `DateTableProps` instead.
+ */
 export const dateTableProps = buildProps({
   selectedDay: {
     type: definePropType<Dayjs>(Object),
@@ -41,11 +51,13 @@ export const dateTableProps = buildProps({
     type: Boolean,
   },
 } as const)
-export type DateTableProps = ExtractPropTypes<typeof dateTableProps>
+
+/**
+ *  @deprecated Removed after 3.0.0, Use `DateTableProps` instead.
+ */
+export type DateTablePropsPublic = ExtractPublicPropTypes<typeof dateTableProps>
 
 export const dateTableEmits = {
   pick: (value: Dayjs) => isObject(value),
 }
 export type DateTableEmits = typeof dateTableEmits
-
-export type DateTableInstance = InstanceType<typeof DateTable>

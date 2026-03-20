@@ -1,32 +1,41 @@
 <script setup lang="ts">
+import { withBase } from 'vitepress'
 import { isDark } from '../composables/dark'
-import { goldSponsors } from '../../config/sponsors'
+import { leftLogoSponsors } from '../../config/sponsors'
+import { sendEvent } from '../../config/analytics'
+
+import type { Sponsor } from '../../config/sponsors'
+
+const onItemClick = (item: Sponsor) => {
+  sendEvent('sp_click', item.name, 'left_small_img')
+}
 </script>
 
 <template>
-  <div class="sponsor-container">
+  <div>
     <a
-      v-for="item in goldSponsors"
+      v-for="item in leftLogoSponsors"
       :key="item.name"
       :class="[
-        'sponsor-item inline-flex items-center',
+        'sponsor-each inline-flex items-center',
         item.isDark && isDark ? 'filter invert' : '',
       ]"
-      :href="item.url"
+      :href="withBase(item.url)"
       :title="`${item.name_cn || item.name} - ${item.slogan_cn || item.slogan}`"
       target="_blank"
+      @click="onItemClick(item)"
     >
-      <img :src="item.img" :alt="item.name" />
+      <img :src="withBase(item.img)" :alt="item.name" />
     </a>
   </div>
 </template>
 
 <style scoped lang="scss">
 @use '../styles/mixins' as *;
-.sponsor-container {
+div {
   display: flex;
   align-items: center;
-  .sponsor-item {
+  .sponsor-each {
     margin-right: 4px;
     height: 36px;
     width: 36px;

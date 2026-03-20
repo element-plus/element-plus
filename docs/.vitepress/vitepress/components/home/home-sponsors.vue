@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { goldSponsors, platinumSponsors } from '../../../config/sponsors'
-
 import SponsorsButton from '../sponsors/sponsors-button.vue'
 import SponsorList from './sponsor-list.vue'
 </script>
@@ -17,7 +16,6 @@ import SponsorList from './sponsor-list.vue'
 <style lang="scss">
 .home-page {
   .sponsors-container {
-    max-width: 900px;
     margin-top: 72px;
     .join {
       text-align: center;
@@ -27,7 +25,8 @@ import SponsorList from './sponsor-list.vue'
 
   .sponsor-list {
     --min-width: 100%;
-    grid-template-columns: repeat(auto-fit, minmax(var(--min-width), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(var(--min-width), 420px));
+    justify-content: center;
 
     &.platinum {
       --min-width: 220px;

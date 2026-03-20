@@ -3,34 +3,33 @@
     <slot />
   </footer>
 </template>
-<script lang="ts">
-import { computed, defineComponent } from 'vue'
+
+<script lang="ts" setup>
+import { computed } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 
 import type { CSSProperties } from 'vue'
 
-export default defineComponent({
-  name: 'ElFooter',
-  props: {
-    height: {
-      type: String,
-      default: null,
-    },
-  },
-  setup(props) {
-    const ns = useNamespace('footer')
+interface FooterProps {
+  /**
+   * @description height of the footer
+   */
+  height?: string | null
+}
 
-    return {
-      style: computed(
-        () =>
-          (props.height
-            ? {
-                '--el-footer-height': props.height,
-              }
-            : {}) as CSSProperties
-      ),
-      ns,
-    }
-  },
+defineOptions({
+  name: 'ElFooter',
 })
+const props = withDefaults(defineProps<FooterProps>(), {
+  height: null,
+})
+
+const ns = useNamespace('footer')
+
+const style = computed(
+  () =>
+    (props.height
+      ? ns.cssVarBlock({ height: props.height })
+      : {}) as CSSProperties
+)
 </script>

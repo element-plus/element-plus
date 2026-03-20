@@ -1,9 +1,23 @@
 export default {
   name: 'en',
   el: {
+    breadcrumb: {
+      label: 'Breadcrumb',
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Clear',
+      defaultLabel: 'color picker',
+      description:
+        'current color is {color}. press enter to select a new color.',
+      alphaLabel: 'pick alpha value',
+      alphaDescription: 'alpha {alpha}, current color is {color}',
+      hueLabel: 'pick hue value',
+      hueDescription: 'hue {hue}, current color is {color}',
+      svLabel: 'pick saturation and brightness value',
+      svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}',
+      predefineDescription: 'select {value} as the color',
     },
     datepicker: {
       now: 'Now',
@@ -11,6 +25,11 @@ export default {
       cancel: 'Cancel',
       clear: 'Clear',
       confirm: 'OK',
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month',
+      monthTablePrompt: 'Use the arrow keys and enter to select the month',
+      yearTablePrompt: 'Use the arrow keys and enter to select the year',
+      selectedDate: 'Selected date',
       selectDate: 'Select date',
       selectTime: 'Select time',
       startDate: 'Start Date',
@@ -34,7 +53,6 @@ export default {
       month10: 'October',
       month11: 'November',
       month12: 'December',
-      week: 'week',
       weeks: {
         sun: 'Sun',
         mon: 'Mon',
@@ -43,6 +61,15 @@ export default {
         thu: 'Thu',
         fri: 'Fri',
         sat: 'Sat',
+      },
+      weeksFull: {
+        sun: 'Sunday',
+        mon: 'Monday',
+        tue: 'Tuesday',
+        wed: 'Wednesday',
+        thu: 'Thursday',
+        fri: 'Friday',
+        sat: 'Saturday',
       },
       months: {
         jan: 'Jan',
@@ -59,11 +86,21 @@ export default {
         dec: 'Dec',
       },
     },
+    inputNumber: {
+      decrease: 'decrease number',
+      increase: 'increase number',
+    },
     select: {
       loading: 'Loading',
       noMatch: 'No matching data',
       noData: 'No data',
       placeholder: 'Select',
+    },
+    mention: {
+      loading: 'Loading',
+    },
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown',
     },
     cascader: {
       noMatch: 'No matching data',
@@ -76,14 +113,27 @@ export default {
       pagesize: '/page',
       total: 'Total {total}',
       pageClassifier: '',
+      page: 'Page',
+      prev: 'Go to previous page',
+      next: 'Go to next page',
+      currentPage: 'page {pager}',
+      prevPages: 'Previous {pager} pages',
+      nextPages: 'Next {pager} pages',
       deprecationWarning:
         'Deprecated usages detected, please refer to the el-pagination documentation for more details',
+    },
+    dialog: {
+      close: 'Close this dialog',
+    },
+    drawer: {
+      close: 'Close this dialog',
     },
     messagebox: {
       title: 'Message',
       confirm: 'OK',
       cancel: 'Cancel',
       error: 'Illegal input',
+      close: 'Close this dialog',
     },
     upload: {
       deleteTip: 'press delete to remove',
@@ -91,12 +141,32 @@ export default {
       preview: 'Preview',
       continue: 'Continue',
     },
+    slider: {
+      defaultLabel: 'slider between {min} and {max}',
+      defaultRangeStartLabel: 'pick start value',
+      defaultRangeEndLabel: 'pick end value',
+    },
     table: {
       emptyText: 'No Data',
       confirmFilter: 'Confirm',
       resetFilter: 'Reset',
       clearFilter: 'All',
       sumText: 'Sum',
+      selectAllLabel: 'Select all rows',
+      selectRowLabel: 'Select this row',
+      expandRowLabel: 'Expand this row',
+      collapseRowLabel: 'Collapse this row',
+      sortLabel: 'Sort by {column}',
+      filterLabel: 'Filter by {column}',
+    },
+    tag: {
+      close: 'Close this tag',
+    },
+    tour: {
+      next: 'Next',
+      previous: 'Previous',
+      finish: 'Finish',
+      close: 'Close this dialog',
     },
     tree: {
       emptyText: 'No Data',
@@ -104,20 +174,25 @@ export default {
     transfer: {
       noMatch: 'No matching data',
       noData: 'No data',
-      titles: ['List 1', 'List 2'], // to be translated
-      filterPlaceholder: 'Enter keyword', // to be translated
-      noCheckedFormat: '{total} items', // to be translated
-      hasCheckedFormat: '{checked}/{total} checked', // to be translated
+      titles: ['List 1', 'List 2'],
+      filterPlaceholder: 'Enter keyword',
+      noCheckedFormat: '{total} items',
+      hasCheckedFormat: '{checked}/{total} checked',
     },
     image: {
       error: 'FAILED',
     },
     pageHeader: {
-      title: 'Back', // to be translated
+      title: 'Back',
     },
     popconfirm: {
       confirmButtonText: 'Yes',
       cancelButtonText: 'No',
+    },
+    carousel: {
+      leftArrow: 'Carousel arrow left',
+      rightArrow: 'Carousel arrow right',
+      indicator: 'Carousel switch to index {index}',
     },
   },
 }

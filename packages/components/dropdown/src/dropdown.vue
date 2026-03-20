@@ -2,27 +2,32 @@
   <div :class="[ns.b(), ns.is('disabled', disabled)]">
     <el-tooltip
       ref="popperRef"
+      :role="role"
       :effect="effect"
       :fallback-placements="['bottom', 'top']"
       :popper-options="popperOptions"
       :gpu-acceleration="false"
-      :hide-after="trigger === 'hover' ? hideTimeout : 0"
-      :manual-mode="true"
       :placement="placement"
-      :popper-class="[ns.e('popper'), popperClass]"
-      :reference-element="referenceElementRef?.$el"
+      :popper-class="[ns.e('popper'), popperClass!]"
+      :popper-style="popperStyle"
       :trigger="trigger"
+      :trigger-keys="triggerKeys"
+      :trigger-target-el="contentRef"
+      :show-arrow="showArrow"
       :show-after="trigger === 'hover' ? showTimeout : 0"
-      :stop-popper-mouse-event="false"
-      :virtual-ref="triggeringElementRef"
-      :virtual-triggering="splitButton"
+      :hide-after="trigger === 'hover' ? hideTimeout : 0"
+      :virtual-ref="virtualRef ?? triggeringElementRef"
+      :virtual-triggering="virtualTriggering || splitButton"
       :disabled="disabled"
-      append-to-body
-      pure
       :transition="`${ns.namespace.value}-zoom-in-top`"
-      persistent
-      @show="$emit('visible-change', true)"
-      @hide="$emit('visible-change', false)"
+      :teleported="teleported"
+      :append-to="appendTo"
+      pure
+      focus-on-target
+      :persistent="persistent"
+      @before-show="handleBeforeShowTooltip"
+      @show="handleShowTooltip"
+      @before-hide="handleBeforeHideTooltip"
     >
       <template #content>
         <el-scrollbar
@@ -31,25 +36,25 @@
           tag="div"
           :view-class="ns.e('list')"
         >
-          <el-focus-trap trapped @mount-on-focus="onMountOnFocus">
-            <el-roving-focus-group
-              :loop="loop"
-              :current-tab-id="currentTabId"
-              orientation="horizontal"
-              @current-tab-id-change="handleCurrentTabIdChange"
-              @entry-focus="handleEntryFocus"
-            >
-              <el-dropdown-collection>
-                <slot name="dropdown" />
-              </el-dropdown-collection>
-            </el-roving-focus-group>
-          </el-focus-trap>
+          <el-roving-focus-group
+            :loop="loop"
+            :current-tab-id="currentTabId"
+            orientation="horizontal"
+            @current-tab-id-change="handleCurrentTabIdChange"
+          >
+            <slot name="dropdown" />
+          </el-roving-focus-group>
         </el-scrollbar>
       </template>
       <template v-if="!splitButton" #default>
-        <div :class="dropdownTriggerKls">
+        <el-only-child
+          :id="triggerId"
+          ref="triggeringElementRef"
+          role="button"
+          :tabindex="tabindex"
+        >
           <slot name="default" />
-        </div>
+        </el-only-child>
       </template>
     </el-tooltip>
     <template v-if="splitButton">
@@ -60,17 +65,22 @@
           :size="dropdownSize"
           :type="type"
           :disabled="disabled"
+          :tabindex="tabindex"
           @click="handlerMainButtonClick"
         >
           <slot name="default" />
         </el-button>
         <el-button
+          :id="triggerId"
           ref="triggeringElementRef"
           v-bind="buttonProps"
+          role="button"
           :size="dropdownSize"
           :type="type"
           :class="ns.e('caret-button')"
           :disabled="disabled"
+          :tabindex="tabindex"
+          :aria-label="t('el.dropdown.toggleDropdown')"
         >
           <el-icon :class="ns.e('icon')"><arrow-down /></el-icon>
         </el-button>
@@ -78,6 +88,7 @@
     </template>
   </div>
 </template>
+
 <script lang="ts">
 import {
   computed,
@@ -92,14 +103,19 @@ import ElButton from '@element-plus/components/button'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElIcon from '@element-plus/components/icon'
-import ElFocusTrap from '@element-plus/components/focus-trap'
 import ElRovingFocusGroup from '@element-plus/components/roving-focus-group'
-import { addUnit } from '@element-plus/utils'
+import { ElOnlyChild } from '@element-plus/components/slot'
+import { useFormSize } from '@element-plus/components/form'
+import { addUnit, ensureArray } from '@element-plus/utils'
 import { ArrowDown } from '@element-plus/icons-vue'
-import { useNamespace, useSize } from '@element-plus/hooks'
-import { ElCollection as ElDropdownCollection, dropdownProps } from './dropdown'
-import { DROPDOWN_INJECTION_KEY } from './tokens'
+import { useId, useLocale, useNamespace } from '@element-plus/hooks'
+import { dropdownProps } from './dropdown'
+import {
+  DROPDOWN_INJECTION_KEY,
+  DROPDOWN_INSTANCE_INJECTION_KEY,
+} from './tokens'
 
+import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { CSSProperties } from 'vue'
 
 const { ButtonGroup: ElButtonGroup } = ElButton
@@ -108,12 +124,11 @@ export default defineComponent({
   name: 'ElDropdown',
   components: {
     ElButton,
-    ElFocusTrap,
     ElButtonGroup,
     ElScrollbar,
-    ElDropdownCollection,
     ElTooltip,
     ElRovingFocusGroup,
+    ElOnlyChild,
     ElIcon,
     ArrowDown,
   },
@@ -122,11 +137,12 @@ export default defineComponent({
   setup(props, { emit }) {
     const _instance = getCurrentInstance()
     const ns = useNamespace('dropdown')
+    const { t } = useLocale()
 
     const triggeringElementRef = ref()
     const referenceElementRef = ref()
-    const popperRef = ref<InstanceType<typeof ElTooltip> | null>(null)
-    const contentRef = ref<HTMLElement | null>(null)
+    const popperRef = ref<TooltipInstance>()
+    const contentRef = ref<HTMLElement>()
     const scrollbar = ref(null)
     const currentTabId = ref<string | null>(null)
     const isUsingKeyboard = ref(false)
@@ -135,9 +151,13 @@ export default defineComponent({
       maxHeight: addUnit(props.maxHeight),
     }))
     const dropdownTriggerKls = computed(() => [ns.m(dropdownSize.value)])
+    const trigger = computed(() => ensureArray(props.trigger))
+
+    const defaultTriggerId = useId().value
+    const triggerId = computed<string>(() => props.id || defaultTriggerId)
 
     function handleClick() {
-      handleClose()
+      popperRef.value?.onClose(undefined, 0)
     }
 
     function handleClose() {
@@ -148,7 +168,7 @@ export default defineComponent({
       popperRef.value?.onOpen()
     }
 
-    const dropdownSize = useSize()
+    const dropdownSize = useFormSize()
 
     function commandHandler(...args: any[]) {
       emit('command', ...args)
@@ -161,7 +181,10 @@ export default defineComponent({
     function onItemLeave() {
       const contentEl = unref(contentRef)
 
-      contentEl?.focus()
+      trigger.value.includes('hover') &&
+        contentEl?.focus({
+          preventScroll: true,
+        })
       currentTabId.value = null
     }
 
@@ -169,21 +192,30 @@ export default defineComponent({
       currentTabId.value = id
     }
 
-    function handleEntryFocus(e: Event) {
-      if (!isUsingKeyboard.value) {
-        e.preventDefault()
-        e.stopImmediatePropagation()
-      }
+    function handleBeforeShowTooltip() {
+      emit('visible-change', true)
+    }
+
+    function handleShowTooltip(event?: Event) {
+      isUsingKeyboard.value = event?.type === 'keydown'
+      contentRef.value?.focus()
+    }
+
+    function handleBeforeHideTooltip() {
+      emit('visible-change', false)
     }
 
     provide(DROPDOWN_INJECTION_KEY, {
       contentRef,
+      role: computed(() => props.role),
+      triggerId,
       isUsingKeyboard,
       onItemEnter,
       onItemLeave,
+      handleClose,
     })
 
-    provide('elDropdown', {
+    provide(DROPDOWN_INSTANCE_INJECTION_KEY, {
       instance: _instance,
       dropdownSize,
       handleClick,
@@ -192,31 +224,28 @@ export default defineComponent({
       hideOnClick: toRef(props, 'hideOnClick'),
     })
 
-    const onMountOnFocus = (e: Event) => {
-      e.preventDefault()
-      contentRef.value?.focus?.({
-        preventScroll: true,
-      })
-    }
-
     const handlerMainButtonClick = (event: MouseEvent) => {
       emit('click', event)
     }
 
     return {
+      t,
       ns,
       scrollbar,
       wrapStyle,
       dropdownTriggerKls,
       dropdownSize,
+      triggerId,
       currentTabId,
       handleCurrentTabIdChange,
       handlerMainButtonClick,
-      handleEntryFocus,
       handleClose,
       handleOpen,
-      onMountOnFocus,
+      handleBeforeShowTooltip,
+      handleShowTooltip,
+      handleBeforeHideTooltip,
       popperRef,
+      contentRef,
       triggeringElementRef,
       referenceElementRef,
     }
