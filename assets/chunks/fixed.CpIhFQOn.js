@@ -1,1 +1,0 @@
-import{aB as n,ah as e,K as s,L as c,R as t,Q as f,$ as r}from"./framework.Cfhva1H7.js";const _={};function p(i,x){const o=e("el-button"),a=e("el-affix");return c(),s(a,{position:"bottom",offset:20},{default:t(()=>[f(o,{type:"primary"},{default:t(()=>[r("Offset bottom 20px")]),_:1})]),_:1})}const m=n(_,[["render",p]]);export{m as E};

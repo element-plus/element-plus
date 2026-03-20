@@ -427,22 +427,22 @@ Use the affix component to fix the anchor point within the page.
 
 ### Anchor Attributes
 
-| Property                   | Description                                                | Type                                   | Default    |
-| -------------------------- | ---------------------------------------------------------- | -------------------------------------- | ---------- |
-| container                  | scroll container.                                          | `string` \| `HTMLElement` \| `Window ` | —          |
-| offset                     | set the offset of the anchor scroll.                       | `number`                               | 0          |
-| bound                      | the offset of the element starting to trigger the anchor.  | `number`                               | 15         |
-| duration                   | set the scroll duration of the container, in milliseconds. | `number`                               | 300        |
-| marker                     | whether to show the marker.                                | ^[boolean]                             | true       |
-| type                       | set Anchor type.                                           | ^[enum]`'default' \| 'underline'`      | `default`  |
-| direction                  | Set Anchor direction.                                      | ^[enum]`'vertical' \| 'horizontal'`    | `vertical` |
-| select-scroll-top ^(2.9.2) | scroll whether link is selected at the top                 | ^[boolean]                             | false      |
+| Property                   | Description                                                | Type                                  | Default    |
+| -------------------------- | ---------------------------------------------------------- | ------------------------------------- | ---------- |
+| container                  | Scroll container.                                          | `string` \| `HTMLElement` \| `Window` | —          |
+| offset                     | Set the offset of the anchor scroll.                       | `number`                              | 0          |
+| bound                      | The offset of the element starting to trigger the anchor.  | `number`                              | 15         |
+| duration                   | Set the scroll duration of the container, in milliseconds. | `number`                              | 300        |
+| marker                     | Whether to show the marker.                                | ^[boolean]                            | true       |
+| type                       | Set Anchor type.                                           | ^[enum]`'default' \| 'underline'`     | `default`  |
+| direction                  | Set Anchor direction.                                      | ^[enum]`'vertical' \| 'horizontal'`   | `vertical` |
+| select-scroll-top ^(2.9.2) | Scroll whether link is selected at the top                 | ^[boolean]                            | false      |
 
 ### Anchor Events
 
 | Name   | Description                                | Type                                                |
 | ------ | ------------------------------------------ | --------------------------------------------------- |
-| change | callback when the step changes             | ^[Function]`(href: string) => void`                 |
+| change | Callback when the step changes             | ^[Function]`(href: string) => void`                 |
 | click  | Triggered when the user clicks on the link | ^[Function]`(e: MouseEvent, href?: string) => void` |
 
 ### Anchor Exposes
@@ -461,15 +461,15 @@ Use the affix component to fix the anchor point within the page.
 
 | Property | Description                          | Type     | Default |
 | -------- | ------------------------------------ | -------- | ------- |
-| title    | the text content of the anchor link. | `string` | —       |
+| title    | The text content of the anchor link. | `string` | —       |
 | href     | The address of the anchor link.      | `string` | —       |
 
 ### AnchorLink Slots
 
 | Name     | Description                     |
 | -------- | ------------------------------- |
-| default  | the content of the anchor link. |
-| sub-link | slots for child links.          |
+| default  | The content of the anchor link. |
+| sub-link | Slots for child links.          |
 
 ## Vue Examples
 
@@ -8185,15 +8185,17 @@ The `disabled` attribute determines if the color picker is fully disabled.
 
 ### Attributes
 
-| Name                     | Description                                | Type                                                                                                  | Default                                                                      |
-| ------------------------ | ------------------------------------------ | ----------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| model-value / v-model    | binding value                              | ^[string]                                                                                             | —                                                                            |
-| border                   | whether the color picker panel is bordered | ^[boolean]                                                                                            | true                                                                         |
-| disabled                 | whether to disable the color picker        | ^[boolean]                                                                                            | false                                                                        |
-| show-alpha               | whether to display the alpha slider        | ^[boolean]                                                                                            | false                                                                        |
-| color-format             | color format of v-model                    | ^[enum]`'rgb' \| 'prgb' \| 'hex' \| 'hex3' \| 'hex4' \| 'hex6' \| 'hex8' \| 'name' \| 'hsl' \| 'hsv'` | ^[enum]`'hex' (when show-alpha is false) \| 'rgb' (when show-alpha is true)` |
-| predefine                | predefined color options                   | ^[array]`string[]`                                                                                    | —                                                                            |
-| validate-event ^(2.11.7) | whether to trigger form validation         | ^[boolean]                                                                                            | true                                                                         |
+| Name                       | Description                                | Type                                                                                                  | Default                                                                      |
+| -------------------------- | ------------------------------------------ | ----------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| model-value / v-model      | binding value                              | ^[string]                                                                                             | —                                                                            |
+| border                     | whether the color picker panel is bordered | ^[boolean]                                                                                            | true                                                                         |
+| disabled                   | whether to disable the color picker        | ^[boolean]                                                                                            | false                                                                        |
+| show-alpha                 | whether to display the alpha slider        | ^[boolean]                                                                                            | false                                                                        |
+| color-format               | color format of v-model                    | ^[enum]`'rgb' \| 'prgb' \| 'hex' \| 'hex3' \| 'hex4' \| 'hex6' \| 'hex8' \| 'name' \| 'hsl' \| 'hsv'` | ^[enum]`'hex' (when show-alpha is false) \| 'rgb' (when show-alpha is true)` |
+| predefine                  | predefined color options                   | ^[array]`string[]`                                                                                    | —                                                                            |
+| validate-event ^(2.11.7)   | whether to trigger form validation         | ^[boolean]                                                                                            | true                                                                         |
+| hue-slider-class ^(2.13.6) | class names will be passed to hue-slider   | ^[object]`string \| string[] \| Record<string, boolean>`                                              | —                                                                            |
+| hue-slider-style ^(2.13.6) | styles will be passed to hue-slider        | ^[string] / ^[object]`StyleValue`                                                                     | —                                                                            |
 
 ### Slots
 
@@ -13479,13 +13481,13 @@ You can set the style of divider.
 | ---------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
 | direction        | Set divider's direction                                    | ^[enum]`'horizontal' \| 'vertical'`                                                                                                         | horizontal |
 | border-style     | Set the style of divider                                   | ^[enum]`'none' \| 'solid' \| 'hidden' \| 'dashed' \| ...` [css/border-style](https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-style) | solid      |
-| content-position | the position of the customized content on the divider line | ^[enum]`'left' \| 'right' \| 'center' `                                                                                                     | center     |
+| content-position | The position of the customized content on the divider line | ^[enum]`'left' \| 'right' \| 'center'`                                                                                                      | center     |
 
 ### Slots
 
 | Name    | Description                            |
 | ------- | -------------------------------------- |
-| default | customized content on the divider line |
+| default | Customized content on the divider line |
 
 ## Vue Examples
 
@@ -14641,6 +14643,7 @@ const handleClick = () => {
 <template>
   <el-card
     class="content"
+    body-class="card-body"
     @click="handleClick"
     @contextmenu="handleContextmenu"
   >
@@ -14714,6 +14717,10 @@ const handleContextmenu = (event: MouseEvent) => {
   justify-content: center;
   align-items: center;
   height: 200px;
+}
+
+.content :deep(.card-body) {
+  flex-grow: 0;
 }
 </style>
 
@@ -16153,7 +16160,7 @@ import { Edit, Share, Delete, Search, Loading } from '@element-plus/icons-vue'
 
 | Name    | Description               |
 | ------- | ------------------------- |
-| default | customize default content |
+| default | Customize default content |
 
 ---
 Title: Image
@@ -17751,12 +17758,13 @@ Prepend or append an element, generally a label or a button.
 
 ### Slots
 
-| Name    | Description                                                               |
-| ------- | ------------------------------------------------------------------------- |
-| prefix  | content as Input prefix, only works when `type` is not 'textarea'         |
-| suffix  | content as Input suffix, only works when `type` is not 'textarea'         |
-| prepend | content to prepend before Input, only works when `type` is not 'textarea' |
-| append  | content to append after Input, only works when `type` is not 'textarea'   |
+| Name                    | Description                                                                                                           |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| prefix                  | content as Input prefix, only works when `type` is not 'textarea'                                                     |
+| suffix                  | content as Input suffix, only works when `type` is not 'textarea'                                                     |
+| prepend                 | content to prepend before Input, only works when `type` is not 'textarea'                                             |
+| append                  | content to append after Input, only works when `type` is not 'textarea'                                               |
+| password-icon ^(2.13.6) | content as Input password icon, only works when `show-password` is true. The scope variable is `{ visible: boolean }` |
 
 ### Exposes
 
@@ -18077,20 +18085,45 @@ const select = ref('')
 ### password.vue
 ```vue
 <template>
-  <el-input
-    v-model="input"
-    style="width: 240px"
-    type="password"
-    placeholder="Please input password"
-    show-password
-  />
+  <div class="input-group">
+    <el-input
+      v-model="input"
+      style="width: 240px"
+      type="password"
+      placeholder="Please input password"
+      show-password
+    />
+    <el-input
+      v-model="input"
+      style="width: 240px"
+      type="password"
+      placeholder="Please input password"
+      show-password
+    >
+      <template #password-icon="{ visible }">
+        <el-icon :size="16">
+          <Unlock v-if="visible" />
+          <Lock v-else />
+        </el-icon>
+      </template>
+    </el-input>
+  </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { Lock, Unlock } from '@element-plus/icons-vue'
 
 const input = ref('')
 </script>
+
+<style scoped>
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+</style>
 
 ```
 
@@ -28490,6 +28523,10 @@ Selecting a range of values is supported.
 
 
 
+## Restrict value ^(2.13.6)
+
+
+
 ## API
 
 ### Attributes
@@ -28500,8 +28537,8 @@ Selecting a range of values is supported.
 | min                         | minimum value                                                                                                                                        | ^[number]                                                                                                                                                                   | 0       |
 | max                         | maximum value                                                                                                                                        | ^[number]                                                                                                                                                                   | 100     |
 | disabled                    | whether Slider is disabled                                                                                                                           | ^[boolean]                                                                                                                                                                  | false   |
-| step                        | step size                                                                                                                                            | ^[number]                                                                                                                                                                   | 1       |
-| show-input                  | whether to display an input box, works when `range` is false                                                                                         | ^[boolean]                                                                                                                                                                  | false   |
+| step                        | step size, can be a number or `'mark'` ^(2.13.6) to restrict values to marks. When set to `'mark'`, the `marks` attribute must be set                | ^[number] / ^[string]`'mark'`                                                                                                                                               | 1       |
+| show-input                  | whether to display an input box, works when `range` is false and `step` is not `'mark'`                                                              | ^[boolean]                                                                                                                                                                  | false   |
 | show-input-controls         | whether to display control buttons when `show-input` is true                                                                                         | ^[boolean]                                                                                                                                                                  | true    |
 | size                        | size of the slider wrapper, will not work in vertical mode                                                                                           | ^[enum]`'' \| 'large' \| 'default' \| 'small'`                                                                                                                              | default |
 | input-size                  | size of the input box, when set `size`, the default is the value of `size`                                                                           | ^[enum]`'' \| 'large' \| 'default' \| 'small'`                                                                                                                              | default |
@@ -28719,6 +28756,84 @@ const value = ref([4, 8])
 .slider-demo-block .el-slider {
   margin-top: 0;
   margin-left: 12px;
+}
+</style>
+
+```
+
+### restrict-value.vue
+```vue
+<template>
+  <div class="slider-demo-block">
+    <el-slider
+      v-model="value1"
+      vertical
+      height="200px"
+      :marks="marks1"
+      placement="right"
+      :format-tooltip="(v) => `${v}°C`"
+      step="mark"
+    />
+  </div>
+  <div class="slider-demo-block">
+    <el-slider v-model="value2" :marks="marks2" step="mark" />
+  </div>
+  <div class="slider-demo-block">
+    <el-slider v-model="value3" range :marks="marks3" step="mark" />
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { ref, shallowReactive } from 'vue'
+
+import type { CSSProperties } from 'vue'
+
+interface Mark {
+  style: CSSProperties
+  label: string
+}
+
+type Marks = Record<number, Mark | string>
+
+const value1 = ref(37)
+const marks1 = shallowReactive<Marks>({
+  0: '0°C',
+  37: '37°C',
+  100: '100°C',
+})
+
+const value2 = ref(50)
+const marks2 = shallowReactive<Marks>({
+  0: '0cm',
+  10: '10cm',
+  25: '25cm',
+  50: '50cm',
+  75: '75cm',
+  100: '100cm',
+})
+const value3 = ref([13, 42])
+const marks3 = shallowReactive<Marks>({
+  0: '0',
+  13: '13',
+  42: '42',
+  58: '58',
+  89: '89',
+  100: '100',
+})
+</script>
+
+<style scoped>
+.slider-demo-block {
+  max-width: 600px;
+  display: flex;
+  align-items: center;
+}
+.slider-demo-block .el-slider {
+  margin-top: 0;
+  margin-left: 12px;
+}
+.slider-demo-block + .slider-demo-block {
+  margin-top: 20px;
 }
 </style>
 
@@ -29328,9 +29443,9 @@ When `lazy` is enabled, the panel size will not update in real time during dragg
 
 ### SplitterPanel Exposes
 
-| Name                       | Description                 | Type                           |
-| -------------------------- | --------------------------- | ------------------------------ |
-| splitterPanelRef ^(2.11.9) | splitter-panel html element | ^[object]`Ref<HTMLDivElement>` |
+| Name                       | Description                | Type                           |
+| -------------------------- | -------------------------- | ------------------------------ |
+| splitterPanelRef ^(2.11.9) | SplitterPanel html element | ^[object]`Ref<HTMLDivElement>` |
 
 ## Vue Examples
 
@@ -37481,33 +37596,33 @@ You must wait for the DOM to be mounted before using `targetElement`.
 
 | Name                      | Description                                                                                                                                                                           | Type                                                                                                                                                                        | Default           |
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
-| append-to                 | which element the tooltip CONTENT appends to                                                                                                                                          | ^[CSSSelector] / ^[HTMLElement]                                                                                                                                             | —                 |
+| append-to                 | Which element the tooltip CONTENT appends to                                                                                                                                          | ^[CSSSelector] / ^[HTMLElement]                                                                                                                                             | —                 |
 | effect                    | Tooltip theme, built-in theme: `dark` / `light`                                                                                                                                       | ^[enum]`'dark' \| 'light'`                                                                                                                                                  | dark              |
-| content                   | display content, can be overridden by `slot#content`                                                                                                                                  | ^[string]                                                                                                                                                                   | ''                |
-| raw-content               | whether `content` is treated as HTML string                                                                                                                                           | ^[boolean]                                                                                                                                                                  | false             |
-| placement                 | position of Tooltip                                                                                                                                                                   | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | bottom            |
-| fallback-placements       | list of possible positions for Tooltip [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements)                                                                  | ^[array]`Placement[]`                                                                                                                                                       | —                 |
-| visible / v-model:visible | visibility of Tooltip                                                                                                                                                                 | ^[boolean]                                                                                                                                                                  | —                 |
-| disabled                  | whether Tooltip is disabled                                                                                                                                                           | ^[boolean]                                                                                                                                                                  | —                 |
-| offset                    | offset of the Tooltip                                                                                                                                                                 | ^[number]                                                                                                                                                                   | 12                |
-| transition                | animation name                                                                                                                                                                        | ^[string]                                                                                                                                                                   | —                 |
+| content                   | Display content, can be overridden by `slot#content`                                                                                                                                  | ^[string]                                                                                                                                                                   | ''                |
+| raw-content               | Whether `content` is treated as HTML string                                                                                                                                           | ^[boolean]                                                                                                                                                                  | false             |
+| placement                 | Position of Tooltip                                                                                                                                                                   | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | bottom            |
+| fallback-placements       | List of possible positions for Tooltip [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements)                                                                  | ^[array]`Placement[]`                                                                                                                                                       | —                 |
+| visible / v-model:visible | Visibility of Tooltip                                                                                                                                                                 | ^[boolean]                                                                                                                                                                  | —                 |
+| disabled                  | Whether Tooltip is disabled                                                                                                                                                           | ^[boolean]                                                                                                                                                                  | —                 |
+| offset                    | Offset of the Tooltip                                                                                                                                                                 | ^[number]                                                                                                                                                                   | 12                |
+| transition                | Animation name                                                                                                                                                                        | ^[string]                                                                                                                                                                   | —                 |
 | popper-options            | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                                                                                | ^[object]refer to [popper.js](https://popper.js.org/docs/v2/) doc                                                                                                           | {}                |
 | arrow-offset ^(2.9.10)    | Controls the offset (padding) of the tooltip’s arrow relative to the popper.                                                                                                          | ^[number]                                                                                                                                                                   | 5                 |
-| show-after                | delay of appearance, in millisecond, not valid in controlled mode                                                                                                                     | ^[number]                                                                                                                                                                   | 0                 |
-| show-arrow                | whether the tooltip content has an arrow                                                                                                                                              | ^[boolean]                                                                                                                                                                  | true              |
-| hide-after                | delay of disappear, in millisecond, not valid in controlled mode                                                                                                                      | ^[number]                                                                                                                                                                   | 200               |
-| auto-close                | timeout in milliseconds to hide tooltip, not valid in controlled mode                                                                                                                 | ^[number]                                                                                                                                                                   | 0                 |
-| popper-class              | custom class name for Tooltip's popper                                                                                                                                                | ^[string]                                                                                                                                                                   | —                 |
-| popper-style              | custom style for Tooltip's popper                                                                                                                                                     | ^[string] / ^[object]                                                                                                                                                       | —                 |
-| enterable                 | whether the mouse can enter the tooltip                                                                                                                                               | ^[boolean]                                                                                                                                                                  | true              |
-| teleported                | whether tooltip content is teleported, if `true` it will be teleported to where `append-to` sets                                                                                      | ^[boolean]                                                                                                                                                                  | true              |
+| show-after                | Delay of appearance, in millisecond, not valid in controlled mode                                                                                                                     | ^[number]                                                                                                                                                                   | 0                 |
+| show-arrow                | Whether the tooltip content has an arrow                                                                                                                                              | ^[boolean]                                                                                                                                                                  | true              |
+| hide-after                | Delay of disappear, in millisecond, not valid in controlled mode                                                                                                                      | ^[number]                                                                                                                                                                   | 200               |
+| auto-close                | Timeout in milliseconds to hide tooltip, not valid in controlled mode                                                                                                                 | ^[number]                                                                                                                                                                   | 0                 |
+| popper-class              | Custom class name for Tooltip's popper                                                                                                                                                | ^[string]                                                                                                                                                                   | —                 |
+| popper-style              | Custom style for Tooltip's popper                                                                                                                                                     | ^[string] / ^[object]                                                                                                                                                       | —                 |
+| enterable                 | Whether the mouse can enter the tooltip                                                                                                                                               | ^[boolean]                                                                                                                                                                  | true              |
+| teleported                | Whether tooltip content is teleported, if `true` it will be teleported to where `append-to` sets                                                                                      | ^[boolean]                                                                                                                                                                  | true              |
 | trigger                   | How should the tooltip be triggered (to show), not valid in controlled mode                                                                                                           | ^[enum]`'hover' \| 'click' \| 'focus' \| 'contextmenu'` / ^[array]`Array<'click' \| 'focus' \| 'hover' \| 'contextmenu'>`                                                   | hover             |
 | virtual-triggering        | Indicates whether virtual triggering is enabled                                                                                                                                       | ^[boolean]                                                                                                                                                                  | —                 |
 | virtual-ref               | Indicates the reference element to which the tooltip is attached                                                                                                                      | ^[HTMLElement]                                                                                                                                                              | —                 |
 | trigger-keys              | When you click the mouse to focus on the trigger element, you can define a set of keyboard codes to control the display of tooltip through the keyboard, not valid in controlled mode | ^[Array]                                                                                                                                                                    | ['Enter','Space'] |
-| persistent                | when tooltip inactive and `persistent` is `false` , tooltip will be destroyed                                                                                                         | ^[boolean]                                                                                                                                                                  | —                 |
-| aria-label ^(a11y)        | same as `aria-label`                                                                                                                                                                  | ^[string]                                                                                                                                                                   | —                 |
-| focus-on-target ^(2.11.2) | when triggering tooltips through hover, whether to focus the trigger element, which improves accessibility                                                                            | ^[boolean]                                                                                                                                                                  | false             |
+| persistent                | When tooltip inactive and `persistent` is `false` , tooltip will be destroyed                                                                                                         | ^[boolean]                                                                                                                                                                  | —                 |
+| aria-label ^(a11y)        | Same as `aria-label`                                                                                                                                                                  | ^[string]                                                                                                                                                                   | —                 |
+| focus-on-target ^(2.11.2) | When triggering tooltips through hover, whether to focus the trigger element, which improves accessibility                                                                            | ^[boolean]                                                                                                                                                                  | false             |
 
 ### Events
 
@@ -37523,7 +37638,7 @@ You must wait for the DOM to be mounted before using `targetElement`.
 | Name    | Description                                                                    |
 | ------- | ------------------------------------------------------------------------------ |
 | default | Tooltip triggering & reference element, only a single root element is accepted |
-| content | customize content                                                              |
+| content | Customize content                                                              |
 
 ### Exposes
 
@@ -37531,11 +37646,11 @@ You must wait for the DOM to be mounted before using `targetElement`.
 | -------------------- | ----------------------------------------------------------------- | --------------------------------------------------- |
 | popperRef            | el-popper component instance                                      | ^[object]`Ref<PopperInstance \| undefined>`         |
 | contentRef           | el-tooltip-content component instance                             | ^[object]`Ref<TooltipContentInstance \| undefined>` |
-| isFocusInsideContent | validate current focus event is trigger inside el-tooltip-content | ^[Function]`() => boolean \| undefined`             |
-| updatePopper         | update el-popper component instance                               | ^[Function]`() => void`                             |
-| onOpen               | expose onOpen function to mange el-tooltip open state             | ^[Function]`(event?: Event \| undefined) => void`   |
-| onClose              | expose onClose function to mange el-tooltip open state            | ^[Function]`(event?: Event \| undefined) => void`   |
-| hide                 | expose hide function                                              | ^[Function]`(event?: Event \| undefined) => void`   |
+| isFocusInsideContent | Validate current focus event is trigger inside el-tooltip-content | ^[Function]`() => boolean \| undefined`             |
+| updatePopper         | Update el-popper component instance                               | ^[Function]`() => void`                             |
+| onOpen               | Expose onOpen function to manage el-tooltip open state            | ^[Function]`(event?: Event \| undefined) => void`   |
+| onClose              | Expose onClose function to manage el-tooltip open state           | ^[Function]`(event?: Event \| undefined) => void`   |
+| hide                 | Expose hide function                                              | ^[Function]`(event?: Event \| undefined) => void`   |
 
 ## FAQ
 
@@ -37667,56 +37782,56 @@ onMounted(() => {
       </el-tooltip>
     </div>
     <div class="row">
-      <el-tooltip
-        class="box-item"
-        effect="dark"
-        content="Left Top prompts info"
-        placement="left-start"
-      >
+      <el-tooltip class="box-item" effect="dark" placement="left-start">
+        <template #content>
+          Left Top
+          <br />
+          prompts info
+        </template>
         <el-button>left-start</el-button>
       </el-tooltip>
-      <el-tooltip
-        class="box-item"
-        effect="dark"
-        content="Right Top prompts info"
-        placement="right-start"
-      >
+      <el-tooltip class="box-item" effect="dark" placement="right-start">
+        <template #content>
+          Right Top
+          <br />
+          prompts info
+        </template>
         <el-button>right-start</el-button>
       </el-tooltip>
     </div>
     <div class="row">
-      <el-tooltip
-        class="box-item"
-        effect="dark"
-        content="Left Center prompts info"
-        placement="left"
-      >
+      <el-tooltip class="box-item" effect="dark" placement="left">
+        <template #content>
+          Left Center
+          <br />
+          prompts info
+        </template>
         <el-button class="mt-3 mb-3">left</el-button>
       </el-tooltip>
-      <el-tooltip
-        class="box-item"
-        effect="dark"
-        content="Right Center prompts info"
-        placement="right"
-      >
+      <el-tooltip class="box-item" effect="dark" placement="right">
+        <template #content>
+          Right Center
+          <br />
+          prompts info
+        </template>
         <el-button>right</el-button>
       </el-tooltip>
     </div>
     <div class="row">
-      <el-tooltip
-        class="box-item"
-        effect="dark"
-        content="Left Bottom prompts info"
-        placement="left-end"
-      >
+      <el-tooltip class="box-item" effect="dark" placement="left-end">
+        <template #content>
+          Left Bottom
+          <br />
+          prompts info
+        </template>
         <el-button>left-end</el-button>
       </el-tooltip>
-      <el-tooltip
-        class="box-item"
-        effect="dark"
-        content="Right Bottom prompts info"
-        placement="right-end"
-      >
+      <el-tooltip class="box-item" effect="dark" placement="right-end">
+        <template #content>
+          Right Bottom
+          <br />
+          prompts info
+        </template>
         <el-button>right-end</el-button>
       </el-tooltip>
     </div>
