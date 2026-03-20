@@ -656,6 +656,15 @@
     background-color: getCssVar('table-border-color');
   }
 
+  .#{$namespace}-table-fixed-column--right {
+    &.is-first-column {
+      .#{$namespace}-table--border & {
+        border-left: none;
+        box-shadow: -1px 0 0 getCssVar('table-border-color');
+      }
+    }
+  }
+
   @include m(enable-row-transition) {
     .#{$namespace}-table__body td.#{$namespace}-table__cell {
       transition: background-color 0.25s ease;
