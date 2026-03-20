@@ -20,18 +20,21 @@ export type ModelValueType = DateModelType | number[] | string[] | Date[]
 export type DayOrDays = SingleOrRange<Dayjs>
 export type DateOrDates = SingleOrRange<Date>
 export type UserInput = SingleOrRange<string | null>
-export type GetDisabledHours = (role: string, comparingDate?: Dayjs) => number[]
+export type GetDisabledHours = (
+  role: string,
+  comparingDate?: Dayjs
+) => number[] | undefined
 export type GetDisabledMinutes = (
   hour: number,
   role: string,
   comparingDate?: Dayjs
-) => number[]
+) => number[] | undefined
 export type GetDisabledSeconds = (
   hour: number,
   minute: number,
   role: string,
   comparingDate?: Dayjs
-) => number[]
+) => number[] | undefined
 
 export const timePickerDefaultProps = buildProps({
   /**

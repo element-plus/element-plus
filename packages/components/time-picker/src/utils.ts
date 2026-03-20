@@ -82,7 +82,10 @@ export const formatter = function (
   return dayjs(date).locale(lang).format(format)
 }
 
-export const makeList = (total: number, method?: () => number[]) => {
+export const makeList = (
+  total: number,
+  method?: () => number[] | undefined
+) => {
   const arr: boolean[] = []
   const disabledArr = method?.()
   for (let i = 0; i < total; i++) {
