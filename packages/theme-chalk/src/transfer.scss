@@ -84,6 +84,7 @@
     }
 
     &.#{$namespace}-checkbox {
+      height: getCssVar('transfer-item-height');
       color: getCssVar('text-color', 'regular');
       margin-right: 30px;
     }
