@@ -97,6 +97,10 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const expanded = ref(false)
   const hoverOption = ref()
   const debouncing = ref(false)
+  const overwrittenOptionMap = new Map<
+    OptionPublicInstance,
+    OptionPublicInstance
+  >()
 
   const { form, formItem } = useFormItem()
   const { inputId } = useFormItemInputId(props, {
@@ -231,11 +235,18 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     )
   })
 
+  const traverseAllOptions = (cb: (option: OptionPublicInstance) => void) => {
+    optionsArray.value.forEach(cb)
+    overwrittenOptionMap.forEach((original) => {
+      cb(original)
+    })
+  }
+
   const updateOptions = () => {
     if (props.filterable && isFunction(props.filterMethod)) return
     if (props.filterable && props.remote && isFunction(props.remoteMethod))
       return
-    optionsArray.value.forEach((option) => {
+    traverseAllOptions((option) => {
       option.updateOption?.(states.inputValue)
     })
   }
@@ -643,11 +654,28 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   }
 
   const onOptionCreate = (vm: OptionPublicInstance) => {
-    states.options.set(vm.value, vm)
-    states.cachedOptions.set(vm.value, vm)
+    const value = vm.value
+    const existingOption = states.options.get(value)
+
+    if (vm.created && existingOption && existingOption !== vm) {
+      overwrittenOptionMap.set(vm, existingOption)
+    } else if (!vm.created && existingOption?.created) {
+      overwrittenOptionMap.delete(existingOption)
+    }
+
+    states.options.set(value, vm)
+    states.cachedOptions.set(value, vm)
   }
 
   const onOptionDestroy = (key: OptionValue, vm: OptionPublicInstance) => {
+    const overwrittenOption = overwrittenOptionMap.get(vm)
+    if (overwrittenOption) {
+      states.options.set(key, overwrittenOption)
+      states.cachedOptions.set(key, overwrittenOption)
+      overwrittenOptionMap.delete(vm)
+      return
+    }
+
     if (states.options.get(key) === vm) {
       states.options.delete(key)
     }
