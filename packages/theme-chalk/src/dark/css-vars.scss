@@ -43,3 +43,7 @@ html.dark {
 @include dark(empty) {
   @include set-component-css-var('empty', $empty);
 }
+
+@include dark(table) {
+  @include set-component-css-var('table', $table);
+}
