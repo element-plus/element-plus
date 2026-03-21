@@ -74,6 +74,13 @@ export const linkProps = buildProps({
     default: '_self',
   },
   /**
+   * @description same as native hyperlink's `rel`
+   */
+  rel: {
+    type: String,
+    default: undefined,
+  },
+  /**
    * @description icon component
    */
   icon: {
