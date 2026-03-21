@@ -95,6 +95,10 @@ export interface InputNumberProps {
    * @description whether to disable scientific notation input (e.g. 'e', 'E')
    */
   disabledScientific?: boolean
+  /**
+   * @description same as `tabindex` in native input
+   */
+  tabindex?: string | number
 }
 
 /**
@@ -220,6 +224,13 @@ export const inputNumberProps = buildProps({
    * @description whether to disable scientific notation input (e.g. 'e', 'E')
    */
   disabledScientific: Boolean,
+  /**
+   * @description same as `tabindex` in native input
+   */
+  tabindex: {
+    type: [String, Number],
+    default: 0,
+  },
 } as const)
 
 /**
