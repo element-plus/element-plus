@@ -81,12 +81,15 @@ export const useRangePicker = (
   }
 
   const restoreDefault = () => {
-    let [start, end] = getDefaultValue(unref(defaultValue), {
-      lang: unref(lang),
-      step,
-      unit,
-      unlinkPanels: props.unlinkPanels,
-    })
+    let [start, end] = getDefaultValue(
+      unref(defaultValue) || unref(defaultTime),
+      {
+        lang: unref(lang),
+        step,
+        unit,
+        unlinkPanels: props.unlinkPanels,
+      }
+    )
     const getShift = (day: Dayjs) => {
       return day.diff(day.startOf('d'), 'ms')
     }
