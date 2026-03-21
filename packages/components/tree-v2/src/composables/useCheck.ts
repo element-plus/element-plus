@@ -9,7 +9,11 @@ import type { CheckboxValueType } from '@element-plus/components/checkbox'
 import type { Ref } from 'vue'
 import type { Tree, TreeKey, TreeNode, TreeNodeData, TreeProps } from '../types'
 
-export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
+export function useCheck(
+  props: TreeProps,
+  tree: Ref<Tree | undefined>,
+  hiddenNodeKeySet: Ref<Set<TreeKey>>
+) {
   const checkedKeys = ref<Set<TreeKey>>(new Set())
   const indeterminateKeys = ref<Set<TreeKey>>(new Set())
   const { emit } = getCurrentInstance()!
@@ -33,6 +37,8 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
     const { levelTreeNodeMap, maxLevel } = tree.value
     const checkedKeySet = checkedKeys.value
     const indeterminateKeySet = new Set<TreeKey>()
+    const hiddenKeySet = hiddenNodeKeySet.value
+
     // It is easier to determine the indeterminate state by
     // traversing from bottom to top
     // leaf nodes not have indeterminate status and can be skipped
@@ -44,15 +50,20 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
         let isEffectivelyChecked =
           !node.isLeaf || node.disabled || checkedKeySet.has(node.key)
         if (children) {
-          // Whether all child nodes are selected
+          // Whether all visible child nodes are selected
           let allChecked = true
-          // Whether a child node is selected
+          // Whether a visible child node is selected
           let hasChecked = false
+          // Whether there is at least one visible child
+          let hasVisibleChild = false
           for (const childNode of children) {
             const key = childNode.key
             if (!childNode.isEffectivelyChecked) {
               isEffectivelyChecked = false
             }
+            // Skip hidden children when computing parent check state
+            if (hiddenKeySet.has(key)) continue
+            hasVisibleChild = true
             if (checkedKeySet.has(key)) {
               hasChecked = true
             } else if (indeterminateKeySet.has(key)) {
@@ -63,14 +74,16 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
               allChecked = false
             }
           }
-          if (allChecked) {
-            checkedKeySet.add(node.key)
-          } else if (hasChecked) {
-            indeterminateKeySet.add(node.key)
-            checkedKeySet.delete(node.key)
-          } else {
-            checkedKeySet.delete(node.key)
-            indeterminateKeySet.delete(node.key)
+          if (hasVisibleChild) {
+            if (allChecked) {
+              checkedKeySet.add(node.key)
+            } else if (hasChecked) {
+              indeterminateKeySet.add(node.key)
+              checkedKeySet.delete(node.key)
+            } else {
+              checkedKeySet.delete(node.key)
+              indeterminateKeySet.delete(node.key)
+            }
           }
         }
         node.isEffectivelyChecked = isEffectivelyChecked
@@ -93,7 +106,22 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
     const checkedKeySet = checkedKeys.value
     const children = node.children
     if (!props.checkStrictly && nodeClick && children?.length) {
-      isChecked = children.some((node) => !node.isEffectivelyChecked)
+      const hiddenKeys = hiddenNodeKeySet.value
+      if (hiddenKeys.size > 0) {
+        // When filter is active, determine toggle direction based on visible
+        // children's check state only, to avoid needing two clicks to uncheck
+        // a parent whose visible children are all checked but hidden children are not
+        const visibleChildren = children.filter(
+          (child) => !hiddenKeys.has(child.key)
+        )
+        const checkTargets =
+          visibleChildren.length > 0 ? visibleChildren : children
+        isChecked = checkTargets.some(
+          (child) => !child.disabled && !checkedKeySet.has(child.key)
+        )
+      } else {
+        isChecked = children.some((node) => !node.isEffectivelyChecked)
+      }
     }
 
     const toggle = (node: TreeNode, checked: CheckboxValueType) => {
@@ -156,6 +184,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
     if (tree?.value && props.showCheckbox) {
       const { treeNodeMap } = tree.value
       checkedKeys.value.forEach((key) => {
+        if (hiddenNodeKeySet.value.has(key)) return
         const node = treeNodeMap.get(key)
         if (node && (!leafOnly || (leafOnly && node.isLeaf))) {
           keys.push(key)
@@ -178,6 +207,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
     if (tree?.value && props.showCheckbox) {
       const { treeNodeMap } = tree.value
       indeterminateKeys.value.forEach((key) => {
+        if (hiddenNodeKeySet.value.has(key)) return
         const node = treeNodeMap.get(key)
         if (node) {
           halfCheckedKeys.push(key)
