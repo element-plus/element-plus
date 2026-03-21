@@ -11,6 +11,10 @@
         "link": "/guide/nav"
       },
       {
+        "text": "Compatibility",
+        "link": "/guide/compatibility"
+      },
+      {
         "text": "Installation",
         "link": "/guide/installation"
       },
