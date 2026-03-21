@@ -64,8 +64,6 @@ $ pnpm install -D unplugin-vue-components unplugin-auto-import
 
 Then add the code below into your `Vite` or `Webpack` config file.
 
-##### Vite
-
 ::: code-group
 
 ```ts [vite.config.ts]
