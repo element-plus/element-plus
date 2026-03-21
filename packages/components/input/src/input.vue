@@ -202,6 +202,7 @@ import {
   ValidateComponentsMap,
   debugWarn,
   isClient,
+  isFunction,
   isObject,
 } from '@element-plus/utils'
 import {
@@ -233,8 +234,17 @@ const props = withDefaults(defineProps<InputProps>(), inputPropsDefaults)
 const emit = defineEmits(inputEmits)
 
 const rawAttrs = useRawAttrs()
-const attrs = useAttrs()
 const slots = useSlots()
+
+const containerAttrs = computed(() => {
+  const comboBoxAttrs: Record<string, unknown> = {}
+  if (props.containerRole === 'combobox') {
+    comboBoxAttrs['aria-haspopup'] = rawAttrs['aria-haspopup']
+    comboBoxAttrs['aria-owns'] = rawAttrs['aria-owns']
+    comboBoxAttrs['aria-expanded'] = rawAttrs['aria-expanded']
+  }
+  return comboBoxAttrs
+})
 
 const containerKls = computed(() => [
   props.type === 'textarea' ? nsTextarea.b() : nsInput.b(),
@@ -258,6 +268,22 @@ const wrapperKls = computed(() => [
   nsInput.is('focus', isFocused.value),
 ])
 
+const attrs = useAttrs({
+  excludeKeys: computed<string[]>(() => {
+    const _attrs = Object.keys(containerAttrs.value)
+    if (props.countGraphemes) {
+      _attrs.push('maxlength', 'minlength')
+    }
+    return _attrs
+  }),
+})
+const maxlength = computed(() => {
+  if (props.showWordLimit && rawAttrs.maxlength) {
+    return rawAttrs.maxlength as string
+  }
+  return 0
+})
+
 const { form: elForm, formItem: elFormItem } = useFormItem()
 const { inputId } = useFormItemInputId(props, {
   formItemContext: elFormItem,
@@ -274,6 +300,7 @@ const hovering = ref(false)
 const passwordVisible = ref(false)
 const countStyle = ref<StyleValue>()
 const textareaCalcStyle = shallowRef(props.inputStyle)
+const saveValue = ref('')
 
 const _ref = computed(() => input.value || textarea.value)
 
@@ -321,17 +348,26 @@ const showPwdVisible = computed(
 const isWordLimitVisible = computed(
   () =>
     props.showWordLimit &&
-    !!props.maxlength &&
+    !!maxlength.value &&
     (props.type === 'text' || props.type === 'textarea') &&
     !inputDisabled.value &&
     !props.readonly &&
     !props.showPassword
 )
-const textLength = computed(() => nativeInputValue.value.length)
+const textLength = computed(() => {
+  if (
+    props.countGraphemes &&
+    isFunction(props.countGraphemes) &&
+    props.showWordLimit
+  ) {
+    return props.countGraphemes(nativeInputValue.value)
+  }
+  return nativeInputValue.value.length
+})
 const inputExceed = computed(
   () =>
     // show exceed style if length of initial value greater then maxlength
-    !!isWordLimitVisible.value && textLength.value > Number(props.maxlength)
+    !!isWordLimitVisible.value && textLength.value > Number(maxlength.value)
 )
 const suffixVisible = computed(
   () =>
@@ -445,6 +481,14 @@ const handleInput = async (event: Event) => {
 
   value = formatValue(value)
 
+  if (props.countGraphemes && isFunction(props.countGraphemes)) {
+    const graphemes = props.countGraphemes(value)
+    const saveGraphemes = props.countGraphemes(saveValue.value)
+    if (graphemes > Number(maxlength.value) && graphemes > saveGraphemes) {
+      value = saveValue.value
+    }
+  }
+
   // hack for https://github.com/ElemeFE/element/issues/8548
   // should remove the following line when we don't support IE
   if (String(value) === nativeInputValue.value) {
@@ -454,6 +498,7 @@ const handleInput = async (event: Event) => {
     }
     return
   }
+  saveValue.value = value
 
   recordCursor()
   emit(UPDATE_MODEL_EVENT, value)
@@ -530,6 +575,14 @@ watch(
       elFormItem?.validate?.('change').catch((err) => debugWarn(err))
     }
   }
+)
+
+watch(
+  () => nativeInputValue.value,
+  (val) => {
+    saveValue.value = val
+  },
+  { immediate: true }
 )
 
 // native input value is set explicitly

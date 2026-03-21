@@ -162,6 +162,10 @@ export interface InputProps {
    * @description same as `name` in native input
    */
   name?: string
+  /**
+   * @description Count graphemes of input value. If it's set, native maxlength and minlength won't be used.
+   */
+  countGraphemes?: (value: string) => number
 }
 
 /**
@@ -338,6 +342,12 @@ export const inputProps = buildProps({
   inputStyle: {
     type: definePropType<StyleValue>([Object, Array, String]),
     default: () => mutable({} as const),
+  },
+  /**
+   * @description Count graphemes of input value. If it's set, native maxlength and minlength won't be used.
+   */
+  countGraphemes: {
+    type: Function,
   },
   /**
    * @description native input autofocus

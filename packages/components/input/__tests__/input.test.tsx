@@ -97,6 +97,46 @@ describe('Input.vue', () => {
         ]
       `)
     })
+    test('el-input add count-graphemes', async () => {
+      const inputVal = ref('12🌚')
+      const calc = (value: string) => {
+        return Array.from(value).length
+      }
+      const wrapper = mount(() => (
+        <Input
+          class="test-exceed"
+          maxlength="4"
+          showWordLimit
+          count-graphemes={calc}
+          v-model={inputVal.value}
+        />
+      ))
+      const vm = wrapper.vm
+      const inputElm = wrapper.find('input')
+      const nativeInput = inputElm.element
+      expect(nativeInput.value).toMatchInlineSnapshot(`"12🌚"`)
+
+      const elCount = wrapper.find('.el-input__count-inner')
+      expect(elCount.exists()).toBe(true)
+      expect(elCount.text()).toMatchInlineSnapshot(`"3 / 4"`)
+
+      inputVal.value = '1👌3😄'
+      await nextTick()
+      expect(nativeInput.value).toMatchInlineSnapshot(`"1👌3😄"`)
+      expect(elCount.text()).toMatchInlineSnapshot(`"4 / 4"`)
+
+      inputVal.value = '哈哈1👌3😄'
+      await nextTick()
+      expect(nativeInput.value).toMatchInlineSnapshot(`"哈哈1👌3😄"`)
+      expect(elCount.text()).toMatchInlineSnapshot(`"6 / 4"`)
+      expect(Array.from(vm.$el.classList)).toMatchInlineSnapshot(`
+        [
+          "el-input",
+          "is-exceed",
+          "test-exceed",
+        ]
+      `)
+    })
 
     test('textarea should minimize value between emoji length and maxLength', async () => {
       const inputVal = ref('啊好😄')
@@ -128,6 +168,41 @@ describe('Input.vue', () => {
         ]
       `)
     })
+  })
+
+  test('textarea add count-graphemes', async () => {
+    const inputVal = ref('啊好😄')
+    const calc = (value: string) => {
+      return Array.from(value).length
+    }
+    const wrapper = mount(() => (
+      <Input
+        type="textarea"
+        maxlength="4"
+        showWordLimit
+        count-graphemes={calc}
+        v-model={inputVal.value}
+      />
+    ))
+    const vm = wrapper.vm
+    const inputElm = wrapper.find('textarea')
+    const nativeInput = inputElm.element
+    expect(nativeInput.value).toMatchInlineSnapshot(`"啊好😄"`)
+
+    const elCount = wrapper.find('.el-input__count')
+    expect(elCount.exists()).toBe(true)
+    expect(elCount.text()).toMatchInlineSnapshot(`"3 / 4"`)
+
+    inputVal.value = '哈哈1👌3😄'
+    await nextTick()
+    expect(nativeInput.value).toMatchInlineSnapshot(`"哈哈1👌3😄"`)
+    expect(elCount.text()).toMatchInlineSnapshot(`"6 / 4"`)
+    expect(Array.from(vm.$el.classList)).toMatchInlineSnapshot(`
+      [
+        "el-textarea",
+        "is-exceed",
+      ]
+    `)
   })
 
   test('suffixIcon', () => {
