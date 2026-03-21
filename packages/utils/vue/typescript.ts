@@ -16,7 +16,9 @@ type ExtractEventNames<T> = T extends new (...args: any[]) => any
         | undefined
       ? keyof Emits extends string
         ? `on${Capitalize<keyof Emits>}`
-        : never
+        : Emits extends readonly string[]
+          ? `on${Capitalize<Emits[number]>}`
+          : never
       : never
     : never
   : never
