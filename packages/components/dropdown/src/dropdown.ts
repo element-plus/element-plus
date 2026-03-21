@@ -16,7 +16,7 @@ import type { Arrayable, Nullable } from '@element-plus/utils'
 export interface IElDropdownInstance {
   instance?: ComponentInternalInstance
   dropdownSize?: ComputedRef<string>
-  handleClick?: () => void
+  handleClick?: (e: Event) => void
   commandHandler?: (...arg: any[]) => void
   show?: () => void
   hide?: () => void
