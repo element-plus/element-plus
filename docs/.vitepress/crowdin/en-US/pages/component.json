@@ -127,6 +127,11 @@
         "promotion": "2.9.0"
       },
       {
+        "link": "/input-otp",
+        "text": "Input OTP",
+        "promotion": "2.14.0"
+      },
+      {
         "link": "/mention",
         "text": "Mention",
         "promotion": "2.8.0"

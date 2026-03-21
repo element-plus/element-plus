@@ -83,7 +83,10 @@ export function SupplyValidator(): Plugin {
     name: 'supply-validator-plugin',
     transform: {
       filter: {
-        id: /\.vue.*type=script/,
+        id: {
+          include: /\.vue.*type=script/,
+          exclude: /input-otp\.vue/,
+        },
       },
       handler(code, id) {
         const vueFilePath = id.slice(0, id.indexOf('?'))
