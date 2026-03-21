@@ -47,6 +47,7 @@ export const useDialog = (
   const rendered = ref(false) // when destroyOnClose is true, we initialize it as false vise versa
   const zIndex = ref(props.zIndex ?? nextZIndex())
   const closing = ref(false)
+  const historyIndex = ref(0)
 
   let openTimer: (() => void) | undefined = undefined
   let closeTimer: (() => void) | undefined = undefined
@@ -229,6 +230,13 @@ export const useDialog = (
     }
   }
 
+  function onModifyIndex() {
+    if (props.modalPenetrable) {
+      historyIndex.value = zIndex.value
+      zIndex.value = nextZIndex()
+    }
+  }
+
   watch(
     () => props.zIndex,
     () => {
@@ -309,5 +317,6 @@ export const useDialog = (
     _alignCenter,
     _overflow,
     closing,
+    onModifyIndex,
   }
 }
