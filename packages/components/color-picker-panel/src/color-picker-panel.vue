@@ -43,7 +43,16 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, nextTick, onMounted, provide, ref, watch } from 'vue'
+import {
+  computed,
+  inject,
+  nextTick,
+  onMounted,
+  provide,
+  ref,
+  useTemplateRef,
+  watch,
+} from 'vue'
 import { ElInput } from '@element-plus/components/input'
 import { useFormDisabled, useFormItem } from '@element-plus/components/form'
 import { useNamespace } from '@element-plus/hooks'
@@ -77,10 +86,10 @@ const emit = defineEmits(colorPickerPanelEmits)
 const ns = useNamespace('color-picker-panel')
 const { formItem } = useFormItem()
 const disabled = useFormDisabled()
-const hueRef = ref<InstanceType<typeof HueSlider>>()
-const svRef = ref<InstanceType<typeof SvPanel>>()
-const alphaRef = ref<InstanceType<typeof AlphaSlider>>()
-const inputRef = ref<InputInstance>()
+const hueRef = useTemplateRef<InstanceType<typeof HueSlider>>('hueRef')
+const svRef = useTemplateRef<InstanceType<typeof SvPanel>>('svRef')
+const alphaRef = useTemplateRef<InstanceType<typeof AlphaSlider>>('alphaRef')
+const inputRef = useTemplateRef<InputInstance>('inputRef')
 const customInput = ref('')
 
 const { color } = inject(

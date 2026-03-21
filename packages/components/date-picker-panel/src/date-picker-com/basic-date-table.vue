@@ -51,7 +51,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onBeforeUnmount } from 'vue'
+import { onBeforeUnmount, useTemplateRef } from 'vue'
 import {
   basicDateTableEmits,
   basicDateTableProps,
@@ -65,10 +65,11 @@ import ElDatePickerCell from './basic-cell-render'
 const props = defineProps(basicDateTableProps)
 const emit = defineEmits(basicDateTableEmits)
 
+const tbodyRef = useTemplateRef<HTMLElement>('tbodyRef')
+
 const {
   WEEKS,
   rows,
-  tbodyRef,
   currentCellRef,
 
   focus,
@@ -81,7 +82,7 @@ const {
   handleMouseDown,
   handleMouseMove,
   handleFocus,
-} = useBasicDateTable(props, emit)
+} = useBasicDateTable(props, emit, tbodyRef)
 const { tableLabel, tableKls, getCellClasses, getRowKls, weekHeaderClass, t } =
   useBasicDateTableDOM(props, {
     isCurrent,

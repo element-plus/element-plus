@@ -37,7 +37,7 @@ export type SliderButtonInstance = ComponentPublicInstance<typeof Button>
 
 export type ButtonRefs = Record<
   'firstButton' | 'secondButton',
-  Ref<SliderButtonInstance | undefined>
+  Readonly<Ref<SliderButtonInstance | null>>
 >
 
 export interface SliderButtonInitData {
