@@ -66,6 +66,8 @@ Then add the code below into your `Vite` or `Webpack` config file.
 
 ##### Vite
 
+::: code-group
+
 ```ts [vite.config.ts]
 import { defineConfig } from 'vite'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -86,8 +88,6 @@ export default defineConfig({
 })
 ```
 
-##### Webpack
-
 ```js [webpack.config.js]
 const AutoImport = require('unplugin-auto-import/webpack')
 const Components = require('unplugin-vue-components/webpack')
@@ -105,6 +105,8 @@ module.exports = {
   ],
 }
 ```
+
+:::
 
 For more bundlers ([Rollup](https://rollupjs.org/), [Vue CLI](https://cli.vuejs.org/)) and configs please reference [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components#installation) and [unplugin-auto-import](https://github.com/antfu/unplugin-auto-import#install).
 
@@ -151,12 +153,8 @@ And refer to the [docs](https://github.com/element-plus/unplugin-element-plus#re
   <el-button>I am ElButton</el-button>
 </template>
 
-<script>
+<script setup lang="ts">
 import { ElButton } from 'element-plus'
-
-export default {
-  components: { ElButton },
-}
 </script>
 ```
 
@@ -204,21 +202,11 @@ On-demand:
   </el-config-provider>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
+<script setup lang="ts">
 import { ElConfigProvider } from 'element-plus'
 
-export default defineComponent({
-  components: {
-    ElConfigProvider,
-  },
-  setup() {
-    return {
-      zIndex: 3000,
-      size: 'small',
-    }
-  },
-})
+const zIndex = 3000
+const size = 'small'
 </script>
 ```
 
