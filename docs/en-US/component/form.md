@@ -123,6 +123,16 @@ form/accessibility
 
 :::
 
+## Form Section
+
+Use `el-form-section` to group form fields for section-level validation and reset. This is useful for large forms split across multiple tabs or components where you need to validate or reset specific sections independently.
+
+:::demo
+
+form/form-section
+
+:::
+
 ## Form API
 
 ### Form Attributes
@@ -221,6 +231,28 @@ If you don't want to trigger the validator based on input events, set the `valid
 | resetField                | Reset current field and remove validation result.                                                  | ^[Function]`() => void`                                                                              |
 | clearValidate             | Remove validation status of the field.                                                             | ^[Function]`() => void`                                                                              |
 | setInitialValue ^(2.13.1) | Set initial value for this field. When `resetField` is called, the field will reset to this value. | ^[Function]`(value: any) => void`                                                                    |
+
+## FormSection API
+
+### FormSection Events
+
+| Name     | Description                                            | Type                                                                         |
+| -------- | ------------------------------------------------------ | ---------------------------------------------------------------------------- |
+| validate | Triggers after a form item within section is validated | ^[Function]`(prop: FormItemProp, isValid: boolean, message: string) => void` |
+
+### FormSection Slots
+
+| Name    | Description              | Subtags  |
+| ------- | ------------------------ | -------- |
+| default | Content of Form Section. | FormItem |
+
+### FormSection Exposes
+
+| Name          | Description                                                                        | Type                                                            |
+| ------------- | ---------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| validate      | Validate all fields within this section. Receives a callback or returns `Promise`. | ^[Function]`(callback?: FormValidateCallback) => Promise<void>` |
+| resetFields   | Reset all fields within this section and remove validation result.                 | ^[Function]`() => void`                                         |
+| clearValidate | Clear validation message for all fields within this section.                       | ^[Function]`() => void`                                         |
 
 ## Type Declarations
 
