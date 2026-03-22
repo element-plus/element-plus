@@ -2,6 +2,8 @@
 import { nextTick } from 'vue'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import makeMount from '@element-plus/test-utils/make-mount'
+import makeScroll from '@element-plus/test-utils/make-scroll'
+import { rAF } from '@element-plus/test-utils/tick'
 import {
   END_ALIGNMENT,
   HORIZONTAL,
@@ -169,6 +171,107 @@ describe('<dynamic-size-list />', () => {
         BASE_SIZE + 5 * 11
       )
       expect(wrapper.findAll(ITEM_SELECTOR).length).toBeLessThanOrEqual(9)
+    })
+
+    it('should emit end-reached when wheel scrolling reaches bottom', async () => {
+      const onEndReached = vi.fn()
+      const wrapper = mount({
+        props: {
+          onEndReached,
+        },
+      })
+
+      await nextTick()
+
+      const { windowRef } = wrapper.vm.$refs.listRef as ListRef
+      windowRef.dispatchEvent(
+        new WheelEvent('wheel', {
+          bubbles: true,
+          cancelable: true,
+          deltaY: 3000,
+        })
+      )
+
+      await rAF()
+      await nextTick()
+
+      expect(onEndReached).toHaveBeenCalledWith('bottom')
+      expect(onEndReached).toHaveBeenCalledOnce()
+    })
+
+    it('should emit end-reached when native scrolling reaches bottom', async () => {
+      const onEndReached = vi.fn()
+      const wrapper = mount({
+        props: {
+          onEndReached,
+        },
+      })
+
+      await nextTick()
+
+      const { innerRef, windowRef } = wrapper.vm.$refs.listRef as ListRef
+      const bottomOffset = Number.parseInt(innerRef.style.height, 10) - 100
+
+      await makeScroll(windowRef, 'scrollTop', bottomOffset)
+      await nextTick()
+
+      expect(onEndReached).toHaveBeenCalledWith('bottom')
+      expect(onEndReached).toHaveBeenCalledOnce()
+    })
+
+    it('should emit end-reached when clicking scrollbar track to bottom', async () => {
+      const onEndReached = vi.fn()
+      const wrapper = mount({
+        props: {
+          onEndReached,
+        },
+      })
+
+      await nextTick()
+
+      const track = wrapper.find('.el-virtual-scrollbar').element
+      const event = new MouseEvent('mousedown', {
+        bubbles: true,
+        cancelable: true,
+        clientY: 100,
+      })
+      track.dispatchEvent(event)
+
+      await nextTick()
+
+      expect(onEndReached).toHaveBeenCalledWith('bottom')
+      expect(onEndReached).toHaveBeenCalledOnce()
+    })
+
+    it('should emit end-reached again after total increases and bottom is reached again', async () => {
+      const onEndReached = vi.fn()
+      const wrapper = mount({
+        props: {
+          total: 50,
+          onEndReached,
+        },
+      })
+
+      await nextTick()
+
+      const listRef = wrapper.vm.$refs.listRef as ListRef
+      const getBottomOffset = () =>
+        Number.parseInt(listRef.innerRef.style.height, 10) - 100
+
+      listRef.scrollTo(getBottomOffset())
+      await nextTick()
+
+      expect(onEndReached).toHaveBeenNthCalledWith(1, 'bottom')
+
+      await wrapper.setProps({
+        total: 100,
+      })
+
+      listRef.scrollTo(getBottomOffset())
+      await nextTick()
+
+      expect(onEndReached).toHaveBeenNthCalledWith(2, 'bottom')
+      expect(onEndReached).toHaveBeenCalledTimes(2)
     })
 
     // make sure to scroll with in [0, 30), thus we won't get offset issue since

@@ -49,7 +49,10 @@ import {
 
 import type { Component } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
-import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
+import type {
+  ScrollbarDirection,
+  ScrollbarInstance,
+} from '@element-plus/components/scrollbar'
 import type { SelectEmits, SelectProps } from './select'
 import type {
   OptionBasic,
@@ -902,6 +905,10 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     emit('popup-scroll', data)
   }
 
+  const endReached = (direction: ScrollbarDirection) => {
+    emit('end-reached', direction)
+  }
+
   useResizeObserver(selectionRef, resetSelectionWidth)
   useResizeObserver(wrapperRef, updateTooltip)
   useResizeObserver(tagMenuRef, updateTagTooltip)
@@ -984,6 +991,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     collapseTagList,
     popupScroll,
     getOption,
+    endReached,
 
     // computed style
     tagStyle,

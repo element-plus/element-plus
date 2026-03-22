@@ -290,6 +290,7 @@
           :hovering-index="states.hoveringIndex"
           :scrollbar-always-on="scrollbarAlwaysOn"
           :aria-label="ariaLabel"
+          @end-reached="onEndReached"
         >
           <template v-if="$slots.header" #header>
             <div :class="nsSelect.be('dropdown', 'header')" @click.stop>
