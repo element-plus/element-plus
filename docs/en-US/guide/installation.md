@@ -46,7 +46,7 @@ In addition, every commit and PR on the dev branch will be published to [pkg.pr.
 
 ## Using Package Manager
 
-**We recommend using the package manager ([Npm](https://www.npmjs.com/), [Yarn](https://classic.yarnpkg.com/lang/en/), [Pnpm](https://pnpm.io/)) to install Element Plus**,
+**We recommend using the package manager ([NPM](https://www.npmjs.com/), [Yarn](https://classic.yarnpkg.com/lang/en/), [PNPM](https://pnpm.io/)) to install Element Plus**,
 so that you can utilize bundlers like [Vite](https://vitejs.dev) and
 [Webpack](https://webpack.js.org/).
 
