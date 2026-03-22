@@ -235,16 +235,6 @@ const emit = defineEmits(inputEmits)
 const rawAttrs = useRawAttrs()
 const slots = useSlots()
 
-const containerAttrs = computed(() => {
-  const comboBoxAttrs: Record<string, unknown> = {}
-  if (props.containerRole === 'combobox') {
-    comboBoxAttrs['aria-haspopup'] = rawAttrs['aria-haspopup']
-    comboBoxAttrs['aria-owns'] = rawAttrs['aria-owns']
-    comboBoxAttrs['aria-expanded'] = rawAttrs['aria-expanded']
-  }
-  return comboBoxAttrs
-})
-
 const containerKls = computed(() => [
   props.type === 'textarea' ? nsTextarea.b() : nsInput.b(),
   nsInput.m(inputSize.value),
@@ -267,11 +257,7 @@ const wrapperKls = computed(() => [
   nsInput.is('focus', isFocused.value),
 ])
 
-const attrs = useAttrs({
-  excludeKeys: computed<string[]>(() => {
-    return Object.keys(containerAttrs.value)
-  }),
-})
+const attrs = useAttrs()
 const maxlength = computed<string | undefined>(() => {
   return props.maxlength ? String(props.maxlength) : undefined
 })
