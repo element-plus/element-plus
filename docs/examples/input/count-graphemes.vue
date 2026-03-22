@@ -13,12 +13,14 @@
     maxlength="20"
     placeholder="Please input"
     show-word-limit
+    :count-graphemes="calc"
     type="textarea"
   />
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 const text = ref('😀😁')
 const textarea = ref('😀😁')
 const calc = (value: string) => {

@@ -35,8 +35,8 @@
           :class="nsInput.e('inner')"
           v-bind="attrs"
           :name="name"
-          :minlength="minlength"
-          :maxlength="maxlength"
+          :minlength="countGraphemes ? undefined : minlength"
+          :maxlength="countGraphemes ? undefined : maxlength"
           :type="showPassword ? (passwordVisible ? 'text' : 'password') : type"
           :disabled="inputDisabled"
           :readonly="readonly"
@@ -130,8 +130,8 @@
         ]"
         v-bind="attrs"
         :name="name"
-        :minlength="minlength"
-        :maxlength="maxlength"
+        :minlength="countGraphemes ? undefined : minlength"
+        :maxlength="countGraphemes ? undefined : maxlength"
         :tabindex="tabindex"
         :disabled="inputDisabled"
         :readonly="readonly"
@@ -202,7 +202,6 @@ import {
   ValidateComponentsMap,
   debugWarn,
   isClient,
-  isFunction,
   isObject,
 } from '@element-plus/utils'
 import {
@@ -270,18 +269,11 @@ const wrapperKls = computed(() => [
 
 const attrs = useAttrs({
   excludeKeys: computed<string[]>(() => {
-    const _attrs = Object.keys(containerAttrs.value)
-    if (props.countGraphemes) {
-      _attrs.push('maxlength', 'minlength')
-    }
-    return _attrs
+    return Object.keys(containerAttrs.value)
   }),
 })
-const maxlength = computed(() => {
-  if (props.showWordLimit && rawAttrs.maxlength) {
-    return rawAttrs.maxlength as string
-  }
-  return 0
+const maxlength = computed<string | undefined>(() => {
+  return props.maxlength ? String(props.maxlength) : undefined
 })
 
 const { form: elForm, formItem: elFormItem } = useFormItem()
@@ -355,11 +347,7 @@ const isWordLimitVisible = computed(
     !props.showPassword
 )
 const textLength = computed(() => {
-  if (
-    props.countGraphemes &&
-    isFunction(props.countGraphemes) &&
-    props.showWordLimit
-  ) {
+  if (props.countGraphemes && props.showWordLimit) {
     return props.countGraphemes(nativeInputValue.value)
   }
   return nativeInputValue.value.length
@@ -481,11 +469,20 @@ const handleInput = async (event: Event) => {
 
   value = formatValue(value)
 
-  if (props.countGraphemes && isFunction(props.countGraphemes)) {
+  if (props.countGraphemes && Number(maxlength.value)) {
+    const limit = Number(maxlength.value)
     const graphemes = props.countGraphemes(value)
     const saveGraphemes = props.countGraphemes(saveValue.value)
-    if (graphemes > Number(maxlength.value) && graphemes > saveGraphemes) {
-      value = saveValue.value
+    if (graphemes > limit && graphemes > saveGraphemes) {
+      // Truncate to fit: build longest prefix where grapheme count <= limit
+      const chars = Array.from(value)
+      let result = ''
+      for (const char of chars) {
+        const candidate = result + char
+        if (props.countGraphemes(candidate) > limit) break
+        result = candidate
+      }
+      value = result
     }
   }
 
