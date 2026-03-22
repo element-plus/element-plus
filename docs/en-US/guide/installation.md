@@ -24,12 +24,18 @@ Version `2.8.5` and later, the minimum compatible version of [Sass](https://gith
 
 If your terminal prompts `legacy JS API Deprecation Warning`, you can configure the following code in [vite.config.ts](https://vitejs.dev/config/shared-options.html#css-preprocessoroptions).
 
-```ts{3}
-css: {
-  preprocessorOptions: {
-    scss: { api: 'modern-compiler' },
-  }
-}
+```ts [vite.config.ts]{7}
+import { defineConfig } from 'vite'
+// https://vitejs.dev/config/
+export default defineConfig({
+  // ...
+  css: {
+    preprocessorOptions: {
+      scss: { api: 'modern-compiler' },
+    },
+  },
+  // ...
+})
 ```
 
 ### Version
@@ -40,9 +46,9 @@ In addition, every commit and PR on the dev branch will be published to [pkg.pr.
 
 ## Using Package Manager
 
-**We recommend using the package manager (NPM, [Yarn](https://classic.yarnpkg.com/lang/en/), [pnpm](https://pnpm.io/)) to install Element Plus**,
+**We recommend using the package manager ([NPM](https://www.npmjs.com/), [Yarn](https://classic.yarnpkg.com/lang/en/), [PNPM](https://pnpm.io/)) to install Element Plus**,
 so that you can utilize bundlers like [Vite](https://vitejs.dev) and
-[webpack](https://webpack.js.org/).
+[Webpack](https://webpack.js.org/).
 
 Choose a package manager you like.
 
@@ -76,9 +82,9 @@ According to different CDN providers, there are different introduction methods.
 Here we use [unpkg](https://unpkg.com) and [jsDelivr](https://jsdelivr.com) as example.
 You can also use other CDN providers.
 
-### unpkg
+::: code-group
 
-```html
+```html [unpkg]
 <head>
   <!-- Import style -->
   <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
@@ -89,9 +95,7 @@ You can also use other CDN providers.
 </head>
 ```
 
-### jsDelivr
-
-```html
+```html [jsDelivr]
 <head>
   <!-- Import style -->
   <link
@@ -104,6 +108,8 @@ You can also use other CDN providers.
   <script src="//cdn.jsdelivr.net/npm/element-plus"></script>
 </head>
 ```
+
+:::
 
 :::tip
 
