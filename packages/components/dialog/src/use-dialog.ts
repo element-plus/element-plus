@@ -85,6 +85,10 @@ export const useDialog = (
     () => props.overflow ?? globalConfig.value?.overflow ?? false
   )
 
+  const penetrable = computed(
+    () => props.modalPenetrable && !props.modal && !props.fullscreen
+  )
+
   const overlayDialogStyle = computed<CSSProperties>(() => {
     if (_alignCenter.value) {
       return { display: 'flex' }
@@ -230,13 +234,7 @@ export const useDialog = (
   }
 
   function bringToFront() {
-    if (
-      !visible.value ||
-      !props.modalPenetrable ||
-      props.modal ||
-      props.fullscreen ||
-      props.zIndex
-    ) {
+    if (!visible.value || !penetrable.value || props.zIndex != undefined) {
       return
     }
 
@@ -324,5 +322,6 @@ export const useDialog = (
     _alignCenter,
     _overflow,
     closing,
+    penetrable,
   }
 }

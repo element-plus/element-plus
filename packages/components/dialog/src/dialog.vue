@@ -130,6 +130,7 @@ const {
   _draggable,
   _alignCenter,
   _overflow,
+  penetrable,
   handleClose,
   onModalClick,
   onOpenAutoFocus,
@@ -150,10 +151,6 @@ provide(dialogInjectionKey, {
 })
 
 const overlayEvent = useSameTarget(onModalClick)
-
-const penetrable = computed(
-  () => props.modalPenetrable && !props.modal && !props.fullscreen
-)
 
 const resetPosition = () => {
   dialogContentRef.value?.resetPosition()
