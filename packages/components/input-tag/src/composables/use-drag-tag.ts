@@ -2,13 +2,13 @@ import { ref } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { getStyle, isUndefined, setStyle } from '@element-plus/utils'
 
-import type { Ref, ShallowRef } from 'vue'
+import type { TemplateRef } from 'vue'
 
 type DropType = 'before' | 'after'
 
 interface UseDragTagOptions {
-  wrapperRef: Readonly<ShallowRef<HTMLElement | null>>
-  dropIndicatorRef: Readonly<Ref<HTMLElement | null>>
+  wrapperRef: TemplateRef<HTMLElement>
+  dropIndicatorRef: TemplateRef<HTMLElement>
   handleDragged: (
     draggingIndex: number,
     dropIndex: number,

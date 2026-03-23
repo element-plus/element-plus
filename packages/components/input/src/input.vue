@@ -270,7 +270,7 @@ const inputDisabled = useFormDisabled()
 const nsInput = useNamespace('input')
 const nsTextarea = useNamespace('textarea')
 
-const wrapperRef = useTemplateRef<HTMLElement>('wrapperRef')
+const wrapperRef = useTemplateRef('wrapperRef')
 
 const input = shallowRef<HTMLInputElement>()
 const textarea = shallowRef<HTMLTextAreaElement>()

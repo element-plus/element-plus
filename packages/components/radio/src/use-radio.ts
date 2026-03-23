@@ -5,13 +5,13 @@ import { useDeprecated } from '@element-plus/hooks'
 import { isPropAbsent } from '@element-plus/utils'
 import { radioGroupKey } from './constants'
 
-import type { Ref, SetupContext } from 'vue'
+import type { SetupContext, TemplateRef } from 'vue'
 import type { RadioButtonProps } from './radio-button'
 import type { RadioEmits, RadioProps } from './radio'
 
 export const useRadio = (
   props: RadioProps | RadioButtonProps,
-  radioRef?: Readonly<Ref<HTMLInputElement | null | undefined>>,
+  radioRef?: TemplateRef<HTMLInputElement>,
   emit?: SetupContext<RadioEmits>['emit']
 ) => {
   const _radioRef = radioRef ?? ref<HTMLInputElement>()

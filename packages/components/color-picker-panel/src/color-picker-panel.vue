@@ -70,7 +70,6 @@ import {
 import { useCommonColor } from './composables/use-common-color'
 
 import type { ColorPickerPanelProps } from './color-picker-panel'
-import type { InputInstance } from '@element-plus/components/input'
 
 defineOptions({
   name: 'ElColorPickerPanel',
@@ -86,10 +85,10 @@ const emit = defineEmits(colorPickerPanelEmits)
 const ns = useNamespace('color-picker-panel')
 const { formItem } = useFormItem()
 const disabled = useFormDisabled()
-const hueRef = useTemplateRef<InstanceType<typeof HueSlider>>('hueRef')
-const svRef = useTemplateRef<InstanceType<typeof SvPanel>>('svRef')
-const alphaRef = useTemplateRef<InstanceType<typeof AlphaSlider>>('alphaRef')
-const inputRef = useTemplateRef<InputInstance>('inputRef')
+const hueRef = useTemplateRef('hueRef')
+const svRef = useTemplateRef('svRef')
+const alphaRef = useTemplateRef('alphaRef')
+const inputRef = useTemplateRef('inputRef')
 const customInput = ref('')
 
 const { color } = inject(

@@ -30,7 +30,7 @@ defineOptions({
 
 const props = defineProps<SvPanelProps>()
 
-const cursorRef = useTemplateRef<HTMLElement>('cursorRef')
+const cursorRef = useTemplateRef('cursorRef')
 
 const {
   cursorTop,

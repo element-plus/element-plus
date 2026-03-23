@@ -15,7 +15,7 @@ import {
 import { useComposition, useFocusController } from '@element-plus/hooks'
 import { useFormDisabled, useFormSize } from '@element-plus/components/form'
 
-import type { Ref, ShallowRef } from 'vue'
+import type { TemplateRef } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { EmitFn } from '@element-plus/utils'
 import type { FormItemContext } from '@element-plus/components/form'
@@ -25,9 +25,9 @@ interface UseInputTagOptions {
   props: InputTagProps
   emit: EmitFn<InputTagEmits>
   formItem?: FormItemContext
-  inputRef: Readonly<ShallowRef<HTMLInputElement | null>>
-  wrapperRef: Readonly<ShallowRef<HTMLElement | null>>
-  tagTooltipRef: Readonly<Ref<TooltipInstance | null>>
+  inputRef: TemplateRef<HTMLInputElement>
+  wrapperRef: TemplateRef<HTMLElement>
+  tagTooltipRef: TemplateRef<TooltipInstance>
 }
 
 export function useInputTag({

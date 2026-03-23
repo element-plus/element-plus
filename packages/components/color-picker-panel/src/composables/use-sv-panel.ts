@@ -4,12 +4,12 @@ import { useNamespace } from '@element-plus/hooks'
 import { addUnit, getClientXY, getEventCode } from '@element-plus/utils'
 import { draggable } from '../utils/draggable'
 
-import type { Ref } from 'vue'
+import type { TemplateRef } from 'vue'
 import type { SvPanelProps } from '../props/sv-panel'
 
 export const useSvPanel = (
   props: SvPanelProps,
-  cursorRef: Readonly<Ref<HTMLElement | null>>
+  cursorRef: TemplateRef<HTMLElement>
 ) => {
   const instance = getCurrentInstance()!
   const cursorTop = ref(0)

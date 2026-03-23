@@ -5,7 +5,13 @@ import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { getEventCode, isNumber } from '@element-plus/utils'
 import { sliderContextKey } from '../constants'
 
-import type { CSSProperties, ComputedRef, Ref, SetupContext } from 'vue'
+import type {
+  CSSProperties,
+  ComputedRef,
+  Ref,
+  SetupContext,
+  TemplateRef,
+} from 'vue'
 import type { SliderProps } from '../slider'
 import type {
   SliderButtonEmits,
@@ -18,7 +24,7 @@ const useTooltip = (
   props: SliderButtonProps,
   formatTooltip: Ref<SliderProps['formatTooltip']>,
   showTooltip: Ref<SliderProps['showTooltip']>,
-  tooltip: Readonly<Ref<TooltipInstance | null>>
+  tooltip: TemplateRef<TooltipInstance>
 ) => {
   const tooltipVisible = ref(false)
 
@@ -54,8 +60,8 @@ export const useSliderButton = (
   props: SliderButtonProps,
   initData: SliderButtonInitData,
   emit: SetupContext<SliderButtonEmits>['emit'],
-  buttonRef: Readonly<Ref<HTMLDivElement | null>>,
-  tooltipRef: Readonly<Ref<TooltipInstance | null>>
+  buttonRef: TemplateRef<HTMLDivElement>,
+  tooltipRef: TemplateRef<TooltipInstance>
 ) => {
   const {
     disabled,

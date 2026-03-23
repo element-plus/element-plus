@@ -479,12 +479,8 @@ const format: Ref<string | undefined> = toRef(pickerBase.props, 'format')
 const shortcuts = toRef(pickerBase.props, 'shortcuts')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 const { lang } = useLocale()
-const leftCurrentViewRef = useTemplateRef<{ focus: () => void }>(
-  'leftCurrentViewRef'
-)
-const rightCurrentViewRef = useTemplateRef<{ focus: () => void }>(
-  'rightCurrentViewRef'
-)
+const leftCurrentViewRef = useTemplateRef('leftCurrentViewRef')
+const rightCurrentViewRef = useTemplateRef('rightCurrentViewRef')
 
 const leftDate = ref<Dayjs>(dayjs().locale(lang.value))
 const rightDate = ref<Dayjs>(dayjs().locale(lang.value).add(1, unit))

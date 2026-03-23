@@ -79,7 +79,7 @@ const props = withDefaults(defineProps<TimeSelectProps>(), {
 })
 
 const nsInput = useNamespace('input')
-const select = useTemplateRef<InstanceType<typeof ElSelect>>('select')
+const select = useTemplateRef('select')
 
 const _disabled = useFormDisabled()
 const { lang } = useLocale()

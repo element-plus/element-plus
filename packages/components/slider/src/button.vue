@@ -47,8 +47,8 @@ const emit = defineEmits(sliderButtonEmits)
 
 const ns = useNamespace('slider')
 
-const buttonRef = useTemplateRef<HTMLDivElement>('buttonRef')
-const tooltipRef = useTemplateRef<InstanceType<typeof ElTooltip>>('tooltipRef')
+const buttonRef = useTemplateRef('buttonRef')
+const tooltipRef = useTemplateRef('tooltipRef')
 
 const initData = reactive<SliderButtonInitData>({
   hovering: false,

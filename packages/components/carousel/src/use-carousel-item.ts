@@ -9,12 +9,12 @@ import {
 import { debugWarn, isUndefined } from '@element-plus/utils'
 import { CAROUSEL_ITEM_NAME, carouselContextKey } from './constants'
 
-import type { Ref } from 'vue'
+import type { TemplateRef } from 'vue'
 import type { CarouselItemProps } from './carousel-item'
 
 export const useCarouselItem = (
   props: Required<CarouselItemProps>,
-  carouselItemRef: Readonly<Ref<HTMLElement | null>>
+  carouselItemRef: TemplateRef<HTMLElement>
 ) => {
   const carouselContext = inject(carouselContextKey)!
   // instance

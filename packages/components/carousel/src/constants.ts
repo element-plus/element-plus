@@ -1,4 +1,4 @@
-import type { InjectionKey, Ref, VNode } from 'vue'
+import type { InjectionKey, Ref, TemplateRef, VNode } from 'vue'
 import type { CarouselItemProps } from './carousel-item'
 
 export type CarouselItemStates = {
@@ -20,7 +20,7 @@ export type CarouselItemContext = {
 }
 
 export type CarouselContext = {
-  root: Readonly<Ref<HTMLElement | null>>
+  root: TemplateRef<HTMLElement>
   items: Ref<CarouselItemContext[]>
   isCardType: Ref<boolean>
   isVertical: Ref<boolean>

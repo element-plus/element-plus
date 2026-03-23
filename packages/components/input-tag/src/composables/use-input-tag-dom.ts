@@ -3,7 +3,7 @@ import { useNamespace } from '@element-plus/hooks'
 import { MINIMUM_INPUT_WIDTH } from '@element-plus/constants'
 import { useResizeObserver } from '@vueuse/core'
 
-import type { ComputedRef, Ref, StyleValue } from 'vue'
+import type { ComputedRef, Ref, StyleValue, TemplateRef } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type { IconComponent } from '@element-plus/utils'
 import type { InputTagProps } from '../input-tag'
@@ -18,8 +18,8 @@ interface UseInputTagDomOptions {
   validateState: ComputedRef<string>
   validateIcon: ComputedRef<'' | IconComponent>
   needStatusIcon: ComputedRef<boolean>
-  collapseItemRef: Readonly<Ref<HTMLElement | null>>
-  innerRef: Readonly<Ref<HTMLElement | null>>
+  collapseItemRef: TemplateRef<HTMLElement>
+  innerRef: TemplateRef<HTMLElement>
 }
 
 export function useInputTagDom({

@@ -65,7 +65,7 @@ import ElDatePickerCell from './basic-cell-render'
 const props = defineProps(basicDateTableProps)
 const emit = defineEmits(basicDateTableEmits)
 
-const tbodyRef = useTemplateRef<HTMLElement>('tbodyRef')
+const tbodyRef = useTemplateRef('tbodyRef')
 
 const {
   WEEKS,

@@ -51,7 +51,7 @@ const props = withDefaults(
 )
 
 const ns = useNamespace('radio')
-const radioRef = useTemplateRef<HTMLInputElement>('radioRef')
+const radioRef = useTemplateRef('radioRef')
 const { focus, size, disabled, modelValue, radioGroup, actualValue } = useRadio(
   props,
   radioRef

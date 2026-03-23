@@ -138,7 +138,7 @@ const emit = defineEmits(sliderEmits)
 const ns = useNamespace('slider')
 const { t } = useLocale()
 
-const slider = useTemplateRef<HTMLElement>('slider')
+const slider = useTemplateRef('slider')
 const firstButton = useTemplateRef<SliderButtonInstance>('firstButton')
 const secondButton = useTemplateRef<SliderButtonInstance>('secondButton')
 

@@ -30,7 +30,7 @@ const props = withDefaults(defineProps<CarouselItemProps>(), {
 })
 const ns = useNamespace('carousel')
 
-const carouselItemRef = useTemplateRef<HTMLElement>('carouselItemRef')
+const carouselItemRef = useTemplateRef('carouselItemRef')
 
 // inject
 const {

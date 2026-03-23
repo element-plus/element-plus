@@ -63,10 +63,9 @@ const ns = useNamespace('mention')
 const { t } = useLocale()
 const hoveringIndex = ref(-1)
 
-const scrollbarRef =
-  useTemplateRef<InstanceType<typeof ElScrollbar>>('scrollbarRef')
-const optionRefs = useTemplateRef<HTMLElement[]>('optionRefs')
-const dropdownRef = useTemplateRef<HTMLElement>('dropdownRef')
+const scrollbarRef = useTemplateRef('scrollbarRef')
+const optionRefs = useTemplateRef('optionRefs')
+const dropdownRef = useTemplateRef('dropdownRef')
 
 const optionkls = (item: MentionOption, index: number) => [
   ns.be('dropdown', 'item'),

@@ -6,7 +6,7 @@ import {
 } from '@element-plus/constants'
 import { useFormDisabled, useFormItem } from '@element-plus/components/form'
 
-import type { CSSProperties, Ref, SetupContext, ShallowRef } from 'vue'
+import type { CSSProperties, SetupContext, TemplateRef } from 'vue'
 import type { Arrayable } from '@element-plus/utils'
 import type { SliderEmits, SliderInitData, SliderProps } from '../slider'
 import type { ButtonRefs, SliderButtonInstance } from '../button'
@@ -15,9 +15,9 @@ export const useSlide = (
   props: SliderProps,
   initData: SliderInitData,
   emit: SetupContext<SliderEmits>['emit'],
-  slider: Readonly<ShallowRef<HTMLElement | null>>,
-  firstButton: Readonly<Ref<SliderButtonInstance | null>>,
-  secondButton: Readonly<Ref<SliderButtonInstance | null>>
+  slider: TemplateRef<HTMLElement>,
+  firstButton: TemplateRef<SliderButtonInstance>,
+  secondButton: TemplateRef<SliderButtonInstance>
 ) => {
   const { formItem: elFormItem } = useFormItem()
 
@@ -77,7 +77,7 @@ export const useSlide = (
 
   const getButtonRefByPercent = (
     percent: number
-  ): Readonly<Ref<SliderButtonInstance | null>> => {
+  ): TemplateRef<SliderButtonInstance> => {
     const targetValue = props.min + (percent * (props.max - props.min)) / 100
     if (!props.range) {
       return firstButton
@@ -100,9 +100,7 @@ export const useSlide = (
     return buttonRefs[buttonRefName]
   }
 
-  const setPosition = (
-    percent: number
-  ): Readonly<Ref<SliderButtonInstance | null>> => {
+  const setPosition = (percent: number): TemplateRef<SliderButtonInstance> => {
     const buttonRef = getButtonRefByPercent(percent)
     buttonRef.value!.setPosition(percent)
     return buttonRef
@@ -138,7 +136,7 @@ export const useSlide = (
 
   const handleSliderPointerEvent = (
     event: MouseEvent | TouchEvent
-  ): Readonly<Ref<SliderButtonInstance | null>> | undefined => {
+  ): TemplateRef<SliderButtonInstance> | undefined => {
     if (sliderDisabled.value || initData.dragging) return
     resetSize()
     let newPercent = 0

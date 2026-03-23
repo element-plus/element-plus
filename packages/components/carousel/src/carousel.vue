@@ -118,7 +118,7 @@ const props = withDefaults(defineProps<CarouselProps>(), {
   pauseOnHover: true,
 })
 const emit = defineEmits(carouselEmits)
-const root = useTemplateRef<HTMLDivElement>('root')
+const root = useTemplateRef('root')
 const {
   activeIndex,
   exposeActiveIndex,

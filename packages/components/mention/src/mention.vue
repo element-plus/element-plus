@@ -117,8 +117,7 @@ const contentId = useId()
 
 const elInputRef = useTemplateRef<InputInstance>('elInputRef')
 const tooltipRef = useTemplateRef<TooltipInstance>('tooltipRef')
-const dropdownRef =
-  useTemplateRef<InstanceType<typeof ElMentionDropdown>>('dropdownRef')
+const dropdownRef = useTemplateRef('dropdownRef')
 
 const visible = ref(false)
 const cursorStyle = ref<CSSProperties>()

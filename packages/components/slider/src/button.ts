@@ -6,7 +6,7 @@ import type {
   ComponentPublicInstance,
   ExtractPropTypes,
   ExtractPublicPropTypes,
-  Ref,
+  TemplateRef,
 } from 'vue'
 import type Button from './button.vue'
 
@@ -37,7 +37,7 @@ export type SliderButtonInstance = ComponentPublicInstance<typeof Button>
 
 export type ButtonRefs = Record<
   'firstButton' | 'secondButton',
-  Readonly<Ref<SliderButtonInstance | null>>
+  TemplateRef<SliderButtonInstance>
 >
 
 export interface SliderButtonInitData {

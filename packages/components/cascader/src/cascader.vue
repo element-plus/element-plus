@@ -355,7 +355,7 @@ const { isComposing, handleComposition } = useComposition({
   },
 })
 
-const wrapperRef = useTemplateRef<HTMLElement>('wrapperRef')
+const wrapperRef = useTemplateRef('wrapperRef')
 
 const tooltipRef = ref<TooltipInstance>()
 const tagTooltipRef = ref<TooltipInstance>()

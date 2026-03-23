@@ -80,7 +80,7 @@ const attrs = useAttrs()
 const nsDate = useNamespace('date')
 const nsRange = useNamespace('range')
 
-const wrapperRef = useTemplateRef<HTMLElement>('wrapperRef')
+const wrapperRef = useTemplateRef('wrapperRef')
 
 const inputRef = ref<HTMLInputElement>()
 const endInputRef = ref<HTMLInputElement>()

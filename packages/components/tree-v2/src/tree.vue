@@ -106,7 +106,7 @@ provide(ROOT_TREE_INJECTION_KEY, {
 provide(formItemContextKey, undefined)
 const { t } = useLocale()
 const ns = useNamespace('tree')
-const listRef = useTemplateRef<InstanceType<typeof FixedSizeList>>('listRef')
+const listRef = useTemplateRef('listRef')
 
 const {
   flattenTree,

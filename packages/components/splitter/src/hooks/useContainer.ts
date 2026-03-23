@@ -1,11 +1,11 @@
 import { computed } from 'vue'
 import { useElementSize } from '@vueuse/core'
 
-import type { Ref } from 'vue'
+import type { Ref, TemplateRef } from 'vue'
 
 export function useContainer(
   layout: Ref<'horizontal' | 'vertical'>,
-  containerEl: Readonly<Ref<HTMLDivElement | null>>
+  containerEl: TemplateRef<HTMLDivElement>
 ) {
   const { width, height } = useElementSize(containerEl)
 

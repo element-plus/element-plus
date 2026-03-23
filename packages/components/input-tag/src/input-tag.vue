@@ -185,14 +185,13 @@ const validateIcon = computed(() => {
   return validateState.value && ValidateComponentsMap[validateState.value]
 })
 
-const inputRef = useTemplateRef<HTMLInputElement>('inputRef')
-const wrapperRef = useTemplateRef<HTMLElement>('wrapperRef')
-const tagTooltipRef =
-  useTemplateRef<InstanceType<typeof ElTooltip>>('tagTooltipRef')
-const calculatorRef = useTemplateRef<HTMLElement>('calculatorRef')
-const dropIndicatorRef = useTemplateRef<HTMLElement>('dropIndicatorRef')
-const collapseItemRef = useTemplateRef<HTMLElement>('collapseItemRef')
-const innerRef = useTemplateRef<HTMLElement>('innerRef')
+const inputRef = useTemplateRef('inputRef')
+const wrapperRef = useTemplateRef('wrapperRef')
+const tagTooltipRef = useTemplateRef('tagTooltipRef')
+const calculatorRef = useTemplateRef('calculatorRef')
+const dropIndicatorRef = useTemplateRef('dropIndicatorRef')
+const collapseItemRef = useTemplateRef('collapseItemRef')
+const innerRef = useTemplateRef('innerRef')
 
 const {
   isFocused,

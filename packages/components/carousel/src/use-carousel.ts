@@ -18,7 +18,7 @@ import { useOrderedChildren } from '@element-plus/hooks'
 import { CHANGE_EVENT } from '@element-plus/constants'
 import { CAROUSEL_ITEM_NAME, carouselContextKey } from './constants'
 
-import type { Ref, SetupContext } from 'vue'
+import type { SetupContext, TemplateRef } from 'vue'
 import type { CarouselItemContext } from './constants'
 import type { CarouselEmits, CarouselProps } from './carousel'
 
@@ -28,7 +28,7 @@ export const useCarousel = (
   props: Required<CarouselProps>,
   emit: SetupContext<CarouselEmits>['emit'],
   componentName: string,
-  root: Readonly<Ref<HTMLDivElement | null>>
+  root: TemplateRef<HTMLDivElement>
 ) => {
   const {
     children: items,

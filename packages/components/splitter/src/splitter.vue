@@ -31,7 +31,7 @@ const props = withDefaults(defineProps<SplitterProps>(), {
 const layout = toRef(props, 'layout')
 const lazy = toRef(props, 'lazy')
 
-const containerEl = useTemplateRef<HTMLDivElement>('containerEl')
+const containerEl = useTemplateRef('containerEl')
 const { containerSize } = useContainer(layout, containerEl)
 
 const {
