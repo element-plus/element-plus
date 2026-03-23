@@ -79,6 +79,16 @@ checkbox/intermediate
 
 :::
 
+## Custom icons
+
+Use `checked-icon` slot to customize the icon inside the checked checkbox.
+
+:::demo
+
+checkbox/custom-icon
+
+:::
+
 ## Minimum / Maximum items checked
 
 The `min` and `max` properties can help you to limit the number of checked items.
@@ -141,9 +151,10 @@ checkbox/with-border
 
 ### Checkbox Slots
 
-| Name    | Description               |
-| ------- | ------------------------- |
-| default | customize default content |
+| Name         | Description               |
+| ------------ | ------------------------- |
+| default      | customize default content |
+| checked-icon | customize checked icon    |
 
 ## CheckboxGroup API
 

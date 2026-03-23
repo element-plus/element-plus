@@ -24,7 +24,11 @@
         @blur="isFocused = false"
         @click.stop
       />
-      <span :class="ns.e('inner')" />
+      <span :class="[ns.e('inner'), ns.is('customized', showCheckedIcon)]">
+        <span v-if="showCheckedIcon" :class="ns.e('icon')">
+          <slot name="checked-icon" />
+        </span>
+      </span>
     </span>
     <span v-if="hasOwnLabel" :class="ns.e('label')">
       <slot />
@@ -81,6 +85,10 @@ const inputBindings = computed(() => {
 })
 
 const ns = useNamespace('checkbox')
+
+const showCheckedIcon = computed(
+  () => isChecked.value && !!slots['checked-icon']
+)
 
 const compKls = computed(() => {
   return [
