@@ -7,7 +7,7 @@ import type { ComponentSize } from '@element-plus/constants'
 import type { AriaProps } from '@element-plus/hooks'
 import type Checkbox from './checkbox.vue'
 
-export type CheckboxValueType = string | number | boolean
+export type CheckboxValueType = string | number | boolean | null
 
 export interface CheckboxProps extends Pick<
   AriaProps,
