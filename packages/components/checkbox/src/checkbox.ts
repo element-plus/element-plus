@@ -16,7 +16,7 @@ export interface CheckboxProps extends Pick<
   /**
    * @description binding value
    */
-  modelValue?: number | string | boolean
+  modelValue?: number | string | boolean | null
   /**
    * @description label of the Checkbox when used inside a `checkbox-group`
    */
