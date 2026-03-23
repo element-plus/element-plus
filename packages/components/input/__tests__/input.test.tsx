@@ -284,6 +284,54 @@ describe('Input.vue', () => {
       expect(inputElm.element.value).toBe('1👌3😄')
       expect(inputVal.value).toBe('1👌3😄')
     })
+
+    test('el-input should block mid-string insertion at limit without replacing suffix', async () => {
+      const inputVal = ref('1👌3😄')
+      const calc = (value: string) => {
+        return Array.from(value).length
+      }
+      const wrapper = mount(() => (
+        <Input
+          maxlength="4"
+          showWordLimit
+          count-graphemes={calc}
+          v-model={inputVal.value}
+        />
+      ))
+
+      const inputElm = wrapper.find('input')
+      // Simulate typing in the middle when current length is already at limit.
+      inputElm.element.value = '1👌a3😄'
+      await inputElm.trigger('input')
+      await nextTick()
+
+      expect(inputElm.element.value).toBe('1👌3😄')
+      expect(inputVal.value).toBe('1👌3😄')
+      expect(wrapper.find('.el-input__count-inner').text()).toBe('4 / 4')
+    })
+
+    test('el-input should keep caret position when blocked at limit', async () => {
+      const inputVal = ref('1👌3😄')
+      const calc = (value: string) => {
+        return Array.from(value).length
+      }
+      const wrapper = mount(() => (
+        <Input maxlength="4" count-graphemes={calc} v-model={inputVal.value} />
+      ))
+
+      const inputElm = wrapper.find('input')
+      // Place caret before "3" and simulate typing one char while already at limit.
+      inputElm.element.setSelectionRange(3, 3)
+      inputElm.element.value = '1👌a3😄'
+      inputElm.element.setSelectionRange(4, 4)
+      await inputElm.trigger('input')
+      await nextTick()
+
+      expect(inputElm.element.value).toBe('1👌3😄')
+      expect(inputVal.value).toBe('1👌3😄')
+      expect(inputElm.element.selectionStart).toBe(3)
+      expect(inputElm.element.selectionEnd).toBe(3)
+    })
   })
 
   test('suffixIcon', () => {

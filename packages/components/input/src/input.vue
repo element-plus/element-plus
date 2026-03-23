@@ -467,30 +467,66 @@ const handleInput = async (event: Event) => {
         value = saveValue.value
         shouldForceNativeUpdate = true
       } else {
-        // Truncate to fit: build longest prefix where grapheme count <= limit
-        let result = ''
-        // Use Intl.Segmenter for proper grapheme cluster iteration if available
-        if (typeof Intl !== 'undefined' && 'Segmenter' in Intl) {
-          const segmenter = new (Intl as any).Segmenter(undefined, {
-            granularity: 'grapheme',
-          })
-          for (const { segment } of segmenter.segment(value)) {
-            const candidate = result + segment
-            const newCount = props.countGraphemes(candidate)
-            if (newCount > limit) break
-            result = candidate
-          }
-        } else {
-          // Fallback to code-point iteration for older environments
-          const chars = Array.from(value)
-          for (const char of chars) {
-            const candidate = result + char
-            const newCount = props.countGraphemes(candidate)
-            if (newCount > limit) break
-            result = candidate
+        // Keep unchanged suffix like native maxlength behavior.
+        // Instead of truncating from the end of the whole string,
+        // only limit the inserted segment to available capacity.
+        const prevValue = saveValue.value
+        const nextValue = value
+        let prefixLen = 0
+
+        while (
+          prefixLen < prevValue.length &&
+          prefixLen < nextValue.length &&
+          prevValue[prefixLen] === nextValue[prefixLen]
+        ) {
+          prefixLen++
+        }
+
+        let prevSuffixIndex = prevValue.length
+        let nextSuffixIndex = nextValue.length
+        while (
+          prevSuffixIndex > prefixLen &&
+          nextSuffixIndex > prefixLen &&
+          prevValue[prevSuffixIndex - 1] === nextValue[nextSuffixIndex - 1]
+        ) {
+          prevSuffixIndex--
+          nextSuffixIndex--
+        }
+
+        const before = nextValue.slice(0, prefixLen)
+        const removed = prevValue.slice(prefixLen, prevSuffixIndex)
+        const inserted = nextValue.slice(prefixLen, nextSuffixIndex)
+        const after = nextValue.slice(nextSuffixIndex)
+
+        const removedCount = props.countGraphemes(removed)
+        const baseCount = saveGraphemes - removedCount
+        const availableInserted = Math.max(0, limit - baseCount)
+
+        let acceptedInserted = ''
+        if (availableInserted > 0) {
+          // Use Intl.Segmenter for proper grapheme cluster iteration if available.
+          if (typeof Intl !== 'undefined' && 'Segmenter' in Intl) {
+            const segmenter = new (Intl as any).Segmenter(undefined, {
+              granularity: 'grapheme',
+            })
+            for (const { segment } of segmenter.segment(inserted)) {
+              const candidate = acceptedInserted + segment
+              const newCount = props.countGraphemes(candidate)
+              if (newCount > availableInserted) break
+              acceptedInserted = candidate
+            }
+          } else {
+            // Fallback to code-point iteration for older environments.
+            for (const char of Array.from(inserted)) {
+              const candidate = acceptedInserted + char
+              const newCount = props.countGraphemes(candidate)
+              if (newCount > availableInserted) break
+              acceptedInserted = candidate
+            }
           }
         }
-        value = result
+
+        value = before + acceptedInserted + after
         shouldForceNativeUpdate = true
       }
     }
@@ -501,7 +537,28 @@ const handleInput = async (event: Event) => {
   if (String(value) === nativeInputValue.value) {
     // preserve native features while being compatible with #9501
     if (props.formatter || shouldForceNativeUpdate) {
+      const target = event.target as TargetElement
+      const blockedValue = target.value
+      const selectionStart = target.selectionStart
+      const selectionEnd = target.selectionEnd
       setNativeInputValue()
+      // Keep caret position stable when input is blocked and value is reset.
+      if (
+        shouldForceNativeUpdate &&
+        _ref.value &&
+        selectionStart != null &&
+        selectionEnd != null
+      ) {
+        const restoredValue = _ref.value.value
+        const afterTxt = blockedValue.slice(Math.max(0, selectionEnd))
+        let caretPos = Math.min(selectionStart, restoredValue.length)
+
+        if (afterTxt && restoredValue.endsWith(afterTxt)) {
+          caretPos = restoredValue.length - afterTxt.length
+        }
+
+        _ref.value.setSelectionRange(caretPos, caretPos)
+      }
     }
     return
   }
