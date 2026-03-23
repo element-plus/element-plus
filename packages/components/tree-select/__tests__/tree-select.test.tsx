@@ -710,75 +710,79 @@ describe('TreeSelect.vue', () => {
       ]
     }
     const testMethod = async (props: any) => {
-      if (props.filterMethod) {
-        props.filterMethod = vi.fn(props.filterMethod)
-      } else if (props.remoteMethod) {
-        props.remoteMethod = vi.fn(props.remoteMethod)
+      // Reset shared state
+      data.value = []
+
+      vi.useFakeTimers()
+      try {
+        if (props.filterMethod) {
+          props.filterMethod = vi.fn(props.filterMethod)
+        } else if (props.remoteMethod) {
+          props.remoteMethod = vi.fn(props.remoteMethod)
+        }
+
+        const { select, tree } = createComponent({
+          props: {
+            data,
+            multiple: true,
+            filterable: true,
+            ...props,
+          },
+        })
+
+        await nextTick()
+
+        const method = props.filterMethod || props.remoteMethod
+        const input = select.find('input')
+        const itemSelector = props.showCheckbox
+          ? '.el-checkbox__original'
+          : '.el-select-dropdown__item'
+
+        // show drop menu
+        await input.trigger('click')
+        await vi.runOnlyPendingTimersAsync()
+        expect(method).toBeCalledWith('')
+
+        const testKeywords = async (keywords: string) => {
+          await input.setValue(keywords)
+
+          // flush debounced query handling without waiting real time
+          await vi.advanceTimersByTimeAsync(300)
+          expect(method).toBeCalledWith(keywords)
+
+          // flush remote method async update without waiting real time
+          await vi.advanceTimersByTimeAsync(200)
+
+          expect(tree.vm.data).toEqual(data.value)
+          expect(
+            tree.findAll('.el-select-dropdown__item').map((item) => item.text())
+          ).toEqual([keywords, `${keywords}-child`])
+
+          const treeNode = tree.find('.el-tree-node')
+          expect(treeNode.classes('is-expanded')).toBe(true)
+        }
+
+        await testKeywords('a')
+
+        // check first child - use itemSelector for clicking
+        let clickItems = tree.findAll(itemSelector)
+        await clickItems[1].trigger('click')
+        expect(select.vm.modelValue).toEqual([`a-child`])
+
+        await testKeywords('aa')
+
+        // check first child again - use itemSelector for clicking
+        clickItems = tree.findAll(itemSelector)
+        await clickItems[1].trigger('click')
+        expect(select.vm.modelValue).toEqual(['a-child', 'aa-child'])
+
+        // hide drop menu
+        await input.trigger('blur')
+        await vi.runOnlyPendingTimersAsync()
+        expect(method).toBeCalledWith('')
+      } finally {
+        vi.useRealTimers()
       }
-
-      const { select, tree } = createComponent({
-        props: {
-          data,
-          multiple: true,
-          filterable: true,
-          ...props,
-        },
-      })
-
-      await nextTick()
-
-      const method = props.filterMethod || props.remoteMethod
-      const input = select.find('input')
-
-      // show drop menu
-      await input.trigger('click')
-      expect(method).toBeCalledWith('')
-
-      const testKeywords = async (keywords: string) => {
-        await input.setValue(keywords)
-
-        // await debounce
-        await new Promise((resolve) => setTimeout(resolve, 300))
-        expect(method).toBeCalledWith(keywords)
-
-        // await remote
-        await new Promise((resolve) => setTimeout(resolve, 200))
-        expect(tree.vm.data).toEqual(data.value)
-        expect(
-          tree.findAll('.el-select-dropdown__item').map((item) => item.text())
-        ).toEqual([keywords, `${keywords}-child`])
-
-        const treeNode = tree.find('.el-tree-node')
-        expect(treeNode.classes('is-expanded')).toBe(true)
-      }
-
-      await testKeywords('a')
-
-      // check first child
-      await tree
-        .findAll(
-          props.showCheckbox
-            ? '.el-checkbox__original'
-            : '.el-select-dropdown__item'
-        )[1]
-        .trigger('click')
-      expect(select.vm.modelValue).toEqual([`a-child`])
-
-      await testKeywords('aa')
-
-      // check first child again
-      await tree
-        .findAll(
-          props.showCheckbox
-            ? '.el-checkbox__original'
-            : '.el-select-dropdown__item'
-        )[1]
-        .trigger('click')
-      expect(select.vm.modelValue).toEqual(['a-child', 'aa-child'])
-
-      // hide drop menu
-      await input.trigger('blur')
-      expect(method).toBeCalledWith('')
     }
 
     test('filter-method', async () => {
