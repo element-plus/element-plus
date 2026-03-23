@@ -113,7 +113,7 @@ input/length-limiting
 
 :::
 
-## Count graphemes
+## Count graphemes ^(2.13.7)
 
 :::demo Set `count-graphemes` to calculate text length. If it's set, native `maxlength` and `minlength` won't be used.
 
