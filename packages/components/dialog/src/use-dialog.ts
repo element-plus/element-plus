@@ -234,7 +234,7 @@ export const useDialog = (
   }
 
   function bringToFront() {
-    if (!visible.value || !penetrable.value || props.zIndex != undefined) {
+    if (!visible.value || !penetrable.value || props.zIndex !== undefined) {
       return
     }
 
