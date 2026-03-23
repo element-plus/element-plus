@@ -555,13 +555,14 @@ describe('Checkbox', () => {
     expect(checkboxA1.classes()).not.contains('is-checked')
   })
   test('should clear checked status when v-model is set to null', async () => {
-    const checked = ref<boolean | null>(true)
+    const checked = ref<boolean | null>(false)
 
     const wrapper = mount(() => (
       <Checkbox v-model={checked.value}>Option</Checkbox>
     ))
 
     const checkbox = wrapper.findComponent(Checkbox)
+    await checkbox.trigger('click')
     expect(checkbox.classes()).toContain('is-checked')
     expect(wrapper.find('input').element.checked).toBe(true)
     checked.value = null
