@@ -457,7 +457,7 @@ const handleInput = async (event: Event) => {
 
   value = formatValue(value)
 
-  if (props.countGraphemes && Number(maxlength.value)) {
+  if (props.countGraphemes && maxlength.value != null) {
     const limit = Number(maxlength.value)
     const graphemes = props.countGraphemes(value)
     const saveGraphemes = props.countGraphemes(saveValue.value)
@@ -506,7 +506,7 @@ const handleInput = async (event: Event) => {
         if (availableInserted > 0) {
           // Use Intl.Segmenter for proper grapheme cluster iteration if available.
           if (typeof Intl !== 'undefined' && 'Segmenter' in Intl) {
-            const segmenter = new (Intl as any).Segmenter(undefined, {
+            const segmenter = new Intl.Segmenter(undefined, {
               granularity: 'grapheme',
             })
             for (const { segment } of segmenter.segment(inserted)) {

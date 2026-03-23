@@ -4,7 +4,7 @@
     "composite": true,
     "jsx": "preserve",
     "jsxImportSource": "vue",
-    "lib": ["ES2018", "DOM", "DOM.Iterable"],
+    "lib": ["ES2018", "ES2022.Intl", "DOM", "DOM.Iterable"],
     "types": [],
     "skipLibCheck": true
   },
