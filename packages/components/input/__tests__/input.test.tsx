@@ -203,6 +203,87 @@ describe('Input.vue', () => {
         ]
       `)
     })
+
+    test('el-input keep exceed state and block further typing with count-graphemes', async () => {
+      const inputVal = ref('哈哈1👌3😄')
+      const calc = (value: string) => {
+        return Array.from(value).length
+      }
+      const wrapper = mount(() => (
+        <Input
+          class="test-exceed"
+          maxlength="4"
+          showWordLimit
+          count-graphemes={calc}
+          v-model={inputVal.value}
+        />
+      ))
+
+      const inputElm = wrapper.find('input')
+      expect(inputElm.element.value).toBe('哈哈1👌3😄')
+      expect(inputVal.value).toBe('哈哈1👌3😄')
+      expect(wrapper.classes('is-exceed')).toBe(true)
+
+      await inputElm.setValue('哈哈1👌3😄a')
+      await nextTick()
+
+      expect(inputElm.element.value).toBe('哈哈1👌3😄')
+      expect(inputVal.value).toBe('哈哈1👌3😄')
+      expect(wrapper.classes('is-exceed')).toBe(true)
+      expect(wrapper.find('.el-input__count-inner').text()).toBe('6 / 4')
+    })
+
+    test('el-input show exceed at limit and block further typing with count-graphemes', async () => {
+      const inputVal = ref('1👌3😄')
+      const calc = (value: string) => {
+        return Array.from(value).length
+      }
+      const wrapper = mount(() => (
+        <Input
+          class="test-exceed"
+          maxlength="4"
+          showWordLimit
+          count-graphemes={calc}
+          v-model={inputVal.value}
+        />
+      ))
+
+      const inputElm = wrapper.find('input')
+      expect(inputElm.element.value).toBe('1👌3😄')
+      expect(wrapper.classes('is-exceed')).toBe(true)
+      expect(wrapper.find('.el-input__count-inner').text()).toBe('4 / 4')
+
+      await inputElm.setValue('1👌3😄a')
+      await nextTick()
+
+      expect(inputElm.element.value).toBe('1👌3😄')
+      expect(inputVal.value).toBe('1👌3😄')
+      expect(wrapper.classes('is-exceed')).toBe(true)
+      expect(wrapper.find('.el-input__count-inner').text()).toBe('4 / 4')
+    })
+
+    test('el-input should reset native value when blocked by count-graphemes', async () => {
+      const inputVal = ref('1👌3😄')
+      const calc = (value: string) => {
+        return Array.from(value).length
+      }
+      const wrapper = mount(() => (
+        <Input
+          maxlength="4"
+          showWordLimit
+          count-graphemes={calc}
+          v-model={inputVal.value}
+        />
+      ))
+
+      const inputElm = wrapper.find('input')
+      inputElm.element.value = '1👌3😄a'
+      await inputElm.trigger('input')
+      await nextTick()
+
+      expect(inputElm.element.value).toBe('1👌3😄')
+      expect(inputVal.value).toBe('1👌3😄')
+    })
   })
 
   test('suffixIcon', () => {

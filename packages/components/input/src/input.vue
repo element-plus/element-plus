@@ -341,7 +341,10 @@ const textLength = computed(() => {
 const inputExceed = computed(
   () =>
     // show exceed style if length of initial value greater then maxlength
-    !!isWordLimitVisible.value && textLength.value > Number(maxlength.value)
+    !!isWordLimitVisible.value &&
+    (props.countGraphemes
+      ? textLength.value >= Number(maxlength.value)
+      : textLength.value > Number(maxlength.value))
 )
 const suffixVisible = computed(
   () =>
@@ -448,6 +451,7 @@ const handleInput = async (event: Event) => {
 
   const { lazy } = props.modelModifiers
   let { value } = event.target as TargetElement
+  let shouldForceNativeUpdate = false
   if (lazy) {
     emit(INPUT_EVENT, value)
     return
@@ -460,15 +464,22 @@ const handleInput = async (event: Event) => {
     const graphemes = props.countGraphemes(value)
     const saveGraphemes = props.countGraphemes(saveValue.value)
     if (graphemes > limit && graphemes > saveGraphemes) {
-      // Truncate to fit: build longest prefix where grapheme count <= limit
-      const chars = Array.from(value)
-      let result = ''
-      for (const char of chars) {
-        const candidate = result + char
-        if (props.countGraphemes(candidate) > limit) break
-        result = candidate
+      // If current value already exceeds limit, block further input and keep exceed state.
+      if (saveGraphemes > limit) {
+        value = saveValue.value
+        shouldForceNativeUpdate = true
+      } else {
+        // Truncate to fit: build longest prefix where grapheme count <= limit
+        const chars = Array.from(value)
+        let result = ''
+        for (const char of chars) {
+          const candidate = result + char
+          if (props.countGraphemes(candidate) > limit) break
+          result = candidate
+        }
+        value = result
+        shouldForceNativeUpdate = true
       }
-      value = result
     }
   }
 
@@ -476,7 +487,7 @@ const handleInput = async (event: Event) => {
   // should remove the following line when we don't support IE
   if (String(value) === nativeInputValue.value) {
     // preserve native features while being compatible with #9501
-    if (props.formatter) {
+    if (props.formatter || shouldForceNativeUpdate) {
       setNativeInputValue()
     }
     return
