@@ -233,7 +233,7 @@ describe('Input.vue', () => {
       expect(wrapper.find('.el-input__count-inner').text()).toBe('6 / 4')
     })
 
-    test('el-input show exceed at limit and block further typing with count-graphemes', async () => {
+    test('el-input do not show exceed at limit and block further typing with count-graphemes', async () => {
       const inputVal = ref('1👌3😄')
       const calc = (value: string) => {
         return Array.from(value).length
@@ -250,7 +250,7 @@ describe('Input.vue', () => {
 
       const inputElm = wrapper.find('input')
       expect(inputElm.element.value).toBe('1👌3😄')
-      expect(wrapper.classes('is-exceed')).toBe(true)
+      expect(wrapper.classes('is-exceed')).toBe(false)
       expect(wrapper.find('.el-input__count-inner').text()).toBe('4 / 4')
 
       await inputElm.setValue('1👌3😄a')
@@ -258,7 +258,7 @@ describe('Input.vue', () => {
 
       expect(inputElm.element.value).toBe('1👌3😄')
       expect(inputVal.value).toBe('1👌3😄')
-      expect(wrapper.classes('is-exceed')).toBe(true)
+      expect(wrapper.classes('is-exceed')).toBe(false)
       expect(wrapper.find('.el-input__count-inner').text()).toBe('4 / 4')
     })
 

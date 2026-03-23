@@ -341,10 +341,7 @@ const textLength = computed(() => {
 const inputExceed = computed(
   () =>
     // show exceed style if length of initial value greater then maxlength
-    !!isWordLimitVisible.value &&
-    (props.countGraphemes
-      ? textLength.value >= Number(maxlength.value)
-      : textLength.value > Number(maxlength.value))
+    !!isWordLimitVisible.value && textLength.value > Number(maxlength.value)
 )
 const suffixVisible = computed(
   () =>
