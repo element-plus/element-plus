@@ -259,7 +259,7 @@ const wrapperKls = computed(() => [
 
 const attrs = useAttrs()
 const maxlength = computed<string | undefined>(() => {
-  return props.maxlength ? String(props.maxlength) : undefined
+  return props.maxlength != null ? String(props.maxlength) : undefined
 })
 
 const { form: elForm, formItem: elFormItem } = useFormItem()
@@ -283,6 +283,7 @@ const saveValue = ref('')
 const _ref = computed(() => input.value || textarea.value)
 
 // wrapperRef for type="text", handleFocus and handleBlur for type="textarea"
+// @ts-ignore - used in template ref binding, TS cannot detect template usage
 const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
   _ref,
   {
@@ -467,12 +468,27 @@ const handleInput = async (event: Event) => {
         shouldForceNativeUpdate = true
       } else {
         // Truncate to fit: build longest prefix where grapheme count <= limit
-        const chars = Array.from(value)
         let result = ''
-        for (const char of chars) {
-          const candidate = result + char
-          if (props.countGraphemes(candidate) > limit) break
-          result = candidate
+        // Use Intl.Segmenter for proper grapheme cluster iteration if available
+        if (typeof Intl !== 'undefined' && 'Segmenter' in Intl) {
+          const segmenter = new (Intl as any).Segmenter(undefined, {
+            granularity: 'grapheme',
+          })
+          for (const { segment } of segmenter.segment(value)) {
+            const candidate = result + segment
+            const newCount = props.countGraphemes(candidate)
+            if (newCount > limit) break
+            result = candidate
+          }
+        } else {
+          // Fallback to code-point iteration for older environments
+          const chars = Array.from(value)
+          for (const char of chars) {
+            const candidate = result + char
+            const newCount = props.countGraphemes(candidate)
+            if (newCount > limit) break
+            result = candidate
+          }
         }
         value = result
         shouldForceNativeUpdate = true
