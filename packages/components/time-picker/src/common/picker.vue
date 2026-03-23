@@ -407,8 +407,8 @@ const displayValue = computed<UserInput>(() => {
   const formattedValue = formatToString(parsedValue.value)
   if (isArray(userInput.value)) {
     return [
-      userInput.value[0] || (formattedValue && formattedValue[0]) || '',
-      userInput.value[1] || (formattedValue && formattedValue[1]) || '',
+      userInput.value[0] ?? (formattedValue && formattedValue[0]) ?? '',
+      userInput.value[1] ?? (formattedValue && formattedValue[1]) ?? '',
     ]
   } else if (userInput.value !== null) {
     return userInput.value
@@ -526,6 +526,18 @@ onBeforeUnmount(() => {
 
 const handleChange = () => {
   if (isTimePicker.value && !props.saveOnBlur) return
+
+  if (isArray(userInput.value)) {
+    const [startRaw, endRaw] = userInput.value
+    const startEmpty = startRaw === ''
+    const endEmpty = endRaw === ''
+    if (startEmpty && endEmpty) {
+      emitInput(emptyValues.valueOnClear.value)
+      emitChange(emptyValues.valueOnClear.value, true)
+      userInput.value = null
+      return
+    }
+  }
 
   if (userInput.value) {
     const value = parseUserInputToDayjs(displayValue.value)
