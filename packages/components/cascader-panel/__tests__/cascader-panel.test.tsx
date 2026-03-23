@@ -1174,3 +1174,750 @@ describe('CascaderPanel.vue', () => {
     expect(onUpdateModelValue).toHaveBeenCalledWith(['guide'])
   })
 })
+
+// Generate large options for virtual scroll testing
+// Creates options with 2 levels: parent -> [non-leaf child, leaf child] -> [leaf1, leaf2]
+const generateLargeOptions = (count: number) => {
+  return Array.from({ length: count }).map((_, index) => ({
+    value: `option-${index}`,
+    label: `Option ${index}`,
+    children: [
+      {
+        value: `child-${index}-1`,
+        label: `Child ${index}-1`,
+        leaf: true,
+      },
+      {
+        value: `child-${index}-2`,
+        label: `Child ${index}-2`,
+        leaf: true,
+      },
+    ],
+  }))
+}
+
+// Large dataset for performance testing
+const LARGE_OPTIONS = generateLargeOptions(2000)
+
+const VIRTUAL_SCROLL = '.el-virtual-scrollbar'
+const SCROLLBAR = '.el-scrollbar'
+
+describe('CascaderPanel.vue - Virtual Scroll', () => {
+  describe('Basic Rendering', () => {
+    test('virtual scroll renders correctly with FixedSizeList', async () => {
+      const wrapper = mount(() => (
+        <CascaderPanel
+          options={LARGE_OPTIONS}
+          virtualScroll
+          itemSize={34}
+          height={204}
+        />
+      ))
+
+      // Check that FixedSizeList is rendered
+      expect(wrapper.find(VIRTUAL_SCROLL).exists()).toBe(true)
+      expect(wrapper.find('.el-cascader-menu__list').exists()).toBe(true)
+      expect(wrapper.find(SCROLLBAR).exists()).toBe(false)
+    })
+
+    test('non-virtual scroll mode still works (backward compatibility)', async () => {
+      const value = ref<string[]>([])
+      const wrapper = mount(() => (
+        <CascaderPanel v-model={value.value} options={NORMAL_OPTIONS} />
+      ))
+
+      // Should use el-scrollbar instead of virtual list
+      expect(wrapper.find(SCROLLBAR).exists()).toBe(true)
+      expect(wrapper.find(VIRTUAL_SCROLL).exists()).toBe(false)
+
+      // Test basic functionality
+      const nodes = wrapper.findAll(NODE)
+      await nodes[1].trigger('click')
+
+      const menus = wrapper.findAll(MENU)
+      expect(menus.length).toBe(2)
+    })
+
+    test('virtual scroll default values', async () => {
+      // Test default itemSize and height
+      const wrapper = mount(() => (
+        <CascaderPanel options={LARGE_OPTIONS} virtualScroll />
+      ))
+
+      expect(wrapper.find(VIRTUAL_SCROLL).exists()).toBe(true)
+    })
+
+    test('virtual scroll custom itemSize and height', async () => {
+      const wrapper = mount(() => (
+        <CascaderPanel
+          options={LARGE_OPTIONS}
+          virtualScroll
+          itemSize={50}
+          height={300}
+        />
+      ))
+
+      // Component should render without errors with custom sizes
+      expect(wrapper.find(VIRTUAL_SCROLL).exists()).toBe(true)
+    })
+
+    test('virtual scroll with empty options', async () => {
+      const wrapper = mount(() => <CascaderPanel options={[]} virtualScroll />)
+
+      // Should show empty state
+      expect(wrapper.find('.is-empty').exists()).toBe(true)
+    })
+
+    test('virtual scroll renders correct number of visible items', async () => {
+      const wrapper = mount(() => (
+        <CascaderPanel
+          options={LARGE_OPTIONS}
+          virtualScroll
+          itemSize={34}
+          height={204}
+        />
+      ))
+
+      // With height 204 and itemSize 34, should render approximately 6 visible items
+      // plus buffer items for virtual scrolling
+      const nodes = wrapper.findAll(NODE)
+      expect(nodes.length).toBeGreaterThan(0)
+      expect(nodes.length).toBeLessThan(20) // Should not render all 1000 items
+    })
+  })
+
+  describe('Selection and Expansion', () => {
+    test('virtual scroll expand and check', async () => {
+      const value = ref<string[]>([])
+      const handleChange = vi.fn()
+      const wrapper = mount(() => (
+        <CascaderPanel
+          v-model={value.value}
+          options={LARGE_OPTIONS}
+          virtualScroll
+          onChange={handleChange}
+        />
+      ))
+
+      // Find and click first node
+      const nodes = wrapper.findAll(NODE)
+      expect(nodes.length).toBeGreaterThan(0)
+
+      const firstNode = nodes[0]
+      await firstNode.trigger('click')
+
+      // Should expand to show second menu
+      const menus = wrapper.findAll(MENU)
+      expect(menus.length).toBe(2)
+
+      // Click child node in second menu (leaf node)
+      const secondMenuNodes = menus[1].findAll(NODE)
+      await secondMenuNodes[0].trigger('click')
+
+      expect(handleChange).toBeCalledTimes(1)
+      expect(value.value).toEqual(['option-0', 'child-0-1'])
+    })
+
+    test('virtual scroll with default value', async () => {
+      const value = ref<string[]>(['option-5', 'child-5-1'])
+      const wrapper = mount(() => (
+        <CascaderPanel
+          v-model={value.value}
+          options={LARGE_OPTIONS}
+          virtualScroll
+        />
+      ))
+
+      await nextTick()
+
+      // Should have two menus expanded
+      const menus = wrapper.findAll(MENU)
+      expect(menus.length).toBe(2)
+
+      // Check that the correct node is active
+      const activeNodes = wrapper.findAll('.is-active')
+      expect(activeNodes.length).toBeGreaterThan(0)
+    })
+
+    test('virtual scroll with deep default value', async () => {
+      const value = ref<string[]>(['option-50', 'child-50-1'])
+      const wrapper = mount(() => (
+        <CascaderPanel
+          v-model={value.value}
+          options={LARGE_OPTIONS}
+          virtualScroll
+        />
+      ))
+
+      await nextTick()
+
+      // Should have expanded menus
+      const menus = wrapper.findAll(MENU)
+      expect(menus.length).toBe(2)
+    })
+
+    test('virtual scroll change value programmatically', async () => {
+      const value = ref<string[]>([])
+      const wrapper = mount(() => (
+        <CascaderPanel
+          v-model={value.value}
+          options={LARGE_OPTIONS}
+          virtualScroll
+        />
+      ))
+
+      await nextTick()
+
+      // Change value programmatically
+      value.value = ['option-10', 'child-10-2']
+      await nextTick()
+
+      // Should have expanded menus
+      const menus = wrapper.findAll(MENU)
+      expect(menus.length).toBe(2)
+    })
+  })
+
+  describe('Multiple Mode', () => {
+    test('virtual scroll multiple mode', async () => {
+      const value = ref<string[]>([])
+      const props = { multiple: true }
+      const wrapper = mount(() => (
+        <CascaderPanel
+          v-model={value.value}
+          options={LARGE_OPTIONS}
+          props={props}
+          virtualScroll
+        />
+      ))
+
+      // Click first node to expand
+      const nodes = wrapper.findAll(NODE)
+      await nodes[0].trigger('click')
+
+      // Should show checkboxes
+      const checkboxes = wrapper.findAll(CHECKBOX)
+      expect(checkboxes.length).toBeGreaterThan(0)
+
+      // Click checkbox in second menu (leaf node)
+      const menus = wrapper.findAll(MENU)
+      const secondMenuCheckboxes = menus[1].findAll(CHECKBOX)
+      await secondMenuCheckboxes[0].find('input').trigger('click')
+
+      expect(value.value).toEqual([['option-0', 'child-0-1']])
+    })
+
+    test('virtual scroll multiple mode select all children', async () => {
+      const value = ref<string[]>([])
+      const props = { multiple: true }
+      const wrapper = mount(() => (
+        <CascaderPanel
+          v-model={value.value}
+          options={LARGE_OPTIONS}
+          props={props}
+          virtualScroll
+        />
+      ))
+
+      // Click first node to expand
+      const nodes = wrapper.findAll(NODE)
+      await nodes[0].trigger('click')
+
+      // Click all checkboxes in second menu
+      const menus = wrapper.findAll(MENU)
+      const secondMenuCheckboxes = menus[1].findAll(CHECKBOX)
+      for (const checkbox of secondMenuCheckboxes) {
+        await checkbox.find('input').trigger('click')
+      }
+
+      // Parent checkbox should be checked
+      const parentCheckbox = nodes[0].find(CHECKBOX)
+      expect(parentCheckbox.classes('is-checked')).toBe(true)
+    })
+
+    test('virtual scroll multiple mode with default value', async () => {
+      const value = ref<string[]>(['option-5', 'child-5-1'])
+      const props = { multiple: true }
+      const wrapper = mount(() => (
+        <CascaderPanel
+          v-model={value.value}
+          options={LARGE_OPTIONS}
+          props={props}
+          virtualScroll
+        />
+      ))
+
+      await nextTick()
+
+      // Should have expanded menus
+      const menus = wrapper.findAll(MENU)
+      expect(menus.length).toBe(2)
+
+      // Check checkbox is checked
+      const checkboxes = wrapper.findAll(CHECKBOX)
+      const checkedCheckbox = checkboxes.find((c) => c.classes('is-checked'))
+      expect(checkedCheckbox).toBeDefined()
+    })
+  })
+
+  describe('checkStrictly Mode', () => {
+    test('virtual scroll checkStrictly mode', async () => {
+      const value = ref<string[]>([])
+      const props = { checkStrictly: true }
+      const wrapper = mount(() => (
+        <CascaderPanel
+          v-model={value.value}
+          options={LARGE_OPTIONS}
+          props={props}
+          virtualScroll
+        />
+      ))
+
+      // Should show radios
+      const radios = wrapper.findAll(RADIO)
+      expect(radios.length).toBeGreaterThan(0)
+
+      // Click first radio
+      await radios[0].find('input').trigger('click')
+      expect(value.value).toEqual(['option-0'])
+    })
+
+    test('virtual scroll checkStrictly with expand', async () => {
+      const value = ref<string[]>([])
+      const props = { checkStrictly: true }
+      const wrapper = mount(() => (
+        <CascaderPanel
+          v-model={value.value}
+          options={LARGE_OPTIONS}
+          props={props}
+          virtualScroll
+        />
+      ))
+
+      // Click node to expand (not to select)
+      const nodes = wrapper.findAll(NODE)
+      await nodes[0].trigger('click')
+
+      // Should expand to show second menu
+      const menus = wrapper.findAll(MENU)
+      expect(menus.length).toBe(2)
+
+      // Value should not change (just expanded)
+      expect(value.value).toEqual([])
+    })
+
+    test('virtual scroll checkStrictly multiple mode', async () => {
+      const value = ref<string[]>([])
+      const props = { checkStrictly: true, multiple: true }
+      const wrapper = mount(() => (
+        <CascaderPanel
+          v-model={value.value}
+          options={LARGE_OPTIONS}
+          props={props}
+          virtualScroll
+        />
+      ))
+
+      // Click checkboxes to select parent nodes independently
+      const checkboxes = wrapper.findAll(CHECKBOX)
+      await checkboxes[0].find('input').trigger('click')
+
+      expect(value.value).toEqual([['option-0']])
+    })
+  })
+
+  describe('Disabled Options', () => {
+    test('virtual scroll disabled options', async () => {
+      const disabledOptions = [
+        { value: 'disabled-1', label: 'Disabled 1', disabled: true },
+        { value: 'enabled-1', label: 'Enabled 1', leaf: true },
+      ]
+      const wrapper = mount(() => (
+        <CascaderPanel options={disabledOptions} virtualScroll />
+      ))
+
+      const nodes = wrapper.findAll(NODE)
+      expect(nodes[0].classes('is-disabled')).toBe(true)
+      expect(nodes[1].classes('is-disabled')).toBe(false)
+    })
+
+    test('virtual scroll disabled options cannot be selected', async () => {
+      const value = ref<string[]>([])
+      const disabledOptions = [
+        {
+          value: 'disabled-1',
+          label: 'Disabled 1',
+          disabled: true,
+          leaf: true,
+        },
+        { value: 'enabled-1', label: 'Enabled 1', leaf: true },
+      ]
+      const wrapper = mount(() => (
+        <CascaderPanel
+          v-model={value.value}
+          options={disabledOptions}
+          virtualScroll
+        />
+      ))
+
+      const nodes = wrapper.findAll(NODE)
+      await nodes[0].trigger('click')
+
+      // Should not select disabled option
+      expect(value.value).toEqual([])
+
+      await nodes[1].trigger('click')
+      expect(value.value).toEqual(['enabled-1'])
+    })
+  })
+
+  describe('Hover Mode', () => {
+    test('virtual scroll hover mode', async () => {
+      const props = { expandTrigger: 'hover' as const }
+      const wrapper = mount(() => (
+        <CascaderPanel options={LARGE_OPTIONS} props={props} virtualScroll />
+      ))
+
+      const nodes = wrapper.findAll(NODE)
+      await nodes[0].trigger('mouseenter')
+
+      // Should expand to show second menu
+      const menus = wrapper.findAll(MENU)
+      expect(menus.length).toBe(2)
+    })
+
+    test('virtual scroll hover mode with click to select', async () => {
+      const value = ref<string[]>([])
+      const props = { expandTrigger: 'hover' as const }
+      const wrapper = mount(() => (
+        <CascaderPanel
+          v-model={value.value}
+          options={LARGE_OPTIONS}
+          props={props}
+          virtualScroll
+        />
+      ))
+
+      const nodes = wrapper.findAll(NODE)
+      await nodes[0].trigger('mouseenter')
+
+      const menus = wrapper.findAll(MENU)
+      const childNodes = menus[1].findAll(NODE)
+      await childNodes[0].trigger('click')
+
+      expect(value.value.length).toBeGreaterThan(0)
+    })
+  })
+
+  describe('Large Dataset Performance', () => {
+    test('virtual scroll with 2000 options renders efficiently', async () => {
+      const wrapper = mount(() => (
+        <CascaderPanel
+          options={LARGE_OPTIONS}
+          virtualScroll
+          itemSize={34}
+          height={204}
+        />
+      ))
+
+      // Should not render all 2000 nodes
+      const nodes = wrapper.findAll(NODE)
+      expect(nodes.length).toBeLessThan(50)
+    })
+
+    test('virtual scroll scrollToItem with large dataset', async () => {
+      const value = ref<string[]>(['option-500', 'child-500-1'])
+      const wrapper = mount(() => (
+        <CascaderPanel
+          v-model={value.value}
+          options={LARGE_OPTIONS}
+          virtualScroll
+        />
+      ))
+
+      await nextTick()
+
+      // The panel should have expanded and scrolled to the active node
+      const menus = wrapper.findAll(MENU)
+      expect(menus.length).toBe(2)
+    })
+
+    test('virtual scroll navigate through large dataset', async () => {
+      const value = ref<string[]>([])
+      const handleChange = vi.fn()
+      const wrapper = mount(() => (
+        <CascaderPanel
+          v-model={value.value}
+          options={LARGE_OPTIONS}
+          virtualScroll
+          onChange={handleChange}
+        />
+      ))
+
+      // Click first node
+      const nodes = wrapper.findAll(NODE)
+      await nodes[0].trigger('click')
+
+      // Expand and select
+      const menus = wrapper.findAll(MENU)
+      const childNodes = menus[1].findAll(NODE)
+      await childNodes[0].trigger('click')
+
+      expect(handleChange).toBeCalledTimes(1)
+    })
+
+    test('virtual scroll change selection in large dataset', async () => {
+      const value = ref<string[]>(['option-0', 'child-0-1'])
+      const wrapper = mount(() => (
+        <CascaderPanel
+          v-model={value.value}
+          options={LARGE_OPTIONS}
+          virtualScroll
+        />
+      ))
+
+      await nextTick()
+
+      // Change to a different option
+      value.value = ['option-100', 'child-100-2']
+      await nextTick()
+
+      const menus = wrapper.findAll(MENU)
+      expect(menus.length).toBe(2)
+    })
+
+    test('virtual scroll resolves active index by menu level', async () => {
+      const value = ref<string[]>(['option-50', 'child-50-1'])
+      const wrapper = mount(() => (
+        <CascaderPanel
+          v-model={value.value}
+          options={LARGE_OPTIONS}
+          virtualScroll
+        />
+      ))
+
+      await nextTick()
+
+      const vm = wrapper.findComponent(CascaderPanel).vm as any
+      expect(vm.menuList[0].getActiveNodeIndex()).toBe(50)
+      expect(vm.menuList[1].getActiveNodeIndex()).toBe(0)
+    })
+  })
+
+  describe('Lazy Loading', () => {
+    test('virtual scroll with lazy load', async () => {
+      vi.useFakeTimers()
+      const value = ref<string[]>([])
+      const props = {
+        lazy: true,
+        lazyLoad: (node: any, resolve: any) => {
+          const { level } = node
+          setTimeout(() => {
+            const nodes = Array.from({ length: level + 1 }).map((_, i) => ({
+              value: `lazy-${level}-${i}`,
+              label: `Lazy Option ${level}-${i}`,
+              leaf: level >= 1,
+            }))
+            resolve(nodes)
+          }, 1000)
+        },
+      }
+      const wrapper = mount(() => (
+        <CascaderPanel v-model={value.value} props={props} virtualScroll />
+      ))
+
+      vi.runAllTimers()
+      await nextTick()
+
+      const firstOption = wrapper.find(NODE)
+      expect(firstOption.exists()).toBe(true)
+
+      await firstOption.trigger('click')
+      expect(firstOption.findComponent(Loading).exists()).toBe(true)
+
+      vi.runAllTimers()
+      await nextTick()
+      expect(firstOption.findComponent(Loading).exists()).toBe(false)
+
+      const menus = wrapper.findAll(MENU)
+      expect(menus.length).toBe(2)
+
+      vi.useRealTimers()
+    })
+  })
+
+  describe('Events', () => {
+    test('virtual scroll emits change event', async () => {
+      const handleChange = vi.fn()
+      const value = ref<string[]>([])
+      const wrapper = mount(() => (
+        <CascaderPanel
+          v-model={value.value}
+          options={LARGE_OPTIONS}
+          virtualScroll
+          onChange={handleChange}
+        />
+      ))
+
+      const nodes = wrapper.findAll(NODE)
+      await nodes[0].trigger('click')
+
+      const menus = wrapper.findAll(MENU)
+      const childNodes = menus[1].findAll(NODE)
+      await childNodes[0].trigger('click')
+
+      expect(handleChange).toBeCalledTimes(1)
+      expect(handleChange).toBeCalledWith(['option-0', 'child-0-1'])
+    })
+
+    test('virtual scroll emits expand-change event', async () => {
+      const handleExpandChange = vi.fn()
+      const wrapper = mount(() => (
+        <CascaderPanel
+          options={LARGE_OPTIONS}
+          virtualScroll
+          onExpand-change={handleExpandChange}
+        />
+      ))
+
+      const nodes = wrapper.findAll(NODE)
+      await nodes[0].trigger('click')
+
+      expect(handleExpandChange).toBeCalledTimes(1)
+    })
+  })
+
+  describe('getCheckedNodes and clearCheckedNodes', () => {
+    test('virtual scroll getCheckedNodes works', async () => {
+      const props = { multiple: true }
+      const wrapper = mount(() => (
+        <CascaderPanel
+          options={LARGE_OPTIONS}
+          props={props}
+          virtualScroll
+          modelValue={[['option-0', 'child-0-1']]}
+        />
+      ))
+
+      await nextTick()
+
+      const vm = wrapper.findComponent(CascaderPanel).vm
+      const checkedNodes = vm.getCheckedNodes(false)
+      expect(checkedNodes?.length).toBeGreaterThan(0)
+    })
+
+    test('virtual scroll clearCheckedNodes works', async () => {
+      const props = { multiple: true }
+      const wrapper = mount(() => (
+        <CascaderPanel
+          options={LARGE_OPTIONS}
+          props={props}
+          virtualScroll
+          modelValue={[['option-0', 'child-0-1']]}
+        />
+      ))
+
+      await nextTick()
+
+      const vm = wrapper.findComponent(CascaderPanel).vm
+      expect(vm.getCheckedNodes(false)?.length).toBeGreaterThan(0)
+
+      vm.clearCheckedNodes()
+      await nextTick()
+
+      expect(vm.getCheckedNodes(false)?.length).toBe(0)
+    })
+  })
+
+  describe('Dynamic Options', () => {
+    test('virtual scroll options change', async () => {
+      const options = ref(LARGE_OPTIONS)
+      const wrapper = mount(() => (
+        <CascaderPanel options={options.value} virtualScroll />
+      ))
+
+      expect(wrapper.find(NODE).exists()).toBe(true)
+
+      options.value = []
+      await nextTick()
+
+      expect(wrapper.find(NODE).exists()).toBe(false)
+      expect(wrapper.find('.is-empty').exists()).toBe(true)
+    })
+
+    test('virtual scroll options async load with default value', async () => {
+      const options = ref<any[]>([])
+      const wrapper = mount(() => (
+        <CascaderPanel
+          options={options.value}
+          virtualScroll
+          modelValue={['option-5', 'child-5-1']}
+        />
+      ))
+
+      const vm = wrapper.findComponent(CascaderPanel).vm
+      expect(vm.getCheckedNodes(false)?.length).toBe(0)
+
+      options.value = LARGE_OPTIONS
+      await nextTick()
+
+      expect(vm.getCheckedNodes(true)?.length).toBeGreaterThan(0)
+    })
+  })
+
+  describe('Edge Cases', () => {
+    test('virtual scroll with single leaf option', async () => {
+      const options = [{ value: 'single', label: 'Single', leaf: true }]
+      const value = ref<string[]>([])
+      const wrapper = mount(() => (
+        <CascaderPanel v-model={value.value} options={options} virtualScroll />
+      ))
+
+      const nodes = wrapper.findAll(NODE)
+      await nodes[0].trigger('click')
+
+      expect(value.value).toEqual(['single'])
+    })
+
+    test('virtual scroll toggle selection', async () => {
+      const value = ref<string[]>(['option-0', 'child-0-1'])
+      const wrapper = mount(() => (
+        <CascaderPanel
+          v-model={value.value}
+          options={LARGE_OPTIONS}
+          virtualScroll
+        />
+      ))
+
+      await nextTick()
+
+      // Clear value
+      value.value = []
+      await nextTick()
+
+      expect(wrapper.findAll('.is-active').length).toBe(0)
+    })
+
+    test('virtual scroll with emitPath false', async () => {
+      const value = ref('')
+      const cascaderProps = { emitPath: false }
+      const wrapper = mount(() => (
+        <CascaderPanel
+          v-model={value.value}
+          options={LARGE_OPTIONS}
+          props={cascaderProps}
+          virtualScroll
+        />
+      ))
+
+      const nodes = wrapper.findAll(NODE)
+      await nodes[0].trigger('click')
+
+      const menus = wrapper.findAll(MENU)
+      const childNodes = menus[1].findAll(NODE)
+      await childNodes[0].trigger('click')
+
+      expect(typeof value.value).toBe('string')
+    })
+  })
+})

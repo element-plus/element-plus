@@ -14,6 +14,7 @@
       inExpandingPath && 'in-active-path',
       inCheckedPath && 'in-checked-path',
     ]"
+    :style="style"
     @mouseenter="handleHoverExpand"
     @focus="handleHoverExpand"
     @click="handleClick"
@@ -70,7 +71,7 @@ import NodeContent from './node-content'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
 
 import type { CascaderNode } from './types'
-import type { PropType } from 'vue'
+import type { CSSProperties, PropType } from 'vue'
 import type { CheckboxValueType } from '@element-plus/components/checkbox'
 
 defineOptions({
@@ -83,6 +84,10 @@ const props = defineProps({
     required: true,
   },
   menuId: String,
+  style: {
+    type: Object as PropType<CSSProperties>,
+    default: () => ({}),
+  },
 })
 const emit = defineEmits(['expand'])
 

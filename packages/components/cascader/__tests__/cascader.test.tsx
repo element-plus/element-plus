@@ -656,6 +656,57 @@ describe('Cascader.vue', () => {
     expect(value.value).toEqual(['zhejiang', 'hangzhou'])
   })
 
+  test('filterable keyboard navigation in virtual scroll mode', async () => {
+    const value = ref([])
+    const options = [
+      {
+        value: 'root',
+        label: 'Root',
+        children: Array.from({ length: 60 }).map((_, index) => ({
+          value: `child-${index}`,
+          label: `Child ${index}`,
+        })),
+      },
+    ]
+    const wrapper = _mount(() => (
+      <Cascader
+        v-model={value.value}
+        filterable
+        virtualScroll
+        height={68}
+        options={options}
+      />
+    ))
+
+    const input = wrapper.find('input')
+    input.element.value = 'Child'
+    await input.trigger('input')
+    await nextTick()
+
+    const dropdown = document.querySelector(DROPDOWN)!
+    const suggestions = dropdown.querySelectorAll(
+      SUGGESTION_ITEM
+    ) as NodeListOf<HTMLElement>
+    const current = suggestions[suggestions.length - 1]
+    const currentId = current.id
+    const currentIndex = Number.parseInt(
+      currentId.replace('suggestion-child-', ''),
+      10
+    )
+
+    current.focus()
+    triggerEvent(current, 'keydown', EVENT_CODE.down)
+    await nextTick()
+    await nextTick()
+
+    const active = document.activeElement as HTMLElement
+    const activeIndex = Number.parseInt(
+      active.id.replace('suggestion-child-', ''),
+      10
+    )
+    expect(activeIndex).toBe(currentIndex + 1)
+  })
+
   describe('teleported API', () => {
     it('should mount on popper container', async () => {
       expect(document.body.innerHTML).toBe('')

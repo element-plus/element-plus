@@ -53,6 +53,18 @@ export const CommonProps = buildProps({
 export interface CascaderPanelProps extends CascaderCommonProps {
   border?: boolean
   renderLabel?: RenderLabel
+  /**
+   * @description whether to enable virtual scrolling
+   */
+  virtualScroll?: boolean
+  /**
+   * @description node height for virtual scrolling
+   */
+  itemSize?: number
+  /**
+   * @description menu height for virtual scrolling
+   */
+  height?: number
 }
 
 export const DefaultProps: CascaderConfig = {
@@ -129,6 +141,18 @@ export const cascaderPanelProps = buildProps({
   },
   renderLabel: {
     type: Function as PropType<RenderLabel>,
+  },
+  virtualScroll: {
+    type: Boolean,
+    default: false,
+  },
+  itemSize: {
+    type: Number,
+    default: 34,
+  },
+  height: {
+    type: Number,
+    default: 204,
   },
 })
 
