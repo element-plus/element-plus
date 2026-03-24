@@ -75,7 +75,6 @@ const props = withDefaults(defineProps<CascaderPanelProps>(), {
   options: () => [] as CascaderOption[],
   props: () => ({}) as CascaderProps,
   border: true,
-  virtualScroll: false,
   itemSize: 34,
   height: 204,
 })

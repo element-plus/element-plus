@@ -12,13 +12,21 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-const value = ref([])
+import type { CascaderNode } from 'element-plus'
 
-const filterMethod = (node: any, keyword: string) => {
+interface CascaderExampleOption {
+  value: string
+  label: string
+  children?: CascaderExampleOption[]
+}
+
+const value = ref<string[]>([])
+
+const filterMethod = (node: CascaderNode, keyword: string) => {
   return node.text.toLowerCase().includes(keyword.toLowerCase())
 }
 
-const generateOptions = (count: number) => {
+const generateOptions = (count: number): CascaderExampleOption[] => {
   return Array.from({ length: count }).map((_, index) => ({
     value: `option-${index}`,
     label: `Option ${index + 1}`,
@@ -45,5 +53,5 @@ const generateOptions = (count: number) => {
   }))
 }
 
-const options = generateOptions(20000)
+const options = ref<CascaderExampleOption[]>(generateOptions(20000))
 </script>

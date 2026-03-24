@@ -148,16 +148,20 @@ const getActiveNodeIndex = () => {
   const expandingNodeLevel = panel.expandingNode?.level ?? 0
 
   if (props.index < expandingNodeLevel) {
-    // parent menu: use the node at this level from the expanding path
     const activeNodeId = panel.expandingNode?.pathNodes[props.index]?.uid
     return props.nodes.findIndex((node) => node.uid === activeNodeId)
   } else if (
     props.index === expandingNodeLevel &&
     panel.checkedNodes.length > 0
   ) {
-    // leaf menu: use checkedNodes to find the active node at this level
-    const checkedNode = panel.checkedNodes[0]
-    const activeNodeId = checkedNode?.pathNodes[props.index]?.uid
+    const activeNodeId = panel.checkedNodes[0]?.pathNodes[props.index]?.uid
+    return props.nodes.findIndex((node) => node.uid === activeNodeId)
+  } else if (
+    !panel.expandingNode &&
+    panel.checkedNodes.length > 0 &&
+    props.index < panel.checkedNodes[0].pathNodes.length
+  ) {
+    const activeNodeId = panel.checkedNodes[0]?.pathNodes[props.index]?.uid
     return props.nodes.findIndex((node) => node.uid === activeNodeId)
   }
 
@@ -235,6 +239,7 @@ defineExpose({
   getNodeIndexById,
   scrollToItem,
   focusNodeAt,
+  virtualListRef,
   get $el() {
     return instance.vnode.el as HTMLElement
   },

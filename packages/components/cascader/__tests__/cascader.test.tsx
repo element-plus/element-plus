@@ -688,11 +688,9 @@ describe('Cascader.vue', () => {
       SUGGESTION_ITEM
     ) as NodeListOf<HTMLElement>
     const current = suggestions[suggestions.length - 1]
-    const currentId = current.id
-    const currentIndex = Number.parseInt(
-      currentId.replace('suggestion-child-', ''),
-      10
-    )
+    const getSuggestionIndex = (el: HTMLElement) =>
+      Number.parseInt(el.dataset.suggestionIndex || '-1', 10)
+    const currentIndex = getSuggestionIndex(current)
 
     current.focus()
     triggerEvent(current, 'keydown', EVENT_CODE.down)
@@ -700,10 +698,7 @@ describe('Cascader.vue', () => {
     await nextTick()
 
     const active = document.activeElement as HTMLElement
-    const activeIndex = Number.parseInt(
-      active.id.replace('suggestion-child-', ''),
-      10
-    )
+    const activeIndex = getSuggestionIndex(active)
     expect(activeIndex).toBe(currentIndex + 1)
   })
 

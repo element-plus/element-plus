@@ -235,6 +235,7 @@
               <li
                 :id="`suggestion-${data[index].uid}`"
                 :key="data[index].uid"
+                :data-suggestion-index="index"
                 :class="[
                   nsCascader.e('suggestion-item'),
                   nsCascader.is('checked', data[index].checked),
@@ -380,7 +381,6 @@ const props = withDefaults(defineProps<CascaderComponentProps>(), {
   showPrefix: true,
   popperStyle: undefined,
   valueOnClear: undefined,
-  virtualScroll: false,
   itemSize: 34,
   height: 204,
 })
@@ -733,16 +733,26 @@ const calculateSuggestionMaxWidth = () => {
   const ctx = canvas.getContext('2d')
   if (!ctx) return 0
 
-  // Use default font settings
-  ctx.font = '14px sans-serif'
+  const suggestionPanelEl =
+    suggestionPanel.value instanceof HTMLElement
+      ? suggestionPanel.value
+      : suggestionPanel.value?.$el
+  const renderedSuggestion = suggestionPanelEl?.querySelector(
+    `.${nsCascader.e('suggestion-item')}`
+  ) as HTMLElement | null
+  const measuredFont =
+    renderedSuggestion && isClient
+      ? getComputedStyle(renderedSuggestion).font
+      : ''
+  ctx.font = measuredFont || '14px sans-serif'
 
-  const padding = 30 // 15px padding on each side
+  const padding = 30
   let maxWidth = 0
 
   for (const suggestion of suggestions.value) {
     const text = suggestion.text || ''
     const metrics = ctx.measureText(text)
-    const width = metrics.width + padding + (suggestion.checked ? 24 : 0) // add space for check icon
+    const width = metrics.width + padding + (suggestion.checked ? 24 : 0)
     maxWidth = Math.max(maxWidth, width)
   }
 
