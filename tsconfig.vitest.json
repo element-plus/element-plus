@@ -2,7 +2,7 @@
   "extends": "./tsconfig.web.json",
   "compilerOptions": {
     "composite": true,
-    "lib": ["ES2021", "DOM", "DOM.Iterable"],
+    "lib": ["ES2021", "ES2022.Intl", "DOM", "DOM.Iterable"],
     "types": ["node", "jsdom"],
     "skipLibCheck": true
   },
