@@ -258,9 +258,7 @@ const wrapperKls = computed(() => [
 ])
 
 const attrs = useAttrs()
-const maxlength = computed<string | undefined>(() => {
-  return props.maxlength != null ? String(props.maxlength) : undefined
-})
+const maxlength = computed(() => props.maxlength?.toString())
 
 const { form: elForm, formItem: elFormItem } = useFormItem()
 const { inputId } = useFormItemInputId(props, {
