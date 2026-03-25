@@ -7,15 +7,19 @@ import type { CheckboxProps } from '../checkbox'
 
 export const useCheckboxModel = (props: CheckboxProps) => {
   const selfModel = ref<unknown>(false)
-  const { emit } = getCurrentInstance()!
+  const { emit, vnode } = getCurrentInstance()!
   const checkboxGroup = inject(checkboxGroupContextKey, undefined)
   const isGroup = computed(() => isUndefined(checkboxGroup) === false)
   const isLimitExceeded = ref(false)
+  const isControlled = computed(() => {
+    const rawProps = vnode.props ?? {}
+    return 'modelValue' in rawProps || 'model-value' in rawProps
+  })
   const model = computed({
     get() {
       return isGroup.value
         ? checkboxGroup?.modelValue?.value
-        : props.modelValue === undefined
+        : !isControlled.value
           ? selfModel.value
           : props.modelValue
     },
