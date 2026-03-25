@@ -702,6 +702,44 @@ describe('Cascader.vue', () => {
     expect(activeIndex).toBe(currentIndex + 1)
   })
 
+  test('virtual scroll should not force inner width with suggestion-item slot', async () => {
+    const value = ref([])
+    const options = [
+      {
+        value: 'root',
+        label: 'Root',
+        children: Array.from({ length: 60 }).map((_, index) => ({
+          value: `child-${index}`,
+          label: `Child ${index}`,
+        })),
+      },
+    ]
+    const wrapper = _mount(() => (
+      <Cascader
+        v-model={value.value}
+        filterable
+        virtualScroll
+        height={68}
+        options={options}
+      >
+        {{
+          'suggestion-item': ({ item }: any) => (
+            <span>{`${item.text} - custom-content`}</span>
+          ),
+        }}
+      </Cascader>
+    ))
+
+    const input = wrapper.find('input')
+    input.element.value = 'Child'
+    await input.trigger('input')
+    await nextTick()
+
+    const cascader = wrapper.findComponent(Cascader).vm as any
+    expect(cascader.hasCustomSuggestionItemSlot).toBe(true)
+    expect(cascader.virtualSuggestionInnerWidth).toBeUndefined()
+  })
+
   describe('teleported API', () => {
     it('should mount on popper container', async () => {
       expect(document.body.innerHTML).toBe('')

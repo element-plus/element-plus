@@ -226,7 +226,7 @@
             :data="suggestions"
             :total="suggestions.length"
             inner-element="ul"
-            :inner-width="suggestionListWidth"
+            :inner-width="virtualSuggestionInnerWidth"
             :inner-props="{
               class: nsCascader.e('suggestion-list'),
             }"
@@ -425,6 +425,10 @@ const searchInputValue = ref('')
 const tags = ref<Tag[]>([])
 const suggestions = ref<CascaderNode[]>([])
 const suggestionListWidth = ref<string | number>('100%')
+const hasCustomSuggestionItemSlot = computed(() => !!slots['suggestion-item'])
+const virtualSuggestionInnerWidth = computed(() =>
+  hasCustomSuggestionItemSlot.value ? undefined : suggestionListWidth.value
+)
 
 const showTagList = computed(() => {
   if (!props.props.multiple) {
@@ -685,8 +689,16 @@ const updateStyle = () => {
       const inputWidth = inputInner.offsetWidth
 
       if (props.virtualScroll) {
-        const maxWidth = calculateSuggestionMaxWidth()
-        suggestionListWidth.value = Math.max(inputWidth, maxWidth)
+        const suggestionList = suggestionPanelEl.querySelector(
+          `.${nsCascader.e('suggestion-list')}`
+        ) as HTMLElement | null
+        if (hasCustomSuggestionItemSlot.value) {
+          const slotWidth = suggestionList?.scrollWidth ?? inputWidth
+          suggestionListWidth.value = Math.max(inputWidth, slotWidth)
+        } else {
+          const maxWidth = calculateSuggestionMaxWidth()
+          suggestionListWidth.value = Math.max(inputWidth, maxWidth)
+        }
       } else {
         const suggestionList = suggestionPanelEl.querySelector(
           `.${nsCascader.e('suggestion-list')}`
@@ -727,6 +739,7 @@ const updateStyle = () => {
 }
 
 const calculateSuggestionMaxWidth = () => {
+  if (hasCustomSuggestionItemSlot.value) return 0
   if (!suggestions.value.length) return 0
 
   const canvas = document.createElement('canvas')
