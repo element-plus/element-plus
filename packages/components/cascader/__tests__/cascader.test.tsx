@@ -588,6 +588,29 @@ describe('Cascader.vue', () => {
     expect(value.value).toEqual(['zhejiang', 'hangzhou'])
   })
 
+  test('fitInputWidth', async () => {
+    const wrapper = _mount(() => (
+      <Cascader filterable fitInputWidth options={OPTIONS} />
+    ))
+    const inputWrapperEl = wrapper.find('.el-input').element as HTMLElement
+    const mockInputWidth = vi
+      .spyOn(inputWrapperEl, 'offsetWidth', 'get')
+      .mockReturnValue(221)
+
+    const input = wrapper.find('input')
+    input.element.value = 'Ni'
+    await input.trigger('compositionstart')
+    await input.trigger('input')
+    await input.trigger('compositionend')
+    await nextTick()
+
+    const suggestionPanel = document.querySelector(
+      SUGGESTION_PANEL
+    ) as HTMLElement
+    expect(suggestionPanel.style.width).toBe('221px')
+    mockInputWidth.mockRestore()
+  })
+
   test('filterable in multiple mode', async () => {
     const value = ref([])
     const props = { multiple: true }
@@ -702,7 +725,7 @@ describe('Cascader.vue', () => {
     expect(activeIndex).toBe(currentIndex + 1)
   })
 
-  test('virtual scroll should not force inner width with suggestion-item slot', async () => {
+  test('virtual scroll should apply inner width with suggestion-item slot', async () => {
     const value = ref([])
     const options = [
       {
@@ -737,7 +760,7 @@ describe('Cascader.vue', () => {
 
     const cascader = wrapper.findComponent(Cascader).vm as any
     expect(cascader.hasCustomSuggestionItemSlot).toBe(true)
-    expect(cascader.virtualSuggestionInnerWidth).toBeUndefined()
+    expect(cascader.suggestionListWidth).toBeDefined()
   })
 
   describe('teleported API', () => {

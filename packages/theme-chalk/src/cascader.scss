@@ -233,6 +233,12 @@
       font-weight: bold;
     }
 
+    > * {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     > span {
       margin-right: 10px;
     }

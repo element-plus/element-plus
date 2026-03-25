@@ -203,6 +203,22 @@ cascader/virtual-scroll
 
 :::
 
+## Custom Suggestion Width ^(2.13.7)
+
+The width of the suggestion panel (when filtering) is calculated by default based on the maximum width of the matched options. If you customize the suggestion options through the `suggestion-item` slot, it is likely that the text displayed in the options is not equal to the value of `label`, resulting in calculation errors. In this case, you can use the `fit-input-width` attribute to fix its width. When the value is `number`, the width is a specific fixed pixel value.
+
+:::tip
+
+The `fit-input-width` attribute only controls the width of the suggestion panel during searching, it does not affect the default cascader panel.
+
+:::
+
+:::demo
+
+cascader/fit-input-width
+
+:::
+
 ## Cascader API
 
 ### Cascader Attributes
@@ -242,6 +258,7 @@ cascader/virtual-scroll
 | popper-append-to-body ^(deprecated)        | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false                                                      | ^[boolean]                                                                                                                                                                  | true         |
 | show-checked-strategy ^(2.10.5)            | strategy for displaying checked nodes in multiple selection mode. Use `parent` when you want things tidy. Use `child` when every single item matters                             | ^[enum]`'parent' \| 'child'`                                                                                                                                                | child        |
 | virtual-scroll ^(2.13.7)                   | whether to enable virtual scrolling for large data                                                                                                                               | ^[boolean]                                                                                                                                                                  | false        |
+| fit-input-width ^(2.13.7)                  | whether the width of the suggestion panel is the same as the input, if the value is `number`, then the width is fixed                                                            | ^[boolean] / ^[number]                                                                                                                                                      | false        |
 | item-size ^(2.13.7)                        | node height for virtual scrolling (px)                                                                                                                                           | ^[number]                                                                                                                                                                   | 34           |
 | height ^(2.13.7)                           | menu height for virtual scrolling (px)                                                                                                                                           | ^[number]                                                                                                                                                                   | 204          |
 

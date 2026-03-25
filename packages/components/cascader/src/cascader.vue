@@ -222,12 +222,12 @@
           <el-fixed-size-list
             v-show="suggestions.length"
             ref="suggestionVirtualListRef"
-            :height="height"
+            :height="clampedSuggestionListHeight"
             :item-size="itemSize"
             :data="suggestions"
             :total="suggestions.length"
             inner-element="ul"
-            :inner-width="virtualSuggestionInnerWidth"
+            :inner-width="suggestionListWidth"
             :inner-props="{
               class: nsCascader.e('suggestion-list'),
             }"
@@ -288,6 +288,7 @@ import {
   getEventCode,
   getSibling,
   isClient,
+  isNumber,
   isPromise,
 } from '@element-plus/utils'
 import ElCascaderPanel from '@element-plus/components/cascader-panel'
@@ -431,8 +432,8 @@ const tags = ref<Tag[]>([])
 const suggestions = ref<CascaderNode[]>([])
 const suggestionListWidth = ref<string | number>('100%')
 const hasCustomSuggestionItemSlot = computed(() => !!slots['suggestion-item'])
-const virtualSuggestionInnerWidth = computed(() =>
-  hasCustomSuggestionItemSlot.value ? undefined : suggestionListWidth.value
+const clampedSuggestionListHeight = computed(() =>
+  Math.min(props.height, Math.max(1, suggestions.value.length) * props.itemSize)
 )
 
 const showTagList = computed(() => {
@@ -683,22 +684,6 @@ const focusFirstNode = () => {
   }
 }
 
-const updateVirtualSuggestionWidth = (
-  suggestionPanelEl: HTMLElement,
-  inputWidth: number
-) => {
-  const suggestionList = suggestionPanelEl.querySelector(
-    `.${nsCascader.e('suggestion-list')}`
-  ) as HTMLElement | null
-  if (hasCustomSuggestionItemSlot.value) {
-    const slotWidth = suggestionList?.scrollWidth ?? inputWidth
-    suggestionListWidth.value = Math.max(inputWidth, slotWidth)
-    return
-  }
-  const maxWidth = calculateSuggestionMaxWidth()
-  suggestionListWidth.value = Math.max(inputWidth, maxWidth)
-}
-
 const updateSuggestionPanelWidth = (inputWidth: number) => {
   const suggestionPanelEl = suggestionPanel.value
     ? suggestionPanel.value instanceof HTMLElement
@@ -706,10 +691,33 @@ const updateSuggestionPanelWidth = (inputWidth: number) => {
       : suggestionPanel.value.$el
     : undefined
   if (!suggestionPanelEl) return
-  suggestionPanelEl.style.minWidth = `${inputWidth}px`
+
+  let panelWidth = ''
+  if (isNumber(props.fitInputWidth)) {
+    panelWidth = `${props.fitInputWidth}px`
+  } else if (props.fitInputWidth === true) {
+    panelWidth = `${inputWidth}px`
+  } else {
+    panelWidth = `${inputWidth}px` // minWidth
+  }
+
+  if (props.fitInputWidth !== false) {
+    suggestionPanelEl.style.width = panelWidth
+    suggestionPanelEl.style.minWidth = ''
+  } else {
+    suggestionPanelEl.style.width = ''
+    suggestionPanelEl.style.minWidth = panelWidth
+  }
 
   if (props.virtualScroll) {
-    updateVirtualSuggestionWidth(suggestionPanelEl, inputWidth)
+    suggestionListWidth.value =
+      props.fitInputWidth !== false
+        ? isNumber(props.fitInputWidth)
+          ? `${props.fitInputWidth}px`
+          : `${inputWidth}px`
+        : hasCustomSuggestionItemSlot.value
+          ? `${inputWidth}px`
+          : Math.max(inputWidth, calculateSuggestionMaxWidth())
     return
   }
 
@@ -717,7 +725,13 @@ const updateSuggestionPanelWidth = (inputWidth: number) => {
     `.${nsCascader.e('suggestion-list')}`
   ) as HTMLElement | null
   if (suggestionList) {
-    suggestionList.style.minWidth = `${inputWidth}px`
+    if (props.fitInputWidth !== false) {
+      suggestionList.style.width = panelWidth
+      suggestionList.style.minWidth = ''
+    } else {
+      suggestionList.style.width = ''
+      suggestionList.style.minWidth = panelWidth
+    }
   }
 }
 
@@ -736,10 +750,11 @@ const getTagWrapperLeft = () => {
 
 const updateStyle = () => {
   const inputInner = inputRef.value?.input
-  if (!isClient || !inputInner) return
+  const inputWrapper = inputRef.value?.$el
+  if (!isClient || !inputInner || !inputWrapper) return
 
   if (suggestionPanel.value) {
-    updateSuggestionPanelWidth(inputInner.offsetWidth)
+    updateSuggestionPanelWidth(inputWrapper.offsetWidth)
   }
 
   const tagWrapperEl = tagWrapper.value
@@ -850,6 +865,23 @@ const handleSuggestionClick = (node: CascaderNode) => {
   }
 }
 
+const getSuggestionIndexFromTarget = (target: HTMLElement) => {
+  const suggestionItem = target.closest(
+    '[data-suggestion-index]'
+  ) as HTMLElement | null
+  if (!suggestionItem) return -1
+
+  const indexStr = suggestionItem.dataset.suggestionIndex
+  if (!indexStr) return -1
+
+  const index = Number.parseInt(indexStr, 10)
+  if (Number.isNaN(index) || index < 0 || index >= suggestions.value.length) {
+    return -1
+  }
+
+  return index
+}
+
 const handleSuggestionKeyDown = (e: KeyboardEvent) => {
   const target = e.target as HTMLElement
   const code = getEventCode(e)
@@ -861,11 +893,7 @@ const handleSuggestionKeyDown = (e: KeyboardEvent) => {
       const distance = code === EVENT_CODE.up ? -1 : 1
 
       if (props.virtualScroll && suggestionVirtualListRef.value) {
-        // use index-based navigation
-        const currentId = target.id
-        const currentIndex = suggestions.value.findIndex(
-          (s) => `suggestion-${s.uid}` === currentId
-        )
+        const currentIndex = getSuggestionIndexFromTarget(target)
         if (currentIndex >= 0) {
           let targetIndex = currentIndex + distance
           if (targetIndex < 0) {
@@ -1002,11 +1030,12 @@ watch(
 
 onMounted(() => {
   const inputInner = inputRef.value!.input!
+  const inputWrapper = inputRef.value!.$el!
 
   const inputInnerHeight = getInputInnerHeight(inputInner)
 
   inputInitialHeight = inputInner.offsetHeight || inputInnerHeight
-  useResizeObserver(inputInner, updateStyle)
+  useResizeObserver(inputWrapper, updateStyle)
 })
 
 defineExpose({

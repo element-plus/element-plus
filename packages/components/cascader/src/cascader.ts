@@ -153,6 +153,10 @@ export interface CascaderComponentProps
    * @description menu height for virtual scrolling
    */
   height?: number
+  /**
+   * @description whether the width of the suggestion panel is the same as the input, if the value is `number`, then the width is fixed
+   */
+  fitInputWidth?: boolean | number
 }
 
 /**
@@ -346,6 +350,13 @@ export const cascaderProps = buildProps({
   height: {
     type: Number,
     default: 204,
+  },
+  /**
+   * @description whether the width of the suggestion panel is the same as the input, if the value is `number`, then the width is fixed
+   */
+  fitInputWidth: {
+    type: [Boolean, Number],
+    default: false,
   },
   ...useEmptyValuesProps,
 })
