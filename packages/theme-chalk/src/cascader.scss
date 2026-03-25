@@ -205,6 +205,7 @@
 
   @include e(suggestion-list) {
     max-height: 204px;
+    list-style: none;
     margin: 0;
     padding: 6px 0;
     font-size: getCssVar('font-size', 'base');

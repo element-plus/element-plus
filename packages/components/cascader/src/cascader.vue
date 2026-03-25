@@ -220,6 +220,7 @@
           @keydown="handleSuggestionKeyDown"
         >
           <el-fixed-size-list
+            v-show="suggestions.length"
             ref="suggestionVirtualListRef"
             :height="height"
             :item-size="itemSize"
@@ -253,9 +254,13 @@
               </li>
             </template>
           </el-fixed-size-list>
-          <div v-if="!suggestions.length" :class="nsCascader.e('empty-text')">
-            <slot name="empty">{{ t('el.cascader.noMatch') }}</slot>
-          </div>
+          <slot v-if="!suggestions.length" name="empty">
+            <ul :class="nsCascader.e('suggestion-list')">
+              <li :class="nsCascader.e('empty-text')">
+                {{ t('el.cascader.noMatch') }}
+              </li>
+            </ul>
+          </slot>
         </div>
       </template>
       <div v-if="$slots.footer" :class="nsCascader.e('footer')" @click.stop>
@@ -648,7 +653,12 @@ const calculateSuggestions = () => {
 
   filtering.value = true
   suggestions.value = res!
-  nextTick(() => updateStyle())
+  nextTick(() => {
+    if (props.virtualScroll && suggestions.value.length > 0) {
+      suggestionVirtualListRef.value?.scrollToItem(0)
+    }
+    updateStyle()
+  })
   updatePopperPosition()
 }
 
@@ -696,6 +706,7 @@ const updateSuggestionPanelWidth = (inputWidth: number) => {
       : suggestionPanel.value.$el
     : undefined
   if (!suggestionPanelEl) return
+  suggestionPanelEl.style.minWidth = `${inputWidth}px`
 
   if (props.virtualScroll) {
     updateVirtualSuggestionWidth(suggestionPanelEl, inputWidth)
