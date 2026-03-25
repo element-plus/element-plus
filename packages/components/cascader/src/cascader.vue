@@ -335,6 +335,9 @@ import type {
 } from '@element-plus/components/cascader-panel'
 import type { CascaderComponentProps } from './cascader'
 
+const SUGGESTION_ITEM_PADDING = 30 // horizontal padding (15px * 2)
+const CHECK_ICON_WIDTH = 24 // icon container width
+
 const popperOptions: Partial<Options> = {
   modifiers: [
     {
@@ -717,7 +720,7 @@ const updateSuggestionPanelWidth = (inputWidth: number) => {
           : `${inputWidth}px`
         : hasCustomSuggestionItemSlot.value
           ? `${inputWidth}px`
-          : Math.max(inputWidth, calculateSuggestionMaxWidth())
+          : `${Math.max(inputWidth, calculateSuggestionMaxWidth())}px`
     return
   }
 
@@ -790,13 +793,15 @@ const calculateSuggestionMaxWidth = () => {
       : ''
   ctx.font = measuredFont || '14px sans-serif'
 
-  const padding = 30
   let maxWidth = 0
 
   for (const suggestion of suggestions.value) {
     const text = suggestion.text || ''
     const metrics = ctx.measureText(text)
-    const width = metrics.width + padding + (suggestion.checked ? 24 : 0)
+    const width =
+      metrics.width +
+      SUGGESTION_ITEM_PADDING +
+      (suggestion.checked ? CHECK_ICON_WIDTH : 0)
     maxWidth = Math.max(maxWidth, width)
   }
 

@@ -233,7 +233,7 @@
       font-weight: bold;
     }
 
-    > * {
+    > :not(.#{$namespace}-icon) {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
