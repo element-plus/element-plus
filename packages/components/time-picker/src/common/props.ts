@@ -9,16 +9,23 @@ import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
 import { disabledTimeListsProps } from '../props/shared'
 
-import type { Component, ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
+import type {
+  Component,
+  ExtractPropTypes,
+  ExtractPublicPropTypes,
+  SetupContext,
+} from 'vue'
 import type { Options } from '@popperjs/core'
 import type { Dayjs } from 'dayjs'
 import type { Placement } from '@element-plus/components/popper'
+import type { RangePickerSharedEmits } from '@element-plus/components/date-picker-panel/src/props/shared'
 
 export type SingleOrRange<T> = T | [T, T]
 export type DateModelType = number | string | Date
 export type ModelValueType = DateModelType | number[] | string[] | Date[]
 export type DayOrDays = SingleOrRange<Dayjs>
 export type DateOrDates = SingleOrRange<Date>
+export type DayOrDate = Dayjs | Date
 export type UserInput = SingleOrRange<string | null>
 export type GetDisabledHours = (role: string, comparingDate?: Dayjs) => number[]
 export type GetDisabledMinutes = (
@@ -32,6 +39,20 @@ export type GetDisabledSeconds = (
   role: string,
   comparingDate?: Dayjs
 ) => number[]
+export type Shortcut<
+  IsPublic extends boolean = false,
+  V = IsPublic extends true
+    ? DayOrDate | DayOrDate[]
+    : SingleOrRange<DayOrDate>,
+> = {
+  text: string
+  value: V | (() => V)
+  onClick?: (ctx: Omit<SetupContext<RangePickerSharedEmits>, 'expose'>) => void
+}
+export type PublicShortcut<IsSingle extends boolean = false> = Shortcut<
+  true,
+  IsSingle
+>
 
 export const timePickerDefaultProps = buildProps({
   /**
@@ -203,7 +224,7 @@ export const timePickerDefaultProps = buildProps({
    * @description an object array to set shortcut options
    */
   shortcuts: {
-    type: Array,
+    type: definePropType<PublicShortcut[]>(Array),
     default: () => [],
   },
   /**

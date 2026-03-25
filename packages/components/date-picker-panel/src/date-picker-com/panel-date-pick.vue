@@ -265,6 +265,7 @@ import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
 import { useFormDisabled } from '@element-plus/components/form'
 
+import type { DayOrDate, Shortcut } from '@element-plus/components/time-picker'
 import type { SetupContext } from 'vue'
 import type { ConfigType, Dayjs } from 'dayjs'
 import type { PanelDatePickProps } from '../props/panel-date-pick'
@@ -417,15 +418,10 @@ const yearLabel = computed(() => {
   return `${year.value} ${yearTranslation}`
 })
 
-type Shortcut = {
-  value: (() => Dayjs) | Dayjs
-  onClick?: (ctx: Omit<SetupContext, 'expose'>) => void
-}
-
 const handleShortcutClick = (shortcut: Shortcut) => {
-  const shortcutValue = isFunction(shortcut.value)
-    ? shortcut.value()
-    : shortcut.value
+  const shortcutValue = (
+    isFunction(shortcut.value) ? shortcut.value() : shortcut.value
+  ) as DayOrDate
   if (shortcutValue) {
     isShortcut = true
     emit(dayjs(shortcutValue).locale(lang.value))
