@@ -1,3 +1,5 @@
+import type * as CSS from 'csstype'
+
 export const mutable = <T extends readonly any[] | Record<string, unknown>>(
   val: T
 ) => val as Mutable<typeof val>
@@ -93,32 +95,28 @@ type Path<T> =
  */
 export type FieldPath<T> = T extends object ? Path<T> : never
 
-type Globals = 'inherit' | 'initial' | 'revert' | 'unset' | 'revert-layer'
+/**
+ * csstype 是 vue的依赖，因此，直接从vue中导入CSSProperties会导致ts类型解析错误，参考 https://github.com/pnpm/pnpm/issues/7453，因此，我们直接安装csstype，并从csstype中导入CSSProperties
+ *
+ * csstype is a dependency of vue, so importing CSSProperties directly from vue will cause ts type parsing errors, see https://github.com/pnpm/pnpm/issues/7453. Therefore, we directly install csstype and import CSSProperties from csstype.
+ */
+export interface CSSProperties
+  extends
+    CSS.Properties<string | number>,
+    CSS.PropertiesHyphen<string | number> {
+  /**
+   * The index signature was removed to enable closed typing for style
+   * using CSSType. You're able to use type assertion or module augmentation
+   * to add properties or an index signature of your own.
+   *
+   * For examples and more information, visit:
+   * https://github.com/frenic/csstype#what-should-i-do-when-i-get-type-errors
+   */
+  [v: `--${string}`]: string | number | undefined
+}
 
-export type ObjectFit =
-  | 'fill'
-  | 'contain'
-  | 'cover'
-  | 'none'
-  | 'scale-down'
-  | Globals
+export type ObjectFit = CSSProperties['objectFit']
 
-export type ZIndexType = Globals | 'auto' | number
+export type ZIndexType = CSSProperties['zIndex']
 
-export type AlignItems =
-  | 'normal'
-  | 'stretch'
-  | 'center'
-  | 'start'
-  | 'end'
-  | 'flex-start'
-  | 'flex-end'
-  | 'self-start'
-  | 'self-end'
-  | 'anchor-center'
-  | 'baseline'
-  | 'first baseline'
-  | 'last baseline'
-  | 'safe center'
-  | 'unsafe center'
-  | Globals
+export type AlignItems = CSSProperties['alignItems']
