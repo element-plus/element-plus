@@ -23,6 +23,7 @@ import {
   isString,
   keysOf,
 } from '@element-plus/utils'
+import { isNil } from 'lodash-unified'
 
 import type {
   CSSProperties,
@@ -245,8 +246,8 @@ export const useFloating = (
     return {
       position: unref(strategy),
       zIndex: unref(zIndex),
-      top: unref(y) != null ? `${unref(y)}px` : '',
-      left: unref(x) != null ? `${unref(x)}px` : '',
+      top: isNil(unref(y)) ? '' : `${unref(y)}px`,
+      left: isNil(unref(y)) ? '' : `${unref(x)}px`,
       maxWidth: overflow?.maxWidth ? `${overflow?.maxWidth}px` : '',
     }
   })
@@ -256,8 +257,8 @@ export const useFloating = (
 
     const { arrow } = unref(middlewareData)
     return {
-      left: arrow?.x != null ? `${arrow?.x}px` : '',
-      top: arrow?.y != null ? `${arrow?.y}px` : '',
+      left: isNil(arrow?.x) ? '' : `${arrow?.x}px`,
+      top: isNil(arrow?.y) ? '' : `${arrow?.y}px`,
     }
   })
 

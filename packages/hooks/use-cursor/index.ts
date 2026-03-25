@@ -1,3 +1,5 @@
+import { isNil } from 'lodash-unified'
+
 import type { ShallowRef } from 'vue'
 
 interface SelectionInfo {
@@ -18,7 +20,7 @@ export function useCursor(
 
     const { selectionStart, selectionEnd, value } = input.value
 
-    if (selectionStart == null || selectionEnd == null) return
+    if (isNil(selectionStart) || isNil(selectionEnd)) return
 
     const beforeTxt = value.slice(0, Math.max(0, selectionStart))
     const afterTxt = value.slice(Math.max(0, selectionEnd))

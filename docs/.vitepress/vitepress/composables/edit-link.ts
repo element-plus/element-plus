@@ -5,6 +5,7 @@ import { useLocale } from '../composables/locale'
 import { defaultLang } from '../constant'
 import { createCrowdinUrl, createGitHubUrl } from '../utils'
 import editLinkLocale from '../../i18n/component/edit-link.json'
+import { isNil } from 'lodash-unified'
 
 export function useEditLink() {
   const { page, theme, frontmatter } = useData()
@@ -24,10 +25,9 @@ export function useEditLink() {
         docsRepo = repo,
         editLinks,
       } = theme.value
-      const showEditLink =
-        frontmatter.value.editLink != null
-          ? frontmatter.value.editLink
-          : editLinks
+      const showEditLink = isNil(frontmatter.value.editLink)
+        ? editLinks
+        : frontmatter.value.editLink
       const { relativePath } = page.value
       if (!showEditLink || !relativePath || !repo) {
         return null

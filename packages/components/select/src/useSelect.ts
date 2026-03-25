@@ -819,7 +819,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       findFocusableIndex(options, start, direction, len) ??
       findFocusableIndex(options, start - direction, -direction, len)
 
-    if (newIndex != null) {
+    if (!isNil(newIndex)) {
       states.hoveringIndex = newIndex
       nextTick(() => scrollToOption(hoverOption.value))
     }

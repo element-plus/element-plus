@@ -455,7 +455,7 @@ const handleInput = async (event: Event) => {
 
   value = formatValue(value)
 
-  if (props.countGraphemes && maxlength.value != null) {
+  if (props.countGraphemes && !isNil(maxlength.value)) {
     const limit = Number(maxlength.value)
     const graphemes = props.countGraphemes(value)
     const saveGraphemes = props.countGraphemes(saveValue.value)
@@ -544,8 +544,8 @@ const handleInput = async (event: Event) => {
       if (
         shouldForceNativeUpdate &&
         _ref.value &&
-        selectionStart != null &&
-        selectionEnd != null
+        !isNil(selectionStart) &&
+        !isNil(selectionEnd)
       ) {
         const restoredValue = _ref.value.value
         const afterTxt = blockedValue.slice(Math.max(0, selectionEnd))
