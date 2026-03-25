@@ -28,16 +28,17 @@ const detail = computed(() => apiTypingLocale[lang.value].detail)
         />
         <template #content>
           <slot>
-            <div class="m-1" style="max-width: 600px">
-              <code
-                style="
-                  color: var(--code-tooltip-color);
-                  background-color: var(--code-tooltip-bg-color);
-                "
-              >
-                {{ details }}
-              </code>
-            </div>
+            <ElScrollbar
+              class="max-w-[600px] text-sm text-[--code-tooltip-color] bg-[--code-tooltip-bg-color]"
+            >
+              <div class="m-1">
+                <pre
+                  class="my-0"
+                  dir="ltr"
+                ><code><span v-for="(code, codeI) in details.split('\\n')" :key="codeI" class="line">{{ code }}
+</span></code></pre>
+              </div>
+            </ElScrollbar>
           </slot>
         </template>
       </ElTooltip>
