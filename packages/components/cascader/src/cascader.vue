@@ -673,67 +673,72 @@ const focusFirstNode = () => {
   }
 }
 
+const updateVirtualSuggestionWidth = (
+  suggestionPanelEl: HTMLElement,
+  inputWidth: number
+) => {
+  const suggestionList = suggestionPanelEl.querySelector(
+    `.${nsCascader.e('suggestion-list')}`
+  ) as HTMLElement | null
+  if (hasCustomSuggestionItemSlot.value) {
+    const slotWidth = suggestionList?.scrollWidth ?? inputWidth
+    suggestionListWidth.value = Math.max(inputWidth, slotWidth)
+    return
+  }
+  const maxWidth = calculateSuggestionMaxWidth()
+  suggestionListWidth.value = Math.max(inputWidth, maxWidth)
+}
+
+const updateSuggestionPanelWidth = (inputWidth: number) => {
+  const suggestionPanelEl = suggestionPanel.value
+    ? suggestionPanel.value instanceof HTMLElement
+      ? suggestionPanel.value
+      : suggestionPanel.value.$el
+    : undefined
+  if (!suggestionPanelEl) return
+
+  if (props.virtualScroll) {
+    updateVirtualSuggestionWidth(suggestionPanelEl, inputWidth)
+    return
+  }
+
+  const suggestionList = suggestionPanelEl.querySelector(
+    `.${nsCascader.e('suggestion-list')}`
+  ) as HTMLElement | null
+  if (suggestionList) {
+    suggestionList.style.minWidth = `${inputWidth}px`
+  }
+}
+
+const getTagWrapperLeft = () => {
+  if (!slots.prefix) return 0
+
+  const prefix = inputRef.value?.$el.querySelector(
+    `.${nsInput.e('prefix')}`
+  ) as HTMLElement | null
+  if (!prefix) return 0
+
+  const prefixWidth = prefix.offsetWidth
+  if (prefixWidth <= 0) return 0
+  return prefixWidth + sizeMapPadding[realSize.value || 'default']
+}
+
 const updateStyle = () => {
   const inputInner = inputRef.value?.input
-  const tagWrapperEl = tagWrapper.value
-
   if (!isClient || !inputInner) return
 
   if (suggestionPanel.value) {
-    const suggestionPanelEl =
-      suggestionPanel.value instanceof HTMLElement
-        ? suggestionPanel.value
-        : suggestionPanel.value?.$el
-
-    if (suggestionPanelEl) {
-      const inputWidth = inputInner.offsetWidth
-
-      if (props.virtualScroll) {
-        const suggestionList = suggestionPanelEl.querySelector(
-          `.${nsCascader.e('suggestion-list')}`
-        ) as HTMLElement | null
-        if (hasCustomSuggestionItemSlot.value) {
-          const slotWidth = suggestionList?.scrollWidth ?? inputWidth
-          suggestionListWidth.value = Math.max(inputWidth, slotWidth)
-        } else {
-          const maxWidth = calculateSuggestionMaxWidth()
-          suggestionListWidth.value = Math.max(inputWidth, maxWidth)
-        }
-      } else {
-        const suggestionList = suggestionPanelEl.querySelector(
-          `.${nsCascader.e('suggestion-list')}`
-        ) as HTMLElement
-        if (suggestionList) {
-          suggestionList.style.minWidth = `${inputWidth}px`
-        }
-      }
-    }
+    updateSuggestionPanelWidth(inputInner.offsetWidth)
   }
 
+  const tagWrapperEl = tagWrapper.value
   if (tagWrapperEl) {
-    const { offsetHeight } = tagWrapperEl
-    // 2 is el-input__wrapper padding
     const height =
       tags.value.length > 0
-        ? `${Math.max(offsetHeight, inputInitialHeight) - 2}px`
+        ? `${Math.max(tagWrapperEl.offsetHeight, inputInitialHeight) - 2}px`
         : `${inputInitialHeight}px`
     inputInner.style.height = height
-    // if prefix slot exists, update tagWrapperEl left position
-    if (slots.prefix) {
-      const prefix = inputRef.value?.$el.querySelector(
-        `.${nsInput.e('prefix')}`
-      ) as HTMLElement
-      let left = 0
-      if (prefix) {
-        left = prefix.offsetWidth
-        if (left > 0) {
-          left += sizeMapPadding[realSize.value || 'default'] // this is the default padding of el-input__wrapper
-        }
-      }
-      tagWrapperEl.style.left = `${left}px`
-    } else {
-      tagWrapperEl.style.left = `0`
-    }
+    tagWrapperEl.style.left = `${getTagWrapperLeft()}px`
     updatePopperPosition()
   }
 }
