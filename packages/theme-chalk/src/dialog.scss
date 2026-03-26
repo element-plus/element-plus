@@ -37,9 +37,18 @@
     overflow: hidden;
     border-radius: 0px;
 
+    @include e(header) {
+      flex-shrink: 0;
+    }
+
     @include e(body) {
-      flex: 1;
+      flex: 1 1 0;
+      min-height: 0;
       overflow: auto;
+    }
+
+    @include e(footer) {
+      flex-shrink: 0;
     }
   }
 
