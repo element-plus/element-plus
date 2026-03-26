@@ -51,6 +51,10 @@
       // for virtual scroll
       margin: 6px 0;
       padding: 0;
+      ul {
+        margin: 0;
+        padding: 0;
+      }
     }
   }
 
@@ -86,6 +90,7 @@
   height: 34px;
   line-height: 34px;
   outline: none;
+  box-sizing: border-box;
 
   &.is-selectable.in-active-path {
     color: getCssVar('cascader-menu', 'text-color');

@@ -183,7 +183,7 @@
           v-show="filtering"
           ref="suggestionPanel"
           tag="ul"
-          :class="nsCascader.e('suggestion-panel')"
+          :wrap-class="nsCascader.e('suggestion-wrap')"
           :view-class="nsCascader.e('suggestion-list')"
           @keydown="handleSuggestionKeyDown"
         >
@@ -333,8 +333,7 @@ import type {
 } from '@element-plus/components/cascader-panel'
 import type { CascaderComponentProps } from './cascader'
 
-const SUGGESTION_ITEM_PADDING = 30 // horizontal padding (15px * 2)
-const CHECK_ICON_WIDTH = 24 // icon container width
+const SUGGESTION_ITEM_EXTRA_WIDTH = 34 // span margin-right (10px) + check icon width (24px)
 
 const popperOptions: Partial<Options> = {
   modifiers: [
@@ -785,25 +784,25 @@ const calculateSuggestionMaxWidth = () => {
   const renderedSuggestion = suggestionPanelEl?.querySelector(
     `.${nsCascader.e('suggestion-item')}`
   ) as HTMLElement | null
-  const measuredFont =
-    renderedSuggestion && isClient
-      ? getComputedStyle(renderedSuggestion).font
-      : ''
-  ctx.font = measuredFont || '14px sans-serif'
+  if (!renderedSuggestion || !isClient) return 0
+
+  const style = getComputedStyle(renderedSuggestion)
+  const padding =
+    Number.parseFloat(style.paddingLeft) + Number.parseFloat(style.paddingRight)
+  // Use bold font for all items to ensure width is sufficient
+  ctx.font = `bold ${style.fontSize} ${style.fontFamily}`
 
   let maxWidth = 0
+  let hasChecked = false
 
   for (const suggestion of suggestions.value) {
     const text = suggestion.text || ''
     const metrics = ctx.measureText(text)
-    const width =
-      metrics.width +
-      SUGGESTION_ITEM_PADDING +
-      (suggestion.checked ? CHECK_ICON_WIDTH : 0)
-    maxWidth = Math.max(maxWidth, width)
+    maxWidth = Math.max(maxWidth, metrics.width)
+    if (suggestion.checked && !hasChecked) hasChecked = true
   }
 
-  return maxWidth
+  return maxWidth + padding + (hasChecked ? SUGGESTION_ITEM_EXTRA_WIDTH : 0)
 }
 
 const getCheckedNodes = (leafOnly: boolean) => {

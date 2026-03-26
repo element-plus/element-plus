@@ -5,6 +5,7 @@
     :filter-method="filterMethod"
     filterable
     virtual-scroll
+    clearable
     placeholder="Select with large data"
   />
 </template>
