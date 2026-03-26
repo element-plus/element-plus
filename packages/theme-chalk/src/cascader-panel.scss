@@ -46,6 +46,12 @@
     padding: 6px 0;
     list-style: none;
     box-sizing: border-box;
+
+    &.#{$namespace}-vl__window {
+      // for virtual scroll
+      margin: 6px 0;
+      padding: 0;
+    }
   }
 
   @include e(hover-zone) {

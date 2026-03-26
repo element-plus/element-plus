@@ -226,11 +226,9 @@
             :item-size="itemSize"
             :data="suggestions"
             :total="suggestions.length"
+            :class-name="nsCascader.e('suggestion-list')"
             inner-element="ul"
             :inner-width="suggestionListWidth"
-            :inner-props="{
-              class: nsCascader.e('suggestion-list'),
-            }"
           >
             <template #default="{ data, index, style }">
               <li

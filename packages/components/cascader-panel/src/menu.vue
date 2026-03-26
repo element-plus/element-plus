@@ -12,10 +12,11 @@
         :item-size="itemSize"
         :data="nodes"
         :total="nodes.length"
+        :class-name="ns.e('list')"
         inner-element="ul"
         :inner-props="{
           role: 'menu',
-          class: [ns.e('list'), ns.is('empty', isEmpty)],
+          class: ns.is('empty', isEmpty),
         }"
       >
         <template #default="{ data, index: nodeIndex, style }">
@@ -29,9 +30,9 @@
         </template>
       </el-fixed-size-list>
       <div v-if="isLoading" :class="ns.e('empty-text')">
-        <ElIcon :size="14" :class="ns.is('loading')">
+        <el-icon :size="14" :class="ns.is('loading')">
           <Loading />
-        </ElIcon>
+        </el-icon>
         {{ t('el.cascader.loading') }}
       </div>
       <div v-else-if="isEmpty" :class="ns.e('empty-text')">
@@ -66,9 +67,9 @@
         @expand="handleExpand"
       />
       <div v-if="isLoading" :class="ns.e('empty-text')">
-        <ElIcon :size="14" :class="ns.is('loading')">
+        <el-icon :size="14" :class="ns.is('loading')">
           <Loading />
-        </ElIcon>
+        </el-icon>
         {{ t('el.cascader.loading') }}
       </div>
       <div v-else-if="isEmpty" :class="ns.e('empty-text')">
