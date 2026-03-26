@@ -219,13 +219,18 @@ describe('ScrollBar', () => {
 
     scrollbar.setScrollTop(100)
     await nextTick()
-    scrollbar.setScrollLeft(100)
+    wrapper.find('.el-scrollbar__wrap').trigger('scroll')
     await nextTick()
     expect(wrapper.find('.is-vertical div').attributes('style')).toContain(
-      'transform: translateY(0%); height: 80px;'
+      'transform: translateY(50%); height: 80px;'
     )
+
+    scrollbar.setScrollLeft(100)
+    await nextTick()
+    wrapper.find('.el-scrollbar__wrap').trigger('scroll')
+    await nextTick()
     expect(wrapper.find('.is-horizontal div').attributes('style')).toContain(
-      'transform: translateX(0%); width: 80px;'
+      'transform: translateX(50%); width: 80px;'
     )
 
     offsetHeightRestore()
