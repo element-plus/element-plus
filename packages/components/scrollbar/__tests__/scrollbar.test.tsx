@@ -194,7 +194,8 @@ describe('ScrollBar', () => {
     })
 
     const scrollbar = wrapper.findComponent({ ref: 'scrollbar' }).vm
-    const scrollDom = wrapper.find('.el-scrollbar__wrap').element
+    const scrollWrap = wrapper.find('.el-scrollbar__wrap')
+    const scrollDom = scrollWrap.element
 
     const offsetHeightRestore = defineGetter(
       scrollDom,
@@ -219,7 +220,7 @@ describe('ScrollBar', () => {
 
     scrollbar.setScrollTop(100)
     await nextTick()
-    wrapper.find('.el-scrollbar__wrap').trigger('scroll')
+    scrollWrap.trigger('scroll')
     await nextTick()
     expect(wrapper.find('.is-vertical div').attributes('style')).toContain(
       'transform: translateY(50%); height: 80px;'
@@ -227,7 +228,7 @@ describe('ScrollBar', () => {
 
     scrollbar.setScrollLeft(100)
     await nextTick()
-    wrapper.find('.el-scrollbar__wrap').trigger('scroll')
+    scrollWrap.trigger('scroll')
     await nextTick()
     expect(wrapper.find('.is-horizontal div').attributes('style')).toContain(
       'transform: translateX(50%); width: 80px;'
