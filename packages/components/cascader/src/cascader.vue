@@ -183,6 +183,7 @@
           v-show="filtering"
           ref="suggestionPanel"
           tag="ul"
+          :class="nsCascader.e('suggestion-panel')"
           :wrap-class="nsCascader.e('suggestion-wrap')"
           :view-class="nsCascader.e('suggestion-list')"
           @keydown="handleSuggestionKeyDown"
