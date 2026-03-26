@@ -753,6 +753,7 @@ describe('TimePicker(range)', () => {
 
     await startInput.trigger('blur')
     await nextTick()
+    expect(changeHandler).not.toHaveBeenCalled()
     expect(value.value).not.toBeNull()
   })
 
