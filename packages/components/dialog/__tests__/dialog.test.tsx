@@ -539,6 +539,44 @@ describe('Dialog.vue', () => {
     })
   })
 
+  describe('fullscreen', () => {
+    test('should apply fullscreen class when fullscreen is true', async () => {
+      const wrapper = mount(
+        <Dialog modelValue={true} fullscreen>
+          {AXIOM}
+        </Dialog>
+      )
+
+      await nextTick()
+      await rAF()
+      await nextTick()
+      expect(wrapper.find('.el-dialog').classes()).toContain('is-fullscreen')
+    })
+
+    test('fullscreen dialog should render body and footer', async () => {
+      const wrapper = mount(
+        <Dialog
+          modelValue={true}
+          fullscreen
+          v-slots={{
+            footer: () => <button>OK</button>,
+          }}
+        >
+          {AXIOM}
+        </Dialog>
+      )
+
+      await nextTick()
+      await rAF()
+      await nextTick()
+
+      expect(wrapper.find('.el-dialog.is-fullscreen').exists()).toBe(true)
+      expect(wrapper.find('.el-dialog__body').exists()).toBe(true)
+      expect(wrapper.find('.el-dialog__footer').exists()).toBe(true)
+      expect(wrapper.find('.el-dialog__body').text()).toEqual(AXIOM)
+    })
+  })
+
   describe('transition', () => {
     test('dialog supports transition as string', async () => {
       const wrapper = mount(
