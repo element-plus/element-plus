@@ -1,14 +1,18 @@
-import { markRaw } from 'vue'
+import { h, markRaw } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
 import { triggerNativeCompositeClick } from '@element-plus/test-utils/composite-click'
 import { QuestionFilled as QuestionFilledIcon } from '@element-plus/icons-vue'
+import { ElButton } from '@element-plus/components/button'
 import MessageBox from '../src/messageBox'
 import { ElMessageBox } from '..'
 
 import type { Action } from '..'
 
+const REJECT_MSG = 'reject message'
+const RESOLVE_MSG = 'resolve message'
+const CUSTOM_BTN_CLZ = 'custom-btn'
 const selector = '.el-overlay'
 const QuestionFilled = markRaw(QuestionFilledIcon)
 
@@ -311,6 +315,44 @@ describe('MessageBox', () => {
       ;(btn as HTMLButtonElement).click()
       await rAF()
       expect(msgAction).toEqual('cancel')
+    })
+
+    test('calling reject() should reject the promise with the specified reason', async () => {
+      const promise = MessageBox.confirm(({ reject }) => {
+        return h('div', { class: CUSTOM_BTN_CLZ }, [
+          h(ElButton, {
+            onClick: () => {
+              reject(REJECT_MSG)
+            },
+          }),
+        ])
+      })
+      await rAF()
+      const btn = document.querySelector(`.${CUSTOM_BTN_CLZ} .el-button`)
+      expect(btn).not.toBeNull()
+      ;(btn as HTMLButtonElement).click()
+      promise.catch((e) => {
+        expect(e).toBe(REJECT_MSG)
+      })
+    })
+
+    test('calling resolve() should fulfill the promise with the specified value', async () => {
+      const promise = MessageBox.confirm(({ resolve }) => {
+        return h('div', { class: CUSTOM_BTN_CLZ }, [
+          h(ElButton, {
+            onClick: () => {
+              resolve(RESOLVE_MSG)
+            },
+          }),
+        ])
+      })
+      await rAF()
+      const btn = document.querySelector(`.${CUSTOM_BTN_CLZ} .el-button`)
+      expect(btn).not.toBeNull()
+      ;(btn as HTMLButtonElement).click()
+      promise.then((val) => {
+        expect(val).toBe(RESOLVE_MSG)
+      })
     })
   })
   describe('context inheritance', () => {
