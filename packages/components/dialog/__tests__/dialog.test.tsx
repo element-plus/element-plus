@@ -573,6 +573,7 @@ describe('Dialog.vue', () => {
       expect(wrapper.find('.el-dialog.is-fullscreen').exists()).toBe(true)
       expect(wrapper.find('.el-dialog__body').exists()).toBe(true)
       expect(wrapper.find('.el-dialog__footer').exists()).toBe(true)
+      expect(wrapper.find('.el-dialog__footer').text()).toContain('OK')
       expect(wrapper.find('.el-dialog__body').text()).toEqual(AXIOM)
     })
   })
