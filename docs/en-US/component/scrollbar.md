@@ -47,6 +47,14 @@ scrollbar/infinite-scroll
 
 :::
 
+## Scrollable State ^(2.13.7)
+
+:::demo Use `scrollable` to get the current scrollable state. The state can be `true` (both directions scrollable), `'vertical'`, `'horizontal'`, or `false`.
+
+scrollbar/scrollable-state
+
+:::
+
 ## API
 
 ### Attributes
@@ -86,11 +94,12 @@ scrollbar/infinite-scroll
 
 ### Exposes
 
-| Name          | Description                                | Type                                                                       |
-| ------------- | ------------------------------------------ | -------------------------------------------------------------------------- |
-| handleScroll  | handle scroll event                        | ^[Function]`() => void`                                                    |
-| scrollTo      | scrolls to a particular set of coordinates | ^[Function]`(options: ScrollToOptions \| number, yCoord?: number) => void` |
-| setScrollTop  | Set distance to scroll top                 | ^[Function]`(scrollTop: number) => void`                                   |
-| setScrollLeft | Set distance to scroll left                | ^[Function]`(scrollLeft: number) => void`                                  |
-| update        | update scrollbar state manually            | ^[Function]`() => void`                                                    |
-| wrapRef       | scrollbar wrap ref                         | ^[object]`Ref<HTMLDivElement>`                                             |
+| Name                 | Description                                | Type                                                                       |
+| -------------------- | ------------------------------------------ | -------------------------------------------------------------------------- |
+| handleScroll         | handle scroll event                        | ^[Function]`() => void`                                                    |
+| scrollTo             | scrolls to a particular set of coordinates | ^[Function]`(options: ScrollToOptions \| number, yCoord?: number) => void` |
+| setScrollTop         | Set distance to scroll top                 | ^[Function]`(scrollTop: number) => void`                                   |
+| setScrollLeft        | Set distance to scroll left                | ^[Function]`(scrollLeft: number) => void`                                  |
+| update               | update scrollbar state manually            | ^[Function]`() => void`                                                    |
+| wrapRef              | scrollbar wrap ref                         | ^[object]`Ref<HTMLDivElement>`                                             |
+| scrollable ^(2.13.7) | current scrollable state                   | ^[ref]`true \| 'vertical' \| 'horizontal' \| false`                        |
