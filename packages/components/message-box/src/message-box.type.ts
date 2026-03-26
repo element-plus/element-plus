@@ -15,10 +15,13 @@ export interface MessageBoxInputData {
   value: string
   action: Action
 }
-
 export type MessageBoxInputValidator =
   | ((value: string) => boolean | string)
   | undefined
+export type PromiseResolvers = {
+  resolve: (res: any) => void
+  reject: (reason?: any) => void
+}
 
 export declare interface MessageBoxState {
   autofocus: boolean
@@ -134,7 +137,7 @@ export interface ElMessageBoxOptions {
   overflow?: boolean
 
   /** Content of the MessageBox */
-  message?: string | VNode | (() => VNode)
+  message?: string | VNode | ((promiseResolvers: PromiseResolvers) => VNode)
 
   /** Title of the MessageBox */
   title?: string | ElMessageBoxOptions
