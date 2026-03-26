@@ -23,5 +23,6 @@ describe('use-timeout (SSR)', () => {
     })
 
     await expect(renderToString(createSSRApp(App))).resolves.toContain('ssr')
+    expect(fn).not.toHaveBeenCalled()
   })
 })
