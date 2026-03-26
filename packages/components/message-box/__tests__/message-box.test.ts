@@ -331,7 +331,7 @@ describe('MessageBox', () => {
       const btn = document.querySelector(`.${CUSTOM_BTN_CLZ} .el-button`)
       expect(btn).not.toBeNull()
       ;(btn as HTMLButtonElement).click()
-      promise.catch((e) => {
+      await promise.catch((e) => {
         expect(e).toBe(REJECT_MSG)
       })
     })
@@ -350,7 +350,7 @@ describe('MessageBox', () => {
       const btn = document.querySelector(`.${CUSTOM_BTN_CLZ} .el-button`)
       expect(btn).not.toBeNull()
       ;(btn as HTMLButtonElement).click()
-      promise.then((val) => {
+      await promise.then((val) => {
         expect(val).toBe(RESOLVE_MSG)
       })
     })
