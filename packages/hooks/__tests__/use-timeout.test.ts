@@ -55,6 +55,7 @@ describe('use-timeout', () => {
   })
 
   it('should work when window is undefined (SSR-like environment)', () => {
+    wrapper.unmount()
     const fn = vi.fn()
 
     vi.stubGlobal('window', undefined)
@@ -73,6 +74,7 @@ describe('use-timeout', () => {
 
       expect(fn).not.toHaveBeenCalled()
     } finally {
+      vi.clearAllTimers()
       vi.unstubAllGlobals()
     }
   })
