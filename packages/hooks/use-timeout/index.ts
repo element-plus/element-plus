@@ -1,13 +1,18 @@
 import { tryOnScopeDispose } from '@vueuse/core'
 
 export function useTimeout() {
-  let timeoutHandle: number
+  let timeoutHandle: ReturnType<typeof setTimeout> | undefined
 
   const registerTimeout = (fn: (...args: any[]) => any, delay: number) => {
     cancelTimeout()
-    timeoutHandle = window.setTimeout(fn, delay)
+    timeoutHandle = setTimeout(fn, delay)
   }
-  const cancelTimeout = () => window.clearTimeout(timeoutHandle)
+  const cancelTimeout = () => {
+    if (timeoutHandle === undefined) return
+
+    clearTimeout(timeoutHandle)
+    timeoutHandle = undefined
+  }
 
   tryOnScopeDispose(() => cancelTimeout())
 

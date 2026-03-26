@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue'
+import { defineComponent, effectScope } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { useTimeout } from '../use-timeout'
@@ -52,5 +52,28 @@ describe('use-timeout', () => {
     vi.runOnlyPendingTimers()
 
     expect(cb).not.toHaveBeenCalled()
+  })
+
+  it('should work when window is undefined (SSR-like environment)', () => {
+    const fn = vi.fn()
+
+    vi.stubGlobal('window', undefined)
+
+    try {
+      const scope = effectScope()
+      expect(() => {
+        scope.run(() => {
+          const { registerTimeout } = useTimeout()
+          registerTimeout(fn, 0)
+        })
+
+        scope.stop()
+        vi.runOnlyPendingTimers()
+      }).not.toThrow()
+
+      expect(fn).not.toHaveBeenCalled()
+    } finally {
+      vi.unstubAllGlobals()
+    }
   })
 })
