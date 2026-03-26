@@ -1,7 +1,7 @@
 <template>
   <transition :name="ns.b('fade')">
     <div
-      v-show="always || visible"
+      v-show="always || visible || isScrolling"
       ref="instance"
       :class="[ns.e('bar'), ns.is(bar.key)]"
       @mousedown="clickTrackHandler"
@@ -18,12 +18,13 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, onBeforeUnmount, ref, toRef } from 'vue'
+import { computed, inject, onBeforeUnmount, ref, toRef, watch } from 'vue'
 import { useEventListener } from '@vueuse/core'
 import { isClient, throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import { scrollbarContextKey } from './constants'
+import { SCROLLING_KEEP_ALIVE_TIME, scrollbarContextKey } from './constants'
 import { BAR_MAP, renderThumbStyle } from './util'
+import { debounce } from 'lodash-unified'
 
 import type { ThumbProps } from './thumb'
 
@@ -40,6 +41,7 @@ const thumb = ref<HTMLDivElement>()
 
 const thumbState = ref<Partial<Record<'X' | 'Y', number>>>({})
 const visible = ref(false)
+const isScrolling = ref(false)
 
 let cursorDown = false
 let cursorLeave = false
@@ -156,6 +158,25 @@ const mouseLeaveScrollbarHandler = () => {
   cursorLeave = true
   visible.value = cursorDown
 }
+
+const setIsScrollingDebounce = debounce(
+  (val: boolean) => {
+    isScrolling.value = val
+  },
+  SCROLLING_KEEP_ALIVE_TIME,
+  {
+    leading: false,
+    trailing: true,
+  }
+)
+
+watch(
+  () => props.move,
+  () => {
+    isScrolling.value = true
+    setIsScrollingDebounce(false)
+  }
+)
 
 onBeforeUnmount(() => {
   restoreOnselectstart()
