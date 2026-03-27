@@ -38,20 +38,26 @@ onUnmounted(() => {
  * The `emit` method is also intercepted to bubble up validation events.
  */
 if (formContext) {
-  provide<FormContext>(formContextKey, {
-    ...formContext,
-    emit(...args) {
-      // Emit on both section and parent form
-      emit(...args)
-      return formContext.emit(...args)
-    },
-    addField(field) {
-      // Collect field reference for section-scoped operations
-      sectionFields.push(field)
-      // Delegate to parent form for actual registration
-      return formContext.addField(field)
-    },
-  })
+  provide<FormContext>(
+    formContextKey,
+    Object.create(formContext, {
+      emit: {
+        value(...args: Parameters<FormContext['emit']>) {
+          // Emit on both section and parent form
+          emit(...args)
+          return formContext.emit(...args)
+        },
+      },
+      addField: {
+        value(field: FormItemContext) {
+          // Collect field reference for section-scoped operations
+          sectionFields.push(field)
+          // Delegate to parent form for actual registration
+          return formContext.addField(field)
+        },
+      },
+    }) as FormContext
+  )
 } else {
   debugWarn(COMPONENT_NAME, `${COMPONENT_NAME} must be used inside a Form.`)
 }

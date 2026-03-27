@@ -172,7 +172,7 @@ form/form-section
 
 | Name                       | Description                                                                                          | Type                                                                                                                              |
 | -------------------------- | ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| validate                   | Validate the whole form. Receives a callback or returns `Promise`.                                   | ^[Function]`(callback?: FormValidateCallback) => Promise<void>`                                                                   |
+| validate                   | Validate the whole form. Receives a callback or returns `Promise`.                                   | ^[Function]`(callback?: FormValidateCallback) => FormValidationResult`                                                            |
 | validateField              | Validate specified fields.                                                                           | ^[Function]`(props?: Arrayable<FormItemProp> \| undefined, callback?: FormValidateCallback \| undefined) => FormValidationResult` |
 | resetFields                | Reset specified fields and remove validation result.                                                 | ^[Function]`(props?: Arrayable<FormItemProp> \| undefined) => void`                                                               |
 | scrollToField              | Scroll to the specified fields.                                                                      | ^[Function]`(prop: FormItemProp) => void`                                                                                         |
@@ -248,11 +248,11 @@ If you don't want to trigger the validator based on input events, set the `valid
 
 ### FormSection Exposes
 
-| Name          | Description                                                                        | Type                                                            |
-| ------------- | ---------------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| validate      | Validate all fields within this section. Receives a callback or returns `Promise`. | ^[Function]`(callback?: FormValidateCallback) => Promise<void>` |
-| resetFields   | Reset all fields within this section and remove validation result.                 | ^[Function]`() => void`                                         |
-| clearValidate | Clear validation message for all fields within this section.                       | ^[Function]`() => void`                                         |
+| Name          | Description                                                                        | Type                                                                   |
+| ------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| validate      | Validate all fields within this section. Receives a callback or returns `Promise`. | ^[Function]`(callback?: FormValidateCallback) => FormValidationResult` |
+| resetFields   | Reset all fields within this section and remove validation result.                 | ^[Function]`() => void`                                                |
+| clearValidate | Clear validation message for all fields within this section.                       | ^[Function]`() => void`                                                |
 
 ## Type Declarations
 
