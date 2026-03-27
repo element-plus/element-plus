@@ -15,10 +15,15 @@ import {
   projRoot,
 } from '@element-plus/build-utils'
 
+const IGNORED_DEPENDENCIES = ['vue-component-type-helpers']
+
 export default defineConfig(async ({ mode }): Promise<UserConfig> => {
   const env = loadEnv(mode, process.cwd(), '')
   let { dependencies } = getPackageDependencies(epPackage)
-  dependencies = dependencies.filter((dep) => !dep.startsWith('@types/')) // exclude dts deps
+  // exclude dts-only deps and published type helpers
+  dependencies = dependencies.filter(
+    (dep) => !dep.startsWith('@types/') && !IGNORED_DEPENDENCIES.includes(dep)
+  )
   const optimizeDeps = await glob(['dayjs/(locale|plugin)/*.js'], {
     cwd: path.resolve(projRoot, 'node_modules'),
   })
