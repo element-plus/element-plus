@@ -1,7 +1,7 @@
 import { tryOnScopeDispose } from '@vueuse/core'
 
 export function useTimeout() {
-  let timeoutHandle: ReturnType<typeof setTimeout> | undefined
+  let timeoutHandle: ReturnType<typeof globalThis.setTimeout> | undefined
 
   const registerTimeout = (fn: (...args: any[]) => any, delay: number) => {
     cancelTimeout()
