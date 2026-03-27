@@ -102,4 +102,4 @@ scrollbar/scrollable-state
 | setScrollLeft        | Set distance to scroll left                | ^[Function]`(scrollLeft: number) => void`                                  |
 | update               | update scrollbar state manually            | ^[Function]`() => void`                                                    |
 | wrapRef              | scrollbar wrap ref                         | ^[object]`Ref<HTMLDivElement>`                                             |
-| scrollable ^(2.13.7) | current scrollable state                   | ^[ref]`true \| 'vertical' \| 'horizontal' \| false`                        |
+| scrollable ^(2.13.7) | current scrollable state                   | ^[object]`Ref<boolean \| 'vertical' \| 'horizontal'>`                      |

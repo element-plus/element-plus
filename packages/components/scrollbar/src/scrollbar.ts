@@ -8,7 +8,7 @@ import type Scrollbar from './scrollbar.vue'
  * @description
  * If `true`, the scrollbar is scrollable in both directions.
  */
-export type Scrollable = true | 'vertical' | 'horizontal' | false
+export type Scrollable = boolean | 'vertical' | 'horizontal'
 
 export interface ScrollbarProps {
   /**
