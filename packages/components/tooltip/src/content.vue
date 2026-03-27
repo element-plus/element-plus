@@ -201,13 +201,6 @@ watch(
   }
 )
 
-watch(
-  () => props.content,
-  () => {
-    contentRef.value?.updatePopper?.()
-  }
-)
-
 defineExpose({
   /**
    * @description el-popper-content component instance

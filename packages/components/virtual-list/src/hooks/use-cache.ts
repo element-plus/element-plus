@@ -9,7 +9,7 @@ export const useCache = <T>() => {
 
   const props = vm.proxy!.$props as VirtualizedProps
 
-  return computed(() => {
+  return computed<(_: any, __: any, ___: any) => Record<string, T>>(() => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const _getItemStyleCache = (_: any, __: any, ___: any) =>
       ({}) as Record<string, T>

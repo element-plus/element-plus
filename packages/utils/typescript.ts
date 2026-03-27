@@ -1,3 +1,5 @@
+import type * as CSS from 'csstype'
+
 export const mutable = <T extends readonly any[] | Record<string, unknown>>(
   val: T
 ) => val as Mutable<typeof val>
@@ -92,3 +94,29 @@ type Path<T> =
  * FieldPath<{ 1: number; a: number; b: string; c: { d: number; e: string }; f: [{ value: string }]; g: { value: string }[]; h: Date; i: FileList; j: File; k: Blob; l: RegExp }> => '1' | 'a' | 'b' | 'c' | 'f' | 'g' | 'c.d' | 'c.e' | 'f.0' | 'f.0.value' | 'g.number' | 'g.number.value' | 'h' | 'i' | 'j' | 'k' | 'l'
  */
 export type FieldPath<T> = T extends object ? Path<T> : never
+
+/**
+ * csstype 是 vue的依赖，因此，直接从vue中导入CSSProperties会导致ts类型解析错误，参考 https://github.com/pnpm/pnpm/issues/7453，因此，我们直接安装csstype，并从csstype中导入CSSProperties
+ *
+ * csstype is a dependency of vue, so importing CSSProperties directly from vue will cause ts type parsing errors, see https://github.com/pnpm/pnpm/issues/7453. Therefore, we directly install csstype and import CSSProperties from csstype.
+ */
+export interface CSSProperties
+  extends
+    CSS.Properties<string | number>,
+    CSS.PropertiesHyphen<string | number> {
+  /**
+   * The index signature was removed to enable closed typing for style
+   * using CSSType. You're able to use type assertion or module augmentation
+   * to add properties or an index signature of your own.
+   *
+   * For examples and more information, visit:
+   * https://github.com/frenic/csstype#what-should-i-do-when-i-get-type-errors
+   */
+  [v: `--${string}`]: string | number | undefined
+}
+
+export type ObjectFit = CSSProperties['objectFit']
+
+export type ZIndexType = CSSProperties['zIndex']
+
+export type AlignItems = CSSProperties['alignItems']

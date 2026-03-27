@@ -1,5 +1,5 @@
 import path from 'path'
-import fs from 'fs-extra'
+import fs from 'fs/promises'
 import { glob } from 'tinyglobby'
 
 async function generateLLms() {
@@ -10,7 +10,7 @@ async function generateLLms() {
   const matchSuffixes = ['.md', '.vue']
 
   // Ensure siteDir exists
-  await fs.ensureDir(siteDir)
+  await fs.mkdir(siteDir, { recursive: true })
 
   const docs = await glob(
     `{${docsDir.join(',')}}/**/*{${matchSuffixes.join(',')}}`,
@@ -71,7 +71,11 @@ async function generateLLms() {
       if (componentName) {
         // 在examples目录下查找对应的Vue示例文件
         const examplesDir = path.join(cwd, 'examples', componentName)
-        if (fs.existsSync(examplesDir)) {
+        const isExamplesDirExists = await fs
+          .access(examplesDir)
+          .then(() => true)
+          .catch(() => false)
+        if (isExamplesDirExists) {
           const vueFiles = await glob('**/*.vue', {
             cwd: examplesDir,
             absolute: true,

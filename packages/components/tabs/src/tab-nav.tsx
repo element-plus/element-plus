@@ -18,9 +18,9 @@ import {
 } from '@vueuse/core'
 import {
   buildProps,
-  capitalize,
   definePropType,
   getEventCode,
+  isGreaterThan,
   mutable,
   rAF,
   throwError,
@@ -169,7 +169,7 @@ const TabNav = defineComponent({
       if (!navScroll$.value) return
 
       const containerSize =
-        navScroll$.value[`offset${capitalize(sizeName.value)}`]
+        navScroll$.value.getBoundingClientRect()[sizeName.value]
       const currentOffset = navOffset.value
 
       if (!currentOffset) return
@@ -183,12 +183,12 @@ const TabNav = defineComponent({
     const scrollNext = () => {
       if (!navScroll$.value || !nav$.value) return
 
-      const navSize = nav$.value[`offset${capitalize(sizeName.value)}`]
+      const navSize = nav$.value.getBoundingClientRect()[sizeName.value]
       const containerSize =
-        navScroll$.value[`offset${capitalize(sizeName.value)}`]
+        navScroll$.value.getBoundingClientRect()[sizeName.value]
       const currentOffset = navOffset.value
 
-      if (navSize - currentOffset <= containerSize) return
+      if (!isGreaterThan(navSize - currentOffset, containerSize)) return
 
       const newOffset =
         navSize - currentOffset > containerSize * 2
@@ -211,20 +211,22 @@ const TabNav = defineComponent({
 
       const activeTabBounding = activeTab.getBoundingClientRect()
       const navScrollBounding = navScroll.getBoundingClientRect()
+      // nav has a 1px border width
+      const navScrollLeft = navScrollBounding.left + 1
+      const navScrollRight = navScrollBounding.right - 1
+      const navBounding = nav.getBoundingClientRect()
       const maxOffset = isHorizontal.value
-        ? nav.offsetWidth - navScrollBounding.width
-        : nav.offsetHeight - navScrollBounding.height
+        ? navBounding.width - navScrollBounding.width
+        : navBounding.height - navScrollBounding.height
       const currentOffset = navOffset.value
       let newOffset = currentOffset
 
       if (isHorizontal.value) {
-        if (activeTabBounding.left < navScrollBounding.left) {
-          newOffset =
-            currentOffset - (navScrollBounding.left - activeTabBounding.left)
+        if (activeTabBounding.left < navScrollLeft) {
+          newOffset = currentOffset - (navScrollLeft - activeTabBounding.left)
         }
-        if (activeTabBounding.right > navScrollBounding.right) {
-          newOffset =
-            currentOffset + activeTabBounding.right - navScrollBounding.right
+        if (activeTabBounding.right > navScrollRight) {
+          newOffset = currentOffset + activeTabBounding.right - navScrollRight
         }
       } else {
         if (activeTabBounding.top < navScrollBounding.top) {
@@ -254,8 +256,11 @@ const TabNav = defineComponent({
       if (containerSize < navSize) {
         scrollable.value = scrollable.value || {}
         scrollable.value.prev = currentOffset
-        scrollable.value.next = currentOffset + containerSize < navSize
-        if (navSize - currentOffset < containerSize) {
+        scrollable.value.next = isGreaterThan(
+          navSize,
+          currentOffset + containerSize
+        )
+        if (isGreaterThan(containerSize, navSize - currentOffset)) {
           navOffset.value = navSize - containerSize
         }
       } else {

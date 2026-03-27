@@ -17,7 +17,6 @@
     "@pnpm/logger": "^4.0.0",
     "@vitejs/plugin-vue": "catalog:",
     "@vitejs/plugin-vue-jsx": "catalog:",
-    "chalk": "^5.0.1",
     "components-helper": "^2.1.4",
     "consola": "^2.15.3",
     "lodash": "^4.17.23",
@@ -29,6 +28,7 @@
   },
   "devDependencies": {
     "@pnpm/types": "^8.4.0",
+    "jiti": "^2.6.1",
     "unbuild": "^3.0.0",
     "vue-tsc": "^3.2.3"
   }
