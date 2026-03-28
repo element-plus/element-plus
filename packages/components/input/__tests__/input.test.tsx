@@ -634,7 +634,7 @@ describe('Input.vue', () => {
         type="password"
         modelValue="123456"
         show-password
-        on-password-visible-change={handlePasswordVisibleChange}
+        onPassword-visible-change={handlePasswordVisibleChange}
       />
     ))
 
