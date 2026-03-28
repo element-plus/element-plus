@@ -17,13 +17,13 @@ jobs:
       PULL_REQUEST_AUTHOR: ${{ github.event.pull_request.user.login }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
 
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 20.19.0
           cache: 'pnpm'
@@ -49,17 +49,17 @@ jobs:
       - name: Set PR author
         run: echo "$PULL_REQUEST_AUTHOR" > ./author.txt
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v7
         with:
           name: commit-lint-result
           path: ./lint-result.txt
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v7
         with:
           name: pr-number
           path: ./pr.txt
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v7
         with:
           name: pr-author
           path: ./author.txt
