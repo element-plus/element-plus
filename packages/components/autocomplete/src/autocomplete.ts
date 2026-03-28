@@ -35,7 +35,7 @@ export type AutocompleteFetchSuggestions<
   | ((
       queryString: string,
       cb: AutocompleteFetchSuggestionsCallback<T>
-    ) => Awaitable<AutocompleteData<T>> | void)
+    ) => Awaitable<AutocompleteData<T> | void>)
   | AutocompleteData<T>
 
 export type AutocompletePlacement =
