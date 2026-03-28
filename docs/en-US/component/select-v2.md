@@ -349,7 +349,7 @@ When appending the Tooltip to a custom container (via the `append-to` attribute)
 | clear                 | triggers when the clear icon is clicked in a clearable Select                                              | ^[Function]`() => void`                                                  |
 | blur                  | triggers when Input blurs                                                                                  | ^[Function]`(event: FocusEvent) => void`                                 |
 | focus                 | triggers when Input focuses                                                                                | ^[Function]`(event: FocusEvent) => void`                                 |
-| end-reached ^(2.13.6) | triggers when dropdown scroll reaches an end                                                               | ^[Function]`(direction: 'top' \| 'bottom' \| 'left' \| 'right') => void` |
+| end-reached ^(2.13.7) | triggers when dropdown scroll reaches an end                                                               | ^[Function]`(direction: 'top' \| 'bottom' \| 'left' \| 'right') => void` |
 
 ### Slots
 
