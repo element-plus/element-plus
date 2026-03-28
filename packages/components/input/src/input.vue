@@ -598,7 +598,6 @@ const {
 
 const handlePasswordVisible = () => {
   passwordVisible.value = !passwordVisible.value
-  emit('password-visible-change', passwordVisible.value)
 }
 
 const focus = () => _ref.value?.focus()
@@ -724,5 +723,8 @@ defineExpose({
   clear,
   /** @description resize textarea. */
   resizeTextarea,
+
+  /** @description whether the password is visible */
+  passwordVisible,
 })
 </script>
