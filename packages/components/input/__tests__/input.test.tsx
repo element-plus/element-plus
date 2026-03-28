@@ -832,7 +832,7 @@ describe('Input.vue', () => {
   })
 
   test('passwordVisible expose', async () => {
-    const inputRef = ref<InputInstance & { passwordVisible: boolean }>()
+    const inputRef = ref<InputInstance>()
     const wrapper = mount(() => (
       <Input ref={inputRef} type="password" modelValue="123456" show-password />
     ))
