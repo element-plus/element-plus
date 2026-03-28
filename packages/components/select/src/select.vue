@@ -29,7 +29,15 @@
       @hide="states.isBeforeHide = false"
     >
       <template #default>
-        <slot name="trigger">
+        <slot
+          name="trigger"
+          :wrapper-ref="wrapperRef"
+          :toggle-menu="toggleMenu"
+          :is-focused="isFocused"
+          :input-hovering="states.inputHovering"
+          :filterable="filterable"
+          :select-disabled="selectDisabled"
+        >
           <div
             ref="wrapperRef"
             :class="[
