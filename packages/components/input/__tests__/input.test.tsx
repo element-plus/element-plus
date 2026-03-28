@@ -627,6 +627,26 @@ describe('Input.vue', () => {
     expect(input.element.selectionEnd).toBe(4)
   })
 
+  test('password-visible-change event', async () => {
+    const handlePasswordVisibleChange = vi.fn()
+    const wrapper = mount(() => (
+      <Input
+        type="password"
+        modelValue="123456"
+        show-password
+        on-password-visible-change={handlePasswordVisibleChange}
+      />
+    ))
+
+    const icon = wrapper.find('.el-input__icon.el-input__password')
+
+    await icon.trigger('click')
+    await icon.trigger('click')
+
+    expect(handlePasswordVisibleChange).toHaveBeenNthCalledWith(1, true)
+    expect(handlePasswordVisibleChange).toHaveBeenNthCalledWith(2, false)
+  })
+
   test('password-icon slot', async () => {
     const wrapper = mount(() => (
       <Input

@@ -491,6 +491,7 @@ const {
 
 const handlePasswordVisible = () => {
   passwordVisible.value = !passwordVisible.value
+  emit('password-visible-change', passwordVisible.value)
 }
 
 const focus = () => _ref.value?.focus()

@@ -3,6 +3,7 @@ import {
   buildProps,
   definePropType,
   iconPropType,
+  isBoolean,
   isString,
   mutable,
 } from '@element-plus/utils'
@@ -371,6 +372,7 @@ export const inputEmits = {
   input: (value: string) => isString(value),
   change: (value: string, evt?: Event) =>
     isString(value) && (evt instanceof Event || evt === undefined),
+  'password-visible-change': (visible: boolean) => isBoolean(visible),
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
   clear: (evt: MouseEvent | undefined) =>
