@@ -5,7 +5,7 @@ on:
     branches:
       - dev
     tags:
-      - "!**"
+      - '!**'
   pull_request:
     branches:
       - dev
@@ -24,7 +24,7 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 20.19.0
-          cache: "pnpm"
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm install

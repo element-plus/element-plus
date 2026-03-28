@@ -2,7 +2,7 @@ name: Publish Docs Deploy
 
 on:
   workflow_run:
-    workflows: ["Publish to NPM registry"]
+    workflows: ['Publish to NPM registry']
     types: [completed]
 
 jobs:
@@ -24,7 +24,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 20.19.0
-          cache: "pnpm"
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm i --frozen-lockfile

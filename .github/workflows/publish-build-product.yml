@@ -3,7 +3,7 @@ name: 👮‍♂️ Build Product
 on:
   pull_request:
     branches:
-      - "master"
+      - 'master'
 
 jobs:
   check:
@@ -26,7 +26,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 20.19.0
-          cache: "pnpm"
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
@@ -55,4 +55,4 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           body: ${{ steps.diff.outputs.content }}
-          body-include: "<sub>Generated with"
+          body-include: '<sub>Generated with'

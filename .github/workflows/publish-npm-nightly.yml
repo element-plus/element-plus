@@ -3,7 +3,7 @@ name: Publish to NPM registry (nightly)
 on:
   schedule:
     # GMT+8 00:00
-    - cron: "0 16 * * *"
+    - cron: '0 16 * * *'
   workflow_dispatch:
 
 jobs:
@@ -23,7 +23,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 20.19.0
-          cache: "pnpm"
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
