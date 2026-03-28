@@ -5,7 +5,7 @@ on:
     branches:
       - dev
     tags:
-      - '!**'
+      - "!**"
   pull_request:
     branches:
       - dev
@@ -16,7 +16,7 @@ jobs:
     if: ${{ github.repository == 'element-plus/element-plus' }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -24,7 +24,7 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 20.19.0
-          cache: 'pnpm'
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install
