@@ -105,7 +105,7 @@ defineSlots<
     header?: () => any
     footer?: () => any
     loading?: () => any
-    label?: (props: { item: T; index: number }) => any
+    label?: (props: { item: T & MentionOption; index: number }) => any
   }
 >()
 
