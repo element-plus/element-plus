@@ -31,12 +31,12 @@
       <template #default>
         <slot
           name="trigger"
-          :wrapper-ref="wrapperRef"
-          :toggle-menu="toggleMenu"
-          :is-focused="isFocused"
-          :input-hovering="states.inputHovering"
+          :toggle="toggleMenu"
+          :selected="states.selected"
+          :max-collapse-tags="maxCollapseTags"
           :filterable="filterable"
-          :select-disabled="selectDisabled"
+          :is-focused="isFocused"
+          :multiple="multiple"
         >
           <div
             ref="wrapperRef"
