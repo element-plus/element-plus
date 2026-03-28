@@ -14,23 +14,29 @@ import {
 } from '@element-plus/constants'
 import { inputProps } from '@element-plus/components/input'
 
-import type { ExtractPublicPropTypes } from 'vue'
+import type { ComponentInstance, ExtractPublicPropTypes } from 'vue'
+import type { ComponentExposed } from 'vue-component-type-helpers'
 import type Autocomplete from './autocomplete.vue'
 import type { Placement } from '@element-plus/components/popper'
 import type { Awaitable } from '@element-plus/utils'
 import type { InputProps } from '@element-plus/components/input'
 import type { ElTooltipContentProps } from '@element-plus/components/tooltip'
 
-export type AutocompleteData = Record<string, any>[]
-export type AutocompleteFetchSuggestionsCallback = (
-  data: AutocompleteData
-) => void
-export type AutocompleteFetchSuggestions =
+export type AutocompleteDataItem = Record<string, any>
+export type AutocompleteData<
+  T extends AutocompleteDataItem = AutocompleteDataItem,
+> = T[]
+export type AutocompleteFetchSuggestionsCallback<
+  T extends AutocompleteDataItem = AutocompleteDataItem,
+> = (data: AutocompleteData<T>) => void
+export type AutocompleteFetchSuggestions<
+  T extends AutocompleteDataItem = AutocompleteDataItem,
+> =
   | ((
       queryString: string,
-      cb: AutocompleteFetchSuggestionsCallback
-    ) => Awaitable<AutocompleteData> | void)
-  | AutocompleteData
+      cb: AutocompleteFetchSuggestionsCallback<T>
+    ) => Awaitable<AutocompleteData<T>> | void)
+  | AutocompleteData<T>
 
 export type AutocompletePlacement =
   | 'top'
@@ -40,7 +46,9 @@ export type AutocompletePlacement =
   | 'bottom-start'
   | 'bottom-end'
 
-export interface AutocompleteProps extends InputProps {
+export interface AutocompleteProps<
+  T extends AutocompleteDataItem = AutocompleteDataItem,
+> extends InputProps {
   /**
    * @description key name of the input suggestion object for display
    */
@@ -60,7 +68,7 @@ export interface AutocompleteProps extends InputProps {
   /**
    * @description a method to fetch input suggestions. When suggestions are ready, invoke `callback(data:[])` to return them to Autocomplete
    */
-  fetchSuggestions?: AutocompleteFetchSuggestions
+  fetchSuggestions?: AutocompleteFetchSuggestions<T>
   /**
    * @description custom class name for autocomplete's dropdown
    */
@@ -219,4 +227,5 @@ export const autocompleteEmits = {
 }
 export type AutocompleteEmits = typeof autocompleteEmits
 
-export type AutocompleteInstance = InstanceType<typeof Autocomplete> & unknown
+export type AutocompleteInstance = ComponentInstance<typeof Autocomplete> &
+  ComponentExposed<typeof Autocomplete>
