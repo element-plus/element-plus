@@ -56,7 +56,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup generic="T extends MentionOption = MentionOption">
 import { computed, mergeProps, nextTick, ref } from 'vue'
 import { pick } from 'lodash-unified'
 import { useFocusController, useId, useNamespace } from '@element-plus/hooks'
@@ -88,7 +88,7 @@ defineOptions({
   inheritAttrs: false,
 })
 
-const props = withDefaults(defineProps<MentionProps>(), {
+const props = withDefaults(defineProps<MentionProps<T>>(), {
   ...inputPropsDefaults,
   options: () => [],
   prefix: '@',
@@ -100,6 +100,14 @@ const props = withDefaults(defineProps<MentionProps>(), {
   props: () => mentionDefaultProps,
 })
 const emit = defineEmits(mentionEmits)
+defineSlots<
+  InputInstance['$slots'] & {
+    header?: () => any
+    footer?: () => any
+    loading?: () => any
+    label?: (props: { item: T & MentionOption; index: number }) => any
+  }
+>()
 
 const passInputProps = computed(() => pick(props, Object.keys(inputProps)))
 
@@ -128,7 +136,7 @@ const aliasProps = computed(() => ({
   ...props.props,
 }))
 
-const mapOption = (option: MentionOption) => {
+const mapOption = (option: T) => {
   const base = {
     label: option[aliasProps.value.label],
     value: option[aliasProps.value.value],
