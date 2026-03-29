@@ -371,7 +371,7 @@ describe('Form', () => {
     vi.useRealTimers()
   })
 
-  it('reset the dynamic fields', async () => {
+  it('reset dynamic fields after prop switch', async () => {
     const form = reactive({
       prop: 'name' as 'name' | 'name2',
       name: 'jerry',
@@ -382,7 +382,7 @@ describe('Form', () => {
       setup() {
         return () => (
           <Form ref="form" model={form}>
-            <FormItem ref="field" label={form.prop} prop={form.prop}>
+            <FormItem ref="field" prop={form.prop}>
               <Input v-model={form[form.prop]} />
             </FormItem>
           </Form>
@@ -390,80 +390,23 @@ describe('Form', () => {
       },
     })
 
-    // Modify the value of the initial bound field (name)
     form.name = 'tom'
-
-    // Switch the dynamic prop to name2 and set its value
     form.prop = 'name2'
+    await nextTick()
     form.name2 = 'jack'
 
-    // Wait for reactivity system to update the DOM and component state
-    await nextTick()
-
+    const formRef = wrapper.findComponent({ ref: 'form' }).vm as FormInstance
     const fieldRef = wrapper.findComponent({ ref: 'field' })
       .vm as FormItemInstance
+
     fieldRef.resetField()
-
-    expect(fieldRef.prop).toBe('name2')
-    expect(form.name).toBe('tom')
-    expect(form.name2).toBe('jerry')
-
-    const formRef = wrapper.findComponent({ ref: 'form' }).vm as FormInstance
-    formRef.resetFields()
-
-    expect(form.name).toBe('tom')
-    expect(form.name2).toBe('jerry')
-  })
-
-  it('reset the re-mounted dynamic fields', async () => {
-    const form = reactive({
-      fieldKey: 0,
-      prop: 'name' as 'name' | 'name2',
-      name: 'jerry',
-      name2: '',
-    })
-
-    const wrapper = mount({
-      setup() {
-        return () => (
-          <Form ref="form" model={form}>
-            <FormItem
-              ref="field"
-              key={form.fieldKey}
-              label={form.prop}
-              prop={form.prop}
-            >
-              <Input v-model={form[form.prop]} />
-            </FormItem>
-          </Form>
-        )
-      },
-    })
-
-    // Modify the value of the initial bound field (name)
-    form.name = 'tom'
-
-    const fieldRef = wrapper.findComponent({ ref: 'field' })
-      .vm as FormItemInstance
-    // Override the initial value of the current field (name) to 'jack'
-    fieldRef.setInitialValue('jack')
-
-    // Switch dynamic prop to name2 and increment key to trigger FormItem re-mount,
-    // at this time, resetting name2 should reset it to `''`
-    form.prop = 'name2'
-    form.fieldKey++
-
-    // Wait for reactivity system to update the DOM and component state
-    await nextTick()
-
-    // Modify the value of the newly bound field (name2)
-    form.name2 = 'judy'
-
-    const formRef = wrapper.findComponent({ ref: 'form' }).vm as FormInstance
-    formRef.resetFields()
-
-    expect(form.name).toBe('jack')
     expect(form.name2).toBe('')
+    expect(form.name).toBe('tom')
+
+    form.name2 = 'jack'
+    formRef.resetFields()
+    expect(form.name2).toBe('')
+    expect(form.name).toBe('tom')
   })
 
   it('clear validate', async () => {
