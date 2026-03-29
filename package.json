@@ -85,6 +85,7 @@
     "@vue/shared": "catalog:",
     "@vue/test-utils": "catalog:",
     "consola": "^2.15.3",
+    "csstype": "^3.2.3",
     "cz-git": "^1.11.1",
     "czg": "^1.11.1",
     "eslint": "^9.37.0",
