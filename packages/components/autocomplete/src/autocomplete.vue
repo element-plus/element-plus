@@ -123,7 +123,6 @@ import {
   onBeforeUnmount,
   onMounted,
   ref,
-  shallowRef,
   useAttrs as useRawAttrs,
 } from 'vue'
 import { pick } from 'lodash-unified'
@@ -152,7 +151,7 @@ import type {
   AutocompleteDataItem,
   AutocompleteProps,
 } from './autocomplete'
-import type { StyleValue } from 'vue'
+import type { Ref, StyleValue } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { InputInstance } from '@element-plus/components/input'
 
@@ -198,7 +197,7 @@ const listboxRef = ref<HTMLElement>()
 
 let readonly = false
 let ignoreFocusEvent = false
-const suggestions = shallowRef<AutocompleteData<T>>([])
+const suggestions = ref([]) as Ref<AutocompleteData<T>>
 const highlightedIndex = ref(-1)
 const dropdownWidth = ref('')
 const activated = ref(false)
