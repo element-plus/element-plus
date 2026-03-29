@@ -174,14 +174,16 @@ const props = withDefaults(defineProps<AutocompleteProps<T>>(), {
   teleported: true,
 })
 const emit = defineEmits(autocompleteEmits)
-defineSlots<
-  InputInstance['$slots'] & {
-    default?: (props: { item: T }) => any
-    header?: () => any
-    footer?: () => any
-    loading?: () => any
-  }
->()
+defineSlots<{
+  prepend?: () => any
+  append?: () => any
+  prefix?: () => any
+  suffix?: () => any
+  default?: (props: { item: T }) => any
+  header?: () => any
+  footer?: () => any
+  loading?: () => any
+}>()
 
 const passInputProps = computed(() => pick(props, Object.keys(inputProps)))
 
