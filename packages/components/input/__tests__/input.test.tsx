@@ -831,6 +831,30 @@ describe('Input.vue', () => {
     expect(input.element.selectionEnd).toBe(4)
   })
 
+  test('passwordVisible expose', async () => {
+    const inputRef = ref<InputInstance>()
+    const wrapper = mount(() => (
+      <Input ref={inputRef} type="password" modelValue="123456" show-password />
+    ))
+
+    const icon = wrapper.find('.el-input__icon.el-input__password')
+    const input = wrapper.find('input')
+
+    expect(inputRef.value?.passwordVisible).toBe(false)
+    expect(input.element.type).toBe('password')
+
+    inputRef.value!.passwordVisible = true
+    await nextTick()
+
+    expect(inputRef.value?.passwordVisible).toBe(true)
+    expect(input.element.type).toBe('text')
+
+    await icon.trigger('click')
+
+    expect(inputRef.value?.passwordVisible).toBe(false)
+    expect(input.element.type).toBe('password')
+  })
+
   test('password-icon slot', async () => {
     const wrapper = mount(() => (
       <Input
