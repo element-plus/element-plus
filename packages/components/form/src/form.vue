@@ -6,6 +6,7 @@
 
 <script lang="ts" setup>
 import { computed, provide, reactive, ref, toRefs, watch } from 'vue'
+import { cloneDeep } from 'lodash-unified'
 import {
   debugWarn,
   ensureArray,
@@ -47,7 +48,7 @@ const emit = defineEmits(formEmits)
 
 const formRef = ref<HTMLElement>()
 const fields = reactive<FormItemContext[]>([])
-const removedFields = new Map<string, FormItemContext>()
+const initialValues = new Map<string, any>()
 
 const formSize = useFormSize()
 const ns = useNamespace('form')
@@ -68,14 +69,31 @@ const getField: FormContext['getField'] = (prop) => {
 }
 
 const addField: FormContext['addField'] = (field) => {
-  fields.push(field)
+  if (!fields.includes(field)) {
+    fields.push(field)
+  }
+  if (field.propString) {
+    if (initialValues.has(field.propString)) {
+      field.setInitialValue(initialValues.get(field.propString))
+    } else {
+      initialValues.set(field.propString, cloneDeep(field.fieldValue))
+    }
+  }
 }
 
-const removeField: FormContext['removeField'] = (field) => {
-  if (field.prop) {
-    fields.splice(fields.indexOf(field), 1)
-    // When field unmounts, propString remains unchanged, so it can be used as the key
-    removedFields.set(field.propString, field)
+const removeField: FormContext['removeField'] = (field, oldPropString?) => {
+  if (oldPropString) {
+    // Prop changed on a live field: delete stale key, field stays in fields[]
+    initialValues.delete(oldPropString)
+    return
+  }
+  // Unmount: splice from array, cache initialValue for potential remount
+  const idx = fields.indexOf(field)
+  if (idx > -1) {
+    fields.splice(idx, 1)
+    if (field.propString) {
+      initialValues.set(field.propString, cloneDeep(field.getInitialValue()))
+    }
   }
 }
 
@@ -92,14 +110,14 @@ const setInitialValues: FormContext['setInitialValues'] = (initModel) => {
     return
   }
 
-  const eachCallback = (field: FormItemContext) => {
+  for (const key of initialValues.keys()) {
+    initialValues.set(key, cloneDeep(getProp(initModel, key).value))
+  }
+  fields.forEach((field) => {
     if (field.prop) {
-      // getProp will return undefined if the prop is not found
       field.setInitialValue(getProp(initModel, field.prop).value)
     }
-  }
-  removedFields.forEach(eachCallback)
-  fields.forEach(eachCallback)
+  })
 }
 
 const resetFields: FormContext['resetFields'] = (properties = []) => {
@@ -108,39 +126,22 @@ const resetFields: FormContext['resetFields'] = (properties = []) => {
     return
   }
 
-  const isSpecificProps = properties.length > 0
-  const propStrings = ensureArray(properties).map((prop) =>
-    isArray(prop) ? prop.join('.') : prop
+  filterFields(fields, properties).forEach((field) => field.resetField())
+
+  const activePropStrings = new Set(
+    fields.map((f) => f.propString).filter(Boolean)
   )
+  const propsToCheck =
+    properties.length > 0
+      ? ensureArray(properties).map((p) => (isArray(p) ? p.join('.') : p))
+      : [...initialValues.keys()]
 
-  // First reset the existing or specified fields
-  filterFields(fields, propStrings, true).forEach((field) => {
-    field.resetField()
-
-    // The key in removedFields is fixed at unmount time, so if the same propString exists in fields,
-    // it means the field is duplicated and we need to remove the cache from removedFields
-    removedFields.delete(field.propString)
-
-    // If propStrings are provided, remove the already reset field from propStrings
-    if (isSpecificProps) {
-      const index = propStrings.indexOf(field.propString)
-      if (index > -1) {
-        propStrings.splice(index, 1)
-      }
-    }
-  })
-
-  // If propStrings are provided, search for fields not yet reset in removedFields,
-  // otherwise reset all removedFields
-  if (isSpecificProps) {
-    // propStrings.length > 0 means there are fields not yet reset, otherwise all fields have been reset
-    if (propStrings.length > 0) {
-      filterFields([...removedFields.values()], propStrings, true).forEach(
-        (field) => field.resetField()
+  for (const propString of propsToCheck) {
+    if (!activePropStrings.has(propString) && initialValues.has(propString)) {
+      getProp(props.model, propString).value = cloneDeep(
+        initialValues.get(propString)
       )
     }
-  } else {
-    removedFields.forEach((field) => field.resetField())
   }
 }
 
