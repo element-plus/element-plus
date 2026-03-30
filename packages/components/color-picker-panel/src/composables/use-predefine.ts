@@ -1,10 +1,10 @@
 import { computed, inject, ref, watch, watchEffect } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { PredefineProps } from '../props/predefine'
 import { colorPickerPanelContextKey } from '../color-picker-panel'
 import Color from '../utils/color'
 
 import type { Ref } from 'vue'
+import type { PredefineProps } from '../props/predefine'
 
 export const usePredefine = (props: PredefineProps) => {
   const { currentColor } = inject(colorPickerPanelContextKey)!

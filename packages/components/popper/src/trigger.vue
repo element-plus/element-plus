@@ -28,7 +28,7 @@ defineOptions({
   inheritAttrs: false,
 })
 
-const props = withDefaults(defineProps<PopperTriggerProps>(), {})
+const props = defineProps<PopperTriggerProps>()
 
 const { role, triggerRef } = inject(POPPER_INJECTION_KEY, undefined)!
 
