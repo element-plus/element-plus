@@ -49,10 +49,7 @@ export type Shortcut<
   value: V | (() => V)
   onClick?: (ctx: Omit<SetupContext<RangePickerSharedEmits>, 'expose'>) => void
 }
-export type PublicShortcut<IsSingle extends boolean = false> = Shortcut<
-  true,
-  IsSingle
->
+export type PublicShortcut = Shortcut<true>
 
 export const timePickerDefaultProps = buildProps({
   /**
