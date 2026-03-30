@@ -10,18 +10,21 @@ import { inputProps } from '@element-plus/components/input'
 import { filterOption } from './helper'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 
-import type { ExtractPublicPropTypes } from 'vue'
+import type { ComponentInstance, ExtractPublicPropTypes } from 'vue'
+import type { ComponentExposed } from 'vue-component-type-helpers'
 import type Mention from './mention.vue'
 import type { MentionOption } from './types'
 import type { Options } from '@element-plus/components/popper'
 import type { InputProps } from '@element-plus/components/input'
 import type { ElTooltipContentProps } from '@element-plus/components/tooltip'
 
-export interface MentionProps extends InputProps {
+export interface MentionProps<
+  T extends MentionOption = MentionOption,
+> extends InputProps {
   /**
    * @description mention options list
    */
-  options?: MentionOption[]
+  options?: T[]
   /**
    * @description prefix character to trigger mentions. The string length must be exactly 1.
    */
@@ -33,7 +36,7 @@ export interface MentionProps extends InputProps {
   /**
    * @description customize filter option logic.
    */
-  filterOption?: false | typeof filterOption
+  filterOption?: false | typeof filterOption<T>
   /**
    * @description set popup placement
    */
@@ -203,7 +206,8 @@ export type MentionEmits = typeof mentionEmits
  * @deprecated Removed after 3.0.0, Use `MentionProps` instead.
  */
 export type MentionPropsPublic = ExtractPublicPropTypes<typeof mentionProps>
-export type MentionInstance = InstanceType<typeof Mention> & unknown
+export type MentionInstance = ComponentInstance<typeof Mention> &
+  ComponentExposed<typeof Mention>
 
 export type { MentionOption } from './types'
 
