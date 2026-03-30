@@ -1,53 +1,51 @@
 <template>
-  <template v-if="virtualScroll">
-    <div
-      :key="menuId"
-      :class="ns.b()"
-      @mousemove="handleMouseMove"
-      @mouseleave="clearHoverZone"
+  <div
+    v-if="virtualScroll"
+    :key="menuId"
+    :class="ns.b()"
+    @mousemove="handleMouseMove"
+    @mouseleave="clearHoverZone"
+  >
+    <el-fixed-size-list
+      ref="virtualListRef"
+      :height="height"
+      :item-size="itemSize"
+      :data="nodes"
+      :total="nodes.length"
+      :class-name="ns.e('list')"
+      inner-element="ul"
+      :inner-props="{
+        role: 'menu',
+        class: ns.is('empty', isEmpty),
+      }"
     >
-      <el-fixed-size-list
-        ref="virtualListRef"
-        :height="height"
-        :item-size="itemSize"
-        :data="nodes"
-        :total="nodes.length"
-        :class-name="ns.e('list')"
-        inner-element="ul"
-        :inner-props="{
-          role: 'menu',
-          class: ns.is('empty', isEmpty),
-        }"
-      >
-        <template #default="{ data, index: nodeIndex, style }">
-          <el-cascader-node
-            :key="data[nodeIndex].uid"
-            :node="data[nodeIndex]"
-            :menu-id="menuId"
-            :style="style"
-            @expand="handleExpand"
-          />
-        </template>
-      </el-fixed-size-list>
-      <div v-if="isLoading" :class="ns.e('empty-text')">
-        <el-icon :size="14" :class="ns.is('loading')">
-          <Loading />
-        </el-icon>
-        {{ t('el.cascader.loading') }}
-      </div>
-      <div v-else-if="isEmpty" :class="ns.e('empty-text')">
-        <slot name="empty">{{ t('el.cascader.noData') }}</slot>
-      </div>
-      <!-- eslint-disable vue/html-self-closing -->
-      <svg
-        v-else-if="panel?.isHoverMenu"
-        ref="hoverZone"
-        :class="ns.e('hover-zone')"
-      ></svg>
-      <!-- eslint-enable vue/html-self-closing -->
+      <template #default="{ data, index: nodeIndex, style }">
+        <el-cascader-node
+          :key="data[nodeIndex].uid"
+          :node="data[nodeIndex]"
+          :menu-id="menuId"
+          :style="style"
+          @expand="handleExpand"
+        />
+      </template>
+    </el-fixed-size-list>
+    <div v-if="isLoading" :class="ns.e('empty-text')">
+      <el-icon :size="14" :class="ns.is('loading')">
+        <Loading />
+      </el-icon>
+      {{ t('el.cascader.loading') }}
     </div>
-  </template>
-
+    <div v-else-if="isEmpty" :class="ns.e('empty-text')">
+      <slot name="empty">{{ t('el.cascader.noData') }}</slot>
+    </div>
+    <!-- eslint-disable vue/html-self-closing -->
+    <svg
+      v-else-if="panel?.isHoverMenu"
+      ref="hoverZone"
+      :class="ns.e('hover-zone')"
+    ></svg>
+    <!-- eslint-enable vue/html-self-closing -->
+  </div>
   <template v-else>
     <el-scrollbar
       :key="menuId"
@@ -114,10 +112,7 @@ const props = defineProps({
     type: Number,
     required: true,
   },
-  virtualScroll: {
-    type: Boolean,
-    default: false,
-  },
+  virtualScroll: Boolean,
   itemSize: {
     type: Number,
     default: 34,
@@ -147,26 +142,26 @@ const menuId = computed(() => `${id.value}-${props.index}`)
 
 const getActiveNodeIndex = () => {
   const expandingNodeLevel = panel.expandingNode?.level ?? 0
+  let activeNodeId: number | undefined
 
   if (props.index < expandingNodeLevel) {
-    const activeNodeId = panel.expandingNode?.pathNodes[props.index]?.uid
-    return props.nodes.findIndex((node) => node.uid === activeNodeId)
+    activeNodeId = panel.expandingNode?.pathNodes[props.index]?.uid
   } else if (
     props.index === expandingNodeLevel &&
     panel.checkedNodes.length > 0
   ) {
-    const activeNodeId = panel.checkedNodes[0]?.pathNodes[props.index]?.uid
-    return props.nodes.findIndex((node) => node.uid === activeNodeId)
+    activeNodeId = panel.checkedNodes[0]?.pathNodes[props.index]?.uid
   } else if (
     !panel.expandingNode &&
     panel.checkedNodes.length > 0 &&
     props.index < panel.checkedNodes[0].pathNodes.length
   ) {
-    const activeNodeId = panel.checkedNodes[0]?.pathNodes[props.index]?.uid
-    return props.nodes.findIndex((node) => node.uid === activeNodeId)
+    activeNodeId = panel.checkedNodes[0]?.pathNodes[props.index]?.uid
   }
 
-  return -1
+  return activeNodeId !== undefined
+    ? props.nodes.findIndex((node) => node.uid === activeNodeId)
+    : -1
 }
 
 const getNodeIndexById = (nodeId: string | undefined) => {

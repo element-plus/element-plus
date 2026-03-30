@@ -333,10 +333,7 @@ export const cascaderProps = buildProps({
   /**
    * @description whether to enable virtual scrolling
    */
-  virtualScroll: {
-    type: Boolean,
-    default: false,
-  },
+  virtualScroll: Boolean,
   /**
    * @description node height for virtual scrolling
    */

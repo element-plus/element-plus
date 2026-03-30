@@ -142,10 +142,7 @@ export const cascaderPanelProps = buildProps({
   renderLabel: {
     type: Function as PropType<RenderLabel>,
   },
-  virtualScroll: {
-    type: Boolean,
-    default: false,
-  },
+  virtualScroll: Boolean,
   itemSize: {
     type: Number,
     default: 34,
