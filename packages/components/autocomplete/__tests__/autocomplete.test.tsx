@@ -3,7 +3,7 @@
  */
 
 import { DefineComponent, defineComponent, nextTick, reactive } from 'vue'
-import { type VueWrapper, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, test, vi } from 'vitest'
 import { NOOP } from '@element-plus/utils'
 import { usePopperContainerId } from '@element-plus/hooks'
