@@ -57,7 +57,6 @@ import type {
   CascaderNode,
   CascaderNodeValue,
   CascaderOption,
-  CascaderProps,
   CascaderValue,
   ElCascaderPanelContext,
 } from './types'
@@ -69,8 +68,8 @@ defineOptions({
 })
 
 const props = withDefaults(defineProps<CascaderPanelProps>(), {
-  options: () => [] as CascaderOption[],
-  props: () => ({}) as CascaderProps,
+  options: () => [],
+  props: () => ({}),
   border: true,
 })
 const emit = defineEmits(cascaderPanelEmits)
