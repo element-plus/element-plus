@@ -17,6 +17,7 @@ import {
 import { EVENT_CODE } from '@element-plus/constants'
 
 import type { VueWrapper } from '@vue/test-utils'
+
 vi.unmock('lodash')
 
 vi.useFakeTimers()
