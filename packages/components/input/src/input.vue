@@ -713,6 +713,9 @@ defineExpose({
   /** @description is input composing */
   isComposing,
 
+  /** @description whether the password is visible */
+  passwordVisible,
+
   /** @description HTML input element native method */
   focus,
   /** @description HTML input element native method */
