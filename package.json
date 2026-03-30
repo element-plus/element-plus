@@ -90,7 +90,7 @@
     "czg": "^1.11.1",
     "eslint": "^9.37.0",
     "expect-type": "^0.13.0",
-    "happy-dom": "^17.4.4",
+    "happy-dom": "^20.8.9",
     "husky": "^9.0.11",
     "jsdom": "16.4.0",
     "lint-staged": "^15.5.1",
