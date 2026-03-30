@@ -779,7 +779,17 @@ const handleInput = (val: string, e?: InputEvent) => {
 
   if (e?.isComposing) return
 
-  val ? handleFilter() : hideSuggestionPanel()
+  if (val) {
+    handleFilter()
+  } else {
+    const passed = props.beforeFilter('')
+    if (isPromise(passed)) {
+      passed.catch(() => {
+        /* prevent log error */
+      })
+    }
+    hideSuggestionPanel()
+  }
 }
 
 const getInputInnerHeight = (inputInner: HTMLElement): number =>
