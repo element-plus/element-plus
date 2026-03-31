@@ -96,6 +96,7 @@
                   collapseTags && states.cachedOptions.length > maxCollapseTags
                 "
                 ref="tagTooltipRef"
+                :popper-options="popperOptions"
                 :disabled="dropdownMenuVisible || !collapseTagsTooltip"
                 :fallback-placements="
                   tagTooltip?.fallbackPlacements ?? [
