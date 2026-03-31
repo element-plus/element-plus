@@ -15,21 +15,33 @@ import Footer from './renderers/footer'
 import Empty from './renderers/empty'
 import Overlay from './renderers/overlay'
 
-import type { CSSProperties } from 'vue'
+import type { CSSProperties, SlotsType } from 'vue'
 import type { TableGridRowSlotParams } from './table-grid'
 import type { ScrollStrategy } from './composables/use-scrollbar'
 import type {
   TableV2HeaderRendererParams,
   TableV2HeaderRowCellRendererParams,
   TableV2RowCellRenderParam,
+  TableV2RowSlotProps,
 } from './components'
-import type { KeyType } from './types'
+import type { KeyType, TableV2CustomizedHeaderSlotParam } from './types'
+
+type TableV2Slots = {
+  row?: (props: TableV2RowSlotProps) => any
+  cell?: (props: TableV2RowCellRenderParam) => any
+  header?: (props: TableV2CustomizedHeaderSlotParam) => any
+  'header-cell'?: (props: TableV2HeaderRowCellRendererParams) => any
+  footer?: () => any
+  empty?: () => any
+  overlay?: () => any
+}
 
 const COMPONENT_NAME = 'ElTableV2'
 
 const TableV2 = defineComponent({
   name: COMPONENT_NAME,
   props: tableV2Props,
+  slots: Object as SlotsType<TableV2Slots>,
   setup(props, { slots, expose }) {
     const ns = useNamespace('table-v2')
     const { t } = useLocale()
