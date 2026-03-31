@@ -206,6 +206,7 @@ const setScrollLeft = (value: number) => {
 const update = () => {
   barRef.value?.update()
   distanceScrollState[direction] = false
+  if (wrapRef.value) barRef.value?.handleScroll(wrapRef.value)
 }
 
 watch(
@@ -230,9 +231,6 @@ watch(
     if (!props.native)
       nextTick(() => {
         update()
-        if (wrapRef.value) {
-          barRef.value?.handleScroll(wrapRef.value)
-        }
       })
   }
 )
