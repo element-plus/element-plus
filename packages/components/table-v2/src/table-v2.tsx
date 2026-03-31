@@ -27,13 +27,13 @@ import type {
 import type { KeyType, TableV2CustomizedHeaderSlotParam } from './types'
 
 type TableV2Slots = {
-  row: TableV2RowSlotProps
-  cell: TableV2RowCellRenderParam
-  header: TableV2CustomizedHeaderSlotParam
-  'header-cell': TableV2HeaderRowCellRendererParams
-  footer: undefined
-  empty: undefined
-  overlay: undefined
+  row?: (props: TableV2RowSlotProps) => any
+  cell?: (props: TableV2RowCellRenderParam) => any
+  header?: (props: TableV2CustomizedHeaderSlotParam) => any
+  'header-cell'?: (props: TableV2HeaderRowCellRendererParams) => any
+  footer?: () => any
+  empty?: () => any
+  overlay?: () => any
 }
 
 const COMPONENT_NAME = 'ElTableV2'
