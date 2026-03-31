@@ -158,9 +158,12 @@ export const useCalendar = (
     }
   }
 
+  const handlerPick = (day: Dayjs) => {
+    emit('pickDay', day)
+    pickDay(day)
+  }
   const pickDay = (day: Dayjs) => {
     realSelectedDay.value = day
-    emit('pickDay', day)
   }
 
   const selectDate = (type: CalendarDateType) => {
@@ -191,6 +194,7 @@ export const useCalendar = (
     calculateValidatedDateRange,
     date,
     realSelectedDay,
+    handlerPick,
     pickDay,
     selectDate,
     validatedRange,
