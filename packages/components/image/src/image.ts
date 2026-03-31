@@ -208,6 +208,22 @@ export const imageProps = buildProps({
   crossorigin: {
     type: definePropType<ImageCrossorigin>(String),
   },
+  /**
+   * @description set HTML attribute: referrerpolicy.
+   */
+  referrerpolicy: {
+    type: definePropType<
+      | ''
+      | 'no-referrer'
+      | 'no-referrer-when-downgrade'
+      | 'origin'
+      | 'origin-when-cross-origin'
+      | 'same-origin'
+      | 'strict-origin'
+      | 'strict-origin-when-cross-origin'
+      | 'unsafe-url'
+    >(String),
+  },
 } as const)
 
 /**
