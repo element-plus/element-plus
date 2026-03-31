@@ -160,6 +160,7 @@ export const useCalendar = (
 
   const pickDay = (day: Dayjs) => {
     realSelectedDay.value = day
+    emit('pickDay', day)
   }
 
   const selectDate = (type: CalendarDateType) => {
