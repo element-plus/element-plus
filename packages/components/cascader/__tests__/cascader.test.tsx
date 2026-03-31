@@ -613,6 +613,26 @@ describe('Cascader.vue', () => {
     expect(value.value).toEqual([])
   })
 
+  test('before-filter should be called when search keyword is cleared', async () => {
+    const beforeFilter = vi.fn(() => true)
+    const wrapper = _mount(() => (
+      <Cascader
+        filterable
+        options={OPTIONS}
+        beforeFilter={beforeFilter}
+        teleported={false}
+      />
+    ))
+
+    const input = wrapper.find('input')
+
+    await input.setValue('Ha')
+    expect(beforeFilter).toHaveBeenNthCalledWith(1, 'Ha')
+
+    await input.setValue('')
+    expect(beforeFilter).toHaveBeenNthCalledWith(2, '')
+  })
+
   test('filter method', async () => {
     const filterMethod = vi.fn((node, keyword) => {
       const { text, value } = node
