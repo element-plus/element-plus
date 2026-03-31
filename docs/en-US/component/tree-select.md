@@ -168,6 +168,8 @@ Expose methods under tree and select component has been **deprecated**, and **wi
 | blur ^(deprecated)                   | blur the Input component, and hide the dropdown                                                                      | ^[Function]`() => void`                                                                                                                                                                                                                                                                     |
 | selectedLabel ^(2.8.5) ^(deprecated) | get the currently selected label                                                                                     | ^[object]`ComputedRef<string \| string[]>`                                                                                                                                                                                                                                                  |
 
+| show-parent-tag | In multiple selection mode with checkboxes, determines whether to display the parent tag itself instead of all its child tags when the parent node is selected. | boolean | false |
+
 ## Type Declarations
 
 <details>
