@@ -1,6 +1,7 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
+import { EVENT_CODE } from '@element-plus/constants'
 import { Check, Loading } from '@element-plus/icons-vue'
 import CascaderPanel from '../src/index.vue'
 import Node from '../src/node.vue'
@@ -1664,6 +1665,43 @@ describe('CascaderPanel.vue - Virtual Scroll', () => {
       await childNodes[0].trigger('click')
 
       expect(handleChange).toBeCalledTimes(1)
+    })
+
+    test('virtual scroll arrow navigation should skip disabled nodes', async () => {
+      const options = [
+        {
+          value: 'a',
+          label: 'Node A',
+          children: [{ value: 'a-1', label: 'Node A-1' }],
+        },
+        {
+          value: 'b',
+          label: 'Node B',
+          disabled: true,
+        },
+        {
+          value: 'c',
+          label: 'Node C',
+          children: [{ value: 'c-1', label: 'Node C-1' }],
+        },
+      ]
+      const value = ref<string[]>([])
+
+      const wrapper = mount(() => (
+        <CascaderPanel v-model={value.value} options={options} virtualScroll />
+      ))
+      await nextTick()
+
+      const nodes = wrapper.findAll('.el-cascader-node')
+
+      await nodes[0].trigger('keydown', {
+        key: 'ArrowDown',
+        code: EVENT_CODE.down,
+      })
+      await nextTick()
+
+      expect(nodes[1].classes()).toContain('is-disabled')
+      expect(nodes[2].classes()).toContain('in-active-path')
     })
 
     test('virtual scroll change selection in large dataset', async () => {

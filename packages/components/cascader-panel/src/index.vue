@@ -333,11 +333,16 @@ const handleKeyDown = (e: KeyboardEvent) => {
         // For virtual scroll, calculate the target index and use focusNodeAt
         const currentIndex = menu.getNodeIndexById(target.id)
         if (currentIndex >= 0) {
-          const targetIndex = currentIndex + distance
-          const nodesCount = menus.value[menuIndex]?.length ?? 0
-          if (targetIndex >= 0 && targetIndex < nodesCount) {
-            menu.focusNodeAt(targetIndex)
-            return
+          const nodesInMenu = menus.value[menuIndex] ?? []
+          const nodesCount = nodesInMenu.length
+          // Find the next non-disabled node
+          let targetIndex = currentIndex + distance
+          while (targetIndex >= 0 && targetIndex < nodesCount) {
+            if (!nodesInMenu[targetIndex].isDisabled) {
+              menu.focusNodeAt(targetIndex)
+              return
+            }
+            targetIndex += distance
           }
         }
       }
