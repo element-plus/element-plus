@@ -604,9 +604,12 @@ const focusFirstNode = () => {
 
   if (firstNode) {
     firstNode.focus()
-    !filtering.value &&
-      firstNode.getAttribute('aria-haspopup') === 'true' &&
+    if (
+      !filtering.value &&
+      firstNode.getAttribute('aria-haspopup') === 'true'
+    ) {
       firstNode.click()
+    }
   }
 }
 
