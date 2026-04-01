@@ -658,7 +658,7 @@
 
   @include m(enable-row-transition) {
     .#{$namespace}-table__body td.#{$namespace}-table__cell {
-      transition: background-color 0.25s ease;
+      transition: background-color 0.25s ease 0.00001s; // #23955
     }
   }
 
