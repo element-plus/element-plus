@@ -195,6 +195,12 @@ export type GridDefaultSlotParams = {
   style: CSSProperties
 }
 
+export type GridChunkSlotParams = {
+  rowRange: number[]
+  columnRange: number[]
+  getItemStyle: (rowIndex: number, columnIndex: number) => CSSProperties
+}
+
 export type GridItemRenderedEvtParams = {
   columnCacheStart: number
   columnCacheEnd: number

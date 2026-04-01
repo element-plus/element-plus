@@ -9,19 +9,17 @@ import {
   unref,
   watch,
 } from 'vue'
-import {
-  DynamicSizeGrid,
-  FixedSizeGrid,
-} from '@element-plus/components/virtual-list'
+import { DynamicSizeGrid } from '@element-plus/components/virtual-list'
 import { isNumber, isObject } from '@element-plus/utils'
 import { Header } from './components'
 import { TABLE_V2_GRID_INJECTION_KEY, TableV2InjectionKey } from './tokens'
 import { tableV2GridProps } from './grid'
 import { sum } from './utils'
 
-import type { UnwrapRef } from 'vue'
+import type { CSSProperties, UnwrapRef } from 'vue'
 import type {
   DynamicSizeGridInstance,
+  GridChunkSlotParams,
   GridDefaultSlotParams,
   GridItemKeyGetter,
   GridItemRenderedEvtParams,
@@ -220,11 +218,10 @@ const TableGrid = defineComponent({
       resetAfterRowIndex,
     })
 
-    const getColumnWidth = () => props.bodyWidth
-
     return () => {
       const {
         cache,
+        columnCache,
         columns,
         data,
         fixedData,
@@ -234,8 +231,6 @@ const TableGrid = defineComponent({
         scrollbarStartGap,
         style,
         rowHeight,
-        bodyWidth,
-        estimatedRowHeight,
         headerWidth,
         height,
         width,
@@ -244,28 +239,51 @@ const TableGrid = defineComponent({
         onScroll,
       } = props
 
-      const isDynamicRowEnabled = isNumber(estimatedRowHeight)
-      const Grid = isDynamicRowEnabled ? DynamicSizeGrid : FixedSizeGrid
       const _headerHeight = unref(headerHeight)
+
+      const estimatedColumnWidth = computed(() => {
+        return columns.reduce((acc, cur) => acc + cur.width, 0) / columns.length
+      })
+
+      function getColumnWidth(i: number) {
+        return columns[i].width
+      }
+      function getRowStyle(
+        rowIndex: number,
+        startColumnIndex: number,
+        getItemStyle: (rowIndex: number, columnIndex: number) => CSSProperties
+      ) {
+        const style = getItemStyle(rowIndex, startColumnIndex)
+        console.log('style :', style)
+        return {
+          position: style.position,
+          left: style.left,
+          top: style.top,
+          height: style.height,
+        }
+      }
 
       return (
         <div role="table" class={[ns.e('table'), props.class]} style={style}>
-          <Grid
+          <DynamicSizeGrid
             ref={bodyRef}
             // special attrs
             data={data}
             useIsScrolling={useIsScrolling}
             itemKey={itemKey}
             // column attrs
-            columnCache={0}
-            columnWidth={isDynamicRowEnabled ? getColumnWidth : bodyWidth}
-            totalColumn={1}
+            columnCache={columnCache}
+            columnWidth={getColumnWidth}
+            totalColumn={columns.length}
             // row attrs
             totalRow={data.length}
             rowCache={cache}
-            rowHeight={isDynamicRowEnabled ? getRowHeight : rowHeight}
+            rowHeight={getRowHeight ?? (() => rowHeight)}
             // DOM attrs
             width={width}
+            estimatedColumnWidth={
+              data.length > 0 ? unref(estimatedColumnWidth) : 0
+            }
             height={unref(gridHeight)}
             class={ns.e('body')}
             role="rowgroup"
@@ -274,20 +292,38 @@ const TableGrid = defineComponent({
             scrollbarAlwaysOn={scrollbarAlwaysOn}
             // handlers
             onScroll={onScroll}
+            chunkMode={true}
             onItemRendered={onItemRendered}
             perfMode={false}
           >
             {{
-              default: (params: GridDefaultSlotParams) => {
-                const rowData = data[params.rowIndex]
-                return slots.row?.({
-                  ...params,
-                  columns,
-                  rowData,
+              chunk: (params: GridChunkSlotParams) => {
+                return Array.from({
+                  length: params.rowRange[1] - params.rowRange[0] + 1,
+                }).map((_, rowRangeIndex) => {
+                  const _rowIndex = params.rowRange[0] + rowRangeIndex
+                  return slots.row?.({
+                    rowIndex: _rowIndex,
+                    style: {
+                      minWidth: '100%',
+                      ...getRowStyle(
+                        _rowIndex,
+                        params.columnRange[0],
+                        params.getItemStyle
+                      ),
+                    },
+                    activeColumnStartIndex: params.columnRange[0],
+                    activeColumns: props.columns.slice(
+                      params.columnRange[0],
+                      params.columnRange[1] + 1
+                    ),
+                    columns: props.columns,
+                    rowData: data[_rowIndex],
+                  })
                 })
               },
             }}
-          </Grid>
+          </DynamicSizeGrid>
           {unref(hasHeader) && (
             <Header
               ref={headerRef}
@@ -317,6 +353,8 @@ export default TableGrid
 
 export type TableGridRowSlotParams = {
   columns: TableV2GridProps['columns']
+  activeColumns: TableV2GridProps['columns']
+  activeColumnStartIndex: number
   rowData: any
 } & GridDefaultSlotParams
 

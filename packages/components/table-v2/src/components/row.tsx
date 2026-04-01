@@ -151,6 +151,8 @@ const TableV2Row = defineComponent({
     return () => {
       const {
         columns,
+        activeColumns,
+        activeColumnStartIndex,
         columnsStyles,
         expandColumnKey,
         depth,
@@ -158,40 +160,48 @@ const TableV2Row = defineComponent({
         rowIndex,
         style,
       } = props
+      // TODO: Use `activeColumns ?? columns` to compact fixed data for now — this will be `activeColumns` after the header is fully dynamic.
+      let ColumnCells: ColumnCellsType = (activeColumns ?? columns).map(
+        (column, columnIndex) => {
+          const expandable =
+            isArray(rowData.children) &&
+            rowData.children.length > 0 &&
+            column.key === expandColumnKey
 
-      let ColumnCells: ColumnCellsType = columns.map((column, columnIndex) => {
-        const expandable =
-          isArray(rowData.children) &&
-          rowData.children.length > 0 &&
-          column.key === expandColumnKey
-
-        return slots.cell!({
-          column,
-          columns,
-          columnIndex,
-          depth,
-          style: columnsStyles[column.key!],
-          rowData,
-          rowIndex,
-          isScrolling: unref(isScrolling),
-          expandIconProps: expandable
-            ? {
-                rowData,
-                rowIndex,
-                onExpand,
-              }
-            : undefined,
-        })
-      })
+          return slots.cell!({
+            column,
+            columns,
+            columnIndex,
+            depth,
+            style: columnsStyles[column.key!],
+            rowData,
+            rowIndex,
+            isScrolling: unref(isScrolling),
+            expandIconProps: expandable
+              ? {
+                  rowData,
+                  rowIndex,
+                  onExpand,
+                }
+              : undefined,
+          })
+        }
+      )
 
       if (slots.row) {
         ColumnCells = slots.row({
-          cells: ColumnCells.map((node) => {
-            if (isArray(node) && node.length === 1) {
-              return node[0]
-            }
-            return node
-          }),
+          cells: [
+            ...Array.from({ length: activeColumnStartIndex }).fill(null),
+            ...ColumnCells.map((node) => {
+              if (isArray(node) && node.length === 1) {
+                return node[0]
+              }
+              return node
+            }),
+            ...Array.from({
+              length: columns.length - activeColumns.length,
+            }).fill(null),
+          ],
           style,
           columns,
           depth,

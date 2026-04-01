@@ -81,6 +81,7 @@ export type ExpandedRowsChangeHandler = (expandedRowKeys: KeyType[]) => void
 
 export const tableV2Props = buildProps({
   cache: tableV2GridProps.cache,
+  columnCache: tableV2GridProps.columnCache,
   estimatedRowHeight: tableV2RowProps.estimatedRowHeight,
   rowKey,
   // Header attributes

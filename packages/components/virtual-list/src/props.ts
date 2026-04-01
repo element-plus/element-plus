@@ -158,6 +158,7 @@ export const virtualizedGridProps = buildProps({
   scrollbarStartGap: startGap,
   scrollbarEndGap: endGap,
   role: String,
+  chunkMode: Boolean,
   ...virtualizedProps,
 } as const)
 
