@@ -74,6 +74,8 @@
   }
 
   @include e(title) {
+    display: flex;
+    gap: 6px;
     font-size: getCssVar('messagebox-font-size');
     line-height: getCssVar('messagebox-font-line-height');
     color: getCssVar('messagebox-title-color');
