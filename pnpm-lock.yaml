@@ -31,8 +31,8 @@ catalogs:
       specifier: ^2.4.6
       version: 2.4.6
     '@vueuse/core':
-      specifier: 12.0.0
-      version: 12.0.0
+      specifier: 14.2.1
+      version: 14.2.1
     lodash-unified:
       specifier: ^1.0.3
       version: 1.0.3
@@ -100,7 +100,7 @@ importers:
         version: 4.17.12
       '@vueuse/core':
         specifier: 'catalog:'
-        version: 12.0.0(typescript@5.5.4)
+        version: 14.2.1(vue@3.5.25(typescript@5.5.4))
       async-validator:
         specifier: ^4.2.5
         version: 4.2.5(patch_hash=cc6d77b35ed2a1683012935ca9ed998d418912785fcf78c6497d3268ac596d23)
@@ -260,7 +260,7 @@ importers:
         version: 3.5.25
       '@vueuse/core':
         specifier: 'catalog:'
-        version: 12.0.0(typescript@5.5.4)
+        version: 14.2.1(vue@3.5.25(typescript@5.5.4))
       clipboard-copy:
         specifier: ^4.0.1
         version: 4.0.1
@@ -510,7 +510,7 @@ importers:
         version: '@sxzz/popperjs-es@2.11.8'
       '@vueuse/core':
         specifier: 'catalog:'
-        version: 12.0.0(typescript@5.5.4)
+        version: 14.2.1(vue@3.5.25(typescript@5.5.4))
       lodash-unified:
         specifier: 'catalog:'
         version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.23)(lodash@4.17.23)
@@ -571,7 +571,7 @@ importers:
         version: 4.17.12
       '@vueuse/core':
         specifier: 'catalog:'
-        version: 12.0.0(typescript@5.5.4)
+        version: 14.2.1(vue@3.5.25(typescript@5.5.4))
       async-validator:
         specifier: ^4.2.5
         version: 4.2.5(patch_hash=cc6d77b35ed2a1683012935ca9ed998d418912785fcf78c6497d3268ac596d23)
@@ -617,7 +617,7 @@ importers:
         version: '@sxzz/popperjs-es@2.11.8'
       '@vueuse/core':
         specifier: 'catalog:'
-        version: 12.0.0(typescript@5.5.4)
+        version: 14.2.1(vue@3.5.25(typescript@5.5.4))
       lodash-unified:
         specifier: 'catalog:'
         version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.23)(lodash@4.17.23)
@@ -671,7 +671,7 @@ importers:
         version: 2.3.2(vue@3.5.25(typescript@5.5.4))
       '@vueuse/core':
         specifier: 'catalog:'
-        version: 12.0.0(typescript@5.5.4)
+        version: 14.2.1(vue@3.5.25(typescript@5.5.4))
       lodash-unified:
         specifier: 'catalog:'
         version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.23)(lodash@4.17.23)
@@ -3180,6 +3180,11 @@ packages:
   '@vueuse/core@12.8.2':
     resolution: {integrity: sha512-HbvCmZdzAu3VGi/pWYm5Ut+Kd9mn1ZHnn4L5G8kOQTPs/IwIAmJoBrmYk2ckLArgMXZj0AW3n5CAejLUO+PhdQ==}
 
+  '@vueuse/core@14.2.1':
+    resolution: {integrity: sha512-3vwDzV+GDUNpdegRY6kzpLm4Igptq+GA0QkJ3W61Iv27YWwW/ufSlOfgQIpN6FZRMG0mkaz4gglJRtq5SeJyIQ==}
+    peerDependencies:
+      vue: ^3.5.0
+
   '@vueuse/integrations@12.8.2':
     resolution: {integrity: sha512-fbGYivgK5uBTRt7p5F3zy6VrETlV9RtZjBqd1/HxGdjdckBgBM4ugP8LHpjolqTj14TXTxSK1ZfgPbHYyGuH7g==}
     peerDependencies:
@@ -3227,11 +3232,19 @@ packages:
   '@vueuse/metadata@12.8.2':
     resolution: {integrity: sha512-rAyLGEuoBJ/Il5AmFHiziCPdQzRt88VxR+Y/A/QhJ1EWtWqPBBAxTAFaSkviwEuOEZNtW8pvkPgoCZQ+HxqW1A==}
 
+  '@vueuse/metadata@14.2.1':
+    resolution: {integrity: sha512-1ButlVtj5Sb/HDtIy1HFr1VqCP4G6Ypqt5MAo0lCgjokrk2mvQKsK2uuy0vqu/Ks+sHfuHo0B9Y9jn9xKdjZsw==}
+
   '@vueuse/shared@12.0.0':
     resolution: {integrity: sha512-3i6qtcq2PIio5i/vVYidkkcgvmTjCqrf26u+Fd4LhnbBmIT6FN8y6q/GJERp8lfcB9zVEfjdV0Br0443qZuJpw==}
 
   '@vueuse/shared@12.8.2':
     resolution: {integrity: sha512-dznP38YzxZoNloI0qpEfpkms8knDtaoQ6Y/sfS0L7Yki4zh40LFHEhur0odJC6xTHG5dxWVPiUWBXn+wCG2s5w==}
+
+  '@vueuse/shared@14.2.1':
+    resolution: {integrity: sha512-shTJncjV9JTI4oVNyF1FQonetYAiTBd+Qj7cY89SWbXSkx7gyhrgtEdF2ZAVWS1S3SHlaROO6F2IesJxQEkZBw==}
+    peerDependencies:
+      vue: ^3.5.0
 
   '@yarnpkg/core@4.0.0-rc.14':
     resolution: {integrity: sha512-SWq+T56I7GiRMrMECGsvCJvQmbXi+pBexjX9sYICPj+OgTHbWDmIOh/OrSC8honE6WEE2ZzPNmwF4Y355NKgew==}
@@ -11254,6 +11267,13 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
+  '@vueuse/core@14.2.1(vue@3.5.25(typescript@5.5.4))':
+    dependencies:
+      '@types/web-bluetooth': 0.0.21
+      '@vueuse/metadata': 14.2.1
+      '@vueuse/shared': 14.2.1(vue@3.5.25(typescript@5.5.4))
+      vue: 3.5.25(typescript@5.5.4)
+
   '@vueuse/integrations@12.8.2(async-validator@4.2.5(patch_hash=cc6d77b35ed2a1683012935ca9ed998d418912785fcf78c6497d3268ac596d23))(axios@1.13.2)(change-case@5.4.4)(focus-trap@7.6.6)(nprogress@0.2.0)(typescript@5.5.4)':
     dependencies:
       '@vueuse/core': 12.8.2(typescript@5.5.4)
@@ -11272,6 +11292,8 @@ snapshots:
 
   '@vueuse/metadata@12.8.2': {}
 
+  '@vueuse/metadata@14.2.1': {}
+
   '@vueuse/shared@12.0.0(typescript@5.5.4)':
     dependencies:
       vue: 3.5.25(typescript@5.5.4)
@@ -11283,6 +11305,10 @@ snapshots:
       vue: 3.5.25(typescript@5.5.4)
     transitivePeerDependencies:
       - typescript
+
+  '@vueuse/shared@14.2.1(vue@3.5.25(typescript@5.5.4))':
+    dependencies:
+      vue: 3.5.25(typescript@5.5.4)
 
   '@yarnpkg/core@4.0.0-rc.14(typanion@3.14.0)':
     dependencies:
