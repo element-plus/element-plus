@@ -336,12 +336,14 @@ const createList = ({
           const horizontal = unref(_isHorizontal)
 
           const isRtl = direction === RTL
-          const offsetHorizontal = horizontal ? offset : 0
+          const x = horizontal ? offset : 0
+          const y = horizontal ? 0 : offset
           itemStyleCache[idx] = style = {
             position: 'absolute',
-            left: isRtl ? undefined : `${offsetHorizontal}px`,
-            right: isRtl ? `${offsetHorizontal}px` : undefined,
-            top: !horizontal ? `${offset}px` : 0,
+            top: 0,
+            left: !horizontal || !isRtl ? 0 : undefined,
+            right: horizontal && isRtl ? 0 : undefined,
+            transform: `translate3d(${horizontal && isRtl ? -x : x}px, ${y}px, 0)`,
             height: !horizontal ? `${size}px` : '100%',
             width: horizontal ? `${size}px` : '100%',
           }
