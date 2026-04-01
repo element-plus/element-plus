@@ -38,6 +38,10 @@ export interface FormItemProps {
    */
   required?: boolean
   /**
+   * @description Message to display when the field is required.
+   */
+  requiredMessage?: string
+  /**
    * @description Validation rules of form, see the [following table](#formitemrule), more advanced usage at [async-validator](https://github.com/yiminghe/async-validator).
    */
   rules?: Arrayable<FormItemRule>

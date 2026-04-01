@@ -83,6 +83,7 @@ const props = withDefaults(defineProps<FormItemProps>(), {
   labelPosition: '',
   showMessage: true,
   required: undefined,
+  requiredMessage: undefined,
   inlineMessage: undefined,
 })
 const slots = useSlots()
@@ -219,7 +220,7 @@ const normalizedRules = computed(() => {
         rules[i] = { ...rule, required }
       }
     } else {
-      rules.push({ required })
+      rules.push({ required, message: props.requiredMessage })
     }
   }
 
