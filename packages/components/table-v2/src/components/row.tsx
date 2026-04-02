@@ -171,7 +171,7 @@ const TableV2Row = defineComponent({
           return slots.cell!({
             column,
             columns,
-            columnIndex,
+            columnIndex: (activeColumnStartIndex ?? 0) + columnIndex,
             depth,
             style: columnsStyles[column.key!],
             rowData,
@@ -199,7 +199,7 @@ const TableV2Row = defineComponent({
               return node
             }),
             ...Array.from({
-              length: columns.length - activeColumns.length,
+              length: columns.length - (activeColumns?.length ?? 0),
             }).fill(null),
           ],
           style,

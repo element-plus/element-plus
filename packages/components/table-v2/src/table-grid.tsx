@@ -21,7 +21,6 @@ import type {
   DynamicSizeGridInstance,
   GridChunkSlotParams,
   GridDefaultSlotParams,
-  GridItemKeyGetter,
   GridItemRenderedEvtParams,
   GridScrollOptions,
   ResetAfterIndex,
@@ -29,6 +28,7 @@ import type {
 } from '@element-plus/components/virtual-list'
 import type { TableV2HeaderInstance } from './components'
 import type { TableV2GridProps } from './grid'
+import type { KeyType } from './types'
 
 const COMPONENT_NAME = 'ElTableV2Grid'
 
@@ -64,8 +64,13 @@ const useTableGrid = (props: TableV2GridProps) => {
     return unref(headerHeight) + unref(fixedRowHeight) > 0
   })
 
-  const itemKey: GridItemKeyGetter = ({ data, rowIndex }) =>
-    data[rowIndex][props.rowKey]
+  const itemKey = ({
+    data,
+    rowIndex,
+  }: {
+    data: Record<KeyType, any>[]
+    rowIndex: number
+  }) => data[rowIndex][props.rowKey]
 
   function onItemRendered({
     rowCacheStart,
@@ -254,7 +259,6 @@ const TableGrid = defineComponent({
         getItemStyle: (rowIndex: number, columnIndex: number) => CSSProperties
       ) {
         const style = getItemStyle(rowIndex, startColumnIndex)
-        console.log('style :', style)
         return {
           position: style.position,
           left: style.left,
@@ -270,7 +274,6 @@ const TableGrid = defineComponent({
             // special attrs
             data={data}
             useIsScrolling={useIsScrolling}
-            itemKey={itemKey}
             // column attrs
             columnCache={columnCache}
             columnWidth={getColumnWidth}
@@ -303,6 +306,7 @@ const TableGrid = defineComponent({
                 }).map((_, rowRangeIndex) => {
                   const _rowIndex = params.rowRange[0] + rowRangeIndex
                   return slots.row?.({
+                    key: itemKey({ data, rowIndex: _rowIndex }),
                     rowIndex: _rowIndex,
                     style: {
                       minWidth: '100%',
