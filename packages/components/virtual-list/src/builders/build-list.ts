@@ -178,13 +178,18 @@ const createList = ({
         getEdgeState(normalizeOffset(unref(states).scrollOffset))
       )
 
+      const startEdgeReached = computed(
+        () => getEdgeState(normalizeOffset(states.value.scrollOffset)).start
+      )
+      const endEdgeReached = computed(
+        () => getEdgeState(normalizeOffset(states.value.scrollOffset)).end
+      )
+
       // methods
       const { onWheel } = useWheel(
         {
-          atStartEdge: computed(() => states.value.scrollOffset <= 0),
-          atEndEdge: computed(
-            () => states.value.scrollOffset >= maxOffset.value
-          ),
+          atStartEdge: startEdgeReached,
+          atEndEdge: endEdgeReached,
           layout: computed(() => props.layout),
         },
         (offset) => {
