@@ -15,7 +15,13 @@ import {
   watch,
 } from 'vue'
 import { useEventListener } from '@vueuse/core'
-import { hasOwn, isClient, isNumber, isString } from '@element-plus/utils'
+import {
+  hasOwn,
+  isClient,
+  isGreaterThan,
+  isNumber,
+  isString,
+} from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { useCache } from '../hooks/use-cache'
 import useWheel from '../hooks/use-wheel'
@@ -164,8 +170,8 @@ const createList = ({
         Math.max(0, Math.min(offset, maxOffset.value))
 
       const getEdgeState = (normalizedOffset: number) => ({
-        start: normalizedOffset <= 0,
-        end: normalizedOffset >= maxOffset.value,
+        start: !isGreaterThan(normalizedOffset, 0),
+        end: !isGreaterThan(maxOffset.value, normalizedOffset),
       })
 
       const edgeState = ref(
