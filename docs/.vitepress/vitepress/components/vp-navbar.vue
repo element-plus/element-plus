@@ -61,6 +61,7 @@ onMounted(() => {
             :href="`https://github.com/element-plus/element-plus/pull/${showPrNumber}`"
             target="_blank"
             rel="noopener noreferrer"
+            type="primary"
           >
             {{ showVersion }}
           </el-link>
