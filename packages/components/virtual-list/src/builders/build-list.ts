@@ -40,15 +40,6 @@ import type { CSSProperties, Slot, VNode, VNodeChild } from 'vue'
 import type { Alignment, ListConstructorProps, ScrollDirection } from '../types'
 import type { VirtualizedListProps } from '../props'
 
-type ListState = {
-  isScrolling: boolean
-  scrollDir: ScrollDirection
-  scrollOffset: number
-  updateRequested: boolean
-  isScrollbarDragging: boolean
-  scrollbarAlwaysOn: boolean
-}
-
 const createList = ({
   name,
   getOffset,
@@ -81,9 +72,9 @@ const createList = ({
       const windowRef = ref<HTMLElement>()
       const innerRef = ref<HTMLElement>()
       const scrollbarRef = ref()
-      const states = ref<ListState>({
+      const states = ref({
         isScrolling: false,
-        scrollDir: FORWARD,
+        scrollDir: FORWARD as ScrollDirection,
         scrollOffset: isNumber(props.initScrollOffset)
           ? props.initScrollOffset
           : 0,
