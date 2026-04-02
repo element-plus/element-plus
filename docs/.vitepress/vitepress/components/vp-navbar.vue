@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { inBrowser, useData, withBase } from 'vitepress'
 import { version as epVersion } from 'element-plus'
 import VPNavbarSearch from './navbar/vp-search.vue'
@@ -27,6 +27,20 @@ const currentLink = computed(() => {
 
   return existLangIndex === -1 ? '/' : `/${theme.value.langs[existLangIndex]}/`
 })
+
+const showVersion = ref(epVersion.replace('0.0.0-staging.', ''))
+const showPrNumber = ref('')
+
+onMounted(() => {
+  const isPreview = window.location?.host.startsWith('preview-')
+  if (isPreview) {
+    const prNumber = window.location?.host.split('-', 2)[1]
+    if (prNumber) {
+      showPrNumber.value = prNumber
+      showVersion.value = `PR ${prNumber}`
+    }
+  }
+})
 </script>
 
 <template>
@@ -40,9 +54,20 @@ const currentLink = computed(() => {
             alt="Element Plus Logo"
           />
         </a>
-        <el-tag round size="small" title="latest version">{{
-          epVersion.replace('0.0.0-staging.', '')
-        }}</el-tag>
+
+        <el-tag round size="small" title="latest version">
+          <el-link
+            v-if="showPrNumber"
+            :href="`https://github.com/element-plus/element-plus/pull/${showPrNumber}`"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {{ showVersion }}
+          </el-link>
+          <span v-else>
+            {{ showVersion }}
+          </span>
+        </el-tag>
       </div>
       <div class="content">
         <VPNavbarSearch class="search" :options="theme.agolia" multilang />
