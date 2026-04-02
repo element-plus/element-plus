@@ -1428,6 +1428,98 @@ describe('Select', () => {
     expect(getOptions()).toHaveLength(options.length)
   })
 
+  test('created options should be filtered by current query', async () => {
+    wrapper = _mount(
+      `
+      <el-select
+        v-model="value"
+        multiple
+        filterable
+        allow-create
+        :reserve-keyword="false"
+      >
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+          :created="item.created"
+        />
+      </el-select>
+    `,
+      () => ({
+        options: [
+          { value: 'history', label: 'History Tag', created: true },
+          { value: 'regular', label: 'Regular Option', created: false },
+        ],
+        value: ['history'],
+      })
+    )
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    await input.setValue('bar')
+    await nextTick()
+
+    const visibleTexts = getOptions()
+      .filter((option) => option.style.display !== 'none')
+      .map((option) => option.textContent?.trim())
+    expect(visibleTexts).toEqual(['bar'])
+  })
+
+  test('allow create repeated query should not accumulate results', async () => {
+    const options = [
+      { value: 'X187436', label: 'X187436-技术金融数据管理' },
+      { value: 'Z923574', label: 'Z923574-信息系统服务开发智能' },
+      { value: 'K642819', label: 'K642819-安全分析应用平台' },
+    ]
+    wrapper = _mount(
+      `
+      <el-select
+        v-model="value"
+        style="width: 240px"
+        filterable
+        multiple
+        allow-create
+        :reserve-keyword="false"
+      >
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        />
+      </el-select>
+    `,
+      () => ({
+        options,
+        value: [],
+      })
+    )
+
+    const input = wrapper.find('input')
+    const type = async (val: string) => {
+      await input.trigger('click')
+      await input.setValue(val)
+      await nextTick()
+    }
+
+    await type('X187436')
+    const firstQueryTexts = getOptions()
+      .filter((option) => option.style.display !== 'none')
+      .map((option) => option.textContent?.trim())
+    expect(firstQueryTexts).toEqual(['X187436', 'X187436-技术金融数据管理'])
+
+    await type('Z923574')
+    const secondQueryTexts = getOptions()
+      .filter((option) => option.style.display !== 'none')
+      .map((option) => option.textContent?.trim())
+    expect(secondQueryTexts).toEqual([
+      'Z923574',
+      'Z923574-信息系统服务开发智能',
+    ])
+  })
+
   test('multiple select', async () => {
     wrapper = getSelectVm({ multiple: true })
     await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
