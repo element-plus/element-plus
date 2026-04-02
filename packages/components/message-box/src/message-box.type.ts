@@ -243,5 +243,5 @@ export interface IElMessageBox {
   prompt: ElMessageBoxShortcutMethod
 
   /** Close current message box */
-  close(): void
+  close(close?: Action): void
 }
