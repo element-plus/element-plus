@@ -76,6 +76,10 @@ export const selectProps = buildProps({
     default: 'off',
   },
   /**
+   * @description same as `autofocus` in native input
+   */
+  autofocus: Boolean,
+  /**
    * @description for non-filterable Select, this prop decides if the option menu pops up when the input is focused
    */
   automaticDropdown: Boolean,
