@@ -60,6 +60,15 @@
         <!-- suffix slot -->
         <span v-if="suffixVisible" :class="nsInput.e('suffix')">
           <span :class="nsInput.e('suffix-inner')">
+            <el-icon
+              v-if="renderClear"
+              :class="[nsInput.e('icon'), nsInput.e('clear')]"
+              :style="{ visibility: showClear ? 'visible' : 'hidden' }"
+              @mousedown.prevent="NOOP"
+              @click="clear"
+            >
+              <component :is="clearIcon" />
+            </el-icon>
             <template
               v-if="!showClear || !showPwdVisible || !isWordLimitVisible"
             >
@@ -68,14 +77,6 @@
                 <component :is="suffixIcon" />
               </el-icon>
             </template>
-            <el-icon
-              v-if="showClear"
-              :class="[nsInput.e('icon'), nsInput.e('clear')]"
-              @mousedown.prevent="NOOP"
-              @click="clear"
-            >
-              <component :is="clearIcon" />
-            </el-icon>
             <el-icon
               v-if="showPwdVisible"
               :class="[nsInput.e('icon'), nsInput.e('password')]"
@@ -311,11 +312,12 @@ const textareaStyle = computed<StyleValue>(() => [
 const nativeInputValue = computed(() =>
   isNil(props.modelValue) ? '' : String(props.modelValue)
 )
+const renderClear = computed(
+  () => props.clearable && !inputDisabled.value && !props.readonly
+)
 const showClear = computed(
   () =>
-    props.clearable &&
-    !inputDisabled.value &&
-    !props.readonly &&
+    renderClear.value &&
     !!nativeInputValue.value &&
     (isFocused.value || hovering.value)
 )
@@ -346,7 +348,7 @@ const suffixVisible = computed(
   () =>
     !!slots.suffix ||
     !!props.suffixIcon ||
-    showClear.value ||
+    props.clearable ||
     props.showPassword ||
     isWordLimitVisible.value ||
     (!!validateState.value && needStatusIcon.value)
