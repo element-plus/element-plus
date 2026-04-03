@@ -107,10 +107,9 @@ defineSlots<
 >()
 
 const passInputProps = computed(() => {
-  const inputProps = ElInput.props ?? {}
-  const inputPropsKeys =
-    Object[isArray(inputProps) ? 'values' : 'keys'](inputProps)
-  return pick(props, inputPropsKeys)
+  const inputProps = ElInput.props ?? []
+  const keys = isArray(inputProps) ? inputProps : Object.keys(inputProps)
+  return pick(props, keys)
 })
 
 const ns = useNamespace('mention')
