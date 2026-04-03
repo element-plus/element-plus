@@ -13,6 +13,7 @@
       ns.is('hovering', hovering),
     ]"
     @mousemove="hoverItem"
+    @mousedown="handleMousedown"
     @click.stop="selectOptionClick"
   >
     <slot :item="item" :index="index" :disabled="disabled">
@@ -39,10 +40,19 @@ export default defineComponent({
     const { getLabel } = useProps(select.props)
     const contentId = select.contentId
 
+    const handleMousedown = (event: MouseEvent) => {
+      const { target, currentTarget } = event
+      if (target === currentTarget) {
+        event.preventDefault()
+        return
+      }
+    }
+
     return {
       ns,
       contentId,
       hoverItem,
+      handleMousedown,
       selectOptionClick,
       getLabel,
     }
