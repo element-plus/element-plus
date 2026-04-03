@@ -20,6 +20,7 @@ import type {
   IElMessageBox,
   MessageBoxData,
   MessageBoxState,
+  PromiseResolvers,
 } from './message-box.type'
 
 // component default merge props & data
@@ -29,9 +30,7 @@ const messageInstance = new Map<
   {
     options: any
     callback: Callback | undefined
-    resolve: (res: any) => void
-    reject: (reason?: any) => void
-  }
+  } & PromiseResolvers
 >()
 
 const getAppendToElement = (props: any): HTMLElement => {
@@ -59,7 +58,8 @@ const getAppendToElement = (props: any): HTMLElement => {
 const initInstance = (
   props: any,
   container: HTMLElement,
-  appContext: AppContext | null = null
+  appContext: AppContext | null = null,
+  promiseResolvers: PromiseResolvers
 ) => {
   const vnode = createVNode(
     MessageBoxConstructor,
@@ -67,7 +67,7 @@ const initInstance = (
     isFunction(props.message) || isVNode(props.message)
       ? {
           default: isFunction(props.message)
-            ? props.message
+            ? props.message.bind(undefined, promiseResolvers)
             : () => props.message,
         }
       : null
@@ -82,7 +82,11 @@ const genContainer = () => {
   return document.createElement('div')
 }
 
-const showMessage = (options: any, appContext?: AppContext | null) => {
+const showMessage = (
+  options: any,
+  promiseResolvers: PromiseResolvers,
+  appContext?: AppContext | null
+) => {
   const container = genContainer()
   // Adding destruct method.
   // when transition leaves emitting `vanish` evt. so that we can do the clean job.
@@ -118,7 +122,12 @@ const showMessage = (options: any, appContext?: AppContext | null) => {
     }
   }
 
-  const instance = initInstance(options, container, appContext)!
+  const instance = initInstance(
+    options,
+    container,
+    appContext,
+    promiseResolvers
+  )!
 
   // This is how we use message box programmatically.
   // Maybe consider releasing a template version?
@@ -166,6 +175,7 @@ function MessageBox(
   return new Promise((resolve, reject) => {
     const vm = showMessage(
       options,
+      { resolve, reject },
       appContext ?? (MessageBox as IElMessageBox)._context
     )
     // collect this vm in order to handle upcoming events.
