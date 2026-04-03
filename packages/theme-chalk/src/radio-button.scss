@@ -19,18 +19,18 @@
     line-height: 1;
     white-space: nowrap;
     vertical-align: middle;
-    background: var(
-      #{getCssVarName('button-bg-color')},
-      map.get($button, 'bg-color')
+    background: getCssVarWithDefault(
+      ('radio-button', 'bg-color'),
+      map.get($radio-button, 'bg-color')
     );
     outline: getCssVar('border');
-    font-weight: var(
-      #{getCssVarName('button-font-weight')},
-      map.get($button, 'font-weight')
+    font-weight: getCssVarWithDefault(
+      ('radio-button', 'font-weight'),
+      map.get($radio-button, 'font-weight')
     );
-    color: var(
-      #{getCssVarName('button-text-color')},
-      map.get($button, 'text-color')
+    color: getCssVarWithDefault(
+      ('radio-button', 'text-color'),
+      map.get($radio-button, 'text-color')
     );
     -webkit-appearance: none;
     text-align: center;
@@ -122,12 +122,12 @@
         cursor: not-allowed;
         background-image: none;
         background-color: getCssVarWithDefault(
-          'button-disabled-bg-color',
-          map.get($button, 'disabled-bg-color')
+          ('radio-button', 'disabled-bg-color'),
+          map.get($radio-button, 'disabled-bg-color')
         );
         border-color: getCssVarWithDefault(
-          'button-disabled-border-color',
-          map.get($button, 'disabled-border-color')
+          ('radio-button', 'disabled-border-color'),
+          map.get($radio-button, 'disabled-border-color')
         );
         box-shadow: none;
       }
