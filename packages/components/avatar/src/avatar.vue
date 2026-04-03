@@ -1,5 +1,5 @@
 <template>
-  <span :class="avatarClass" :style="sizeStyle">
+  <span ref="avatarRef" :class="avatarClass" :style="sizeStyle">
     <img
       v-if="(src || srcSet) && !hasLoadError"
       :src="src"
@@ -11,20 +11,26 @@
     <el-icon v-else-if="icon">
       <component :is="icon" />
     </el-icon>
-    <slot v-else />
+    <span v-else ref="textRef" :class="ns.e('text')" :style="textStyle">
+      <slot />
+    </span>
   </span>
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref, watch } from 'vue'
+import { computed, inject, ref, shallowRef, watch } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
 import { addUnit, isNumber, isString } from '@element-plus/utils'
 import { avatarEmits } from './avatar'
 import { avatarGroupContextKey } from './constants'
+import { useResizeObserver } from '@vueuse/core'
 
 import type { AvatarProps } from './avatar'
 import type { CSSProperties } from 'vue'
+
+// Prevent text from touching the avatar boundary
+const TEXT_GAP_RATIO = 0.9
 
 defineOptions({
   name: 'ElAvatar',
@@ -41,7 +47,10 @@ const avatarGroupContext = inject(avatarGroupContextKey, undefined)
 
 const ns = useNamespace('avatar')
 
+const avatarRef = shallowRef<HTMLElement>()
+const textRef = shallowRef<HTMLElement>()
 const hasLoadError = ref(false)
+const scale = ref(1)
 
 const size = computed(() => props.size ?? avatarGroupContext?.size)
 const shape = computed(
@@ -69,6 +78,15 @@ const fitStyle = computed<CSSProperties>(() => ({
   objectFit: props.fit,
 }))
 
+const textStyle = computed<CSSProperties>(() => {
+  if (scale.value < 1) {
+    return {
+      transform: `scale(${scale.value})`,
+    }
+  }
+  return {}
+})
+
 // need reset hasLoadError to false if src changed
 watch(
   () => [props.src, props.srcSet],
@@ -79,4 +97,20 @@ function handleError(e: Event) {
   hasLoadError.value = true
   emit('error', e)
 }
+
+function setTextAutoFitScale() {
+  if (props.src || props.srcSet || props.icon) return
+
+  const avatarWidth = avatarRef.value?.offsetWidth
+  const textWidth = textRef.value?.offsetWidth
+
+  if (!textWidth || !avatarWidth) {
+    scale.value = 1
+    return
+  }
+  scale.value = (avatarWidth / textWidth) * TEXT_GAP_RATIO
+}
+
+// When size prop or text changes, recalculate the scale
+useResizeObserver([avatarRef, textRef], setTextAutoFitScale)
 </script>

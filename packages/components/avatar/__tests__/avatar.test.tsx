@@ -1,6 +1,6 @@
 import { markRaw, nextTick } from 'vue'
 import { flushPromises, mount } from '@vue/test-utils'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import { User } from '@element-plus/icons-vue'
 import {
   IMAGE_FAIL,
@@ -10,6 +10,16 @@ import {
 import { stableLoad } from '@element-plus/test-utils/stable-load'
 import Avatar from '../src/avatar.vue'
 import AvatarGroup from '../src/avatar-group'
+
+vi.mock('@vueuse/core', async () => {
+  return {
+    ...((await vi.importActual('@vueuse/core')) as Record<string, any>),
+    useResizeObserver: vi.fn(async (_, callback) => {
+      await nextTick()
+      callback()
+    }),
+  }
+})
 
 describe('Avatar.vue', () => {
   mockImageEvent()
@@ -98,6 +108,44 @@ describe('Avatar.vue', () => {
       await flushPromises()
       expect(wrapper.vm.hasLoadError).toBe(false)
       expect(wrapper.find('img').exists()).toBe(true)
+    })
+  })
+
+  describe('text auto fit', () => {
+    test('text should auto-fit when it overflows the avatar', async () => {
+      const wrapper = mount(<Avatar />)
+
+      const avatar = wrapper.find<HTMLElement>('.el-avatar')
+      const text = wrapper.find<HTMLElement>('.el-avatar__text')
+      const mockAvatarWidth = vi
+        .spyOn(avatar.element, 'offsetWidth', 'get')
+        .mockReturnValue(50)
+      const mockTextWidth = vi
+        .spyOn(text.element, 'offsetWidth', 'get')
+        .mockReturnValue(100)
+
+      await nextTick()
+      expect(text.attributes('style')).toContain('transform: scale(0.45);')
+      mockAvatarWidth.mockRestore()
+      mockTextWidth.mockRestore()
+    })
+
+    test('text should not auto-fit when it does not overflow the avatar', async () => {
+      const wrapper = mount(<Avatar />)
+
+      const avatar = wrapper.find<HTMLElement>('.el-avatar')
+      const text = wrapper.find<HTMLElement>('.el-avatar__text')
+      const mockAvatarWidth = vi
+        .spyOn(avatar.element, 'offsetWidth', 'get')
+        .mockReturnValue(100)
+      const mockTextWidth = vi
+        .spyOn(text.element, 'offsetWidth', 'get')
+        .mockReturnValue(50)
+
+      await nextTick()
+      expect(text.attributes('style')).toBeFalsy()
+      mockAvatarWidth.mockRestore()
+      mockTextWidth.mockRestore()
     })
   })
 })
