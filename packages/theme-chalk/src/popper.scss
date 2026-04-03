@@ -21,11 +21,6 @@
   $arrow-selector: #{& + '__arrow'};
 
   @include when(dark) {
-    @include set-css-var-value(
-      ('fill-color', 'blank'),
-      getCssVar('popper', 'bg-color-dark')
-    );
-
     color: getCssVar('bg-color');
     background: getCssVar('popper', 'bg-color-dark');
     border: 1px solid getCssVar('text-color', 'primary');
@@ -38,11 +33,6 @@
   }
 
   @include when(light) {
-    @include set-css-var-value(
-      ('fill-color', 'blank'),
-      getCssVar('popper', 'bg-color-light')
-    );
-
     background: getCssVar('popper', 'bg-color-light');
     border: 1px solid getCssVar('border-color', 'light');
 
