@@ -68,7 +68,7 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { useFormDisabled } from '@element-plus/components/form'
-import { getEventCode, isFunction } from '@element-plus/utils'
+import { getEventCode, isArray, isFunction } from '@element-plus/utils'
 import { mentionDefaultProps, mentionEmits } from './mention'
 import { filterOption, getCursorPosition, getMentionCtx } from './helper'
 import ElMentionDropdown from './mention-dropdown.vue'
@@ -106,9 +106,12 @@ defineSlots<
   }
 >()
 
-const passInputProps = computed(() =>
-  pick(props, Object.keys(ElInput.props ?? {}))
-)
+const passInputProps = computed(() => {
+  const inputProps = ElInput.props ?? {}
+  const inputPropsKeys =
+    Object[isArray(inputProps) ? 'values' : 'keys'](inputProps)
+  return pick(props, inputPropsKeys)
+})
 
 const ns = useNamespace('mention')
 const disabled = useFormDisabled()

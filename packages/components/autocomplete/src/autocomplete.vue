@@ -170,9 +170,12 @@ const props = withDefaults(defineProps<AutocompleteProps<T>>(), {
   teleported: true,
 })
 const emit = defineEmits(autocompleteEmits)
-const passInputProps = computed(() =>
-  pick(props, Object.keys(ElInput.props ?? {}))
-)
+const passInputProps = computed(() => {
+  const inputProps = ElInput.props ?? {}
+  const inputPropsKeys =
+    Object[isArray(inputProps) ? 'values' : 'keys'](inputProps)
+  return pick(props, inputPropsKeys)
+})
 
 const rawAttrs = useRawAttrs()
 const disabled = useFormDisabled()
