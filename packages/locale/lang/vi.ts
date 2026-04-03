@@ -192,5 +192,9 @@ export default {
       rightArrow: 'Mũi tên qua phải',
       indicator: 'Chuyển carousel đến mục {index}',
     },
+    inputOTP: {
+      groupLabel: 'OTP Input', // to be translated
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
+    },
   },
 }

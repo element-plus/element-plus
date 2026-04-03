@@ -192,5 +192,9 @@ export default {
       rightArrow: 'ລູກສອນເບື້ອງຂວາຂອງ Carousel',
       indicator: 'Carousel ສະຫຼັບໄປລຳດັບທີ {index}',
     },
+    inputOTP: {
+      groupLabel: 'OTP Input', // to be translated
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
+    },
   },
 }

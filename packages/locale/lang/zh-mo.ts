@@ -192,5 +192,9 @@ export default {
       rightArrow: '下一張幻燈片',
       indicator: '幻燈片切換至索引 {index}',
     },
+    inputOTP: {
+      groupLabel: 'OTP Input', // to be translated
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
+    },
   },
 }
