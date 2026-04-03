@@ -1,8 +1,8 @@
 <template>
   <el-select v-model="value" placeholder="Select" style="width: 240px">
     <el-option-group
-      v-for="group in options"
-      :key="group.label"
+      v-for="(group, index) in options"
+      :key="index"
       :label="group.label"
     >
       <el-option
@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { h, ref } from 'vue'
 
 const value = ref('')
 const options = [
@@ -34,7 +34,16 @@ const options = [
     ],
   },
   {
-    label: 'City name',
+    label: h(
+      'em',
+      {
+        style: {
+          color: 'var(--el-color-primary-light-5)',
+          marginLeft: '20px',
+        },
+      },
+      'City name'
+    ),
     options: [
       {
         value: 'Chengdu',
