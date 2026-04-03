@@ -231,7 +231,8 @@ function useWatcher<T extends DefaultRow>() {
   }
 
   const getSelectionRows = () => {
-    return (selection.value || []).slice()
+    const selectionList = (selection.value || []).slice()
+    return data.value.filter((item) => selectionList.includes(item))
   }
 
   const toggleRowSelection = (
