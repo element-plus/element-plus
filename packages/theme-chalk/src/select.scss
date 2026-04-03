@@ -150,7 +150,6 @@
 
     .#{$namespace}-tag {
       cursor: pointer;
-      border-color: transparent;
 
       &.#{$namespace}-tag--plain {
         border-color: getCssVar('tag', 'border-color');
