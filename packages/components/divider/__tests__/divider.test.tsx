@@ -33,6 +33,40 @@ describe('Divider.vue', () => {
     expect(wrapper.find('.el-divider__text').classes()).toContain('is-right')
   })
 
+  test('contentPosition: center has two full lines', () => {
+    const wrapper = mount(() => (
+      <Divider
+        v-slots={{
+          default: () => AXIOM,
+        }}
+        contentPosition="center"
+      />
+    ))
+    expect(wrapper.find('.el-divider__text').classes()).toContain('is-center')
+
+    const lines = wrapper.findAll('.el-divider__line')
+    expect(lines).toHaveLength(2)
+    expect(lines[0].classes()).toContain('is-full')
+    expect(lines[1].classes()).toContain('is-full')
+  })
+
+  test('contentPosition: left has short left line and full right line', () => {
+    const wrapper = mount(() => (
+      <Divider
+        v-slots={{
+          default: () => AXIOM,
+        }}
+        contentPosition="left"
+      />
+    ))
+    expect(wrapper.find('.el-divider__text').classes()).toContain('is-left')
+
+    const lines = wrapper.findAll('.el-divider__line')
+    expect(lines).toHaveLength(2)
+    expect(lines[0].classes()).toContain('is-short')
+    expect(lines[1].classes()).toContain('is-full')
+  })
+
   test('customClass', () => {
     const wrapper = mount(() => <Divider class="customClass" />)
     expect(wrapper.classes()).toContain('customClass')
