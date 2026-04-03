@@ -60,10 +60,7 @@
 import { computed, mergeProps, nextTick, ref } from 'vue'
 import { pick } from 'lodash-unified'
 import { useFocusController, useId, useNamespace } from '@element-plus/hooks'
-import ElInput, {
-  inputProps,
-  inputPropsDefaults,
-} from '@element-plus/components/input'
+import ElInput, { inputPropsDefaults } from '@element-plus/components/input'
 import ElTooltip from '@element-plus/components/tooltip'
 import {
   EVENT_CODE,
@@ -109,7 +106,9 @@ defineSlots<
   }
 >()
 
-const passInputProps = computed(() => pick(props, Object.keys(inputProps)))
+const passInputProps = computed(() =>
+  pick(props, Object.keys(ElInput.props ?? {}))
+)
 
 const ns = useNamespace('mention')
 const disabled = useFormDisabled()
