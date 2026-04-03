@@ -187,7 +187,7 @@ import {
   useSlots,
   watch,
 } from 'vue'
-import { useResizeObserver } from '@vueuse/core'
+import { useElementSize, useResizeObserver } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
 import { ElIcon } from '@element-plus/components/icon'
 import { Hide, View } from '@element-plus/icons-vue'
@@ -677,8 +677,10 @@ watch(nativeInputValue, (newValue) => {
 // when change between <input> and <textarea>,
 // update DOM dependent value and styles
 // https://github.com/ElemeFE/element/issues/14857
+const { width: textareaWidth } = useElementSize(textarea)
+
 watch(
-  () => props.type,
+  () => [props.type, textareaWidth.value],
   async () => {
     await nextTick()
     setNativeInputValue()
