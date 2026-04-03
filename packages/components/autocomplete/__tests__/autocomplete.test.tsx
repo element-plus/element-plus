@@ -11,9 +11,12 @@ import { ElFormItem as FormItem } from '@element-plus/components/form'
 import Autocomplete from '../src/autocomplete.vue'
 import {
   AutocompleteFetchSuggestionsCallback,
+  AutocompleteInstance,
   AutocompletePropsPublic,
 } from '../src/autocomplete'
 import { EVENT_CODE } from '@element-plus/constants'
+
+import type { VueWrapper } from '@vue/test-utils'
 
 vi.unmock('lodash')
 
@@ -97,6 +100,9 @@ const _mount = (
     }
   )
 
+const getAutocompleteVm = (wrapper: VueWrapper<any>) =>
+  wrapper.findComponent({ name: 'ElAutocomplete' }).vm as AutocompleteInstance
+
 describe('Autocomplete.vue', () => {
   beforeEach(() => {
     document.body.innerHTML = ''
@@ -143,9 +149,7 @@ describe('Autocomplete.vue', () => {
       fetchSuggestions,
     })
     await nextTick()
-    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
-      typeof Autocomplete
-    >
+    const target = getAutocompleteVm(wrapper)
 
     await nextTick()
 
@@ -162,9 +166,7 @@ describe('Autocomplete.vue', () => {
       fetchSuggestions,
     })
     await nextTick()
-    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
-      typeof Autocomplete
-    >
+    const target = getAutocompleteVm(wrapper)
     await wrapper.find('input').trigger('focus')
     await nextTick()
     target.handleKeyEnter()
@@ -230,9 +232,7 @@ describe('Autocomplete.vue', () => {
     vi.runAllTimers()
     await nextTick()
 
-    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
-      typeof Autocomplete
-    >
+    const target = getAutocompleteVm(wrapper)
 
     expect(target.suggestions.length).toBe(4)
   })
@@ -245,9 +245,7 @@ describe('Autocomplete.vue', () => {
     await nextTick()
     await nextTick()
 
-    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
-      typeof Autocomplete
-    >
+    const target = getAutocompleteVm(wrapper)
 
     expect(target.suggestions.length).toBe(4)
   })
@@ -259,9 +257,7 @@ describe('Autocomplete.vue', () => {
     vi.runAllTimers()
     await nextTick()
 
-    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
-      typeof Autocomplete
-    >
+    const target = getAutocompleteVm(wrapper)
 
     expect(target.suggestions.length).toBe(4)
   })
@@ -273,9 +269,7 @@ describe('Autocomplete.vue', () => {
     vi.runAllTimers()
     await nextTick()
 
-    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
-      typeof Autocomplete
-    >
+    const target = getAutocompleteVm(wrapper)
 
     expect(target.suggestions.length).toBe(4)
   })
@@ -284,9 +278,7 @@ describe('Autocomplete.vue', () => {
     const wrapper = _mount()
     await nextTick()
 
-    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
-      typeof Autocomplete
-    >
+    const target = getAutocompleteVm(wrapper)
 
     await target.handleSelect({ value: 'Go', tag: 'go' })
 
@@ -337,9 +329,7 @@ describe('Autocomplete.vue', () => {
       debounce: 10,
     })
     await nextTick()
-    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
-      typeof Autocomplete
-    >
+    const target = getAutocompleteVm(wrapper)
 
     target.highlightedIndex = 0
     target.handleKeyEnter()
@@ -375,9 +365,7 @@ describe('Autocomplete.vue', () => {
     const wrapper = _mount({ debounce: 10, loopNavigation: true }, 'arr')
     await nextTick()
 
-    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
-      typeof Autocomplete
-    >
+    const target = getAutocompleteVm(wrapper)
     const input = wrapper.find('input')
 
     await input.trigger('focus')
@@ -402,9 +390,7 @@ describe('Autocomplete.vue', () => {
     const wrapper = _mount({ debounce: 10, loopNavigation: false }, 'arr')
     await nextTick()
 
-    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
-      typeof Autocomplete
-    >
+    const target = getAutocompleteVm(wrapper)
     const input = wrapper.find('input')
 
     await input.trigger('focus')
@@ -479,9 +465,7 @@ describe('Autocomplete.vue', () => {
     )
     await nextTick()
 
-    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
-      typeof Autocomplete
-    >
+    const target = getAutocompleteVm(wrapper)
     const input = wrapper.find('input')
     await nextTick()
     await input.trigger('focus')
@@ -612,9 +596,7 @@ describe('Autocomplete.vue', () => {
     const wrapper = _mount({ onFocus })
     await nextTick()
 
-    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
-      typeof Autocomplete
-    >
+    const target = getAutocompleteVm(wrapper)
 
     await wrapper.find('input').trigger('focus')
     vi.runAllTimers()
@@ -638,9 +620,7 @@ describe('Autocomplete.vue', () => {
     const wrapper = _mount({ onBlur })
     await nextTick()
 
-    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
-      typeof Autocomplete
-    >
+    const target = getAutocompleteVm(wrapper)
 
     await wrapper.find('input').trigger('focus')
     await target.handleSelect({ value: 'Go', tag: 'go' })
@@ -709,9 +689,7 @@ describe('Autocomplete.vue', () => {
       const wrapper = _mount()
       await nextTick()
 
-      const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
-        typeof Autocomplete
-      >
+      const target = getAutocompleteVm(wrapper)
       const input = wrapper.find('input')
 
       await input.trigger('focus')
@@ -727,9 +705,7 @@ describe('Autocomplete.vue', () => {
       const wrapper = _mount()
       await nextTick()
 
-      const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
-        typeof Autocomplete
-      >
+      const target = getAutocompleteVm(wrapper)
       const input = wrapper.find('input')
 
       await input.trigger('focus')
