@@ -88,7 +88,7 @@ export function SupplyValidator(): Plugin {
       handler(code, id) {
         const vueFilePath = id.slice(0, id.indexOf('?'))
         const rawContent = fs.readFileSync(vueFilePath, 'utf-8')
-        const propsType = rawContent.match(/defineProps<(\w+)>/)?.[1]
+        const propsType = rawContent.match(/defineProps<(\w+)(?:<\w+>)?>/)?.[1]
         if (!propsType) return
 
         const { propsIndexes, mergePropsIndexes } =
@@ -96,8 +96,10 @@ export function SupplyValidator(): Plugin {
         if (propsIndexes.length !== 2) return
 
         const scriptContent = rawContent.split(
-          /<script lang="ts" setup>|<\/script>/g
+          /<script\s+lang="ts"\s+setup(?:\s+generic=".+")?\s*>|<\/script>/g
         )[1]
+        if (!scriptContent) return
+
         const extractImportFile = extractImportPropsStatements(
           vueFilePath,
           scriptContent,
