@@ -151,15 +151,15 @@ const handleScroll = () => {
     wrapScrollLeft = wrapRef.value.scrollLeft
 
     const arrivedStates = {
-      bottom: isGreaterThan(
-        wrapRef.value.clientHeight + wrapScrollTop,
-        wrapRef.value.scrollHeight - props.distance
+      bottom: !isGreaterThan(
+        wrapRef.value.scrollHeight - props.distance,
+        wrapRef.value.clientHeight + wrapScrollTop
       ),
       top: wrapScrollTop <= props.distance && prevTop !== 0,
       right:
-        isGreaterThan(
-          wrapRef.value.clientWidth + wrapScrollLeft,
-          wrapRef.value.scrollWidth - props.distance
+        !isGreaterThan(
+          wrapRef.value.scrollWidth - props.distance,
+          wrapRef.value.clientWidth + wrapScrollLeft
         ) && prevLeft !== wrapScrollLeft,
       left: wrapScrollLeft <= props.distance && prevLeft !== 0,
     }
