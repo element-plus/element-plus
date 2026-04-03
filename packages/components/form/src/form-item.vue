@@ -228,7 +228,7 @@ const normalizedRules = computed(() => {
 
 const validateEnabled = computed(() => normalizedRules.value.length > 0)
 
-const getFilteredRule = (trigger: string) => {
+const getFilteredRule = (trigger: 'blur' | 'change' | '') => {
   const rules = normalizedRules.value
   return (
     rules

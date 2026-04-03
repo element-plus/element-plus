@@ -17,7 +17,7 @@ import type { useFormLabelWidth } from './utils'
 
 export type FormLabelWidthContext = ReturnType<typeof useFormLabelWidth>
 export interface FormItemRule extends RuleItem {
-  trigger?: Arrayable<string>
+  trigger?: Arrayable<'change' | 'blur'>
 }
 
 type FormRuleValue<V> = V extends any[]
@@ -76,7 +76,7 @@ export interface FormItemContext extends FormItemProps {
   addInputId: (id: string) => void
   removeInputId: (id: string) => void
   validate: (
-    trigger: string,
+    trigger: 'change' | 'blur' | '',
     callback?: FormValidateCallback
   ) => FormValidationResult
   resetField(): void
