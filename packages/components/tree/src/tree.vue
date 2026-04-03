@@ -237,7 +237,7 @@ export default defineComponent({
     const setChecked = (
       data: TreeKey | TreeNodeData,
       checked: boolean,
-      deep: boolean
+      deep: boolean = false
     ) => {
       store.value.setChecked(data, checked, deep)
     }

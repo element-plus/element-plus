@@ -1570,6 +1570,64 @@ describe('Virtual Tree', () => {
       expect(halfCheckedKeys.toString()).toBe(['1'].toString())
     })
 
+    test('should respect deep option when calling setChecked in checkStrictly mode', async () => {
+      const { treeRef } = createTree({
+        data() {
+          return {
+            showCheckbox: true,
+            checkStrictly: true,
+            data: [
+              {
+                id: '1',
+                label: 'node-1',
+                children: [
+                  {
+                    id: '1-1',
+                    label: 'node-1-1',
+                    children: [
+                      {
+                        id: '1-1-1',
+                        label: 'node-1-1-1',
+                      },
+                      {
+                        id: '1-1-2',
+                        label: 'node-1-1-2',
+                      },
+                    ],
+                  },
+                  {
+                    id: '1-2',
+                    label: 'node-1-2',
+                    children: [
+                      {
+                        id: '1-2-1',
+                        label: 'node-1-2-1',
+                      },
+                    ],
+                  },
+                  {
+                    id: '1-3',
+                    label: 'node-1-3',
+                  },
+                ],
+              },
+              {
+                id: '2',
+                label: 'node-2',
+              },
+            ],
+          }
+        },
+      })
+      await nextTick()
+
+      treeRef.setChecked('1-1', true)
+      expect(treeRef.getCheckedKeys()).toEqual(['1-1'])
+
+      treeRef.setChecked('1-1', true, true)
+      expect(treeRef.getCheckedKeys()).toEqual(['1-1', '1-1-1', '1-1-2'])
+    })
+
     test('getCurrent', async () => {
       const { treeRef, wrapper } = createTree({
         data() {
