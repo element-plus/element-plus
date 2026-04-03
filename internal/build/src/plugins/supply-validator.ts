@@ -96,7 +96,7 @@ export function SupplyValidator(): Plugin {
         if (propsIndexes.length !== 2) return
 
         const scriptContent = rawContent.split(
-          /<script lang="ts" setup(?: generic=".+")?>|<\/script>/g
+          /<script\s+lang="ts"\s+setup(?:\s+generic=".+")?\s*>|<\/script>/g
         )[1]
         if (!scriptContent) return
 
