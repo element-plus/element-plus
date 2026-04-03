@@ -6,7 +6,13 @@
     <el-radio-button value="ltr">left</el-radio-button>
   </el-radio-group>
 
-  <el-drawer v-model="drawer" :direction="direction" resizable>
+  <el-drawer
+    v-model="drawer"
+    :direction="direction"
+    resizable
+    min-size="200px"
+    max-size="75%"
+  >
     This is drawer content.
   </el-drawer>
 </template>
