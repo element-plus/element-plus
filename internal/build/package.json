@@ -27,7 +27,7 @@
     "tinyglobby": "^0.2.15"
   },
   "devDependencies": {
-    "@pnpm/types": "^8.4.0",
+    "@pnpm/types": "^12.2.0",
     "jiti": "^2.6.1",
     "unbuild": "^3.0.0",
     "vue-tsc": "^3.2.3"
