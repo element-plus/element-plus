@@ -4,6 +4,12 @@ import { useAriaProps } from '@element-plus/hooks'
 import type { ExtractPublicPropTypes, StyleValue } from 'vue'
 import type Scrollbar from './scrollbar.vue'
 
+/**
+ * @description
+ * If `true`, the scrollbar is scrollable in both directions.
+ */
+export type Scrollable = boolean | 'vertical' | 'horizontal'
+
 export interface ScrollbarProps {
   /**
    * @description trigger distance(px)

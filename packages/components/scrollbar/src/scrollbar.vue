@@ -45,7 +45,11 @@ import Bar from './bar.vue'
 import { scrollbarContextKey } from './constants'
 import { scrollbarEmits } from './scrollbar'
 
-import type { ScrollbarDirection, ScrollbarProps } from './scrollbar'
+import type {
+  Scrollable,
+  ScrollbarDirection,
+  ScrollbarProps,
+} from './scrollbar'
 import type { BarInstance } from './bar'
 import type { CSSProperties, StyleValue } from 'vue'
 
@@ -88,6 +92,7 @@ const scrollbarRef = ref<HTMLDivElement>()
 const wrapRef = ref<HTMLDivElement>()
 const resizeRef = ref<HTMLElement>()
 const barRef = ref<BarInstance>()
+const scrollable = ref<Scrollable>(false)
 
 const wrapStyle = computed<StyleValue>(() => {
   const style: CSSProperties = {}
@@ -203,7 +208,24 @@ const setScrollLeft = (value: number) => {
   wrapRef.value!.scrollLeft = value
 }
 
+const calcScrollable = () => {
+  const wrap = wrapRef.value
+  if (!wrap) return
+  const _vertical = wrap.scrollHeight > wrap.clientHeight
+  const _horizontal = wrap.scrollWidth > wrap.clientWidth
+  let _scrollable: Scrollable = false
+  if (_vertical && _horizontal) {
+    _scrollable = true
+  } else if (_horizontal) {
+    _scrollable = 'horizontal'
+  } else if (_vertical) {
+    _scrollable = 'vertical'
+  }
+  scrollable.value = _scrollable
+}
+
 const update = () => {
+  calcScrollable()
   barRef.value?.update()
   distanceScrollState[direction] = false
   if (wrapRef.value) barRef.value?.handleScroll(wrapRef.value)
@@ -261,6 +283,8 @@ onUpdated(() => update())
 defineExpose({
   /** @description scrollbar wrap ref */
   wrapRef,
+  /** @description scrollbar is scrollable */
+  scrollable,
   /** @description update scrollbar state manually */
   update,
   /** @description scrolls to a particular set of coordinates */
