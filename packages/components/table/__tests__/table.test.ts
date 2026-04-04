@@ -394,10 +394,10 @@ describe('Table.vue', () => {
           ElTableColumn,
         },
         template: `
-        <el-table 
-          :data="testData" 
-          row-key="id" 
-          highlight-current-row 
+        <el-table
+          :data="testData"
+          row-key="id"
+          highlight-current-row
           :current-row-key="currentRowKey"
           @current-change="handleCurrentChange">
           <el-table-column prop="name" label="片名" />
@@ -2262,6 +2262,429 @@ describe('Table.vue', () => {
       wrapper.findAll('.el-checkbox')[0].trigger('click')
       await doubleWait()
       expect(wrapper.vm.selected.length).toEqual(getTestData().length + 2)
+    })
+
+    it('lazy tree selection linkage', async () => {
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table
+            :data="testData"
+            row-key="id"
+            lazy
+            :load="load"
+            :tree-props="treeProps"
+          >
+            <el-table-column type="selection" />
+            <el-table-column prop="name" label="name" />
+          </el-table>
+        `,
+        data() {
+          return {
+            treeProps: {
+              children: 'children',
+              hasChildren: 'hasChildren',
+              checkStrictly: false,
+            },
+            testData: [{ id: 1, name: 'parent', hasChildren: true }],
+          }
+        },
+        methods: {
+          load(row, treeNode, resolve) {
+            if (row.id === 1) {
+              resolve([
+                { id: 11, name: 'child-1', hasChildren: true },
+                { id: 12, name: 'child-2' },
+              ])
+              return
+            }
+            if (row.id === 11) {
+              resolve([{ id: 111, name: 'grand-child-1' }])
+              return
+            }
+            resolve([])
+          },
+        },
+      })
+      await doubleWait()
+      const parentCheckbox = wrapper.findAll('.el-table__body .el-checkbox')[0]
+      // select parent before any lazy load
+      await parentCheckbox.trigger('click')
+      await doubleWait()
+      const expandIcons = wrapper.findAll('.el-table__expand-icon')
+      await expandIcons[0].trigger('click')
+      await doubleWait()
+      const childCheckboxes = wrapper.findAll('.el-table__body .el-checkbox')
+      const childCheckbox1 = childCheckboxes[1]
+      const childCheckbox2 = childCheckboxes[2]
+      // first level lazy children should inherit selection
+      expect(childCheckbox1.classes()).toContain('is-checked')
+      expect(childCheckbox2.classes()).toContain('is-checked')
+      const childExpandIcons = wrapper.findAll('.el-table__expand-icon')
+      await childExpandIcons[1].trigger('click')
+      await doubleWait()
+      const allCheckboxes = wrapper.findAll('.el-table__body .el-checkbox')
+      const grandchildCheckbox = allCheckboxes[3]
+      // nested lazy child should inherit selection
+      expect(grandchildCheckbox.classes()).toContain('is-checked')
+      await grandchildCheckbox.trigger('click')
+      await doubleWait()
+      const parentInput = parentCheckbox.find('.el-checkbox__input')
+      // deselect nested child -> parent indeterminate
+      expect(parentInput.classes()).toContain('is-indeterminate')
+      expect(parentCheckbox.classes()).not.toContain('is-checked')
+    })
+
+    it('eager parent select cascades to lazy grandchildren on expand', async () => {
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table
+            ref="table"
+            :data="testData"
+            row-key="id"
+            lazy
+            :load="load"
+            :tree-props="treeProps"
+            @selection-change="onSelect"
+          >
+            <el-table-column type="selection" />
+            <el-table-column prop="name" label="name" />
+          </el-table>
+        `,
+        data() {
+          return {
+            selectedIds: [],
+            treeProps: {
+              children: 'children',
+              hasChildren: 'hasChildren',
+            },
+            testData: [
+              {
+                id: 3,
+                name: 'Row 3 (eager parent)',
+                children: [
+                  { id: 31, name: 'Eager child 3-1' },
+                  {
+                    id: 32,
+                    name: 'Child 3-2 (lazy grandparent)',
+                    hasChildren: true,
+                  },
+                  { id: 33, name: 'Eager child 3-3' },
+                ],
+              },
+            ],
+          }
+        },
+        methods: {
+          load(row, treeNode, resolve) {
+            if (row.id === 32) {
+              resolve([
+                { id: 321, name: 'Lazy grandchild 3-2-1' },
+                { id: 322, name: 'Lazy grandchild 3-2-2' },
+              ])
+              return
+            }
+            resolve([])
+          },
+          onSelect(rows) {
+            this.selectedIds = rows.map((r) => r.id)
+          },
+        },
+      })
+      await doubleWait()
+      const parentCheckbox = wrapper.findAll('.el-table__body .el-checkbox')[0]
+      await parentCheckbox.trigger('click')
+      await doubleWait()
+      expect((wrapper.vm as any).selectedIds).toContain(3)
+      expect((wrapper.vm as any).selectedIds).toContain(32)
+      const expandIcons = wrapper.findAll('.el-table__expand-icon')
+      await expandIcons[0].trigger('click')
+      await doubleWait()
+      const expandIcons2 = wrapper.findAll('.el-table__expand-icon')
+      await expandIcons2[1].trigger('click')
+      await doubleWait()
+      const ids = (wrapper.vm as any).selectedIds
+      expect(ids).toContain(321)
+      expect(ids).toContain(322)
+    })
+
+    it('select-all includes loaded lazy children', async () => {
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table
+            :data="testData"
+            row-key="id"
+            lazy
+            :load="load"
+            :tree-props="treeProps"
+          >
+            <el-table-column type="selection" />
+            <el-table-column prop="name" label="name" />
+          </el-table>
+        `,
+        data() {
+          return {
+            treeProps: {
+              children: 'children',
+              hasChildren: 'hasChildren',
+              checkStrictly: false,
+            },
+            testData: [
+              { id: 1, name: 'parent-1', hasChildren: true },
+              { id: 2, name: 'parent-2' },
+            ],
+          }
+        },
+        methods: {
+          load(row, treeNode, resolve) {
+            if (row.id === 1) {
+              resolve([
+                { id: 11, name: 'child-1' },
+                { id: 12, name: 'child-2' },
+              ])
+              return
+            }
+            resolve([])
+          },
+        },
+      })
+      await doubleWait()
+      const expandIcons = wrapper.findAll('.el-table__expand-icon')
+      await expandIcons[0].trigger('click')
+      await doubleWait()
+      const headerCheckbox = wrapper.find('.el-table__header .el-checkbox')
+      await headerCheckbox.trigger('click')
+      await doubleWait()
+      const bodyCheckboxes = wrapper.findAll('.el-table__body .el-checkbox')
+      bodyCheckboxes.forEach((cb) => {
+        expect(cb.classes()).toContain('is-checked')
+      })
+      expect(headerCheckbox.classes()).toContain('is-checked')
+    })
+
+    it('updateAllSelected reflects lazy children state', async () => {
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table
+            :data="testData"
+            row-key="id"
+            lazy
+            :load="load"
+            :tree-props="treeProps"
+          >
+            <el-table-column type="selection" />
+            <el-table-column prop="name" label="name" />
+          </el-table>
+        `,
+        data() {
+          return {
+            treeProps: {
+              children: 'children',
+              hasChildren: 'hasChildren',
+              checkStrictly: false,
+            },
+            testData: [{ id: 1, name: 'parent', hasChildren: true }],
+          }
+        },
+        methods: {
+          load(row, treeNode, resolve) {
+            if (row.id === 1) {
+              resolve([
+                { id: 11, name: 'child-1' },
+                { id: 12, name: 'child-2' },
+              ])
+              return
+            }
+            resolve([])
+          },
+        },
+      })
+      await doubleWait()
+      const parentCheckbox = wrapper.findAll('.el-table__body .el-checkbox')[0]
+      await parentCheckbox.trigger('click')
+      await doubleWait()
+      const expandIcons = wrapper.findAll('.el-table__expand-icon')
+      await expandIcons[0].trigger('click')
+      await doubleWait()
+      const headerCheckbox = wrapper.find('.el-table__header .el-checkbox')
+      expect(headerCheckbox.classes()).toContain('is-checked')
+      const childCheckboxes = wrapper.findAll('.el-table__body .el-checkbox')
+      await childCheckboxes[2].trigger('click')
+      await doubleWait()
+      expect(headerCheckbox.classes()).not.toContain('is-checked')
+    })
+
+    it('cleanSelection preserves valid lazy children', async () => {
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table
+            ref="table"
+            :data="testData"
+            row-key="id"
+            lazy
+            :load="load"
+            :tree-props="treeProps"
+          >
+            <el-table-column type="selection" />
+            <el-table-column prop="name" label="name" />
+          </el-table>
+        `,
+        data() {
+          return {
+            treeProps: {
+              children: 'children',
+              hasChildren: 'hasChildren',
+              checkStrictly: false,
+            },
+            testData: [
+              { id: 1, name: 'parent', hasChildren: true },
+              { id: 2, name: 'sibling' },
+            ],
+          }
+        },
+        methods: {
+          load(row, treeNode, resolve) {
+            if (row.id === 1) {
+              resolve([{ id: 11, name: 'child-1' }])
+              return
+            }
+            resolve([])
+          },
+        },
+      })
+      await doubleWait()
+      const parentCheckbox = wrapper.findAll('.el-table__body .el-checkbox')[0]
+      await parentCheckbox.trigger('click')
+      await doubleWait()
+      const expandIcons = wrapper.findAll('.el-table__expand-icon')
+      await expandIcons[0].trigger('click')
+      await doubleWait()
+      const childCheckboxes = wrapper.findAll('.el-table__body .el-checkbox')
+      expect(childCheckboxes[1].classes()).toContain('is-checked')
+      const tableRef = wrapper.findComponent({ ref: 'table' })
+      const selectionBefore = (tableRef.vm as any).getSelectionRows()
+      const selectedIds = selectionBefore.map((r: any) => r.id)
+      expect(selectedIds).toContain(1)
+      expect(selectedIds).toContain(11)
+      const vm = wrapper.vm as any
+      vm.testData.push({ id: 3, name: 'new-row' })
+      await doubleWait()
+      await doubleWait()
+      const selectionAfter = (tableRef.vm as any).getSelectionRows()
+      const idsAfter = selectionAfter.map((r: any) => r.id)
+      expect(idsAfter).toContain(1)
+      expect(idsAfter).toContain(11)
+    })
+
+    it('selectable tree linkage parent status with children', async () => {
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table
+            :data="testData"
+            :tree-props="treeProps"
+            row-key="id"
+            default-expand-all
+          >
+            <el-table-column type="selection" :selectable="selectable" />
+            <el-table-column prop="name" label="name" />
+          </el-table>
+        `,
+        data() {
+          return {
+            checkStrictly: false,
+            testData: [
+              {
+                id: 1,
+                name: 'parent',
+                childrenTest: [
+                  { id: 11, name: 'child-1' },
+                  { id: 12, name: 'child-2' },
+                  { id: 13, name: 'child-3' },
+                ],
+              },
+            ],
+          }
+        },
+        computed: {
+          treeProps() {
+            return {
+              children: 'childrenTest',
+              checkStrictly: this.checkStrictly,
+            }
+          },
+        },
+        methods: {
+          selectable: (row) => row.id !== 12,
+        },
+      })
+      await doubleWait()
+      const bodyCheckboxes = wrapper.findAll('.el-table__body .el-checkbox')
+      const parentCheckbox = bodyCheckboxes[0]
+      const childCheckbox1 = bodyCheckboxes[1]
+      const childCheckbox2 = bodyCheckboxes[2]
+      const childCheckbox3 = bodyCheckboxes[3]
+      const parentInput = parentCheckbox.find('.el-checkbox__input')
+
+      expect(childCheckbox2.classes()).toContain('is-disabled')
+
+      await childCheckbox1.trigger('click')
+      await doubleWait()
+      // partial selectable children selected -> parent indeterminate
+      expect(parentInput.classes()).toContain('is-indeterminate')
+
+      await childCheckbox3.trigger('click')
+      await doubleWait()
+      // all selectable children selected -> parent checked
+      expect(parentCheckbox.classes()).toContain('is-checked')
+      expect(parentInput.classes()).not.toContain('is-indeterminate')
+
+      await childCheckbox3.trigger('click')
+      await doubleWait()
+      // deselect one child -> parent indeterminate again
+      expect(parentInput.classes()).toContain('is-indeterminate')
+
+      await childCheckbox1.trigger('click')
+      await doubleWait()
+      // no selectable children selected -> parent unchecked
+      expect(parentCheckbox.classes()).not.toContain('is-checked')
+      expect(parentInput.classes()).not.toContain('is-indeterminate')
+
+      await (wrapper.vm.checkStrictly = true)
+      await doubleWait()
+      await childCheckbox1.trigger('click')
+      await doubleWait()
+      // Strict mode: child select should not update parent
+      expect(childCheckbox1.classes()).toContain('is-checked')
+      expect(parentCheckbox.classes()).not.toContain('is-checked')
+      expect(parentInput.classes()).not.toContain('is-indeterminate')
+
+      await (wrapper.vm.checkStrictly = false)
+      await doubleWait()
+      // Switch to non-strict: parent should reflect child selection
+      expect(parentInput.classes()).toContain('is-indeterminate')
     })
 
     it('a11y', async () => {
