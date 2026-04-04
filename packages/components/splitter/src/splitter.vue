@@ -6,6 +6,7 @@ import {
   provide,
   reactive,
   toRef,
+  useTemplateRef,
   watch,
 } from 'vue'
 import { useNamespace, useOrderedChildren } from '@element-plus/hooks'
@@ -30,7 +31,8 @@ const props = withDefaults(defineProps<SplitterProps>(), {
 const layout = toRef(props, 'layout')
 const lazy = toRef(props, 'lazy')
 
-const { containerEl, containerSize } = useContainer(layout)
+const containerEl = useTemplateRef('containerEl')
+const { containerSize } = useContainer(layout, containerEl)
 
 const {
   removeChild: unregisterPanel,

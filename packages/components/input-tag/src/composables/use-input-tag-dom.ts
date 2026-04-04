@@ -1,9 +1,9 @@
-import { computed, reactive, ref, useAttrs, useSlots } from 'vue'
+import { computed, reactive, useAttrs, useSlots } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { MINIMUM_INPUT_WIDTH } from '@element-plus/constants'
 import { useResizeObserver } from '@vueuse/core'
 
-import type { ComputedRef, Ref, StyleValue } from 'vue'
+import type { ComputedRef, Ref, StyleValue, TemplateRef } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type { IconComponent } from '@element-plus/utils'
 import type { InputTagProps } from '../input-tag'
@@ -18,6 +18,8 @@ interface UseInputTagDomOptions {
   validateState: ComputedRef<string>
   validateIcon: ComputedRef<'' | IconComponent>
   needStatusIcon: ComputedRef<boolean>
+  collapseItemRef: TemplateRef<HTMLElement>
+  innerRef: TemplateRef<HTMLElement>
 }
 
 export function useInputTagDom({
@@ -30,14 +32,13 @@ export function useInputTagDom({
   validateState,
   validateIcon,
   needStatusIcon,
+  collapseItemRef,
+  innerRef,
 }: UseInputTagDomOptions) {
   const attrs = useAttrs()
   const slots = useSlots()
   const ns = useNamespace('input-tag')
   const nsInput = useNamespace('input')
-
-  const collapseItemRef = ref<HTMLElement>()
-  const innerRef = ref<HTMLElement>()
 
   const containerKls = computed(() => [
     ns.b(),

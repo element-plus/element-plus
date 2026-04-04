@@ -45,7 +45,13 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, getCurrentInstance, provide, useSlots } from 'vue'
+import {
+  computed,
+  getCurrentInstance,
+  provide,
+  useSlots,
+  useTemplateRef,
+} from 'vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { formItemContextKey } from '@element-plus/components/form'
 import { FixedSizeList } from '@element-plus/components/virtual-list'
@@ -100,10 +106,11 @@ provide(ROOT_TREE_INJECTION_KEY, {
 provide(formItemContextKey, undefined)
 const { t } = useLocale()
 const ns = useNamespace('tree')
+const listRef = useTemplateRef('listRef')
+
 const {
   flattenTree,
   isNotEmpty,
-  listRef,
   toggleExpand,
   isIndeterminate,
   isChecked,
@@ -132,7 +139,7 @@ const {
   setExpandedKeys,
   scrollToNode,
   scrollTo,
-} = useTree(props, emit)
+} = useTree(props, emit, listRef)
 
 defineExpose({
   toggleCheckbox,

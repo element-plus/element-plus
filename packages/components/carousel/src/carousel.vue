@@ -89,7 +89,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, unref } from 'vue'
+import { computed, unref, useTemplateRef } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
@@ -118,8 +118,8 @@ const props = withDefaults(defineProps<CarouselProps>(), {
   pauseOnHover: true,
 })
 const emit = defineEmits(carouselEmits)
+const root = useTemplateRef('root')
 const {
-  root,
   activeIndex,
   exposeActiveIndex,
   arrowDisplay,
@@ -142,7 +142,7 @@ const {
   ItemsSorter,
   throttledArrowClick,
   throttledIndicatorHover,
-} = useCarousel(props, emit, COMPONENT_NAME)
+} = useCarousel(props, emit, COMPONENT_NAME, root)
 const ns = useNamespace('carousel')
 
 const { t } = useLocale()

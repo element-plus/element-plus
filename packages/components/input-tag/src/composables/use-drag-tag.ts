@@ -1,13 +1,14 @@
-import { ref, shallowRef } from 'vue'
+import { ref } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { getStyle, isUndefined, setStyle } from '@element-plus/utils'
 
-import type { ShallowRef } from 'vue'
+import type { TemplateRef } from 'vue'
 
 type DropType = 'before' | 'after'
 
 interface UseDragTagOptions {
-  wrapperRef: ShallowRef<HTMLElement | undefined>
+  wrapperRef: TemplateRef<HTMLElement>
+  dropIndicatorRef: TemplateRef<HTMLElement>
   handleDragged: (
     draggingIndex: number,
     dropIndex: number,
@@ -18,11 +19,11 @@ interface UseDragTagOptions {
 
 export function useDragTag({
   wrapperRef,
+  dropIndicatorRef,
   handleDragged,
   afterDragged,
 }: UseDragTagOptions) {
   const ns = useNamespace('input-tag')
-  const dropIndicatorRef = shallowRef<HTMLElement>()
   const showDropIndicator = ref(false)
 
   let draggingIndex: number | undefined

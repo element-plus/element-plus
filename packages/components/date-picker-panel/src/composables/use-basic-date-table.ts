@@ -5,7 +5,7 @@ import { useLocale, useNamespace } from '@element-plus/hooks'
 import { castArray, isArray } from '@element-plus/utils'
 import { buildPickerTable } from '../utils'
 
-import type { SetupContext } from 'vue'
+import type { SetupContext, TemplateRef } from 'vue'
 import type { Dayjs } from 'dayjs'
 import type { DateCell } from '../types'
 import type {
@@ -19,10 +19,10 @@ const isNormalDay = (type = '') => {
 
 export const useBasicDateTable = (
   props: BasicDateTableProps,
-  emit: SetupContext<BasicDateTableEmits>['emit']
+  emit: SetupContext<BasicDateTableEmits>['emit'],
+  tbodyRef: TemplateRef<HTMLElement>
 ) => {
   const { lang } = useLocale()
-  const tbodyRef = ref<HTMLElement>()
   const currentCellRef = ref<HTMLElement>()
   // data
   const lastRow = ref<number>()
