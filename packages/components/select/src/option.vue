@@ -8,6 +8,7 @@
     :aria-selected="itemSelected"
     @mousemove="hoverItem"
     @click.stop="selectOptionClick"
+    @touchend.prevent="selectOptionClick"
   >
     <slot>
       <span>{{ currentLabel }}</span>
