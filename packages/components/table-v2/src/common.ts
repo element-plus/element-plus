@@ -16,6 +16,10 @@ export const columns = {
   required: true,
 } as const
 
+export const activeColumns = {
+  type: definePropType<AnyColumn[]>(Array),
+} as const
+
 export const column = {
   type: definePropType<AnyColumn>(Object),
 } as const
