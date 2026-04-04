@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
+import { rAF } from '@element-plus/test-utils/tick'
 import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
 import { usePopperContainerId } from '@element-plus/hooks'
 import { hasClass } from '@element-plus/utils'
@@ -1268,5 +1269,38 @@ describe('Cascader.vue', () => {
     await trigger.trigger('blur')
     await trigger.trigger('focus')
     expect(document.querySelectorAll(MENU)).toHaveLength(2)
+  })
+
+  it('should not select the first node when it is a leaf node', async () => {
+    const value = ref<string[]>([])
+    const options = [
+      { value: 'a', label: 'Node A' },
+      { value: 'b', label: 'Node B' },
+    ]
+    let visible = false
+
+    const visibleChange = vi.fn((v: boolean) => (visible = v))
+
+    const wrapper = mount(() => (
+      <Cascader
+        v-model={value.value}
+        options={options}
+        onVisibleChange={visibleChange}
+      />
+    ))
+    await nextTick()
+
+    const input = wrapper.find('.el-input__inner')
+    await input.trigger('click')
+
+    const firstNode = document.querySelector(NODE)!
+
+    await input.trigger('keydown', { code: EVENT_CODE.down })
+    await nextTick()
+    await rAF()
+
+    expect(visible).toBeTruthy()
+    expect(firstNode.matches(':focus')).toBeTruthy()
+    expect(value.value).toEqual([])
   })
 })
