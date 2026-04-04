@@ -60,10 +60,7 @@
 import { computed, mergeProps, nextTick, ref } from 'vue'
 import { pick } from 'lodash-unified'
 import { useFocusController, useId, useNamespace } from '@element-plus/hooks'
-import ElInput, {
-  inputProps,
-  inputPropsDefaults,
-} from '@element-plus/components/input'
+import ElInput, { inputPropsDefaults } from '@element-plus/components/input'
 import ElTooltip from '@element-plus/components/tooltip'
 import {
   EVENT_CODE,
@@ -71,7 +68,7 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { useFormDisabled } from '@element-plus/components/form'
-import { getEventCode, isFunction } from '@element-plus/utils'
+import { getEventCode, isArray, isFunction } from '@element-plus/utils'
 import { mentionDefaultProps, mentionEmits } from './mention'
 import { filterOption, getCursorPosition, getMentionCtx } from './helper'
 import ElMentionDropdown from './mention-dropdown.vue'
@@ -109,7 +106,11 @@ defineSlots<
   }
 >()
 
-const passInputProps = computed(() => pick(props, Object.keys(inputProps)))
+const passInputProps = computed(() => {
+  const inputProps = ElInput.props ?? []
+  const keys = isArray(inputProps) ? inputProps : Object.keys(inputProps)
+  return pick(props, keys)
+})
 
 const ns = useNamespace('mention')
 const disabled = useFormDisabled()

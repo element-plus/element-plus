@@ -136,10 +136,7 @@ import {
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import ElInput, {
-  inputProps,
-  inputPropsDefaults,
-} from '@element-plus/components/input'
+import ElInput, { inputPropsDefaults } from '@element-plus/components/input'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElIcon from '@element-plus/components/icon'
@@ -173,7 +170,11 @@ const props = withDefaults(defineProps<AutocompleteProps<T>>(), {
   teleported: true,
 })
 const emit = defineEmits(autocompleteEmits)
-const passInputProps = computed(() => pick(props, Object.keys(inputProps)))
+const passInputProps = computed(() => {
+  const inputProps = ElInput.props ?? []
+  const keys = isArray(inputProps) ? inputProps : Object.keys(inputProps)
+  return pick(props, keys)
+})
 
 const rawAttrs = useRawAttrs()
 const disabled = useFormDisabled()
