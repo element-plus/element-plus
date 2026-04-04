@@ -39,7 +39,13 @@ import {
   watch,
 } from 'vue'
 import { useEventListener, useResizeObserver } from '@vueuse/core'
-import { addUnit, debugWarn, isNumber, isObject } from '@element-plus/utils'
+import {
+  addUnit,
+  debugWarn,
+  isGreaterThan,
+  isNumber,
+  isObject,
+} from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import Bar from './bar.vue'
 import { scrollbarContextKey } from './constants'
@@ -145,14 +151,16 @@ const handleScroll = () => {
     wrapScrollLeft = wrapRef.value.scrollLeft
 
     const arrivedStates = {
-      bottom:
-        wrapScrollTop + wrapRef.value.clientHeight >=
+      bottom: !isGreaterThan(
         wrapRef.value.scrollHeight - props.distance,
+        wrapRef.value.clientHeight + wrapScrollTop
+      ),
       top: wrapScrollTop <= props.distance && prevTop !== 0,
       right:
-        wrapScrollLeft + wrapRef.value.clientWidth >=
-          wrapRef.value.scrollWidth - props.distance &&
-        prevLeft !== wrapScrollLeft,
+        !isGreaterThan(
+          wrapRef.value.scrollWidth - props.distance,
+          wrapRef.value.clientWidth + wrapScrollLeft
+        ) && prevLeft !== wrapScrollLeft,
       left: wrapScrollLeft <= props.distance && prevLeft !== 0,
     }
 
