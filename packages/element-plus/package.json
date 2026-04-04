@@ -82,15 +82,15 @@
   "dependencies": {
     "@ctrl/tinycolor": "catalog:",
     "@element-plus/icons-vue": "^2.3.2",
-    "@floating-ui/dom": "^1.0.1",
-    "@popperjs/core": "npm:@sxzz/popperjs-es@^2.11.7",
-    "@types/lodash": "^4.17.20",
+    "@floating-ui/dom": "^1.7.6",
+    "@popperjs/core": "npm:@sxzz/popperjs-es@^2.11.8",
+    "@types/lodash": "^4.17.24",
     "@types/lodash-es": "^4.17.12",
     "@vueuse/core": "catalog:",
     "async-validator": "^4.2.5",
-    "dayjs": "^1.11.19",
-    "lodash": "^4.17.23",
-    "lodash-es": "^4.17.23",
+    "dayjs": "^1.11.20",
+    "lodash": "^4.18.1",
+    "lodash-es": "^4.18.1",
     "lodash-unified": "^1.0.3",
     "memoize-one": "^6.0.0",
     "normalize-wheel-es": "^1.2.0",
@@ -98,7 +98,7 @@
   },
   "devDependencies": {
     "@types/node": "*",
-    "vue-router": "^4.0.16"
+    "vue-router": "^4.6.4"
   },
   "vetur": {
     "tags": "tags.json",
