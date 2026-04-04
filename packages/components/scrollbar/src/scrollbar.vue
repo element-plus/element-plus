@@ -146,8 +146,7 @@ const handleScroll = () => {
 
     const arrivedStates = {
       bottom:
-        wrapScrollTop + wrapRef.value.clientHeight >=
-        wrapRef.value.scrollHeight - props.distance,
+        Math.abs(wrapRef.value.scrollHeight - props.distance - wrapScrollTop - wrapRef.value.clientHeight) <= 1,
       top: wrapScrollTop <= props.distance && prevTop !== 0,
       right:
         wrapScrollLeft + wrapRef.value.clientWidth >=
