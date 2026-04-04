@@ -139,10 +139,17 @@ const createList = ({
       const innerStyle = computed(() => {
         const size = unref(estimatedTotalSize)
         const horizontal = unref(_isHorizontal)
+        const innerWidth = props.innerWidth
         return {
           height: horizontal ? '100%' : `${size}px`,
           pointerEvents: unref(states).isScrolling ? 'none' : undefined,
-          width: horizontal ? `${size}px` : '100%',
+          width: horizontal
+            ? `${size}px`
+            : innerWidth !== undefined
+              ? isNumber(innerWidth)
+                ? `${innerWidth}px`
+                : innerWidth
+              : '100%',
 
           // fix scrolling issues in Firefox.
           margin: 0,

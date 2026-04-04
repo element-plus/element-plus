@@ -141,6 +141,22 @@ export interface CascaderComponentProps
    * @description whether to show the radio or checkbox prefix
    */
   showPrefix?: boolean
+  /**
+   * @description whether to enable virtual scrolling
+   */
+  virtualScroll?: boolean
+  /**
+   * @description node height for virtual scrolling
+   */
+  itemSize?: number
+  /**
+   * @description menu height for virtual scrolling
+   */
+  height?: number
+  /**
+   * @description whether the width of the suggestion panel is the same as the input, if the value is `number`, then the width is fixed
+   */
+  fitInputWidth?: boolean | number
 }
 
 /**
@@ -313,6 +329,31 @@ export const cascaderProps = buildProps({
   showPrefix: {
     type: Boolean,
     default: true,
+  },
+  /**
+   * @description whether to enable virtual scrolling
+   */
+  virtualScroll: Boolean,
+  /**
+   * @description node height for virtual scrolling
+   */
+  itemSize: {
+    type: Number,
+    default: 34,
+  },
+  /**
+   * @description menu height for virtual scrolling
+   */
+  height: {
+    type: Number,
+    default: 204,
+  },
+  /**
+   * @description whether the width of the suggestion panel is the same as the input, if the value is `number`, then the width is fixed
+   */
+  fitInputWidth: {
+    type: [Boolean, Number],
+    default: false,
   },
   ...useEmptyValuesProps,
 })

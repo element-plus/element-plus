@@ -9,6 +9,9 @@
       :ref="(item) => (menuList[index] = item as CascaderMenuInstance)"
       :index="index"
       :nodes="[...menu]"
+      :virtual-scroll="virtualScroll"
+      :item-size="itemSize"
+      :height="height"
     >
       <template #empty>
         <slot name="empty" />
@@ -71,6 +74,8 @@ const props = withDefaults(defineProps<CascaderPanelProps>(), {
   options: () => [],
   props: () => ({}),
   border: true,
+  itemSize: 34,
+  height: 204,
 })
 const emit = defineEmits(cascaderPanelEmits)
 
@@ -92,6 +97,9 @@ const checkedNodes = ref<CascaderNode[]>([])
 
 const isHoverMenu = computed(() => config.value.expandTrigger === 'hover')
 const renderLabelFn = computed(() => props.renderLabel || slots.default)
+const virtualScroll = computed(() => props.virtualScroll)
+const itemSize = computed(() => props.itemSize)
+const height = computed(() => props.height)
 
 const initStore = () => {
   const { options } = props
@@ -282,19 +290,28 @@ const scrollToExpandingNode = () => {
   menuList.value.forEach((menu) => {
     const menuElement = menu?.$el
     if (menuElement) {
-      const container = menuElement.querySelector(
-        `.${ns.namespace.value}-scrollbar__wrap`
-      )
-      let activeNode = menuElement.querySelector(
-        `.${ns.b('node')}.in-active-path`
-      )
-      if (!activeNode) {
-        const activeElements = menuElement.querySelectorAll(
-          `.${ns.b('node')}.${ns.is('active')}`
+      // virtual scroll mode, use scrollToItem method
+      if (props.virtualScroll) {
+        const activeIndex = menu?.getActiveNodeIndex?.()
+        if (activeIndex !== undefined && activeIndex >= 0) {
+          menu?.scrollToItem?.(activeIndex)
+        }
+      } else {
+        // logic for non-virtual scroll mode
+        const container = menuElement.querySelector(
+          `.${ns.namespace.value}-scrollbar__wrap`
         )
-        activeNode = activeElements[activeElements.length - 1]
+        let activeNode = menuElement.querySelector(
+          `.${ns.b('node')}.in-active-path`
+        )
+        if (!activeNode) {
+          const activeElements = menuElement.querySelectorAll(
+            `.${ns.b('node')}.${ns.is('active')}`
+          )
+          activeNode = activeElements[activeElements.length - 1]
+        }
+        scrollIntoView(container, activeNode)
       }
-      scrollIntoView(container, activeNode)
     }
   })
 }
@@ -308,6 +325,27 @@ const handleKeyDown = (e: KeyboardEvent) => {
     case EVENT_CODE.down: {
       e.preventDefault()
       const distance = code === EVENT_CODE.up ? -1 : 1
+      const menuIndex = getMenuIndex(target)
+      const menu = menuList.value[menuIndex]
+
+      if (props.virtualScroll && menu) {
+        // For virtual scroll, calculate the target index and use focusNodeAt
+        const currentIndex = menu.getNodeIndexById(target.id)
+        if (currentIndex >= 0) {
+          const nodesInMenu = menus.value[menuIndex] ?? []
+          const nodesCount = nodesInMenu.length
+          // Find the next non-disabled node
+          let targetIndex = currentIndex + distance
+          while (targetIndex >= 0 && targetIndex < nodesCount) {
+            if (!nodesInMenu[targetIndex].isDisabled) {
+              menu.focusNodeAt(targetIndex)
+              return
+            }
+            targetIndex += distance
+          }
+        }
+      }
+
       focusNode(
         getSibling(
           target,
@@ -351,6 +389,9 @@ provide(
     isHoverMenu,
     initialLoaded,
     renderLabelFn,
+    virtualScroll,
+    itemSize,
+    height,
     lazyLoad,
     expandNode,
     handleCheckChange,

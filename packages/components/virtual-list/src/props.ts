@@ -92,6 +92,11 @@ export const virtualizedProps = buildProps({
     required: false,
   },
 
+  innerWidth: {
+    type: [Number, String],
+    required: false,
+  },
+
   perfMode: {
     type: Boolean,
     default: true,

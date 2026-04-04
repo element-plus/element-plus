@@ -193,6 +193,32 @@ cascader/custom-header-footer
 
 :::
 
+## Virtual Scroll ^(2.13.7)
+
+When dealing with large amounts of data, you can enable virtual scrolling to improve performance.
+
+:::demo Set `virtual-scroll` to `true` to enable virtual scrolling. You can also customize the menu height with `height` and node height with `item-size`. Default height is 204px and default item size is 34px.
+
+cascader/virtual-scroll
+
+:::
+
+## Custom Suggestion Width ^(2.13.7)
+
+The width of the suggestion panel (when filtering) is calculated by default based on the maximum width of the matched options. If you customize the suggestion options through the `suggestion-item` slot, it is likely that the text displayed in the options is not equal to the value of `label`, resulting in calculation errors. In this case, you can use the `fit-input-width` attribute to fix its width. When the value is `number`, the width is a specific fixed pixel value.
+
+:::tip
+
+The `fit-input-width` attribute only controls the width of the suggestion panel during searching, it does not affect the default cascader panel.
+
+:::
+
+:::demo
+
+cascader/fit-input-width
+
+:::
+
 ## Cascader API
 
 ### Cascader Attributes
@@ -231,6 +257,10 @@ cascader/custom-header-footer
 | placement ^(2.8.1)                         | position of dropdown                                                                                                                                                             | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | bottom-start |
 | popper-append-to-body ^(deprecated)        | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false                                                      | ^[boolean]                                                                                                                                                                  | true         |
 | show-checked-strategy ^(2.10.5)            | strategy for displaying checked nodes in multiple selection mode. Use `parent` when you want things tidy. Use `child` when every single item matters                             | ^[enum]`'parent' \| 'child'`                                                                                                                                                | child        |
+| virtual-scroll ^(2.13.7)                   | whether to enable virtual scrolling for large data                                                                                                                               | ^[boolean]                                                                                                                                                                  | false        |
+| fit-input-width ^(2.13.7)                  | whether the width of the suggestion panel is the same as the input, if the value is `number`, then the width is fixed                                                            | ^[boolean] / ^[number]                                                                                                                                                      | false        |
+| item-size ^(2.13.7)                        | node height for virtual scrolling (px)                                                                                                                                           | ^[number]                                                                                                                                                                   | 34           |
+| height ^(2.13.7)                           | menu height for virtual scrolling (px)                                                                                                                                           | ^[number]                                                                                                                                                                   | 204          |
 
 ### Cascader Events
 
@@ -272,11 +302,14 @@ cascader/custom-header-footer
 
 ### CascaderPanel Attributes
 
-| Name                    | Description                                                                              | Type                                                      | Default |
-| ----------------------- | ---------------------------------------------------------------------------------------- | --------------------------------------------------------- | ------- |
-| model-value / v-model   | binding value                                                                            | ^[string]/^[number]/^[array]`string[] \| number[] \| any` | —       |
-| options                 | data of the options, the key of `value` and `label` can be customize by `CascaderProps`. | ^[array]`CascaderOption[]`                                | —       |
-| [props](#cascaderprops) | configuration options, see the following `CascaderProps` table.                          | ^[object]`CascaderProps`                                  | —       |
+| Name                     | Description                                                                              | Type                                                      | Default |
+| ------------------------ | ---------------------------------------------------------------------------------------- | --------------------------------------------------------- | ------- |
+| model-value / v-model    | binding value                                                                            | ^[string]/^[number]/^[array]`string[] \| number[] \| any` | —       |
+| options                  | data of the options, the key of `value` and `label` can be customize by `CascaderProps`. | ^[array]`CascaderOption[]`                                | —       |
+| [props](#cascaderprops)  | configuration options, see the following `CascaderProps` table.                          | ^[object]`CascaderProps`                                  | —       |
+| virtual-scroll ^(2.13.7) | whether to enable virtual scrolling for large data                                       | ^[boolean]                                                | false   |
+| item-size ^(2.13.7)      | node height for virtual scrolling (px)                                                   | ^[number]                                                 | 34      |
+| height ^(2.13.7)         | menu height for virtual scrolling (px)                                                   | ^[number]                                                 | 204     |
 
 ### CascaderPanel Events
 

@@ -203,13 +203,27 @@
     border-radius: getCssVar('cascader-menu', 'radius');
   }
 
-  @include e(suggestion-list) {
+  @include e(suggestion-wrap) {
     max-height: 204px;
+  }
+
+  @include e(suggestion-list) {
+    list-style: none;
     margin: 0;
     padding: 6px 0;
     font-size: getCssVar('font-size', 'base');
     color: getCssVar('cascader-menu', 'text-color');
     text-align: center;
+
+    &.#{$namespace}-vl__window {
+      // for virtual scroll
+      margin: 6px 0;
+      padding: 0;
+      ul {
+        margin: 0;
+        padding: 0;
+      }
+    }
   }
 
   @include e(suggestion-item) {
@@ -221,6 +235,7 @@
     text-align: left;
     outline: none;
     cursor: pointer;
+    box-sizing: border-box;
 
     &:hover,
     &:focus {
@@ -232,8 +247,20 @@
       font-weight: bold;
     }
 
+    > :not(.#{$namespace}-icon) {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 1;
+      min-width: 0;
+    }
+
     > span {
       margin-right: 10px;
+    }
+
+    .#{$namespace}-icon {
+      flex-shrink: 0;
     }
   }
 
