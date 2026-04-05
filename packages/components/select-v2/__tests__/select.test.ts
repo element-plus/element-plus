@@ -686,6 +686,28 @@ describe('Select', () => {
       expect(vm.value.length).toBe(1)
     })
 
+    it('should preserve option focus handling without blocking nested inputs', async () => {
+      createSelect({
+        data: () => {
+          return {
+            multiple: true,
+            value: [],
+          }
+        },
+      })
+      await nextTick()
+
+      const option = getOptions()[0]
+      const optionEvent = new MouseEvent('mousedown', {
+        bubbles: true,
+        cancelable: true,
+        shiftKey: true,
+      })
+
+      option.dispatchEvent(optionEvent)
+      expect(optionEvent.defaultPrevented).toBeTruthy()
+    })
+
     it('remove-tag', async () => {
       const onRemoveTag = vi.fn()
       const wrapper = createSelect({

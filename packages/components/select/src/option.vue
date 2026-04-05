@@ -7,6 +7,7 @@
     :aria-disabled="isDisabled || undefined"
     :aria-selected="itemSelected"
     @mousemove="hoverItem"
+    @mousedown="handleMousedown"
     @click.stop="selectOptionClick"
   >
     <slot>
@@ -97,6 +98,14 @@ export default defineComponent({
       }
     }
 
+    function handleMousedown(event: MouseEvent) {
+      const { target, currentTarget } = event
+      if (target === currentTarget) {
+        event.preventDefault()
+        return
+      }
+    }
+
     return {
       ns,
       id,
@@ -110,6 +119,7 @@ export default defineComponent({
       states,
 
       hoverItem,
+      handleMousedown,
       updateOption,
       selectOptionClick,
     } satisfies OptionExposed
