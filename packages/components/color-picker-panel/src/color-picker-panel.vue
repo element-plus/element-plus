@@ -43,7 +43,16 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, nextTick, onMounted, provide, ref, watch } from 'vue'
+import {
+  computed,
+  inject,
+  nextTick,
+  onMounted,
+  provide,
+  ref,
+  useTemplateRef,
+  watch,
+} from 'vue'
 import { ElInput } from '@element-plus/components/input'
 import { useFormDisabled, useFormItem } from '@element-plus/components/form'
 import { useNamespace } from '@element-plus/hooks'
@@ -61,7 +70,6 @@ import {
 import { useCommonColor } from './composables/use-common-color'
 
 import type { ColorPickerPanelProps } from './color-picker-panel'
-import type { InputInstance } from '@element-plus/components/input'
 
 defineOptions({
   name: 'ElColorPickerPanel',
@@ -77,10 +85,10 @@ const emit = defineEmits(colorPickerPanelEmits)
 const ns = useNamespace('color-picker-panel')
 const { formItem } = useFormItem()
 const disabled = useFormDisabled()
-const hueRef = ref<InstanceType<typeof HueSlider>>()
-const svRef = ref<InstanceType<typeof SvPanel>>()
-const alphaRef = ref<InstanceType<typeof AlphaSlider>>()
-const inputRef = ref<InputInstance>()
+const hueRef = useTemplateRef('hueRef')
+const svRef = useTemplateRef('svRef')
+const alphaRef = useTemplateRef('alphaRef')
+const inputRef = useTemplateRef('inputRef')
 const customInput = ref('')
 
 const { color } = inject(

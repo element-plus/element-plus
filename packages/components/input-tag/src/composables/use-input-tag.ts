@@ -1,4 +1,4 @@
-import { computed, ref, shallowRef, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import {
   CHANGE_EVENT,
   EVENT_CODE,
@@ -15,6 +15,7 @@ import {
 import { useComposition, useFocusController } from '@element-plus/hooks'
 import { useFormDisabled, useFormSize } from '@element-plus/components/form'
 
+import type { TemplateRef } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { EmitFn } from '@element-plus/utils'
 import type { FormItemContext } from '@element-plus/components/form'
@@ -24,15 +25,23 @@ interface UseInputTagOptions {
   props: InputTagProps
   emit: EmitFn<InputTagEmits>
   formItem?: FormItemContext
+  inputRef: TemplateRef<HTMLInputElement>
+  wrapperRef: TemplateRef<HTMLElement>
+  tagTooltipRef: TemplateRef<TooltipInstance>
 }
 
-export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
+export function useInputTag({
+  props,
+  emit,
+  formItem,
+  inputRef,
+  wrapperRef: externalWrapperRef,
+  tagTooltipRef,
+}: UseInputTagOptions) {
   const disabled = useFormDisabled()
   const size = useFormSize()
 
-  const inputRef = shallowRef<HTMLInputElement>()
   const inputValue = ref<string>()
-  const tagTooltipRef = ref<TooltipInstance>()
 
   const tagSize = computed(() => {
     return ['small'].includes(size.value) ? 'small' : 'default'
@@ -205,8 +214,9 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
     inputRef.value?.blur()
   }
 
-  const { wrapperRef, isFocused } = useFocusController(inputRef, {
+  const { isFocused } = useFocusController(inputRef, {
     disabled,
+    wrapperRef: externalWrapperRef,
     beforeBlur(event) {
       return tagTooltipRef.value?.isFocusInsideContent(event)
     },
@@ -240,9 +250,6 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
   )
 
   return {
-    inputRef,
-    wrapperRef,
-    tagTooltipRef,
     isFocused,
     isComposing,
     inputValue,

@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, ref, watch } from 'vue'
+import { computed, nextTick, ref, useTemplateRef, watch } from 'vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { scrollIntoView } from '@element-plus/utils'
 import ElScrollbar from '@element-plus/components/scrollbar'
@@ -63,9 +63,9 @@ const ns = useNamespace('mention')
 const { t } = useLocale()
 const hoveringIndex = ref(-1)
 
-const scrollbarRef = ref<InstanceType<typeof ElScrollbar>>()
-const optionRefs = ref<HTMLElement[]>()
-const dropdownRef = ref<HTMLElement>()
+const scrollbarRef = useTemplateRef('scrollbarRef')
+const optionRefs = useTemplateRef('optionRefs')
+const dropdownRef = useTemplateRef('dropdownRef')
 
 const optionkls = (item: MentionOption, index: number) => [
   ns.be('dropdown', 'item'),

@@ -26,21 +26,23 @@ interface UseFocusControllerOptions {
    */
   beforeBlur?: (event: FocusEvent) => boolean | undefined
   afterBlur?: () => void
+  wrapperRef?: Readonly<ShallowRef<HTMLElement | undefined | null>>
 }
 
 export function useFocusController<T extends { focus: () => void }>(
-  target: ShallowRef<T | undefined>,
+  target: Readonly<ShallowRef<T | undefined | null>>,
   {
     disabled,
     beforeFocus,
     afterFocus,
     beforeBlur,
     afterBlur,
+    wrapperRef,
   }: UseFocusControllerOptions = {}
 ) {
   const instance = getCurrentInstance()!
   const { emit } = instance
-  const wrapperRef = shallowRef<HTMLElement>()
+  const _wrapperRef = wrapperRef ?? shallowRef<HTMLElement>()
   const isFocused = ref(false)
 
   const handleFocus = (event: FocusEvent) => {
@@ -57,7 +59,7 @@ export function useFocusController<T extends { focus: () => void }>(
     if (
       unref(disabled) ||
       (event.relatedTarget &&
-        wrapperRef.value?.contains(event.relatedTarget as Node)) ||
+        _wrapperRef.value?.contains(event.relatedTarget as Node)) ||
       cancelBlur
     )
       return
@@ -71,15 +73,15 @@ export function useFocusController<T extends { focus: () => void }>(
     if (
       unref(disabled) ||
       isFocusable(event.target as HTMLElement) ||
-      (wrapperRef.value?.contains(document.activeElement) &&
-        wrapperRef.value !== document.activeElement)
+      (_wrapperRef.value?.contains(document.activeElement) &&
+        _wrapperRef.value !== document.activeElement)
     )
       return
 
     target.value?.focus()
   }
 
-  watch([wrapperRef, () => unref(disabled)], ([el, disabled]) => {
+  watch([_wrapperRef, () => unref(disabled)], ([el, disabled]) => {
     if (!el) return
     if (disabled) {
       el.removeAttribute('tabindex')
@@ -88,9 +90,9 @@ export function useFocusController<T extends { focus: () => void }>(
     }
   })
 
-  useEventListener(wrapperRef, 'focus', handleFocus, true)
-  useEventListener(wrapperRef, 'blur', handleBlur, true)
-  useEventListener(wrapperRef, 'click', handleClick, true)
+  useEventListener(_wrapperRef, 'focus', handleFocus, true)
+  useEventListener(_wrapperRef, 'blur', handleBlur, true)
+  useEventListener(_wrapperRef, 'click', handleClick, true)
 
   // only for test
   if (process.env.NODE_ENV === 'test') {
@@ -109,7 +111,7 @@ export function useFocusController<T extends { focus: () => void }>(
   return {
     isFocused,
     /** Avoid using wrapperRef and handleFocus/handleBlur together */
-    wrapperRef,
+    wrapperRef: _wrapperRef,
     handleFocus,
     handleBlur,
   }

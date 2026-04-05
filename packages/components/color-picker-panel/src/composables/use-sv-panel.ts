@@ -4,12 +4,14 @@ import { useNamespace } from '@element-plus/hooks'
 import { addUnit, getClientXY, getEventCode } from '@element-plus/utils'
 import { draggable } from '../utils/draggable'
 
+import type { TemplateRef } from 'vue'
 import type { SvPanelProps } from '../props/sv-panel'
 
-export const useSvPanel = (props: SvPanelProps) => {
+export const useSvPanel = (
+  props: SvPanelProps,
+  cursorRef: TemplateRef<HTMLElement>
+) => {
   const instance = getCurrentInstance()!
-
-  const cursorRef = ref<HTMLElement>()
   const cursorTop = ref(0)
   const cursorLeft = ref(0)
   const background = ref('hsl(0, 100%, 50%)')

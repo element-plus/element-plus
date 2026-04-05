@@ -1,4 +1,4 @@
-import { computed, nextTick, ref, shallowRef } from 'vue'
+import { computed, nextTick } from 'vue'
 import {
   CHANGE_EVENT,
   INPUT_EVENT,
@@ -6,7 +6,7 @@ import {
 } from '@element-plus/constants'
 import { useFormDisabled, useFormItem } from '@element-plus/components/form'
 
-import type { CSSProperties, Ref, SetupContext } from 'vue'
+import type { CSSProperties, SetupContext, TemplateRef } from 'vue'
 import type { Arrayable } from '@element-plus/utils'
 import type { SliderEmits, SliderInitData, SliderProps } from '../slider'
 import type { ButtonRefs, SliderButtonInstance } from '../button'
@@ -14,15 +14,12 @@ import type { ButtonRefs, SliderButtonInstance } from '../button'
 export const useSlide = (
   props: SliderProps,
   initData: SliderInitData,
-  emit: SetupContext<SliderEmits>['emit']
+  emit: SetupContext<SliderEmits>['emit'],
+  slider: TemplateRef<HTMLElement>,
+  firstButton: TemplateRef<SliderButtonInstance>,
+  secondButton: TemplateRef<SliderButtonInstance>
 ) => {
   const { formItem: elFormItem } = useFormItem()
-
-  const slider = shallowRef<HTMLElement>()
-
-  const firstButton = ref<SliderButtonInstance>()
-
-  const secondButton = ref<SliderButtonInstance>()
 
   const buttonRefs: ButtonRefs = {
     firstButton,
@@ -80,7 +77,7 @@ export const useSlide = (
 
   const getButtonRefByPercent = (
     percent: number
-  ): Ref<SliderButtonInstance | undefined> => {
+  ): TemplateRef<SliderButtonInstance> => {
     const targetValue = props.min + (percent * (props.max - props.min)) / 100
     if (!props.range) {
       return firstButton
@@ -103,9 +100,7 @@ export const useSlide = (
     return buttonRefs[buttonRefName]
   }
 
-  const setPosition = (
-    percent: number
-  ): Ref<SliderButtonInstance | undefined> => {
+  const setPosition = (percent: number): TemplateRef<SliderButtonInstance> => {
     const buttonRef = getButtonRefByPercent(percent)
     buttonRef.value!.setPosition(percent)
     return buttonRef
@@ -141,7 +136,7 @@ export const useSlide = (
 
   const handleSliderPointerEvent = (
     event: MouseEvent | TouchEvent
-  ): Ref<SliderButtonInstance | undefined> | undefined => {
+  ): TemplateRef<SliderButtonInstance> | undefined => {
     if (sliderDisabled.value || initData.dragging) return
     resetSize()
     let newPercent = 0

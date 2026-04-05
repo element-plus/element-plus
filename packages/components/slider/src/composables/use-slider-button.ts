@@ -5,7 +5,13 @@ import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { getEventCode, isNumber } from '@element-plus/utils'
 import { sliderContextKey } from '../constants'
 
-import type { CSSProperties, ComputedRef, Ref, SetupContext } from 'vue'
+import type {
+  CSSProperties,
+  ComputedRef,
+  Ref,
+  SetupContext,
+  TemplateRef,
+} from 'vue'
 import type { SliderProps } from '../slider'
 import type {
   SliderButtonEmits,
@@ -17,10 +23,9 @@ import type { TooltipInstance } from '@element-plus/components/tooltip'
 const useTooltip = (
   props: SliderButtonProps,
   formatTooltip: Ref<SliderProps['formatTooltip']>,
-  showTooltip: Ref<SliderProps['showTooltip']>
+  showTooltip: Ref<SliderProps['showTooltip']>,
+  tooltip: TemplateRef<TooltipInstance>
 ) => {
-  const tooltip = ref<TooltipInstance>()
-
   const tooltipVisible = ref(false)
 
   const enableFormat = computed(() => {
@@ -54,7 +59,9 @@ const useTooltip = (
 export const useSliderButton = (
   props: SliderButtonProps,
   initData: SliderButtonInitData,
-  emit: SetupContext<SliderButtonEmits>['emit']
+  emit: SetupContext<SliderButtonEmits>['emit'],
+  buttonRef: TemplateRef<HTMLDivElement>,
+  tooltipRef: TemplateRef<TooltipInstance>
 ) => {
   const {
     disabled,
@@ -72,10 +79,8 @@ export const useSliderButton = (
     markList,
   } = inject(sliderContextKey)!
 
-  const { tooltip, tooltipVisible, formatValue, displayTooltip, hideTooltip } =
-    useTooltip(props, formatTooltip!, showTooltip)
-
-  const button = ref<HTMLDivElement>()
+  const { tooltipVisible, formatValue, displayTooltip, hideTooltip } =
+    useTooltip(props, formatTooltip!, showTooltip, tooltipRef)
 
   const currentPosition = computed(() => {
     return `${
@@ -114,7 +119,7 @@ export const useSliderButton = (
     window.addEventListener('mouseup', onDragEnd)
     window.addEventListener('touchend', onDragEnd)
     window.addEventListener('contextmenu', onDragEnd)
-    button.value!.focus()
+    buttonRef.value!.focus()
   }
 
   const incrementPosition = (amount: number) => {
@@ -361,7 +366,7 @@ export const useSliderButton = (
 
     await nextTick()
     initData.dragging && displayTooltip()
-    tooltip.value!.updatePopper()
+    tooltipRef.value?.updatePopper()
   }
 
   watch(
@@ -371,12 +376,10 @@ export const useSliderButton = (
     }
   )
 
-  useEventListener(button, 'touchstart', onButtonDown, { passive: false })
+  useEventListener(buttonRef, 'touchstart', onButtonDown, { passive: false })
 
   return {
     disabled,
-    button,
-    tooltip,
     tooltipVisible,
     showTooltip,
     persistent,
