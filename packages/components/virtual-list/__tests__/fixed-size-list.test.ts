@@ -3,6 +3,7 @@ import { nextTick } from 'vue'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import makeMount from '@element-plus/test-utils/make-mount'
 import makeScroll from '@element-plus/test-utils/make-scroll'
+import { rAF } from '@element-plus/test-utils/tick'
 import {
   CENTERED_ALIGNMENT,
   END_ALIGNMENT,
@@ -135,6 +136,172 @@ describe('<fixed-size-list />', () => {
     // the total items rendered is 3 + 4 + 1 (index 3) inclusive
     // so the total number is 10
     expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(8)
+  })
+
+  it('should emit end-reached when wheel scrolling reaches bottom', async () => {
+    const onEndReached = vi.fn()
+    const wrapper = mount({
+      props: {
+        onEndReached,
+      },
+    })
+
+    await nextTick()
+
+    const { windowRef } = wrapper.vm.$refs.listRef as ListRef
+    windowRef.dispatchEvent(
+      new WheelEvent('wheel', {
+        bubbles: true,
+        cancelable: true,
+        deltaY: 3000,
+      })
+    )
+
+    await rAF()
+    await nextTick()
+
+    expect(onEndReached).toHaveBeenNthCalledWith(1, 'bottom')
+    expect(onEndReached).toHaveBeenCalledOnce()
+  })
+
+  it('should not double-emit end-reached when browser clamps scrollTop below maxOffset (DPR mismatch)', async () => {
+    const onEndReached = vi.fn()
+    const wrapper = mount({
+      props: {
+        onEndReached,
+      },
+    })
+
+    await nextTick()
+
+    const { windowRef } = wrapper.vm.$refs.listRef as ListRef
+
+    // Step 1: wheel-scroll to the bottom (uses maxOffset internally).
+    windowRef.dispatchEvent(
+      new WheelEvent('wheel', {
+        bubbles: true,
+        cancelable: true,
+        deltaY: 3000,
+      })
+    )
+    await rAF()
+    await nextTick()
+
+    expect(onEndReached).toHaveBeenCalledOnce()
+
+    // Step 2: simulate the native scroll event that onUpdated triggers,
+    // but with scrollTop slightly below maxOffset — as a browser with
+    // fractional DPR (e.g. 1.25) would do when it clamps to its own
+    // scrollHeight−clientHeight.
+    // maxOffset = 100*25 − 100 = 2400; sub-pixel clamped value = 2399.6
+    await makeScroll(windowRef, 'scrollTop', 2399.6)
+    await nextTick()
+
+    // Step 3: another wheel event tries to scroll further down.
+    windowRef.dispatchEvent(
+      new WheelEvent('wheel', {
+        bubbles: true,
+        cancelable: true,
+        deltaY: 100,
+      })
+    )
+    await rAF()
+    await nextTick()
+
+    // end-reached must still have been called only once.
+    expect(onEndReached).toHaveBeenCalledOnce()
+  })
+
+  it('should emit end-reached when native scrolling reaches bottom', async () => {
+    const onEndReached = vi.fn()
+    const wrapper = mount({
+      props: {
+        onEndReached,
+      },
+    })
+
+    await nextTick()
+
+    const { windowRef } = wrapper.vm.$refs.listRef as ListRef
+
+    await makeScroll(windowRef, 'scrollTop', 2400)
+    await nextTick()
+
+    expect(onEndReached).toHaveBeenNthCalledWith(1, 'bottom')
+    expect(onEndReached).toHaveBeenCalledOnce()
+  })
+
+  it('should emit end-reached when clicking scrollbar track to bottom', async () => {
+    const onEndReached = vi.fn()
+    const wrapper = mount({
+      props: {
+        onEndReached,
+      },
+    })
+
+    await nextTick()
+
+    const track = wrapper.find('.el-virtual-scrollbar').element
+
+    // Stub getBoundingClientRect so clickTrackHandler resolves the click
+    // position deterministically instead of relying on jsdom's default zeros.
+    const trackTop = 10
+    const trackHeight = 98 // clientSize(100) - GAP(2)
+    vi.spyOn(track, 'getBoundingClientRect').mockReturnValue({
+      top: trackTop,
+      left: 0,
+      bottom: trackTop + trackHeight,
+      right: 6,
+      width: 6,
+      height: trackHeight,
+      x: 0,
+      y: trackTop,
+      toJSON: () => ({}),
+    })
+
+    // clientY at the bottom edge of the track so the click maps past
+    // totalSteps and clamps to the maximum scroll offset.
+    const event = new MouseEvent('mousedown', {
+      bubbles: true,
+      cancelable: true,
+      clientY: trackTop + trackHeight,
+    })
+    track.dispatchEvent(event)
+
+    await nextTick()
+
+    // maxOffset = estimatedTotalSize - clientSize = 100*25 - 100 = 2400
+    const listRef = wrapper.vm.$refs.listRef as ListRef
+    expect(listRef.states.scrollOffset).toBe(2400)
+
+    expect(onEndReached).toHaveBeenNthCalledWith(1, 'bottom')
+    expect(onEndReached).toHaveBeenCalledOnce()
+  })
+
+  it('should emit rtl horizontal end-reached payloads based on visual direction', async () => {
+    const onEndReached = vi.fn()
+    const wrapper = mount({
+      props: {
+        direction: RTL,
+        layout: HORIZONTAL,
+        onEndReached,
+      },
+    })
+
+    await nextTick()
+
+    const listRef = wrapper.vm.$refs.listRef as ListRef
+
+    listRef.scrollTo(2450)
+    await nextTick()
+
+    expect(onEndReached).toHaveBeenNthCalledWith(1, 'left')
+
+    listRef.scrollTo(0)
+    await nextTick()
+
+    expect(onEndReached).toHaveBeenNthCalledWith(2, 'right')
+    expect(onEndReached).toHaveBeenCalledTimes(2)
   })
 
   it('should set initial offset', async () => {
@@ -288,6 +455,34 @@ describe('<fixed-size-list />', () => {
 
       // when it reaches the boundary, it should only render visible ones.
       expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(4)
+    })
+
+    it('should emit end-reached again after total increases and bottom is reached again', async () => {
+      const onEndReached = vi.fn()
+      const wrapper = mount({
+        props: {
+          onEndReached,
+        },
+      })
+
+      await nextTick()
+
+      const listRef = wrapper.vm.$refs.listRef as ListExposes
+
+      listRef.scrollTo(2400)
+      await nextTick()
+
+      expect(onEndReached).toHaveBeenNthCalledWith(1, 'bottom')
+
+      await wrapper.setProps({
+        total: 200,
+      })
+
+      listRef.scrollTo(4900)
+      await nextTick()
+
+      expect(onEndReached).toHaveBeenNthCalledWith(2, 'bottom')
+      expect(onEndReached).toHaveBeenCalledTimes(2)
     })
   })
 

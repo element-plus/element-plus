@@ -6,6 +6,8 @@ import { defineComponent, markRaw, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
 import { BORDER_HORIZONTAL_WIDTH, EVENT_CODE } from '@element-plus/constants'
+import defineGetter from '@element-plus/test-utils/define-getter'
+import makeScroll from '@element-plus/test-utils/make-scroll'
 import { ArrowDown, CaretTop, CircleClose } from '@element-plus/icons-vue'
 import { usePopperContainerId } from '@element-plus/hooks'
 import { hasClass } from '@element-plus/utils'
@@ -4556,6 +4558,68 @@ describe('Select', () => {
         originalUseDebounceFnImpl ?? ((fn: any) => fn)
       )
       vi.useRealTimers()
+    }
+  })
+
+  test('should trigger end-reached when dropdown scroll reaches bottom', async () => {
+    const handleEndReached = vi.fn()
+    wrapper = mount(
+      {
+        template: `
+        <el-select
+          v-model="value"
+          :teleported="false"
+          @end-reached="handleEndReached"
+        >
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>`,
+        components: {
+          ElSelect: Select,
+          ElOption: Option,
+        },
+        data() {
+          return {
+            value: '',
+            options: Array.from({ length: 10 }).map((_, i) => ({
+              label: `label-${i}`,
+              value: i,
+            })),
+            handleEndReached,
+          }
+        },
+      },
+      {
+        attachTo: 'body',
+        global: {
+          provide: {
+            namespace: 'el',
+          },
+        },
+      }
+    )
+
+    await wrapper.find('input').trigger('click')
+    await nextTick()
+
+    const wrapEl = wrapper.find('.el-select-dropdown__wrap').element
+    const cleanup = [
+      defineGetter(wrapEl, 'clientHeight', 204),
+      defineGetter(wrapEl, 'scrollHeight', 500),
+    ]
+
+    try {
+      await makeScroll(wrapEl, 'scrollTop', 500)
+
+      expect(handleEndReached).toHaveBeenCalledWith('bottom')
+    } finally {
+      cleanup.forEach((fn) => {
+        fn()
+      })
     }
   })
 })
