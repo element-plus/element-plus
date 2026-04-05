@@ -169,9 +169,16 @@ const createList = ({
       const normalizeOffset = (offset: number) =>
         Math.max(0, Math.min(offset, maxOffset.value))
 
+      // Tolerance must cover sub-pixel differences that arise when the
+      // browser's actual scrollHeight−clientHeight (affected by DPR
+      // rounding) doesn't exactly match our computed maxOffset.
+      // Without this, the native scroll event after onUpdated resets
+      // edgeState and causes a duplicate end-reached emission.
+      const EDGE_TOLERANCE = 1
+
       const getEdgeState = (normalizedOffset: number) => ({
-        start: !isGreaterThan(normalizedOffset, 0),
-        end: !isGreaterThan(maxOffset.value, normalizedOffset),
+        start: !isGreaterThan(normalizedOffset, 0, EDGE_TOLERANCE),
+        end: !isGreaterThan(maxOffset.value, normalizedOffset, EDGE_TOLERANCE),
       })
 
       const edgeState = ref(

@@ -164,6 +164,54 @@ describe('<fixed-size-list />', () => {
     expect(onEndReached).toHaveBeenCalledOnce()
   })
 
+  it('should not double-emit end-reached when browser clamps scrollTop below maxOffset (DPR mismatch)', async () => {
+    const onEndReached = vi.fn()
+    const wrapper = mount({
+      props: {
+        onEndReached,
+      },
+    })
+
+    await nextTick()
+
+    const { windowRef } = wrapper.vm.$refs.listRef as ListRef
+
+    // Step 1: wheel-scroll to the bottom (uses maxOffset internally).
+    windowRef.dispatchEvent(
+      new WheelEvent('wheel', {
+        bubbles: true,
+        cancelable: true,
+        deltaY: 3000,
+      })
+    )
+    await rAF()
+    await nextTick()
+
+    expect(onEndReached).toHaveBeenCalledOnce()
+
+    // Step 2: simulate the native scroll event that onUpdated triggers,
+    // but with scrollTop slightly below maxOffset — as a browser with
+    // fractional DPR (e.g. 1.25) would do when it clamps to its own
+    // scrollHeight−clientHeight.
+    // maxOffset = 100*25 − 100 = 2400; sub-pixel clamped value = 2399.6
+    await makeScroll(windowRef, 'scrollTop', 2399.6)
+    await nextTick()
+
+    // Step 3: another wheel event tries to scroll further down.
+    windowRef.dispatchEvent(
+      new WheelEvent('wheel', {
+        bubbles: true,
+        cancelable: true,
+        deltaY: 100,
+      })
+    )
+    await rAF()
+    await nextTick()
+
+    // end-reached must still have been called only once.
+    expect(onEndReached).toHaveBeenCalledOnce()
+  })
+
   it('should emit end-reached when native scrolling reaches bottom', async () => {
     const onEndReached = vi.fn()
     const wrapper = mount({
