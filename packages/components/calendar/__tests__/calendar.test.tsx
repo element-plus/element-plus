@@ -296,6 +296,30 @@ describe('Calendar.vue', () => {
     vi.useRealTimers()
   })
 
+  it('should emit pick-day event when a day cell is clicked', async () => {
+    const onPickDay = vi.fn()
+    const wrapper = mount(
+      defineComponent({
+        data: () => ({ value: new Date('2019-04-01') }),
+        render() {
+          return <Calendar v-model={this.value} onPickDay={onPickDay} />
+        },
+      })
+    )
+
+    const rows = wrapper.element.querySelectorAll('.el-calendar-table__row')
+    ;(rows[1].firstElementChild as HTMLElement).click()
+    await nextTick()
+
+    expect(onPickDay).toHaveBeenCalledTimes(1)
+    const arg = onPickDay.mock.calls[0][0]
+    expect(dayjs.isDayjs(arg)).toBe(true)
+    const clickedText = (rows[1].firstElementChild as HTMLElement)
+      .querySelector('.el-calendar-day')!
+      .textContent!.trim()
+    expect(arg.date()).toBe(Number(clickedText))
+  })
+
   it('should work with formatter prop', async () => {
     const formatter = (value: number, type: 'year' | 'month') => {
       if (type === 'year') {

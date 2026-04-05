@@ -3,10 +3,12 @@ import {
   definePropType,
   isArray,
   isDate,
+  isObject,
 } from '@element-plus/utils'
 import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
 import type { ExtractPublicPropTypes } from 'vue'
+import type { Dayjs } from 'dayjs'
 
 export type CalendarDateType =
   | 'prev-month'
@@ -82,5 +84,6 @@ export type CalendarPropsPublic = ExtractPublicPropTypes<typeof calendarProps>
 export const calendarEmits = {
   [UPDATE_MODEL_EVENT]: (value: Date) => isDate(value),
   [INPUT_EVENT]: (value: Date) => isDate(value),
+  pickDay: (value: Dayjs) => isObject(value),
 }
 export type CalendarEmits = typeof calendarEmits
