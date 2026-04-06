@@ -17,7 +17,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v5
 
       - name: Setup node
         uses: actions/setup-node@v6
@@ -49,7 +49,7 @@ jobs:
           node-version: 20.19.0
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v5
 
       - name: Get current date
         id: date
