@@ -112,7 +112,11 @@
   </el-tooltip>
 </template>
 
-<script lang="ts" setup>
+<script
+  lang="ts"
+  setup
+  generic="T extends AutocompleteDataItem = AutocompleteDataItem"
+>
 import {
   computed,
   mergeProps,
@@ -142,8 +146,12 @@ import ElIcon from '@element-plus/components/icon'
 import { useFormDisabled } from '@element-plus/components/form'
 import { autocompleteEmits } from './autocomplete'
 
-import type { AutocompleteData, AutocompleteProps } from './autocomplete'
-import type { StyleValue } from 'vue'
+import type {
+  AutocompleteData,
+  AutocompleteDataItem,
+  AutocompleteProps,
+} from './autocomplete'
+import type { Ref, StyleValue } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { InputInstance } from '@element-plus/components/input'
 
@@ -153,7 +161,7 @@ defineOptions({
   inheritAttrs: false,
 })
 
-const props = withDefaults(defineProps<AutocompleteProps>(), {
+const props = withDefaults(defineProps<AutocompleteProps<T>>(), {
   ...inputPropsDefaults,
   valueKey: 'value',
   modelValue: '',
@@ -165,7 +173,6 @@ const props = withDefaults(defineProps<AutocompleteProps>(), {
   teleported: true,
 })
 const emit = defineEmits(autocompleteEmits)
-
 const passInputProps = computed(() => pick(props, Object.keys(inputProps)))
 
 const rawAttrs = useRawAttrs()
@@ -179,7 +186,7 @@ const listboxRef = ref<HTMLElement>()
 
 let readonly = false
 let ignoreFocusEvent = false
-const suggestions = ref<AutocompleteData>([])
+const suggestions = ref([]) as Ref<AutocompleteData<T>>
 const highlightedIndex = ref(-1)
 const dropdownWidth = ref('')
 const activated = ref(false)
@@ -218,7 +225,7 @@ const onHide = () => {
 const getData = async (queryString: string) => {
   if (suggestionDisabled.value) return
 
-  const cb = (suggestionList: AutocompleteData) => {
+  const cb = (suggestionList: AutocompleteData<T>) => {
     loading.value = false
     if (suggestionDisabled.value) return
 
@@ -348,7 +355,7 @@ const blur = () => {
   inputRef.value?.blur()
 }
 
-const handleSelect = async (item: any) => {
+const handleSelect = async (item: T) => {
   emit(INPUT_EVENT, item[props.valueKey])
   emit(UPDATE_MODEL_EVENT, item[props.valueKey])
   emit('select', item)
