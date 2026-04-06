@@ -27,6 +27,8 @@ catalog:
   vue-component-type-helpers: ^3.2.4
   # vitest: ^2.0.5
 
+dedupePeers: true
+
 overrides:
   jwa: ^1.4.2 # 20697
   typescript: $typescript
