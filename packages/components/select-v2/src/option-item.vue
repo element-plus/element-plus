@@ -29,6 +29,7 @@ import { useOption } from './useOption'
 import { useProps } from './useProps'
 import { optionV2Emits, optionV2Props } from './defaults'
 import { selectV2InjectionKey } from './token'
+import { isFocusable } from '@element-plus/utils'
 
 export default defineComponent({
   props: optionV2Props,
@@ -41,8 +42,7 @@ export default defineComponent({
     const contentId = select.contentId
 
     const handleMousedown = (event: MouseEvent) => {
-      const { target, currentTarget } = event
-      if (target === currentTarget) {
+      if (!isFocusable(event.target as HTMLElement)) {
         event.preventDefault()
         return
       }

@@ -30,6 +30,7 @@ import {
 import { useId, useNamespace } from '@element-plus/hooks'
 import { useOption } from './useOption'
 import { COMPONENT_NAME, optionProps } from './option'
+import { isFocusable } from '@element-plus/utils'
 
 import type {
   OptionExposed,
@@ -99,8 +100,7 @@ export default defineComponent({
     }
 
     function handleMousedown(event: MouseEvent) {
-      const { target, currentTarget } = event
-      if (target === currentTarget) {
+      if (!isFocusable(event.target as HTMLElement)) {
         event.preventDefault()
         return
       }
