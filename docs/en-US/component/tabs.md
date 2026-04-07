@@ -171,9 +171,9 @@ tabs/default-value
 ```ts
 type TabBarInstance = InstanceType<typeof TabBar> & {
   /** @description tab root html element */
-  ref: barRef
+  ref: Ref<HTMLDivElement | undefined>
   /** @description method to manually update tab bar style */
-  update
+  update: () => void
 }
 ```
 
