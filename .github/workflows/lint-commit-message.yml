@@ -17,10 +17,10 @@ jobs:
       PULL_REQUEST_AUTHOR: ${{ github.event.pull_request.user.login }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v5
 
       - name: Setup node
         uses: actions/setup-node@v6
