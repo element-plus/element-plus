@@ -35,7 +35,7 @@
       <date-table
         :date="date"
         :selected-day="realSelectedDay"
-        @pick="handlerPick"
+        @pick="handlerSelect"
       >
         <template v-if="$slots['date-cell']" #date-cell="data">
           <slot name="date-cell" v-bind="data" />
@@ -50,7 +50,7 @@
         :selected-day="realSelectedDay"
         :range="range_"
         :hide-header="index !== 0"
-        @pick="handlerPick"
+        @pick="handlerSelect"
       >
         <template v-if="$slots['date-cell']" #date-cell="data">
           <slot name="date-cell" v-bind="data" />
@@ -86,7 +86,7 @@ const emit = defineEmits(calendarEmits)
 const {
   calculateValidatedDateRange,
   date,
-  handlerPick,
+  handlerSelect,
   pickDay,
   realSelectedDay,
   selectDate,
