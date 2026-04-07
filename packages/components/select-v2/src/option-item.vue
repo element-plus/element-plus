@@ -42,10 +42,17 @@ export default defineComponent({
     const contentId = select.contentId
 
     const handleMousedown = (event: MouseEvent) => {
-      if (!isFocusable(event.target as HTMLElement)) {
-        event.preventDefault()
-        return
+      let target = event.target as HTMLElement | null
+      const currentTarget = event.currentTarget as HTMLElement
+
+      while (target && target !== currentTarget) {
+        if (isFocusable(target)) {
+          return
+        }
+        target = target.parentElement
       }
+
+      event.preventDefault()
     }
 
     return {

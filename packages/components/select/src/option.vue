@@ -99,11 +99,18 @@ export default defineComponent({
       }
     }
 
-    function handleMousedown(event: MouseEvent) {
-      if (!isFocusable(event.target as HTMLElement)) {
-        event.preventDefault()
-        return
+    const handleMousedown = (event: MouseEvent) => {
+      let target = event.target as HTMLElement | null
+      const currentTarget = event.currentTarget as HTMLElement
+
+      while (target && target !== currentTarget) {
+        if (isFocusable(target)) {
+          return
+        }
+        target = target.parentElement
       }
+
+      event.preventDefault()
     }
 
     return {
