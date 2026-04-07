@@ -108,8 +108,10 @@ const placement = computed(() => props.placement || MESSAGE_DEFAULT_PLACEMENT)
 
 const lastOffset = computed(() => getLastOffset(props.id, placement.value))
 const offset = computed(() => {
-  return (
-    getOffsetOrSpace(props.id, props.offset, placement.value) + lastOffset.value
+  return Math.max(
+    getOffsetOrSpace(props.id, props.offset, placement.value) +
+      lastOffset.value,
+    props.offset
   )
 })
 const bottom = computed(() => height.value + offset.value)
