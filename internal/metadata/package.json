@@ -26,7 +26,7 @@
     "@element-plus/build-constants": "workspace:*",
     "@element-plus/build-utils": "workspace:*",
     "@types/lodash-es": "^4.17.12",
-    "consola": "^2.15.3",
+    "consola": "^3.4.2",
     "lodash-es": "^4.17.23",
     "octokit": "^2.1.0",
     "tinyglobby": "^0.2.15",
