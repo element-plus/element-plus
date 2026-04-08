@@ -73,7 +73,7 @@
     "@element-plus/build-utils": "workspace:^0.0.1",
     "@element-plus/eslint-config": "workspace:*",
     "@pnpm/find-workspace-packages": "^4.0.16",
-    "@pnpm/logger": "^4.0.0",
+    "@pnpm/logger": "^5.2.0",
     "@pnpm/types": "^8.4.0",
     "@types/jsdom": "^28.0.0",
     "@types/node": "^24.12.2",

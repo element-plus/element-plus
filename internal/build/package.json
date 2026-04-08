@@ -14,7 +14,7 @@
   "dependencies": {
     "@element-plus/build-constants": "workspace:*",
     "@pnpm/find-workspace-packages": "^4.0.16",
-    "@pnpm/logger": "^4.0.0",
+    "@pnpm/logger": "^5.2.0",
     "@vitejs/plugin-vue": "catalog:",
     "@vitejs/plugin-vue-jsx": "catalog:",
     "components-helper": "^2.1.4",

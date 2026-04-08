@@ -144,10 +144,10 @@ importers:
         version: link:internal/eslint-config
       '@pnpm/find-workspace-packages':
         specifier: ^4.0.16
-        version: 4.0.43(@pnpm/logger@4.0.0)(@yarnpkg/core@4.5.0)(typanion@3.14.0)
+        version: 4.0.43(@pnpm/logger@5.2.0)(@yarnpkg/core@4.5.0)(typanion@3.14.0)
       '@pnpm/logger':
-        specifier: ^4.0.0
-        version: 4.0.0
+        specifier: ^5.2.0
+        version: 5.2.0
       '@pnpm/types':
         specifier: ^8.4.0
         version: 8.10.0
@@ -343,10 +343,10 @@ importers:
         version: link:../build-constants
       '@pnpm/find-workspace-packages':
         specifier: ^4.0.16
-        version: 4.0.43(@pnpm/logger@4.0.0)(@yarnpkg/core@4.5.0)(typanion@3.14.0)
+        version: 4.0.43(@pnpm/logger@5.2.0)(@yarnpkg/core@4.5.0)(typanion@3.14.0)
       '@pnpm/logger':
-        specifier: ^4.0.0
-        version: 4.0.0
+        specifier: ^5.2.0
+        version: 5.2.0
       '@vitejs/plugin-vue':
         specifier: 'catalog:'
         version: 5.2.4(vite@7.3.0)(vue@3.5.25)
@@ -401,10 +401,10 @@ importers:
     dependencies:
       '@pnpm/find-workspace-packages':
         specifier: ^4.0.16
-        version: 4.0.43(@pnpm/logger@4.0.0)(@yarnpkg/core@4.5.0)(typanion@3.14.0)
+        version: 4.0.43(@pnpm/logger@5.2.0)(@yarnpkg/core@4.5.0)(typanion@3.14.0)
       '@pnpm/logger':
-        specifier: ^4.0.0
-        version: 4.0.0
+        specifier: ^5.2.0
+        version: 5.2.0
       consola:
         specifier: ^3.4.2
         version: 3.4.2
@@ -2260,9 +2260,9 @@ packages:
     resolution: {integrity: sha512-AMWYaHi9HK3bjrqwtaIqb7AYOov0I284BdDu4YFu2LoASCn+SooeGZaB8MjQ/azqdwDwRqqYauXvP2eHJ29tiA==}
     engines: {node: '>=14.6'}
 
-  '@pnpm/logger@4.0.0':
-    resolution: {integrity: sha512-SIShw+k556e7S7tLZFVSIHjCdiVog1qWzcKW2RbLEHPItdisAFVNIe34kYd9fMSswTlSRLS/qRjw3ZblzWmJ9Q==}
-    engines: {node: '>=12.17'}
+  '@pnpm/logger@5.2.0':
+    resolution: {integrity: sha512-dCdSs2wPCweMkRLdISAKBOKSWeq/9iS9aanWgjoUkFs06KN2o5XGFg53oCXg/KbZhF9AXS3vMHPwTebzCeAEsA==}
+    engines: {node: '>=18.12'}
 
   '@pnpm/manifest-utils@3.1.6':
     resolution: {integrity: sha512-vIytrjq4PhtxML4lvoPRuczGckY9Te838WwZ6KBUnLzg8d5/+GRJf13UoUV2vvgyOURutyyCRyi3qTE1orVfCA==}
@@ -3638,8 +3638,8 @@ packages:
   bl@4.1.0:
     resolution: {integrity: sha512-1W07cM9gS6DcLperZfFSj+bWLtaPGSOHWhPiGzXmvVJbRLdG82sH/Kn8EtW1VqWVA54AKf2h5k5BbnIbwF3h6w==}
 
-  bole@4.0.1:
-    resolution: {integrity: sha512-42r0aSOJFJti2l6LasBHq2BuWJzohGs349olQnH/ETlJo87XnoWw7UT8pGE6UstjxzOKkwz7tjoFcmSr6L16vg==}
+  bole@5.0.28:
+    resolution: {integrity: sha512-l+yybyZLV7zTD6EuGxoXsilpER1ctMCpdOqjSYNigJJma39ha85fzCtYccPx06oR1u7uCQLOcUAFFzvfXVBmuQ==}
 
   boolbase@1.0.0:
     resolution: {integrity: sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==}
@@ -9634,15 +9634,15 @@ snapshots:
 
   '@pkgr/core@0.2.9': {}
 
-  '@pnpm/build-modules@9.3.11(@pnpm/logger@4.0.0)(typanion@3.14.0)':
+  '@pnpm/build-modules@9.3.11(@pnpm/logger@5.2.0)(typanion@3.14.0)':
     dependencies:
       '@pnpm/calc-dep-state': 3.0.1
-      '@pnpm/core-loggers': 7.1.0(@pnpm/logger@4.0.0)
+      '@pnpm/core-loggers': 7.1.0(@pnpm/logger@5.2.0)
       '@pnpm/error': 3.1.0
       '@pnpm/graph-sequencer': 1.0.0
-      '@pnpm/lifecycle': 13.1.12(@pnpm/logger@4.0.0)(typanion@3.14.0)
-      '@pnpm/link-bins': 7.2.10(@pnpm/logger@4.0.0)
-      '@pnpm/logger': 4.0.0
+      '@pnpm/lifecycle': 13.1.12(@pnpm/logger@5.2.0)(typanion@3.14.0)
+      '@pnpm/link-bins': 7.2.10(@pnpm/logger@5.2.0)
+      '@pnpm/logger': 5.2.0
       '@pnpm/read-package-json': 6.0.11
       '@pnpm/store-controller-types': 14.1.3
       '@pnpm/types': 8.7.0
@@ -9682,15 +9682,15 @@ snapshots:
       '@pnpm/types': 8.7.0
       load-json-file: 6.2.0
 
-  '@pnpm/cli-utils@0.7.43(@pnpm/logger@4.0.0)(@yarnpkg/core@4.5.0)(typanion@3.14.0)':
+  '@pnpm/cli-utils@0.7.43(@pnpm/logger@5.2.0)(@yarnpkg/core@4.5.0)(typanion@3.14.0)':
     dependencies:
       '@pnpm/cli-meta': 3.0.8
-      '@pnpm/config': 15.10.12(@pnpm/logger@4.0.0)(@yarnpkg/core@4.5.0)(typanion@3.14.0)
-      '@pnpm/default-reporter': 10.1.1(@pnpm/logger@4.0.0)(@yarnpkg/core@4.5.0)(typanion@3.14.0)
+      '@pnpm/config': 15.10.12(@pnpm/logger@5.2.0)(@yarnpkg/core@4.5.0)(typanion@3.14.0)
+      '@pnpm/default-reporter': 10.1.1(@pnpm/logger@5.2.0)(@yarnpkg/core@4.5.0)(typanion@3.14.0)
       '@pnpm/error': 3.1.0
-      '@pnpm/logger': 4.0.0
-      '@pnpm/manifest-utils': 3.1.6(@pnpm/logger@4.0.0)
-      '@pnpm/package-is-installable': 6.0.12(@pnpm/logger@4.0.0)
+      '@pnpm/logger': 5.2.0
+      '@pnpm/manifest-utils': 3.1.6(@pnpm/logger@5.2.0)
+      '@pnpm/package-is-installable': 6.0.12(@pnpm/logger@5.2.0)
       '@pnpm/read-project-manifest': 3.0.13
       '@pnpm/types': 8.7.0
       chalk: 4.1.2
@@ -9702,14 +9702,14 @@ snapshots:
       - supports-color
       - typanion
 
-  '@pnpm/config@15.10.12(@pnpm/logger@4.0.0)(@yarnpkg/core@4.5.0)(typanion@3.14.0)':
+  '@pnpm/config@15.10.12(@pnpm/logger@5.2.0)(@yarnpkg/core@4.5.0)(typanion@3.14.0)':
     dependencies:
       '@pnpm/constants': 6.1.0
       '@pnpm/error': 3.1.0
       '@pnpm/git-utils': 0.1.0
       '@pnpm/matcher': 3.2.0
       '@pnpm/npm-conf': 2.0.0
-      '@pnpm/pnpmfile': 3.0.3(@pnpm/logger@4.0.0)(@yarnpkg/core@4.5.0)(typanion@3.14.0)
+      '@pnpm/pnpmfile': 3.0.3(@pnpm/logger@5.2.0)(@yarnpkg/core@4.5.0)(typanion@3.14.0)
       '@pnpm/read-project-manifest': 3.0.13
       '@pnpm/types': 8.7.0
       camelcase: 6.3.0
@@ -9734,49 +9734,49 @@ snapshots:
 
   '@pnpm/constants@7.1.1': {}
 
-  '@pnpm/core-loggers@7.1.0(@pnpm/logger@4.0.0)':
+  '@pnpm/core-loggers@7.1.0(@pnpm/logger@5.2.0)':
     dependencies:
-      '@pnpm/logger': 4.0.0
+      '@pnpm/logger': 5.2.0
       '@pnpm/types': 8.7.0
 
-  '@pnpm/core@6.0.3(@pnpm/logger@4.0.0)(@yarnpkg/core@4.5.0)(typanion@3.14.0)':
+  '@pnpm/core@6.0.3(@pnpm/logger@5.2.0)(@yarnpkg/core@4.5.0)(typanion@3.14.0)':
     dependencies:
-      '@pnpm/build-modules': 9.3.11(@pnpm/logger@4.0.0)(typanion@3.14.0)
+      '@pnpm/build-modules': 9.3.11(@pnpm/logger@5.2.0)(typanion@3.14.0)
       '@pnpm/calc-dep-state': 3.0.1
       '@pnpm/constants': 6.1.0
-      '@pnpm/core-loggers': 7.1.0(@pnpm/logger@4.0.0)
+      '@pnpm/core-loggers': 7.1.0(@pnpm/logger@5.2.0)
       '@pnpm/crypto.base32-hash': 1.0.1
       '@pnpm/error': 3.1.0
-      '@pnpm/filter-lockfile': 6.0.22(@pnpm/logger@4.0.0)
-      '@pnpm/get-context': 7.0.3(@pnpm/logger@4.0.0)
+      '@pnpm/filter-lockfile': 6.0.22(@pnpm/logger@5.2.0)
+      '@pnpm/get-context': 7.0.3(@pnpm/logger@5.2.0)
       '@pnpm/graph-sequencer': 1.0.0
-      '@pnpm/headless': 18.7.6(@pnpm/logger@4.0.0)(typanion@3.14.0)
-      '@pnpm/hoist': 6.2.14(@pnpm/logger@4.0.0)
+      '@pnpm/headless': 18.7.6(@pnpm/logger@5.2.0)(typanion@3.14.0)
+      '@pnpm/hoist': 6.2.14(@pnpm/logger@5.2.0)
       '@pnpm/hooks.read-package-hook': 1.0.2(@yarnpkg/core@4.5.0)
-      '@pnpm/lifecycle': 13.1.12(@pnpm/logger@4.0.0)(typanion@3.14.0)
-      '@pnpm/link-bins': 7.2.10(@pnpm/logger@4.0.0)
-      '@pnpm/lockfile-file': 5.3.8(@pnpm/logger@4.0.0)
-      '@pnpm/lockfile-to-pnp': 1.0.5(@pnpm/logger@4.0.0)
+      '@pnpm/lifecycle': 13.1.12(@pnpm/logger@5.2.0)(typanion@3.14.0)
+      '@pnpm/link-bins': 7.2.10(@pnpm/logger@5.2.0)
+      '@pnpm/lockfile-file': 5.3.8(@pnpm/logger@5.2.0)
+      '@pnpm/lockfile-to-pnp': 1.0.5(@pnpm/logger@5.2.0)
       '@pnpm/lockfile-utils': 4.2.6
       '@pnpm/lockfile-walker': 5.0.15
-      '@pnpm/logger': 4.0.0
-      '@pnpm/manifest-utils': 3.1.6(@pnpm/logger@4.0.0)
+      '@pnpm/logger': 5.2.0
+      '@pnpm/manifest-utils': 3.1.6(@pnpm/logger@5.2.0)
       '@pnpm/matcher': 3.2.0
-      '@pnpm/modules-cleaner': 12.0.25(@pnpm/logger@4.0.0)
+      '@pnpm/modules-cleaner': 12.0.25(@pnpm/logger@5.2.0)
       '@pnpm/modules-yaml': 10.0.8
       '@pnpm/normalize-registries': 3.0.8
       '@pnpm/npm-package-arg': 1.0.0
-      '@pnpm/package-requester': 19.0.6(@pnpm/logger@4.0.0)
+      '@pnpm/package-requester': 19.0.6(@pnpm/logger@5.2.0)
       '@pnpm/parse-wanted-dependency': 3.0.2
       '@pnpm/prune-lockfile': 4.0.16
       '@pnpm/read-modules-dir': 4.0.0
       '@pnpm/read-package-json': 6.0.11
       '@pnpm/read-project-manifest': 3.0.13
-      '@pnpm/remove-bins': 3.0.13(@pnpm/logger@4.0.0)
-      '@pnpm/resolve-dependencies': 28.4.5(@pnpm/logger@4.0.0)(typanion@3.14.0)
+      '@pnpm/remove-bins': 3.0.13(@pnpm/logger@5.2.0)
+      '@pnpm/resolve-dependencies': 28.4.5(@pnpm/logger@5.2.0)(typanion@3.14.0)
       '@pnpm/resolver-base': 9.1.2
       '@pnpm/store-controller-types': 14.1.3
-      '@pnpm/symlink-dependency': 5.0.10(@pnpm/logger@4.0.0)
+      '@pnpm/symlink-dependency': 5.0.10(@pnpm/logger@5.2.0)
       '@pnpm/types': 8.7.0
       '@pnpm/which-version-is-pinned': 3.0.0
       '@zkochan/rimraf': 2.1.3
@@ -9803,12 +9803,12 @@ snapshots:
     dependencies:
       rfc4648: 1.5.4
 
-  '@pnpm/default-reporter@10.1.1(@pnpm/logger@4.0.0)(@yarnpkg/core@4.5.0)(typanion@3.14.0)':
+  '@pnpm/default-reporter@10.1.1(@pnpm/logger@5.2.0)(@yarnpkg/core@4.5.0)(typanion@3.14.0)':
     dependencies:
-      '@pnpm/config': 15.10.12(@pnpm/logger@4.0.0)(@yarnpkg/core@4.5.0)(typanion@3.14.0)
-      '@pnpm/core-loggers': 7.1.0(@pnpm/logger@4.0.0)
+      '@pnpm/config': 15.10.12(@pnpm/logger@5.2.0)(@yarnpkg/core@4.5.0)(typanion@3.14.0)
+      '@pnpm/core-loggers': 7.1.0(@pnpm/logger@5.2.0)
       '@pnpm/error': 3.1.0
-      '@pnpm/logger': 4.0.0
+      '@pnpm/logger': 5.2.0
       '@pnpm/render-peer-issues': 2.1.2
       '@pnpm/types': 8.7.0
       ansi-diff: 1.2.0
@@ -9860,22 +9860,22 @@ snapshots:
     transitivePeerDependencies:
       - domexception
 
-  '@pnpm/filter-lockfile@6.0.22(@pnpm/logger@4.0.0)':
+  '@pnpm/filter-lockfile@6.0.22(@pnpm/logger@5.2.0)':
     dependencies:
       '@pnpm/constants': 6.1.0
       '@pnpm/error': 3.1.0
       '@pnpm/lockfile-types': 4.3.3
       '@pnpm/lockfile-utils': 4.2.6
       '@pnpm/lockfile-walker': 5.0.15
-      '@pnpm/logger': 4.0.0
-      '@pnpm/package-is-installable': 6.0.12(@pnpm/logger@4.0.0)
+      '@pnpm/logger': 5.2.0
+      '@pnpm/package-is-installable': 6.0.12(@pnpm/logger@5.2.0)
       '@pnpm/types': 8.7.0
       dependency-path: 9.2.6
       ramda: '@pnpm/ramda@0.28.1'
 
-  '@pnpm/find-workspace-packages@4.0.43(@pnpm/logger@4.0.0)(@yarnpkg/core@4.5.0)(typanion@3.14.0)':
+  '@pnpm/find-workspace-packages@4.0.43(@pnpm/logger@5.2.0)(@yarnpkg/core@4.5.0)(typanion@3.14.0)':
     dependencies:
-      '@pnpm/cli-utils': 0.7.43(@pnpm/logger@4.0.0)(@yarnpkg/core@4.5.0)(typanion@3.14.0)
+      '@pnpm/cli-utils': 0.7.43(@pnpm/logger@5.2.0)(@yarnpkg/core@4.5.0)(typanion@3.14.0)
       '@pnpm/constants': 6.1.0
       '@pnpm/types': 8.7.0
       find-packages: 9.0.13
@@ -9888,15 +9888,15 @@ snapshots:
       - supports-color
       - typanion
 
-  '@pnpm/get-context@7.0.3(@pnpm/logger@4.0.0)':
+  '@pnpm/get-context@7.0.3(@pnpm/logger@5.2.0)':
     dependencies:
       '@pnpm/constants': 6.1.0
-      '@pnpm/core-loggers': 7.1.0(@pnpm/logger@4.0.0)
+      '@pnpm/core-loggers': 7.1.0(@pnpm/logger@5.2.0)
       '@pnpm/error': 3.1.0
-      '@pnpm/lockfile-file': 5.3.8(@pnpm/logger@4.0.0)
-      '@pnpm/logger': 4.0.0
+      '@pnpm/lockfile-file': 5.3.8(@pnpm/logger@5.2.0)
+      '@pnpm/logger': 5.2.0
       '@pnpm/modules-yaml': 10.0.8
-      '@pnpm/read-projects-context': 6.0.19(@pnpm/logger@4.0.0)
+      '@pnpm/read-projects-context': 6.0.19(@pnpm/logger@5.2.0)
       '@pnpm/types': 8.7.0
       '@zkochan/rimraf': 2.1.3
       is-ci: 3.0.1
@@ -9913,30 +9913,30 @@ snapshots:
 
   '@pnpm/graph-sequencer@1.0.0': {}
 
-  '@pnpm/headless@18.7.6(@pnpm/logger@4.0.0)(typanion@3.14.0)':
+  '@pnpm/headless@18.7.6(@pnpm/logger@5.2.0)(typanion@3.14.0)':
     dependencies:
-      '@pnpm/build-modules': 9.3.11(@pnpm/logger@4.0.0)(typanion@3.14.0)
+      '@pnpm/build-modules': 9.3.11(@pnpm/logger@5.2.0)(typanion@3.14.0)
       '@pnpm/calc-dep-state': 3.0.1
       '@pnpm/constants': 6.1.0
-      '@pnpm/core-loggers': 7.1.0(@pnpm/logger@4.0.0)
+      '@pnpm/core-loggers': 7.1.0(@pnpm/logger@5.2.0)
       '@pnpm/error': 3.1.0
-      '@pnpm/filter-lockfile': 6.0.22(@pnpm/logger@4.0.0)
-      '@pnpm/hoist': 6.2.14(@pnpm/logger@4.0.0)
-      '@pnpm/lifecycle': 13.1.12(@pnpm/logger@4.0.0)(typanion@3.14.0)
-      '@pnpm/link-bins': 7.2.10(@pnpm/logger@4.0.0)
-      '@pnpm/lockfile-file': 5.3.8(@pnpm/logger@4.0.0)
-      '@pnpm/lockfile-to-pnp': 1.0.5(@pnpm/logger@4.0.0)
+      '@pnpm/filter-lockfile': 6.0.22(@pnpm/logger@5.2.0)
+      '@pnpm/hoist': 6.2.14(@pnpm/logger@5.2.0)
+      '@pnpm/lifecycle': 13.1.12(@pnpm/logger@5.2.0)(typanion@3.14.0)
+      '@pnpm/link-bins': 7.2.10(@pnpm/logger@5.2.0)
+      '@pnpm/lockfile-file': 5.3.8(@pnpm/logger@5.2.0)
+      '@pnpm/lockfile-to-pnp': 1.0.5(@pnpm/logger@5.2.0)
       '@pnpm/lockfile-utils': 4.2.6
-      '@pnpm/logger': 4.0.0
-      '@pnpm/modules-cleaner': 12.0.25(@pnpm/logger@4.0.0)
+      '@pnpm/logger': 5.2.0
+      '@pnpm/modules-cleaner': 12.0.25(@pnpm/logger@5.2.0)
       '@pnpm/modules-yaml': 10.0.8
-      '@pnpm/package-is-installable': 6.0.12(@pnpm/logger@4.0.0)
-      '@pnpm/package-requester': 19.0.6(@pnpm/logger@4.0.0)
+      '@pnpm/package-is-installable': 6.0.12(@pnpm/logger@5.2.0)
+      '@pnpm/package-requester': 19.0.6(@pnpm/logger@5.2.0)
       '@pnpm/read-package-json': 6.0.11
       '@pnpm/read-project-manifest': 3.0.13
       '@pnpm/real-hoist': 0.2.20(typanion@3.14.0)
       '@pnpm/store-controller-types': 14.1.3
-      '@pnpm/symlink-dependency': 5.0.10(@pnpm/logger@4.0.0)
+      '@pnpm/symlink-dependency': 5.0.10(@pnpm/logger@5.2.0)
       '@pnpm/types': 8.7.0
       '@zkochan/rimraf': 2.1.3
       dependency-path: 9.2.6
@@ -9950,16 +9950,16 @@ snapshots:
       - supports-color
       - typanion
 
-  '@pnpm/hoist@6.2.14(@pnpm/logger@4.0.0)':
+  '@pnpm/hoist@6.2.14(@pnpm/logger@5.2.0)':
     dependencies:
       '@pnpm/constants': 6.1.0
-      '@pnpm/link-bins': 7.2.10(@pnpm/logger@4.0.0)
+      '@pnpm/link-bins': 7.2.10(@pnpm/logger@5.2.0)
       '@pnpm/lockfile-types': 4.3.3
       '@pnpm/lockfile-utils': 4.2.6
       '@pnpm/lockfile-walker': 5.0.15
-      '@pnpm/logger': 4.0.0
+      '@pnpm/logger': 5.2.0
       '@pnpm/matcher': 3.2.0
-      '@pnpm/symlink-dependency': 5.0.10(@pnpm/logger@4.0.0)
+      '@pnpm/symlink-dependency': 5.0.10(@pnpm/logger@5.2.0)
       '@pnpm/types': 8.7.0
       dependency-path: 9.2.6
       ramda: '@pnpm/ramda@0.28.1'
@@ -9977,11 +9977,11 @@ snapshots:
     transitivePeerDependencies:
       - '@yarnpkg/core'
 
-  '@pnpm/lifecycle@13.1.12(@pnpm/logger@4.0.0)(typanion@3.14.0)':
+  '@pnpm/lifecycle@13.1.12(@pnpm/logger@5.2.0)(typanion@3.14.0)':
     dependencies:
-      '@pnpm/core-loggers': 7.1.0(@pnpm/logger@4.0.0)
+      '@pnpm/core-loggers': 7.1.0(@pnpm/logger@5.2.0)
       '@pnpm/directory-fetcher': 3.1.5
-      '@pnpm/logger': 4.0.0
+      '@pnpm/logger': 5.2.0
       '@pnpm/npm-lifecycle': 2.0.2(typanion@3.14.0)
       '@pnpm/read-package-json': 6.0.11
       '@pnpm/store-controller-types': 14.1.3
@@ -9993,11 +9993,11 @@ snapshots:
       - supports-color
       - typanion
 
-  '@pnpm/link-bins@7.2.10(@pnpm/logger@4.0.0)':
+  '@pnpm/link-bins@7.2.10(@pnpm/logger@5.2.0)':
     dependencies:
       '@pnpm/error': 3.1.0
-      '@pnpm/logger': 4.0.0
-      '@pnpm/manifest-utils': 3.1.6(@pnpm/logger@4.0.0)
+      '@pnpm/logger': 5.2.0
+      '@pnpm/manifest-utils': 3.1.6(@pnpm/logger@5.2.0)
       '@pnpm/package-bins': 6.0.8
       '@pnpm/read-modules-dir': 4.0.0
       '@pnpm/read-package-json': 6.0.11
@@ -10013,13 +10013,13 @@ snapshots:
       ramda: '@pnpm/ramda@0.28.1'
       symlink-dir: 5.2.1
 
-  '@pnpm/lockfile-file@5.3.8(@pnpm/logger@4.0.0)':
+  '@pnpm/lockfile-file@5.3.8(@pnpm/logger@5.2.0)':
     dependencies:
       '@pnpm/constants': 6.1.0
       '@pnpm/error': 3.1.0
       '@pnpm/git-utils': 0.1.0
       '@pnpm/lockfile-types': 4.3.3
-      '@pnpm/logger': 4.0.0
+      '@pnpm/logger': 5.2.0
       '@pnpm/merge-lockfile-changes': 3.0.11
       '@pnpm/types': 8.7.0
       '@zkochan/rimraf': 2.1.3
@@ -10033,11 +10033,11 @@ snapshots:
       strip-bom: 4.0.0
       write-file-atomic: 4.0.2
 
-  '@pnpm/lockfile-to-pnp@1.0.5(@pnpm/logger@4.0.0)':
+  '@pnpm/lockfile-to-pnp@1.0.5(@pnpm/logger@5.2.0)':
     dependencies:
-      '@pnpm/lockfile-file': 5.3.8(@pnpm/logger@4.0.0)
+      '@pnpm/lockfile-file': 5.3.8(@pnpm/logger@5.2.0)
       '@pnpm/lockfile-utils': 4.2.6
-      '@pnpm/logger': 4.0.0
+      '@pnpm/logger': 5.2.0
       '@pnpm/types': 8.7.0
       '@yarnpkg/pnp': 2.3.2
       dependency-path: 9.2.6
@@ -10064,14 +10064,14 @@ snapshots:
       dependency-path: 9.2.6
       ramda: '@pnpm/ramda@0.28.1'
 
-  '@pnpm/logger@4.0.0':
+  '@pnpm/logger@5.2.0':
     dependencies:
-      bole: 4.0.1
+      bole: 5.0.28
       ndjson: 2.0.0
 
-  '@pnpm/manifest-utils@3.1.6(@pnpm/logger@4.0.0)':
+  '@pnpm/manifest-utils@3.1.6(@pnpm/logger@5.2.0)':
     dependencies:
-      '@pnpm/core-loggers': 7.1.0(@pnpm/logger@4.0.0)
+      '@pnpm/core-loggers': 7.1.0(@pnpm/logger@5.2.0)
       '@pnpm/error': 3.1.0
       '@pnpm/types': 8.7.0
     transitivePeerDependencies:
@@ -10088,15 +10088,15 @@ snapshots:
       ramda: '@pnpm/ramda@0.28.1'
       semver: 7.7.3
 
-  '@pnpm/modules-cleaner@12.0.25(@pnpm/logger@4.0.0)':
+  '@pnpm/modules-cleaner@12.0.25(@pnpm/logger@5.2.0)':
     dependencies:
-      '@pnpm/core-loggers': 7.1.0(@pnpm/logger@4.0.0)
-      '@pnpm/filter-lockfile': 6.0.22(@pnpm/logger@4.0.0)
+      '@pnpm/core-loggers': 7.1.0(@pnpm/logger@5.2.0)
+      '@pnpm/filter-lockfile': 6.0.22(@pnpm/logger@5.2.0)
       '@pnpm/lockfile-types': 4.3.3
       '@pnpm/lockfile-utils': 4.2.6
-      '@pnpm/logger': 4.0.0
+      '@pnpm/logger': 5.2.0
       '@pnpm/read-modules-dir': 4.0.0
-      '@pnpm/remove-bins': 3.0.13(@pnpm/logger@4.0.0)
+      '@pnpm/remove-bins': 3.0.13(@pnpm/logger@5.2.0)
       '@pnpm/store-controller-types': 14.1.3
       '@pnpm/types': 8.7.0
       '@zkochan/rimraf': 2.1.3
@@ -10146,13 +10146,13 @@ snapshots:
       semver: 7.7.3
       validate-npm-package-name: 4.0.0
 
-  '@pnpm/npm-resolver@13.1.11(@pnpm/logger@4.0.0)':
+  '@pnpm/npm-resolver@13.1.11(@pnpm/logger@5.2.0)':
     dependencies:
-      '@pnpm/core-loggers': 7.1.0(@pnpm/logger@4.0.0)
+      '@pnpm/core-loggers': 7.1.0(@pnpm/logger@5.2.0)
       '@pnpm/error': 3.1.0
       '@pnpm/fetching-types': 3.0.0
       '@pnpm/graceful-fs': 2.0.0
-      '@pnpm/logger': 4.0.0
+      '@pnpm/logger': 5.2.0
       '@pnpm/resolve-workspace-range': 3.0.0
       '@pnpm/resolver-base': 9.1.2
       '@pnpm/types': 8.7.0
@@ -10179,26 +10179,26 @@ snapshots:
       fast-glob: 3.3.3
       is-subdir: 1.2.0
 
-  '@pnpm/package-is-installable@6.0.12(@pnpm/logger@4.0.0)':
+  '@pnpm/package-is-installable@6.0.12(@pnpm/logger@5.2.0)':
     dependencies:
-      '@pnpm/core-loggers': 7.1.0(@pnpm/logger@4.0.0)
+      '@pnpm/core-loggers': 7.1.0(@pnpm/logger@5.2.0)
       '@pnpm/error': 3.1.0
-      '@pnpm/logger': 4.0.0
+      '@pnpm/logger': 5.2.0
       '@pnpm/types': 8.7.0
       detect-libc: 2.1.2
       execa: safe-execa@0.1.4
       mem: 8.1.1
       semver: 7.7.3
 
-  '@pnpm/package-requester@19.0.6(@pnpm/logger@4.0.0)':
+  '@pnpm/package-requester@19.0.6(@pnpm/logger@5.2.0)':
     dependencies:
       '@pnpm/cafs': 4.3.2
-      '@pnpm/core-loggers': 7.1.0(@pnpm/logger@4.0.0)
+      '@pnpm/core-loggers': 7.1.0(@pnpm/logger@5.2.0)
       '@pnpm/error': 3.1.0
       '@pnpm/fetcher-base': 13.1.2
       '@pnpm/graceful-fs': 2.0.0
-      '@pnpm/logger': 4.0.0
-      '@pnpm/package-is-installable': 6.0.12(@pnpm/logger@4.0.0)
+      '@pnpm/logger': 5.2.0
+      '@pnpm/package-is-installable': 6.0.12(@pnpm/logger@5.2.0)
       '@pnpm/pick-fetcher': 1.0.0
       '@pnpm/read-package-json': 6.0.11
       '@pnpm/resolver-base': 9.1.2
@@ -10232,13 +10232,13 @@ snapshots:
     dependencies:
       '@pnpm/types': 8.7.0
 
-  '@pnpm/pnpmfile@3.0.3(@pnpm/logger@4.0.0)(@yarnpkg/core@4.5.0)(typanion@3.14.0)':
+  '@pnpm/pnpmfile@3.0.3(@pnpm/logger@5.2.0)(@yarnpkg/core@4.5.0)(typanion@3.14.0)':
     dependencies:
-      '@pnpm/core': 6.0.3(@pnpm/logger@4.0.0)(@yarnpkg/core@4.5.0)(typanion@3.14.0)
-      '@pnpm/core-loggers': 7.1.0(@pnpm/logger@4.0.0)
+      '@pnpm/core': 6.0.3(@pnpm/logger@5.2.0)(@yarnpkg/core@4.5.0)(typanion@3.14.0)
+      '@pnpm/core-loggers': 7.1.0(@pnpm/logger@5.2.0)
       '@pnpm/error': 3.1.0
       '@pnpm/lockfile-types': 4.3.3
-      '@pnpm/logger': 4.0.0
+      '@pnpm/logger': 5.2.0
       '@pnpm/store-controller-types': 14.1.3
       '@pnpm/types': 8.7.0
       chalk: 4.1.2
@@ -10286,10 +10286,10 @@ snapshots:
       sort-keys: 4.2.0
       strip-bom: 4.0.0
 
-  '@pnpm/read-projects-context@6.0.19(@pnpm/logger@4.0.0)':
+  '@pnpm/read-projects-context@6.0.19(@pnpm/logger@5.2.0)':
     dependencies:
-      '@pnpm/lockfile-file': 5.3.8(@pnpm/logger@4.0.0)
-      '@pnpm/logger': 4.0.0
+      '@pnpm/lockfile-file': 5.3.8(@pnpm/logger@5.2.0)
+      '@pnpm/logger': 5.2.0
       '@pnpm/modules-yaml': 10.0.8
       '@pnpm/normalize-registries': 3.0.8
       '@pnpm/types': 8.7.0
@@ -10304,10 +10304,10 @@ snapshots:
     transitivePeerDependencies:
       - typanion
 
-  '@pnpm/remove-bins@3.0.13(@pnpm/logger@4.0.0)':
+  '@pnpm/remove-bins@3.0.13(@pnpm/logger@5.2.0)':
     dependencies:
-      '@pnpm/core-loggers': 7.1.0(@pnpm/logger@4.0.0)
-      '@pnpm/logger': 4.0.0
+      '@pnpm/core-loggers': 7.1.0(@pnpm/logger@5.2.0)
+      '@pnpm/logger': 5.2.0
       '@pnpm/package-bins': 6.0.8
       '@pnpm/read-package-json': 6.0.11
       '@pnpm/types': 8.7.0
@@ -10322,16 +10322,16 @@ snapshots:
       chalk: 4.1.2
       cli-columns: 4.0.0
 
-  '@pnpm/resolve-dependencies@28.4.5(@pnpm/logger@4.0.0)(typanion@3.14.0)':
+  '@pnpm/resolve-dependencies@28.4.5(@pnpm/logger@5.2.0)(typanion@3.14.0)':
     dependencies:
       '@pnpm/constants': 6.1.0
-      '@pnpm/core-loggers': 7.1.0(@pnpm/logger@4.0.0)
+      '@pnpm/core-loggers': 7.1.0(@pnpm/logger@5.2.0)
       '@pnpm/error': 3.1.0
       '@pnpm/lockfile-types': 4.3.3
       '@pnpm/lockfile-utils': 4.2.6
-      '@pnpm/logger': 4.0.0
-      '@pnpm/manifest-utils': 3.1.6(@pnpm/logger@4.0.0)
-      '@pnpm/npm-resolver': 13.1.11(@pnpm/logger@4.0.0)
+      '@pnpm/logger': 5.2.0
+      '@pnpm/manifest-utils': 3.1.6(@pnpm/logger@5.2.0)
+      '@pnpm/npm-resolver': 13.1.11(@pnpm/logger@5.2.0)
       '@pnpm/pick-registry-for-package': 3.0.8
       '@pnpm/prune-lockfile': 4.0.16
       '@pnpm/read-package-json': 6.0.11
@@ -10374,10 +10374,10 @@ snapshots:
       '@pnpm/resolver-base': 9.1.2
       '@pnpm/types': 8.7.0
 
-  '@pnpm/symlink-dependency@5.0.10(@pnpm/logger@4.0.0)':
+  '@pnpm/symlink-dependency@5.0.10(@pnpm/logger@5.2.0)':
     dependencies:
-      '@pnpm/core-loggers': 7.1.0(@pnpm/logger@4.0.0)
-      '@pnpm/logger': 4.0.0
+      '@pnpm/core-loggers': 7.1.0(@pnpm/logger@5.2.0)
+      '@pnpm/logger': 5.2.0
       '@pnpm/types': 8.7.0
       symlink-dir: 5.2.1
 
@@ -11796,7 +11796,7 @@ snapshots:
       inherits: 2.0.4
       readable-stream: 3.6.2
 
-  bole@4.0.1:
+  bole@5.0.28:
     dependencies:
       fast-safe-stringify: 2.1.1
       individual: 3.0.0
