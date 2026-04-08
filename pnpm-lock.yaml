@@ -48,7 +48,7 @@ catalogs:
       version: 3.2.4
 
 overrides:
-  jwa: ^1.4.2
+  jwa: ^2.0.1
   typescript: ~5.5.4
 
 patchedDependencies:

@@ -30,7 +30,7 @@ catalog:
 dedupePeers: true
 
 overrides:
-  jwa: ^1.4.2 # 20697
+  jwa: ^2.0.1 # 20697
   typescript: $typescript
 
 patchedDependencies:
