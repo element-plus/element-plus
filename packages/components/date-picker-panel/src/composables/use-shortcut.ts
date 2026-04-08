@@ -3,7 +3,10 @@ import dayjs from 'dayjs'
 import { isFunction } from '@element-plus/utils'
 
 import type { useLocale } from '@element-plus/hooks'
-import type { DayOrDate, Shortcut } from '@element-plus/components/time-picker'
+import type {
+  DayjsOrDate,
+  Shortcut,
+} from '@element-plus/components/time-picker'
 
 export const useShortcut = (lang: ReturnType<typeof useLocale>['lang']) => {
   const { emit } = getCurrentInstance()!
@@ -13,7 +16,7 @@ export const useShortcut = (lang: ReturnType<typeof useLocale>['lang']) => {
   const handleShortcutClick = (shortcut: Shortcut) => {
     const shortcutValues = (
       isFunction(shortcut.value) ? shortcut.value() : shortcut.value
-    ) as [DayOrDate, DayOrDate]
+    ) as [DayjsOrDate, DayjsOrDate]
 
     if (shortcutValues) {
       emit('pick', [

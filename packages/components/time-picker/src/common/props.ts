@@ -42,8 +42,8 @@ export type GetDisabledSeconds = (
 export type Shortcut<
   IsPublic extends boolean = false,
   V = IsPublic extends true
-    ? DayOrDate | DayOrDate[]
-    : SingleOrRange<DayOrDate>,
+    ? DayjsOrDate | DayjsOrDate[]
+    : SingleOrRange<DayjsOrDate>,
 > = {
   text: string
   value: V | (() => V)

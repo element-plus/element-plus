@@ -260,11 +260,11 @@ type Placement =
   | 'right-end'
 
 type SingleOrRange<T> = T | [T, T]
-type DayOrDate = Dayjs | Date
+type DayjsOrDate = Dayjs | Date
 type ShortCut =
   | {
       text: string
-      value: SingleOrRange<DayOrDate> | (() => SingleOrRange<DayOrDate>)
+      value: SingleOrRange<DayjsOrDate> | (() => SingleOrRange<DayjsOrDate>)
     }
   | {
       text: string
