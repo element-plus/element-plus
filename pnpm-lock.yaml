@@ -245,8 +245,8 @@ importers:
   docs:
     dependencies:
       '@docsearch/css':
-        specifier: ^3.1.0
-        version: 3.9.0
+        specifier: ^4.6.2
+        version: 4.6.2
       '@docsearch/js':
         specifier: ^3.1.0
         version: 3.9.0(@algolia/client-search@5.46.0)(search-insights@2.17.3)
@@ -1085,6 +1085,9 @@ packages:
 
   '@docsearch/css@3.9.0':
     resolution: {integrity: sha512-cQbnVbq0rrBwNAKegIac/t6a8nWoUAn8frnkLFW6YARaRmAQr5/Eoe6Ln2fqkUCZ40KpdrKbpSAmgrkviOxuWA==}
+
+  '@docsearch/css@4.6.2':
+    resolution: {integrity: sha512-fH/cn8BjEEdM2nJdjNMHIvOVYupG6AIDtFVDgIZrNzdCSj4KXr9kd+hsehqsNGYjpUjObeKYKvgy/IwCb1jZYQ==}
 
   '@docsearch/js@3.8.2':
     resolution: {integrity: sha512-Q5wY66qHn0SwA7Taa0aDbHiJvaFJLOJyHmooQ7y8hlwwQLQ/5WwCcoX0g7ii04Qi2DJlHsd0XXzJ8Ypw9+9YmQ==}
@@ -7627,6 +7630,8 @@ snapshots:
   '@docsearch/css@3.8.2': {}
 
   '@docsearch/css@3.9.0': {}
+
+  '@docsearch/css@4.6.2': {}
 
   '@docsearch/js@3.8.2(@algolia/client-search@5.46.0)(search-insights@2.17.3)':
     dependencies:

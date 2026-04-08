@@ -10,7 +10,7 @@
     "crowdin-credentials": "tsx .vitepress/build/crowdin-credentials.ts"
   },
   "dependencies": {
-    "@docsearch/css": "^3.1.0",
+    "@docsearch/css": "^4.6.2",
     "@docsearch/js": "^3.1.0",
     "@element-plus/icons-vue": "^2.3.2",
     "@element-plus/metadata": "workspace:*",
