@@ -440,8 +440,8 @@ importers:
         specifier: ^10.5.0
         version: 10.6.2(@typescript-eslint/parser@8.50.0)(eslint@9.39.2)(vue-eslint-parser@10.2.0)
       globals:
-        specifier: ^16.4.0
-        version: 16.5.0
+        specifier: ^17.4.0
+        version: 17.4.0
       prettier:
         specifier: ^3.6.2
         version: 3.7.4
@@ -4960,6 +4960,10 @@ packages:
 
   globals@16.5.0:
     resolution: {integrity: sha512-c/c15i26VrJ4IRt5Z89DnIzCGDn9EcebibhAOjw5ibqEHsE1wLUgkPn9RDmNcUKyU87GeaL633nyJ+pplFR2ZQ==}
+    engines: {node: '>=18'}
+
+  globals@17.4.0:
+    resolution: {integrity: sha512-hjrNztw/VajQwOLsMNT1cbJiH2muO3OROCHnbehc8eY5JyD2gqz4AcMHPqgaOR59DjgUjYAYLeH699g/eWi2jw==}
     engines: {node: '>=18'}
 
   globalthis@1.0.4:
@@ -13320,6 +13324,8 @@ snapshots:
   globals@15.15.0: {}
 
   globals@16.5.0: {}
+
+  globals@17.4.0: {}
 
   globalthis@1.0.4:
     dependencies:
