@@ -179,8 +179,8 @@ importers:
         specifier: 'catalog:'
         version: 2.4.6
       consola:
-        specifier: ^2.15.3
-        version: 2.15.3
+        specifier: ^3.4.2
+        version: 3.4.2
       csstype:
         specifier: ^3.2.3
         version: 3.2.3
@@ -303,8 +303,8 @@ importers:
         specifier: 'catalog:'
         version: 4.2.0(vite@7.3.0)(vue@3.5.25)
       consola:
-        specifier: ^2.15.3
-        version: 2.15.3
+        specifier: ^3.4.2
+        version: 3.4.2
       markdown-it-container:
         specifier: ^4.0.0
         version: 4.0.0
@@ -357,8 +357,8 @@ importers:
         specifier: ^2.1.4
         version: 2.2.0
       consola:
-        specifier: ^2.15.3
-        version: 2.15.3
+        specifier: ^3.4.2
+        version: 3.4.2
       lodash:
         specifier: ^4.17.23
         version: 4.17.23
@@ -406,8 +406,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       consola:
-        specifier: ^2.15.3
-        version: 2.15.3
+        specifier: ^3.4.2
+        version: 3.4.2
     devDependencies:
       unbuild:
         specifier: ^3.0.0
@@ -471,8 +471,8 @@ importers:
         specifier: ^4.17.12
         version: 4.17.12
       consola:
-        specifier: ^2.15.3
-        version: 2.15.3
+        specifier: ^3.4.2
+        version: 3.4.2
       lodash-es:
         specifier: ^4.17.23
         version: 4.17.23
@@ -3966,9 +3966,6 @@ packages:
 
   config-chain@1.1.13:
     resolution: {integrity: sha512-qj+f8APARXHrM0hraqXYb2/bOVSV4PvJQlNZ/DVj0QrmNM2q2euizkeuVckQ57J+W0mRH6Hvi+k50M4Jul2VRQ==}
-
-  consola@2.15.3:
-    resolution: {integrity: sha512-9vAdYbHj6x2fLKC4+oPH0kFzY/orMZyG2Aj+kNylHxKGJ/Ed4dpNyAQYwJOdqO4zdM7XpVHmyejQDcQHrnuXbw==}
 
   consola@3.4.2:
     resolution: {integrity: sha512-5IKcdX0nnYavi6G7TtOhwkYzyjfJlatbjMjuLSfE2kYT5pMDOilZ4OvMhi637CcDICTmz3wARPoyhqyX1Y+XvA==}
@@ -12133,8 +12130,6 @@ snapshots:
     dependencies:
       ini: 1.3.8
       proto-list: 1.2.4
-
-  consola@2.15.3: {}
 
   consola@3.4.2: {}
 
