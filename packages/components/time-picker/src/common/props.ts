@@ -25,7 +25,7 @@ export type DateModelType = number | string | Date
 export type ModelValueType = DateModelType | number[] | string[] | Date[]
 export type DayOrDays = SingleOrRange<Dayjs>
 export type DateOrDates = SingleOrRange<Date>
-export type DayOrDate = Dayjs | Date
+export type DayjsOrDate = Dayjs | Date
 export type UserInput = SingleOrRange<string | null>
 export type GetDisabledHours = (role: string, comparingDate?: Dayjs) => number[]
 export type GetDisabledMinutes = (
