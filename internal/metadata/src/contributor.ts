@@ -176,7 +176,7 @@ async function getContributors() {
   return contributors
 }
 
-const pathOutput = path.resolve(__dirname, '..', 'dist')
+const pathOutput = path.resolve(import.meta.dirname, '..', 'dist')
 const pathDest = path.resolve(pathOutput, 'contributors.json')
 
 const octokit = new Octokit({
