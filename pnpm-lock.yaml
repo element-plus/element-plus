@@ -149,8 +149,8 @@ importers:
         specifier: ^5.2.0
         version: 5.2.0
       '@pnpm/types':
-        specifier: ^8.4.0
-        version: 8.10.0
+        specifier: ^12.2.0
+        version: 12.2.0
       '@types/jsdom':
         specifier: ^28.0.0
         version: 28.0.0
@@ -379,8 +379,8 @@ importers:
         version: 0.2.15
     devDependencies:
       '@pnpm/types':
-        specifier: ^8.4.0
-        version: 8.10.0
+        specifier: ^12.2.0
+        version: 12.2.0
       jiti:
         specifier: ^2.6.1
         version: 2.6.1
@@ -2215,9 +2215,9 @@ packages:
     resolution: {integrity: sha512-DRWtTmmxQQtuWHf1xPt9bqzCSq8d0MQF5x1kdpCDMLd7xk3nP4To2/OGkPrb8MKbrWsgCNDwXyKCFlEKrAg7fg==}
     engines: {node: '>=16.14'}
 
-  '@pnpm/types@8.10.0':
-    resolution: {integrity: sha512-A4pcNNvFJdkMXArEjTCOIYNL2VxD4uBynWZ6cBIELXb5qJ0tUzwKsaSz4J953I0rQFqnsFpUYqaWIquI10W1sw==}
-    engines: {node: '>=14.6'}
+  '@pnpm/types@12.2.0':
+    resolution: {integrity: sha512-5RtwWhX39j89/Tmyv2QSlpiNjErA357T/8r1Dkg+2lD3P7RuS7Xi2tChvmOC3VlezEFNcWnEGCOeKoGRkDuqFA==}
+    engines: {node: '>=18.12'}
 
   '@pnpm/types@9.1.0':
     resolution: {integrity: sha512-MMPDMLOY17bfNhLhR9Qmq6/2keoocnR5DWXZfZDC4dKXugrMsE1jB6RnuU8swJIo4zyCsMT/iVSAtl/XK+9Z+A==}
@@ -8710,7 +8710,7 @@ snapshots:
     dependencies:
       strip-comments-strings: 1.2.0
 
-  '@pnpm/types@8.10.0': {}
+  '@pnpm/types@12.2.0': {}
 
   '@pnpm/types@9.1.0': {}
 
