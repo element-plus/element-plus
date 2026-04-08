@@ -1,6 +1,7 @@
 {
   "name": "@element-plus/metadata",
   "version": "0.0.1",
+  "type": "module",
   "description": "Metadata for Element Plus",
   "keywords": [
     "element-plus"
