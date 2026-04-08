@@ -1445,6 +1445,21 @@ describe('Select', () => {
     expect(vm.value.indexOf('选项1')).toBe(-1)
   })
 
+  test('should prevent option mousedown from blurring multiple select', async () => {
+    wrapper = getSelectVm({ multiple: true })
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+    const option = getOptions()[0]
+    const event = new MouseEvent('mousedown', {
+      bubbles: true,
+      cancelable: true,
+      shiftKey: true,
+    })
+
+    option.dispatchEvent(event)
+
+    expect(event.defaultPrevented).toBeTruthy()
+  })
+
   test('multiple select when content overflow', async () => {
     wrapper = _mount(
       `
