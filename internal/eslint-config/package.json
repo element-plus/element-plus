@@ -19,7 +19,7 @@
     "eslint": "^9.0.0"
   },
   "dependencies": {
-    "@eslint/js": "^9.36.0",
+    "@eslint/js": "^10.0.1",
     "@eslint/markdown": "^8.0.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",
@@ -33,6 +33,6 @@
     "typescript-eslint": "^8.44.1"
   },
   "devDependencies": {
-    "eslint": "^9.36.0"
+    "eslint": "^10.2.0"
   }
 }
