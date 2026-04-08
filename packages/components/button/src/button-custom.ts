@@ -90,6 +90,13 @@ export function useButtonCustomStyle(props: ButtonProps) {
             disabledButtonColor
         }
       }
+      if (props.link || props.text) {
+        styles = ns.cssVarBlock({
+          'text-color': buttonColor,
+          'hover-text-color': buttonColor,
+          'active-text-color': buttonColor,
+        })
+      }
     }
 
     return styles
