@@ -84,7 +84,7 @@
     "@vue/server-renderer": "catalog:",
     "@vue/shared": "catalog:",
     "@vue/test-utils": "catalog:",
-    "consola": "^2.15.3",
+    "consola": "^3.4.2",
     "csstype": "^3.2.3",
     "cz-git": "^1.11.1",
     "czg": "^1.11.1",

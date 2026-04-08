@@ -18,7 +18,7 @@
     "@vitejs/plugin-vue": "catalog:",
     "@vitejs/plugin-vue-jsx": "catalog:",
     "components-helper": "^2.1.4",
-    "consola": "^2.15.3",
+    "consola": "^3.4.2",
     "lodash": "^4.17.23",
     "magic-string": "^0.30.21",
     "oxc-parser": "^0.110.0",
