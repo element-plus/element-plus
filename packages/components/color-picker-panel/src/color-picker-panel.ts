@@ -3,6 +3,7 @@ import { buildProps, definePropType, isString } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
 import type {
+  ClassValue,
   ComputedRef,
   ExtractPublicPropTypes,
   InjectionKey,
@@ -11,9 +12,6 @@ import type {
 import type { ColorFormats } from '@ctrl/tinycolor'
 import type ColorPickerPanel from './color-picker-panel.vue'
 import type Color from './utils/color'
-
-type ClassObjectType = Record<string, boolean>
-type ClassType = string | ClassObjectType | ClassType[]
 
 export interface ColorPickerPanelProps {
   /**
@@ -47,7 +45,7 @@ export interface ColorPickerPanelProps {
   /**
    * @description class names will be passed to hue-slider
    */
-  hueSliderClass?: ClassType
+  hueSliderClass?: ClassValue
   /**
    * @description styles will be passed to hue-slider
    */
@@ -103,7 +101,7 @@ export const colorPickerPanelProps = buildProps({
    * @description class names will be passed to <hue-slider />
    */
   hueSliderClass: {
-    type: definePropType<ClassType>([String, Array, Object]),
+    type: definePropType<ClassValue>([String, Array, Object]),
   },
   /**
    * @description styles will be passed to <hue-slider />
