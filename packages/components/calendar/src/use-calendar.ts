@@ -159,10 +159,10 @@ export const useCalendar = (
   }
 
   const pickDay = (day: Dayjs, triggerSelect: boolean = true) => {
+    realSelectedDay.value = day
     if (triggerSelect) {
       emit('select', day)
     }
-    realSelectedDay.value = day
   }
 
   const selectDate = (type: CalendarDateType) => {
