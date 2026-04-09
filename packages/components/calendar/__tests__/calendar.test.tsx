@@ -296,13 +296,13 @@ describe('Calendar.vue', () => {
     vi.useRealTimers()
   })
 
-  it('should emit pick-day event when a day cell is clicked', async () => {
-    const onPickDay = vi.fn()
+  it('should emit select event when a day cell is select', async () => {
+    const onSelect = vi.fn()
     const wrapper = mount(
       defineComponent({
         data: () => ({ value: new Date('2019-04-01') }),
         render() {
-          return <Calendar v-model={this.value} onPickDay={onPickDay} />
+          return <Calendar v-model={this.value} onSelect={onSelect} />
         },
       })
     )
@@ -311,8 +311,8 @@ describe('Calendar.vue', () => {
     ;(rows[1].firstElementChild as HTMLElement).click()
     await nextTick()
 
-    expect(onPickDay).toHaveBeenCalledTimes(1)
-    const arg = onPickDay.mock.calls[0][0]
+    expect(onSelect).toHaveBeenCalledTimes(1)
+    const arg = onSelect.mock.calls[0][0]
     expect(dayjs.isDayjs(arg)).toBe(true)
     const clickedText = (rows[1].firstElementChild as HTMLElement)
       .querySelector('.el-calendar-day')!
