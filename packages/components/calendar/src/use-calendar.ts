@@ -158,11 +158,10 @@ export const useCalendar = (
     }
   }
 
-  const handlerSelect = (day: Dayjs) => {
-    emit('select', day)
-    pickDay(day)
-  }
-  const pickDay = (day: Dayjs) => {
+  const pickDay = (day: Dayjs, triggerSelect: boolean = true) => {
+    if (triggerSelect) {
+      emit('select', day)
+    }
     realSelectedDay.value = day
   }
 
@@ -178,7 +177,7 @@ export const useCalendar = (
     const day = dateMap[type]
 
     if (!day.isSame(date.value, 'day')) {
-      pickDay(day)
+      pickDay(day, false)
     }
   }
 
@@ -186,7 +185,7 @@ export const useCalendar = (
     if (date === 'today') {
       selectDate('today')
     } else {
-      pickDay(date)
+      pickDay(date, false)
     }
   }
 
@@ -194,7 +193,6 @@ export const useCalendar = (
     calculateValidatedDateRange,
     date,
     realSelectedDay,
-    handlerSelect,
     pickDay,
     selectDate,
     validatedRange,
