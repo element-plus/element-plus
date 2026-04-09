@@ -23,6 +23,7 @@ import {
   isString,
   keysOf,
 } from '@element-plus/utils'
+import { useResizeObserver } from '@vueuse/core'
 
 import type {
   CSSProperties,
@@ -84,11 +85,22 @@ export const useTarget = (
     }
   }
 
+  let resizeObserverStop: (() => void) | undefined
+
   onMounted(() => {
     watch(
       [open, target],
-      () => {
+      ([open]) => {
+        const targetEl = getTargetEl()
+
         updatePosInfo()
+        resizeObserverStop?.()
+        if (open && targetEl) {
+          ;({ stop: resizeObserverStop } = useResizeObserver(
+            targetEl,
+            updatePosInfo
+          ))
+        }
       },
       {
         immediate: true,
@@ -99,6 +111,8 @@ export const useTarget = (
 
   onBeforeUnmount(() => {
     window.removeEventListener('resize', updatePosInfo)
+    resizeObserverStop?.()
+    resizeObserverStop = undefined
   })
 
   const getGapOffset = (index: number) =>
