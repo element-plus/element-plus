@@ -27,7 +27,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v6
         with:
-          node-version: 20.19.0
+          node-version: 24
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -76,7 +76,7 @@ jobs:
           NODE_OPTIONS: --max-old-space-size=8192
 
       - name: Deploy staging website
-        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        uses: JamesIves/github-pages-deploy-action@v4.8.0
         with:
           token: ${{ secrets.EP_BOT_TOKEN }}
           branch: main

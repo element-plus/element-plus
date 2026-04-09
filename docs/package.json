@@ -31,7 +31,7 @@
     "@mdit-vue/shared": "^3.0.2",
     "@prettier/sync": "^0.6.1",
     "@vitejs/plugin-vue-jsx": "catalog:",
-    "consola": "^2.15.3",
+    "consola": "^3.4.2",
     "markdown-it-container": "^4.0.0",
     "tinyglobby": "^0.2.15",
     "unocss": "^66.5.6",
