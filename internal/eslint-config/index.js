@@ -92,6 +92,8 @@ export default defineConfig([
       'no-return-await': 'error',
       'no-var': 'error',
       'no-empty': ['error', { allowEmptyCatch: true }],
+      'no-useless-assignment': 'off',
+      'preserve-caught-error': 'off',
       'prefer-const': [
         'warn',
         { destructuring: 'all', ignoreReadBeforeAssign: true },
