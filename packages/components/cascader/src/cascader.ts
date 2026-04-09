@@ -12,7 +12,7 @@ import { tagProps } from '@element-plus/components/tag'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { CircleClose } from '@element-plus/icons-vue'
 
-import type { StyleValue } from 'vue'
+import type { ClassValue, StyleValue } from 'vue'
 import type { UseEmptyValuesProps } from '@element-plus/hooks'
 import type { ComponentSize } from '@element-plus/constants'
 import type { Placement, PopperEffect } from '@element-plus/components/popper'
@@ -23,8 +23,6 @@ import type {
 } from '@element-plus/components/cascader-panel'
 import type { TagProps } from '@element-plus/components/tag'
 import type { IconPropType } from '@element-plus/utils'
-
-type CascaderClassType = string | Record<string, boolean> | CascaderClassType[]
 
 export interface CascaderComponentProps
   extends CascaderCommonProps, UseEmptyValuesProps {
@@ -99,7 +97,7 @@ export interface CascaderComponentProps
   /**
    * @description custom class name for Cascader's dropdown
    */
-  popperClass?: CascaderClassType
+  popperClass?: ClassValue
   /**
    * @description custom style for Cascader's dropdown
    */

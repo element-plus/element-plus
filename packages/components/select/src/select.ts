@@ -15,8 +15,10 @@ import { defaultProps } from '@element-plus/components/select-v2/src/useProps'
 import type { EmitFn } from '@element-plus/utils'
 import type {
   CSSProperties,
+  ClassValue,
   ExtractPropTypes,
   ExtractPublicPropTypes,
+  StyleValue,
 } from 'vue'
 import type Select from './select.vue'
 import type {
@@ -117,14 +119,14 @@ export const selectProps = buildProps({
    * @description custom class name for Select's dropdown
    */
   popperClass: {
-    type: String,
+    type: definePropType<ClassValue>([String, Array, Object]),
     default: '',
   },
   /**
    * @description custom style for Select's dropdown
    */
   popperStyle: {
-    type: definePropType<string | CSSProperties>([String, Object]),
+    type: definePropType<StyleValue>([String, Array, Object]),
   },
   /**
    * @description [popper.js](https://popper.js.org/docs/v2/) parameters

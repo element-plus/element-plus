@@ -1,10 +1,10 @@
 import { renderSlot } from 'vue'
 import ElEmpty from '@element-plus/components/empty'
 
-import type { CSSProperties, FunctionalComponent } from 'vue'
+import type { CSSProperties, ClassValue, FunctionalComponent } from 'vue'
 
 type EmptyRendererProps = {
-  class?: JSX.IntrinsicAttributes['class']
+  class?: ClassValue
   style?: CSSProperties
 }
 
