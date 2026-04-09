@@ -72,12 +72,15 @@ export function useButtonCustomStyle(props: ButtonProps) {
           'hover-text-color': hoverColor,
           'hover-bg-color': 'transparent',
           'hover-border-color': 'transparent',
-          'hover-link-text-color': hoverColor,
           'active-bg-color': 'transparent',
           'active-text-color': activeBgColor,
           'active-border-color': 'transparent',
-          'active-color': activeBgColor,
         })
+
+        if (props.link) {
+          styles[ns.cssVarBlockName('hover-link-text-color')] = hoverColor
+          styles[ns.cssVarBlockName('active-color')] = activeBgColor
+        }
 
         if (_disabled.value) {
           const disabledColor = props.dark
