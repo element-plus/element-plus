@@ -148,10 +148,10 @@ tabs/default-value
 
 ### Tab-bar Exposes
 
-| Name   | Description                             | Type                                        |
-| ------ | --------------------------------------- | ------------------------------------------- |
-| ref    | tab root html element                   | ^[object]`Ref<HTMLDivElement \| undefined>` |
-| update | method to manually update tab bar style | ^[Function]`() => void`                     |
+| Name   | Description                                                       | Type                                        |
+| ------ | ----------------------------------------------------------------- | ------------------------------------------- |
+| ref    | tab root html element                                             | ^[object]`Ref<HTMLDivElement \| undefined>` |
+| update | method to manually update tab bar style, return the updated style | ^[Function]`() => CSSProperties`            |
 
 ## Tab-pane API
 
