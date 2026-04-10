@@ -73,7 +73,7 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | time-format           | optional, format of the time displayed in input's inner panel                                                                | ^[string] see [date formats](https://day.js.org/docs/en/display/format)                                                                                        | HH:mm:ss   |
 | unlink-panels         | unlink two date-panels in range-picker                                                                                       | ^[boolean]                                                                                                                                                     | false      |
 | disabled-date         | a function determining if a date is disabled with that date as its parameter. Should return a Boolean                        | ^[Function]`(data: Date) => boolean`                                                                                                                           | —          |
-| shortcuts             | an object array to set shortcut options                                                                                      | ^[array]`Array<{ text: string, value: Date \| Function }>`                                                                                                     | []         |
+| shortcuts             | an object array to set shortcut options                                                                                      | ^[array]`ShortCut[]`                                                                                                                                           | []         |
 | cell-class-name       | set custom className                                                                                                         | ^[Function]`(data: Date) => string`                                                                                                                            | —          |
 | show-footer           | whether to show footer where the date picker is one ^[enum]`'dates' \| 'months' \| 'years' \| 'datetime' \| 'datetimerange'` | ^[boolean]                                                                                                                                                     | false      |
 | show-confirm          | whether to show the confirm button                                                                                           | ^[boolean]                                                                                                                                                     | false      |
@@ -96,3 +96,27 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | next-month | next month icon     |
 | prev-year  | prev year icon      |
 | next-year  | next year icon      |
+
+## Type Declarations
+
+<details>
+  <summary>Show declarations</summary>
+
+```ts
+import type { Dayjs } from 'dayjs'
+import type { SetupContext } from 'vue'
+
+type SingleOrRange<T> = T | [T, T]
+type DayjsOrDate = Dayjs | Date
+type ShortCut =
+  | {
+      text: string
+      value: SingleOrRange<DayjsOrDate> | (() => SingleOrRange<DayjsOrDate>)
+    }
+  | {
+      text: string
+      onClick?: (ctx: Omit<SetupContext, 'expose'>) => void
+    }
+```
+
+</details>

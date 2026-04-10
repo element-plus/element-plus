@@ -4,6 +4,7 @@ import { disabledTimeListsProps } from '@element-plus/components/time-picker/src
 import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type {
   ModelValueType,
+  PublicShortcut,
   SingleOrRange,
 } from '@element-plus/components/time-picker'
 import type { DatePickerType } from '../types'
@@ -68,7 +69,7 @@ export const datePickerPanelProps = buildProps({
    * @description an object array to set shortcut options
    */
   shortcuts: {
-    type: Array,
+    type: definePropType<PublicShortcut[]>(Array),
     default: () => [],
   },
   /**

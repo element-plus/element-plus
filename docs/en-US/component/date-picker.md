@@ -189,7 +189,7 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | clear-icon                   | custom clear icon component                                                                                                           | ^[string] / ^[object]`Component`                                                                                                                               | `CircleClose`                      |
 | validate-event               | whether to trigger form validation                                                                                                    | ^[boolean]                                                                                                                                                     | true                               |
 | disabled-date                | a function determining if a date is disabled with that date as its parameter. Should return a Boolean                                 | ^[Function]`(data: Date) => boolean`                                                                                                                           | —                                  |
-| shortcuts                    | an object array to set shortcut options                                                                                               | ^[array]`Array<{ text: string, value: Date \| Function }>`                                                                                                     | []                                 |
+| shortcuts                    | an object array to set shortcut options                                                                                               | ^[array]`ShortCut[]`                                                                                                                                           | []                                 |
 | cell-class-name              | set custom className                                                                                                                  | ^[Function]`(data: Date) => string`                                                                                                                            | —                                  |
 | teleported                   | whether date-picker dropdown is teleported to the body                                                                                | ^[boolean]                                                                                                                                                     | true                               |
 | empty-values ^(2.7.0)        | empty values of component, [see config-provider](./config-provider.md#empty-values-configurations)                                    | ^[array]                                                                                                                                                       | —                                  |
@@ -240,6 +240,8 @@ Note, date time locale (month name, first day of the week ...) are also configur
 
 ```ts
 import type { Options as PopperOptions } from '@popperjs/core'
+import type { Dayjs } from 'dayjs'
+import type { SetupContext } from 'vue'
 
 type TimeLikeType = 'datetime' | 'datetimerange'
 
@@ -256,6 +258,18 @@ type Placement =
   | 'right'
   | 'right-start'
   | 'right-end'
+
+type SingleOrRange<T> = T | [T, T]
+type DayjsOrDate = Dayjs | Date
+type ShortCut =
+  | {
+      text: string
+      value: SingleOrRange<DayjsOrDate> | (() => SingleOrRange<DayjsOrDate>)
+    }
+  | {
+      text: string
+      onClick?: (ctx: Omit<SetupContext, 'expose'>) => void
+    }
 ```
 
 </details>

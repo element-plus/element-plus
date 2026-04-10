@@ -111,7 +111,7 @@ datetime-picker/custom-icon
 | unlink-panels                | unlink two date-panels in range-picker                                                                               | ^[boolean]                                                                                     | false                              |
 | prefix-icon                  | Custom prefix icon component                                                                                         | ^[string] / `Component`                                                                        | Date                               |
 | clear-icon                   | Custom clear icon component                                                                                          | ^[string] / `Component`                                                                        | CircleClose                        |
-| shortcuts                    | an object array to set shortcut options                                                                              | ^[array]`Array<{ text: string, value: Date \| Function }>`                                     | —                                  |
+| shortcuts                    | an object array to set shortcut options                                                                              | ^[array]`ShortCut[]`                                                                           | —                                  |
 | disabled-date                | a function determining if a date is disabled with that date as its parameter. Should return a Boolean                | ^[Function]`(data: Date) => boolean`                                                           | —                                  |
 | disabled-hours               | To specify the array of hours that cannot be selected                                                                | ^[Function]`(role: string, comparingDate?: Dayjs) => number[]`                                 | —                                  |
 | disabled-minutes             | To specify the array of minutes that cannot be selected                                                              | ^[Function]`(hour: number, role: string, comparingDate?: Dayjs) => number[]`                   | —                                  |
@@ -161,6 +161,12 @@ datetime-picker/custom-icon
   <summary>Show declarations</summary>
 
 ```ts
+import type { Options as PopperOptions } from '@popperjs/core'
+import type { Dayjs } from 'dayjs'
+import type { SetupContext } from 'vue'
+
+type TimeLikeType = 'datetime' | 'datetimerange'
+
 type Placement =
   | 'top'
   | 'top-start'
@@ -174,6 +180,18 @@ type Placement =
   | 'right'
   | 'right-start'
   | 'right-end'
+
+type SingleOrRange<T> = T | [T, T]
+type DayjsOrDate = Dayjs | Date
+type ShortCut =
+  | {
+      text: string
+      value: SingleOrRange<DayjsOrDate> | (() => SingleOrRange<DayjsOrDate>)
+    }
+  | {
+      text: string
+      onClick?: (ctx: Omit<SetupContext, 'expose'>) => void
+    }
 ```
 
 </details>
