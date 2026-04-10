@@ -6,6 +6,7 @@
     "jsxImportSource": "vue",
     "lib": ["ES2018", "ES2022.Intl", "DOM", "DOM.Iterable"],
     "types": [],
+    "noUncheckedSideEffectImports": false,
     "skipLibCheck": true
   },
   "include": ["packages", "typings/env.d.ts"],
