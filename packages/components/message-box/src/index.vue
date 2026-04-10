@@ -168,6 +168,7 @@ import {
 import ElButton from '@element-plus/components/button'
 import { TrapFocus } from '@element-plus/directives'
 import {
+  buildTranslator,
   useDraggable,
   useId,
   useLockscreen,
@@ -265,7 +266,9 @@ export default defineComponent({
       computed(() => props.buttonSize)
     )
 
-    const { t } = locale
+    const t = computed(() =>
+      state.locale ? buildTranslator(state.locale) : locale.t
+    )
     const { nextZIndex } = zIndex
 
     const visible = ref(false)
@@ -313,6 +316,7 @@ export default defineComponent({
       // isOnComposition: false, // temporary remove
       validateError: false,
       zIndex: nextZIndex(),
+      locale: undefined,
     })
 
     const typeClass = computed(() => {
@@ -437,7 +441,7 @@ export default defineComponent({
         const inputPattern = state.inputPattern
         if (inputPattern && !inputPattern.test(state.inputValue || '')) {
           state.editorErrorMessage =
-            state.inputErrorMessage || t('el.messagebox.error')
+            state.inputErrorMessage || t.value('el.messagebox.error')
           state.validateError = true
           return false
         }
@@ -446,7 +450,7 @@ export default defineComponent({
           const validateResult = inputValidator(state.inputValue)
           if (validateResult === false) {
             state.editorErrorMessage =
-              state.inputErrorMessage || t('el.messagebox.error')
+              state.inputErrorMessage || t.value('el.messagebox.error')
             state.validateError = true
             return false
           }
