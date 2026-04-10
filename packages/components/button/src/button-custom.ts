@@ -70,11 +70,7 @@ export function useButtonCustomStyle(props: ButtonProps) {
           'text-color': buttonColor,
           'border-color': 'transparent',
           'hover-text-color': hoverColor,
-          'hover-bg-color': 'transparent',
-          'hover-border-color': 'transparent',
-          'active-bg-color': 'transparent',
           'active-text-color': activeBgColor,
-          'active-border-color': 'transparent',
         })
 
         if (props.link) {
