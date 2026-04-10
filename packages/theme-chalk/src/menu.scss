@@ -7,7 +7,7 @@
   display: flex;
   align-items: center;
   height: getCssVar('menu-item-height');
-  line-height: getCssVar('menu-item-height');
+  line-height: normal;
   font-size: getCssVar('menu-item-font-size');
   color: getCssVar('menu-text-color');
   padding: 0 getCssVar('menu-base-level-padding');
@@ -60,25 +60,19 @@
   box-sizing: border-box;
 
   @include m(vertical) {
-    &:not(.#{$namespace}-menu--collapse):not(
-        .#{$namespace}-menu--popup-container
-      ) {
+    &:not(.#{$namespace}-menu--collapse):not(.#{$namespace}-menu--popup-container) {
+
       & .#{$namespace}-menu-item,
       & .#{$namespace}-sub-menu__title,
       & .#{$namespace}-menu-item-group__title {
         white-space: nowrap;
-        padding-left: calc(
-          #{getCssVar('menu-base-level-padding')} + #{getCssVar('menu-level')} *
-            #{getCssVar('menu-level-padding')}
-        );
+        padding-left: calc(#{getCssVar('menu-base-level-padding')} + #{getCssVar('menu-level')} * #{getCssVar('menu-level-padding')});
       }
     }
   }
 
   &:not(.#{$namespace}-menu--collapse) .#{$namespace}-sub-menu__title {
-    padding-right: calc(
-      #{getCssVar('menu-base-level-padding')} + #{getCssVar('menu-icon-width')}
-    );
+    padding-right: calc(#{getCssVar('menu-base-level-padding')} + #{getCssVar('menu-icon-width')});
   }
 
   @include m(horizontal) {
@@ -97,7 +91,7 @@
       border-bottom: solid 1px getCssVar('menu-border-color');
     }
 
-    & > .#{$namespace}-menu-item {
+    &>.#{$namespace}-menu-item {
       display: inline-flex;
       justify-content: center;
       align-items: center;
@@ -113,7 +107,8 @@
       }
     }
 
-    & > .#{$namespace}-sub-menu {
+    &>.#{$namespace}-sub-menu {
+
       &:focus,
       &:hover {
         outline: none;
@@ -144,6 +139,7 @@
     }
 
     & .#{$namespace}-menu {
+
       & .#{$namespace}-menu-item,
       & .#{$namespace}-sub-menu__title {
         background-color: getCssVar('menu-bg-color');
@@ -161,10 +157,8 @@
 
       & .#{$namespace}-menu-item.is-active,
       & .#{$namespace}-menu-item.is-active:hover,
-      & .#{$namespace}-sub-menu.is-active > .#{$namespace}-sub-menu__title,
-      &
-        .#{$namespace}-sub-menu.is-active
-        > .#{$namespace}-sub-menu__title:hover {
+      & .#{$namespace}-sub-menu.is-active>.#{$namespace}-sub-menu__title,
+      & .#{$namespace}-sub-menu.is-active>.#{$namespace}-sub-menu__title:hover {
         color: getCssVar('menu-active-color');
       }
     }
@@ -172,31 +166,23 @@
     & .#{$namespace}-menu-item:not(.is-disabled):hover,
     & .#{$namespace}-menu-item:not(.is-disabled):focus {
       outline: none;
-      color: getCssVarWithDefault(
-        'menu-active-color',
-        getCssVar('menu-hover-text-color')
-      );
+      color: getCssVarWithDefault('menu-active-color',
+          getCssVar('menu-hover-text-color'));
       background-color: getCssVar('menu-hover-bg-color');
     }
 
-    & > .#{$namespace}-menu-item.is-active {
+    &>.#{$namespace}-menu-item.is-active {
       border-bottom: 2px solid getCssVar('menu-active-color');
       color: getCssVar('menu-active-color') !important;
     }
   }
 
   @include m(collapse) {
-    width: calc(
-      #{getCssVar('menu-icon-width')} +
-        #{getCssVar('menu-base-level-padding')} * 2
-    );
+    width: calc(#{getCssVar('menu-icon-width')} + #{getCssVar('menu-base-level-padding')} * 2);
 
-    > .#{$namespace}-menu-item,
-    > .#{$namespace}-sub-menu > .#{$namespace}-sub-menu__title,
-    > .#{$namespace}-menu-item-group
-      > ul
-      > .#{$namespace}-sub-menu
-      > .#{$namespace}-sub-menu__title {
+    >.#{$namespace}-menu-item,
+    >.#{$namespace}-sub-menu>.#{$namespace}-sub-menu__title,
+    >.#{$namespace}-menu-item-group>ul>.#{$namespace}-sub-menu>.#{$namespace}-sub-menu__title {
       [class^='#{$namespace}-icon'] {
         margin: 0;
         vertical-align: middle;
@@ -208,7 +194,7 @@
         display: none;
       }
 
-      > span {
+      >span {
         height: 0;
         width: 0;
         overflow: hidden;
@@ -217,7 +203,7 @@
       }
     }
 
-    > .#{$namespace}-menu-item.is-active i {
+    >.#{$namespace}-menu-item.is-active i {
       color: inherit;
     }
 
@@ -317,6 +303,7 @@
   }
 
   @include when(disabled) {
+
     .#{$namespace}-sub-menu__title,
     .#{$namespace}-menu-item {
       opacity: 0.25;
@@ -350,7 +337,7 @@
 }
 
 @include b(menu-item-group) {
-  > ul {
+  >ul {
     padding: 0;
   }
 
@@ -362,9 +349,7 @@
   }
 }
 
-.horizontal-collapse-transition
-  .#{$namespace}-sub-menu__title
-  .#{$namespace}-sub-menu__icon-arrow {
+.horizontal-collapse-transition .#{$namespace}-sub-menu__title .#{$namespace}-sub-menu__icon-arrow {
   transition: getCssVar('transition-duration-fast');
   opacity: 0;
 }
