@@ -4,6 +4,7 @@ import type { AppContext, Component, VNode } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type { InputType } from '@element-plus/components/input/src/input'
 import type { CSSProperties } from '@element-plus/utils'
+import type { Language } from '@element-plus/locale'
 
 type MessageType = '' | 'primary' | 'success' | 'warning' | 'info' | 'error'
 type MessageBoxButtonType = (typeof buttonTypes)[number]
@@ -65,6 +66,7 @@ export declare interface MessageBoxState {
   // isOnComposition: false, // temporary remove
   validateError: boolean
   zIndex: number
+  locale: Language | undefined
 }
 
 export type Callback =
@@ -207,6 +209,9 @@ export interface ElMessageBoxOptions {
 
   /** Custom element to append the message box to */
   appendTo?: HTMLElement | string
+
+  /** Locale Object for MessageBox */
+  locale?: Language
 }
 
 export type ElMessageBoxShortcutMethod = ((

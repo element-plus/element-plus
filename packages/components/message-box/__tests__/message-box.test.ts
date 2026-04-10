@@ -472,4 +472,35 @@ describe('MessageBox', () => {
     expect(cancelBtn).not.toBeNull()
     expect(confirmBtn).not.toBeNull()
   })
+
+  test('locale option should override default locale', async () => {
+    const zhCn = await import('@element-plus/locale/lang/zh-cn')
+    MessageBox.alert('message', 'title', {
+      locale: zhCn.default,
+    })
+    await rAF()
+    const confirmBtn = document.querySelector(
+      '.el-message-box__btns .el-button--primary'
+    )
+    expect(confirmBtn?.textContent?.trim()).toBe('确定')
+  })
+
+  test('locale option with English should show English text', async () => {
+    const en = await import('@element-plus/locale/lang/en')
+    MessageBox({
+      title: 'title',
+      message: 'message',
+      showCancelButton: true,
+      locale: en.default,
+    })
+    await rAF()
+    const confirmBtn = document.querySelector(
+      '.el-message-box__btns .el-button--primary'
+    )
+    const cancelBtn = document.querySelector(
+      '.el-message-box__btns .el-button:not(.el-button--primary)'
+    )
+    expect(confirmBtn?.textContent?.trim()).toBe('OK')
+    expect(cancelBtn?.textContent?.trim()).toBe('Cancel')
+  })
 })
