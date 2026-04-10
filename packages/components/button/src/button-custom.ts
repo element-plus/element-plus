@@ -66,9 +66,7 @@ export function useButtonCustomStyle(props: ButtonProps) {
           : color.tint(30).toString()
 
         styles = ns.cssVarBlock({
-          'bg-color': 'transparent',
           'text-color': buttonColor,
-          'border-color': 'transparent',
           'hover-text-color': hoverColor,
           'active-text-color': activeBgColor,
         })
