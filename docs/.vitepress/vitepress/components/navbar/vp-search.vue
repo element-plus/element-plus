@@ -2,13 +2,10 @@
 import '@docsearch/css'
 import { getCurrentInstance, onMounted, watch } from 'vue'
 import { useRoute, useRouter, withBase } from 'vitepress'
-//@ts-expect-error
 import docsearch from '@docsearch/js'
 import { isClient } from '@vueuse/core'
 import { useLang } from '../../composables/lang'
 import searchLocale from '../../../i18n/component/search.json'
-
-import type { DocSearchHit } from '@docsearch/react/dist/esm/types'
 
 const props = defineProps<{
   options: any
@@ -97,7 +94,7 @@ function initialize(userOptions: any) {
         },
       },
 
-      transformItems: (items: DocSearchHit[]) => {
+      transformItems: (items: any[]) => {
         return items.map((item) => {
           return Object.assign({}, item, {
             url: getRelativePath(item.url),
@@ -105,13 +102,7 @@ function initialize(userOptions: any) {
         })
       },
 
-      hitComponent: ({
-        hit,
-        children,
-      }: {
-        hit: DocSearchHit
-        children: any
-      }) => {
+      hitComponent: ({ hit, children }: { hit: any; children: any }) => {
         const relativeHit = hit.url.startsWith('http')
           ? getRelativePath(hit.url as string)
           : withBase(hit.url)

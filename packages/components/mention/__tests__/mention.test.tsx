@@ -1,6 +1,7 @@
-import { nextTick } from 'vue'
+import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { EVENT_CODE } from '@element-plus/constants'
 import Form from '@element-plus/components/form'
 import Mention from '../src/mention.vue'
 import * as helper from '../src/helper'
@@ -33,6 +34,11 @@ describe('Mention.vue', () => {
       value: 'btea',
     },
   ]
+
+  const optionsWithDisabled = options.map((item, index) => ({
+    ...item,
+    disabled: !(index & 1),
+  }))
 
   test('should work with `options` prop', async () => {
     const wrapper = mount(Mention, {
@@ -259,5 +265,107 @@ describe('Mention.vue', () => {
     expect(cursorStyles).toContain('top: 108px')
 
     vi.restoreAllMocks()
+  })
+
+  test('should select first non-disabled option when pressing enter', async () => {
+    const model = ref('')
+    const wrapper = mount(
+      () => <Mention v-model={model.value} options={optionsWithDisabled} />,
+      { attachTo: document.body }
+    )
+
+    const inputEl = wrapper.find('input')
+    inputEl.element.focus()
+    await inputEl.setValue('@')
+
+    vi.advanceTimersByTime(150)
+    await nextTick()
+
+    expect(document.querySelector('.el-mention-dropdown')).not.toEqual(null)
+
+    const dropdown = wrapper.findComponent({ name: 'ElMentionDropdown' })
+    const dropdownVm = dropdown.vm as any
+    expect(dropdownVm.hoveringIndex).toBe(1)
+
+    await inputEl.trigger('keydown', {
+      code: EVENT_CODE.enter,
+      key: EVENT_CODE.enter,
+    })
+    await nextTick()
+
+    expect(inputEl.element.value).toBe('@kooriookami ')
+    expect(model.value).toBe('@kooriookami ')
+  })
+
+  test('should not select disabled option when pressing enter', async () => {
+    const model = ref('')
+    const wrapper = mount(
+      () => <Mention v-model={model.value} options={optionsWithDisabled} />,
+      { attachTo: document.body }
+    )
+
+    const inputEl = wrapper.find('input')
+    inputEl.element.focus()
+    await inputEl.setValue('@')
+
+    vi.advanceTimersByTime(150)
+    await nextTick()
+
+    expect(document.querySelector('.el-mention-dropdown')).not.toEqual(null)
+
+    const dropdown = wrapper.findComponent({ name: 'ElMentionDropdown' })
+    const dropdownVm = dropdown.vm as any
+    dropdownVm.hoveringIndex = 0
+
+    await nextTick()
+
+    const dropdownItems = document.querySelectorAll(
+      '.el-mention-dropdown__item'
+    )
+    expect(dropdownItems[0].classList.contains('is-hovering')).toBe(true)
+    expect(dropdownItems[0].classList.contains('is-disabled')).toBe(true)
+
+    await inputEl.trigger('keydown', {
+      code: EVENT_CODE.enter,
+      key: EVENT_CODE.enter,
+    })
+    await nextTick()
+
+    expect(inputEl.element.value).toBe('@')
+    expect(model.value).toBe('@')
+  })
+
+  test('should remove whole mention with spaces when pressing backspace', async () => {
+    const model = ref('@test 1 ')
+    const onWholeRemove = vi.fn()
+    const wrapper = mount(
+      () => (
+        <Mention
+          v-model={model.value}
+          options={[{ label: 'test 1', value: 'test 1' }]}
+          whole
+          onWhole-remove={onWholeRemove}
+        />
+      ),
+      {
+        attachTo: document.body,
+      }
+    )
+
+    const inputEl = wrapper.find('input')
+    inputEl.element.focus()
+    inputEl.element.setSelectionRange(8, 8)
+    await inputEl.trigger('focus')
+    vi.advanceTimersByTime(150)
+    await nextTick()
+
+    await inputEl.trigger('keydown', {
+      code: EVENT_CODE.backspace,
+      key: EVENT_CODE.backspace,
+    })
+    await nextTick()
+
+    expect(model.value).toBe('')
+    expect(onWholeRemove).toHaveBeenCalledWith('test 1', '@')
   })
 })

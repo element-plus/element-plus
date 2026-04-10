@@ -1,4 +1,4 @@
-import findWorkspacePackages from '@pnpm/find-workspace-packages'
+import { findWorkspacePackages } from '@pnpm/find-workspace-packages'
 import { normalizePath, projRoot } from './paths'
 
 import type { ProjectManifest } from '@pnpm/types'
@@ -29,7 +29,7 @@ export const getPackageDependencies = (
 }
 
 export const excludeFiles = (files: string[]) => {
-  const excludes = ['node_modules', 'test', 'mock', 'gulpfile', 'dist']
+  const excludes = ['node_modules', 'test', 'mock', 'buildfile', 'dist']
   const projRootPath = normalizePath(projRoot)
   return files.filter((file) => {
     const position = file.startsWith(projRootPath) ? projRootPath.length : 0

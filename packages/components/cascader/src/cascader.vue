@@ -604,7 +604,12 @@ const focusFirstNode = () => {
 
   if (firstNode) {
     firstNode.focus()
-    !filtering.value && firstNode.click()
+    if (
+      !filtering.value &&
+      firstNode.getAttribute('aria-haspopup') === 'true'
+    ) {
+      firstNode.click()
+    }
   }
 }
 
@@ -779,12 +784,22 @@ const handleInput = (val: string, e?: InputEvent) => {
 
   if (e?.isComposing) return
 
-  val ? handleFilter() : hideSuggestionPanel()
+  if (val) {
+    handleFilter()
+  } else {
+    const passed = props.beforeFilter('')
+    if (isPromise(passed)) {
+      passed.catch(() => {
+        /* prevent log error */
+      })
+    }
+    hideSuggestionPanel()
+  }
 }
 
 const getInputInnerHeight = (inputInner: HTMLElement): number =>
   Number.parseFloat(
-    useCssVar(nsInput.cssVarName('input-height'), inputInner).value
+    useCssVar(nsInput.cssVarName('input-height'), inputInner).value!
   ) - 2
 
 const focus = () => {

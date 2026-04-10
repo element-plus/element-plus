@@ -140,6 +140,7 @@ describe('config-provider', () => {
         round: true,
         autoInsertSpace: true,
         text: true,
+        dashed: true,
       } as const)
 
       const wrapper = mount(() => (
@@ -151,7 +152,7 @@ describe('config-provider', () => {
       expect(
         wrapper
           .find(
-            '.el-button.el-button--warning.is-plain.is-round.is-text .el-button__text--expand'
+            '.el-button.el-button--warning.is-plain.is-round.is-text.is-dashed .el-button__text--expand'
           )
           .exists()
       ).toBe(true)

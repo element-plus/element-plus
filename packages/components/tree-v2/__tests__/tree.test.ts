@@ -864,6 +864,82 @@ describe('Virtual Tree', () => {
     expect(nodes.length).toBe(5)
   })
 
+  test('defaultExpandedKeys change should update expand icon state', async () => {
+    const defaultExpandedKeys = ref<string[]>([])
+    const { wrapper } = createTree({
+      data() {
+        return {
+          height: 400,
+          data: [
+            {
+              id: '1',
+              label: 'node-1',
+              children: [
+                {
+                  id: '1-1',
+                  label: 'node-1-1',
+                },
+              ],
+            },
+            {
+              id: '2',
+              label: 'node-2',
+            },
+          ],
+          defaultExpandedKeys,
+        }
+      },
+    })
+    await nextTick()
+    let expandIcons = wrapper.findAll(TREE_NODE_EXPAND_ICON_CLASS_NAME)
+    expect(expandIcons.length).toBe(2)
+    expect(expandIcons[0].classes()).not.toContain('expanded')
+    defaultExpandedKeys.value = ['1']
+    await nextTick()
+    expandIcons = wrapper.findAll(TREE_NODE_EXPAND_ICON_CLASS_NAME)
+    expect(expandIcons[0].classes()).toContain('expanded')
+    defaultExpandedKeys.value = []
+    await nextTick()
+    expandIcons = wrapper.findAll(TREE_NODE_EXPAND_ICON_CLASS_NAME)
+    expect(expandIcons[0].classes()).not.toContain('expanded')
+  })
+
+  test('defaultExpandedKeys with child key should expand parent nodes', async () => {
+    const { wrapper } = createTree({
+      data() {
+        return {
+          height: 400,
+          data: [
+            {
+              id: '1',
+              label: 'node-1',
+              children: [
+                {
+                  id: '1-1',
+                  label: 'node-1-1',
+                  children: [
+                    { id: '1-1-1', label: 'node-1-1-1' },
+                    { id: '1-1-2', label: 'node-1-1-2' },
+                  ],
+                },
+                { id: '1-2', label: 'node-1-2' },
+                { id: '1-3', label: 'node-1-3' },
+              ],
+            },
+            { id: '2', label: 'node-2' },
+          ],
+          defaultExpandedKeys: ['1-1-1'],
+        }
+      },
+    })
+    await nextTick()
+    const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+    expect(nodes.length).toBe(7)
+    const expandIcons = wrapper.findAll(TREE_NODE_EXPAND_ICON_CLASS_NAME)
+    expect(expandIcons[0].classes()).toContain('expanded')
+    expect(expandIcons[1].classes()).toContain('expanded')
+  })
+
   test('setExpandedKeys', async () => {
     const { treeRef, wrapper } = createTree({
       data() {

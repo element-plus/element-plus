@@ -236,5 +236,31 @@ describe('<ElTooltip />', () => {
       expect(document.activeElement).not.toBe(triggerEl.element)
       expect(wrapper.emitted()).toHaveProperty('show')
     })
+
+    it('should resync visibility when disabled toggles in controlled mode', async () => {
+      wrapper = createComponent(
+        {
+          visible: true,
+          disabled: true,
+        },
+        content
+      )
+      await nextTick()
+      await rAF()
+
+      expect(wrapper.emitted()).not.toHaveProperty('show')
+
+      await wrapper.setProps({ disabled: false })
+      await nextTick()
+      await rAF()
+
+      expect(wrapper.emitted()).toHaveProperty('show')
+
+      await wrapper.setProps({ disabled: true })
+      await nextTick()
+      await rAF()
+
+      expect(wrapper.emitted()).toHaveProperty('hide')
+    })
   })
 })
