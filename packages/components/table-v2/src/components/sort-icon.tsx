@@ -2,12 +2,12 @@ import ElIcon from '@element-plus/components/icon'
 import { SortDown, SortUp } from '@element-plus/icons-vue'
 import { SortOrder } from '../constants'
 
-import type { FunctionalComponent } from 'vue'
+import type { ClassValue, FunctionalComponent } from 'vue'
 
 export type SortIconProps = {
   sortOrder: SortOrder
   ariaLabel?: string
-  class?: JSX.IntrinsicAttributes['class']
+  class?: ClassValue
 }
 
 const SortIcon: FunctionalComponent<SortIconProps> = (props) => {

@@ -1,8 +1,8 @@
-import type { CSSProperties, FunctionalComponent } from 'vue'
+import type { ClassValue, FunctionalComponent, StyleValue } from 'vue'
 
 type FooterRendererProps = {
-  class?: JSX.IntrinsicAttributes['class']
-  style: CSSProperties
+  class?: ClassValue
+  style?: StyleValue
 }
 
 const Footer: FunctionalComponent<FooterRendererProps> = (props, { slots }) => {

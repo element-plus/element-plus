@@ -1,8 +1,10 @@
 import type {
   CSSProperties,
+  ClassValue,
   FunctionalComponent,
   RendererElement,
   RendererNode,
+  StyleValue,
   VNode,
 } from 'vue'
 import type { ColumnAlignment } from '@element-plus/constants'
@@ -128,8 +130,8 @@ export type TableV2CustomizedHeaderSlotParam<T = any> = {
 }
 
 export type SimpleFunctionalComponentProps<T extends object> = {
-  class?: JSX.IntrinsicAttributes['class']
-  style?: CSSProperties
+  class?: ClassValue
+  style?: StyleValue
 } & T
 
 export type SimpleFunctionalComponent<

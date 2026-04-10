@@ -98,7 +98,7 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
 
       {sortable && (
         <SortIcon
-          class={[ns.e('sort-icon'), sorting && ns.is('sorting')]}
+          class={[ns.e('sort-icon'), sorting ? ns.is('sorting') : '']}
           sortOrder={sortOrder}
           ariaLabel={t('el.table.sortLabel', { column: column.title || '' })}
         />

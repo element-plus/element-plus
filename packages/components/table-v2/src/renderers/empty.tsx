@@ -1,11 +1,11 @@
 import { renderSlot } from 'vue'
 import ElEmpty from '@element-plus/components/empty'
 
-import type { CSSProperties, FunctionalComponent } from 'vue'
+import type { ClassValue, FunctionalComponent, StyleValue } from 'vue'
 
 type EmptyRendererProps = {
-  class?: JSX.IntrinsicAttributes['class']
-  style?: CSSProperties
+  class?: ClassValue
+  style?: StyleValue
 }
 
 const Footer: FunctionalComponent<EmptyRendererProps> = (props, { slots }) => {
