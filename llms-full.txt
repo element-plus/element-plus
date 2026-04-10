@@ -2432,6 +2432,8 @@ You can custom button color.
 
 We will calculate hover color & active color automatically.
 
+The `color` prop also works with `link` and `text` buttons since ^(2.13.7).
+
 
 
 ## Button API
@@ -2456,7 +2458,7 @@ We will calculate hover color & active color automatically.
 | autofocus         | same as native button's `autofocus`                                                                                                                  | ^[boolean]                                                                                                   | false   |
 | native-type       | same as native button's `type`                                                                                                                       | ^[enum]`'button' \| 'submit' \| 'reset'`                                                                     | button  |
 | auto-insert-space | automatically insert a space between two chinese characters(this will only take effect when the text length is 2 and all characters are in Chinese.) | ^[boolean]                                                                                                   | false   |
-| color             | custom button color, automatically calculate `hover` and `active` color                                                                              | ^[string]                                                                                                    | —       |
+| color             | custom button color, automatically calculate `hover` and `active` color. Works with `link`/`text` buttons since ^(2.13.7)                            | ^[string]                                                                                                    | —       |
 | dark              | dark mode, which automatically converts `color` to dark mode colors                                                                                  | ^[boolean]                                                                                                   | false   |
 | tag ^(2.3.4)      | custom element tag                                                                                                                                   | ^[string] / ^[Component]                                                                                     | button  |
 
@@ -2589,10 +2591,22 @@ import { isDark } from '~/composables/dark'
   <div>
     <el-button color="#626aef" :dark="isDark">Default</el-button>
     <el-button color="#626aef" :dark="isDark" plain>Plain</el-button>
+    <el-button color="#626aef" :dark="isDark" link>Link</el-button>
+    <el-button color="#626aef" :dark="isDark" text>Text</el-button>
+    <el-button color="#626aef" :dark="isDark" text bg>Text BG</el-button>
 
     <el-button color="#626aef" :dark="isDark" disabled>Disabled</el-button>
     <el-button color="#626aef" :dark="isDark" disabled plain>
       Disabled Plain
+    </el-button>
+    <el-button color="#626aef" :dark="isDark" disabled link>
+      Disabled Link
+    </el-button>
+    <el-button color="#626aef" :dark="isDark" disabled text>
+      Disabled Text
+    </el-button>
+    <el-button color="#626aef" :dark="isDark" disabled text bg>
+      Disabled Text BG
     </el-button>
   </div>
 </template>
@@ -16007,17 +16021,17 @@ According to different CDN providers, there are different introduction methods.
 Here we use [unpkg](https://unpkg.com) and [jsDelivr](https://jsdelivr.com) as example.
 You can also use other CDN providers.
 
-#### unpkg
+::: code-group
 
-```html
+```html [unpkg]
 <script src="//unpkg.com/@element-plus/icons-vue"></script>
 ```
 
-#### jsDelivr
-
-```html
+```html [jsDelivr]
 <script src="//cdn.jsdelivr.net/npm/@element-plus/icons-vue"></script>
 ```
+
+:::
 
 
 
@@ -17699,46 +17713,53 @@ Prepend or append an element, generally a label or a button.
 
 
 
+## Count graphemes ^(2.13.7)
+
+
+
+
+
 ## API
 
 ### Attributes
 
-| Name                          | Description                                                                                                                            | Type                                                                                                | Default     |
-| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ----------- |
-| type                          | type of input, see more in [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types)               | ^[string]`'text' \| 'textarea' \| 'number' \| 'password' \| 'email' \| 'search' \| 'tel' \|  'url'` | text        |
-| model-value / v-model         | binding value                                                                                                                          | ^[string] / ^[number]                                                                               | —           |
-| model-modifiers ^(2.11.5)     | v-model modifiers, reference [Vue modifiers](https://vuejs.org/guide/essentials/forms.html#modifiers)                                  | ^[object]`{ lazy?: true, number?: true, trim?: true }`                                              | —           |
-| maxlength                     | same as `maxlength` in native input                                                                                                    | ^[string] / ^[number]                                                                               | —           |
-| minlength                     | same as `minlength` in native input                                                                                                    | ^[string] / ^[number]                                                                               | —           |
-| show-word-limit               | whether show word count, only works when `type` is 'text' or 'textarea'                                                                | ^[boolean]                                                                                          | false       |
-| word-limit-position ^(2.11.5) | word count position, valid when `show-word-limit` is true                                                                              | ^[enum]`'inside' \| 'outside' `                                                                     | "inside"    |
-| placeholder                   | placeholder of Input                                                                                                                   | ^[string]                                                                                           | —           |
-| clearable                     | whether to show clear button, only works when `type` is not 'textarea'                                                                 | ^[boolean]                                                                                          | false       |
-| clear-icon ^(2.11.0)          | custom clear icon component                                                                                                            | ^[string] / ^[object]`Component`                                                                    | CircleClose |
-| formatter                     | specifies the format of the value presented input.(only works when `type` is 'text')                                                   | ^[Function]`(value: string \| number) => string`                                                    | —           |
-| parser                        | specifies the value extracted from formatter input.(only works when `type` is 'text')                                                  | ^[Function]`(value: string) => string`                                                              | —           |
-| show-password                 | whether to show toggleable password input                                                                                              | ^[boolean]                                                                                          | false       |
-| disabled                      | whether Input is disabled                                                                                                              | ^[boolean]                                                                                          | false       |
-| size                          | size of Input, works when `type` is not 'textarea'                                                                                     | ^[enum]`'large' \| 'default' \| 'small'`                                                            | —           |
-| prefix-icon                   | prefix icon component                                                                                                                  | ^[string] / ^[Component]                                                                            | —           |
-| suffix-icon                   | suffix icon component                                                                                                                  | ^[string] / ^[Component]                                                                            | —           |
-| rows                          | number of rows of textarea, only works when `type` is 'textarea'                                                                       | ^[number]                                                                                           | 2           |
-| autosize                      | whether textarea has an adaptive height, only works when `type` is 'textarea'. Can accept an object, e.g. `{ minRows: 2, maxRows: 6 }` | ^[boolean] / ^[object]`{ minRows?: number, maxRows?: number }`                                      | false       |
-| autocomplete                  | same as `autocomplete` in native input                                                                                                 | ^[string]                                                                                           | off         |
-| name                          | same as `name` in native input                                                                                                         | ^[string]                                                                                           | —           |
-| readonly                      | same as `readonly` in native input                                                                                                     | ^[boolean]                                                                                          | false       |
-| max                           | same as `max` in native input                                                                                                          | —                                                                                                   | —           |
-| min                           | same as `min` in native input                                                                                                          | —                                                                                                   | —           |
-| step                          | same as `step` in native input                                                                                                         | —                                                                                                   | —           |
-| resize                        | control the resizability                                                                                                               | ^[enum]`'none' \| 'both' \| 'horizontal' \| 'vertical'`                                             | —           |
-| autofocus                     | same as `autofocus` in native input                                                                                                    | ^[boolean]                                                                                          | false       |
-| form                          | same as `form` in native input                                                                                                         | `string`                                                                                            | —           |
-| aria-label ^(a11y) ^(2.7.2)   | same as `aria-label` in native input                                                                                                   | ^[string]                                                                                           | —           |
-| tabindex                      | input tabindex                                                                                                                         | ^[string] / ^[number]                                                                               | —           |
-| validate-event                | whether to trigger form validation                                                                                                     | ^[boolean]                                                                                          | true        |
-| input-style                   | the style of the input element or textarea element                                                                                     | ^[string] / ^[object]`CSSProperties \| CSSProperties[] \| string[]`                                 | {}          |
-| label ^(a11y) ^(deprecated)   | same as `aria-label` in native input                                                                                                   | ^[string]                                                                                           | —           |
-| inputmode ^(2.10.3)           | same as `inputmode` in native input                                                                                                    | ^[string]                                                                                           | —           |
+| Name                          | Description                                                                                                                                                                                                                                                                         | Type                                                                                                | Default     |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ----------- |
+| type                          | type of input, see more in [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types)                                                                                                                                                            | ^[string]`'text' \| 'textarea' \| 'number' \| 'password' \| 'email' \| 'search' \| 'tel' \|  'url'` | text        |
+| model-value / v-model         | binding value                                                                                                                                                                                                                                                                       | ^[string] / ^[number]                                                                               | —           |
+| model-modifiers ^(2.11.5)     | v-model modifiers, reference [Vue modifiers](https://vuejs.org/guide/essentials/forms.html#modifiers)                                                                                                                                                                               | ^[object]`{ lazy?: true, number?: true, trim?: true }`                                              | —           |
+| maxlength                     | same as `maxlength` in native input                                                                                                                                                                                                                                                 | ^[string] / ^[number]                                                                               | —           |
+| minlength                     | same as `minlength` in native input                                                                                                                                                                                                                                                 | ^[string] / ^[number]                                                                               | —           |
+| show-word-limit               | whether show word count, only works when `type` is 'text' or 'textarea'                                                                                                                                                                                                             | ^[boolean]                                                                                          | false       |
+| word-limit-position ^(2.11.5) | word count position, valid when `show-word-limit` is true                                                                                                                                                                                                                           | ^[enum]`'inside' \| 'outside'`                                                                      | "inside"    |
+| placeholder                   | placeholder of Input                                                                                                                                                                                                                                                                | ^[string]                                                                                           | —           |
+| clearable                     | whether to show clear button, only works when `type` is not 'textarea'                                                                                                                                                                                                              | ^[boolean]                                                                                          | false       |
+| clear-icon ^(2.11.0)          | custom clear icon component                                                                                                                                                                                                                                                         | ^[string] / ^[object]`Component`                                                                    | CircleClose |
+| formatter                     | specifies the format of the value presented input.(only works when `type` is 'text')                                                                                                                                                                                                | ^[Function]`(value: string \| number) => string`                                                    | —           |
+| parser                        | specifies the value extracted from formatter input.(only works when `type` is 'text')                                                                                                                                                                                               | ^[Function]`(value: string) => string`                                                              | —           |
+| show-password                 | whether to show toggleable password input                                                                                                                                                                                                                                           | ^[boolean]                                                                                          | false       |
+| disabled                      | whether Input is disabled                                                                                                                                                                                                                                                           | ^[boolean]                                                                                          | false       |
+| size                          | size of Input, works when `type` is not 'textarea'                                                                                                                                                                                                                                  | ^[enum]`'large' \| 'default' \| 'small'`                                                            | —           |
+| prefix-icon                   | prefix icon component                                                                                                                                                                                                                                                               | ^[string] / ^[Component]                                                                            | —           |
+| suffix-icon                   | suffix icon component                                                                                                                                                                                                                                                               | ^[string] / ^[Component]                                                                            | —           |
+| rows                          | number of rows of textarea, only works when `type` is 'textarea'                                                                                                                                                                                                                    | ^[number]                                                                                           | 2           |
+| autosize                      | whether textarea has an adaptive height, only works when `type` is 'textarea'. Can accept an object, e.g. `{ minRows: 2, maxRows: 6 }`                                                                                                                                              | ^[boolean] / ^[object]`{ minRows?: number, maxRows?: number }`                                      | false       |
+| autocomplete                  | same as `autocomplete` in native input                                                                                                                                                                                                                                              | ^[string]                                                                                           | off         |
+| name                          | same as `name` in native input                                                                                                                                                                                                                                                      | ^[string]                                                                                           | —           |
+| readonly                      | same as `readonly` in native input                                                                                                                                                                                                                                                  | ^[boolean]                                                                                          | false       |
+| max                           | same as `max` in native input                                                                                                                                                                                                                                                       | —                                                                                                   | —           |
+| min                           | same as `min` in native input                                                                                                                                                                                                                                                       | —                                                                                                   | —           |
+| step                          | same as `step` in native input                                                                                                                                                                                                                                                      | —                                                                                                   | —           |
+| resize                        | control the resizability                                                                                                                                                                                                                                                            | ^[enum]`'none' \| 'both' \| 'horizontal' \| 'vertical'`                                             | —           |
+| autofocus                     | same as `autofocus` in native input                                                                                                                                                                                                                                                 | ^[boolean]                                                                                          | false       |
+| form                          | same as `form` in native input                                                                                                                                                                                                                                                      | `string`                                                                                            | —           |
+| aria-label ^(a11y) ^(2.7.2)   | same as `aria-label` in native input                                                                                                                                                                                                                                                | ^[string]                                                                                           | —           |
+| tabindex                      | input tabindex                                                                                                                                                                                                                                                                      | ^[string] / ^[number]                                                                               | —           |
+| validate-event                | whether to trigger form validation                                                                                                                                                                                                                                                  | ^[boolean]                                                                                          | true        |
+| input-style                   | the style of the input element or textarea element                                                                                                                                                                                                                                  | ^[string] / ^[object]`CSSProperties \| CSSProperties[] \| string[]`                                 | {}          |
+| label ^(a11y) ^(deprecated)   | same as `aria-label` in native input                                                                                                                                                                                                                                                | ^[string]                                                                                           | —           |
+| inputmode ^(2.10.3)           | same as `inputmode` in native input                                                                                                                                                                                                                                                 | ^[string]                                                                                           | —           |
+| count-graphemes ^(2.13.7)     | custom function to count graphemes; when set, native `maxlength`/`minlength` constraints are bypassed. Component uses `Intl.Segmenter` (Chrome 87+, Firefox 125+, Safari 14.1+) for proper grapheme clustering; older browsers fall back to `Array.from()` for code-point iteration | ^[Function]`(value: string) => number`                                                              | —           |
 
 ### Events
 
@@ -17768,18 +17789,19 @@ Prepend or append an element, generally a label or a button.
 
 ### Exposes
 
-| Name                 | Description                      | Type                                                    |
-| -------------------- | -------------------------------- | ------------------------------------------------------- |
-| blur                 | blur the input element           | ^[Function]`() => void`                                 |
-| clear                | clear input value                | ^[Function]`() => void`                                 |
-| focus                | focus the input element          | ^[Function]`() => void`                                 |
-| input                | HTML input element               | ^[object]`Ref<HTMLInputElement>`                        |
-| ref                  | HTML element, input or textarea  | ^[object]`Ref<HTMLInputElement \| HTMLTextAreaElement>` |
-| resizeTextarea       | resize textarea                  | ^[Function]`() => void`                                 |
-| select               | select the text in input element | ^[Function]`() => void`                                 |
-| textarea             | HTML textarea element            | ^[object]`Ref<HTMLTextAreaElement>`                     |
-| textareaStyle        | style of textarea                | ^[object]`Ref<StyleValue>`                              |
-| isComposing ^(2.8.0) | is input composing               | ^[object]`Ref<boolean>`                                 |
+| Name                      | Description                      | Type                                                    |
+| ------------------------- | -------------------------------- | ------------------------------------------------------- |
+| blur                      | blur the input element           | ^[Function]`() => void`                                 |
+| clear                     | clear input value                | ^[Function]`() => void`                                 |
+| focus                     | focus the input element          | ^[Function]`() => void`                                 |
+| input                     | HTML input element               | ^[object]`Ref<HTMLInputElement>`                        |
+| ref                       | HTML element, input or textarea  | ^[object]`Ref<HTMLInputElement \| HTMLTextAreaElement>` |
+| resizeTextarea            | resize textarea                  | ^[Function]`() => void`                                 |
+| select                    | select the text in input element | ^[Function]`() => void`                                 |
+| textarea                  | HTML textarea element            | ^[object]`Ref<HTMLTextAreaElement>`                     |
+| textareaStyle             | style of textarea                | ^[object]`Ref<StyleValue>`                              |
+| isComposing ^(2.8.0)      | is input composing               | ^[object]`Ref<boolean>`                                 |
+| passwordVisible ^(2.13.7) | whether the password is visible  | ^[object]`Ref<boolean>`                                 |
 
 ## FAQ
 
@@ -17910,6 +17932,51 @@ const textareaInput = ref('')
   gap: 1em;
 }
 </style>
+
+```
+
+### count-graphemes.vue
+```vue
+<template>
+  <el-input
+    v-model="text"
+    maxlength="10"
+    placeholder="Please input"
+    show-word-limit
+    :count-graphemes="calc"
+    type="text"
+  />
+  <div style="margin: 20px 0" />
+  <el-input
+    v-model="textarea"
+    maxlength="20"
+    placeholder="Please input"
+    show-word-limit
+    :count-graphemes="calc"
+    type="textarea"
+  />
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const text = ref('😀😁')
+const textarea = ref('😀😁')
+
+/**
+ * Count function for grapheme clustering.
+ * Counts the number of graphemes (visual characters) in a string.
+ *
+ * Note: This example uses Array.from() for simplicity.
+ * For production use, consider using Intl.Segmenter for better
+ * handling of complex emoji and unicode characters.
+ */
+const calc = (value: string) => {
+  // Simplified version: counts code points (not full grapheme clusters)
+  // For production, use Intl.Segmenter like the component does
+  return Array.from(value).length
+}
+</script>
 
 ```
 
@@ -24965,64 +25032,65 @@ The width of dropdown box is calculated by default based on the value of `label`
 
 ### Attributes
 
-| Name                                  | Description                                                                                                                              | Type                                                                                                                                                                        | Default                                        |
-| ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
-| model-value / v-model                 | binding value                                                                                                                            | ^[string] / ^[number] / ^[boolean] / ^[object] / ^[array]                                                                                                                   | —                                              |
-| options                               | data of the options, the key of `value` and `label` can be customize by `props`                                                          | ^[array]                                                                                                                                                                    | —                                              |
-| [props](#props) ^(2.4.2)              | configuration options, see the following table                                                                                           | ^[object]                                                                                                                                                                   | —                                              |
-| multiple                              | is multiple                                                                                                                              | ^[boolean]                                                                                                                                                                  | false                                          |
-| disabled                              | is disabled                                                                                                                              | ^[boolean]                                                                                                                                                                  | false                                          |
-| value-key                             | unique identity key name for value, required when value is an object                                                                     | ^[string]                                                                                                                                                                   | value                                          |
-| size                                  | size of component                                                                                                                        | ^[enum]`'' \| 'large' \| 'default' \| 'small'`                                                                                                                              | ''                                             |
-| clearable                             | whether select can be cleared                                                                                                            | ^[boolean]                                                                                                                                                                  | false                                          |
-| clear-icon                            | custom clear icon                                                                                                                        | ^[string] / ^[object]`Component`                                                                                                                                            | CircleClose                                    |
-| collapse-tags                         | whether to collapse tags to a text when multiple selecting                                                                               | ^[boolean]                                                                                                                                                                  | false                                          |
-| multiple-limit                        | maximum number of options user can select when multiple is true. No limit when set to 0                                                  | ^[number]                                                                                                                                                                   | 0                                              |
-| id                                    | native input id input                                                                                                                    | ^[string]                                                                                                                                                                   | —                                              |
-| name                                  | the name attribute of select input                                                                                                       | ^[string]                                                                                                                                                                   | —                                              |
-| effect                                | tooltip theme, built-in theme: `dark` / `light`                                                                                          | ^[enum]`'dark' \| 'light'` / ^[string]                                                                                                                                      | light                                          |
-| autocomplete                          | autocomplete of select input                                                                                                             | ^[string]                                                                                                                                                                   | off                                            |
-| placeholder                           | placeholder                                                                                                                              | ^[string]                                                                                                                                                                   | Please select                                  |
-| filterable                            | whether Select is filterable                                                                                                             | ^[boolean]                                                                                                                                                                  | false                                          |
-| allow-create                          | whether creating new items is allowed. To use this, `filterable` must be true                                                            | ^[boolean]                                                                                                                                                                  | false                                          |
-| filter-method                         | custom filter method, the first parameter is the current input value. To use this, `filterable` must be true method                      | ^[Function]`(query: string) => void`                                                                                                                                        | —                                              |
-| loading                               | whether Select is loading data from server                                                                                               | ^[boolean]                                                                                                                                                                  | false                                          |
-| loading-text                          | displayed text while loading data from server, default is 'Loading'                                                                      | ^[string]                                                                                                                                                                   | —                                              |
-| reserve-keyword                       | whether reserve the keyword after select filtered option.                                                                                | ^[boolean]                                                                                                                                                                  | true                                           |
-| default-first-option                  | select first matching option on enter key. Use with `filterable` or `remote`                                                             | ^[boolean]                                                                                                                                                                  | false                                          |
-| no-match-text                         | displayed text when no data matches the filtering query, you can also use slot `empty`, default is 'No matching data'                    | ^[string]                                                                                                                                                                   | —                                              |
-| no-data-text                          | displayed text when there is no options, you can also use slot empty                                                                     | ^[string]                                                                                                                                                                   | No Data                                        |
-| popper-class                          | custom class name for Select's dropdown and tags' tooltip                                                                                | ^[string] / ^[object]                                                                                                                                                       | ''                                             |
-| popper-style ^(2.11.0)                | custom style for Select's dropdown and tags' tooltip                                                                                     | ^[string] / ^[object]                                                                                                                                                       | —                                              |
-| teleported                            | whether select dropdown is teleported, if `true` it will be teleported to where `append-to` sets                                         | ^[boolean]                                                                                                                                                                  | true                                           |
-| append-to ^(2.8.8)                    | which element the select dropdown appends to                                                                                             | ^[CSSSelector] / ^[HTMLElement]                                                                                                                                             | —                                              |
-| persistent                            | when select dropdown is inactive and `persistent` is `false`, select dropdown will be destroyed                                          | ^[boolean]                                                                                                                                                                  | true                                           |
-| popper-options                        | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                                   | ^[object]refer to [popper.js](https://popper.js.org/docs/v2/) doc                                                                                                           | {}                                             |
-| automatic-dropdown                    | for non-filterable Select, this prop decides if the option menu pops up when the input is focused                                        | ^[boolean]                                                                                                                                                                  | false                                          |
-| fit-input-width ^(2.9.2)              | whether the width of the dropdown is the same as the input, if the value is `number`, then the width is fixed                            | ^[boolean] / ^[number]                                                                                                                                                      | true                                           |
-| suffix-icon ^(2.9.8)                  | custom suffix icon component                                                                                                             | ^[string] / ^[object]`Component`                                                                                                                                            | ArrowDown                                      |
-| height                                | The height of the dropdown panel, 34px for each item                                                                                     | ^[number]                                                                                                                                                                   | 274                                            |
-| item-height                           | The height of the dropdown item                                                                                                          | ^[number]                                                                                                                                                                   | 34                                             |
-| scrollbar-always-on                   | Controls whether the scrollbar is always displayed                                                                                       | ^[boolean]                                                                                                                                                                  | false                                          |
-| remote                                | whether search data from server                                                                                                          | ^[boolean]                                                                                                                                                                  | false                                          |
-| debounce ^(2.11.7)                    | debounce delay during remote search, in milliseconds                                                                                     | ^[number]                                                                                                                                                                   | 300                                            |
-| remote-method                         | function that gets called when the input value changes. Its parameter is the current input value. To use this, `filterable` must be true | ^[Function]`(query: string) => void`                                                                                                                                        | —                                              |
-| remote-show-suffix ^(2.11.9)          | in remote search method show suffix icon                                                                                                 | ^[boolean]                                                                                                                                                                  | false                                          |
-| validate-event                        | whether to trigger form validation                                                                                                       | ^[boolean]                                                                                                                                                                  | true                                           |
-| offset ^(2.8.8)                       | offset of the dropdown                                                                                                                   | ^[number]                                                                                                                                                                   | 12                                             |
-| show-arrow ^(2.8.8)                   | whether the dropdown has an arrow                                                                                                        | ^[boolean]                                                                                                                                                                  | true                                           |
-| placement                             | position of dropdown                                                                                                                     | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | bottom-start                                   |
-| fallback-placements ^(2.5.6)          | list of possible positions for dropdown [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements)                    | ^[array]`Placement[]`                                                                                                                                                       | ['bottom-start', 'top-start', 'right', 'left'] |
-| collapse-tags-tooltip ^(2.3.0)        | whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true                         | ^[boolean]                                                                                                                                                                  | false                                          |
-| [tag-tooltip](#tag-tooltip) ^(2.13.3) | configuration object for the collapse-tags tooltip. To use this, `collapse-tags` and `collapse-tags-tooltip` must be true                | ^[object]`TagTooltipProps`                                                                                                                                                  | {}                                             |
-| max-collapse-tags ^(2.3.0)            | The max tags number to be shown. To use this, `collapse-tags` must be true                                                               | ^[number]                                                                                                                                                                   | 1                                              |
-| tag-type ^(2.5.0)                     | tag type                                                                                                                                 | ^[enum]`'' \| 'success' \| 'info' \| 'warning' \| 'danger'`                                                                                                                 | info                                           |
-| tag-effect ^(2.7.7)                   | tag effect                                                                                                                               | ^[enum]`'' \| 'light' \| 'dark' \| 'plain'`                                                                                                                                 | light                                          |
-| aria-label ^(a11y) ^(2.5.0)           | same as `aria-label` in native input                                                                                                     | ^[string]                                                                                                                                                                   | —                                              |
-| empty-values ^(2.7.0)                 | empty values of component, [see config-provider](./config-provider.md#empty-values-configurations)                                       | ^[array]                                                                                                                                                                    | —                                              |
-| value-on-clear ^(2.7.0)               | clear return value, [see config-provider](./config-provider.md#empty-values-configurations)                                              | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                                                                                            | —                                              |
-| popper-append-to-body ^(deprecated)   | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false              | ^[boolean]                                                                                                                                                                  | false                                          |
-| tabindex ^(2.9.0)                     | tabindex for input                                                                                                                       | ^[string] / ^[number]                                                                                                                                                       | —                                              |
+| Name                                  | Description                                                                                                                                                                                      | Type                                                                                                                                                                        | Default                                        |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| model-value / v-model                 | binding value                                                                                                                                                                                    | ^[string] / ^[number] / ^[boolean] / ^[object] / ^[array]                                                                                                                   | —                                              |
+| options                               | data of the options, the key of `value` and `label` can be customize by `props`                                                                                                                  | ^[array]                                                                                                                                                                    | —                                              |
+| [props](#props) ^(2.4.2)              | configuration options, see the following table                                                                                                                                                   | ^[object]                                                                                                                                                                   | —                                              |
+| multiple                              | is multiple                                                                                                                                                                                      | ^[boolean]                                                                                                                                                                  | false                                          |
+| disabled                              | is disabled                                                                                                                                                                                      | ^[boolean]                                                                                                                                                                  | false                                          |
+| value-key                             | unique identity key name for value, required when value is an object                                                                                                                             | ^[string]                                                                                                                                                                   | value                                          |
+| size                                  | size of component                                                                                                                                                                                | ^[enum]`'' \| 'large' \| 'default' \| 'small'`                                                                                                                              | ''                                             |
+| clearable                             | whether select can be cleared                                                                                                                                                                    | ^[boolean]                                                                                                                                                                  | false                                          |
+| clear-icon                            | custom clear icon                                                                                                                                                                                | ^[string] / ^[object]`Component`                                                                                                                                            | CircleClose                                    |
+| collapse-tags                         | whether to collapse tags to a text when multiple selecting                                                                                                                                       | ^[boolean]                                                                                                                                                                  | false                                          |
+| multiple-limit                        | maximum number of options user can select when multiple is true. No limit when set to 0                                                                                                          | ^[number]                                                                                                                                                                   | 0                                              |
+| id                                    | native input id input                                                                                                                                                                            | ^[string]                                                                                                                                                                   | —                                              |
+| name                                  | the name attribute of select input                                                                                                                                                               | ^[string]                                                                                                                                                                   | —                                              |
+| effect                                | tooltip theme, built-in theme: `dark` / `light`                                                                                                                                                  | ^[enum]`'dark' \| 'light'` / ^[string]                                                                                                                                      | light                                          |
+| autocomplete                          | autocomplete of select input                                                                                                                                                                     | ^[string]                                                                                                                                                                   | off                                            |
+| placeholder                           | placeholder                                                                                                                                                                                      | ^[string]                                                                                                                                                                   | Please select                                  |
+| filterable                            | whether Select is filterable                                                                                                                                                                     | ^[boolean]                                                                                                                                                                  | false                                          |
+| allow-create                          | whether creating new items is allowed. To use this, `filterable` must be true                                                                                                                    | ^[boolean]                                                                                                                                                                  | false                                          |
+| filter-method                         | custom filter method, the first parameter is the current input value. To use this, `filterable` must be true method                                                                              | ^[Function]`(query: string) => void`                                                                                                                                        | —                                              |
+| loading                               | whether Select is loading data from server                                                                                                                                                       | ^[boolean]                                                                                                                                                                  | false                                          |
+| loading-text                          | displayed text while loading data from server, default is 'Loading'                                                                                                                              | ^[string]                                                                                                                                                                   | —                                              |
+| reserve-keyword                       | whether reserve the keyword after select filtered option.                                                                                                                                        | ^[boolean]                                                                                                                                                                  | true                                           |
+| default-first-option                  | select first matching option on enter key. Use with `filterable` or `remote`                                                                                                                     | ^[boolean]                                                                                                                                                                  | false                                          |
+| no-match-text                         | displayed text when no data matches the filtering query, you can also use slot `empty`, default is 'No matching data'                                                                            | ^[string]                                                                                                                                                                   | —                                              |
+| no-data-text                          | displayed text when there is no options, you can also use slot empty                                                                                                                             | ^[string]                                                                                                                                                                   | No Data                                        |
+| popper-class                          | custom class name for Select's dropdown and tags' tooltip                                                                                                                                        | ^[string] / ^[object]                                                                                                                                                       | ''                                             |
+| popper-style ^(2.11.0)                | custom style for Select's dropdown and tags' tooltip                                                                                                                                             | ^[string] / ^[object]                                                                                                                                                       | —                                              |
+| teleported                            | whether select dropdown is teleported, if `true` it will be teleported to where `append-to` sets                                                                                                 | ^[boolean]                                                                                                                                                                  | true                                           |
+| append-to ^(2.8.8)                    | which element the select dropdown appends to                                                                                                                                                     | ^[CSSSelector] / ^[HTMLElement]                                                                                                                                             | —                                              |
+| persistent                            | when select dropdown is inactive and `persistent` is `false`, select dropdown will be destroyed                                                                                                  | ^[boolean]                                                                                                                                                                  | true                                           |
+| popper-options                        | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                                                                                           | ^[object]refer to [popper.js](https://popper.js.org/docs/v2/) doc                                                                                                           | {}                                             |
+| automatic-dropdown                    | for non-filterable Select, this prop decides if the option menu pops up when the input is focused                                                                                                | ^[boolean]                                                                                                                                                                  | false                                          |
+| fit-input-width ^(2.9.2)              | whether the width of the dropdown is the same as the input, if the value is `number`, then the width is fixed                                                                                    | ^[boolean] / ^[number]                                                                                                                                                      | true                                           |
+| suffix-icon ^(2.9.8)                  | custom suffix icon component                                                                                                                                                                     | ^[string] / ^[object]`Component`                                                                                                                                            | ArrowDown                                      |
+| height                                | The height of the dropdown panel, 34px for each item                                                                                                                                             | ^[number]                                                                                                                                                                   | 274                                            |
+| item-height                           | The height of the dropdown item                                                                                                                                                                  | ^[number]                                                                                                                                                                   | 34                                             |
+| estimated-option-height               | Controls virtual-list sizing mode: if undefined, the list uses fixed item height from `item-height`; if provided, the list uses dynamic item sizing and this value as the estimated item height. | ^[number]                                                                                                                                                                   | —                                              |
+| scrollbar-always-on                   | Controls whether the scrollbar is always displayed                                                                                                                                               | ^[boolean]                                                                                                                                                                  | false                                          |
+| remote                                | whether search data from server                                                                                                                                                                  | ^[boolean]                                                                                                                                                                  | false                                          |
+| debounce ^(2.11.7)                    | debounce delay during remote search, in milliseconds                                                                                                                                             | ^[number]                                                                                                                                                                   | 300                                            |
+| remote-method                         | function that gets called when the input value changes. Its parameter is the current input value. To use this, `filterable` must be true                                                         | ^[Function]`(query: string) => void`                                                                                                                                        | —                                              |
+| remote-show-suffix ^(2.11.9)          | in remote search method show suffix icon                                                                                                                                                         | ^[boolean]                                                                                                                                                                  | false                                          |
+| validate-event                        | whether to trigger form validation                                                                                                                                                               | ^[boolean]                                                                                                                                                                  | true                                           |
+| offset ^(2.8.8)                       | offset of the dropdown                                                                                                                                                                           | ^[number]                                                                                                                                                                   | 12                                             |
+| show-arrow ^(2.8.8)                   | whether the dropdown has an arrow                                                                                                                                                                | ^[boolean]                                                                                                                                                                  | true                                           |
+| placement                             | position of dropdown                                                                                                                                                                             | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | bottom-start                                   |
+| fallback-placements ^(2.5.6)          | list of possible positions for dropdown [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements)                                                                            | ^[array]`Placement[]`                                                                                                                                                       | ['bottom-start', 'top-start', 'right', 'left'] |
+| collapse-tags-tooltip ^(2.3.0)        | whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true                                                                                 | ^[boolean]                                                                                                                                                                  | false                                          |
+| [tag-tooltip](#tag-tooltip) ^(2.13.3) | configuration object for the collapse-tags tooltip. To use this, `collapse-tags` and `collapse-tags-tooltip` must be true                                                                        | ^[object]`TagTooltipProps`                                                                                                                                                  | {}                                             |
+| max-collapse-tags ^(2.3.0)            | The max tags number to be shown. To use this, `collapse-tags` must be true                                                                                                                       | ^[number]                                                                                                                                                                   | 1                                              |
+| tag-type ^(2.5.0)                     | tag type                                                                                                                                                                                         | ^[enum]`'' \| 'success' \| 'info' \| 'warning' \| 'danger'`                                                                                                                 | info                                           |
+| tag-effect ^(2.7.7)                   | tag effect                                                                                                                                                                                       | ^[enum]`'' \| 'light' \| 'dark' \| 'plain'`                                                                                                                                 | light                                          |
+| aria-label ^(a11y) ^(2.5.0)           | same as `aria-label` in native input                                                                                                                                                             | ^[string]                                                                                                                                                                   | —                                              |
+| empty-values ^(2.7.0)                 | empty values of component, [see config-provider](./config-provider.md#empty-values-configurations)                                                                                               | ^[array]                                                                                                                                                                    | —                                              |
+| value-on-clear ^(2.7.0)               | clear return value, [see config-provider](./config-provider.md#empty-values-configurations)                                                                                                      | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                                                                                            | —                                              |
+| popper-append-to-body ^(deprecated)   | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false                                                                      | ^[boolean]                                                                                                                                                                  | false                                          |
+| tabindex ^(2.9.0)                     | tabindex for input                                                                                                                                                                               | ^[string] / ^[number]                                                                                                                                                       | —                                              |
 
 ### props
 
@@ -30100,6 +30168,12 @@ Simple step bars, where `align-center`, `description`, `direction` and `space` w
 | finish-status  | status of end step                                                            | ^[enum]`'wait' \| 'process' \| 'finish' \| 'error' \| 'success'` | finish     |
 | align-center   | center title and description                                                  | ^[boolean]                                                       | —          |
 | simple         | whether to apply simple theme                                                 | ^[boolean]                                                       | —          |
+
+### Steps Events
+
+| Name   | Description                           | Parameters                                            |
+| ------ | ------------------------------------- | ----------------------------------------------------- |
+| change | triggers when the active step changes | ^[Function]`(newVal: number, oldVal: number) => void` |
 
 ### Steps Slots
 
@@ -35708,6 +35782,15 @@ Only card type Tabs support addable & closeable.
 | tabListRef ^(2.9.10) | el_tabs\_\_nav html element | ^[object]`Ref<HTMLDivElement \| undefined>` |
 | tabBarRef ^(2.9.10)  | el_tabs\_\_nav bar instance | ^[object]`Ref<TabBarInstance \| undefined>` |
 
+## Tab-bar API
+
+### Tab-bar Exposes
+
+| Name             | Description                                                       | Type                                        |
+| ---------------- | ----------------------------------------------------------------- | ------------------------------------------- |
+| ref ^(2.9.10)    | tab root html element                                             | ^[object]`Ref<HTMLDivElement \| undefined>` |
+| update ^(2.9.10) | method to manually update tab bar style, return the updated style | ^[Function]`() => CSSProperties`            |
+
 ## Tab-pane API
 
 ### Tab-pane Attributes
@@ -35726,22 +35809,6 @@ Only card type Tabs support addable & closeable.
 | ------- | ------------------ |
 | default | Tab-pane's content |
 | label   | Tab-pane's label   |
-
-## Type Declarations
-
-<details>
-  <summary>Show declarations</summary>
-
-```ts
-type TabBarInstance = InstanceType<typeof TabBar> & {
-  /** @description tab root html element */
-  ref: barRef
-  /** @description method to manually update tab bar style */
-  update
-}
-```
-
-</details>
 
 ## FAQ
 
@@ -36933,11 +37000,13 @@ const disabledMinutes = (hour: number) => {
   if (hour === 18) {
     return makeRange(31, 59)
   }
+  return []
 }
 const disabledSeconds = (hour: number, minute: number) => {
   if (hour === 18 && minute === 30) {
     return makeRange(1, 59)
   }
+  return []
 }
 </script>
 
@@ -38017,7 +38086,7 @@ const visible = ref(false)
 ```vue
 <template>
   <el-tooltip
-    v-model:visible="visible"
+    :visible="visible"
     content="Bottom center"
     placement="bottom"
     effect="light"
@@ -38578,7 +38647,10 @@ type TransferDirection = 'left' | 'right'
 
 type TransferDataItem = Record<string, any>
 
-type renderContent = (h: typeof H, option: TransferDataItem) => VNode | VNode[]
+type renderContent<T extends TransferDataItem = TransferDataItem> = (
+  h: typeof H,
+  option: T
+) => VNode | VNode[]
 
 interface TransferFormat {
   noChecked?: string
@@ -43483,12 +43555,18 @@ Version `2.8.5` and later, the minimum compatible version of [Sass](https://gith
 
 If your terminal prompts `legacy JS API Deprecation Warning`, you can configure the following code in [vite.config.ts](https://vitejs.dev/config/shared-options.html#css-preprocessoroptions).
 
-```ts{3}
-css: {
-  preprocessorOptions: {
-    scss: { api: 'modern-compiler' },
-  }
-}
+```ts [vite.config.ts]{7}
+import { defineConfig } from 'vite'
+// https://vitejs.dev/config/
+export default defineConfig({
+  // ...
+  css: {
+    preprocessorOptions: {
+      scss: { api: 'modern-compiler' },
+    },
+  },
+  // ...
+})
 ```
 
 ### Version
@@ -43499,9 +43577,9 @@ In addition, every commit and PR on the dev branch will be published to [pkg.pr.
 
 ## Using Package Manager
 
-**We recommend using the package manager (NPM, [Yarn](https://classic.yarnpkg.com/lang/en/), [pnpm](https://pnpm.io/)) to install Element Plus**,
+**We recommend using the package manager ([NPM](https://www.npmjs.com/), [Yarn](https://classic.yarnpkg.com/lang/en/), [PNPM](https://pnpm.io/)) to install Element Plus**,
 so that you can utilize bundlers like [Vite](https://vitejs.dev) and
-[webpack](https://webpack.js.org/).
+[Webpack](https://webpack.js.org/).
 
 Choose a package manager you like.
 
@@ -43535,9 +43613,9 @@ According to different CDN providers, there are different introduction methods.
 Here we use [unpkg](https://unpkg.com) and [jsDelivr](https://jsdelivr.com) as example.
 You can also use other CDN providers.
 
-### unpkg
+::: code-group
 
-```html
+```html [unpkg]
 <head>
   <!-- Import style -->
   <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
@@ -43548,9 +43626,7 @@ You can also use other CDN providers.
 </head>
 ```
 
-### jsDelivr
-
-```html
+```html [jsDelivr]
 <head>
   <!-- Import style -->
   <link
@@ -43563,6 +43639,8 @@ You can also use other CDN providers.
   <script src="//cdn.jsdelivr.net/npm/element-plus"></script>
 </head>
 ```
+
+:::
 
 
 
@@ -43809,7 +43887,7 @@ $ pnpm install -D unplugin-vue-components unplugin-auto-import
 
 Then add the code below into your `Vite` or `Webpack` config file.
 
-##### Vite
+::: code-group
 
 ```ts [vite.config.ts]
 import { defineConfig } from 'vite'
@@ -43831,8 +43909,6 @@ export default defineConfig({
 })
 ```
 
-##### Webpack
-
 ```js [webpack.config.js]
 const AutoImport = require('unplugin-auto-import/webpack')
 const Components = require('unplugin-vue-components/webpack')
@@ -43850,6 +43926,8 @@ module.exports = {
   ],
 }
 ```
+
+:::
 
 For more bundlers ([Rollup](https://rollupjs.org/), [Vue CLI](https://cli.vuejs.org/)) and configs please reference [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components#installation) and [unplugin-auto-import](https://github.com/antfu/unplugin-auto-import#install).
 
@@ -43896,12 +43974,8 @@ And refer to the [docs](https://github.com/element-plus/unplugin-element-plus#re
   <el-button>I am ElButton</el-button>
 </template>
 
-<script>
+<script setup lang="ts">
 import { ElButton } from 'element-plus'
-
-export default {
-  components: { ElButton },
-}
 </script>
 ```
 
@@ -43949,21 +44023,11 @@ On-demand:
   </el-config-provider>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
+<script setup lang="ts">
 import { ElConfigProvider } from 'element-plus'
 
-export default defineComponent({
-  components: {
-    ElConfigProvider,
-  },
-  setup() {
-    return {
-      zIndex: 3000,
-      size: 'small',
-    }
-  },
-})
+const zIndex = 3000
+const size = 'small'
 </script>
 ```
 
