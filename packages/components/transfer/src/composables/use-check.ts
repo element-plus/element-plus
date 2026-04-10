@@ -5,17 +5,20 @@ import { usePropsAlias } from './use-props-alias'
 
 import type { SetupContext } from 'vue'
 import type { CheckboxValueType } from '@element-plus/components/checkbox'
-import type { TransferKey } from '../transfer'
+import type { TransferDataItem, TransferKey } from '../transfer'
 import type {
   TransferPanelEmits,
   TransferPanelProps,
   TransferPanelState,
 } from '../transfer-panel'
 
-export const useCheck = (
+export const useCheck = <T extends TransferDataItem = TransferDataItem>(
   props: Required<
-    Pick<TransferPanelProps, 'data' | 'format' | 'defaultChecked'>
-  > & { filterMethod: TransferPanelProps['filterMethod'] },
+    Pick<
+      TransferPanelProps<T>,
+      'data' | 'format' | 'defaultChecked' | 'props' // 'props' needed by usePropsAlias
+    >
+  > & { filterMethod: TransferPanelProps<T>['filterMethod'] },
   panelState: TransferPanelState,
   emit: SetupContext<TransferPanelEmits>['emit']
 ) => {
