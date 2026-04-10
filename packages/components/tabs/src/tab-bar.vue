@@ -84,9 +84,7 @@ const getBarStyle = (): CSSProperties => {
   }
 }
 
-const update = () => {
-  barStyle.value = getBarStyle()
-}
+const update = () => (barStyle.value = getBarStyle())
 
 const tabObservers = [] as ReturnType<typeof useResizeObserver>[]
 const observerTabs = () => {
