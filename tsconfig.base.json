@@ -23,10 +23,7 @@
       "@element-plus/directives": ["./packages/directives"],
       "@element-plus/constants": ["./packages/constants"],
       "@element-plus/locale": ["./packages/locale"],
-      "@element-plus/locale/*": ["./packages/locale/*"],
-      "@element-plus/theme-chalk": ["./packages/theme-chalk"],
-      "@element-plus/theme-chalk/*": ["./packages/theme-chalk/*"],
-      "element-plus": ["./packages/element-plus"]
+      "@element-plus/locale/*": ["./packages/locale/*"]
     }
   }
 }
