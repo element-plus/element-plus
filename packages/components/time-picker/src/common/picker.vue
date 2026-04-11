@@ -167,6 +167,7 @@
         :show-confirm="showConfirm"
         :show-footer="showFooter"
         :show-week-number="showWeekNumber"
+        :single-panel="singlePanel"
         @pick="onPick"
         @select-range="setSelectionRange"
         @set-picker-option="onSetPickerOption"
