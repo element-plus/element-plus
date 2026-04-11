@@ -593,9 +593,9 @@ describe('Cascader.vue', () => {
       <Cascader filterable fitInputWidth options={OPTIONS} />
     ))
     const inputWrapperEl = wrapper.find('.el-input').element as HTMLElement
-    const mockInputWidth = vi
-      .spyOn(inputWrapperEl, 'offsetWidth', 'get')
-      .mockReturnValue(221)
+    const mockGetBoundingClientRect = vi
+      .spyOn(inputWrapperEl, 'getBoundingClientRect')
+      .mockReturnValue({ width: 221 } as DOMRect)
 
     const input = wrapper.find('input')
     input.element.value = 'Ni'
@@ -608,7 +608,7 @@ describe('Cascader.vue', () => {
       SUGGESTION_PANEL
     ) as HTMLElement
     expect(suggestionPanel.style.width).toBe('221px')
-    mockInputWidth.mockRestore()
+    mockGetBoundingClientRect.mockRestore()
   })
 
   test('filterable in multiple mode', async () => {

@@ -52,7 +52,12 @@ import { useNamespace } from '@element-plus/hooks'
 import ElCascaderMenu from './menu.vue'
 import Store from './store'
 import Node from './node'
-import { cascaderPanelEmits, useCascaderConfig } from './config'
+import {
+  CASCADER_PANEL_HEIGHT,
+  CASCADER_PANEL_ITEM_SIZE,
+  cascaderPanelEmits,
+  useCascaderConfig,
+} from './config'
 import { checkNode, getMenuIndex, sortByOriginalOrder } from './utils'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
 
@@ -75,8 +80,8 @@ const props = withDefaults(defineProps<CascaderPanelProps>(), {
   options: () => [] as CascaderOption[],
   props: () => ({}) as CascaderProps,
   border: true,
-  itemSize: 34,
-  height: 204,
+  itemSize: CASCADER_PANEL_ITEM_SIZE,
+  height: CASCADER_PANEL_HEIGHT,
 })
 const emit = defineEmits(cascaderPanelEmits)
 
@@ -326,23 +331,25 @@ const handleKeyDown = (e: KeyboardEvent) => {
     case EVENT_CODE.down: {
       e.preventDefault()
       const distance = code === EVENT_CODE.up ? -1 : 1
-      const menuIndex = getMenuIndex(target)
-      const menu = menuList.value[menuIndex]
 
-      if (props.virtualScroll && menu) {
-        // For virtual scroll, calculate the target index and use focusNodeAt
-        const currentIndex = menu.getNodeIndexById(target.id)
-        if (currentIndex >= 0) {
-          const nodesInMenu = menus.value[menuIndex] ?? []
-          const nodesCount = nodesInMenu.length
-          // Find the next non-disabled node
-          let targetIndex = currentIndex + distance
-          while (targetIndex >= 0 && targetIndex < nodesCount) {
-            if (!nodesInMenu[targetIndex].isDisabled) {
-              menu.focusNodeAt(targetIndex)
-              return
+      if (props.virtualScroll) {
+        const menuIndex = getMenuIndex(target)
+        const menu = menuList.value[menuIndex]
+        if (menu) {
+          // For virtual scroll, calculate the target index and use focusNodeAt
+          const currentIndex = menu.getNodeIndexById(target.id)
+          if (currentIndex >= 0) {
+            const nodesInMenu = menus.value[menuIndex] ?? []
+            const nodesCount = nodesInMenu.length
+            // Find the next non-disabled node
+            let targetIndex = currentIndex + distance
+            while (targetIndex >= 0 && targetIndex < nodesCount) {
+              if (!nodesInMenu[targetIndex].isDisabled) {
+                menu.focusNodeAt(targetIndex)
+                return
+              }
+              targetIndex += distance
             }
-            targetIndex += distance
           }
         }
       }

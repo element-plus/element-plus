@@ -131,6 +131,16 @@ export const DefaultProps: CascaderConfig = {
 }
 
 /**
+ * @description node height for virtual scrolling
+ */
+export const CASCADER_PANEL_ITEM_SIZE = 34
+
+/**
+ * @description menu height for virtual scrolling
+ */
+export const CASCADER_PANEL_HEIGHT = 204
+
+/**
  * @deprecated Removed after 3.0.0, Use `CascaderPanelProps` instead.
  */
 export const cascaderPanelProps = buildProps({
@@ -145,11 +155,11 @@ export const cascaderPanelProps = buildProps({
   virtualScroll: Boolean,
   itemSize: {
     type: Number,
-    default: 34,
+    default: CASCADER_PANEL_ITEM_SIZE,
   },
   height: {
     type: Number,
-    default: 204,
+    default: CASCADER_PANEL_HEIGHT,
   },
 })
 

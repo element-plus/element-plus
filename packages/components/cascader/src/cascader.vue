@@ -290,7 +290,10 @@ import {
   isNumber,
   isPromise,
 } from '@element-plus/utils'
-import ElCascaderPanel from '@element-plus/components/cascader-panel'
+import ElCascaderPanel, {
+  CASCADER_PANEL_HEIGHT,
+  CASCADER_PANEL_ITEM_SIZE,
+} from '@element-plus/components/cascader-panel'
 import ElInput from '@element-plus/components/input'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
@@ -388,8 +391,8 @@ const props = withDefaults(defineProps<CascaderComponentProps>(), {
   showPrefix: true,
   popperStyle: undefined,
   valueOnClear: undefined,
-  itemSize: 34,
-  height: 204,
+  itemSize: CASCADER_PANEL_ITEM_SIZE,
+  height: CASCADER_PANEL_HEIGHT,
 })
 const emit = defineEmits(cascaderEmits)
 const attrs = useAttrs()
@@ -664,15 +667,19 @@ const calculateSuggestions = () => {
   updatePopperPosition()
 }
 
+const getSuggestionPanelEl = () => {
+  const el = suggestionPanel.value
+  return (el instanceof HTMLElement ? el : el?.$el) as HTMLElement | undefined
+}
+
 const focusFirstNode = () => {
   let firstNode!: HTMLElement
 
   if (filtering.value && suggestionPanel.value) {
-    const panelEl =
-      suggestionPanel.value instanceof HTMLElement
-        ? suggestionPanel.value
-        : suggestionPanel.value.$el
-    firstNode = panelEl.querySelector(`.${nsCascader.e('suggestion-item')}`)
+    const panelEl = getSuggestionPanelEl()
+    firstNode = panelEl?.querySelector(
+      `.${nsCascader.e('suggestion-item')}`
+    ) as HTMLElement
   } else {
     firstNode = cascaderPanelRef.value?.$el.querySelector(
       `.${nsCascader.b('node')}[tabindex="-1"]`
@@ -686,36 +693,29 @@ const focusFirstNode = () => {
 }
 
 const updateSuggestionPanelWidth = (inputWidth: number) => {
-  const suggestionPanelEl = suggestionPanel.value
-    ? suggestionPanel.value instanceof HTMLElement
-      ? suggestionPanel.value
-      : suggestionPanel.value.$el
-    : undefined
+  const suggestionPanelEl = getSuggestionPanelEl()
   if (!suggestionPanelEl) return
 
-  let panelWidth = ''
-  if (isNumber(props.fitInputWidth)) {
-    panelWidth = `${props.fitInputWidth}px`
-  } else if (props.fitInputWidth === true) {
-    panelWidth = `${inputWidth}px`
-  } else {
-    panelWidth = `${inputWidth}px` // minWidth
+  const panelWidth = isNumber(props.fitInputWidth)
+    ? `${props.fitInputWidth}px`
+    : `${inputWidth}px`
+
+  const setPanelStyle = (el: HTMLElement) => {
+    if (props.fitInputWidth !== false) {
+      el.style.width = panelWidth
+      el.style.minWidth = ''
+    } else {
+      el.style.width = ''
+      el.style.minWidth = panelWidth
+    }
   }
 
-  if (props.fitInputWidth !== false) {
-    suggestionPanelEl.style.width = panelWidth
-    suggestionPanelEl.style.minWidth = ''
-  } else {
-    suggestionPanelEl.style.width = ''
-    suggestionPanelEl.style.minWidth = panelWidth
-  }
+  setPanelStyle(suggestionPanelEl)
 
   if (props.virtualScroll) {
     suggestionListWidth.value =
       props.fitInputWidth !== false
-        ? isNumber(props.fitInputWidth)
-          ? `${props.fitInputWidth}px`
-          : `${inputWidth}px`
+        ? panelWidth
         : hasCustomSuggestionItemSlot.value
           ? `${inputWidth}px`
           : `${Math.max(inputWidth, calculateSuggestionMaxWidth())}px`
@@ -726,13 +726,7 @@ const updateSuggestionPanelWidth = (inputWidth: number) => {
     `.${nsCascader.e('suggestion-list')}`
   ) as HTMLElement | null
   if (suggestionList) {
-    if (props.fitInputWidth !== false) {
-      suggestionList.style.width = panelWidth
-      suggestionList.style.minWidth = ''
-    } else {
-      suggestionList.style.width = ''
-      suggestionList.style.minWidth = panelWidth
-    }
+    setPanelStyle(suggestionList)
   }
 }
 
@@ -744,7 +738,7 @@ const getTagWrapperLeft = () => {
   ) as HTMLElement | null
   if (!prefix) return 0
 
-  const prefixWidth = prefix.offsetWidth
+  const prefixWidth = prefix.getBoundingClientRect().width
   if (prefixWidth <= 0) return 0
   return prefixWidth + sizeMapPadding[realSize.value || 'default']
 }
@@ -755,7 +749,7 @@ const updateStyle = () => {
   if (!isClient || !inputInner || !inputWrapper) return
 
   if (suggestionPanel.value) {
-    updateSuggestionPanelWidth(inputWrapper.offsetWidth)
+    updateSuggestionPanelWidth(inputWrapper.getBoundingClientRect().width)
   }
 
   const tagWrapperEl = tagWrapper.value
@@ -770,6 +764,14 @@ const updateStyle = () => {
   }
 }
 
+const getRenderedSuggestion = () => {
+  const suggestionPanelEl = getSuggestionPanelEl()
+
+  return suggestionPanelEl?.querySelector(
+    `.${nsCascader.e('suggestion-item')}`
+  ) as HTMLElement | null
+}
+
 const calculateSuggestionMaxWidth = () => {
   if (hasCustomSuggestionItemSlot.value) return 0
   if (!suggestions.value.length) return 0
@@ -778,13 +780,7 @@ const calculateSuggestionMaxWidth = () => {
   const ctx = canvas.getContext('2d')
   if (!ctx) return 0
 
-  const suggestionPanelEl =
-    suggestionPanel.value instanceof HTMLElement
-      ? suggestionPanel.value
-      : suggestionPanel.value?.$el
-  const renderedSuggestion = suggestionPanelEl?.querySelector(
-    `.${nsCascader.e('suggestion-item')}`
-  ) as HTMLElement | null
+  const renderedSuggestion = getRenderedSuggestion()
   if (!renderedSuggestion || !isClient) return 0
 
   const style = getComputedStyle(renderedSuggestion)
@@ -908,11 +904,7 @@ const handleSuggestionKeyDown = (e: KeyboardEvent) => {
           suggestionVirtualListRef.value.scrollToItem(targetIndex)
 
           nextTick(() => {
-            const suggestionPanelEl = suggestionPanel.value
-            const el =
-              suggestionPanelEl instanceof HTMLElement
-                ? suggestionPanelEl
-                : suggestionPanelEl?.$el
+            const el = getSuggestionPanelEl()
             const targetItem = el?.querySelector(
               `#suggestion-${suggestions.value[targetIndex].uid}`
             ) as HTMLElement | null
