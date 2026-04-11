@@ -132,7 +132,7 @@ datetime-picker/custom-icon
 | show-now ^(2.8.7)            | whether to show the now button                                                                                       | ^[boolean]                                                                                     | true                               |
 | show-footer ^(2.10.5)        | whether to show footer where the date picker is one ^[enum]`'datetime' \| 'datetimerange'`                           | ^[boolean]                                                                                     | true                               |
 | show-confirm ^(2.11.0)       | whether to show the confirm button                                                                                   | ^[boolean]                                                                                     | true                               |
-| show-week-number ^(2.10.3)   | show the week number besides the week                                                                                | `boolean`                                                                                      | false                              |
+| show-week-number ^(2.10.3)   | show the week number besides the week                                                                                | ^[boolean]                                                                                     | false                              |
 
 ### Events
 
