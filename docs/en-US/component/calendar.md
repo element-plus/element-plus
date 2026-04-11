@@ -75,7 +75,7 @@ Note, date time locale (month name, first day of the week ...) are also configur
 
 | Name             | Description                      | Type                                    |
 | ---------------- | -------------------------------- | --------------------------------------- |
-| select ^(2.13.7) | Triggered when a day is selected | ^[Function]`(day: dayjs.Dayjs) => void` |
+| select ^(2.14.0) | Triggered when a day is selected | ^[Function]`(day: dayjs.Dayjs) => void` |
 
 ### Exposes
 
