@@ -16,7 +16,7 @@ jobs:
         run: git branch dev origin/dev
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v5
+        uses: pnpm/action-setup@v6
 
       - name: Setup node
         uses: actions/setup-node@v6
@@ -47,7 +47,7 @@ jobs:
           node-version: 24
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v5
+        uses: pnpm/action-setup@v6
 
       - name: Get version
         run: echo "TAG_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
