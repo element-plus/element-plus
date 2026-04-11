@@ -1,15 +1,16 @@
 import { buttonTypes } from '@element-plus/components/button'
 
-import type { AppContext, CSSProperties, Component, VNode } from 'vue'
+import type { AppContext, Component, VNode } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type { InputType } from '@element-plus/components/input/src/input'
+import type { CSSProperties } from '@element-plus/utils'
 
 type MessageType = '' | 'primary' | 'success' | 'warning' | 'info' | 'error'
 type MessageBoxButtonType = (typeof buttonTypes)[number]
 
 export type Action = 'confirm' | 'close' | 'cancel'
 export type MessageBoxType = '' | 'prompt' | 'alert' | 'confirm'
-export type MessageBoxData = MessageBoxInputData | Action
+export type MessageBoxData = MessageBoxInputData & Action
 export interface MessageBoxInputData {
   value: string
   action: Action

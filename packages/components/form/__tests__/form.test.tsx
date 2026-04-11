@@ -371,6 +371,44 @@ describe('Form', () => {
     vi.useRealTimers()
   })
 
+  it('reset dynamic fields after prop switch', async () => {
+    const form = reactive({
+      prop: 'name' as 'name' | 'name2',
+      name: 'jerry',
+      name2: '',
+    })
+
+    const wrapper = mount({
+      setup() {
+        return () => (
+          <Form ref="form" model={form}>
+            <FormItem ref="field" prop={form.prop}>
+              <Input v-model={form[form.prop]} />
+            </FormItem>
+          </Form>
+        )
+      },
+    })
+
+    form.name = 'tom'
+    form.prop = 'name2'
+    await nextTick()
+    form.name2 = 'jack'
+
+    const formRef = wrapper.findComponent({ ref: 'form' }).vm as FormInstance
+    const fieldRef = wrapper.findComponent({ ref: 'field' })
+      .vm as FormItemInstance
+
+    fieldRef.resetField()
+    expect(form.name2).toBe('')
+    expect(form.name).toBe('tom')
+
+    form.name2 = 'jack'
+    formRef.resetFields()
+    expect(form.name2).toBe('')
+    expect(form.name).toBe('tom')
+  })
+
   it('clear validate', async () => {
     const wrapper = mount({
       setup() {
@@ -1137,8 +1175,8 @@ describe('Form', () => {
       // name and age should reset to new initial values
       expect(form.name).toBe('NewInitName')
       expect(form.age).toBe('25')
-      // address has no new initial value set, should keep original mounted value
-      expect(form.address).toBe('DefaultAddress')
+      // address has no new initial value set in partial update, resets to undefined with unified cache
+      expect(form.address).toBeUndefined()
 
       vi.useRealTimers()
     })

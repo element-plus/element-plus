@@ -98,8 +98,8 @@
               :context="context"
               :highlight="highlightCurrentRow"
               :row-class-name="rowClassName"
-              :tooltip-effect="tooltipEffect"
-              :tooltip-options="tooltipOptions"
+              :tooltip-effect="computedTooltipEffect"
+              :tooltip-options="computedTooltipOptions"
               :row-style="rowStyle"
               :store="store"
               :stripe="stripe"
@@ -181,6 +181,7 @@ import {
 import { debounce } from 'lodash-unified'
 import { Mousewheel } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
+import { useGlobalConfig } from '@element-plus/components/config-provider'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import { createStore } from './store/helper'
 import TableLayout from './table-layout'
@@ -237,6 +238,7 @@ export default defineComponent({
     type Row = (typeof props.data)[number]
     const { t } = useLocale()
     const ns = useNamespace('table')
+    const globalConfig = useGlobalConfig('table')
     const table = getCurrentInstance() as Table<Row>
     provide(TABLE_INJECTION_KEY, table)
     const store = createStore<Row>(table, props)
@@ -305,6 +307,14 @@ export default defineComponent({
     const computedEmptyText = computed(() => {
       return props.emptyText ?? t('el.table.emptyText')
     })
+
+    const computedTooltipEffect = computed(
+      () => props.tooltipEffect ?? globalConfig.value?.tooltipEffect
+    )
+
+    const computedTooltipOptions = computed(
+      () => props.tooltipOptions ?? globalConfig.value?.tooltipOptions
+    )
 
     const columns = computed(() => {
       return convertToRows(store.states.originColumns.value)[0]
@@ -384,6 +394,8 @@ export default defineComponent({
       context: table,
       computedSumText,
       computedEmptyText,
+      computedTooltipEffect,
+      computedTooltipOptions,
       tableLayout,
       scrollbarViewStyle,
       scrollbarStyle,

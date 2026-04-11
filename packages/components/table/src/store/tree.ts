@@ -148,7 +148,8 @@ function useTree<T extends DefaultRow>(watcherData: WatcherPropsData<T>) {
     () => expandRowKeys.value,
     () => {
       updateTreeData(true)
-    }
+    },
+    { deep: true }
   )
 
   watch(

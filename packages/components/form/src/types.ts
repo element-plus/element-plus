@@ -20,14 +20,22 @@ export interface FormItemRule extends RuleItem {
   trigger?: Arrayable<string>
 }
 
+type FormRuleValue<V> = V extends any[]
+  ? Arrayable<FormItemRule>
+  : V extends Record<string, any>
+    ? Arrayable<FormItemRule> | { [K in keyof V]?: FormRuleValue<V[K]> }
+    : Arrayable<FormItemRule>
+
 export type FormRules<
   T extends MaybeRef<Record<string, any> | string> = string,
-> = Partial<
-  Record<
-    UnwrapRef<T> extends string ? UnwrapRef<T> : FieldPath<UnwrapRef<T>>,
-    Arrayable<FormItemRule>
-  >
->
+> =
+  UnwrapRef<T> extends Record<string, any>
+    ? {
+        [P in FieldPath<UnwrapRef<T>>]?: P extends keyof UnwrapRef<T>
+          ? FormRuleValue<UnwrapRef<T>[P]>
+          : Arrayable<FormItemRule>
+      }
+    : Partial<Record<string, Arrayable<FormItemRule> | Record<string, any>>>
 
 export type FormValidationResult = Promise<boolean>
 export type FormValidateCallback = (
@@ -44,7 +52,7 @@ export type FormContext = FormProps &
     emit: SetupContext<FormEmits>['emit']
     getField: (prop: FormItemProp) => FormItemContext | undefined
     addField: (field: FormItemContext) => void
-    removeField: (field: FormItemContext) => void
+    removeField: (field: FormItemContext, oldPropString?: string) => void
     resetFields: (props?: Arrayable<FormItemProp>) => void
     setInitialValues: (initModel: Record<string, any>) => void
     clearValidate: (props?: Arrayable<FormItemProp>) => void
@@ -74,4 +82,5 @@ export interface FormItemContext extends FormItemProps {
   resetField(): void
   clearValidate(): void
   setInitialValue: (value: any) => void
+  getInitialValue: () => any
 }

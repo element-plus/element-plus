@@ -49,6 +49,7 @@ const props = withDefaults(defineProps<ButtonProps>(), {
   plain: undefined,
   text: undefined,
   round: undefined,
+  dashed: undefined,
   autoInsertSpace: undefined,
   tag: 'button',
 })
@@ -66,6 +67,7 @@ const {
   _plain,
   _round,
   _text,
+  _dashed,
   shouldAddSpace,
   handleClick,
 } = useButton(props, emit)
@@ -79,6 +81,7 @@ const buttonKls = computed(() => [
   ns.is('round', _round.value),
   ns.is('circle', props.circle),
   ns.is('text', _text.value),
+  ns.is('dashed', _dashed.value),
   ns.is('link', props.link),
   ns.is('has-bg', props.bg),
 ])

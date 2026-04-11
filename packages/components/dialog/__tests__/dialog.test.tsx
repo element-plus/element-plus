@@ -318,6 +318,34 @@ describe('Dialog.vue', () => {
       expect(dialog.vm.visible).toBe(true)
       expect(onClick).toHaveBeenCalled()
     })
+
+    test('should bring the clicked penetrable dialog to front', async () => {
+      const wrapper = mount(() => (
+        <>
+          <Dialog modelValue={true} modal={false} modalPenetrable={true}>
+            first dialog
+          </Dialog>
+          <Dialog modelValue={true} modal={false} modalPenetrable={true}>
+            second dialog
+          </Dialog>
+        </>
+      ))
+      await nextTick()
+      await rAF()
+      await nextTick()
+
+      const overlays = wrapper.findAll('.el-modal-dialog')
+      const dialogs = wrapper.findAll('.el-dialog')
+      expect(overlays).toHaveLength(2)
+      expect(dialogs).toHaveLength(2)
+
+      const getZIndex = (index: number) =>
+        Number((overlays[index].element as HTMLElement).style.zIndex)
+      expect(getZIndex(1)).toBeGreaterThan(getZIndex(0))
+      await dialogs[0].trigger('mousedown')
+      await nextTick()
+      expect(getZIndex(0)).toBeGreaterThan(getZIndex(1))
+    })
   })
 
   describe('life cycles', () => {

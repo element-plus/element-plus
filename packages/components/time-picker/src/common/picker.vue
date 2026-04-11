@@ -296,7 +296,13 @@ const { isFocused, handleFocus, handleBlur } = useFocusController(inputRef, {
     )
   },
   afterBlur() {
-    handleChange()
+    if (isTimePicker.value && !props.saveOnBlur) {
+      if (!valueIsEmpty.value) {
+        pickerOptions.value.handleCancel?.()
+      }
+    } else {
+      handleChange()
+    }
     pickerVisible.value = false
     hasJustTabExitedInput = false
     props.validateEvent &&
@@ -402,12 +408,13 @@ const displayValue = computed<UserInput>(() => {
   const formattedValue = formatToString(parsedValue.value)
   if (isArray(userInput.value)) {
     return [
-      userInput.value[0] || (formattedValue && formattedValue[0]) || '',
-      userInput.value[1] || (formattedValue && formattedValue[1]) || '',
+      userInput.value[0] ?? (formattedValue && formattedValue[0]) ?? '',
+      userInput.value[1] ?? (formattedValue && formattedValue[1]) ?? '',
     ]
   } else if (userInput.value !== null) {
     return userInput.value
   }
+  if (isTimePicker.value && valueIsEmpty.value && !props.saveOnBlur) return ''
   if (!isTimePicker.value && valueIsEmpty.value) return ''
   if (!pickerVisible.value && valueIsEmpty.value) return ''
   if (formattedValue) {
@@ -519,7 +526,12 @@ onBeforeUnmount(() => {
 })
 
 const handleChange = () => {
-  if (userInput.value) {
+  if (isTimePicker.value && !props.saveOnBlur) return
+
+  const isRangeEmpty =
+    isArray(userInput.value) && userInput.value.every((v) => v === '')
+
+  if (userInput.value && !isRangeEmpty) {
     const value = parseUserInputToDayjs(displayValue.value)
     if (value) {
       if (isValidValue(value)) {
@@ -528,7 +540,7 @@ const handleChange = () => {
       userInput.value = null
     }
   }
-  if (userInput.value === '') {
+  if (userInput.value === '' || isRangeEmpty) {
     emitInput(emptyValues.valueOnClear.value)
     emitChange(emptyValues.valueOnClear.value, true)
     userInput.value = null
