@@ -176,7 +176,7 @@ export default defineComponent({
     }
 
     const getNodeKey = (node: Node) => {
-      return getNodeKeyUtil(props.nodeKey, node.data)
+      return props.nodeKey ? getNodeKeyUtil(props.nodeKey, node.data) : node.id
     }
 
     const requireNodeKey = (methodName: string) => {
@@ -310,7 +310,7 @@ export default defineComponent({
     }
 
     const updateKeyChildren = (key: TreeKey, data: TreeData) => {
-      requireNodeKey('updateKeyChild')
+      requireNodeKey('updateKeyChildren')
 
       store.value.updateChildren(key, data)
     }

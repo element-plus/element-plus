@@ -6,10 +6,11 @@
     <div :class="ns.e('wrapper')">
       <hue-slider
         ref="hueRef"
-        class="hue-slider"
         :color="color"
         vertical
         :disabled="disabled"
+        :class="['hue-slider', hueSliderClass]"
+        :style="hueSliderStyle"
       />
       <sv-panel ref="svRef" :color="color" :disabled="disabled" />
     </div>
@@ -69,6 +70,7 @@ const props = withDefaults(defineProps<ColorPickerPanelProps>(), {
   modelValue: undefined,
   border: true,
   validateEvent: true,
+  showAlpha: false,
 })
 const emit = defineEmits(colorPickerPanelEmits)
 

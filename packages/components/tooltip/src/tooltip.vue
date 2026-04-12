@@ -171,6 +171,9 @@ watch(
     if (disabled && open.value) {
       open.value = false
     }
+    if (!disabled && isBoolean(props.visible)) {
+      open.value = props.visible
+    }
   }
 )
 

@@ -119,7 +119,7 @@ export const selectV2Props = buildProps({
     default: undefined,
   },
   /**
-   * @description
+   * @description Estimated item height for variable option sizes. Defaults to fixed `itemHeight` when omitted.
    */
   estimatedOptionHeight: {
     type: Number,

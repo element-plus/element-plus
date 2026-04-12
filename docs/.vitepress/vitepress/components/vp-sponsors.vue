@@ -22,7 +22,7 @@ const { dynamicClass } = useDynamicClass(
   }
 `,
   {
-    prefix: 'vp-s-',
+    prefix: 'vs-s-',
   }
 )
 </script>

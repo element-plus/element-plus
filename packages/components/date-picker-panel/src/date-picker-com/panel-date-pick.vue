@@ -322,7 +322,11 @@ const userInputTime = ref<string | null>(null)
 // todo update to disableHour
 const checkDateWithinRange = (date: ConfigType) => {
   return selectableRange.value.length > 0
-    ? timeWithinRange(date, selectableRange.value, props.format || 'HH:mm:ss')
+    ? timeWithinRange(
+        date,
+        selectableRange.value,
+        props.format || DEFAULT_FORMATS_TIME
+      )
     : true
 }
 const formatEmit = (emitDayjs: Dayjs) => {

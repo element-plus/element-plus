@@ -477,6 +477,39 @@ describe('Select', () => {
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('A2')
     delete process.env.RUN_TEST_WITH_PERSISTENT
   })
+
+  test('keeps empty string label after label update when closed and persistent=false', async () => {
+    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
+    wrapper = _mount(
+      `
+      <el-select v-model="value" :persistent="false">
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          {
+            value: 'value1',
+            label: '',
+          },
+          {
+            value: 'value2',
+            label: 'B',
+          },
+        ],
+        value: 'value1',
+      })
+    )
+    await nextTick()
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('')
+    delete process.env.RUN_TEST_WITH_PERSISTENT
+  })
+
   test('when there is a default value and persistent is false, render the label and dynamically modify options and modelValue', async () => {
     // This is convenient for testing the default value label rendering when persistent is false.
     process.env.RUN_TEST_WITH_PERSISTENT = 'true'
@@ -1301,6 +1334,25 @@ describe('Select', () => {
     expect((wrapper.vm as any).value).toBe('new')
   })
 
+  test('allow create should clear input after creating a tag with reserveKeyword', async () => {
+    wrapper = getSelectVm({
+      filterable: true,
+      allowCreate: true,
+      multiple: true,
+    })
+    const selectVm = wrapper.findComponent({ name: 'ElSelect' }).vm as any
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    await input.setValue('new tag')
+    selectVm.debouncedOnInputChange()
+    await nextTick()
+    getOptions()
+      .find((o) => o.textContent === 'new tag')!
+      .click()
+    await nextTick()
+    expect(selectVm.states.inputValue).toBe('')
+  })
+
   test('allow create with default first option', async () => {
     wrapper = getSelectVm(
       {
@@ -1391,6 +1443,21 @@ describe('Select', () => {
     const tagCloseIcons = wrapper.findAll('.el-tag__close')
     await tagCloseIcons[0].trigger('click')
     expect(vm.value.indexOf('选项1')).toBe(-1)
+  })
+
+  test('should prevent option mousedown from blurring multiple select', async () => {
+    wrapper = getSelectVm({ multiple: true })
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+    const option = getOptions()[0]
+    const event = new MouseEvent('mousedown', {
+      bubbles: true,
+      cancelable: true,
+      shiftKey: true,
+    })
+
+    option.dispatchEvent(event)
+
+    expect(event.defaultPrevented).toBeTruthy()
   })
 
   test('multiple select when content overflow', async () => {
@@ -4331,5 +4398,179 @@ describe('Select', () => {
     expect(document.querySelector('.custom-empty')).not.toBeNull()
 
     vi.useRealTimers()
+  })
+
+  describe('input-wrapper in multiple mode', () => {
+    test('should hide input-wrapper when empty and not focused', async () => {
+      wrapper = getSelectVm({
+        multiple: true,
+        filterable: true,
+      })
+      const inputWrapper = wrapper.find('.el-select__input-wrapper')
+      const input = wrapper.find('input')
+
+      // When input is empty and not focused, input-wrapper should have hidden class
+      expect(inputWrapper.classes()).toContain('is-hidden')
+
+      // Focus the input
+      await input.trigger('focus')
+
+      // When focused, input-wrapper should not have hidden class
+      expect(inputWrapper.classes()).not.toContain('is-hidden')
+
+      // Blur the input
+      await input.trigger('blur')
+
+      // When blurred and empty, input-wrapper should have hidden class again
+      expect(inputWrapper.classes()).toContain('is-hidden')
+    })
+
+    test('should show input-wrapper when input has value', async () => {
+      wrapper = getSelectVm({
+        multiple: true,
+        filterable: true,
+      })
+      const inputWrapper = wrapper.find('.el-select__input-wrapper')
+      const input = wrapper.find('input')
+
+      // Initially empty, should be hidden
+      expect(inputWrapper.classes()).toContain('is-hidden')
+
+      // Set input value
+      await input.setValue('test')
+
+      // When input has value, input-wrapper should not have hidden class
+      expect(inputWrapper.classes()).not.toContain('is-hidden')
+
+      // Clear input
+      await input.setValue('')
+
+      // When empty again, should be hidden
+      expect(inputWrapper.classes()).toContain('is-hidden')
+    })
+  })
+
+  it('should not bubble native change event from filter input', async () => {
+    const wrapper = mount({
+      template: `
+        <div>
+          <el-select filterable v-model="value">
+            <el-option label="a" value="a" />
+          </el-select>
+        </div>
+      `,
+      components: { 'el-select': Select, 'el-option': Option },
+      setup() {
+        return {
+          value: ref(''),
+        }
+      },
+    })
+
+    const nativeChangeHandler = vi.fn()
+    const parent = wrapper.element as HTMLElement
+    parent.addEventListener('change', nativeChangeHandler)
+
+    await wrapper.find('input').trigger('change')
+    expect(nativeChangeHandler).not.toHaveBeenCalled()
+  })
+  // #23838
+  test('should keep dropdown visible during debouncing when options exist (remote)', async () => {
+    vi.useFakeTimers()
+
+    const options = ref([{ value: 'test', label: 'test' }])
+    const handleVisibleChange = vi.fn()
+    const remoteMethod = vi.fn((query: string) => {
+      if (query) {
+        options.value = [
+          { value: 'Alabama', label: 'Alabama' },
+          { value: 'Alaska', label: 'Alaska' },
+        ]
+      }
+    })
+
+    // Temporarily restore useDebounceFn to use real debounce with fake timers
+    const { useDebounceFn } = await vi.importActual('@vueuse/core')
+    const mockedUseDebounceFn = vi.mocked(
+      (await import('@vueuse/core')).useDebounceFn
+    )
+    const originalUseDebounceFnImpl =
+      mockedUseDebounceFn.getMockImplementation()
+    mockedUseDebounceFn.mockImplementation(useDebounceFn)
+
+    try {
+      wrapper = mount(
+        {
+          components: {
+            'el-select': Select,
+            'el-option': Option,
+          },
+          template: `
+            <el-select
+              v-model="value"
+              filterable
+              remote
+              :debounce="300"
+              :remote-method="remoteMethod"
+              @visible-change="handleVisibleChange"
+            >
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          `,
+          setup() {
+            return {
+              value: ref(''),
+              options,
+              remoteMethod,
+              handleVisibleChange,
+            }
+          },
+        },
+        {
+          attachTo: 'body',
+        }
+      )
+
+      const select = wrapper.findComponent(Select)
+      const vm = select.vm as any
+      const input = wrapper.find('input')
+
+      // Open dropdown first
+      await input.trigger('click')
+      await nextTick()
+      expect(vm.dropdownMenuVisible).toBe(true)
+      expect(vm.states.options.size).toBe(1) // initial option exists
+      expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+      expect(handleVisibleChange).toHaveBeenLastCalledWith(true)
+
+      // Start typing to trigger remote search and debouncing
+      await input.setValue('a')
+      await nextTick()
+      vi.advanceTimersByTime(50) // Advance time but don't complete debounce
+      await nextTick()
+
+      // During debouncing (before debounce completes), check dropdown and event count
+      expect(vm.dropdownMenuVisible).toBe(true)
+      expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+
+      // Complete the debounce
+      vi.advanceTimersByTime(300)
+      await nextTick()
+
+      expect(remoteMethod).toHaveBeenCalledWith('a')
+      expect(vm.dropdownMenuVisible).toBe(true)
+      // Should still only have been called once - dropdown never closed
+      expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+    } finally {
+      mockedUseDebounceFn.mockImplementation(
+        originalUseDebounceFnImpl ?? ((fn: any) => fn)
+      )
+      vi.useRealTimers()
+    }
   })
 })
