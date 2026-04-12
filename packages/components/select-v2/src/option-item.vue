@@ -12,7 +12,7 @@
       ns.is('created', created),
       ns.is('hovering', hovering),
     ]"
-    @mousemove="hoverItem"
+    @[mouseMoveEventName]="hoverItem"
     @mousedown="handleMousedown"
     @click.stop="selectOptionClick"
   >
@@ -29,7 +29,7 @@ import { useOption } from './useOption'
 import { useProps } from './useProps'
 import { optionV2Emits, optionV2Props } from './defaults'
 import { selectV2InjectionKey } from './token'
-import { isFocusable } from '@element-plus/utils'
+import { isFocusable, isIOS } from '@element-plus/utils'
 
 export default defineComponent({
   props: optionV2Props,
@@ -37,6 +37,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const select = inject(selectV2InjectionKey)!
     const ns = useNamespace('select')
+    const mouseMoveEventName = isIOS ? null : 'mousemove'
     const { hoverItem, selectOptionClick } = useOption(props, { emit })
     const { getLabel } = useProps(select.props)
     const contentId = select.contentId
@@ -58,6 +59,7 @@ export default defineComponent({
     return {
       ns,
       contentId,
+      mouseMoveEventName,
       hoverItem,
       handleMousedown,
       selectOptionClick,
