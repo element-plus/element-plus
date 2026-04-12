@@ -16,9 +16,7 @@ defineOptions({
   name: 'ElIcon',
   inheritAttrs: false,
 })
-const props = withDefaults(defineProps<IconProps>(), {
-  size: undefined,
-})
+const props = defineProps<IconProps>()
 const ns = useNamespace('icon')
 
 const style = computed<CSSProperties>(() => {

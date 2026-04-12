@@ -1,12 +1,9 @@
 import { NOOP, buildProps, definePropType } from '@element-plus/utils'
-import {
-  UploadBaseProps,
-  uploadBaseProps,
-  uploadBasePropsDefaults,
-} from './upload'
+import { uploadBaseProps, uploadBasePropsDefaults } from './upload'
 
 import type { ExtractPublicPropTypes } from 'vue'
 import type {
+  UploadBaseProps,
   UploadFile,
   UploadHooks,
   UploadProgressEvent,

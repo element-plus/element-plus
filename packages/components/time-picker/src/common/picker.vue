@@ -167,6 +167,7 @@
         :show-confirm="showConfirm"
         :show-footer="showFooter"
         :show-week-number="showWeekNumber"
+        :single-panel="singlePanel"
         @pick="onPick"
         @select-range="setSelectionRange"
         @set-picker-option="onSetPickerOption"
@@ -407,8 +408,8 @@ const displayValue = computed<UserInput>(() => {
   const formattedValue = formatToString(parsedValue.value)
   if (isArray(userInput.value)) {
     return [
-      userInput.value[0] || (formattedValue && formattedValue[0]) || '',
-      userInput.value[1] || (formattedValue && formattedValue[1]) || '',
+      userInput.value[0] ?? (formattedValue && formattedValue[0]) ?? '',
+      userInput.value[1] ?? (formattedValue && formattedValue[1]) ?? '',
     ]
   } else if (userInput.value !== null) {
     return userInput.value
@@ -527,7 +528,10 @@ onBeforeUnmount(() => {
 const handleChange = () => {
   if (isTimePicker.value && !props.saveOnBlur) return
 
-  if (userInput.value) {
+  const isRangeEmpty =
+    isArray(userInput.value) && userInput.value.every((v) => v === '')
+
+  if (userInput.value && !isRangeEmpty) {
     const value = parseUserInputToDayjs(displayValue.value)
     if (value) {
       if (isValidValue(value)) {
@@ -536,7 +540,7 @@ const handleChange = () => {
       userInput.value = null
     }
   }
-  if (userInput.value === '') {
+  if (userInput.value === '' || isRangeEmpty) {
     emitInput(emptyValues.valueOnClear.value)
     emitChange(emptyValues.valueOnClear.value, true)
     userInput.value = null

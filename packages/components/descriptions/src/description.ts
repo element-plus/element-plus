@@ -1,8 +1,8 @@
 import { buildProps } from '@element-plus/utils'
 import { useSizeProp } from '@element-plus/hooks'
-import { ComponentSize } from '@element-plus/constants'
 
 import type { ExtractPublicPropTypes } from 'vue'
+import type { ComponentSize } from '@element-plus/constants'
 import type Description from './description.vue'
 
 export interface DescriptionProps {

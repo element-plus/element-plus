@@ -61,17 +61,17 @@ According to different CDN providers, there are different introduction methods.
 Here we use [unpkg](https://unpkg.com) and [jsDelivr](https://jsdelivr.com) as example.
 You can also use other CDN providers.
 
-#### unpkg
+::: code-group
 
-```html
+```html [unpkg]
 <script src="//unpkg.com/@element-plus/icons-vue"></script>
 ```
 
-#### jsDelivr
-
-```html
+```html [jsDelivr]
 <script src="//cdn.jsdelivr.net/npm/@element-plus/icons-vue"></script>
 ```
+
+:::
 
 :::tip
 

@@ -3,15 +3,21 @@ import { usePropsAlias } from './use-props-alias'
 
 import type { TransferDataItem, TransferKey, TransferProps } from '../transfer'
 
-export const useComputedData = (
+export const useComputedData = <T extends TransferDataItem = TransferDataItem>(
   props: Required<
-    Omit<TransferProps, 'filterPlaceholder' | 'filterMethod' | 'renderContent'>
+    Omit<
+      TransferProps<T>,
+      'filterPlaceholder' | 'filterMethod' | 'renderContent'
+    >
   >
 ) => {
   const propsAlias = usePropsAlias(props)
 
   const dataObj = computed(() =>
-    props.data.reduce((o, cur) => (o[cur[propsAlias.value.key]] = cur) && o, {})
+    props.data.reduce<Record<string, T>>(
+      (o, cur) => ((o[cur[propsAlias.value.key]] = cur), o),
+      {}
+    )
   )
 
   const sourceData = computed(() =>
@@ -26,16 +32,13 @@ export const useComputedData = (
         props.modelValue.includes(item[propsAlias.value.key])
       )
     } else {
-      return props.modelValue.reduce(
-        (arr: TransferDataItem[], cur: TransferKey) => {
-          const val = dataObj.value[cur]
-          if (val) {
-            arr.push(val)
-          }
-          return arr
-        },
-        []
-      )
+      return props.modelValue.reduce((arr: T[], cur: TransferKey) => {
+        const val = dataObj.value[cur]
+        if (val) {
+          arr.push(val)
+        }
+        return arr
+      }, [])
     }
   })
 
