@@ -26,7 +26,4 @@ declare module 'vue' {
   }
 }
 
-declare module '*.css'
-declare module '*.scss'
-
 export {}
