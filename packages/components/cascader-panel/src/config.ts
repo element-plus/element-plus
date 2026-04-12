@@ -143,23 +143,39 @@ export const CASCADER_PANEL_HEIGHT = 204
 /**
  * @deprecated Removed after 3.0.0, Use `CascaderPanelProps` instead.
  */
+export const cascaderVirtualScrollProps = buildProps({
+  /**
+   * @description whether to enable virtual scrolling
+   */
+  virtualScroll: Boolean,
+  /**
+   * @description node height for virtual scrolling
+   */
+  itemSize: {
+    type: Number,
+    default: CASCADER_PANEL_ITEM_SIZE,
+  },
+  /**
+   * @description menu height for virtual scrolling
+   */
+  height: {
+    type: Number,
+    default: CASCADER_PANEL_HEIGHT,
+  },
+} as const)
+
+/**
+ * @deprecated Removed after 3.0.0, Use `CascaderPanelProps` instead.
+ */
 export const cascaderPanelProps = buildProps({
   ...CommonProps,
+  ...cascaderVirtualScrollProps,
   border: {
     type: Boolean,
     default: true,
   },
   renderLabel: {
     type: Function as PropType<RenderLabel>,
-  },
-  virtualScroll: Boolean,
-  itemSize: {
-    type: Number,
-    default: CASCADER_PANEL_ITEM_SIZE,
-  },
-  height: {
-    type: Number,
-    default: CASCADER_PANEL_HEIGHT,
   },
 })
 

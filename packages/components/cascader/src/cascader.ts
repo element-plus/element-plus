@@ -1,8 +1,7 @@
 import { placements } from '@popperjs/core'
 import {
-  CASCADER_PANEL_HEIGHT,
-  CASCADER_PANEL_ITEM_SIZE,
   CommonProps,
+  cascaderVirtualScrollProps,
 } from '@element-plus/components/cascader-panel'
 import {
   buildProps,
@@ -334,24 +333,7 @@ export const cascaderProps = buildProps({
     type: Boolean,
     default: true,
   },
-  /**
-   * @description whether to enable virtual scrolling
-   */
-  virtualScroll: Boolean,
-  /**
-   * @description node height for virtual scrolling
-   */
-  itemSize: {
-    type: Number,
-    default: CASCADER_PANEL_ITEM_SIZE,
-  },
-  /**
-   * @description menu height for virtual scrolling
-   */
-  height: {
-    type: Number,
-    default: CASCADER_PANEL_HEIGHT,
-  },
+  ...cascaderVirtualScrollProps,
   /**
    * @description whether the width of the suggestion panel is the same as the input, if the value is `number`, then the width is fixed
    */

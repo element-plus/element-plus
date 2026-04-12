@@ -94,6 +94,7 @@ import ElIcon from '@element-plus/components/icon'
 import { focusNode } from '@element-plus/utils'
 import ElCascaderNode from './node.vue'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
+import { cascaderVirtualScrollProps } from './config'
 
 import type { CascaderNode } from './types'
 import type { PropType } from 'vue'
@@ -112,15 +113,7 @@ const props = defineProps({
     type: Number,
     required: true,
   },
-  virtualScroll: Boolean,
-  itemSize: {
-    type: Number,
-    default: 34,
-  },
-  height: {
-    type: Number,
-    default: 204,
-  },
+  ...cascaderVirtualScrollProps,
 })
 
 const instance = getCurrentInstance()!

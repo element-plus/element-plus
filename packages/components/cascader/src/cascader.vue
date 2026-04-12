@@ -667,17 +667,22 @@ const calculateSuggestions = () => {
   updatePopperPosition()
 }
 
-const getSuggestionPanelEl = () => {
+const getSuggestionPanelEl = (selector?: string) => {
   const el = suggestionPanel.value
-  return (el instanceof HTMLElement ? el : el?.$el) as HTMLElement | undefined
+  const $el = (el instanceof HTMLElement ? el : el?.$el) as
+    | HTMLElement
+    | undefined
+  if (selector && $el) {
+    return $el.querySelector(selector) as HTMLElement | null
+  }
+  return $el
 }
 
 const focusFirstNode = () => {
   let firstNode!: HTMLElement
 
   if (filtering.value && suggestionPanel.value) {
-    const panelEl = getSuggestionPanelEl()
-    firstNode = panelEl?.querySelector(
+    firstNode = getSuggestionPanelEl(
       `.${nsCascader.e('suggestion-item')}`
     ) as HTMLElement
   } else {
@@ -722,9 +727,9 @@ const updateSuggestionPanelWidth = (inputWidth: number) => {
     return
   }
 
-  const suggestionList = suggestionPanelEl.querySelector(
+  const suggestionList = getSuggestionPanelEl(
     `.${nsCascader.e('suggestion-list')}`
-  ) as HTMLElement | null
+  )
   if (suggestionList) {
     setPanelStyle(suggestionList)
   }
@@ -764,14 +769,6 @@ const updateStyle = () => {
   }
 }
 
-const getRenderedSuggestion = () => {
-  const suggestionPanelEl = getSuggestionPanelEl()
-
-  return suggestionPanelEl?.querySelector(
-    `.${nsCascader.e('suggestion-item')}`
-  ) as HTMLElement | null
-}
-
 const calculateSuggestionMaxWidth = () => {
   if (hasCustomSuggestionItemSlot.value) return 0
   if (!suggestions.value.length) return 0
@@ -780,7 +777,9 @@ const calculateSuggestionMaxWidth = () => {
   const ctx = canvas.getContext('2d')
   if (!ctx) return 0
 
-  const renderedSuggestion = getRenderedSuggestion()
+  const renderedSuggestion = getSuggestionPanelEl(
+    `.${nsCascader.e('suggestion-item')}`
+  )
   if (!renderedSuggestion || !isClient) return 0
 
   const style = getComputedStyle(renderedSuggestion)
@@ -904,10 +903,9 @@ const handleSuggestionKeyDown = (e: KeyboardEvent) => {
           suggestionVirtualListRef.value.scrollToItem(targetIndex)
 
           nextTick(() => {
-            const el = getSuggestionPanelEl()
-            const targetItem = el?.querySelector(
+            const targetItem = getSuggestionPanelEl(
               `#suggestion-${suggestions.value[targetIndex].uid}`
-            ) as HTMLElement | null
+            )
             targetItem && focusNode(targetItem)
           })
           return
