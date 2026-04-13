@@ -1,5 +1,5 @@
 <template>
-  <form ref="formRef" :class="formClasses">
+  <form ref="formRef" :class="formClasses" :autocomplete="autocomplete">
     <slot />
   </form>
 </template>

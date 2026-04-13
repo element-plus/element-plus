@@ -187,6 +187,21 @@ describe('Form', () => {
     expect(wrapper.classes()).toContain('el-form--inline')
   })
 
+  it('autocomplete', async () => {
+    const wrapper = mount({
+      setup() {
+        return () => (
+          <Form autocomplete="off">
+            <FormItem>
+              <Input />
+            </FormItem>
+          </Form>
+        )
+      },
+    })
+    expect(wrapper.attributes('autocomplete')).toBe('off')
+  })
+
   it('label position', () => {
     const wrapper = mount({
       setup() {

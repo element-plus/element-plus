@@ -97,6 +97,10 @@ export interface FormProps extends FormMetaProps {
    * @description When validation fails, it scrolls to the first error item based on the scrollIntoView option.
    */
   scrollIntoViewOptions?: ScrollIntoViewOptions | boolean
+  /**
+   * @description native `autocomplete` attribute
+   */
+  autocomplete?: string
 }
 
 /**
@@ -185,6 +189,10 @@ export const formProps = buildProps({
     type: definePropType<ScrollIntoViewOptions | boolean>([Object, Boolean]),
     default: true,
   },
+  /**
+   * @description native `autocomplete` attribute
+   */
+  autocomplete: String,
 } as const)
 
 /**

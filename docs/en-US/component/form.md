@@ -145,6 +145,7 @@ form/accessibility
 | disabled                          | Whether to disable all components in this form. Before ^(2.12.0), if set to `true`, it will override the `disabled` prop of the inner component. After ^(2.12.0), the configuration of the internal components takes precedence. | ^[boolean]                                     | false   |
 | scroll-to-error                   | When validation fails, scroll to the first error form entry.                                                                                                                                                                     | ^[boolean]                                     | false   |
 | scroll-into-view-options ^(2.3.2) | When validation fails, it scrolls to the first error item based on the scrollIntoView option. [scrollIntoView](https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView).                                         | ^[object]`ScrollIntoViewOptions` / ^[boolean]  | true    |
+| autocomplete                      | native `autocomplete` attribute                                                                                                                                                                                                  | ^[string]                                      | —       |
 
 ### Form Events
 
