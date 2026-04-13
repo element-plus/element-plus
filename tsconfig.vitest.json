@@ -6,6 +6,11 @@
     "types": ["node", "jsdom"],
     "skipLibCheck": true
   },
-  "include": ["packages", "vitest.setup.ts", "typings/env.d.ts"],
+  "include": [
+    "packages",
+    "vitest.setup.ts",
+    "typings/env.d.ts",
+    "typings/style.d.ts"
+  ],
   "exclude": ["node_modules", "dist", "**/*.md"]
 }
