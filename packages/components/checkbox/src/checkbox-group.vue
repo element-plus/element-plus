@@ -24,7 +24,7 @@
 import { computed, nextTick, provide, toRefs, watch } from 'vue'
 import { isEqual, omit, pick } from 'lodash-unified'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { debugWarn } from '@element-plus/utils'
+import { NOOP } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import {
   useFormDisabled,
@@ -113,7 +113,7 @@ watch(
   () => props.modelValue,
   (newVal, oldValue) => {
     if (props.validateEvent && !isEqual(newVal, oldValue)) {
-      formItem?.validate('change').catch((err) => debugWarn(err))
+      formItem?.validate('change').catch(NOOP)
     }
   }
 )
