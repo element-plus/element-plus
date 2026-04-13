@@ -12,7 +12,7 @@
       ns.is('created', created),
       ns.is('hovering', hovering),
     ]"
-    @mousemove="hoverItem"
+    @mouseenter="hoverItem"
     @mousedown="handleMousedown"
     @click.stop="selectOptionClick"
   >

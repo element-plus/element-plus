@@ -6,7 +6,7 @@
     role="option"
     :aria-disabled="isDisabled || undefined"
     :aria-selected="itemSelected"
-    @mousemove="hoverItem"
+    @mouseenter="hoverItem"
     @mousedown="handleMousedown"
     @click.stop="selectOptionClick"
   >

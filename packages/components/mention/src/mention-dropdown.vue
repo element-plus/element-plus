@@ -23,7 +23,7 @@
         role="option"
         :aria-disabled="item.disabled || disabled || undefined"
         :aria-selected="hoveringIndex === index"
-        @mousemove="handleMouseEnter(index)"
+        @mouseenter="handleMouseEnter(index)"
         @click.stop="handleSelect(item)"
       >
         <slot name="label" :item="item" :index="index">
