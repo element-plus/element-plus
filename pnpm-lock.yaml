@@ -17,8 +17,8 @@ catalogs:
       specifier: npm:@sxzz/popperjs-es@^2.11.7
       version: 2.11.8
     '@vitejs/plugin-vue':
-      specifier: ^5.1.4
-      version: 5.2.4
+      specifier: ^6.0.6
+      version: 6.0.6
     '@vitejs/plugin-vue-jsx':
       specifier: ^4.0.1
       version: 4.2.0
@@ -159,7 +159,7 @@ importers:
         version: 24.12.2
       '@vitejs/plugin-vue':
         specifier: 'catalog:'
-        version: 5.2.4(vite@7.3.0)(vue@3.5.25)
+        version: 6.0.6(vite@7.3.0)(vue@3.5.25)
       '@vitejs/plugin-vue-jsx':
         specifier: 'catalog:'
         version: 4.2.0(vite@7.3.0)(vue@3.5.25)
@@ -349,7 +349,7 @@ importers:
         version: 5.2.0
       '@vitejs/plugin-vue':
         specifier: 'catalog:'
-        version: 5.2.4(vite@7.3.0)(vue@3.5.25)
+        version: 6.0.6(vite@7.3.0)(vue@3.5.25)
       '@vitejs/plugin-vue-jsx':
         specifier: 'catalog:'
         version: 4.2.0(vite@7.3.0)(vue@3.5.25)
@@ -701,7 +701,7 @@ importers:
     devDependencies:
       '@vitejs/plugin-vue':
         specifier: 'catalog:'
-        version: 5.2.4(vite@5.4.21)(vue@3.5.25)
+        version: 6.0.6(vite@5.4.21)(vue@3.5.25)
       '@vitejs/plugin-vue-jsx':
         specifier: 'catalog:'
         version: 4.2.0(vite@5.4.21)(vue@3.5.25)
@@ -2288,6 +2288,9 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@rolldown/pluginutils@1.0.0-rc.13':
+    resolution: {integrity: sha512-3ngTAv6F/Py35BsYbeeLeecvhMKdsKm4AoOETVhAA+Qc8nrA2I0kF7oa93mE9qnIurngOSpMnQ0x2nQY2FPviA==}
+
   '@rolldown/pluginutils@1.0.0-rc.6':
     resolution: {integrity: sha512-Y0+JT8Mi1mmW08K6HieG315XNRu4L0rkfCpA364HtytjgiqYnMYRdFPcxRl+BQQqNXzecL2S9nii+RUpO93XIA==}
 
@@ -2778,6 +2781,13 @@ packages:
     engines: {node: ^18.0.0 || >=20.0.0}
     peerDependencies:
       vite: ^5.0.0 || ^6.0.0
+      vue: ^3.2.25
+
+  '@vitejs/plugin-vue@6.0.6':
+    resolution: {integrity: sha512-u9HHgfrq3AjXlysn0eINFnWQOJQLO9WN6VprZ8FXl7A2bYisv3Hui9Ij+7QZ41F/WYWarHjwBbXtD7dKg3uxbg==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    peerDependencies:
+      vite: ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
       vue: ^3.2.25
 
   '@vitest/coverage-v8@4.0.16':
@@ -8659,6 +8669,8 @@ snapshots:
   '@rolldown/binding-win32-x64-msvc@1.0.0-rc.6':
     optional: true
 
+  '@rolldown/pluginutils@1.0.0-rc.13': {}
+
   '@rolldown/pluginutils@1.0.0-rc.6': {}
 
   '@rollup/plugin-alias@5.1.1(rollup@4.55.1)':
@@ -9199,8 +9211,15 @@ snapshots:
       vite: 5.4.21(@types/node@24.12.2)(lightningcss@1.31.1)(sass-embedded@1.97.3)(sass@1.97.3)
       vue: 3.5.25(typescript@6.0.2)
 
-  '@vitejs/plugin-vue@5.2.4(vite@7.3.0)(vue@3.5.25)':
+  '@vitejs/plugin-vue@6.0.6(vite@5.4.21)(vue@3.5.25)':
     dependencies:
+      '@rolldown/pluginutils': 1.0.0-rc.13
+      vite: 5.4.21(@types/node@24.12.2)(lightningcss@1.31.1)(sass-embedded@1.97.3)(sass@1.97.3)
+      vue: 3.5.25(typescript@6.0.2)
+
+  '@vitejs/plugin-vue@6.0.6(vite@7.3.0)(vue@3.5.25)':
+    dependencies:
+      '@rolldown/pluginutils': 1.0.0-rc.13
       vite: 7.3.0(@types/node@24.12.2)(jiti@2.6.1)(lightningcss@1.31.1)(sass-embedded@1.97.3)(sass@1.97.3)(tsx@4.21.0)(yaml@2.8.2)
       vue: 3.5.25(typescript@6.0.2)
 
