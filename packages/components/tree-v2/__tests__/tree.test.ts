@@ -529,28 +529,18 @@ describe('Virtual Tree', () => {
     await nodes[0].trigger('click')
     expect(treeRef.getCheckedKeys()).toEqual([
       '1-1-1',
-      '1-2',
       '1-2-1',
-      '1-3',
       '1-3-1',
       '1-3-2',
     ])
     nodes = wrapper.findAll(TREE_NODE_CHECKBOX_CLASS_NAME)
     await nodes[1].trigger('click')
-    expect(treeRef.getCheckedKeys()).toEqual([
-      '1-2',
-      '1-2-1',
-      '1-3',
-      '1-3-1',
-      '1-3-2',
-    ])
+    expect(treeRef.getCheckedKeys()).toEqual(['1-2-1', '1-3-1', '1-3-2'])
 
     nodes = wrapper.findAll(TREE_NODE_CHECKBOX_CLASS_NAME)
     await nodes[0].trigger('click')
     expect(treeRef.getCheckedKeys()).toEqual([
-      '1-2',
       '1-2-1',
-      '1-3',
       '1-3-1',
       '1-3-2',
       '1-1-1',
@@ -621,7 +611,7 @@ describe('Virtual Tree', () => {
     await nodes[3].trigger('click')
     expect(nodes).toHaveLength(7)
     expect(treeRef.getCheckedKeys().toString()).toBe(
-      ['1-1-1', '1-1-2', '1-1'].toString()
+      ['1-1-1', '1-1-2'].toString()
     )
   })
 
@@ -739,8 +729,8 @@ describe('Virtual Tree', () => {
       },
     })
     await nextTick()
-    // node-1-1 should be checked
-    expect(treeRef.getCheckedKeys().length).toBe(3)
+    // only leaf nodes should be in checkedKeys
+    expect(treeRef.getCheckedKeys().length).toBe(2)
     // node-1-1 should be indeterminate
     expect(treeRef.getHalfCheckedKeys().length).toBe(1)
   })
@@ -1267,6 +1257,127 @@ describe('Virtual Tree', () => {
     expect(wrapper.findAll('.expanded').length).toBe(2)
   })
 
+  describe('filter with checkbox', () => {
+    const filterTreeData = [
+      {
+        id: '1',
+        label: 'node-1',
+        children: [
+          {
+            id: '1-1',
+            label: 'node-1-1',
+            children: [
+              { id: '1-1-1', label: 'node-1-1-1' },
+              { id: '1-1-2', label: 'node-1-1-2' },
+            ],
+          },
+          {
+            id: '1-2',
+            label: 'node-1-2',
+            children: [{ id: '1-2-1', label: 'node-1-2-1' }],
+          },
+        ],
+      },
+      { id: '2', label: 'node-2' },
+    ]
+
+    test('checked API results exclude filtered-out nodes', async () => {
+      const { treeRef } = createTree({
+        data() {
+          return {
+            showCheckbox: true,
+            defaultCheckedKeys: ['1-1-2'],
+            data: filterTreeData,
+            filterMethod(query: string, node: TreeNodeData) {
+              return node.label.includes(query)
+            },
+          }
+        },
+      })
+      await nextTick()
+
+      expect(treeRef.getCheckedKeys()).toEqual(['1-1-2'])
+      expect(treeRef.getHalfCheckedKeys()).toEqual(['1-1', '1'])
+
+      // Filter: visible = node-1, node-1-1, node-1-1-1; hidden = node-1-1-2 (checked), node-1-2, node-1-2-1, node-2
+      treeRef.filter('1-1-1')
+      await nextTick()
+
+      expect(treeRef.getCheckedKeys()).toHaveLength(0)
+      expect(treeRef.getCheckedNodes()).toHaveLength(0)
+      expect(treeRef.getHalfCheckedKeys()).toEqual(['1-1', '1'])
+      expect(treeRef.getHalfCheckedNodes()).toHaveLength(2)
+    })
+
+    test('parent state reflects visible children only, restores when filter is cleared', async () => {
+      const { treeRef } = createTree({
+        data() {
+          return {
+            showCheckbox: true,
+            defaultCheckedKeys: ['1-1-1'],
+            data: filterTreeData,
+            filterMethod(query: string, node: TreeNodeData) {
+              return node.label.includes(query)
+            },
+          }
+        },
+      })
+      await nextTick()
+
+      // Before filter: 1-1-1 checked, 1-1 and 1 are indeterminate
+      expect(treeRef.getCheckedKeys()).toEqual(['1-1-1'])
+      expect(treeRef.getHalfCheckedKeys()).toEqual(['1-1', '1'])
+
+      // After filter: 1-1-2 hidden but still counted → 1-1 remains indeterminate
+      // Parent state is computed from all children, not just visible ones
+      treeRef.filter('1-1-1')
+      await nextTick()
+
+      expect(treeRef.getCheckedKeys()).toEqual(['1-1-1'])
+      expect(treeRef.getHalfCheckedKeys()).toEqual(['1-1', '1'])
+
+      // Clear filter: all nodes visible again, states should revert to original
+      treeRef.filter('')
+      await nextTick()
+
+      expect(treeRef.getCheckedKeys()).toEqual(['1-1-1'])
+      expect(treeRef.getHalfCheckedKeys()).toEqual(['1-1', '1'])
+    })
+
+    test('clicking checkbox only affects visible nodes: event payload and getCheckedKeys exclude hidden nodes', async () => {
+      const onNodeCheck = vi.fn()
+      const { treeRef, wrapper } = createTree({
+        data() {
+          return {
+            showCheckbox: true,
+            defaultExpandedKeys: ['1', '1-1'],
+            data: filterTreeData,
+            filterMethod(query: string, node: TreeNodeData) {
+              return node.label.includes(query)
+            },
+          }
+        },
+        methods: { onNodeCheck },
+      })
+      await nextTick()
+
+      // Filter: visible = node-1, node-1-1, node-1-1-1; hidden = node-1-1-2, node-1-2, node-1-2-1, node-2
+      treeRef.filter('1-1-1')
+      await nextTick()
+
+      // Click parent node-1 checkbox: should check all visible nodes and fire event without hidden nodes
+      const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+      await nodes[0].find('.el-checkbox').trigger('click')
+
+      expect(onNodeCheck).toHaveBeenCalledTimes(1)
+      const [, checkInfo] = onNodeCheck.mock.calls[0]
+      expect(checkInfo.checkedKeys).toEqual(['1-1-1'])
+
+      const checkedKeys = treeRef.getCheckedKeys()
+      expect(checkedKeys).toEqual(['1-1-1'])
+    })
+  })
+
   describe('events', () => {
     test('current-change', async () => {
       const onCurrentChange = vi.fn()
@@ -1510,7 +1621,7 @@ describe('Virtual Tree', () => {
       await nextTick()
       const checkedKeys = treeRef.getCheckedKeys()
       const halfCheckedKeys = treeRef.getHalfCheckedKeys()
-      expect(checkedKeys.toString()).toBe(['1-1', '1-1-1', '1-1-2'].toString())
+      expect(checkedKeys.toString()).toBe(['1-1-1', '1-1-2'].toString())
       expect(halfCheckedKeys.toString()).toBe(['1'].toString())
     })
 
@@ -1566,7 +1677,7 @@ describe('Virtual Tree', () => {
       treeRef.setChecked('1-1', true)
       const checkedKeys = treeRef.getCheckedKeys()
       const halfCheckedKeys = treeRef.getHalfCheckedKeys()
-      expect(checkedKeys.toString()).toBe(['1-1', '1-1-1', '1-1-2'].toString())
+      expect(checkedKeys.toString()).toBe(['1-1-1', '1-1-2'].toString())
       expect(halfCheckedKeys.toString()).toBe(['1'].toString())
     })
 

@@ -36,7 +36,13 @@ export function useTree(
   const tree = shallowRef<Tree | undefined>()
   const listRef = ref<typeof FixedSizeList | undefined>()
 
+  const { doFilter, hiddenNodeKeySet, isForceHiddenExpandIcon } = useFilter(
+    props,
+    tree
+  )
+
   const {
+    updateCheckedKeys,
     isIndeterminate,
     isChecked,
     toggleCheckbox,
@@ -46,12 +52,7 @@ export function useTree(
     getHalfCheckedNodes,
     setChecked,
     setCheckedKeys,
-  } = useCheck(props, tree)
-
-  const { doFilter, hiddenNodeKeySet, isForceHiddenExpandIcon } = useFilter(
-    props,
-    tree
-  )
+  } = useCheck(props, tree, hiddenNodeKeySet)
 
   const valueKey = computed(() => {
     return props.props?.value || TreeOptionsEnum.KEY
@@ -146,6 +147,7 @@ export function useTree(
     const keys = doFilter(query)
     if (keys) {
       expandedKeySet.value = keys
+      updateCheckedKeys()
     }
   }
 
