@@ -296,28 +296,100 @@ describe('Calendar.vue', () => {
     vi.useRealTimers()
   })
 
-  it('should emit select event when a day cell is select', async () => {
+  it('should not emit select event when switching month with controller buttons', async () => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date(2026, 4, 1))
+
     const onSelect = vi.fn()
     const wrapper = mount(
       defineComponent({
-        data: () => ({ value: new Date('2019-04-01') }),
+        data: () => ({ value: new Date(2026, 3, 13) }),
         render() {
           return <Calendar v-model={this.value} onSelect={onSelect} />
         },
       })
     )
 
-    const rows = wrapper.element.querySelectorAll('.el-calendar-table__row')
-    ;(rows[1].firstElementChild as HTMLElement).click()
+    const btns = wrapper.findAll('.el-button')
+    const [prevBtn, todayBtn, nextBtn] = btns
+
+    expect(btns).toHaveLength(3)
+
+    await prevBtn.trigger('click')
+    await todayBtn.trigger('click')
+    await nextBtn.trigger('click')
+    await nextTick()
+
+    expect(onSelect).not.toHaveBeenCalled()
+    vi.useRealTimers()
+  })
+
+  it('should not emit select event when switching year or month with select controller', async () => {
+    const onSelect = vi.fn()
+    const wrapper = mount(
+      defineComponent({
+        data: () => ({ value: new Date(2025, 11, 9) }),
+        render() {
+          return (
+            <Calendar
+              v-model={this.value}
+              controller-type="select"
+              onSelect={onSelect}
+            />
+          )
+        },
+      })
+    )
+
+    await nextTick()
+
+    const selects = wrapper.findAllComponents({ name: 'ElSelect' })
+    const [yearSelect, monthSelect] = selects
+    const titleEl = wrapper.find('.el-calendar__title')
+
+    await yearSelect.vm.$emit('change', 2024)
+    await nextTick()
+    expect(/2024.*December/.test(titleEl.text())).toBeTruthy()
+
+    await monthSelect.vm.$emit('change', 11)
+    await nextTick()
+    expect(/2024.*November/.test(titleEl.text())).toBeTruthy()
+
+    expect(onSelect).not.toHaveBeenCalled()
+  })
+
+  it('should emit select event with clicked date when a day cell is clicked', async () => {
+    const onSelect = vi.fn()
+    const wrapper = mount(
+      defineComponent({
+        data: () => ({ value: new Date(2030, 0, 1) }),
+        render() {
+          return <Calendar v-model={this.value} onSelect={onSelect} />
+        },
+      })
+    )
+
+    const dayCell = Array.from(
+      wrapper.element.querySelectorAll(
+        'td.current'
+      ) as NodeListOf<HTMLTableCellElement>
+    ).find((cell) => {
+      return (
+        cell.querySelector('.el-calendar-day')?.textContent?.trim() === '15'
+      )
+    })
+
+    expect(dayCell).toBeDefined()
+
+    dayCell!.click()
     await nextTick()
 
     expect(onSelect).toHaveBeenCalledTimes(1)
     const arg = onSelect.mock.calls[0][0]
-    expect(dayjs.isDayjs(arg)).toBe(true)
-    const clickedText = (rows[1].firstElementChild as HTMLElement)
-      .querySelector('.el-calendar-day')!
-      .textContent!.trim()
-    expect(arg.date()).toBe(Number(clickedText))
+    expect(arg).toBeInstanceOf(Date)
+    expect(arg.getFullYear()).toBe(2030)
+    expect(arg.getMonth()).toBe(0)
+    expect(arg.getDate()).toBe(15)
   })
 
   it('should work with formatter prop', async () => {
