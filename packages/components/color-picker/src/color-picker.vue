@@ -295,7 +295,7 @@ function clear() {
 }
 
 function handleShowTooltip() {
-  pickerPanelRef?.value?.inputRef?.focus()
+  // noop
 }
 
 function handleClickOutside() {
