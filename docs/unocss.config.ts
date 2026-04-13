@@ -4,24 +4,20 @@ import {
   presetIcons,
   presetWind3,
 } from 'unocss'
+import { breakpoints } from './.vitepress/vitepress/constant'
 
 export default defineConfig({
   presets: [presetWind3(), presetAttributify(), presetIcons()],
   content: {
     pipeline: {
-      include: [`./**/*`],
-      exclude: [`./node_modules/**/*`, `./.vitepress/cache/**/*`],
+      include: ['./**/*'],
+      exclude: ['./node_modules/**/*', './.vitepress/cache/**/*'],
     },
   },
   theme: {
-    breakpoints: {
-      sm: '640px',
-      md: '768px',
-      lg: '1024px',
-      xl: '1280px',
-      '2xl': '1536px',
-      '3xl': '1920px',
-    },
+    breakpoints: Object.fromEntries(
+      Object.entries(breakpoints).map(([k, v]) => [k, `${v}px`])
+    ),
     colors: {
       primary: {
         DEFAULT: '#2563eb',
