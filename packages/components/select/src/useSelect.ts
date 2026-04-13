@@ -284,7 +284,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   // We use a Vue custom event binding to only register the event on non-iOS devices
   // ref.: https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/HandlingEvents/HandlingEvents.html
   // Github Issue: https://github.com/vuejs/vue/issues/9859
-  const mouseEnterEventName = computed(() => (isIOS ? null : 'mouseenter'))
+  const mouseEnterEventName = isIOS ? null : 'mouseenter'
 
   watch(
     () => props.modelValue,
