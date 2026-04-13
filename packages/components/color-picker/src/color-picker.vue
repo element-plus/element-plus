@@ -124,7 +124,7 @@ import {
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { debugWarn, getEventCode } from '@element-plus/utils'
+import { NOOP, getEventCode } from '@element-plus/utils'
 import { ArrowDown, Close } from '@element-plus/icons-vue'
 import { colorPickerEmits, colorPickerPropsDefaults } from './color-picker'
 import {
@@ -178,7 +178,7 @@ const { isFocused, handleFocus, handleBlur } = useFocusController(triggerRef, {
     setShowPicker(false)
     resetColor()
     if (props.validateEvent) {
-      formItem?.validate?.('blur').catch((err) => debugWarn(err))
+      formItem?.validate?.('blur').catch(NOOP)
     }
   },
 })
@@ -267,7 +267,7 @@ function confirmValue() {
   emit(UPDATE_MODEL_EVENT, value)
   emit(CHANGE_EVENT, value)
   if (props.validateEvent) {
-    formItem?.validate('change').catch((err) => debugWarn(err))
+    formItem?.validate('change').catch(NOOP)
   }
   debounceSetShowPicker(false)
   // check if modelValue change, if not change, then reset color.
@@ -288,7 +288,7 @@ function clear() {
   emit(UPDATE_MODEL_EVENT, valueOnClear.value)
   emit(CHANGE_EVENT, valueOnClear.value)
   if (props.modelValue !== valueOnClear.value && props.validateEvent) {
-    formItem?.validate('change').catch((err) => debugWarn(err))
+    formItem?.validate('change').catch(NOOP)
   }
   resetColor()
   emit('clear')
