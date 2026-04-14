@@ -93,6 +93,11 @@ export default defineComponent({
       }
     })
 
+    const isScrollbarAlwaysOn = computed(() => {
+      // fix https://github.com/element-plus/element-plus/issues/19127
+      return isIOS ? true : select.props.scrollbarAlwaysOn
+    })
+
     const contains = (arr: Array<any> = [], target: any) => {
       const {
         props: { valueKey },
@@ -253,11 +258,7 @@ export default defineComponent({
 
     return () => {
       const { data, width } = props
-      const { height, multiple, scrollbarAlwaysOn } = select.props
-      const isScrollbarAlwaysOn = computed(() => {
-        // fix https://github.com/element-plus/element-plus/issues/19127
-        return isIOS ? true : scrollbarAlwaysOn
-      })
+      const { height, multiple } = select.props
 
       const List = unref(isSized) ? FixedSizeList : DynamicSizeList
 
