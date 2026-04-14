@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, useTemplateRef, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { clamp } from '@vueuse/core'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { NOOP, getEventCode, isFunction, rAF } from '@element-plus/utils'
@@ -86,7 +86,7 @@ const separators = computed(() => {
 
 const innerValue = ref<string[]>(initialValue.value)
 const isFocused = ref(false)
-const inputRefs = useTemplateRef('inputRefs')
+const inputRefs = ref<(HTMLInputElement | undefined)[]>([])
 
 const ns = useNamespace('input-otp')
 const { t } = useLocale()
