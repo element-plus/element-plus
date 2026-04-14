@@ -288,7 +288,7 @@ const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
     disabled: inputDisabled,
     afterBlur() {
       if (props.validateEvent) {
-        elFormItem?.validate?.('blur').catch((err) => debugWarn(err))
+        elFormItem?.validate?.('blur').catch(NOOP)
       }
     },
   }
@@ -634,7 +634,7 @@ watch(
   () => {
     nextTick(() => resizeTextarea())
     if (props.validateEvent) {
-      elFormItem?.validate?.('change').catch((err) => debugWarn(err))
+      elFormItem?.validate?.('change').catch(NOOP)
     }
   }
 )

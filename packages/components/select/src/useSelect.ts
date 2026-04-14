@@ -11,8 +11,8 @@ import {
 import { clamp, findLastIndex, get, isEqual, isNil } from 'lodash-unified'
 import { useDebounceFn, useResizeObserver } from '@vueuse/core'
 import {
+  NOOP,
   ValidateComponentsMap,
-  debugWarn,
   ensureArray,
   getEventCode,
   isArray,
@@ -133,7 +133,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       expanded.value = false
       states.menuVisibleOnFocus = false
       if (props.validateEvent) {
-        formItem?.validate?.('blur').catch((err) => debugWarn(err))
+        formItem?.validate?.('blur').catch(NOOP)
       }
     },
   })
@@ -284,7 +284,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   // We use a Vue custom event binding to only register the event on non-iOS devices
   // ref.: https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/HandlingEvents/HandlingEvents.html
   // Github Issue: https://github.com/vuejs/vue/issues/9859
-  const mouseEnterEventName = computed(() => (isIOS ? null : 'mouseenter'))
+  const mouseEnterEventName = isIOS ? null : 'mouseenter'
 
   watch(
     () => props.modelValue,
@@ -297,7 +297,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       }
       setSelected()
       if (!isEqual(val, oldVal) && props.validateEvent) {
-        formItem?.validate('change').catch((err) => debugWarn(err))
+        formItem?.validate('change').catch(NOOP)
       }
     },
     {

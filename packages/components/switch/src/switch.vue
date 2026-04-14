@@ -84,6 +84,7 @@
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, ref, shallowRef, watch } from 'vue'
 import {
+  NOOP,
   addUnit,
   debugWarn,
   isBoolean,
@@ -192,7 +193,7 @@ watch(checked, (val) => {
   input.value!.checked = val
 
   if (props.validateEvent) {
-    formItem?.validate?.('change').catch((err) => debugWarn(err))
+    formItem?.validate?.('change').catch(NOOP)
   }
 })
 
