@@ -59,6 +59,7 @@ export type TabPaneProps = {
    */
   lazy?: boolean
 }
+
 /**
  * @deprecated Removed after 3.0.0, Use `TabPaneProps` instead.
  */

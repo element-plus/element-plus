@@ -10,13 +10,9 @@ import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { CircleClose } from '@element-plus/icons-vue'
 
-import type {
-  Component,
-  ExtractPublicPropTypes,
-  HTMLAttributes,
-  StyleValue,
-} from 'vue'
+import type { ExtractPublicPropTypes, HTMLAttributes, StyleValue } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
+import type { IconPropType } from '@element-plus/utils'
 
 export type InputModelModifiers = {
   lazy?: true
@@ -109,7 +105,7 @@ export interface InputProps {
   /**
    * @description custom clear icon component
    */
-  clearIcon?: string | Component
+  clearIcon?: IconPropType
   /**
    * @description toggleable password input
    */
@@ -125,11 +121,11 @@ export interface InputProps {
   /**
    * @description suffix icon
    */
-  suffixIcon?: string | Component
+  suffixIcon?: IconPropType
   /**
    * @description prefix icon
    */
-  prefixIcon?: string | Component
+  prefixIcon?: IconPropType
   /**
    * @description container role, internal properties provided for use by the picker component
    */
@@ -166,6 +162,10 @@ export interface InputProps {
    * @description same as `name` in native input
    */
   name?: string
+  /**
+   * @description Count graphemes of input value. If it's set, native maxlength and minlength won't be used.
+   */
+  countGraphemes?: (value: string) => number
 }
 
 /**
@@ -344,6 +344,12 @@ export const inputProps = buildProps({
     default: () => mutable({} as const),
   },
   /**
+   * @description Count graphemes of input value. If it's set, native maxlength and minlength won't be used.
+   */
+  countGraphemes: {
+    type: definePropType<(value: string) => number>(Function),
+  },
+  /**
    * @description native input autofocus
    */
   autofocus: Boolean,
@@ -377,7 +383,8 @@ export const inputEmits = {
     isString(value) && (evt instanceof Event || evt === undefined),
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
-  clear: () => true,
+  clear: (evt: MouseEvent | undefined) =>
+    evt === undefined || evt instanceof MouseEvent,
   mouseleave: (evt: MouseEvent) => evt instanceof MouseEvent,
   mouseenter: (evt: MouseEvent) => evt instanceof MouseEvent,
   // NOTE: when autofill by browser, the keydown event is instanceof Event, not KeyboardEvent

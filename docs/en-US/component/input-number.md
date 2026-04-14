@@ -23,7 +23,7 @@ When inputting invalid string to the input box, input value will emit `NaN` to t
 
 ## Disabled
 
-:::demo The `disabled` attribute accepts a `boolean`, and if the value is `true`, the component is disabled. If you just need to control the value within a range, you can add `min` attribute to set the minimum value and `max` to set the maximum value. By default, the minimum value is `0`.
+:::demo The `disabled` attribute accepts a `boolean`, and if the value is `true`, the component is disabled. If you just need to control the value within a range, you can add `min` attribute to set the minimum value and `max` to set the maximum value. By default, the minimum value is `Number.MIN_SAFE_INTEGER`.
 
 input-number/disabled
 
@@ -138,6 +138,7 @@ input-number/formatter
 | inputmode ^(2.10.3)           | same as `inputmode` in native input                      | ^[string]                                     | —                       |
 | align ^(2.10.5)               | alignment for the inner input text                       | ^[enum]`'left' \| 'center' \| 'right'`        | 'center'                |
 | disabled-scientific ^(2.10.5) | disables input of scientific notation (e.g. 'e')         | ^[boolean]                                    | false                   |
+| tabindex ^(2.14.0)            | same as `tabindex` in native input                       | ^[string] / ^[number]                         | 0                       |
 | formatter ^(2.14.0)           | specifies the format of the value presented in the input | ^[Function]`(value: string) => string`        | —                       |
 | parser ^(2.14.0)              | specifies the value extracted from the formatted input   | ^[Function]`(value: string) => string`        | —                       |
 

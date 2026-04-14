@@ -1,5 +1,10 @@
 const FOCUSABLE_ELEMENT_SELECTORS = `a[href],button:not([disabled]),button:not([hidden]),:not([tabindex="-1"]),input:not([disabled]),input:not([type="hidden"]),select:not([disabled]),textarea:not([disabled])`
 
+export const isShadowRoot = (e: unknown): e is ShadowRoot => {
+  if (typeof ShadowRoot === 'undefined') return false
+  return e instanceof ShadowRoot
+}
+
 const isHTMLElement = (e: unknown): e is Element => {
   if (typeof Element === 'undefined') return false
   return e instanceof Element

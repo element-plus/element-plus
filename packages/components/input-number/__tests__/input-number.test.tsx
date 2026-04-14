@@ -725,6 +725,11 @@ describe('InputNumber.vue', () => {
     expect(input.element.value).toBe('10')
   })
 
+  test('tabindex', async () => {
+    const wrapper = mount(() => <InputNumber tabindex={1} />)
+    expect(wrapper.find('input').attributes('tabindex')).toBe('1')
+  })
+
   test('use formatter and parser', async () => {
     const val = ref(10000)
     const formatter = (val: string) => val.replace(/\B(?=(\d{3})+(?!\d))/g, ',')

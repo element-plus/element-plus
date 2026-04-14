@@ -27,6 +27,7 @@ export const selectControllerProps = buildProps({
     >(Function),
   },
 } as const)
+
 /**
  *  @deprecated Removed after 3.0.0, Use `SelectControllerProps` instead.
  */

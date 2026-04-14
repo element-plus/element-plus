@@ -51,9 +51,7 @@ defineOptions({
   name: 'ElRadio',
 })
 
-const props = withDefaults(defineProps<RadioProps>(), {
-  ...radioPropsDefaults,
-})
+const props = withDefaults(defineProps<RadioProps>(), radioPropsDefaults)
 const emit = defineEmits(radioEmits)
 
 const ns = useNamespace('radio')

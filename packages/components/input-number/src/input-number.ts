@@ -103,6 +103,10 @@ export interface InputNumberProps {
    * @description specifies the value extracted from the formatted input
    */
   parser?: (value: string) => string
+  /**
+   * @description same as `tabindex` in native input
+   */
+  tabindex?: string | number
 }
 
 /**
@@ -240,8 +244,18 @@ export const inputNumberProps = buildProps({
   parser: {
     type: Function,
   },
+  /**
+   * @description same as `tabindex` in native input
+   */
+  tabindex: {
+    type: [String, Number],
+    default: 0,
+  },
 } as const)
 
+/**
+ * @deprecated Removed after 3.0.0, Use `InputNumberProps` instead.
+ */
 export type InputNumberPropsPublic = ExtractPublicPropTypes<
   typeof inputNumberProps
 >

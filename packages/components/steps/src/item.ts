@@ -1,7 +1,8 @@
 import { buildProps, iconPropType } from '@element-plus/utils'
 
+import type { ExtractPublicPropTypes } from 'vue'
+import type { IconPropType } from '@element-plus/utils'
 import type Step from './item.vue'
-import type { Component, ExtractPublicPropTypes } from 'vue'
 
 export interface StepProps {
   /**
@@ -11,7 +12,7 @@ export interface StepProps {
   /**
    * @description step custom icon. Icons can be passed via named slot as well
    */
-  icon?: string | Component
+  icon?: IconPropType
   /**
    * @description step description
    * @default ''
@@ -58,6 +59,9 @@ export const stepProps = buildProps({
   },
 } as const)
 
+/**
+ * @deprecated Removed after 3.0.0, Use `StepProps` instead.
+ */
 export type StepPropsPublic = ExtractPublicPropTypes<typeof stepProps>
 
 export type StepInstance = InstanceType<typeof Step> & unknown

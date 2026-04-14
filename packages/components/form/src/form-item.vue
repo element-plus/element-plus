@@ -51,7 +51,6 @@ import {
   watch,
 } from 'vue'
 import AsyncValidator from 'async-validator'
-import { clone } from 'lodash-unified'
 import { refDebounced } from '@vueuse/core'
 import {
   addUnit,
@@ -65,6 +64,7 @@ import { useId, useNamespace } from '@element-plus/hooks'
 import { useFormSize } from './hooks'
 import FormLabelWrap from './form-label-wrap'
 import { formContextKey, formItemContextKey } from './constants'
+import { cloneDeep } from 'lodash-unified'
 
 import type { CSSProperties } from 'vue'
 import type { RuleItem } from 'async-validator'
@@ -348,7 +348,7 @@ const resetField: FormItemContext['resetField'] = async () => {
   // prevent validation from being triggered
   isResettingField = true
 
-  computedValue.value = clone(initialValue)
+  computedValue.value = cloneDeep(initialValue)
 
   await nextTick()
   clearValidate()
@@ -367,8 +367,10 @@ const removeInputId: FormItemContext['removeInputId'] = (id: string) => {
 }
 
 const setInitialValue: FormItemContext['setInitialValue'] = (value: any) => {
-  initialValue = clone(value)
+  initialValue = cloneDeep(value)
 }
+
+const getInitialValue: FormItemContext['getInitialValue'] = () => initialValue
 
 watch(
   () => props.error,
@@ -402,14 +404,24 @@ const context: FormItemContext = reactive({
   validate,
   propString,
   setInitialValue,
+  getInitialValue,
 })
 
 provide(formItemContextKey, context)
 
+watch(propString, (newPropString, oldPropString) => {
+  if (!formContext || !oldPropString) return
+  formContext.removeField(context, oldPropString)
+  if (newPropString) {
+    setInitialValue(fieldValue.value)
+    formContext.addField(context)
+  }
+})
+
 onMounted(() => {
   if (props.prop) {
+    setInitialValue(fieldValue.value)
     formContext?.addField(context)
-    initialValue = clone(fieldValue.value)
   }
 })
 

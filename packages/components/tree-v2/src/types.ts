@@ -1,5 +1,4 @@
-import { IconPropType } from '@element-plus/utils'
-
+import type { IconPropType } from '@element-plus/utils'
 import type {
   ComponentInternalInstance,
   ExtractPublicPropTypes,

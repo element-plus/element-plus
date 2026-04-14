@@ -17,10 +17,11 @@ import {
 import { tagProps } from '@element-plus/components/tag/src/tag'
 import { CircleClose } from '@element-plus/icons-vue'
 
-import type { Component, ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type { PopperEffect } from '@element-plus/components/popper'
 import type { TagProps } from '@element-plus/components/tag'
+import type { IconPropType } from '@element-plus/utils'
 
 export interface InputTagProps {
   /**
@@ -66,7 +67,7 @@ export interface InputTagProps {
   /**
    * @description custom clear icon component
    */
-  clearIcon?: string | Component
+  clearIcon?: IconPropType
   /**
    * @description whether to disable input-tag
    */

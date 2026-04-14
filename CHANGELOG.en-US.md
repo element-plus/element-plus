@@ -1,6 +1,247 @@
 ## Changelog
 
 
+### 2.13.7
+
+_2026-04-10_
+
+#### Features
+
+- Components [input] add count-graphemes (#12041 by @btea)
+- Components [dialog] bring clicked dialog to front (#23863 by @snowbitx)
+- Components [input] expose passwordVisible (#23921 by @snowbitx)
+- Components [button] support custom color with link/text (#24005 by @LostElkByte)
+
+#### Bug fixes
+
+- Using csstype type ts error (#23887 by @btea)
+- Components [checkbox] reset selection state when model is null (#23856 by @zuwenyin)
+- Hooks [use-timeout] avoid window usage in SSR (#23907 by @iml885203)
+- Components [time-picker] allow clearing time via keyboard when using `is-range` (#23878 by @IceMooncake)
+- Components [cascader] trigger before-filter on empty query (#23898 by @snowbitx)
+- Components [form] reset stale props on dynamic fields (#23706 by @l246804)
+- Components [scrollbar] sync offsets while resize (#23853 by @ZacharyBear)
+- Components [table-v2] add slot typings (#23948 by @DDDDD12138)
+- Components [table] lingering row background when layout changes (#23961 by @rzzf)
+- Build compatible with generic components (#23968 by @btea)
+- Components [cascader] prevent selecting first leaf node on ArrowDown (#23954 by @lw56777)
+- Components [scrollbar] incorrect boundary detection float number (#23971 by @btea)
+- Deps update dependency @eslint/markdown to v8 (#23985 by @renovate[bot])
+- Components [select/v2] prevent blur close on modified mousedown (#23969 by @rzzf)
+- Components [message] fix offset position anomaly (#23988 by @qeTM)
+- Deps update dependency globals to v17 (#23992 by @renovate[bot])
+- Deps update dependency eslint-plugin-jsonc to v3 (#23991 by @renovate[bot])
+- Deps update dependency consola to v3 (#23997 by @renovate[bot])
+- Deps update dependency eslint-plugin-unicorn to v64 (#23998 by @renovate[bot])
+- Deps update dependency @pnpm/logger to v5 (#23987 by @renovate[bot])
+- Deps update eslint monorepo to v10 (major) (#24002 by @renovate[bot])
+
+#### Refactors
+
+- Components [calendar,data-picker] unify using constants (#23868 by @micaiguai)
+- Components [mention] make component generic (#23926 by @rzzf)
+- Components [transfer] make component generic (#23666 by @Dsaquel)
+- Components cleanup defineProps types (#23934 by @rzzf)
+- Components [autocomplete] make component generic (#23927 by @snowbitx)
+- Components [mention/autocomplete] remove references marked as deprecated (#23970 by @rzzf)
+
+### 2.13.6
+
+_2026-03-20_
+
+#### Features
+
+- Components [slider] allow `step` to be set to "mark" (#23685 by @zhixiaotong)
+- Components [input] add `password-icon` slot (#23772 by @zhixiaotong)
+- Components [color-picker-panel] add hue-slider-class and hue-slider-style props (#23499 by @ZacharyBear)
+- Components [input] support inputmode for textarea (#23813 by @snowbitx)
+
+#### Bug fixes
+
+- Components [tooltip] sync visible after disabled toggle (#23738 by @snowbitx)
+- Components [mention] remove the whole input containing a split (#23753 by @rzzf)
+- Components [tab] incorrect boundary detection when container size is a float number (#23774 by @rzzf)
+- Components [table] expanded rows cannot be updated using array methods (#23761 by @rzzf)
+- Components [tree-v2] update expanded state when defaultExpandedKeys change (#23557 by @hellomrbigshot)
+- Components [select] using the options prop can cause list data loss when quickly switching between dropdowns (#23780 by @lw56777)
+- Components [select] allow empty labels when persistent is false (#23809 by @snowbitx)
+- Components [popper] update popover style when content size changes (#23802 by @rzzf)
+- Components [tabs] incorrect boundary detection when container size is a float number (#23776 by @rzzf)
+- Hooks [use-composition] abnormal state in Korean input composition (#23831 by @rzzf)
+- Components [select/select-v2] avoid hiding the dropdown when there is data in `options` (#23838 by @keeplearning66)
+- Improvement(components): [tabs] navigation wheel scrolling experience (#23775 by @rzzf)
+- Style(components): [tag] fix icon in slot causing text wrap (#23725 by @zmyjs)
+
+#### Refactors
+
+- Components [segmented] make component generic (#23678 by @rzzf)
+- Docs avoid duplicate create regexp (#23848 by @btea)
+
+### 2.13.5
+
+_2026-03-07_
+
+#### Bug fixes
+
+- Chore: fix build (#23737 by @btea)
+- Chore: fix locale/lang/*.ts dts default export (#23741 by @rzzf)
+
+### 2.13.4
+
+_2026-03-06_
+
+#### Features
+
+- Components [input] emit clear event pass event parameter (#23696 by @btea)
+- Components [input] textarea supports clearing effects (#23723 by @btea)
+- Components [time-picker] add `save-on-blur` prop (#23531 by @snowbitx)
+- Components [popover] expose hide() through slot (#23694 by @ZacharyBear)
+
+#### Bug fixes
+
+- Components [tree] reconcile parent states in setCheckedKeys (#23697 by @Dsaquel)
+- Components [color-picker-panel] set showAlpha default to false (#23709 by @snowbitx)
+
+### 2.13.3
+
+_2026-02-28_
+
+#### Features
+
+- Utils [dom] add support for ShadowDom (#23235 by @yinfoyuan)
+- Components [button] add `dashed` prop (#22738 by @lxKylin)
+- Components [time-select] add `name` prop (#23633 by @snowbitx)
+- Components [config-provider] add table config (#23610 by @btea)
+- Components [select/select-v2] add `tag-tooltip` config object prop (#23556 by @LostElkByte)
+- Utils add `setPropsDefaults` method (#23612 by @rzzf)
+
+#### Bug fixes
+
+- Components [carousel] avoid stopping autoplay after children change (#23494 by @E66Crisp)
+- Components [carousel] fix vertical indicator layout with label and outside (#23368 by @E66Crisp)
+- Locale [vi] refine translations and fill missing keys (#23592 by @vacnex)
+- Components [rate] avoid capturing focus when disabled (#23589 by @snowbitx)
+- Types [message-box] MessageBoxData cross type (#23614 by @btea)
+- Components [upload] keep delete icon visible on focus-within (#23561 by @snowbitx)
+- Components [time-select] duplicate end time with format (#23626 by @snowbitx)
+- Components [watermark] correct fontWeight type definition (#23641 by @E66Crisp)
+- Components [textarea] unexpected page scrolling when typing in Firefox (#23606 by @rzzf)
+- Components [mention] avoid selecting disabled items by pressing Enter (#23645 by @E66Crisp)
+- Components [time-select] prevent freeze when step is invalid (#23635 by @snowbitx)
+- Components [color-picker] add colorFormat prop validation (#23587 by @E66Crisp)
+- Components [autocomplete] reset ignoreFocusEvent on outside click (#23513 by @E66Crisp)
+- Components [tree-select] emit change when toggling node labels (#22863 by @yicheny)
+- Components [badge] dot becomes rectangle on transition leave (#23667 by @Dsaquel)
+- Components [select/select-v2] prevent empty input from causing unnecessary line breaks (#23394 by @E66Crisp)
+- Components [table-v2] navigation back triggered by trackpad scrolling (#23673 by @rzzf)
+- Components [transfer] prevent title width overflow (#23166 by @E66Crisp)
+- Components [tree] `requireNodeKey` arg in `updateKeyChildren` (#23676 by @E66Crisp)
+- Components [select/v2] always clear input after create option (#23662 by @Dsaquel)
+- Components [tree] focus error after switching tree (#23659 by @Dsaquel)
+- Components [upload] append all values in formdata (#23664 by @Dsaquel)
+- Components [form] support nested `FormRules` (#23668 by @Dsaquel)
+- Components [input-tag] delimiter does not support pasted line breaks (#23674 by @rzzf)
+- Components [select] Slot default invoked outside of the render (#23232 by @littlezo)
+- Components [select/v2] stop change event bubbling (#23669 by @Dsaquel)
+- Components [affix] update logic caused infinite loop (#23599 by @btea)
+- Components [form/form-item] initial value and reset func (#23597 by @l246804)
+
+### 2.13.2
+
+_2026-01-30_
+
+#### Features
+
+- Build add `supply-validator-plugin` plugin (#23458 by @btea)
+- Components [table] add row-expandable prop (#23140 by @btnkr)
+- Components [time-picker] supplement type for TimePickerInstance (#23536 by @snowbitx)
+- Components [drawer] expose `DrawerInstance` (#23544 by @snowbitx)
+
+#### Bug fixes
+
+- Components [upload] make abort param optional (#23353 by @SevenDreamYang)
+- Components [avatar] watch srcSet changes to reset hasLoadError (#23324 by @E66Crisp)
+- Components [select/select-v2] dropdown requires two clicks to open (#23344 by @rzzf)
+- Components [input-tag] correct the tooltip theme and the style of the collapse tag (#23138 by @keeplearning66)
+- Components [upload] `webkitdirectory="false"` being preserved during hydration (#23374 by @rzzf)
+- Components [rate] display abnormal when modelValue exceeds max (#23372 by @E66Crisp)
+- Components [date-picker-panel] weekstart incorrect select offset (#23226 by @Dsaquel)
+- Components [badge] missing badgeStyle default value (#23448 by @btea)
+- Components [collapse-item] missing box-sizing (#23482 by @snowbitx)
+- Components [date-picker-panel] reliable startDate of weekstart (#23422 by @Dsaquel)
+- Components [date-picker-panel] add missing `is-disabled` class to disabled buttons when using `unlink-panels` (#23393 by @tjyuanpeng)
+- Components [table] Make tableLayout optional in table type (#23202 by @an501920078)
+- Components [message-box] handle IME composition on Enter key (#23523 by @snowbitx)
+- Correct type definitions for ElMessageBox (#23518 by @jaa134)
+- Theme-chalk [card] ensure height works correctly in flex layout (#23539 by @rzzf)
+- Components [affix] positioning under KeepAlive cache (#23549 by @E66Crisp)
+- Components [select/select-v2] avoid triggering multiple `visible-change` during the first search (#23507 by @keeplearning66)
+
+#### Refactors
+
+- Components [input] use type-based definitions (#23366 by @rzzf)
+- Components [affix] use type-based definitions (#23400 by @rzzf)
+- Components [anchor] use type-based definitions (#23403 by @Lensiq)
+- Components [icon] use type-based definitions (#23412 by @Lensiq)
+- Components[card] use type-based definitions (#23416 by @zhongli-kira)
+- Components [link] use type-based definitions (#23411 by @Lensiq)
+- Components [tour] use type-based definitions (#23415 by @Lensiq)
+- Components [switch] use type-based definitions (#23420 by @lw56777)
+- Components [check-tag] use type-based definitions (#23424 by @snowbitx)
+- Components [tag] use type-based definitions (#23421 by @lw56777)
+- Components [empty] use type-based definitions (#23428 by @lw56777)
+- Components [alert] use type-based definitions (#23401 by @rzzf)
+- Components [scrollbar] use type-based definitions (#23427 by @SevenDreamYang)
+- Components [container] use type-based definitions (#23429 by @cosine7)
+- Components [watermark] use type-based definitions (#23408 by @wjp980108)
+- Components [autocomplete] use type-based definitions (#23410 by @E66Crisp)
+- Components [steps] use type-based definitions (#23433 by @SevenDreamYang)
+- Components [badge/breadcrumb/button] use type-based definitions (#23414 by @snowbitx)
+- Components [descriptions] use type-based definitions (#23434 by @SevenDreamYang)
+- Components [input-number] use type-based definitions (#23404 by @lw56777)
+- Components [col] use type-based definitions (#23438 by @lw56777)
+- Components [row] use type-based definitions (#23437 by @lw56777)
+- Components [input-tag] use type-based definitions (#23436 by @lw56777)
+- Components [calendar] use type-based definitions (#23419 by @zhongli-kira)
+- Components [divider/result/page-header] use type-based definitions (#23417 by @william-xue)
+- Components [rate] use type-based definitions (#23439 by @lw56777)
+- Components [backtop] use type-based definitions (#23435 by @lw56777)
+- Components [carousel] use type-based definitions (#23430 by @snowbitx)
+- Components [message] use type-based definitions (#23423 by @zero-years)
+- Components [mention] use type-based definitions (#23440 by @E66Crisp)
+- Components [countdown] use type-countdown definitions (#23447 by @StrawberryCreamMilk)
+- Components [image/image-viewer] use type-based definitions (#23444 by @snowbitx)
+- Components [collapse] use type-based definitions (#23443 by @snowbitx)
+- Components [menu-item] use type-based definitions (#23446 by @snowbitx)
+- Components [segmented] use type-based definitions (#23453 by @snowbitx)
+- Components [progress] use type-based definitions (#23451 by @snowbitx)
+- Components [splitter] use type-based definitions (#23462 by @snowbitx)
+- Components [popper] use type-based definitions (#23450 by @snowbitx)
+- Components [color-picker-panel] use type-based definitions (#23456 by @StrawberryCreamMilk)
+- Components [tree-v2] use type-based definitions (#23459 by @wjp980108)
+- Components [radio] use type-based definitions (#23466 by @lw56777)
+- Components [avatar] use type-based definitions (#23457 by @E66Crisp)
+- Components [statistic] use type-based definitions (#23452 by @snowbitx)
+- Components [skeleton/skeletonItem] use type-based definitions (#23464 by @zero-years)
+- Components [upload] use type-based definitions (#23442 by @wjp980108)
+- Components [text] use type-based definitions (#23481 by @Lensiq)
+- Components [tab-pane/bar] use type-based definitions (#23477 by @btea)
+- Components [tooltip] use type-based definitions (#23475 by @wjp980108)
+- Components [cascader] use type-based definitions (#23478 by @snowbitx)
+- Components [timelineItem] use type-based definitions (#23479 by @Lensiq)
+- Components [popconfirm] use type-based definitions (#23455 by @E66Crisp)
+- Components [color-picker] use type-based definitions (#23488 by @StrawberryCreamMilk)
+- Components [transfer] use type-based definitions (#23460 by @wjp980108)
+- Components [popover] use type-based definitions (#23465 by @lw56777)
+- Components [form/form-item] use type-based definitions (#23483 by @snowbitx)
+- Components [dialog] use type-based definitions (#23432 by @lw56777)
+- Components [time-select] use type-based definitions (#23449 by @StrawberryCreamMilk)
+- Components [notification] use type-based definitions (#23445 by @E66Crisp)
+- Components [checkbox] use type-based definitions (#23480 by @zhongli-kira)
+- Components [drawer] use type-based definitions (#23484 by @StudiousGao)
+- Components [badge] use factory default for `offset` prop (#23526 by @snowbitx)
+- Components [config-provider] improve ConfigContext types (#23528 by @snowbitx)
+
 ### 2.13.1
 
 _2026-01-09_

@@ -73,6 +73,7 @@ export const calendarProps = buildProps({
     >(Function),
   },
 } as const)
+
 /**
  *  @deprecated Removed after 3.0.0, Use `CalendarProps` instead.
  */

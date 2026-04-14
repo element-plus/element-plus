@@ -6,7 +6,7 @@ import type Watermark from './watermark.vue'
 export interface WatermarkFontType {
   color?: string
   fontSize?: number | string
-  fontWeight?: 'normal' | 'light' | 'weight' | number
+  fontWeight?: 'normal' | 'bold' | 'lighter' | 'bolder' | number
   fontStyle?: 'none' | 'normal' | 'italic' | 'oblique'
   fontFamily?: string
   fontGap?: number

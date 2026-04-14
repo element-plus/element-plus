@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it, test } from 'vitest'
 import { Loading, Search } from '@element-plus/icons-vue'
 import Form from '@element-plus/components/form'
+import ConfigProvider from '@element-plus/components/config-provider'
 import { useNamespace } from '@element-plus/hooks'
 import Button from '../src/button.vue'
 import ButtonGroup from '../src/button-group.vue'
@@ -59,6 +60,36 @@ describe('Button.vue', () => {
     const wrapper = mount(() => <Button circle />)
 
     expect(wrapper.classes()).toContain('is-circle')
+  })
+
+  it('dashed', () => {
+    const wrapper = mount(() => <Button dashed />)
+
+    expect(wrapper.classes()).toContain('is-dashed')
+  })
+
+  it('should give component dashed higher priority than global', async () => {
+    const globalDashed = ref(false)
+    const dashed = ref<boolean>()
+    const wrapper = mount(() => (
+      <ConfigProvider button={{ dashed: globalDashed.value }}>
+        <Button dashed={dashed.value}>Test</Button>
+      </ConfigProvider>
+    ))
+
+    await nextTick()
+    const btn = wrapper.find('button')
+    expect(btn.classes()).not.toContain('is-dashed')
+    globalDashed.value = true
+    await nextTick()
+    expect(btn.classes()).toContain('is-dashed')
+    dashed.value = false
+    await nextTick()
+    expect(btn.classes()).not.toContain('is-dashed')
+    globalDashed.value = false
+    dashed.value = true
+    await nextTick()
+    expect(btn.classes()).toContain('is-dashed')
   })
 
   it('text', async () => {

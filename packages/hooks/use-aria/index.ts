@@ -16,6 +16,9 @@ export interface AriaProps {
   ariaControls?: string
 }
 
+/**
+ * @deprecated Removed after 3.0.0, Use `AriaProps` instead.
+ */
 export const ariaProps = buildProps({
   /**
    * @description native `aria-label` attribute

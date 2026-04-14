@@ -297,6 +297,7 @@ $checkbox-button: map.merge(
     'checked-bg-color': getCssVar('color-primary'),
     'checked-text-color': getCssVar('color-white'),
     'checked-border-color': getCssVar('color-primary'),
+    'disabled-checked-fill': getCssVar('border-color-extra-light'),
   ),
   $checkbox-button
 );
@@ -631,6 +632,24 @@ $input-number-width: map.merge(
     'small': 120px,
   ),
   $input-number-width
+);
+
+$input-otp-gap: () !default;
+$input-otp-gap: map.merge(
+  (
+    'large': 12px,
+    'default': 8px,
+    'small': 6px,
+  ),
+  $input-otp-gap
+);
+$input-otp: () !default;
+$input-otp: map.merge(
+  (
+    'text-color': getCssVar('text-color-regular'),
+    'field-width': calc(getCssVar('input-otp-size') - 4px),
+  ),
+  $input-otp
 );
 
 $input-padding-horizontal: () !default;

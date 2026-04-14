@@ -45,9 +45,10 @@ defineOptions({
   name: 'ElRadioButton',
 })
 
-const props = withDefaults(defineProps<RadioButtonProps>(), {
-  ...radioButtonPropsDefaults,
-})
+const props = withDefaults(
+  defineProps<RadioButtonProps>(),
+  radioButtonPropsDefaults
+)
 
 const ns = useNamespace('radio')
 const { radioRef, focus, size, disabled, modelValue, radioGroup, actualValue } =

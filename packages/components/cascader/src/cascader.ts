@@ -12,7 +12,7 @@ import { tagProps } from '@element-plus/components/tag'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { CircleClose } from '@element-plus/icons-vue'
 
-import type { Component, StyleValue } from 'vue'
+import type { StyleValue } from 'vue'
 import type { UseEmptyValuesProps } from '@element-plus/hooks'
 import type { ComponentSize } from '@element-plus/constants'
 import type { Placement, PopperEffect } from '@element-plus/components/popper'
@@ -22,6 +22,7 @@ import type {
   CascaderValue,
 } from '@element-plus/components/cascader-panel'
 import type { TagProps } from '@element-plus/components/tag'
+import type { IconPropType } from '@element-plus/utils'
 
 type CascaderClassType = string | Record<string, boolean> | CascaderClassType[]
 
@@ -46,7 +47,7 @@ export interface CascaderComponentProps
   /**
    * @description custom clear icon component
    */
-  clearIcon?: string | Component
+  clearIcon?: IconPropType
   /**
    * @description whether the options can be searched
    */

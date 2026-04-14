@@ -51,6 +51,18 @@ describe('Message.vue', () => {
       expect(wrapper.find('.text-node').exists()).toBe(true)
     })
 
+    test('VNode should be wrapped in .el-message__content', () => {
+      const wrapper = _mount({
+        slots: {
+          default: h('span', AXIOM),
+        },
+      })
+
+      const content = wrapper.find('.el-message__content')
+      expect(content.exists()).toBe(true)
+      expect(content.text()).toEqual(AXIOM)
+    })
+
     test('should be able to render raw HTML with dangerouslyUseHTMLString prop', () => {
       const tagClass = 'test-class'
       const wrapper = _mount({

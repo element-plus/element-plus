@@ -84,6 +84,7 @@ export const popperCoreConfigProps = buildProps({
     default: 'absolute',
   },
 } as const)
+
 /**
  * @deprecated Removed after 3.0.0, Use `PopperCoreConfigProps` instead.
  */
@@ -159,6 +160,7 @@ export const popperContentProps = buildProps({
   ...useAriaProps(['ariaLabel']),
   loop: Boolean,
 } as const)
+
 /**
  * @deprecated Removed after 3.0.0, Use `PopperContentProps` instead.
  */

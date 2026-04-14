@@ -197,7 +197,9 @@ export default defineComponent({
     )
 
     const getNodeKey = (node: Node): any => {
-      return getNodeKeyUtil(tree.props.nodeKey, node.data)
+      return tree.props.nodeKey
+        ? getNodeKeyUtil(tree.props.nodeKey, node.data)
+        : node.id
     }
 
     const getNodeClass = (node: Node) => {

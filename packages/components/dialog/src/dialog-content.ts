@@ -1,6 +1,6 @@
 import { buildProps, iconPropType } from '@element-plus/utils'
 
-import type { Component } from 'vue'
+import type { IconPropType } from '@element-plus/utils'
 
 /**
  * @description dialog-content component props
@@ -17,7 +17,7 @@ export interface DialogContentProps {
   /**
    * @description custom close icon, default is Close
    */
-  closeIcon?: string | Component
+  closeIcon?: IconPropType
   /**
    * @description enable dragging feature for Dialog
    */

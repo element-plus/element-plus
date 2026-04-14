@@ -1,7 +1,8 @@
 import { Close } from '@element-plus/icons-vue'
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 
-import type { AppContext, Component, ExtractPublicPropTypes, VNode } from 'vue'
+import type { AppContext, ExtractPublicPropTypes, VNode } from 'vue'
+import type { IconPropType } from '@element-plus/utils'
 import type Notification from './notification.vue'
 
 export const notificationTypes = [
@@ -36,7 +37,7 @@ export interface NotificationProps {
   /**
    * @description custom icon component. It will be overridden by `type`
    */
-  icon?: string | Component
+  icon?: IconPropType
   /**
    * @description notification dom id
    */
@@ -80,7 +81,7 @@ export interface NotificationProps {
   /**
    * @description custom close icon, default is Close
    */
-  closeIcon?: string | Component
+  closeIcon?: IconPropType
 }
 
 /**

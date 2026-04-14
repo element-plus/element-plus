@@ -1,7 +1,8 @@
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import { tourContentProps } from './content'
 
-import type { CSSProperties, Component, ExtractPublicPropTypes } from 'vue'
+import type { CSSProperties, ExtractPublicPropTypes } from 'vue'
+import type { IconPropType } from '@element-plus/utils'
 import type { TourBtnProps, TourMask } from './types'
 import type { TourContentProps } from './content'
 
@@ -25,7 +26,7 @@ export interface TourStepProps {
   /**
    * @description custom close icon, default is Close
    */
-  closeIcon?: string | Component
+  closeIcon?: IconPropType
   /**
    * @description whether to show the arrow
    */

@@ -7,6 +7,7 @@ export interface SvPanelProps {
   color: Color
   disabled?: boolean
 }
+
 /**
  * @deprecated Removed after 3.0.0, Use `SvPanelProps` instead.
  */

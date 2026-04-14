@@ -6,8 +6,9 @@ import {
 } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
 
-import type { CSSProperties, Component, ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
+import type { IconPropType, ObjectFit } from '@element-plus/utils'
 
 export interface AvatarProps {
   /**
@@ -21,7 +22,7 @@ export interface AvatarProps {
   /**
    * @description representation type to icon, more info on icon component.
    */
-  icon?: string | Component
+  icon?: IconPropType
   /**
    * @description the source of the image for an image avatar.
    */
@@ -37,7 +38,7 @@ export interface AvatarProps {
   /**
    * @description set how the image fit its container for an image avatar.
    */
-  fit?: CSSProperties['object-fit']
+  fit?: ObjectFit
 }
 
 /**
@@ -84,7 +85,7 @@ export const avatarProps = buildProps({
    * @description set how the image fit its container for an image avatar.
    */
   fit: {
-    type: definePropType<CSSProperties['object-fit']>(String),
+    type: definePropType<ObjectFit>(String),
     default: 'cover',
   },
 } as const)

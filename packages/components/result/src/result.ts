@@ -43,6 +43,9 @@ export interface ResultProps {
   icon?: 'primary' | 'success' | 'warning' | 'info' | 'error'
 }
 
+/**
+ * @deprecated Removed after 3.0.0, Use `ResultProps` instead.
+ */
 export const resultProps = buildProps({
   /**
    * @description title of result
@@ -68,6 +71,9 @@ export const resultProps = buildProps({
   },
 } as const)
 
+/**
+ * @deprecated Removed after 3.0.0, Use `ResultProps` instead.
+ */
 export type ResultPropsPublic = ExtractPublicPropTypes<typeof resultProps>
 
 export type ResultInstance = InstanceType<typeof Result> & unknown

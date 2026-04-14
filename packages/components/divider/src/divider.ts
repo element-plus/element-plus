@@ -20,6 +20,9 @@ export interface DividerProps {
   borderStyle?: BorderStyle
 }
 
+/**
+ * @deprecated Removed after 3.0.0, Use `DividerProps` instead.
+ */
 export const dividerProps = buildProps({
   /**
    * @description Set divider's direction
@@ -45,6 +48,10 @@ export const dividerProps = buildProps({
     default: 'solid',
   },
 } as const)
+
+/**
+ * @deprecated Removed after 3.0.0, Use `DividerProps` instead.
+ */
 export type DividerPropsPublic = ExtractPublicPropTypes<typeof dividerProps>
 
 export type DividerInstance = InstanceType<typeof Divider> & unknown
