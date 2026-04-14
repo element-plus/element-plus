@@ -56,6 +56,7 @@
       :aria-label="ariaLabel"
       :validate-event="false"
       :inputmode="inputmode"
+      :tabindex="tabindex"
       @keydown="handleKeydown"
       @blur="handleBlur"
       @focus="handleFocus"
@@ -85,6 +86,7 @@ import {
 import { vRepeatClick } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import {
+  NOOP,
   debugWarn,
   getEventCode,
   getEventKey,
@@ -123,6 +125,7 @@ const props = withDefaults(defineProps<InputNumberProps>(), {
   validateEvent: true,
   inputmode: undefined,
   align: 'center',
+  tabindex: 0,
 })
 const emit = defineEmits(inputNumberEmits)
 
@@ -318,7 +321,7 @@ const setCurrentValue = (
     emit(CHANGE_EVENT, newVal!, oldVal!)
   }
   if (props.validateEvent) {
-    formItem?.validate?.('change').catch((err) => debugWarn(err))
+    formItem?.validate?.('change').catch(NOOP)
   }
   data.currentValue = newVal
 }
@@ -359,7 +362,7 @@ const handleBlur = (event: MouseEvent | FocusEvent) => {
   }
   emit('blur', event)
   if (props.validateEvent) {
-    formItem?.validate?.('blur').catch((err) => debugWarn(err))
+    formItem?.validate?.('blur').catch(NOOP)
   }
 }
 

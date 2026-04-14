@@ -8,7 +8,7 @@
     "types": [],
     "skipLibCheck": true
   },
-  "include": ["packages", "typings/env.d.ts"],
+  "include": ["packages", "typings/env.d.ts", "typings/style.d.ts"],
   "exclude": [
     "node_modules",
     "**/dist",
