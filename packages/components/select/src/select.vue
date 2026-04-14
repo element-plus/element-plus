@@ -351,6 +351,7 @@ import {
   provide,
   reactive,
   toRefs,
+  unref,
   watch,
 } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
@@ -553,19 +554,18 @@ export default defineComponent({
       }
     )
 
-    provide(
-      selectKey,
-      reactive({
-        props: _props,
-        states: API.states,
-        selectRef: API.selectRef,
-        optionsArray: API.optionsArray,
-        setSelected: API.setSelected,
-        handleOptionSelect: API.handleOptionSelect,
-        onOptionCreate: API.onOptionCreate,
-        onOptionDestroy: API.onOptionDestroy,
-      }) satisfies SelectContext
-    )
+    const selectContext: Record<string, any> = {
+      props: _props,
+      states: API.states,
+      selectRef: unref(API.selectRef),
+      optionsArray: unref(API.optionsArray),
+      setSelected: API.setSelected,
+      handleOptionSelect: API.handleOptionSelect,
+      onOptionCreate: API.onOptionCreate,
+      onOptionDestroy: API.onOptionDestroy,
+    } satisfies SelectContext
+
+    provide(selectKey, reactive(selectContext) as SelectContext)
 
     const selectedLabel = computed(() => {
       if (!props.multiple) {

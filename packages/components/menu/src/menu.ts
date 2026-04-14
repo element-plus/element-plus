@@ -8,6 +8,7 @@ import {
   provide,
   reactive,
   ref,
+  unref,
   watch,
   watchEffect,
   withDirectives,
@@ -437,25 +438,27 @@ export default defineComponent({
         delete items.value[item.index]
       }
 
+      const menuProvider: Record<string, any> = {
+        props,
+        openedMenus: unref(openedMenus),
+        items: unref(items),
+        subMenus: unref(subMenus),
+        activeIndex: unref(activeIndex),
+        isMenuPopup: unref(isMenuPopup),
+
+        addMenuItem,
+        removeMenuItem,
+        addSubMenu,
+        removeSubMenu,
+        openMenu,
+        closeMenu,
+        handleMenuItemClick,
+        handleSubMenuClick,
+      } satisfies MenuProvider
+
       provide<MenuProvider>(
         MENU_INJECTION_KEY,
-        reactive({
-          props,
-          openedMenus,
-          items,
-          subMenus,
-          activeIndex,
-          isMenuPopup,
-
-          addMenuItem,
-          removeMenuItem,
-          addSubMenu,
-          removeSubMenu,
-          openMenu,
-          closeMenu,
-          handleMenuItemClick,
-          handleSubMenuClick,
-        })
+        reactive(menuProvider) as MenuProvider
       )
 
       provide<SubMenuProvider>(`${SUB_MENU_INJECTION_KEY}${instance.uid}`, {
