@@ -16,7 +16,7 @@
     "@vitejs/plugin-vue-jsx": "catalog:",
     "unplugin-vue-components": "0.27.4",
     "vite": "^8.0.8",
-    "vite-plugin-inspect": "^11.3.3",
+    "vite-plugin-inspect": "^0.8.7",
     "vite-plugin-mkcert": "^2.0.0"
   }
 }
