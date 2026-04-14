@@ -4574,7 +4574,6 @@ describe('Select', () => {
     }
   })
 
-  // #23624
   test('should preserve selected label when remote options change', async () => {
     vi.useFakeTimers()
     const wrapper = mount(
@@ -4582,19 +4581,14 @@ describe('Select', () => {
         template: `
         <el-select
           v-model="value"
+          :options="options"
+          value-key="value"
           multiple
           filterable
           remote
           :remote-method="remoteMethod"
-        >
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>`,
-        components: { ElSelect: Select, ElOption: Option },
+        />`,
+        components: { ElSelect: Select },
         data() {
           return { options: [] as any[], value: [] as string[], loading: false }
         },
@@ -4627,6 +4621,7 @@ describe('Select', () => {
     await nextTick()
 
     expect(select.states.selected[0].currentLabel).toBe('Label foo-0')
+    expect(select.states.selected[0].value).toBe('foo-0')
     vi.useRealTimers()
   })
 })
