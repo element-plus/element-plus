@@ -15,7 +15,7 @@ export interface MenuItemProps {
    * - will be required in the next major version
    * - required: true
    */
-  index?: string | null
+  index: string
   /**
    * @description Vue Router object
    */

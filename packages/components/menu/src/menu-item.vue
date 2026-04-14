@@ -62,7 +62,8 @@ defineOptions({
   name: COMPONENT_NAME,
 })
 const props = withDefaults(defineProps<MenuItemProps>(), {
-  index: null,
+  index: '',
+  route: undefined,
 })
 const emit = defineEmits(menuItemEmits)
 
