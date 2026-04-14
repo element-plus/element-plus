@@ -65,6 +65,10 @@ const ariaValuetext = computed(() => {
 
 defineExpose({
   /**
+   * @description cursor element ref
+   */
+  cursorRef,
+  /**
    * @description update sv panel manually
    */
   update,

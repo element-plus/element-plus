@@ -149,6 +149,10 @@ defineExpose({
    */
   inputRef,
   /**
+   * @description sv panel ref
+   */
+  svRef,
+  /**
    * @description update sub components
    */
   update,

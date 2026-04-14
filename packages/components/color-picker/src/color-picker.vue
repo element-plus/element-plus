@@ -295,7 +295,7 @@ function clear() {
 }
 
 function handleShowTooltip() {
-  // noop
+  pickerPanelRef.value?.svRef?.cursorRef?.focus({ preventScroll: true })
 }
 
 function handleClickOutside() {
