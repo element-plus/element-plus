@@ -1020,7 +1020,6 @@ describe('DatePickerPanel', () => {
         expect(rightHeader.text()).toBe('February')
       })
 
-      // https://github.com/element-plus/element-plus/issues/24006
       it('should not corrupt start date when typing intermediate end date values', async () => {
         const value = ref([
           new Date(2026, 3, 1, 1, 0, 0),
@@ -1044,22 +1043,22 @@ describe('DatePickerPanel', () => {
         expect(leftDateInput.value).toBe('2026-04-01')
         expect(rightDateInput.value).toBe('2026-05-01')
 
-        // 模拟用户将结束日期月份从 05 改为 04（中间态，日期尚未改完）
+        // Simulate the user to change the end date and month from 05 to 04 (intermediate state, the date has not been changed yet)
         rightDateInput.value = '2026-04-01'
         rightDateInput.dispatchEvent(new Event('input'))
         await nextTick()
 
-        // 中间态输入不应触发纠正，开始日期应保持不变
+        // Intermediate input should not trigger correction, start date should remain unchanged
         expect(leftDateInput.value).toBe('2026-04-01')
         expect(value.value[0]).toStrictEqual(new Date(2026, 3, 1, 1, 0, 0))
 
-        // 用户继续输入完整的目标日期
+        // User continues to input the complete target date
         rightDateInput.value = '2026-04-20'
         rightDateInput.dispatchEvent(new Event('input'))
         rightDateInput.dispatchEvent(new Event('change'))
         await nextTick()
 
-        // 最终值正确，开始日期未被破坏
+        // Final value is correct, start date is not corrupted
         expect(leftDateInput.value).toBe('2026-04-01')
         expect(value.value[0]).toStrictEqual(new Date(2026, 3, 1, 1, 0, 0))
       })
