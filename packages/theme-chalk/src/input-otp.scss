@@ -1,0 +1,173 @@
+@use 'sass:map';
+
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+
+@mixin mixed-input-border($color) {
+  box-shadow: 0 0 0 1px $color inset;
+}
+
+@include b(input-otp) {
+  @include set-component-css-var('input-otp', $input-otp);
+  @include set-css-var-value(
+    ('input-otp', 'gap'),
+    map.get($input-otp-gap, default)
+  );
+  @include set-css-var-value(
+    ('input-otp', 'font-size'),
+    map.get($input-font-size, default)
+  );
+  @include set-css-var-value(
+    ('input-otp', 'size'),
+    map.get($input-height, default)
+  );
+
+  @each $size in (large, small) {
+    @include m($size) {
+      @include set-css-var-value(
+        ('input-otp', 'gap'),
+        map.get($input-otp-gap, $size)
+      );
+      @include set-css-var-value(
+        ('input-otp', 'font-size'),
+        map.get($input-font-size, $size)
+      );
+      @include set-css-var-value(
+        ('input-otp', 'size'),
+        map.get($input-height, $size)
+      );
+    }
+  }
+}
+
+@include b(input-otp) {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  column-gap: getCssVar('input-otp-gap');
+  font-size: getCssVar('input-otp-font-size');
+  height: getCssVar('input-otp-size');
+
+  @include when(disabled) {
+    cursor: not-allowed;
+
+    @include e(input) {
+      cursor: not-allowed;
+    }
+  }
+
+  @include e(input-field) {
+    width: var(
+      #{getCssVarName('input-otp-field-width')},
+      map.get($input-otp, 'field-width')
+    );
+    height: 100%;
+    position: relative;
+    border-radius: getCssVar('border-radius-base');
+  }
+
+  @include e(input) {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    line-height: 1;
+    outline: none;
+    border: none;
+    padding: 0;
+    background-color: transparent;
+    font-size: inherit;
+    color: var(
+      #{getCssVarName('input-otp-text-color')},
+      map.get($input-otp, 'text-color')
+    );
+  }
+}
+
+@include b(input-otp) {
+  @include when(disabled) {
+    @include e(input) {
+      color: getCssVar('text-color', 'disabled');
+    }
+  }
+
+  @include m(outlined) {
+    @include e(input-field) {
+      @include mixed-input-border(#{getCssVar('border-color')});
+
+      &:hover {
+        @include mixed-input-border(#{getCssVar('color-primary-light-5')});
+      }
+
+      &:focus-within {
+        @include mixed-input-border(#{getCssVar('color-primary')});
+      }
+    }
+
+    @include when(disabled) {
+      @include e(input-field) {
+        background-color: getCssVar('fill-color', 'light');
+
+        &:hover {
+          @include mixed-input-border(#{getCssVar('border-color')});
+        }
+      }
+    }
+  }
+
+  @include m(filled) {
+    @include e(input-field) {
+      background-color: getCssVar('fill-color', '');
+
+      &:hover {
+        background-color: getCssVar('fill-color', 'dark');
+      }
+
+      &:focus-within {
+        background-color: getCssVar('fill-color', 'blank');
+        @include mixed-input-border(#{getCssVar('color-primary')});
+      }
+    }
+
+    @include when(disabled) {
+      @include e(input-field) {
+        background-color: getCssVar('fill-color', 'light');
+
+        &:hover {
+          background-color: getCssVar('fill-color', 'light');
+        }
+      }
+    }
+  }
+
+  @include m(underlined) {
+    @include e(input-field) {
+      &::after {
+        content: '';
+        display: block;
+        width: 100%;
+        height: 1px;
+        background-color: getCssVar('border-color');
+        position: absolute;
+        bottom: 0;
+        left: 0;
+      }
+
+      &:hover::after {
+        background-color: getCssVar('color-primary-light-5');
+      }
+
+      &:focus-within::after {
+        background-color: getCssVar('color-primary');
+      }
+    }
+
+    @include when(disabled) {
+      @include e(input-field) {
+        &:hover::after {
+          background-color: getCssVar('border-color');
+        }
+      }
+    }
+  }
+}
