@@ -8,6 +8,7 @@
     "packages",
     "typings/global.d.ts",
     "typings/env.d.ts",
+    "typings/style.d.ts",
 
     // playground
     "play/main.ts",

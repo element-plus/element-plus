@@ -61,7 +61,7 @@
 
 <script lang="ts" setup generic="T extends TransferDataItem = TransferDataItem">
 import { Comment, computed, h, reactive, ref, watch } from 'vue'
-import { debugWarn, isEmpty, isUndefined } from '@element-plus/utils'
+import { NOOP, isEmpty, isUndefined } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { ElButton } from '@element-plus/components/button'
 import { ElIcon } from '@element-plus/components/icon'
@@ -166,7 +166,7 @@ watch(
   () => props.modelValue,
   () => {
     if (props.validateEvent) {
-      formItem?.validate?.('change').catch((err) => debugWarn(err))
+      formItem?.validate?.('change').catch(NOOP)
     }
   }
 )
