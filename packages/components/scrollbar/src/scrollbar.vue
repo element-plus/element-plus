@@ -1,5 +1,5 @@
 <template>
-  <div ref="scrollbarRef" :class="ns.b()">
+  <div ref="scrollbarRef" :class="ns.b()" :style="{ height }">
     <div
       ref="wrapRef"
       :class="wrapKls"
@@ -89,6 +89,10 @@ const distanceScrollState = {
   right: false,
   left: false,
 }
+
+const height = computed(() => {
+  return addUnit(props.height) || '100%'
+})
 
 const scrollbarRef = ref<HTMLDivElement>()
 const wrapRef = ref<HTMLDivElement>()
