@@ -128,6 +128,7 @@ For precision purposes, the input number is limited from [Number.MIN_SAFE_INTEGE
 | inputmode ^(2.10.3)           | same as `inputmode` in native input              | ^[string]                                     | —                       |
 | align ^(2.10.5)               | alignment for the inner input text               | ^[enum]`'left' \| 'center' \| 'right'`        | 'center'                |
 | disabled-scientific ^(2.10.5) | disables input of scientific notation (e.g. 'e') | ^[boolean]                                    | false                   |
+| tabindex ^(2.14.0)            | same as `tabindex` in native input               | ^[string] / ^[number]                         | 0                       |
 
 ### Slots
 

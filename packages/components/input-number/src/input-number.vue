@@ -56,6 +56,7 @@
       :aria-label="ariaLabel"
       :validate-event="false"
       :inputmode="inputmode"
+      :tabindex="tabindex"
       @keydown="handleKeydown"
       @blur="handleBlur"
       @focus="handleFocus"
@@ -124,6 +125,7 @@ const props = withDefaults(defineProps<InputNumberProps>(), {
   validateEvent: true,
   inputmode: undefined,
   align: 'center',
+  tabindex: 0,
 })
 const emit = defineEmits(inputNumberEmits)
 
