@@ -254,9 +254,10 @@ export default defineComponent({
     return () => {
       const { data, width } = props
       const { height, multiple, scrollbarAlwaysOn } = select.props
-
-      // fix https://github.com/element-plus/element-plus/issues/19127
-      const isScrollbarAlwaysOn = isIOS ? true : scrollbarAlwaysOn
+      const isScrollbarAlwaysOn = computed(() => {
+        // fix https://github.com/element-plus/element-plus/issues/19127
+        return isIOS ? true : scrollbarAlwaysOn
+      })
 
       const List = unref(isSized) ? FixedSizeList : DynamicSizeList
 
@@ -273,7 +274,7 @@ export default defineComponent({
               ref={listRef}
               {...unref(listProps)}
               className={ns.be('dropdown', 'list')}
-              scrollbarAlwaysOn={isScrollbarAlwaysOn}
+              scrollbarAlwaysOn={isScrollbarAlwaysOn.value}
               data={data}
               height={height}
               width={width}
