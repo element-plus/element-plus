@@ -9,7 +9,7 @@
     <div v-if="slots.prefix" :class="ns.e('prefix')">
       <slot name="prefix" />
     </div>
-    <div :class="innerKls">
+    <div ref="innerRef" :class="innerKls">
       <el-tag
         v-for="(item, index) in showTagList"
         :key="index"
@@ -18,6 +18,7 @@
         :type="tagType"
         :effect="tagEffect"
         :draggable="closable && draggable"
+        :style="tagStyle"
         disable-transitions
         @close="handleRemoveTag(index)"
         @dragstart="(event: DragEvent) => handleDragStart(event, index)"
@@ -34,19 +35,21 @@
         ref="tagTooltipRef"
         :disabled="!collapseTagsTooltip"
         :fallback-placements="['bottom', 'top', 'right', 'left']"
-        :effect="tagEffect"
+        :effect="effect"
         placement="bottom"
       >
         <template #default>
-          <el-tag
-            :closable="false"
-            :size="tagSize"
-            :type="tagType"
-            :effect="tagEffect"
-            disable-transitions
-          >
-            + {{ modelValue.length - maxCollapseTags }}
-          </el-tag>
+          <div ref="collapseItemRef" :class="ns.e('collapse-tag')">
+            <el-tag
+              :closable="false"
+              :size="tagSize"
+              :type="tagType"
+              :effect="tagEffect"
+              disable-transitions
+            >
+              + {{ modelValue.length - maxCollapseTags }}
+            </el-tag>
+          </div>
         </template>
         <template #content>
           <div :class="ns.e('input-tag-list')">
@@ -88,8 +91,10 @@
           @compositionstart="handleCompositionStart"
           @compositionupdate="handleCompositionUpdate"
           @compositionend="handleCompositionEnd"
+          @paste="handlePaste"
           @input="handleInput"
-          @keyup="handleKeydown"
+          @keydown="handleKeydown"
+          @keyup="handleKeyup"
         />
         <span
           ref="calculatorRef"
@@ -129,14 +134,15 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, useSlots } from 'vue'
+import { computed, markRaw, useSlots } from 'vue'
 import { useAttrs, useCalcInputWidth } from '@element-plus/hooks'
 import { NOOP, ValidateComponentsMap } from '@element-plus/utils'
+import { CircleClose } from '@element-plus/icons-vue'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElIcon from '@element-plus/components/icon'
 import ElTag from '@element-plus/components/tag'
 import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
-import { inputTagEmits, inputTagProps } from './input-tag'
+import { inputTagEmits } from './input-tag'
 import {
   useDragTag,
   useHovering,
@@ -144,12 +150,28 @@ import {
   useInputTagDom,
 } from './composables'
 
+import type { InputTagProps } from './input-tag'
+
 defineOptions({
   name: 'ElInputTag',
   inheritAttrs: false,
 })
 
-const props = defineProps(inputTagProps)
+const props = withDefaults(defineProps<InputTagProps>(), {
+  tagType: 'info',
+  tagEffect: 'light',
+  effect: 'light',
+  trigger: 'Enter',
+  delimiter: '',
+  clearIcon: markRaw(CircleClose),
+  disabled: undefined,
+  validateEvent: true,
+  id: undefined,
+  tabindex: 0,
+  autocomplete: 'off',
+  saveOnBlur: true,
+  maxCollapseTags: 1,
+})
 const emit = defineEmits(inputTagEmits)
 
 const attrs = useAttrs()
@@ -177,8 +199,10 @@ const {
   showTagList,
   collapseTagList,
   handleDragged,
+  handlePaste,
   handleInput,
   handleKeydown,
+  handleKeyup,
   handleRemoveTag,
   handleClear,
   handleCompositionStart,
@@ -204,6 +228,9 @@ const {
   innerKls,
   showClear,
   showSuffix,
+  tagStyle,
+  collapseItemRef,
+  innerRef,
 } = useInputTagDom({
   props,
   hovering,

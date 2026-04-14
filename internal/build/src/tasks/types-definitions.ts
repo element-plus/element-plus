@@ -1,91 +1,57 @@
 import path from 'path'
-import { readFile, writeFile } from 'fs/promises'
-import ts from 'typescript'
-import glob from 'fast-glob'
-import { copy, remove } from 'fs-extra'
-import { Extractor, ExtractorConfig } from '@microsoft/api-extractor'
-import { buildOutput, epRoot, projRoot } from '@element-plus/build-utils'
-import { pathRewriter, run } from '../utils'
+import { glob } from 'tinyglobby'
+import {
+  buildOutput,
+  epPackage,
+  epRoot,
+  excludeFiles,
+  getPackageDependencies,
+  pkgRoot,
+  projRoot,
+} from '@element-plus/build-utils'
+import { build } from 'rolldown'
+import { dts } from 'rolldown-plugin-dts'
+import { target } from '../build-info'
 
-export const generateTypesDefinitions = async () => {
-  const typesDir = path.join(buildOutput, 'types', 'packages')
-  const entryDir = path.join(typesDir, 'element-plus')
-  const entryFilePath = path.join(entryDir, 'index.d.ts')
-  const tsDir = path.join(projRoot, 'node_modules', 'typescript')
-  const tsConfigPath = path.join(projRoot, 'tsconfig.web.json')
-  const tsConfig = ts.readConfigFile(tsConfigPath, ts.sys.readFile)
+import type { BuildOptions } from 'rolldown'
 
-  // Generate .d.ts files
-  await run(
-    'npx vue-tsc -p tsconfig.web.json --declaration --emitDeclarationOnly --declarationDir dist/types'
+const tsconfig = path.resolve(projRoot, 'tsconfig.web.json')
+const epDeps = getPackageDependencies(epPackage)
+const pkgExternal = Object.values(epDeps).flat()
+const external = [/^@floating-ui/, /^@vue/, /^vue/, /^csstype/, ...pkgExternal]
+
+export async function generateTypesDefinitions() {
+  const input = excludeFiles(
+    await glob(['**/index.ts', 'locale/lang/*.ts', '!**/style/index.ts'], {
+      cwd: pkgRoot,
+      absolute: true,
+      onlyFiles: true,
+    })
   )
-
-  // Rollup all .d.ts files into index.d.ts
-  const extractorConfig = ExtractorConfig.prepare({
-    configObject: {
-      projectFolder: typesDir,
-      mainEntryPointFilePath: entryFilePath,
-      apiReport: {
-        enabled: false,
-      },
-      docModel: {
-        enabled: false,
-      },
-      tsdocMetadata: {
-        enabled: false,
-      },
-      dtsRollup: {
-        enabled: true,
-        untrimmedFilePath: entryFilePath,
-      },
-      compiler: {
-        overrideTsconfig: {
-          compilerOptions: {
-            lib: tsConfig.config.compilerOptions.lib,
-            paths: {
-              'element-plus': [entryFilePath],
-              '@element-plus/*': [`${typesDir}/*`],
-            },
-            skipLibCheck: true,
-          },
-          include: [typesDir],
-        },
-      },
+  const options: BuildOptions = {
+    input,
+    external,
+    tsconfig,
+    transform: {
+      target,
     },
-    configObjectFullPath: undefined,
-    packageJsonFullPath: path.join(epRoot, 'package.json'),
-  })
+    plugins: dts({
+      parallel: true,
+      tsconfig,
+      eager: true,
+      vue: true,
+      emitDtsOnly: true,
+      compilerOptions: {
+        emitDeclarationOnly: true,
+        declaration: true,
+      },
+    }),
+    output: {
+      preserveModules: true,
+      preserveModulesRoot: epRoot,
+      dir: path.resolve(buildOutput, 'types'),
+    },
+  }
 
-  Extractor.invoke(extractorConfig, { typescriptCompilerFolder: tsDir })
-
-  // Format the bundle file
-  const fileContent = await readFile(entryFilePath, 'utf8')
-  const sourceFile = ts.createSourceFile(
-    entryFilePath,
-    fileContent,
-    tsConfig.config.compilerOptions.target
-  )
-
-  const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed })
-  let formattedText = printer.printFile(sourceFile)
-
-  // delete when upgrade to vue 3.3
-  // insert import statement at the beginning of the file
-  formattedText = `import "./utils/vue3.3.polyfill";\n${formattedText}`
-
-  await writeFile(entryFilePath, formattedText, 'utf8')
-
-  // "@element-plus" should be replaced with "element-plus"
-  const filePaths = await glob(`**/*.d.ts`, {
-    cwd: typesDir,
-    absolute: true,
-  })
-  const rewriteTasks = filePaths.map(async (filePath) => {
-    const content = await readFile(filePath, 'utf8')
-    await writeFile(filePath, pathRewriter('esm')(content), 'utf8')
-  })
-  await Promise.all(rewriteTasks)
-
-  await copy(entryDir, typesDir)
-  await remove(entryDir)
+  return build(options)
 }

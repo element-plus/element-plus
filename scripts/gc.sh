@@ -51,11 +51,11 @@ EOF
 cat > $DIRNAME/src/$INPUT_NAME.ts <<EOF
 import { buildProps } from '@element-plus/utils'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 
 export const ${PROP_NAME}Props = buildProps({} as const)
 export type ${NAME}Props = ExtractPropTypes<typeof ${PROP_NAME}Props>
-export type ${NAME}PropsPublic = __ExtractPublicPropTypes<typeof ${PROP_NAME}Props>
+export type ${NAME}PropsPublic = ExtractPublicPropTypes<typeof ${PROP_NAME}Props>
 
 export const ${PROP_NAME}Emits = {}
 export type ${NAME}Emits = typeof ${PROP_NAME}Emits

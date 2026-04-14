@@ -12,8 +12,8 @@ import type { RouteLocationNormalizedLoaded } from 'vue-router'
 import type {
   ComponentPublicInstance,
   ExtractPropTypes,
+  ExtractPublicPropTypes,
   Ref,
-  __ExtractPublicPropTypes,
 } from 'vue'
 
 const _prop = buildProp({
@@ -197,7 +197,7 @@ const { useModelToggle, useModelToggleProps, useModelToggleEmits } =
 export { useModelToggle, useModelToggleEmits, useModelToggleProps }
 
 export type UseModelToggleProps = ExtractPropTypes<typeof useModelToggleProps>
-export type UseModelTogglePropsPublic = __ExtractPublicPropTypes<
+export type UseModelTogglePropsPublic = ExtractPublicPropTypes<
   typeof useModelToggleProps
 >
 

@@ -10,12 +10,15 @@
     :popper-style="popperStyle"
     :stop-popper-mouse-event="false"
     pure
+    loop
+    role="dialog"
     effect="light"
     trigger="click"
     :teleported="teleported"
     :transition="`${ns.namespace.value}-zoom-in-top`"
     :persistent="persistent"
     :append-to="appendTo"
+    @show="handleShowTooltip"
     @hide="setShowPicker(false)"
   >
     <template #content>
@@ -24,11 +27,13 @@
         v-bind="panelProps"
         v-click-outside:[triggerRef]="handleClickOutside"
         :border="false"
+        :validate-event="false"
         @keydown.esc="handleEsc"
       >
         <template #footer>
           <div>
             <el-button
+              v-if="clearable"
               :class="ns.be('footer', 'link-btn')"
               text
               size="small"
@@ -119,9 +124,9 @@ import {
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { debugWarn, getEventCode } from '@element-plus/utils'
+import { NOOP, getEventCode } from '@element-plus/utils'
 import { ArrowDown, Close } from '@element-plus/icons-vue'
-import { colorPickerEmits, colorPickerProps } from './color-picker'
+import { colorPickerEmits, colorPickerPropsDefaults } from './color-picker'
 import {
   ElColorPickerPanel,
   ROOT_COMMON_COLOR_INJECTION_KEY,
@@ -132,11 +137,15 @@ import { useCommonColor } from '@element-plus/components/color-picker-panel/src/
 
 import type { ColorPickerPanelInstance } from '@element-plus/components/color-picker-panel'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
+import type { ColorPickerProps } from './color-picker'
 
 defineOptions({
   name: 'ElColorPicker',
 })
-const props = defineProps(colorPickerProps)
+const props = withDefaults(
+  defineProps<ColorPickerProps>(),
+  colorPickerPropsDefaults
+)
 
 const emit = defineEmits(colorPickerEmits)
 
@@ -169,7 +178,7 @@ const { isFocused, handleFocus, handleBlur } = useFocusController(triggerRef, {
     setShowPicker(false)
     resetColor()
     if (props.validateEvent) {
-      formItem?.validate?.('blur').catch((err) => debugWarn(err))
+      formItem?.validate?.('blur').catch(NOOP)
     }
   },
 })
@@ -258,7 +267,7 @@ function confirmValue() {
   emit(UPDATE_MODEL_EVENT, value)
   emit(CHANGE_EVENT, value)
   if (props.validateEvent) {
-    formItem?.validate('change').catch((err) => debugWarn(err))
+    formItem?.validate('change').catch(NOOP)
   }
   debounceSetShowPicker(false)
   // check if modelValue change, if not change, then reset color.
@@ -279,9 +288,14 @@ function clear() {
   emit(UPDATE_MODEL_EVENT, valueOnClear.value)
   emit(CHANGE_EVENT, valueOnClear.value)
   if (props.modelValue !== valueOnClear.value && props.validateEvent) {
-    formItem?.validate('change').catch((err) => debugWarn(err))
+    formItem?.validate('change').catch(NOOP)
   }
   resetColor()
+  emit('clear')
+}
+
+function handleShowTooltip() {
+  pickerPanelRef?.value?.inputRef?.focus()
 }
 
 function handleClickOutside() {
@@ -307,7 +321,6 @@ function handleKeyDown(event: KeyboardEvent) {
       event.preventDefault()
       event.stopPropagation()
       show()
-      pickerPanelRef?.value?.inputRef?.focus()
       break
     case EVENT_CODE.esc:
       handleEsc(event)
@@ -355,7 +368,7 @@ watch(
 watch(
   () => showPicker.value,
   () => {
-    nextTick(pickerPanelRef.value?.update)
+    pickerPanelRef.value && nextTick(pickerPanelRef.value.update)
   }
 )
 

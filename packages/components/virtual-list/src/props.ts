@@ -6,11 +6,7 @@ import {
 } from '@element-plus/utils'
 import { VERTICAL } from './defaults'
 
-import type {
-  ExtractPropTypes,
-  StyleValue,
-  __ExtractPublicPropTypes,
-} from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes, StyleValue } from 'vue'
 import type { GridItemKeyGetter, ItemSize } from './types'
 
 const itemSize = buildProp({
@@ -190,21 +186,21 @@ export const virtualizedScrollbarProps = buildProps({
 } as const)
 
 export type VirtualizedProps = ExtractPropTypes<typeof virtualizedProps>
-export type VirtualizedPropsPublic = __ExtractPublicPropTypes<
+export type VirtualizedPropsPublic = ExtractPublicPropTypes<
   typeof virtualizedProps
 >
 export type VirtualizedListProps = ExtractPropTypes<typeof virtualizedListProps>
-export type VirtualizedListPropsPublic = __ExtractPublicPropTypes<
+export type VirtualizedListPropsPublic = ExtractPublicPropTypes<
   typeof virtualizedListProps
 >
 export type VirtualizedGridProps = ExtractPropTypes<typeof virtualizedGridProps>
-export type VirtualizedGridPropsPublic = __ExtractPublicPropTypes<
+export type VirtualizedGridPropsPublic = ExtractPublicPropTypes<
   typeof virtualizedGridProps
 >
 
 export type VirtualizedScrollbarProps = ExtractPropTypes<
   typeof virtualizedScrollbarProps
 >
-export type VirtualizedScrollbarPropsPublic = __ExtractPublicPropTypes<
+export type VirtualizedScrollbarPropsPublic = ExtractPublicPropTypes<
   typeof virtualizedScrollbarProps
 >

@@ -222,9 +222,18 @@ export const useBasicDateTable = (
   }
 
   const getDateOfCell = (row: number, column: number) => {
-    const offsetFromStart =
-      row * 7 + (column - (props.showWeekNumber ? 1 : 0)) - unref(offsetDay)
-    return unref(startDate).add(offsetFromStart, 'day')
+    //NOTE: because relying of startDate is not reliable in every weekStart (especially 2, 3); we re-create it
+    const startOfMonthDay = unref(days).startOfMonthDay
+    const offset = unref(offsetDay)
+    const numberOfDaysFromPreviousMonth =
+      startOfMonthDay + offset < 0
+        ? 7 + startOfMonthDay + offset
+        : startOfMonthDay + offset
+    const offsetFromStart = row * 7 + (column - (props.showWeekNumber ? 1 : 0))
+    return props.date
+      .startOf('month')
+      .subtract(numberOfDaysFromPreviousMonth, 'day')
+      .add(offsetFromStart, 'day')
   }
 
   const handleMouseMove = (event: MouseEvent) => {
@@ -259,7 +268,7 @@ export const useBasicDateTable = (
 
   const isSelectedCell = (cell: DateCell) => {
     return (
-      (!unref(hasCurrent) && cell?.text === 1 && cell.type === 'normal') ||
+      (!unref(hasCurrent) && cell?.text === 1 && isNormalDay(cell.type)) ||
       cell.isCurrent
     )
   }
@@ -411,7 +420,7 @@ export const useBasicDateTableDOM = (
 
   const tableKls = computed(() => [
     ns.b(),
-    { 'is-week-mode': props.selectionMode === 'week' && !props.disabled },
+    ns.is('week-mode', props.selectionMode === 'week' && !props.disabled),
   ])
 
   const tableLabel = computed(() => t('el.datepicker.dateTablePrompt'))

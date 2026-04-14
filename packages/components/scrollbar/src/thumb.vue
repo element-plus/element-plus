@@ -24,10 +24,11 @@ import { isClient, throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { scrollbarContextKey } from './constants'
 import { BAR_MAP, renderThumbStyle } from './util'
-import { thumbProps } from './thumb'
+
+import type { ThumbProps } from './thumb'
 
 const COMPONENT_NAME = 'Thumb'
-const props = defineProps(thumbProps)
+const props = defineProps<ThumbProps>()
 
 const scrollbar = inject(scrollbarContextKey)
 const ns = useNamespace('scrollbar')
@@ -104,8 +105,8 @@ const clickTrackHandler = (e: MouseEvent) => {
 const startDrag = (e: MouseEvent) => {
   e.stopImmediatePropagation()
   cursorDown = true
-  baseScrollHeight = scrollbar.wrapElement.scrollHeight
-  baseScrollWidth = scrollbar.wrapElement.scrollWidth
+  baseScrollHeight = scrollbar.wrapElement!.scrollHeight
+  baseScrollWidth = scrollbar.wrapElement!.scrollWidth
   document.addEventListener('mousemove', mouseMoveDocumentHandler)
   document.addEventListener('mouseup', mouseUpDocumentHandler)
   originalOnSelectStart = document.onselectstart
@@ -129,10 +130,10 @@ const mouseMoveDocumentHandler = (e: MouseEvent) => {
     instance.value[bar.value.offset]
 
   if (bar.value.scroll === 'scrollLeft') {
-    scrollbar.wrapElement[bar.value.scroll] =
+    scrollbar.wrapElement![bar.value.scroll] =
       (thumbPositionPercentage * baseScrollWidth) / 100
   } else {
-    scrollbar.wrapElement[bar.value.scroll] =
+    scrollbar.wrapElement![bar.value.scroll] =
       (thumbPositionPercentage * baseScrollHeight) / 100
   }
 }

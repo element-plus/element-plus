@@ -125,6 +125,8 @@ If `fullscreen` is true, `width` `top` `draggable` attributes don't work.
 
 Setting `modal` to `false` will hide modal (overlay) of dialog.
 
+Starting from version ^(2.10.5), `modal-penetrable` attribute is added, which can be penetrable.
+
 :::demo
 
 dialog/modal
@@ -167,7 +169,7 @@ dialog/events
 
 | Name                       | Description                                                                                                                    | Type                                   | Default     |
 | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------- | ----------- |
-| model-value / v-model      | visibility of Dialog                                                                                                           | ^[boolean]                             | —           |
+| model-value / v-model      | visibility of Dialog                                                                                                           | ^[boolean]                             | false       |
 | title                      | title of Dialog. Can also be passed with a named slot (see the following table)                                                | ^[string]                              | ''          |
 | width                      | width of Dialog, default is 50%                                                                                                | ^[string] / ^[number]                  | ''          |
 | fullscreen                 | whether the Dialog takes up full screen                                                                                        | ^[boolean]                             | false       |

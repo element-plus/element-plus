@@ -16,6 +16,7 @@ export type RovingGroupInjectionContext = {
   onMousedown: EventHandler
   onItemFocus: (id: string) => void
   onItemShiftTab: () => void
+  onKeydown: EventHandler<KeyboardEvent>
 }
 
 export type RovingFocusGroupItemInjectionContext = {

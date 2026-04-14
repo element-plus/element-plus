@@ -1,6 +1,5 @@
 @use 'mixins/mixins' as *;
 @use 'mixins/var' as *;
-@use 'mixins/utils' as *;
 @use 'common/var' as *;
 @use 'common/transition';
 
@@ -368,4 +367,10 @@
   .#{$namespace}-sub-menu__icon-arrow {
   transition: getCssVar('transition-duration-fast');
   opacity: 0;
+}
+
+.#{$namespace}-popper,
+.#{$namespace}-menu--popup-container,
+.#{$namespace}-menu {
+  outline: none;
 }

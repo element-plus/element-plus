@@ -21,7 +21,10 @@
           :aria-label="title || undefined"
           :aria-labelledby="!title ? titleId : undefined"
           :aria-describedby="bodyId"
-          :class="`${ns.namespace.value}-overlay-dialog`"
+          :class="[
+            `${ns.namespace.value}-overlay-dialog`,
+            ns.is('closing', closing),
+          ]"
           :style="overlayDialogStyle"
           @click="overlayEvent.onClick"
           @mousedown="overlayEvent.onMousedown"
@@ -53,6 +56,7 @@
               :title="title"
               :aria-level="headerAriaLevel"
               @close="handleClose"
+              @mousedown="bringToFront"
             >
               <template #header>
                 <slot
@@ -84,15 +88,17 @@ import ElFocusTrap from '@element-plus/components/focus-trap'
 import ElTeleport from '@element-plus/components/teleport'
 import ElDialogContent from './dialog-content.vue'
 import { dialogInjectionKey } from './constants'
-import { dialogEmits, dialogProps } from './dialog'
+import { dialogEmits, dialogPropsDefaults } from './dialog'
 import { useDialog } from './use-dialog'
+
+import type { DialogProps } from './dialog'
 
 defineOptions({
   name: 'ElDialog',
   inheritAttrs: false,
 })
 
-const props = defineProps(dialogProps)
+const props = withDefaults(defineProps<DialogProps>(), dialogPropsDefaults)
 defineEmits(dialogEmits)
 const slots = useSlots()
 
@@ -124,12 +130,15 @@ const {
   _draggable,
   _alignCenter,
   _overflow,
+  penetrable,
   handleClose,
   onModalClick,
   onOpenAutoFocus,
   onCloseAutoFocus,
   onCloseRequested,
   onFocusoutPrevented,
+  bringToFront,
+  closing,
 } = useDialog(props, dialogRef)
 
 provide(dialogInjectionKey, {
@@ -142,10 +151,6 @@ provide(dialogInjectionKey, {
 })
 
 const overlayEvent = useSameTarget(onModalClick)
-
-const penetrable = computed(
-  () => props.modalPenetrable && !props.modal && !props.fullscreen
-)
 
 const resetPosition = () => {
   dialogContentRef.value?.resetPosition()

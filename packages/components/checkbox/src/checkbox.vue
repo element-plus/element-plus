@@ -1,8 +1,11 @@
 <template>
   <component
     :is="!hasOwnLabel && isLabeledByFormItem ? 'span' : 'label'"
+    :for="!hasOwnLabel && isLabeledByFormItem ? null : inputId"
     :class="compKls"
     :aria-controls="indeterminate ? ariaControls : null"
+    :aria-checked="indeterminate ? 'mixed' : undefined"
+    :aria-label="ariaLabel"
     @click="onClickRoot"
   >
     <span :class="spanKls">
@@ -33,14 +36,16 @@
 <script lang="ts" setup>
 import { computed, useSlots } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { checkboxEmits, checkboxProps } from './checkbox'
+import { checkboxEmits, checkboxPropsDefaults } from './checkbox'
 import { useCheckbox } from './composables'
+
+import type { CheckboxProps } from './checkbox'
 
 defineOptions({
   name: 'ElCheckbox',
 })
 
-const props = defineProps(checkboxProps)
+const props = withDefaults(defineProps<CheckboxProps>(), checkboxPropsDefaults)
 defineEmits(checkboxEmits)
 const slots = useSlots()
 

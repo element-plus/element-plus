@@ -1,12 +1,8 @@
 import { Close } from '@element-plus/icons-vue'
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 
-import type {
-  AppContext,
-  ExtractPropTypes,
-  VNode,
-  __ExtractPublicPropTypes,
-} from 'vue'
+import type { AppContext, ExtractPublicPropTypes, VNode } from 'vue'
+import type { IconPropType } from '@element-plus/utils'
 import type Notification from './notification.vue'
 
 export const notificationTypes = [
@@ -17,6 +13,80 @@ export const notificationTypes = [
   'error',
 ] as const
 
+export type NotificationType = (typeof notificationTypes)[number] | ''
+
+export type NotificationPosition =
+  | 'top-right'
+  | 'top-left'
+  | 'bottom-right'
+  | 'bottom-left'
+
+export interface NotificationProps {
+  /**
+   * @description custom class name for Notification
+   */
+  customClass?: string
+  /**
+   * @description whether `message` is treated as HTML string
+   */
+  dangerouslyUseHTMLString?: boolean
+  /**
+   * @description duration before close. It will not automatically close if set 0
+   */
+  duration?: number
+  /**
+   * @description custom icon component. It will be overridden by `type`
+   */
+  icon?: IconPropType
+  /**
+   * @description notification dom id
+   */
+  id?: string
+  /**
+   * @description description text
+   */
+  message?: string | VNode | (() => VNode)
+  /**
+   * @description offset from the top edge of the screen. Every Notification instance of the same moment should have the same offset
+   */
+  offset?: number
+  /**
+   * @description callback function when notification clicked
+   */
+  onClick?: () => void
+  /**
+   * @description callback function when closed
+   */
+  onClose: () => void
+  /**
+   * @description custom position
+   */
+  position?: NotificationPosition
+  /**
+   * @description whether to show a close button
+   */
+  showClose?: boolean
+  /**
+   * @description title
+   */
+  title?: string
+  /**
+   * @description notification type
+   */
+  type?: NotificationType
+  /**
+   * @description initial zIndex
+   */
+  zIndex?: number
+  /**
+   * @description custom close icon, default is Close
+   */
+  closeIcon?: IconPropType
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `NotificationProps` instead.
+ */
 export const notificationProps = buildProps({
   /**
    * @description custom class name for Notification
@@ -123,8 +193,11 @@ export const notificationProps = buildProps({
     default: Close,
   },
 } as const)
-export type NotificationProps = ExtractPropTypes<typeof notificationProps>
-export type NotificationPropsPublic = __ExtractPublicPropTypes<
+
+/**
+ * @deprecated Removed after 3.0.0, Use `NotificationProps` instead.
+ */
+export type NotificationPropsPublic = ExtractPublicPropTypes<
   typeof notificationProps
 >
 

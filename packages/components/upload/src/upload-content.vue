@@ -6,12 +6,18 @@
       ns.is('drag', drag),
       ns.is('disabled', disabled),
     ]"
-    :tabindex="disabled ? '-1' : '0'"
+    :tabindex="disabled ? undefined : 0"
+    :aria-disabled="disabled"
+    role="button"
     @click="handleClick"
     @keydown.self.enter.space="handleKeydown"
   >
     <template v-if="drag">
-      <upload-dragger :disabled="disabled" @file="uploadFiles">
+      <upload-dragger
+        :disabled="disabled"
+        :directory="directory"
+        @file="uploadFiles"
+      >
         <slot />
       </upload-dragger>
     </template>
@@ -25,6 +31,7 @@
       :disabled="disabled"
       :multiple="multiple"
       :accept="accept"
+      :webkitdirectory="directory || undefined"
       type="file"
       @change="handleChange"
       @click.stop
@@ -39,8 +46,8 @@ import { entriesOf, isFunction, isPlainObject } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormDisabled } from '@element-plus/components/form'
 import UploadDragger from './upload-dragger.vue'
-import { uploadContentProps } from './upload-content'
 import { genFileId } from './upload'
+import { uploadContentPropsDefaults } from './upload-content'
 
 import type { UploadContentProps } from './upload-content'
 import type {
@@ -55,7 +62,10 @@ defineOptions({
   inheritAttrs: false,
 })
 
-const props = defineProps(uploadContentProps)
+const props = withDefaults(
+  defineProps<UploadContentProps>(),
+  uploadContentPropsDefaults
+)
 const ns = useNamespace('upload')
 const disabled = useFormDisabled()
 
@@ -141,7 +151,7 @@ const resolveData = async (
     return data(rawFile)
   }
 
-  return data
+  return data!
 }
 
 const doUpload = async (

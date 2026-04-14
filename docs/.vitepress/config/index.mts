@@ -8,7 +8,6 @@ import { nav } from './nav'
 import { mdPlugin } from './plugins'
 import { sidebars } from './sidebars'
 import { getViteConfig } from './vite'
-import { vueCompiler } from './vue-compiler'
 
 import type { UserConfig } from 'vitepress'
 
@@ -83,7 +82,6 @@ const setupConfig = (configEnv) => {
       config: (md) => mdPlugin(md),
     },
     vue: {
-      compiler: vueCompiler,
       template: {
         compilerOptions: {
           hoistStatic: false,

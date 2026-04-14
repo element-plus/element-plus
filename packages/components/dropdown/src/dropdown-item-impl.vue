@@ -18,8 +18,10 @@
     @pointermove="(e) => $emit('pointermove', e)"
     @pointerleave="(e) => $emit('pointerleave', e)"
   >
-    <el-icon v-if="icon">
-      <component :is="icon" />
+    <el-icon v-if="icon || $slots.icon">
+      <slot name="icon">
+        <component :is="icon" />
+      </slot>
     </el-icon>
     <slot />
   </li>
@@ -40,10 +42,7 @@ import {
   getEventCode,
 } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
-import {
-  DROPDOWN_COLLECTION_ITEM_INJECTION_KEY,
-  dropdownItemProps,
-} from './dropdown'
+import { dropdownItemProps } from './dropdown'
 import { DROPDOWN_INJECTION_KEY } from './tokens'
 
 export default defineComponent({
@@ -57,11 +56,6 @@ export default defineComponent({
     const ns = useNamespace('dropdown')
 
     const { role: menuRole } = inject(DROPDOWN_INJECTION_KEY, undefined)!
-
-    const { collectionItemRef: dropdownCollectionItemRef } = inject(
-      DROPDOWN_COLLECTION_ITEM_INJECTION_KEY,
-      undefined
-    )!
 
     const { collectionItemRef: rovingFocusCollectionItemRef } = inject(
       ROVING_FOCUS_ITEM_COLLECTION_INJECTION_KEY,
@@ -77,7 +71,6 @@ export default defineComponent({
     } = inject(ROVING_FOCUS_GROUP_ITEM_INJECTION_KEY, undefined)!
 
     const itemRef = composeRefs(
-      dropdownCollectionItemRef,
       rovingFocusCollectionItemRef,
       rovingFocusGroupItemRef
     )

@@ -2,7 +2,7 @@ import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import defineGetter from '@element-plus/test-utils/define-getter'
-import { ElFormItem as FormItem } from '@element-plus/components/form'
+import { ElForm, ElFormItem as FormItem } from '@element-plus/components/form'
 import Input from '../src/input.vue'
 
 import type { CSSProperties } from 'vue'
@@ -97,6 +97,46 @@ describe('Input.vue', () => {
         ]
       `)
     })
+    test('el-input add count-graphemes', async () => {
+      const inputVal = ref('12🌚')
+      const calc = (value: string) => {
+        return Array.from(value).length
+      }
+      const wrapper = mount(() => (
+        <Input
+          class="test-exceed"
+          maxlength="4"
+          showWordLimit
+          count-graphemes={calc}
+          v-model={inputVal.value}
+        />
+      ))
+      const vm = wrapper.vm
+      const inputElm = wrapper.find('input')
+      const nativeInput = inputElm.element
+      expect(nativeInput.value).toMatchInlineSnapshot(`"12🌚"`)
+
+      const elCount = wrapper.find('.el-input__count-inner')
+      expect(elCount.exists()).toBe(true)
+      expect(elCount.text()).toMatchInlineSnapshot(`"3 / 4"`)
+
+      inputVal.value = '1👌3😄'
+      await nextTick()
+      expect(nativeInput.value).toMatchInlineSnapshot(`"1👌3😄"`)
+      expect(elCount.text()).toMatchInlineSnapshot(`"4 / 4"`)
+
+      inputVal.value = '哈哈1👌3😄'
+      await nextTick()
+      expect(nativeInput.value).toMatchInlineSnapshot(`"哈哈1👌3😄"`)
+      expect(elCount.text()).toMatchInlineSnapshot(`"6 / 4"`)
+      expect(Array.from(vm.$el.classList)).toMatchInlineSnapshot(`
+        [
+          "el-input",
+          "is-exceed",
+          "test-exceed",
+        ]
+      `)
+    })
 
     test('textarea should minimize value between emoji length and maxLength', async () => {
       const inputVal = ref('啊好😄')
@@ -127,6 +167,170 @@ describe('Input.vue', () => {
           "is-exceed",
         ]
       `)
+    })
+
+    test('textarea add count-graphemes', async () => {
+      const inputVal = ref('啊好😄')
+      const calc = (value: string) => {
+        return Array.from(value).length
+      }
+      const wrapper = mount(() => (
+        <Input
+          type="textarea"
+          maxlength="4"
+          showWordLimit
+          count-graphemes={calc}
+          v-model={inputVal.value}
+        />
+      ))
+      const vm = wrapper.vm
+      const inputElm = wrapper.find('textarea')
+      const nativeInput = inputElm.element
+      expect(nativeInput.value).toMatchInlineSnapshot(`"啊好😄"`)
+
+      const elCount = wrapper.find('.el-input__count')
+      expect(elCount.exists()).toBe(true)
+      expect(elCount.text()).toMatchInlineSnapshot(`"3 / 4"`)
+
+      inputVal.value = '哈哈1👌3😄'
+      await nextTick()
+      expect(nativeInput.value).toMatchInlineSnapshot(`"哈哈1👌3😄"`)
+      expect(elCount.text()).toMatchInlineSnapshot(`"6 / 4"`)
+      expect(Array.from(vm.$el.classList)).toMatchInlineSnapshot(`
+        [
+          "el-textarea",
+          "is-exceed",
+        ]
+      `)
+    })
+
+    test('el-input keep exceed state and block further typing with count-graphemes', async () => {
+      const inputVal = ref('哈哈1👌3😄')
+      const calc = (value: string) => {
+        return Array.from(value).length
+      }
+      const wrapper = mount(() => (
+        <Input
+          class="test-exceed"
+          maxlength="4"
+          showWordLimit
+          count-graphemes={calc}
+          v-model={inputVal.value}
+        />
+      ))
+
+      const inputElm = wrapper.find('input')
+      expect(inputElm.element.value).toBe('哈哈1👌3😄')
+      expect(inputVal.value).toBe('哈哈1👌3😄')
+      expect(wrapper.classes('is-exceed')).toBe(true)
+
+      await inputElm.setValue('哈哈1👌3😄a')
+      await nextTick()
+
+      expect(inputElm.element.value).toBe('哈哈1👌3😄')
+      expect(inputVal.value).toBe('哈哈1👌3😄')
+      expect(wrapper.classes('is-exceed')).toBe(true)
+      expect(wrapper.find('.el-input__count-inner').text()).toBe('6 / 4')
+    })
+
+    test('el-input do not show exceed at limit and block further typing with count-graphemes', async () => {
+      const inputVal = ref('1👌3😄')
+      const calc = (value: string) => {
+        return Array.from(value).length
+      }
+      const wrapper = mount(() => (
+        <Input
+          class="test-exceed"
+          maxlength="4"
+          showWordLimit
+          count-graphemes={calc}
+          v-model={inputVal.value}
+        />
+      ))
+
+      const inputElm = wrapper.find('input')
+      expect(inputElm.element.value).toBe('1👌3😄')
+      expect(wrapper.classes('is-exceed')).toBe(false)
+      expect(wrapper.find('.el-input__count-inner').text()).toBe('4 / 4')
+
+      await inputElm.setValue('1👌3😄a')
+      await nextTick()
+
+      expect(inputElm.element.value).toBe('1👌3😄')
+      expect(inputVal.value).toBe('1👌3😄')
+      expect(wrapper.classes('is-exceed')).toBe(false)
+      expect(wrapper.find('.el-input__count-inner').text()).toBe('4 / 4')
+    })
+
+    test('el-input should reset native value when blocked by count-graphemes', async () => {
+      const inputVal = ref('1👌3😄')
+      const calc = (value: string) => {
+        return Array.from(value).length
+      }
+      const wrapper = mount(() => (
+        <Input
+          maxlength="4"
+          showWordLimit
+          count-graphemes={calc}
+          v-model={inputVal.value}
+        />
+      ))
+
+      const inputElm = wrapper.find('input')
+      inputElm.element.value = '1👌3😄a'
+      await inputElm.trigger('input')
+      await nextTick()
+
+      expect(inputElm.element.value).toBe('1👌3😄')
+      expect(inputVal.value).toBe('1👌3😄')
+    })
+
+    test('el-input should block mid-string insertion at limit without replacing suffix', async () => {
+      const inputVal = ref('1👌3😄')
+      const calc = (value: string) => {
+        return Array.from(value).length
+      }
+      const wrapper = mount(() => (
+        <Input
+          maxlength="4"
+          showWordLimit
+          count-graphemes={calc}
+          v-model={inputVal.value}
+        />
+      ))
+
+      const inputElm = wrapper.find('input')
+      // Simulate typing in the middle when current length is already at limit.
+      inputElm.element.value = '1👌a3😄'
+      await inputElm.trigger('input')
+      await nextTick()
+
+      expect(inputElm.element.value).toBe('1👌3😄')
+      expect(inputVal.value).toBe('1👌3😄')
+      expect(wrapper.find('.el-input__count-inner').text()).toBe('4 / 4')
+    })
+
+    test('el-input should keep caret position when blocked at limit', async () => {
+      const inputVal = ref('1👌3😄')
+      const calc = (value: string) => {
+        return Array.from(value).length
+      }
+      const wrapper = mount(() => (
+        <Input maxlength="4" count-graphemes={calc} v-model={inputVal.value} />
+      ))
+
+      const inputElm = wrapper.find('input')
+      // Place caret before "3" and simulate typing one char while already at limit.
+      inputElm.element.setSelectionRange(3, 3)
+      inputElm.element.value = '1👌a3😄'
+      inputElm.element.setSelectionRange(4, 4)
+      await inputElm.trigger('input')
+      await nextTick()
+
+      expect(inputElm.element.value).toBe('1👌3😄')
+      expect(inputVal.value).toBe('1👌3😄')
+      expect(inputElm.element.selectionStart).toBe(3)
+      expect(inputElm.element.selectionEnd).toBe(3)
     })
   })
 
@@ -168,6 +372,19 @@ describe('Input.vue', () => {
     resize.value = 'horizontal'
     await nextTick()
     expect(textarea.style.resize).toEqual(resize.value)
+  })
+
+  test('inputmode', () => {
+    const wrapper = mount(() => (
+      <>
+        <Input inputmode="numeric" />
+        <Input type="textarea" inputmode="decimal" />
+      </>
+    ))
+    const input = wrapper.find('input')
+    const textarea = wrapper.find('textarea')
+    expect(input.attributes('inputmode')).toBe('numeric')
+    expect(textarea.attributes('inputmode')).toBe('decimal')
   })
 
   test('sets value on textarea / input type change', async () => {
@@ -289,12 +506,13 @@ describe('Input.vue', () => {
     expect(vm.$el.querySelector('input').value).not.toEqual('1000')
     vm.$el.querySelector('input').value = '1,000,000'
 
+    vm.$el.querySelector('input').dispatchEvent(event)
+    expect(val.value).toEqual('1000000')
+    expect(_val.value).toEqual('1000000')
+
     vm.$el
       .querySelector('input')
       .dispatchEvent(new Event('change', { bubbles: true }))
-    expect(_val.value).toEqual('1000000')
-
-    vm.$el.querySelector('input').dispatchEvent(event)
     expect(val.value).toEqual('1000000')
     expect(_val.value).toEqual('1000000')
   })
@@ -456,27 +674,49 @@ describe('Input.vue', () => {
       const handleClear = vi.fn()
       const handleInput = vi.fn()
       const content = ref('a')
+      const handleTextareaClear = vi.fn()
+      const handleTextareaInput = vi.fn()
+      const textareaContent = ref('a')
 
       const wrapper = mount(() => (
-        <Input
-          placeholder="请输入内容"
-          clearable
-          v-model={content.value}
-          onClear={handleClear}
-          onInput={handleInput}
-        />
+        <>
+          <Input
+            placeholder="请输入内容"
+            clearable
+            v-model={content.value}
+            onClear={handleClear}
+            onInput={handleInput}
+          />
+          <Input
+            type="textarea"
+            placeholder="请输入内容"
+            clearable
+            v-model={textareaContent.value}
+            onClear={handleTextareaClear}
+            onInput={handleTextareaInput}
+          />
+        </>
       ))
 
       const input = wrapper.find('input')
-      const vm = wrapper.vm
+      const textarea = wrapper.find('textarea')
       // focus to show clear button
       await input.trigger('focus')
       await nextTick()
-      vm.$el.querySelector('.el-input__clear').click()
+      wrapper.find('.el-input__clear').trigger('click')
       await nextTick()
       expect(content.value).toEqual('')
       expect(handleClear).toBeCalled()
+      expect(handleClear).toBeCalledWith(expect.any(MouseEvent))
       expect(handleInput).toBeCalled()
+      // textarea
+      await textarea.trigger('focus')
+      await nextTick()
+      wrapper.find('.el-textarea__clear').trigger('click')
+      await nextTick()
+      expect(textareaContent.value).toEqual('')
+      expect(handleTextareaClear).toBeCalled()
+      expect(handleTextareaInput).toBeCalled()
     })
 
     test('event:input', async () => {
@@ -591,6 +831,60 @@ describe('Input.vue', () => {
     expect(input.element.selectionEnd).toBe(4)
   })
 
+  test('passwordVisible expose', async () => {
+    const inputRef = ref<InputInstance>()
+    const wrapper = mount(() => (
+      <Input ref={inputRef} type="password" modelValue="123456" show-password />
+    ))
+
+    const icon = wrapper.find('.el-input__icon.el-input__password')
+    const input = wrapper.find('input')
+
+    expect(inputRef.value?.passwordVisible).toBe(false)
+    expect(input.element.type).toBe('password')
+
+    inputRef.value!.passwordVisible = true
+    await nextTick()
+
+    expect(inputRef.value?.passwordVisible).toBe(true)
+    expect(input.element.type).toBe('text')
+
+    await icon.trigger('click')
+
+    expect(inputRef.value?.passwordVisible).toBe(false)
+    expect(input.element.type).toBe('password')
+  })
+
+  test('password-icon slot', async () => {
+    const wrapper = mount(() => (
+      <Input
+        modelValue="123"
+        showPassword
+        v-slots={{
+          'password-icon': ({ visible }: { visible: boolean }) => (
+            <span class="custom-password-icon">
+              {visible ? 'Hide' : 'Show'}
+            </span>
+          ),
+        }}
+      />
+    ))
+
+    const icon = wrapper.find('.el-input__password')
+    expect(icon.exists()).toBe(true)
+
+    // Initial state: password hidden
+    expect(wrapper.find('.custom-password-icon').text()).toBe('Show')
+
+    // Click to toggle
+    await icon.trigger('click')
+    expect(wrapper.find('.custom-password-icon').text()).toBe('Hide')
+
+    // Click again
+    await icon.trigger('click')
+    expect(wrapper.find('.custom-password-icon').text()).toBe('Show')
+  })
+
   describe('form item accessibility integration', () => {
     test('automatic id attachment', async () => {
       const wrapper = mount(() => (
@@ -635,6 +929,183 @@ describe('Input.vue', () => {
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
     })
+
+    test('The disabled state of a component has higher priority than that of a form', async () => {
+      const wrapper = mount(() => (
+        <ElForm disabled>
+          <Input disabled={false} />
+        </ElForm>
+      ))
+
+      await nextTick()
+      const input = wrapper.find('.el-input')
+      expect(input.classes()).not.toContain('is-disabled')
+    })
+  })
+
+  test('input change event return Event parameter', async () => {
+    const onChange = vi.fn()
+    const wrapper = mount(() => <Input onChange={onChange} />)
+
+    await wrapper.find('input').trigger('change')
+    await nextTick()
+
+    expect(onChange).toHaveBeenCalledWith('', expect.any(Event))
+  })
+
+  test('modelValue modifiers', async () => {
+    const number = ref()
+    const trim = ref()
+    const lazy = ref()
+    const trimNumber = ref()
+    const trimLazy = ref()
+    const numberLazy = ref()
+    const trimNumberLazy = ref()
+
+    const wrapper = mount(() => (
+      <>
+        <Input
+          id="number"
+          v-model={number.value}
+          modelModifiers={{ number: true }}
+        />
+        <Input id="trim" v-model={trim.value} modelModifiers={{ trim: true }} />
+        <Input id="lazy" v-model={lazy.value} modelModifiers={{ lazy: true }} />
+        <Input
+          id="trim-number"
+          v-model={trimNumber.value}
+          modelModifiers={{ trim: true, number: true }}
+        />
+        <Input
+          id="trim-lazy"
+          v-model={trimLazy.value}
+          modelModifiers={{ trim: true, lazy: true }}
+        />
+        <Input
+          id="number-lazy"
+          v-model={numberLazy.value}
+          modelModifiers={{ number: true, lazy: true }}
+        />
+        <Input
+          id="trim-number-lazy"
+          v-model={trimNumberLazy.value}
+          modelModifiers={{ trim: true, number: true, lazy: true }}
+        />
+      </>
+    ))
+
+    await nextTick()
+
+    const triggerEvent = async (type: string, el: Element) => {
+      const event = new Event(type)
+      el.dispatchEvent(event)
+      await nextTick()
+    }
+    const mockActiveElement = vi.spyOn(document, 'activeElement', 'get')
+
+    const numberEl = wrapper.find('#number').element as HTMLInputElement
+    const trimEl = wrapper.find('#trim').element as HTMLInputElement
+    const lazyEl = wrapper.find('#lazy').element as HTMLInputElement
+    const trimNumberEl = wrapper.find('#trim-number')
+      .element as HTMLInputElement
+    const trimLazyEl = wrapper.find('#trim-lazy').element as HTMLInputElement
+    const numberLazyEl = wrapper.find('#number-lazy')
+      .element as HTMLInputElement
+    const trimNumberLazyEl = wrapper.find('#trim-number-lazy')
+      .element as HTMLInputElement
+
+    mockActiveElement.mockReturnValue(numberEl)
+    numberEl.value = '+01.2'
+    await triggerEvent('input', numberEl)
+    expect(number.value).toEqual(1.2)
+    expect(numberEl.value).toEqual('+01.2')
+    await triggerEvent('change', numberEl)
+    expect(numberEl.value).toEqual('1.2')
+
+    mockActiveElement.mockReturnValue(trimEl)
+    trimEl.value = '  hello, world  '
+    await triggerEvent('input', trimEl)
+    expect(trim.value).toEqual('hello, world')
+    expect(trimEl.value).toEqual('  hello, world  ')
+    await triggerEvent('change', trimEl)
+    expect(trimEl.value).toEqual('hello, world')
+
+    mockActiveElement.mockReturnValue(lazyEl)
+    lazyEl.value = 'foo'
+    await triggerEvent('input', lazyEl)
+    expect(lazy.value).toBeUndefined()
+    await triggerEvent('change', lazyEl)
+    expect(lazy.value).toEqual('foo')
+
+    mockActiveElement.mockReturnValue(trimNumberEl)
+    trimNumberEl.value = '    1    '
+    await triggerEvent('input', trimNumberEl)
+    expect(trimNumber.value).toEqual(1)
+    expect(trimNumberEl.value).toEqual('    1    ')
+    await triggerEvent('change', trimNumberEl)
+    expect(trimNumberEl.value).toEqual('1')
+
+    mockActiveElement.mockReturnValue(trimLazyEl)
+    trimLazyEl.value = '  hello, world  '
+    await triggerEvent('input', trimLazyEl)
+    expect(trimLazy.value).toBeUndefined()
+    expect(trimLazyEl.value).toEqual('  hello, world  ')
+    await triggerEvent('change', trimLazyEl)
+    expect(trimLazy.value).toEqual('hello, world')
+    expect(trimLazyEl.value).toEqual('hello, world')
+
+    mockActiveElement.mockReturnValue(numberLazyEl)
+    numberLazyEl.value = '+01.2'
+    await triggerEvent('input', numberLazyEl)
+    expect(numberLazy.value).toBeUndefined()
+    expect(numberLazyEl.value).toEqual('+01.2')
+    await triggerEvent('change', numberLazyEl)
+    expect(numberLazy.value).toEqual(1.2)
+    expect(numberLazyEl.value).toEqual('1.2')
+
+    mockActiveElement.mockReturnValue(trimNumberLazyEl)
+    trimNumberLazyEl.value = '  +01.2  '
+    await triggerEvent('input', trimNumberLazyEl)
+    expect(trimNumberLazy.value).toBeUndefined()
+    expect(trimNumberLazyEl.value).toEqual('  +01.2  ')
+    await triggerEvent('change', trimNumberLazyEl)
+    expect(trimNumberLazy.value).toEqual(1.2)
+    expect(trimNumberLazyEl.value).toEqual('1.2')
+
+    mockActiveElement.mockRestore()
+  })
+
+  test('textarea-show-word-limit-outside-position', async () => {
+    const wrapper = mount(() => (
+      <Input
+        placeholder="请输入内容"
+        showWordLimit
+        wordLimitPosition="outside"
+        maxlength={30}
+        type="textarea"
+      />
+    ))
+
+    const wordLimit = wrapper.find('.el-input__count')
+    await nextTick()
+    expect(wordLimit.exists()).toBe(true)
+    expect(wordLimit.element.className.includes('is-outside')).toBeTruthy()
+  })
+
+  test('input-show-word-limit-outside-position', async () => {
+    const wrapper = mount(() => (
+      <Input
+        placeholder="请输入内容"
+        showWordLimit
+        wordLimitPosition="outside"
+        maxlength={30}
+      />
+    ))
+
+    const wordLimit = wrapper.find('.el-input__count')
+    await nextTick()
+    expect(wordLimit.exists()).toBe(true)
+    expect(wordLimit.element.className.includes('is-outside')).toBeTruthy()
   })
 
   // TODO: validateEvent & input containes select cases should be added after the rest components finished

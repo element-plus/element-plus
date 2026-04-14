@@ -25,6 +25,7 @@
     margin: 0;
     list-style: none;
     min-width: 100px;
+    outline: none;
   }
 
   @include e(list-item) {
@@ -32,8 +33,10 @@
     padding: 0 10px;
     cursor: pointer;
     font-size: getCssVar('font-size', 'base');
+    outline: none;
 
-    &:hover {
+    &:hover,
+    &:focus {
       background-color: map.get($dropdown, 'menuItem-hover-fill');
       color: map.get($dropdown, 'menuItem-hover-color');
     }
@@ -42,6 +45,10 @@
       background-color: getCssVar('color-primary');
       color: $color-white;
     }
+  }
+
+  @include e(multiple) {
+    outline: none;
   }
 
   @include e(content) {
@@ -53,19 +60,14 @@
     padding: 8px;
 
     button {
-      background: transparent;
-      border: none;
+      @include reset-button();
+
       color: getCssVar('text-color', 'regular');
-      cursor: pointer;
       font-size: getCssVar('font-size-small');
       padding: 0 3px;
 
       &:hover {
         color: getCssVar('color-primary');
-      }
-
-      &:focus {
-        outline: none;
       }
 
       &.is-disabled {

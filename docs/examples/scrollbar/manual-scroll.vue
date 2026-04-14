@@ -34,7 +34,7 @@ onMounted(() => {
 const inputSlider = (value: Arrayable<number>) => {
   scrollbarRef.value!.setScrollTop(value as number)
 }
-const scroll = ({ scrollTop }) => {
+const scroll = ({ scrollTop }: { scrollTop: number }) => {
   value.value = scrollTop
 }
 const formatTooltip = (value: number) => `${value} px`

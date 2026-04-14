@@ -35,17 +35,25 @@ import {
   throttleByRaf,
 } from '@element-plus/utils'
 import { CHANGE_EVENT } from '@element-plus/constants'
-import { anchorEmits, anchorProps } from './anchor'
+import { anchorEmits } from './anchor'
 import { anchorKey } from './constants'
 
 import type { CSSProperties } from 'vue'
+import type { AnchorProps } from './anchor'
 import type { AnchorLinkState } from './constants'
 
 defineOptions({
   name: 'ElAnchor',
 })
 
-const props = defineProps(anchorProps)
+const props = withDefaults(defineProps<AnchorProps>(), {
+  offset: 0,
+  bound: 15,
+  duration: 300,
+  marker: true,
+  type: 'default',
+  direction: 'vertical',
+})
 const emit = defineEmits(anchorEmits)
 const slots = useSlots()
 
@@ -84,12 +92,19 @@ const setCurrentAnchor = (href: string) => {
 }
 
 let clearAnimate: (() => void) | null = null
+let currentTargetHref = ''
 
 const scrollToAnchor = (href: string) => {
   if (!containerEl.value) return
   const target = getElement(href)
   if (!target) return
-  if (clearAnimate) clearAnimate()
+
+  if (clearAnimate) {
+    if (currentTargetHref === href) return
+    clearAnimate()
+  }
+
+  currentTargetHref = href
   isScrolling = true
   const scrollEle = getScrollElement(target, containerEl.value)
   const distance = getOffsetTopDistance(target, scrollEle)
@@ -104,6 +119,7 @@ const scrollToAnchor = (href: string) => {
       // make sure it is executed after throttleByRaf's handleScroll
       setTimeout(() => {
         isScrolling = false
+        currentTargetHref = ''
       }, 20)
     }
   )

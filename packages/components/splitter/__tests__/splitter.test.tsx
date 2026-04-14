@@ -411,4 +411,26 @@ describe('Splitter', () => {
     expect(panels[0].attributes('style')).toContain('flex-basis: 150px;')
     expect(panels[1].attributes('style')).toContain('flex-basis: 250px;')
   })
+
+  it('should not still display the mask after the panel updates', async () => {
+    const show = ref(true)
+    const wrapper = mount(() => (
+      <ElSplitter onResizeStart={() => (show.value = false)}>
+        {show.value ? (
+          <ElSplitterPanel v-if={show.value}>Left Panel</ElSplitterPanel>
+        ) : null}
+        <ElSplitterPanel>Right Panel</ElSplitterPanel>
+      </ElSplitter>
+    ))
+    await nextTick()
+
+    expect(wrapper.find('.el-splitter__mask').exists()).toBeFalsy()
+
+    const splitBar = wrapper.find('.el-splitter-bar__dragger')
+    const mousedown = new MouseEvent('mousedown', { bubbles: true })
+    Object.defineProperty(mousedown, 'pageX', { value: 200 })
+    splitBar.element.dispatchEvent(mousedown)
+    await nextTick()
+    expect(wrapper.find('.el-splitter__mask').exists()).toBeFalsy()
+  })
 })

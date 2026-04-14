@@ -56,6 +56,7 @@
       :aria-label="ariaLabel"
       :validate-event="false"
       :inputmode="inputmode"
+      :tabindex="tabindex"
       @keydown="handleKeydown"
       @blur="handleBlur"
       @focus="handleFocus"
@@ -85,6 +86,7 @@ import {
 import { vRepeatClick } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import {
+  NOOP,
   debugWarn,
   getEventCode,
   getEventKey,
@@ -100,15 +102,31 @@ import {
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { inputNumberEmits, inputNumberProps } from './input-number'
+import { inputNumberEmits } from './input-number'
 
 import type { InputInstance } from '@element-plus/components/input'
+import type { InputNumberProps } from './input-number'
 
 defineOptions({
   name: 'ElInputNumber',
 })
 
-const props = defineProps(inputNumberProps)
+const props = withDefaults(defineProps<InputNumberProps>(), {
+  id: undefined,
+  disabled: undefined,
+  step: 1,
+  max: Number.MAX_SAFE_INTEGER,
+  min: Number.MIN_SAFE_INTEGER,
+  stepStrictly: false,
+  readonly: false,
+  controls: true,
+  controlsPosition: '',
+  valueOnClear: null,
+  validateEvent: true,
+  inputmode: undefined,
+  align: 'center',
+  tabindex: 0,
+})
 const emit = defineEmits(inputNumberEmits)
 
 const { t } = useLocale()
@@ -269,7 +287,10 @@ const verifyValue = (
     newVal = isString(valueOnClear) ? { min, max }[valueOnClear] : valueOnClear
   }
   if (stepStrictly) {
-    newVal = toPrecision(Math.round(newVal / step) * step, precision)
+    newVal = toPrecision(
+      Math.round(toPrecision(newVal / step)) * step,
+      precision
+    )
     if (newVal !== value) {
       update && emit(UPDATE_MODEL_EVENT, newVal)
     }
@@ -293,14 +314,14 @@ const setCurrentValue = (
     emit(UPDATE_MODEL_EVENT, newVal!)
     return
   }
-  if (oldVal === newVal && value) return
   data.userInput = null
+  if (oldVal === newVal && value) return
   emit(UPDATE_MODEL_EVENT, newVal!)
   if (oldVal !== newVal) {
     emit(CHANGE_EVENT, newVal!, oldVal!)
   }
   if (props.validateEvent) {
-    formItem?.validate?.('change').catch((err) => debugWarn(err))
+    formItem?.validate?.('change').catch(NOOP)
   }
   data.currentValue = newVal
 }
@@ -341,7 +362,7 @@ const handleBlur = (event: MouseEvent | FocusEvent) => {
   }
   emit('blur', event)
   if (props.validateEvent) {
-    formItem?.validate?.('blur').catch((err) => debugWarn(err))
+    formItem?.validate?.('blur').catch(NOOP)
   }
 }
 

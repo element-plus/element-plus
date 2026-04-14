@@ -114,7 +114,7 @@ $rate-size: map.merge(
 
   @include when(disabled) {
     @include e(item) {
-      cursor: auto;
+      cursor: not-allowed;
       color: getCssVar('rate', 'disabled-void-color');
     }
   }

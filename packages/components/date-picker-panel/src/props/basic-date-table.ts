@@ -1,7 +1,7 @@
 import { buildProps } from '@element-plus/utils'
 import { datePickerSharedProps, selectionModeWithDefault } from './shared'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type { Dayjs } from 'dayjs'
 
 export const basicDateTableProps = buildProps({
@@ -13,7 +13,7 @@ export const basicDateTableProps = buildProps({
 export const basicDateTableEmits = ['changerange', 'pick', 'select']
 
 export type BasicDateTableProps = ExtractPropTypes<typeof basicDateTableProps>
-export type BasicDateTablePropsPublic = __ExtractPublicPropTypes<
+export type BasicDateTablePropsPublic = ExtractPublicPropTypes<
   typeof basicDateTableProps
 >
 export type BasicDateTableEmits = typeof basicDateTableEmits

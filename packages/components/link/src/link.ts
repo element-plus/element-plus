@@ -1,8 +1,46 @@
 import { buildProps, iconPropType } from '@element-plus/utils'
 
-import type { ExtractPropTypes, PropType, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes, PropType } from 'vue'
+import type { IconPropType } from '@element-plus/utils'
 import type Link from './link.vue'
 
+export interface LinkProps {
+  /**
+   * @description type
+   */
+  type?: 'primary' | 'success' | 'warning' | 'info' | 'danger' | 'default'
+  /**
+   * @description when underlines should appear
+   */
+  underline?: boolean | 'always' | 'never' | 'hover'
+
+  /**
+   * @description whether the component is disabled
+   */
+  disabled?: boolean
+  /**
+   * @description same as native hyperlink's `href`
+   */
+  href?: string
+  /**
+   * @description same as native hyperlink's `target`
+   */
+  target?:
+    | '_blank'
+    | '_parent'
+    | '_self'
+    | '_top'
+    | (string & NonNullable<unknown>)
+
+  /**
+   * @description icon component
+   */
+  icon?: IconPropType
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `LinkProps` instead.
+ */
 export const linkProps = buildProps({
   /**
    * @description type
@@ -42,8 +80,11 @@ export const linkProps = buildProps({
     type: iconPropType,
   },
 } as const)
-export type LinkProps = ExtractPropTypes<typeof linkProps>
-export type LinkPropsPublic = __ExtractPublicPropTypes<typeof linkProps>
+
+/**
+ * @deprecated Removed after 3.0.0, Use `LinkProps` instead.
+ */
+export type LinkPropsPublic = ExtractPublicPropTypes<typeof linkProps>
 
 export const linkEmits = {
   click: (evt: MouseEvent) => evt instanceof MouseEvent,
@@ -52,6 +93,6 @@ export type LinkEmits = typeof linkEmits
 
 export type LinkInstance = InstanceType<typeof Link> & unknown
 export interface LinkConfigContext {
-  type?: string
-  underline?: string | boolean
+  type?: LinkProps['type']
+  underline?: LinkProps['underline']
 }

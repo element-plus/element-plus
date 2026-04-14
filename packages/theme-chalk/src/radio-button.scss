@@ -1,7 +1,6 @@
 @use 'sass:map';
 
 @use 'mixins/mixins' as *;
-@use 'mixins/utils' as *;
 @use 'mixins/var' as *;
 @use 'mixins/button' as *;
 @use 'common/var' as *;
@@ -24,12 +23,11 @@
       #{getCssVarName('button-bg-color')},
       map.get($button, 'bg-color')
     );
-    border: getCssVar('border');
+    outline: getCssVar('border');
     font-weight: var(
       #{getCssVarName('button-font-weight')},
       map.get($button, 'font-weight')
     );
-    border-left: 0;
     color: var(
       #{getCssVarName('button-text-color')},
       map.get($button, 'text-color')
@@ -37,7 +35,6 @@
     -webkit-appearance: none;
     text-align: center;
     box-sizing: border-box;
-    outline: none;
     margin: 0;
     position: relative;
     cursor: pointer;
@@ -66,7 +63,6 @@
 
   &:first-child {
     .#{$namespace}-radio-button__inner {
-      border-left: getCssVar('border');
       border-radius: getCssVar('border-radius-base') 0 0
         getCssVar('border-radius-base');
       box-shadow: none !important;

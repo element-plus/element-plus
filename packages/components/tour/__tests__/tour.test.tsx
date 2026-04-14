@@ -1,10 +1,12 @@
-import { nextTick, ref } from 'vue'
+import { defineComponent, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import Tour from '../src/tour.vue'
 import TourStep from '../src/step.vue'
 import { EVENT_CODE } from '@element-plus/constants'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
+
+import type { TourPropsPublic } from '../src/tour'
 
 describe('Tour.vue', () => {
   afterEach(() => {
@@ -196,20 +198,22 @@ describe('Tour.vue', () => {
   test('close-on-press-escape', async () => {
     const onClose = vi.fn()
     const modelValue = ref(true)
-    const wrapper = mount({
-      setup() {
-        return () => (
-          <Tour
-            v-model={modelValue.value}
-            closeOnPressEscape={false}
-            onClose={onClose}
-          >
-            <TourStep title="first" description="cover description." />
-            <TourStep title="second" description="cover description." />
-          </Tour>
-        )
-      },
-    })
+    const wrapper = mount(
+      defineComponent<TourPropsPublic>({
+        setup() {
+          return () => (
+            <Tour
+              v-model={modelValue.value}
+              closeOnPressEscape={false}
+              onClose={onClose}
+            >
+              <TourStep title="first" description="cover description." />
+              <TourStep title="second" description="cover description." />
+            </Tour>
+          )
+        },
+      })
+    )
 
     await nextTick()
 

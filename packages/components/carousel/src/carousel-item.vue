@@ -14,17 +14,20 @@
 <script lang="ts" setup>
 import { computed, unref } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { carouselItemProps } from './carousel-item'
 import { useCarouselItem } from './use-carousel-item'
 import { CAROUSEL_ITEM_NAME } from './constants'
 
 import type { CSSProperties } from 'vue'
+import type { CarouselItemProps } from './carousel-item'
 
 defineOptions({
   name: CAROUSEL_ITEM_NAME,
 })
 
-const props = defineProps(carouselItemProps)
+const props = withDefaults(defineProps<CarouselItemProps>(), {
+  name: '',
+  label: '',
+})
 const ns = useNamespace('carousel')
 
 // inject

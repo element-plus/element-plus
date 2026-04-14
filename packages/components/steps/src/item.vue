@@ -58,9 +58,9 @@ import { useNamespace } from '@element-plus/hooks'
 import { ElIcon } from '@element-plus/components/icon'
 import { Check, Close } from '@element-plus/icons-vue'
 import { isNumber } from '@element-plus/utils'
-import { stepProps } from './item'
 import { STEPS_INJECTION_KEY } from './tokens'
 
+import type { StepProps } from './item'
 import type { CSSProperties, ComputedRef, Ref, VNode } from 'vue'
 import type { StepsProps } from './steps'
 
@@ -74,7 +74,7 @@ export interface StepItemState {
 }
 
 export interface IStepsInject {
-  props: StepsProps
+  props: Required<StepsProps>
   steps: Ref<StepItemState[]>
   addStep: (item: StepItemState) => void
   removeStep: (item: StepItemState) => void
@@ -84,13 +84,21 @@ defineOptions({
   name: 'ElStep',
 })
 
-const props = defineProps(stepProps)
+const props = withDefaults(defineProps<StepProps>(), {
+  title: '',
+  description: '',
+  icon: '',
+  status: '',
+})
+
 const ns = useNamespace('step')
 const index = ref(-1)
 const lineStyle = ref({})
 const internalStatus = ref('')
 const parent = inject(STEPS_INJECTION_KEY) as IStepsInject
 const currentInstance = getCurrentInstance()!
+let stepDiff = 0
+let beforeActive = 0
 
 onMounted(() => {
   watch(
@@ -99,7 +107,10 @@ onMounted(() => {
       () => parent.props.processStatus,
       () => parent.props.finishStatus,
     ],
-    ([active]) => {
+    ([active], [oldActive]) => {
+      beforeActive = oldActive || 0
+      stepDiff = active - beforeActive
+
       updateStatus(active)
     },
     { immediate: true }
@@ -169,8 +180,15 @@ const setIndex = (val: number) => {
 
 const calcProgress = (status: string) => {
   const isWait = status === 'wait'
+  const delayTimer =
+    Math.abs(stepDiff) === 1
+      ? 0
+      : stepDiff > 0
+        ? (index.value + 1 - beforeActive) * 150
+        : -(index.value + 1 - parent.props.active) * 150
+
   const style: CSSProperties = {
-    transitionDelay: `${isWait ? '-' : ''}${150 * index.value}ms`,
+    transitionDelay: `${delayTimer}ms`,
   }
   const step = status === parent.props.processStatus || isWait ? 0 : 100
 

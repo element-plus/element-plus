@@ -1,13 +1,14 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import { useEmptyValuesProps, useSizeProp } from '@element-plus/hooks'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type { Language } from '@element-plus/locale'
 import type { ButtonConfigContext } from '@element-plus/components/button'
 import type { CardConfigContext } from '@element-plus/components/card'
 import type { DialogConfigContext } from '@element-plus/components/dialog'
 import type { MessageConfigContext } from '@element-plus/components/message'
 import type { LinkConfigContext } from '@element-plus/components/link'
+import type { TableConfigContext } from '@element-plus/components/table'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export type ExperimentalFeatures = {
@@ -86,9 +87,15 @@ export const configProviderProps = buildProps({
     type: String,
     default: 'el',
   },
+  /**
+   * @description table related configuration, [see the following table](https://element-plus.org/en-US/component/config-provider.html#table-attribute)
+   */
+  table: {
+    type: definePropType<TableConfigContext>(Object),
+  },
   ...useEmptyValuesProps,
 } as const)
 export type ConfigProviderProps = ExtractPropTypes<typeof configProviderProps>
-export type ConfigProviderPropsPublic = __ExtractPublicPropTypes<
+export type ConfigProviderPropsPublic = ExtractPublicPropTypes<
   typeof configProviderProps
 >

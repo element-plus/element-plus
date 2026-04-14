@@ -10,10 +10,9 @@
 }
 
 @include b(link) {
-  display: inline-flex;
+  @include utils-inline-flex-center;
+
   flex-direction: row;
-  align-items: center;
-  justify-content: center;
   vertical-align: middle;
   position: relative;
   text-decoration: none;
@@ -63,9 +62,7 @@
   }
 
   @include e(inner) {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
+    @include utils-inline-flex-center;
   }
 
   @each $type in $types {

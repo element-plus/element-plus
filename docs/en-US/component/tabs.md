@@ -83,20 +83,30 @@ tabs/customized-trigger
 
 :::
 
+## Default value ^(2.11.9)
+
+:::demo
+
+tabs/default-value
+
+:::
+
 ## Tabs API
 
 ### Tabs Attributes
 
-| Name                  | Description                                                                                                                             | Type                                                                                             | Default    |
-| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | ---------- |
-| model-value / v-model | binding value, name of the selected tab, the default value is the name of first tab                                                     | ^[string] / ^[number]                                                                            | —          |
-| type                  | type of Tab                                                                                                                             | ^[enum]`'' \| 'card' \| 'border-card'`                                                           | ''         |
-| closable              | whether Tab is closable                                                                                                                 | ^[boolean]                                                                                       | false      |
-| addable               | whether Tab is addable                                                                                                                  | ^[boolean]                                                                                       | false      |
-| editable              | whether Tab is addable and closable                                                                                                     | ^[boolean]                                                                                       | false      |
-| tab-position          | position of tabs                                                                                                                        | ^[enum]`'top' \| 'right' \| 'bottom' \| 'left'`                                                  | top        |
-| stretch               | whether width of tab automatically fits its container                                                                                   | ^[boolean]                                                                                       | false      |
-| before-leave          | hook function before switching tab. If `false` is returned or a `Promise` is returned and then is rejected, switching will be prevented | ^[Function]`(activeName: TabPaneName, oldActiveName: TabPaneName) => Awaitable<void \| boolean>` | () => true |
+| Name                    | Description                                                                                                                             | Type                                                                                             | Default    |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | ---------- |
+| model-value / v-model   | binding value, name of the selected tab, the default value is the name of first tab                                                     | ^[string] / ^[number]                                                                            | —          |
+| default-value ^(2.11.9) | The value of the tab that should be active when initially rendered. (avoid initial transition)                                          | ^[string] / ^[number]                                                                            | —          |
+| type                    | type of Tab                                                                                                                             | ^[enum]`'' \| 'card' \| 'border-card'`                                                           | ''         |
+| closable                | whether Tab is closable                                                                                                                 | ^[boolean]                                                                                       | false      |
+| addable                 | whether Tab is addable                                                                                                                  | ^[boolean]                                                                                       | false      |
+| editable                | whether Tab is addable and closable                                                                                                     | ^[boolean]                                                                                       | false      |
+| tab-position            | position of tabs                                                                                                                        | ^[enum]`'top' \| 'right' \| 'bottom' \| 'left'`                                                  | top        |
+| stretch                 | whether width of tab automatically fits its container                                                                                   | ^[boolean]                                                                                       | false      |
+| before-leave            | hook function before switching tab. If `false` is returned or a `Promise` is returned and then is rejected, switching will be prevented | ^[Function]`(activeName: TabPaneName, oldActiveName: TabPaneName) => Awaitable<void \| boolean>` | () => true |
+| tabindex ^(2.11.7)      | tabs tabindex                                                                                                                           | ^[string] / ^[number]                                                                            | 0          |
 
 ### Tabs Events
 
@@ -134,6 +144,15 @@ tabs/customized-trigger
 | tabListRef ^(2.9.10) | el_tabs\_\_nav html element | ^[object]`Ref<HTMLDivElement \| undefined>` |
 | tabBarRef ^(2.9.10)  | el_tabs\_\_nav bar instance | ^[object]`Ref<TabBarInstance \| undefined>` |
 
+## Tab-bar API
+
+### Tab-bar Exposes
+
+| Name             | Description                                                       | Type                                        |
+| ---------------- | ----------------------------------------------------------------- | ------------------------------------------- |
+| ref ^(2.9.10)    | tab root html element                                             | ^[object]`Ref<HTMLDivElement \| undefined>` |
+| update ^(2.9.10) | method to manually update tab bar style, return the updated style | ^[Function]`() => CSSProperties`            |
+
 ## Tab-pane API
 
 ### Tab-pane Attributes
@@ -152,22 +171,6 @@ tabs/customized-trigger
 | ------- | ------------------ |
 | default | Tab-pane's content |
 | label   | Tab-pane's label   |
-
-## Type Declarations
-
-<details>
-  <summary>Show declarations</summary>
-
-```ts
-type TabBarInstance = InstanceType<typeof TabBar> & {
-  /** @description tab root html element */
-  ref: barRef
-  /** @description method to manually update tab bar style */
-  update
-}
-```
-
-</details>
 
 ## FAQ
 

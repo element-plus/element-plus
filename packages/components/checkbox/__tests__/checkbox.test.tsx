@@ -75,6 +75,23 @@ describe('Checkbox', () => {
       expect(wrapper.classes()).toContain('is-disabled')
       expect(checked.value).toBe(false)
     })
+
+    test('The disabled state of a component has higher priority than that of a form', async () => {
+      const checked = ref(false)
+      const wrapper = mount(() => (
+        <ElForm disabled>
+          <Checkbox v-model={checked.value} disabled={false} />
+        </ElForm>
+      ))
+
+      const checkbox = wrapper.findComponent(Checkbox)
+      expect(checkbox.classes()).not.toContain('is-disabled')
+      expect(checked.value).toBe(false)
+      await checkbox.trigger('click')
+      await nextTick()
+      expect(checkbox.classes()).not.toContain('is-disabled')
+      expect(checked.value).toBe(true)
+    })
   })
 
   describe('change event', () => {
@@ -536,6 +553,36 @@ describe('Checkbox', () => {
     await checkboxA1.trigger('click')
     expect(checklist.value).toEqual([{ a: 2 }])
     expect(checkboxA1.classes()).not.contains('is-checked')
+  })
+  test('should clear checked status when v-model is set to null', async () => {
+    const checked = ref<boolean | null>(false)
+    const wrapper = mount(() => (
+      <Checkbox v-model={checked.value}>Option</Checkbox>
+    ))
+
+    const checkbox = wrapper.findComponent(Checkbox)
+    await checkbox.trigger('click')
+    expect(checkbox.classes()).toContain('is-checked')
+    expect(wrapper.find('input').element.checked).toBe(true)
+    checked.value = null
+    await nextTick()
+    expect(checkbox.classes()).not.toContain('is-checked')
+    expect(wrapper.find('input').element.checked).toBe(false)
+  })
+  test('should clear checked status when v-model is set to undefined', async () => {
+    const checked = ref<boolean | undefined>(false)
+    const wrapper = mount(() => (
+      <Checkbox v-model={checked.value}>Option</Checkbox>
+    ))
+
+    const checkbox = wrapper.findComponent(Checkbox)
+    await checkbox.trigger('click')
+    expect(checkbox.classes()).toContain('is-checked')
+    expect(wrapper.find('input').element.checked).toBe(true)
+    checked.value = undefined
+    await nextTick()
+    expect(checkbox.classes()).not.toContain('is-checked')
+    expect(wrapper.find('input').element.checked).toBe(false)
   })
 })
 

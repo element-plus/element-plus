@@ -15,7 +15,6 @@ import {
 } from 'vue'
 import { useMutationObserver } from '@vueuse/core'
 import { isArray, isUndefined } from '@element-plus/utils'
-import { watermarkProps } from './watermark'
 import { getPixelRatio, getStyleStr, reRendering } from './utils'
 import useClips from './useClips'
 
@@ -30,7 +29,12 @@ const style: CSSProperties = {
   position: 'relative',
 }
 
-const props = defineProps(watermarkProps)
+const props = withDefaults(defineProps<WatermarkProps>(), {
+  zIndex: 9,
+  rotate: -22,
+  content: 'Element Plus',
+  gap: () => [100, 100],
+})
 const fontGap = computed(() => props.font?.fontGap ?? 3)
 const color = computed(() => props.font?.color ?? 'rgba(0,0,0,.15)')
 const fontSize = computed(() => props.font?.fontSize ?? 16)

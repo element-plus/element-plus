@@ -182,9 +182,8 @@ export function useTree(
     const nodeMap = tree.value!.treeNodeMap
 
     expandedKeySet.value.forEach((key) => {
-      const node = nodeMap.get(key)!
-      expandedKeySet.value.delete(node.key)
-      node.expanded = false
+      const node = nodeMap.get(key)
+      if (node) node.expanded = false
     })
 
     keys.forEach((k) => {
@@ -243,14 +242,20 @@ export function useTree(
       })
     }
     keySet.add(node.key)
-    node.expanded = true
-    emit(NODE_EXPAND, node.data, node)
+    const _node = getNode(node.key)
+    if (_node) {
+      _node.expanded = true
+      emit(NODE_EXPAND, _node.data, _node)
+    }
   }
 
   function collapseNode(node: TreeNode) {
     expandedKeySet.value.delete(node.key)
-    node.expanded = false
-    emit(NODE_COLLAPSE, node.data, node)
+    const _node = getNode(node.key)
+    if (_node) {
+      _node.expanded = false
+      emit(NODE_COLLAPSE, _node.data, _node)
+    }
   }
 
   function isDisabled(node: TreeNode): boolean {
@@ -307,18 +312,16 @@ export function useTree(
 
   watch(
     () => props.defaultExpandedKeys,
-    (key) => {
-      expandedKeySet.value = new Set<TreeKey>(key)
-    },
-    {
-      immediate: true,
+    (keys) => {
+      setExpandedKeys(keys || [])
     }
   )
 
   watch(
-    () => props.data,
+    () => props.data!,
     (data: TreeData) => {
       setData(data)
+      setExpandedKeys(props.defaultExpandedKeys || [])
     },
     {
       immediate: true,

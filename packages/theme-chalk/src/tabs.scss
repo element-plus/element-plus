@@ -29,6 +29,9 @@
       transform getCssVar('transition-duration')
         getCssVar('transition-function-ease-in-out-bezier');
     list-style: none;
+    &.is-bottom {
+      bottom: auto;
+    }
   }
   @include e(new-tab) {
     display: flex;
@@ -81,6 +84,11 @@
       z-index: getCssVar('index-normal');
     }
 
+    &.is-bottom::after {
+      top: 0;
+      bottom: auto;
+    }
+
     @include when(scrollable) {
       padding: 0 20px;
       box-sizing: border-box;
@@ -97,6 +105,11 @@
     color: getCssVar('text-color', 'secondary');
     width: 20px;
     text-align: center;
+
+    @include when(disabled) {
+      color: getCssVar('text-color', 'disabled');
+      cursor: not-allowed;
+    }
   }
   @include e(nav-next) {
     right: 0;
@@ -381,6 +394,10 @@
 
         i {
           transform: rotateZ(90deg);
+        }
+
+        @include when(disabled) {
+          cursor: not-allowed;
         }
       }
 

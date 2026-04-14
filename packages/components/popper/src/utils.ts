@@ -68,7 +68,7 @@ function genModifiers(options: PopperCoreConfigProps) {
 
 function deriveExtraModifiers(
   options: any,
-  modifiers: PopperCoreConfigProps['popperOptions']['modifiers']
+  modifiers: NonNullable<PopperCoreConfigProps['popperOptions']>['modifiers']
 ) {
   if (modifiers) {
     options.modifiers = [...options.modifiers, ...(modifiers ?? [])]

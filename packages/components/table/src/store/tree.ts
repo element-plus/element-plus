@@ -148,7 +148,8 @@ function useTree<T extends DefaultRow>(watcherData: WatcherPropsData<T>) {
     () => expandRowKeys.value,
     () => {
       updateTreeData(true)
-    }
+    },
+    { deep: true }
   )
 
   watch(
@@ -184,7 +185,7 @@ function useTree<T extends DefaultRow>(watcherData: WatcherPropsData<T>) {
       if (oldExpanded !== expanded) {
         instance.emit('expand-change', row, expanded)
       }
-      isUseLazy(data) && loadData(row, id, data)
+      expanded && isUseLazy(data) && loadData(row, id, data)
       instance.store.updateTableScrollY()
     }
   }

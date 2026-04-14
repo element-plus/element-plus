@@ -4,7 +4,6 @@
 @use 'mixins/mixins' as *;
 @use 'mixins/var' as *;
 @use 'mixins/_button';
-@use 'mixins/utils' as *;
 
 $checkbox-height: () !default;
 $checkbox-height: map.merge($common-component-size, $checkbox-height);
@@ -128,6 +127,7 @@ $checkbox-bordered-input-width: map.merge(
         &::after {
           cursor: not-allowed;
           border-color: getCssVar('checkbox-disabled-icon-color');
+          will-change: transform;
         }
       }
 

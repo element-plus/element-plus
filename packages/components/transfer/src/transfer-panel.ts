@@ -1,8 +1,14 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import { transferCheckedChangeFn, transferProps } from './transfer'
 
-import type { ExtractPropTypes, VNode, __ExtractPublicPropTypes } from 'vue'
-import type { TransferDataItem, TransferKey } from './transfer'
+import type { ComponentInstance, ExtractPublicPropTypes, VNode } from 'vue'
+import type { ComponentExposed } from 'vue-component-type-helpers'
+import type {
+  TransferDataItem,
+  TransferFormat,
+  TransferKey,
+  TransferPropsAlias,
+} from './transfer'
 import type TransferPanel from './transfer-panel.vue'
 
 export interface TransferPanelState {
@@ -14,6 +20,23 @@ export interface TransferPanelState {
 
 export const CHECKED_CHANGE_EVENT = 'checked-change'
 
+export interface TransferPanelProps<
+  T extends TransferDataItem = TransferDataItem,
+> {
+  data?: T[]
+  optionRender?: (option: T) => VNode | VNode[]
+  placeholder?: string
+  title?: string
+  filterable?: boolean
+  format?: TransferFormat
+  filterMethod?: (query: string, item: T) => boolean
+  defaultChecked?: TransferKey[]
+  props?: TransferPropsAlias
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `TransferPanelProps` instead.
+ */
 export const transferPanelProps = buildProps({
   data: transferProps.data,
   optionRender: {
@@ -29,8 +52,11 @@ export const transferPanelProps = buildProps({
   defaultChecked: transferProps.leftDefaultChecked,
   props: transferProps.props,
 } as const)
-export type TransferPanelProps = ExtractPropTypes<typeof transferPanelProps>
-export type TransferPanelPropsPublic = __ExtractPublicPropTypes<
+
+/**
+ * @deprecated Removed after 3.0.0, Use `TransferPanelProps` instead.
+ */
+export type TransferPanelPropsPublic = ExtractPublicPropTypes<
   typeof transferPanelProps
 >
 
@@ -39,4 +65,5 @@ export const transferPanelEmits = {
 }
 export type TransferPanelEmits = typeof transferPanelEmits
 
-export type TransferPanelInstance = InstanceType<typeof TransferPanel> & unknown
+export type TransferPanelInstance = ComponentInstance<typeof TransferPanel> &
+  ComponentExposed<typeof TransferPanel>

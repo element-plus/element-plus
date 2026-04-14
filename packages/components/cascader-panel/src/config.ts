@@ -12,6 +12,21 @@ import type {
   RenderLabel,
 } from './types'
 
+export interface CascaderCommonProps {
+  /**
+   * @description specify which key of node object is used as the node's value
+   */
+  modelValue?: CascaderValue | null
+  /**
+   * @description data of the options, the key of `value` and `label` can be customize by `CascaderProps`.
+   */
+  options?: CascaderOption[]
+  /**
+   * @description configuration options, see the following `CascaderProps` table.
+   */
+  props?: CascaderProps
+}
+
 export const CommonProps = buildProps({
   /**
    * @description specify which key of node object is used as the node's value
@@ -35,6 +50,11 @@ export const CommonProps = buildProps({
   },
 } as const)
 
+export interface CascaderPanelProps extends CascaderCommonProps {
+  border?: boolean
+  renderLabel?: RenderLabel
+}
+
 export const DefaultProps: CascaderConfig = {
   /**
    * @description trigger mode of expanding options
@@ -51,7 +71,7 @@ export const DefaultProps: CascaderConfig = {
   /**
    * @description when checked nodes change, whether to emit an array of node's path, if false, only emit the value of node.
    */
-  emitPath: true, // wether to emit an array of all levels value in which node is located
+  emitPath: true, // whether to emit an array of all levels value in which node is located
   /**
    * @description whether to dynamic load child nodes, use with `lazyload` attribute
    */
@@ -98,6 +118,9 @@ export const DefaultProps: CascaderConfig = {
   showPrefix: true,
 }
 
+/**
+ * @deprecated Removed after 3.0.0, Use `CascaderPanelProps` instead.
+ */
 export const cascaderPanelProps = buildProps({
   ...CommonProps,
   border: {

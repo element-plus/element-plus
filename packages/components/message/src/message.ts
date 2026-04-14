@@ -6,14 +6,72 @@ import {
   mutable,
 } from '@element-plus/utils'
 
-import type {
-  AppContext,
-  ExtractPropTypes,
-  VNode,
-  __ExtractPublicPropTypes,
-} from 'vue'
-import type { Mutable } from '@element-plus/utils'
+import type { AppContext, ExtractPublicPropTypes, VNode } from 'vue'
+import type { IconPropType, Mutable } from '@element-plus/utils'
 import type MessageConstructor from './message.vue'
+
+export interface MessageProps {
+  /**
+   * @description custom class name for Message
+   */
+  customClass?: string
+  /**
+   * @description whether `message` is treated as HTML string
+   */
+  dangerouslyUseHTMLString?: boolean
+  /**
+   * @description display duration, millisecond. If set to 0, it will not turn off automatically
+   */
+  duration?: number
+  /**
+   * @description custom icon component, overrides `type`
+   */
+  icon?: IconPropType
+  /**
+   * @description message dom id
+   */
+  id?: string
+  /**
+   * @description message text
+   */
+  message?: string | VNode | (() => VNode)
+  /**
+   * @description callback function when closed with the message instance as the parameter
+   */
+  onClose?: () => void
+  /**
+   * @description whether to show a close button
+   */
+  showClose?: boolean
+  /**
+   * @description message type
+   */
+  type?: MessageType
+  /**
+   * @description whether message is plain
+   */
+  plain?: boolean
+  /**
+   * @description set the distance to the top of viewport
+   */
+  offset?: number
+  /**
+   * @description message placement position
+   */
+  placement?: MessagePlacement
+  /**
+   * @description message element zIndex value
+   */
+  zIndex?: number
+  /**
+   * @description merge messages with the same content, type of VNode message is not supported
+   */
+  grouping?: boolean
+  /**
+   * @description The number of repetitions, similar to badge, is used as the initial number when used with `grouping`
+   */
+  repeatNum?: number
+}
 
 export const messageTypes = [
   'primary',
@@ -68,6 +126,9 @@ export const messageDefaults = mutable({
   appendTo: isClient ? document.body : (undefined as never),
 } as const)
 
+/**
+ * @deprecated Removed after 3.0.0, Use `MessageProps` instead.
+ */
 export const messageProps = buildProps({
   /**
    * @description custom class name for Message
@@ -160,7 +221,7 @@ export const messageProps = buildProps({
     default: messageDefaults.placement,
   },
   /**
-   * @description input box size
+   * @description message element zIndex value
    */
   zIndex: {
     type: Number,
@@ -181,8 +242,11 @@ export const messageProps = buildProps({
     default: messageDefaults.repeatNum,
   },
 } as const)
-export type MessageProps = ExtractPropTypes<typeof messageProps>
-export type MessagePropsPublic = __ExtractPublicPropTypes<typeof messageProps>
+
+/**
+ * @deprecated Removed after 3.0.0, Use `MessageProps` instead.
+ */
+export type MessagePropsPublic = ExtractPublicPropTypes<typeof messageProps>
 
 export const messageEmits = {
   destroy: () => true,

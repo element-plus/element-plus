@@ -1,5 +1,4 @@
 @use 'mixins/mixins' as *;
-@use 'mixins/utils' as *;
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 
@@ -75,12 +74,10 @@
     width: 128px;
   }
 
-  button {
-    @include pagination-button;
-  }
-
   .btn-prev,
   .btn-next {
+    @include pagination-button;
+
     .#{$namespace}-icon {
       display: block;
       font-size: 12px;

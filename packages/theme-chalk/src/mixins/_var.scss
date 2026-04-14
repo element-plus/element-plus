@@ -50,9 +50,9 @@
   $color: map.get($colors, $type, 'base');
   @include set-css-var-value(
     ('color', $type, 'rgb'),
-    #{color.channel($color, 'red'),
-    color.channel($color, 'green'),
-    color.channel($color, 'blue')}
+    #{color.channel($color, 'red', $space: rgb),
+    color.channel($color, 'green', $space: rgb),
+    color.channel($color, 'blue', $space: rgb)}
   );
 }
 

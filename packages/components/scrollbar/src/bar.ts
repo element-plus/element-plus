@@ -1,8 +1,16 @@
 import { buildProps } from '@element-plus/utils'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 import type Bar from './bar.vue'
 
+export interface BarProps {
+  always?: boolean
+  minSize: number
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `BarProps` instead.
+ */
 export const barProps = buildProps({
   always: {
     type: Boolean,
@@ -13,7 +21,10 @@ export const barProps = buildProps({
     required: true,
   },
 } as const)
-export type BarProps = ExtractPropTypes<typeof barProps>
-export type BarPropsPublic = __ExtractPublicPropTypes<typeof barProps>
+
+/**
+ * @deprecated Removed after 3.0.0, Use `BarProps` instead.
+ */
+export type BarPropsPublic = ExtractPublicPropTypes<typeof barProps>
 
 export type BarInstance = InstanceType<typeof Bar> & unknown

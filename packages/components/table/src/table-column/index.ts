@@ -10,6 +10,7 @@ import {
   ref,
 } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
+import { useGlobalConfig } from '@element-plus/components/config-provider'
 import { isArray, isString, isUndefined } from '@element-plus/utils'
 import { cellStarts } from '../config'
 import { compose, mergeOptions } from '../util'
@@ -32,6 +33,7 @@ export default defineComponent({
   props: defaultProps,
   setup(props, { slots }) {
     const instance = getCurrentInstance() as TableColumn<DefaultRow>
+    const globalConfig = useGlobalConfig('table')
     const columnConfig = ref<Partial<TableColumnCtx<DefaultRow>>>({})
     const owner = computed(() => {
       let parent = instance.parent as any
@@ -74,10 +76,12 @@ export default defineComponent({
         type === 'selection'
           ? false
           : isUndefined(props.showOverflowTooltip)
-            ? parent.props.showOverflowTooltip
+            ? (parent.props.showOverflowTooltip ??
+              globalConfig.value?.showOverflowTooltip)
             : props.showOverflowTooltip
       const tooltipFormatter = isUndefined(props.tooltipFormatter)
-        ? parent.props.tooltipFormatter
+        ? (parent.props.tooltipFormatter ??
+          globalConfig.value?.tooltipFormatter)
         : props.tooltipFormatter
       const defaults = {
         ...cellStarts[type],

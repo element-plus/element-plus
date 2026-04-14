@@ -1,8 +1,9 @@
 import { NOOP, buildProps, definePropType } from '@element-plus/utils'
-import { uploadBaseProps } from './upload'
+import { uploadBaseProps, uploadBasePropsDefaults } from './upload'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 import type {
+  UploadBaseProps,
   UploadFile,
   UploadHooks,
   UploadProgressEvent,
@@ -11,6 +12,19 @@ import type {
 import type UploadContent from './upload-content.vue'
 import type { UploadAjaxError } from './ajax'
 
+export interface UploadContentProps extends UploadBaseProps {
+  beforeUpload?: UploadHooks['beforeUpload']
+  onRemove?: (file: UploadFile | UploadRawFile) => void
+  onStart?: (rawFile: UploadRawFile) => void
+  onSuccess?: (response: any, rawFile: UploadRawFile) => unknown
+  onProgress?: (evt: UploadProgressEvent, rawFile: UploadRawFile) => void
+  onError?: (err: UploadAjaxError, rawFile: UploadRawFile) => void
+  onExceed?: UploadHooks['onExceed']
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `UploadContentProps` instead.
+ */
 export const uploadContentProps = buildProps({
   ...uploadBaseProps,
 
@@ -50,9 +64,22 @@ export const uploadContentProps = buildProps({
   },
 } as const)
 
-export type UploadContentProps = ExtractPropTypes<typeof uploadContentProps>
-export type UploadContentPropsPublic = __ExtractPublicPropTypes<
+/**
+ * @deprecated Removed after 3.0.0, Use `UploadContentProps` instead.
+ */
+export type UploadContentPropsPublic = ExtractPublicPropTypes<
   typeof uploadContentProps
 >
 
 export type UploadContentInstance = InstanceType<typeof UploadContent> & unknown
+
+export const uploadContentPropsDefaults = {
+  ...uploadBasePropsDefaults,
+  beforeUpload: NOOP,
+  onRemove: NOOP,
+  onStart: NOOP,
+  onSuccess: NOOP,
+  onProgress: NOOP,
+  onError: NOOP,
+  onExceed: NOOP,
+} as const

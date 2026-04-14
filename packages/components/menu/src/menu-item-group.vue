@@ -12,11 +12,13 @@
 
 <script lang="ts" setup>
 import { useNamespace } from '@element-plus/hooks'
-import { menuItemGroupProps } from './menu-item-group'
+
+import type { MenuItemGroupProps } from './menu-item-group'
 
 defineOptions({
   name: 'ElMenuItemGroup',
 })
-defineProps(menuItemGroupProps)
+defineProps<MenuItemGroupProps>()
+
 const ns = useNamespace('menu-item-group')
 </script>

@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
+import { rAF } from '@element-plus/test-utils/tick'
 import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
 import { usePopperContainerId } from '@element-plus/hooks'
 import { hasClass } from '@element-plus/utils'
@@ -21,6 +22,15 @@ vi.mock('lodash-unified', async () => {
     debounce: vi.fn((fn) => {
       fn.cancel = vi.fn()
       fn.flush = vi.fn()
+      return fn
+    }),
+  }
+})
+
+vi.mock('@vueuse/core', async () => {
+  return {
+    ...((await vi.importActual('@vueuse/core')) as Record<string, any>),
+    useDebounceFn: vi.fn((fn) => {
       return fn
     }),
   }
@@ -50,6 +60,7 @@ const OPTIONS = [
 const AXIOM = 'Rem is the best girl'
 
 const TRIGGER = '.el-cascader'
+const MENU = '.el-cascader-menu'
 const NODE = '.el-cascader-node'
 const NODE_LABEL = '.el-cascader-node__label'
 const TAG = '.el-tag'
@@ -603,6 +614,26 @@ describe('Cascader.vue', () => {
     expect(value.value).toEqual([])
   })
 
+  test('before-filter should be called when search keyword is cleared', async () => {
+    const beforeFilter = vi.fn(() => true)
+    const wrapper = _mount(() => (
+      <Cascader
+        filterable
+        options={OPTIONS}
+        beforeFilter={beforeFilter}
+        teleported={false}
+      />
+    ))
+
+    const input = wrapper.find('input')
+
+    await input.setValue('Ha')
+    expect(beforeFilter).toHaveBeenNthCalledWith(1, 'Ha')
+
+    await input.setValue('')
+    expect(beforeFilter).toHaveBeenNthCalledWith(2, '')
+  })
+
   test('filter method', async () => {
     const filterMethod = vi.fn((node, keyword) => {
       const { text, value } = node
@@ -704,6 +735,24 @@ describe('Cascader.vue', () => {
     wrapper.findComponent(ElForm).vm.$.exposed!.resetFields()
     await nextTick()
     expect(wrapper.find('input').element.placeholder).toBe(AXIOM)
+  })
+
+  test('The disabled state of a component has higher priority than that of a form', async () => {
+    const model = reactive({
+      name: new Array<string>(),
+    })
+
+    const wrapper = _mount(() => (
+      <ElForm model={model} disabled>
+        <ElFormItem>
+          <Cascader disabled={false} v-model={model.name} options={OPTIONS} />
+        </ElFormItem>
+      </ElForm>
+    ))
+
+    model.name = ['zhejiang', 'hangzhou']
+    await nextTick()
+    expect(wrapper.find('input').attributes('disabled')).toBeUndefined()
   })
 
   test('should be able to trigger togglePopperVisible outside the component', async () => {
@@ -1196,5 +1245,62 @@ describe('Cascader.vue', () => {
     rootNode?.click()
     await nextTick()
     expect(visibleChange).toBeCalledTimes(1)
+  })
+
+  it('should fully expand the panel after filter when checkStrictly=true', async () => {
+    const value = ref([])
+    const props = { checkStrictly: true }
+    const wrapper = _mount(() => (
+      <Cascader
+        v-model={value.value}
+        filterable
+        props={props}
+        options={OPTIONS}
+      />
+    ))
+    const input = wrapper.find('input')
+    await input.setValue('Wen')
+    const rootNode = document.querySelector(SUGGESTION_ITEM) as HTMLInputElement
+    rootNode?.click()
+    await nextTick()
+    expect(value.value).toStrictEqual(['zhejiang', 'wenzhou'])
+
+    const trigger = wrapper.find(TRIGGER)
+    await trigger.trigger('blur')
+    await trigger.trigger('focus')
+    expect(document.querySelectorAll(MENU)).toHaveLength(2)
+  })
+
+  it('should not select the first node when it is a leaf node', async () => {
+    const value = ref<string[]>([])
+    const options = [
+      { value: 'a', label: 'Node A' },
+      { value: 'b', label: 'Node B' },
+    ]
+    let visible = false
+
+    const visibleChange = vi.fn((v: boolean) => (visible = v))
+
+    const wrapper = mount(() => (
+      <Cascader
+        v-model={value.value}
+        options={options}
+        onVisibleChange={visibleChange}
+      />
+    ))
+    await nextTick()
+
+    const input = wrapper.find('.el-input__inner')
+    await input.trigger('click')
+
+    const firstNode = document.querySelector(NODE)!
+
+    await input.trigger('keydown', { code: EVENT_CODE.down })
+    await nextTick()
+    await rAF()
+
+    expect(visible).toBeTruthy()
+    expect(firstNode.matches(':focus')).toBeTruthy()
+    expect(value.value).toEqual([])
   })
 })

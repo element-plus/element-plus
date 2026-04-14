@@ -64,7 +64,7 @@ export interface ElCascaderPanelContext {
   checkedNodes: CascaderNode[]
   isHoverMenu: boolean
   initialLoaded: boolean
-  renderLabelFn: RenderLabel
+  renderLabelFn?: RenderLabel
   lazyLoad: (
     node?: CascaderNode,
     cb?: (dataList: CascaderOption[]) => void

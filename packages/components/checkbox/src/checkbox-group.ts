@@ -2,12 +2,68 @@ import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import { buildProps, definePropType, isArray } from '@element-plus/utils'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 import type checkboxGroup from './checkbox-group.vue'
-import type { CheckboxPropsPublic, CheckboxValueType } from './checkbox'
+import type { CheckboxProps, CheckboxValueType } from './checkbox'
+import type { ComponentSize } from '@element-plus/constants'
+import type { AriaProps } from '@element-plus/hooks'
 
 export type CheckboxGroupValueType = Exclude<CheckboxValueType, boolean>[]
 
+export interface CheckboxGroupProps extends Pick<AriaProps, 'ariaLabel'> {
+  /**
+   * @description binding value
+   */
+  modelValue?: CheckboxGroupValueType
+  /**
+   * @description whether the nesting checkboxes are disabled
+   */
+  disabled?: boolean
+  /**
+   * @description minimum number of checkbox checked
+   */
+  min?: number
+  /**
+   * @description maximum number of checkbox checked
+   */
+  max?: number
+  /**
+   * @description size of checkbox
+   */
+  size?: ComponentSize
+  /**
+   * @description border and background color when button is active
+   */
+  fill?: string
+  /**
+   * @description font color when button is active
+   */
+  textColor?: string
+  /**
+   * @description element tag of the checkbox group
+   */
+  tag?: string
+  /**
+   * @description whether to trigger form validation
+   */
+  validateEvent?: boolean
+  /**
+   * @description data of the options, the key of `value` and `label` and `disabled` can be customize by `props`
+   */
+  options?: CheckboxOption[]
+  /**
+   * @description configuration options
+   */
+  props?: CheckboxOptionProps
+  /**
+   * @description component type to render options (e.g. `'button'`)
+   */
+  type?: 'checkbox' | 'button'
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `CheckboxGroupProps` instead.
+ */
 export const checkboxGroupProps = buildProps({
   /**
    * @description binding value
@@ -19,7 +75,10 @@ export const checkboxGroupProps = buildProps({
   /**
    * @description whether the nesting checkboxes are disabled
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description minimum number of checkbox checked
    */
@@ -74,14 +133,16 @@ export const checkboxGroupEmits = {
   change: (val: CheckboxValueType[]) => isArray(val),
 }
 
-export type CheckboxGroupProps = ExtractPropTypes<typeof checkboxGroupProps>
-export type CheckboxGroupPropsPublic = __ExtractPublicPropTypes<
+/**
+ * @deprecated Removed after 3.0.0, Use `CheckboxGroupProps` instead.
+ */
+export type CheckboxGroupPropsPublic = ExtractPublicPropTypes<
   typeof checkboxGroupProps
 >
 export type CheckboxGroupEmits = typeof checkboxGroupEmits
 export type CheckboxGroupInstance = InstanceType<typeof checkboxGroup> & unknown
 
-export type CheckboxOption = CheckboxPropsPublic & Record<string, any>
+export type CheckboxOption = CheckboxProps & Record<string, any>
 
 type CheckboxOptionProps = {
   value?: string

@@ -2,10 +2,10 @@
   <div
     :class="[
       ns.b(),
+      ns.is('contentful', !!$slots.default),
       {
         [ns.m('has-breadcrumb')]: !!$slots.breadcrumb,
         [ns.m('has-extra')]: !!$slots.extra,
-        [ns.is('contentful')]: !!$slots.default,
       },
     ]"
   >
@@ -56,13 +56,19 @@
 import { ElIcon } from '@element-plus/components/icon'
 import { ElDivider } from '@element-plus/components/divider'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { pageHeaderEmits, pageHeaderProps } from './page-header'
+import { Back } from '@element-plus/icons-vue'
+import { pageHeaderEmits } from './page-header'
+
+import type { PageHeaderProps } from './page-header'
 
 defineOptions({
   name: 'ElPageHeader',
 })
 
-defineProps(pageHeaderProps)
+withDefaults(defineProps<PageHeaderProps>(), {
+  icon: () => Back,
+  content: '',
+})
 const emit = defineEmits(pageHeaderEmits)
 
 const { t } = useLocale()

@@ -1,7 +1,6 @@
 @use 'sass:map';
 
 @use 'mixins/mixins' as *;
-@use 'mixins/utils' as *;
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 
@@ -100,6 +99,10 @@
       #{getCssVarName('input-icon-color')},
       map.get($input, 'icon-color')
     );
+  }
+
+  @include e(collapse-tag) {
+    line-height: 1;
   }
 
   @include e(input-tag-list) {

@@ -49,17 +49,19 @@
         </div>
       </el-col>
       <el-col :span="6">
-        <el-anchor
-          :container="containerRef"
-          direction="vertical"
-          type="default"
-          :offset="30"
-          @click="handleClick"
-        >
-          <el-anchor-link href="#part1" title="part1" />
-          <el-anchor-link href="#part2" title="part2" />
-          <el-anchor-link href="#part3" title="part3" />
-        </el-anchor>
+        <div class="vp-raw">
+          <el-anchor
+            :container="containerRef"
+            direction="vertical"
+            type="default"
+            :offset="30"
+            @click="handleClick"
+          >
+            <el-anchor-link href="#part1" title="part1" />
+            <el-anchor-link href="#part2" title="part2" />
+            <el-anchor-link href="#part3" title="part3" />
+          </el-anchor>
+        </div>
       </el-col>
     </el-row>
   </div>

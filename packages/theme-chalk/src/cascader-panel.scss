@@ -8,6 +8,7 @@
 
 @include b(cascader-panel) {
   display: flex;
+  width: fit-content;
   border-radius: getCssVar('cascader-menu', 'radius');
   font-size: getCssVar('cascader-menu', 'font-size');
 

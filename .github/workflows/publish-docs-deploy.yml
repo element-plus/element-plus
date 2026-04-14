@@ -12,31 +12,19 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.event.workflow_run.head_sha }}
           persist-credentials: false
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
 
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: 20
-
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        run: |
-          echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
-
-      - uses: actions/cache@v4
-        name: Setup pnpm cache
-        with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+          node-version: 24
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
@@ -55,6 +43,12 @@ jobs:
       - name: Install latest Element Plus
         run: cd docs && pnpm i element-plus@latest
 
+      - name: Get Latest Release Version
+        id: get_release
+        run: |
+          LATEST_VERSION=$(curl -s https://api.github.com/repos/element-plus/element-plus/releases/latest | jq -r '.tag_name')
+          echo "latest_version=${LATEST_VERSION}" >> $GITHUB_OUTPUT
+
       - name: Build Metadata
         run: cd internal/metadata && pnpm build
         env:
@@ -64,20 +58,20 @@ jobs:
         run: pnpm docs:build
         env:
           DOC_ENV: production
-          NODE_OPTIONS: --max-old-space-size=4096
+          NODE_OPTIONS: --max-old-space-size=8192
 
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        uses: JamesIves/github-pages-deploy-action@v4.8.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
           folder: docs/.vitepress/dist
           git-config-name: ElementPlusBot
           git-config-email: element-plus@outlook.com
-          commit-message: website deploy
+          commit-message: website deploy ${{ steps.get_release.outputs.latest_version }}
 
       - name: Deploy to Vercel
-        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        uses: JamesIves/github-pages-deploy-action@v4.8.0
         with:
           token: ${{ secrets.EP_BOT_TOKEN }}
           branch: main
@@ -87,7 +81,7 @@ jobs:
           git-config-email: element-plus@outlook.com
 
       - name: Deploy to Vercel Main
-        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        uses: JamesIves/github-pages-deploy-action@v4.8.0
         with:
           token: ${{ secrets.EP_BOT_TOKEN }}
           branch: main

@@ -76,7 +76,7 @@ describe('<fixed-size-list />', () => {
       wrapper
         .find(WINDOW_SELECTOR)
         .element.firstElementChild.getAttribute('style')
-    ).toBe('height: 2500px; width: 100%;')
+    ).toBe('height: 2500px; width: 100%; margin: 0px; box-sizing: border-box;')
     expect(onItemRendered).toHaveBeenCalledTimes(1)
   })
 
@@ -163,7 +163,7 @@ describe('<fixed-size-list />', () => {
       wrapper
         .find(WINDOW_SELECTOR)
         .element.firstElementChild.getAttribute('style')
-    ).toBe('height: 100%; width: 2500px;')
+    ).toBe('height: 100%; width: 2500px; margin: 0px; box-sizing: border-box;')
   })
 
   it('should handle horizontal scroll correctly', async () => {
