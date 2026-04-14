@@ -1,3 +1,3 @@
-export const MENU_INJECTION_KEY = 'rootMenu'
+export const MENU_INJECTION_KEY = Symbol('rootMenu')
 
-export const SUB_MENU_INJECTION_KEY = 'subMenu:'
+export const SUB_MENU_INJECTION_KEY = 'subMenu'
