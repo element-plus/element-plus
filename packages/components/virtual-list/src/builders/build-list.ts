@@ -78,7 +78,6 @@ const createList = ({
           : 0,
         updateRequested: false,
         isScrollbarDragging: false,
-        scrollbarAlwaysOn: props.scrollbarAlwaysOn,
       })
 
       // computed
