@@ -1,4 +1,4 @@
-import type { SetupContext, UnwrapRef } from 'vue'
+import type { MaybeRef, SetupContext, UnwrapRef } from 'vue'
 import type {
   RuleItem,
   ValidateError,
@@ -6,7 +6,6 @@ import type {
 } from 'async-validator'
 import type { ComponentSize } from '@element-plus/constants'
 import type { Arrayable, FieldPath } from '@element-plus/utils'
-import type { MaybeRef } from '@vueuse/core'
 import type {
   FormItemProp,
   FormItemProps,

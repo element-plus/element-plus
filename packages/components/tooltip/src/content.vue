@@ -61,6 +61,7 @@ import { isTriggerType } from './utils'
 import { useTooltipContentPropsDefaults } from './content'
 
 import type { ElTooltipContentProps } from './content'
+import type { OnClickOutsideReturn } from '@vueuse/core'
 import type { PopperContentInstance } from '@element-plus/components/popper'
 
 defineOptions({
@@ -78,7 +79,7 @@ const ns = useNamespace('tooltip')
 
 const contentRef = ref<PopperContentInstance>()
 const popperContentRef = computedEager(() => contentRef.value?.popperContentRef)
-let stopHandle: ReturnType<typeof onClickOutside>
+let stopHandle: OnClickOutsideReturn<false> | undefined
 const {
   controlled,
   id,
