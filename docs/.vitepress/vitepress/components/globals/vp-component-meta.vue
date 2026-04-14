@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { Clock, Loading, Warning } from '@element-plus/icons-vue'
+import { CirclePlus, Clock, Loading, Warning } from '@element-plus/icons-vue'
 import { useWindowSize } from '@vueuse/core'
 import { useIssueCount } from '../../composables/use-issue-count'
 import { useLocale } from '../../composables/locale'
@@ -83,6 +83,15 @@ const openDrawer = () => {
 const openIssues = () => {
   window.open(issuesUrl.value, '_blank', 'noopener,noreferrer')
 }
+
+const createNewIssue = () => {
+  const params = `?bugType=Component&component=${props.component}`
+  window.open(
+    `https://issue.element-plus.org${params}`,
+    '_blank',
+    'noopener,noreferrer'
+  )
+}
 </script>
 
 <template>
@@ -91,6 +100,9 @@ const openIssues = () => {
       <el-button-group class="component-meta-card" size="small">
         <el-button :icon="Clock" @click="openDrawer">
           {{ locale['changelog'] }}
+        </el-button>
+        <el-button :icon="CirclePlus" @click="createNewIssue">
+          {{ locale['create-new-issue'] }}
         </el-button>
         <el-button :icon="Warning" @click="openIssues">
           {{ locale['open-issues'] }}
