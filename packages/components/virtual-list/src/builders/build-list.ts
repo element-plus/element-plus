@@ -78,7 +78,6 @@ const createList = ({
           : 0,
         updateRequested: false,
         isScrollbarDragging: false,
-        scrollbarAlwaysOn: props.scrollbarAlwaysOn,
       })
 
       // computed
@@ -467,6 +466,7 @@ const createList = ({
         itemsToRender,
         innerStyle,
         layout,
+        scrollbarAlwaysOn,
         total,
         onScroll,
         onScrollbarScroll,
@@ -524,7 +524,7 @@ const createList = ({
         scrollFrom:
           states.scrollOffset / (this.estimatedTotalSize - clientSize),
         total,
-        alwaysOn: states.scrollbarAlwaysOn,
+        alwaysOn: scrollbarAlwaysOn,
       })
 
       const listContainer = h(
@@ -543,7 +543,7 @@ const createList = ({
         'div',
         {
           key: 0,
-          class: [ns.e('wrapper'), states.scrollbarAlwaysOn ? 'always-on' : ''],
+          class: [ns.e('wrapper'), scrollbarAlwaysOn ? 'always-on' : ''],
         },
         [listContainer, scrollbar]
       )
