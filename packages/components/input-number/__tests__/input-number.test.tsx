@@ -724,4 +724,9 @@ describe('InputNumber.vue', () => {
     await input.trigger('keydown', { key: EVENT_CODE.down })
     expect(input.element.value).toBe('10')
   })
+
+  test('tabindex', async () => {
+    const wrapper = mount(() => <InputNumber tabindex={1} />)
+    expect(wrapper.find('input').attributes('tabindex')).toBe('1')
+  })
 })
