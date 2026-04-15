@@ -75,8 +75,8 @@ export default defineConfig(async ({ mode }): Promise<UserConfig> => {
     optimizeDeps: {
       include: ['vue', '@vue/shared', ...dependencies, ...optimizeDeps],
     },
-    esbuild: {
-      target: 'chrome64',
+    oxc: {
+      target: 'chrome85',
     },
   }
 })
