@@ -70,8 +70,10 @@
         @keydown="handleKeyDown"
         @focus="handleFocus"
         @blur="handleBlur"
+        @click="handleTrigger"
       >
-        <div :class="ns.be('picker', 'trigger')" @click="handleTrigger">
+        <slot v-if="$slots.default" />
+        <div v-else :class="ns.be('picker', 'trigger')">
           <span :class="[ns.be('picker', 'color'), ns.is('alpha', showAlpha)]">
             <span
               :class="ns.be('picker', 'color-inner')"
