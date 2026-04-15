@@ -61,10 +61,7 @@ const COMPONENT_NAME = 'ElMenuItem'
 defineOptions({
   name: COMPONENT_NAME,
 })
-const props = withDefaults(defineProps<MenuItemProps>(), {
-  index: '',
-  route: undefined,
-})
+const props = defineProps<MenuItemProps>()
 const emit = defineEmits(menuItemEmits)
 
 const instance = getCurrentInstance()!

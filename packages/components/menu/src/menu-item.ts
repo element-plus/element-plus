@@ -12,8 +12,6 @@ import type { MenuItemRegistered } from './types'
 export interface MenuItemProps {
   /**
    * @description unique identification
-   * - will be required in the next major version
-   * - required: true
    */
   index: string
   /**
