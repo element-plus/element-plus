@@ -105,6 +105,8 @@ For precision purposes, the input number is limited from [Number.MIN_SAFE_INTEGE
 
 Display the value with `formatter`, and typically use `parser` alongside it.
 
+When `formatter` is set, the inner input `type` changes to `text`, which allows non-numeric characters to be entered. Internally, the component processes input with `Number.parseFloat`: when parsing succeeds, the parsed number is written to `v-model`; when parsing returns `NaN`, `v-model` is set to `null`.
+
 :::demo
 
 input-number/formatter
