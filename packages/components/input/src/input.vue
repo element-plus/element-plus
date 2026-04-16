@@ -148,6 +148,7 @@
         @compositionstart="handleCompositionStart"
         @compositionupdate="handleCompositionUpdate"
         @compositionend="handleCompositionEnd"
+        @mousedown="handleTextareaMouseDown"
         @input="handleInput"
         @focus="handleFocus"
         @blur="handleBlur"
@@ -188,7 +189,7 @@ import {
   useSlots,
   watch,
 } from 'vue'
-import { useResizeObserver } from '@vueuse/core'
+import { useEventListener, useResizeObserver } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
 import { ElIcon } from '@element-plus/components/icon'
 import { Hide, View } from '@element-plus/icons-vue'
@@ -274,6 +275,7 @@ const input = shallowRef<HTMLInputElement>()
 const textarea = shallowRef<HTMLTextAreaElement>()
 
 const hovering = ref(false)
+const isResizingTextarea = ref(false)
 const passwordVisible = ref(false)
 const countStyle = ref<StyleValue>()
 const textareaCalcStyle = shallowRef(props.inputStyle)
@@ -598,6 +600,16 @@ const {
   handleCompositionEnd,
 } = useComposition({ emit, afterComposition: handleInput })
 
+useEventListener('mouseup', () => {
+  isResizingTextarea.value = false
+})
+
+const handleTextareaMouseDown = () => {
+  const { type, resize } = props
+  if (type !== 'textarea' || resize === 'none') return
+  isResizingTextarea.value = true
+}
+
 const handlePasswordVisible = () => {
   passwordVisible.value = !passwordVisible.value
 }
@@ -607,11 +619,13 @@ const focus = () => _ref.value?.focus()
 const blur = () => _ref.value?.blur()
 
 const handleMouseLeave = (evt: MouseEvent) => {
+  if (isResizingTextarea.value) return
   hovering.value = false
   emit('mouseleave', evt)
 }
 
 const handleMouseEnter = (evt: MouseEvent) => {
+  if (isResizingTextarea.value) return
   hovering.value = true
   emit('mouseenter', evt)
 }
