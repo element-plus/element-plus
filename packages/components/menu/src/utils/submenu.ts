@@ -4,7 +4,7 @@ import { EVENT_CODE } from '@element-plus/constants'
 import type MenuItem from './menu-item'
 
 class SubMenu {
-  public subMenuItems: NodeList
+  public subMenuItems: NodeListOf<HTMLLIElement>
   public subIndex: number
   constructor(
     public parent: MenuItem,
@@ -21,13 +21,13 @@ class SubMenu {
     } else if (idx < 0) {
       idx = this.subMenuItems.length - 1
     }
-    ;(this.subMenuItems[idx] as HTMLElement).focus()
+    this.subMenuItems[idx].focus()
     this.subIndex = idx
   }
 
   addListeners() {
     const parentNode = this.parent.domNode
-    Array.prototype.forEach.call(this.subMenuItems, (el: HTMLElement) => {
+    this.subMenuItems.forEach((el) => {
       el.addEventListener('keydown', (event: KeyboardEvent) => {
         const code = getEventCode(event)
         let prevDef = false
