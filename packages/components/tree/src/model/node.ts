@@ -464,7 +464,7 @@ class Node {
     this.isEffectivelyChecked =
       !this.childNodes.length && (this.disabled || this.checked)
 
-    if (this.store.checkStrictly) return
+    if (this.store.checkStrictly && !deep) return
 
     if (!(this.shouldLoadData() && !this.store.checkDescendants)) {
       const handleDescendants = (): void => {
@@ -508,7 +508,7 @@ class Node {
     const parent = this.parent
     if (!parent || parent.level === 0) return
 
-    if (!recursion) {
+    if (!recursion && !this.store.checkStrictly) {
       reInitChecked(parent)
     }
   }

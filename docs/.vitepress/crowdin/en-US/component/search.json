@@ -8,10 +8,10 @@
       },
       "modal": {
         "searchBox": {
-          "resetButtonTitle": "Clear the query",
-          "resetButtonAriaLabel": "Clear the query",
-          "cancelButtonText": "Cancel",
-          "cancelButtonAriaLabel": "Cancel"
+          "clearButtonTitle": "Clear the query",
+          "clearButtonAriaLabel": "Clear the query",
+          "closeButtonText": "Cancel",
+          "closeButtonAriaLabel": "Cancel"
         },
         "startScreen": {
           "recentSearchesTitle": "Recent",
@@ -33,7 +33,7 @@
           "navigateDownKeyAriaLabel": "Arrow down",
           "closeText": "to close",
           "closeKeyAriaLabel": "Escape key",
-          "searchByText": "Search by"
+          "poweredByText": "Search by"
         },
         "noResultsScreen": {
           "noResultsText": "No results for",

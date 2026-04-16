@@ -117,7 +117,7 @@ onBeforeUnmount(() => {
 defineExpose({
   /** @description tab root html element */
   ref: barRef,
-  /** @description method to manually update tab bar style */
+  /** @description method to manually update tab bar style, return the updated style */
   update,
 })
 </script>

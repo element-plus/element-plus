@@ -195,5 +195,9 @@ export default {
       rightArrow: 'క్యారసెల్ కుడి బాణం',
       indicator: 'క్యారసెల్ సూచిక {index} కి మార్చు',
     },
+    inputOTP: {
+      groupLabel: 'OTP Input', // to be translated
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
+    },
   },
 }

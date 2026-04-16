@@ -20,7 +20,7 @@ jobs:
         run: git branch dev origin/dev
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v5
+        uses: pnpm/action-setup@v6
 
       - name: Setup node
         uses: actions/setup-node@v6
@@ -51,7 +51,7 @@ jobs:
           path: ./tmp/diff.md
 
       - name: Set comment
-        uses: actions-cool/maintain-one-comment@v3.2.0
+        uses: actions-cool/maintain-one-comment@v3.3.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           body: ${{ steps.diff.outputs.content }}

@@ -8,6 +8,7 @@
 import { computed, provide, reactive, ref, toRefs, watch } from 'vue'
 import { cloneDeep } from 'lodash-unified'
 import {
+  NOOP,
   debugWarn,
   ensureArray,
   getProp,
@@ -239,7 +240,7 @@ watch(
   () => props.rules,
   () => {
     if (props.validateOnRuleChange) {
-      validate().catch((err) => debugWarn(err))
+      validate().catch(NOOP)
     }
   },
   { deep: true, flush: 'post' }
