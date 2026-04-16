@@ -180,16 +180,17 @@ const createList = ({
         end: !isGreaterThan(maxOffset.value, normalizedOffset, EDGE_TOLERANCE),
       })
 
-      const edgeState = ref(
-        getEdgeState(normalizeOffset(unref(states).scrollOffset))
+      const normalizedScrollOffset = computed(() =>
+        normalizeOffset(states.value.scrollOffset)
+      )
+      const currentEdgeState = computed(() =>
+        getEdgeState(normalizedScrollOffset.value)
       )
 
-      const startEdgeReached = computed(
-        () => getEdgeState(normalizeOffset(states.value.scrollOffset)).start
-      )
-      const endEdgeReached = computed(
-        () => getEdgeState(normalizeOffset(states.value.scrollOffset)).end
-      )
+      const edgeState = ref(currentEdgeState.value)
+
+      const startEdgeReached = computed(() => currentEdgeState.value.start)
+      const endEdgeReached = computed(() => currentEdgeState.value.end)
 
       // methods
       const { onWheel } = useWheel(
@@ -472,9 +473,7 @@ const createList = ({
       })
 
       watch(maxOffset, () => {
-        edgeState.value = getEdgeState(
-          normalizeOffset(unref(states).scrollOffset)
-        )
+        edgeState.value = currentEdgeState.value
       })
 
       const api = {
