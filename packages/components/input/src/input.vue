@@ -606,7 +606,10 @@ useEventListener('mouseup', () => {
 
 const handleTextareaMouseDown = () => {
   const { type, resize } = props
-  if (type !== 'textarea' || resize === 'none') return
+  if (type !== 'textarea' || resize === 'none') {
+    isResizingTextarea.value = false
+    return
+  }
   isResizingTextarea.value = true
 }
 
