@@ -57,7 +57,7 @@
                 :actions="handleActions"
                 :prev="prev"
                 :next="next"
-                :reset="toggleMode"
+                :reset="reset"
                 :active-index="activeIndex"
                 :set-active-item="setActiveItem"
               >
@@ -77,6 +77,10 @@
                 </el-icon>
                 <el-icon @click="handleActions('clockwise')">
                   <RefreshRight />
+                </el-icon>
+                <i :class="ns.e('actions__divider')" />
+                <el-icon @click="reset">
+                  <Refresh />
                 </el-icon>
               </slot>
             </div>
@@ -138,6 +142,7 @@ import {
   ArrowRight,
   Close,
   FullScreen,
+  Refresh,
   RefreshLeft,
   RefreshRight,
   ScaleToOriginal,
@@ -299,10 +304,17 @@ function registerEventListener() {
   })
   const mousewheelHandler = throttle((e: WheelEvent) => {
     const delta = e.deltaY || e.deltaX
-    handleActions(delta < 0 ? 'zoomIn' : 'zoomOut', {
-      zoomRate: props.zoomRate,
-      enableTransition: false,
-    })
+    if (e.ctrlKey) {
+      handleActions(delta < 0 ? 'clockwise' : 'anticlockwise', {
+        rotateDeg: 15,
+        enableTransition: false,
+      })
+    } else {
+      handleActions(delta < 0 ? 'zoomIn' : 'zoomOut', {
+        zoomRate: props.zoomRate,
+        enableTransition: false,
+      })
+    }
   })
 
   scopeEventListener.run(() => {
