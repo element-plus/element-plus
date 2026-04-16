@@ -601,7 +601,14 @@ const {
 } = useComposition({ emit, afterComposition: handleInput })
 
 useEventListener('mouseup', () => {
+  const isResizing = isResizingTextarea.value
+
   isResizingTextarea.value = false
+  if (isResizing && !textarea.value?.matches(':hover')) {
+    textarea.value?.dispatchEvent(
+      new MouseEvent('mouseleave', { bubbles: true })
+    )
+  }
 })
 
 const handleTextareaMouseDown = () => {
