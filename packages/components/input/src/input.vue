@@ -148,7 +148,6 @@
         @compositionstart="handleCompositionStart"
         @compositionupdate="handleCompositionUpdate"
         @compositionend="handleCompositionEnd"
-        @mousedown="handleTextareaMouseDown"
         @input="handleInput"
         @focus="handleFocus"
         @blur="handleBlur"
@@ -189,7 +188,7 @@ import {
   useSlots,
   watch,
 } from 'vue'
-import { useEventListener, useResizeObserver } from '@vueuse/core'
+import { useResizeObserver } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
 import { ElIcon } from '@element-plus/components/icon'
 import { Hide, View } from '@element-plus/icons-vue'
@@ -275,7 +274,6 @@ const input = shallowRef<HTMLInputElement>()
 const textarea = shallowRef<HTMLTextAreaElement>()
 
 const hovering = ref(false)
-const isResizingTextarea = ref(false)
 const passwordVisible = ref(false)
 const countStyle = ref<StyleValue>()
 const textareaCalcStyle = shallowRef(props.inputStyle)
@@ -306,10 +304,12 @@ const passwordIcon = computed(() => (passwordVisible.value ? View : Hide))
 const containerStyle = computed<StyleValue>(() => [
   rawAttrs.style as StyleValue,
 ])
+const textareaHeight = ref()
 const textareaStyle = computed<StyleValue>(() => [
   props.inputStyle,
   textareaCalcStyle.value,
   { resize: props.resize },
+  textareaHeight.value ? { height: textareaHeight.value } : undefined,
 ])
 const nativeInputValue = computed(() =>
   isNil(props.modelValue) ? '' : String(props.modelValue)
@@ -410,7 +410,12 @@ const resizeTextarea = () => {
 const createOnceInitResize = (resizeTextarea: () => void) => {
   let isInit = false
   return () => {
-    if (isInit || !props.autosize) return
+    if (isInit || !props.autosize) {
+      if (props.resize !== 'none') {
+        textareaHeight.value = textarea.value?.style.height
+      }
+      return
+    }
     const isElHidden = textarea.value?.offsetParent === null
     if (!isElHidden) {
       setTimeout(resizeTextarea)
@@ -600,26 +605,6 @@ const {
   handleCompositionEnd,
 } = useComposition({ emit, afterComposition: handleInput })
 
-useEventListener('mouseup', () => {
-  const isResizing = isResizingTextarea.value
-
-  isResizingTextarea.value = false
-  if (isResizing && !textarea.value?.matches(':hover')) {
-    textarea.value?.dispatchEvent(
-      new MouseEvent('mouseleave', { bubbles: true })
-    )
-  }
-})
-
-const handleTextareaMouseDown = () => {
-  const { type, resize } = props
-  if (type !== 'textarea' || resize === 'none') {
-    isResizingTextarea.value = false
-    return
-  }
-  isResizingTextarea.value = true
-}
-
 const handlePasswordVisible = () => {
   passwordVisible.value = !passwordVisible.value
 }
@@ -629,13 +614,11 @@ const focus = () => _ref.value?.focus()
 const blur = () => _ref.value?.blur()
 
 const handleMouseLeave = (evt: MouseEvent) => {
-  if (isResizingTextarea.value) return
   hovering.value = false
   emit('mouseleave', evt)
 }
 
 const handleMouseEnter = (evt: MouseEvent) => {
-  if (isResizingTextarea.value) return
   hovering.value = true
   emit('mouseenter', evt)
 }

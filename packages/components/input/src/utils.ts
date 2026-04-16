@@ -41,6 +41,7 @@ type NodeStyle = {
 type TextAreaHeight = {
   height: string
   minHeight?: string
+  maxHeight?: string
 }
 
 export const looseToNumber = (val: any): any => {
@@ -123,6 +124,7 @@ export function calcTextareaHeight(
       maxHeight = maxHeight + paddingSize + borderSize
     }
     height = Math.min(maxHeight, height)
+    result.maxHeight = `${maxHeight}px`
   }
   result.height = `${height}px`
   hiddenTextarea.parentNode?.removeChild(hiddenTextarea)
