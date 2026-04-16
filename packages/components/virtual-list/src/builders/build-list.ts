@@ -14,7 +14,7 @@ import {
   unref,
   watch,
 } from 'vue'
-import { useEventListener } from '@vueuse/core'
+import { clamp, useEventListener } from '@vueuse/core'
 import {
   hasOwn,
   isClient,
@@ -166,7 +166,7 @@ const createList = ({
       )
 
       const normalizeOffset = (offset: number) =>
-        Math.max(0, Math.min(offset, maxOffset.value))
+        clamp(offset, 0, maxOffset.value)
 
       // Tolerance must cover sub-pixel differences that arise when the
       // browser's actual scrollHeight−clientHeight (affected by DPR
