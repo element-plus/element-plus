@@ -595,7 +595,7 @@ importers:
         specifier: ^1.2.0
         version: 1.2.0
       vue:
-        specifier: ^3.3.0
+        specifier: ^3.3.7
         version: 3.5.25(typescript@6.0.2)
       vue-component-type-helpers:
         specifier: 'catalog:'
