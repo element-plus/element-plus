@@ -8,6 +8,7 @@
 import { computed } from 'vue'
 import { CHANGE_EVENT } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
+import { useFormSize } from '@element-plus/components/form'
 import { checkTagEmits } from './check-tag'
 
 import type { CheckTagProps } from './check-tag'
@@ -20,12 +21,14 @@ const props = withDefaults(defineProps<CheckTagProps>(), {
 })
 const emit = defineEmits(checkTagEmits)
 
+const tagSize = useFormSize()
 const ns = useNamespace('check-tag')
 const containerKls = computed(() => [
   ns.b(),
   ns.is('checked', props.checked),
   ns.is('disabled', props.disabled),
   ns.m(props.type || 'primary'),
+  ns.m(tagSize.value || 'default'),
 ])
 
 const handleChange = () => {

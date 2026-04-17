@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 @use 'mixins/mixins' as *;
 @use 'common/var' as *;
 
@@ -6,12 +8,16 @@
   border-radius: getCssVar('border-radius', 'base');
   color: getCssVar('color', 'info');
   cursor: pointer;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-size: getCssVar('font-size', 'base');
   line-height: getCssVar('font-size', 'base');
-  padding: 7px 15px;
   transition: getCssVar('transition', 'all');
   font-weight: bold;
+  height: map.get($tag-height, 'default');
+  padding: 0 map.get($tag-padding, 'default') - $border-width;
+  user-select: none;
 
   &:hover {
     background-color: getCssVar('color', 'info', 'light-7');
@@ -55,6 +61,13 @@
           }
         }
       }
+    }
+  }
+
+  @each $size in (large, small) {
+    @include m($size) {
+      height: map.get($tag-height, $size);
+      padding: 0 map.get($tag-padding, $size) - $border-width;
     }
   }
 }
