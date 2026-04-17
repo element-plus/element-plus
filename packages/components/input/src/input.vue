@@ -579,6 +579,8 @@ const handleInput = async (event: Event) => {
 }
 
 const handleChange = async (event: Event) => {
+  if (isComposing.value) return
+
   let { value } = event.target as TargetElement
 
   value = formatValue(value)
