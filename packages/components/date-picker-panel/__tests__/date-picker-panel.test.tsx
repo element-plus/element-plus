@@ -1115,6 +1115,114 @@ describe('DatePickerPanel', () => {
         expect(rightBtns[3].classes()).not.toContain('is-disabled')
         expect(rightBtns[3].attributes('disabled')).toBeUndefined()
       })
+
+      it('auto-adjusted maxDate should not be a disabled date when input start date', async () => {
+        // Disable dates after 2026-04-17
+        const disabledDate = (date: Date) =>
+          date.getTime() > new Date(2026, 3, 17).getTime()
+        const value = ref([
+          new Date(2026, 1, 20, 0, 0, 0),
+          new Date(2026, 2, 19, 0, 0, 0),
+        ])
+        const wrapper = mount(() => (
+          <DatePickerPanel
+            v-model={value.value}
+            type="datetimerange"
+            disabledDate={disabledDate}
+          />
+        ))
+        await nextTick()
+
+        const pickerss = wrapper.findAll(
+          '.el-date-range-picker__time-header .el-date-range-picker__editors-wrap'
+        )
+        const leftDateInput = pickerss[0].find(
+          '.el-date-range-picker__time-picker-wrap:nth-child(1) input'
+        ).element as HTMLInputElement
+
+        // Change start date to 2026-03-20, auto-adjusted maxDate should not exceed 2026-04-17
+        leftDateInput.value = '2026-03-20'
+        leftDateInput.dispatchEvent(new Event('input'))
+        leftDateInput.dispatchEvent(new Event('change'))
+        await nextTick()
+
+        const endDate = dayjs(value.value[1])
+        expect(disabledDate(endDate.toDate())).toBe(false)
+        expect(endDate.isSameOrBefore(dayjs(new Date(2026, 3, 17)))).toBe(true)
+      })
+
+      it('auto-adjusted minDate should not be a disabled date when input end date', async () => {
+        // Disable dates before 2026-01-05
+        const disabledDate = (date: Date) =>
+          date.getTime() < new Date(2026, 0, 5).getTime()
+        const value = ref([
+          new Date(2026, 1, 10, 0, 0, 0),
+          new Date(2026, 2, 15, 0, 0, 0),
+        ])
+        const wrapper = mount(() => (
+          <DatePickerPanel
+            v-model={value.value}
+            type="datetimerange"
+            disabledDate={disabledDate}
+          />
+        ))
+        await nextTick()
+
+        const pickerss = wrapper.findAll(
+          '.el-date-range-picker__time-header .el-date-range-picker__editors-wrap'
+        )
+        const rightDateInput = pickerss[1].find(
+          '.el-date-range-picker__time-picker-wrap:nth-child(1) input'
+        ).element as HTMLInputElement
+
+        // Change end date to 2026-01-08, auto-adjusted minDate should not be earlier than 2026-01-05
+        rightDateInput.value = '2026-01-08'
+        rightDateInput.dispatchEvent(new Event('input'))
+        rightDateInput.dispatchEvent(new Event('change'))
+        await nextTick()
+
+        const startDate = dayjs(value.value[0])
+        expect(disabledDate(startDate.toDate())).toBe(false)
+        expect(startDate.isSameOrAfter(dayjs(new Date(2026, 0, 5)))).toBe(true)
+      })
+
+      it('auto-adjusted maxDate should converge to minDate when all dates in between are disabled', async () => {
+        // Disable dates on and after 2026-03-21
+        const disabledDate = (date: Date) =>
+          date.getTime() > new Date(2026, 2, 20).getTime()
+        const value = ref([
+          new Date(2026, 1, 15, 0, 0, 0),
+          new Date(2026, 2, 10, 0, 0, 0),
+        ])
+        const wrapper = mount(() => (
+          <DatePickerPanel
+            v-model={value.value}
+            type="datetimerange"
+            disabledDate={disabledDate}
+          />
+        ))
+        await nextTick()
+
+        const pickerss = wrapper.findAll(
+          '.el-date-range-picker__time-header .el-date-range-picker__editors-wrap'
+        )
+        const leftDateInput = pickerss[0].find(
+          '.el-date-range-picker__time-picker-wrap:nth-child(1) input'
+        ).element as HTMLInputElement
+
+        // Change start date to 2026-03-20 (valid), all dates from 03-21 to 04-20 are disabled,
+        // backward search converges to minDate itself, maxDate = minDate (same-day range)
+        leftDateInput.value = '2026-03-20'
+        leftDateInput.dispatchEvent(new Event('input'))
+        leftDateInput.dispatchEvent(new Event('change'))
+        await nextTick()
+
+        const startDate = dayjs(value.value[0])
+        const endDate = dayjs(value.value[1])
+        expect(startDate.format('YYYY-MM-DD')).toBe('2026-03-20')
+        expect(endDate.format('YYYY-MM-DD')).toBe('2026-03-20')
+        expect(disabledDate(endDate.toDate())).toBe(false)
+      })
     })
   })
 })

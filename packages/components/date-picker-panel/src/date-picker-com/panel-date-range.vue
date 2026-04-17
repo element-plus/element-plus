@@ -780,8 +780,19 @@ const handleDateInput = (value: string | null, type: ChangeType) => {
         !props.unlinkPanels &&
         (!maxDate.value || maxDate.value.isBefore(minDate.value))
       ) {
-        rightDate.value = parsedValueD.add(1, 'month')
-        maxDate.value = minDate.value.add(1, 'month')
+        let adjustedMax = minDate.value.add(1, 'month')
+        if (disabledDate && disabledDate(adjustedMax.toDate())) {
+          let cursor = adjustedMax
+          while (cursor.isAfter(minDate.value)) {
+            cursor = cursor.subtract(1, 'day')
+            if (!disabledDate(cursor.toDate())) {
+              adjustedMax = cursor
+              break
+            }
+          }
+        }
+        rightDate.value = adjustedMax
+        maxDate.value = adjustedMax
       }
     } else {
       rightDate.value = parsedValueD
@@ -793,8 +804,19 @@ const handleDateInput = (value: string | null, type: ChangeType) => {
         !props.unlinkPanels &&
         (!minDate.value || minDate.value.isAfter(maxDate.value))
       ) {
-        leftDate.value = parsedValueD.subtract(1, 'month')
-        minDate.value = maxDate.value.subtract(1, 'month')
+        let adjustedMin = maxDate.value.subtract(1, 'month')
+        if (disabledDate && disabledDate(adjustedMin.toDate())) {
+          let cursor = adjustedMin
+          while (cursor.isBefore(maxDate.value)) {
+            cursor = cursor.add(1, 'day')
+            if (!disabledDate(cursor.toDate())) {
+              adjustedMin = cursor
+              break
+            }
+          }
+        }
+        leftDate.value = adjustedMin
+        minDate.value = adjustedMin
       }
     }
     sortDates(minDate.value, maxDate.value)
