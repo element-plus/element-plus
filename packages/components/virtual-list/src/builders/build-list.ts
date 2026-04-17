@@ -187,7 +187,7 @@ const createList = ({
         getEdgeState(normalizedScrollOffset.value)
       )
 
-      const edgeState = ref(currentEdgeState.value)
+      let edgeState = currentEdgeState.value
 
       const startEdgeReached = computed(() => currentEdgeState.value.start)
       const endEdgeReached = computed(() => currentEdgeState.value.end)
@@ -233,23 +233,15 @@ const createList = ({
         const horizontalEnd = props.direction === RTL ? 'left' : 'right'
         const horizontalStart = props.direction === RTL ? 'right' : 'left'
 
-        if (
-          direction === FORWARD &&
-          nextEdgeState.end &&
-          !edgeState.value.end
-        ) {
+        if (direction === FORWARD && nextEdgeState.end && !edgeState.end) {
           emit(END_REACHED_EVT, _isHorizontal.value ? horizontalEnd : 'bottom')
         }
 
-        if (
-          direction === BACKWARD &&
-          nextEdgeState.start &&
-          !edgeState.value.start
-        ) {
+        if (direction === BACKWARD && nextEdgeState.start && !edgeState.start) {
           emit(END_REACHED_EVT, _isHorizontal.value ? horizontalStart : 'top')
         }
 
-        edgeState.value = nextEdgeState
+        edgeState = nextEdgeState
       }
 
       const updateScrollOffset = (
@@ -473,7 +465,7 @@ const createList = ({
       })
 
       watch(maxOffset, () => {
-        edgeState.value = currentEdgeState.value
+        edgeState = currentEdgeState.value
       })
 
       const api = {
