@@ -763,6 +763,17 @@ const handleMaxTimeClose = () => {
   maxTimePickerVisible.value = false
 }
 
+const findValidDateToward = (from: Dayjs, toward: Dayjs): Dayjs => {
+  if (!disabledDate || !disabledDate(from.toDate())) return from
+  const forward = from.isBefore(toward)
+  let cursor = from
+  while (forward ? cursor.isBefore(toward) : cursor.isAfter(toward)) {
+    cursor = forward ? cursor.add(1, 'day') : cursor.subtract(1, 'day')
+    if (!disabledDate(cursor.toDate())) return cursor
+  }
+  return from
+}
+
 const handleDateInput = (value: string | null, type: ChangeType) => {
   dateUserInput.value[type] = value
   const parsedValueD = dayjs(value, dateFormat.value).locale(lang.value)
@@ -780,17 +791,10 @@ const handleDateInput = (value: string | null, type: ChangeType) => {
         !props.unlinkPanels &&
         (!maxDate.value || maxDate.value.isBefore(minDate.value))
       ) {
-        let adjustedMax = minDate.value.add(1, 'month')
-        if (disabledDate && disabledDate(adjustedMax.toDate())) {
-          let cursor = adjustedMax
-          while (cursor.isAfter(minDate.value)) {
-            cursor = cursor.subtract(1, 'day')
-            if (!disabledDate(cursor.toDate())) {
-              adjustedMax = cursor
-              break
-            }
-          }
-        }
+        const adjustedMax = findValidDateToward(
+          minDate.value.add(1, 'month'),
+          minDate.value
+        )
         rightDate.value = adjustedMax
         maxDate.value = adjustedMax
       }
@@ -804,17 +808,10 @@ const handleDateInput = (value: string | null, type: ChangeType) => {
         !props.unlinkPanels &&
         (!minDate.value || minDate.value.isAfter(maxDate.value))
       ) {
-        let adjustedMin = maxDate.value.subtract(1, 'month')
-        if (disabledDate && disabledDate(adjustedMin.toDate())) {
-          let cursor = adjustedMin
-          while (cursor.isBefore(maxDate.value)) {
-            cursor = cursor.add(1, 'day')
-            if (!disabledDate(cursor.toDate())) {
-              adjustedMin = cursor
-              break
-            }
-          }
-        }
+        const adjustedMin = findValidDateToward(
+          maxDate.value.subtract(1, 'month'),
+          maxDate.value
+        )
         leftDate.value = adjustedMin
         minDate.value = adjustedMin
       }
