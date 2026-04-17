@@ -18,7 +18,7 @@ export interface CheckTagProps {
    */
   type?: 'primary' | 'success' | 'info' | 'warning' | 'danger'
   /**
-   * @default Size of CheckTag
+   * @description size of CheckTag
    */
   size?: ComponentSize
 }
