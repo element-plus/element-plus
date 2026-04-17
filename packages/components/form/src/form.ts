@@ -97,6 +97,14 @@ export interface FormProps extends FormMetaProps {
    * @description When validation fails, it scrolls to the first error item based on the scrollIntoView option.
    */
   scrollIntoViewOptions?: ScrollIntoViewOptions | boolean
+  /**
+   * @description Whether to debounce form submit. If set to `true`, the form submit will be debounced by 500ms to prevent duplicate submissions.
+   */
+  debounceSubmit?: boolean
+  /**
+   * @description Debounce time in milliseconds for form submit. Only effective when `debounceSubmit` is `true`. Default is 500ms.
+   */
+  debounceSubmitTime?: number
 }
 
 /**
@@ -184,6 +192,17 @@ export const formProps = buildProps({
   scrollIntoViewOptions: {
     type: definePropType<ScrollIntoViewOptions | boolean>([Object, Boolean]),
     default: true,
+  },
+  /**
+   * @description Whether to debounce form submit. If set to `true`, the form submit will be debounced by 500ms to prevent duplicate submissions.
+   */
+  debounceSubmit: Boolean,
+  /**
+   * @description Debounce time in milliseconds for form submit. Only effective when `debounceSubmit` is `true`. Default is 500ms.
+   */
+  debounceSubmitTime: {
+    type: Number,
+    default: 500,
   },
 } as const)
 

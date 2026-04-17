@@ -50,6 +50,8 @@ const emit = defineEmits(formEmits)
 const formRef = ref<HTMLElement>()
 const fields = reactive<FormItemContext[]>([])
 const initialValues = new Map<string, any>()
+const isDebouncing = ref(false)
+let debounceTimer: number | null = null
 
 const formSize = useFormSize()
 const ns = useNamespace('form')
@@ -171,7 +173,25 @@ const obtainValidateFields = (props: Arrayable<FormItemProp>) => {
 
 const validate = async (
   callback?: FormValidateCallback
-): FormValidationResult => validateField(undefined, callback)
+): FormValidationResult => {
+  if (props.debounceSubmit && isDebouncing.value) {
+    debugWarn(COMPONENT_NAME, 'Form submit is debounced, please try again later.')
+    return false
+  }
+
+  if (props.debounceSubmit) {
+    isDebouncing.value = true
+    if (debounceTimer) {
+      clearTimeout(debounceTimer)
+    }
+    debounceTimer = window.setTimeout(() => {
+      isDebouncing.value = false
+      debounceTimer = null
+    }, props.debounceSubmitTime)
+  }
+
+  return validateField(undefined, callback)
+}
 
 const doValidateField = async (
   props: Arrayable<FormItemProp> = []
@@ -297,5 +317,9 @@ defineExpose({
    * @description Set initial values for form fields. When `resetFields` is called, fields will reset to these values.
    */
   setInitialValues,
+  /**
+   * @description Whether the form submit is currently debounced. Only effective when `debounceSubmit` is `true`.
+   */
+  isDebouncing,
 })
 </script>
