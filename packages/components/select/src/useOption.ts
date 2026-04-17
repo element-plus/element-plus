@@ -2,10 +2,10 @@ import { computed, getCurrentInstance, inject, toRaw, watch } from 'vue'
 import { get, isEqual } from 'lodash-unified'
 import {
   ensureArray,
-  escapeStringRegexp,
   isObject,
   throwError,
 } from '@element-plus/utils'
+import { filterOption } from './utils'
 import { selectGroupKey, selectKey } from './token'
 import { COMPONENT_NAME } from './option'
 
@@ -71,8 +71,7 @@ export function useOption(props: OptionProps, states: OptionStates) {
   }
 
   const updateOption = (query: string) => {
-    const regexp = new RegExp(escapeStringRegexp(query), 'i')
-    states.visible = regexp.test(String(currentLabel.value)) || props.created
+    states.visible = filterOption(query, currentLabel.value, props.created)
   }
 
   watch(
