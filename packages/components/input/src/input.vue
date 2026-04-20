@@ -278,6 +278,7 @@ const passwordVisible = ref(false)
 const countStyle = ref<StyleValue>()
 const textareaCalcStyle = shallowRef(props.inputStyle)
 const saveValue = ref('')
+const textareaHeight = ref()
 
 const _ref = computed(() => input.value || textarea.value)
 
@@ -304,7 +305,6 @@ const passwordIcon = computed(() => (passwordVisible.value ? View : Hide))
 const containerStyle = computed<StyleValue>(() => [
   rawAttrs.style as StyleValue,
 ])
-const textareaHeight = ref()
 const textareaStyle = computed<StyleValue>(() => [
   props.inputStyle,
   textareaCalcStyle.value,
