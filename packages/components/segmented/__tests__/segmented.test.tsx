@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import Segmented from '../src/segmented.vue'
 import { ElForm } from '@element-plus/components/form'
+import { defineGetter } from '@element-plus/test-utils'
 
 describe('Segmented.vue', () => {
   test('render test', async () => {
@@ -232,6 +233,45 @@ describe('Segmented.vue', () => {
     await nextTick()
     await secondOption.trigger('click')
     expect(onChange).toHaveBeenCalledTimes(2)
+  })
+
+  test('should update indicator when options are reordered', async () => {
+    const ITEM_WIDTH = 30
+    const value = ref(1)
+    const options = ref([
+      { label: 'A', value: 1 },
+      { label: 'B', value: 2 },
+      { label: 'C', value: 3 },
+    ])
+    const wrapper = mount(() => (
+      <Segmented v-model={value.value} options={options.value} />
+    ))
+    await nextTick()
+
+    const mockLayout = () => {
+      const labels = wrapper.findAll('.el-segmented__item')
+      labels.forEach((label, index) => {
+        const el = label.element as HTMLElement
+        defineGetter(el, 'offsetWidth', ITEM_WIDTH)
+        defineGetter(el, 'offsetLeft', index * ITEM_WIDTH)
+      })
+    }
+
+    mockLayout()
+
+    const getSelectedStyle = () =>
+      wrapper.find('.el-segmented__item-selected').attributes('style')
+
+    options.value = [...options.value].reverse()
+    await nextTick()
+
+    expect(
+      wrapper.findAll('.el-segmented__item').map((item) => item.text())
+    ).toEqual(['C', 'B', 'A'])
+
+    expect(getSelectedStyle()).toMatchInlineSnapshot(
+      `"width: 30px; height: 100%; transform: translateX(60px); display: block;"`
+    )
   })
 
   test('The disabled state of a component has higher priority than that of a form', async () => {
