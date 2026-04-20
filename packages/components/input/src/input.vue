@@ -647,7 +647,9 @@ watch(
   () => {
     nextTick(() => {
       resizeTextarea()
-      textareaHeight.value = undefined
+      if (props.autosize) {
+        textareaHeight.value = undefined
+      }
     })
     if (props.validateEvent) {
       elFormItem?.validate?.('change').catch(NOOP)
