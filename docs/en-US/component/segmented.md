@@ -102,7 +102,7 @@ segmented/custom-style
 | value         | specify which key of node object is used as the node's value    | ^[string] | value    |
 | label         | specify which key of node object is used as the node's label    | ^[string] | label    |
 | disabled      | specify which key of node object is used as the node's disabled | ^[string] | disabled |
-| key ^(2.13.8) | specify which key of node object is used as the node's key      | ^[string] | key      |
+| key ^(2.13.8) | specify which key of node object is used as the node's key      | ^[string] | ''       |
 
 ### Events
 
