@@ -1,5 +1,5 @@
 <template>
-  <el-teleport to="body" :disabled="!teleported">
+  <teleport to="body" :disabled="!teleported">
     <transition name="viewer-fade" appear>
       <div
         ref="wrapper"
@@ -107,7 +107,7 @@
         </el-focus-trap>
       </div>
     </transition>
-  </el-teleport>
+  </teleport>
 </template>
 
 <script lang="ts" setup>
@@ -132,7 +132,6 @@ import {
 import { EVENT_CODE } from '@element-plus/constants'
 import { getEventCode, keysOf } from '@element-plus/utils'
 import ElFocusTrap from '@element-plus/components/focus-trap'
-import ElTeleport from '@element-plus/components/teleport'
 import ElIcon from '@element-plus/components/icon'
 import {
   ArrowLeft,
