@@ -278,7 +278,7 @@ const passwordVisible = ref(false)
 const countStyle = ref<StyleValue>()
 const textareaCalcStyle = shallowRef(props.inputStyle)
 const saveValue = ref('')
-const textareaHeight = ref()
+const textareaHeight = ref<string>()
 
 const _ref = computed(() => input.value || textarea.value)
 
@@ -412,7 +412,11 @@ const createOnceInitResize = (resizeTextarea: () => void) => {
   return () => {
     if (isInit || !props.autosize) {
       if (props.resize !== 'none') {
-        textareaHeight.value = textarea.value?.style.height
+        // The execution here may occur before `setTimeout(resizeTextarea)`,
+        // potentially causing a regression of issue #21836, so the assignment needs to be deferred.
+        setTimeout(() => {
+          textareaHeight.value = textarea.value?.style.height
+        })
       }
       return
     }
