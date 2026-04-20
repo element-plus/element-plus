@@ -18,12 +18,14 @@ export interface Props {
   label?: string
   value?: string
   disabled?: string
+  key?: string
 }
 
 export const defaultProps: Required<Props> = {
   label: 'label',
   value: 'value',
   disabled: 'disabled',
+  key: '',
 }
 
 export interface SegmentedProps<T extends Option = Option> {

@@ -12,7 +12,11 @@
       <div :style="selectedStyle" :class="selectedCls" />
       <label
         v-for="(item, index) in options"
-        :key="index"
+        :key="
+          props.props.key
+            ? (item as Record<string, any>)?.[props.props.key]
+            : index
+        "
         :class="getItemCls(item)"
       >
         <input
