@@ -295,7 +295,11 @@ function clear() {
 }
 
 function handleShowTooltip() {
-  pickerPanelRef.value?.svRef?.cursorRef?.focus({ preventScroll: true })
+  if (props.focusOnShow === 'input') {
+    pickerPanelRef.value?.inputRef?.focus()
+  } else if (props.focusOnShow === 'sv-cursor') {
+    pickerPanelRef.value?.svRef?.cursorRef?.focus({ preventScroll: true })
+  }
 }
 
 function handleClickOutside() {

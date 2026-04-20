@@ -77,6 +77,10 @@ export interface ColorPickerProps
    * @description whether to trigger form validation
    */
   validateEvent?: boolean
+  /**
+   * @description which element to focus when the picker panel opens
+   */
+  focusOnShow?: 'input' | 'sv-cursor' | false
 }
 
 /**
@@ -165,6 +169,13 @@ export const colorPickerProps = buildProps({
     type: Boolean,
     default: true,
   },
+  /**
+   * @description which element to focus when the picker panel opens
+   */
+  focusOnShow: {
+    type: definePropType<'input' | 'sv-cursor' | false>([String, Boolean]),
+    default: 'input',
+  },
   ...useEmptyValuesProps,
   ...useAriaProps(['ariaLabel']),
 } as const)
@@ -198,5 +209,6 @@ export const colorPickerPropsDefaults = {
   tabindex: 0,
   teleported: true,
   validateEvent: true,
+  focusOnShow: 'input' as const,
   valueOnClear: undefined,
 } as const
