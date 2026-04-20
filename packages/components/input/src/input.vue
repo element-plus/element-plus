@@ -645,7 +645,10 @@ const clear = (evt?: MouseEvent) => {
 watch(
   () => props.modelValue,
   () => {
-    nextTick(() => resizeTextarea())
+    nextTick(() => {
+      resizeTextarea()
+      textareaHeight.value = undefined
+    })
     if (props.validateEvent) {
       elFormItem?.validate?.('change').catch(NOOP)
     }
