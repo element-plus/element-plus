@@ -183,7 +183,7 @@ useResizeObserver(segmentedRef, updateSelect)
 
 watch(activeElement, updateSelect)
 
-watch(() => props.options, updateSelect, { flush: 'post' })
+watch(() => props.options, updateSelect, { deep: true, flush: 'post' })
 
 watch(
   () => props.modelValue,

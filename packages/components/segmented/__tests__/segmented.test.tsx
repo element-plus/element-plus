@@ -258,18 +258,15 @@ describe('Segmented.vue', () => {
     }
 
     mockLayout()
-
-    const getSelectedStyle = () =>
-      wrapper.find('.el-segmented__item-selected').attributes('style')
-
-    options.value = [...options.value].reverse()
+    options.value.reverse()
     await nextTick()
 
     expect(
       wrapper.findAll('.el-segmented__item').map((item) => item.text())
     ).toEqual(['C', 'B', 'A'])
-
-    expect(getSelectedStyle()).toMatchInlineSnapshot(
+    expect(
+      wrapper.find('.el-segmented__item-selected').attributes('style')
+    ).toMatchInlineSnapshot(
       `"width: 30px; height: 100%; transform: translateX(60px); display: block;"`
     )
   })
