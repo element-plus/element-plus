@@ -278,6 +278,7 @@ const passwordVisible = ref(false)
 const countStyle = ref<StyleValue>()
 const textareaCalcStyle = shallowRef(props.inputStyle)
 const saveValue = ref('')
+const textareaHeight = ref<string>()
 
 const _ref = computed(() => input.value || textarea.value)
 
@@ -308,6 +309,7 @@ const textareaStyle = computed<StyleValue>(() => [
   props.inputStyle,
   textareaCalcStyle.value,
   { resize: props.resize },
+  textareaHeight.value ? { height: textareaHeight.value } : undefined,
 ])
 const nativeInputValue = computed(() =>
   isNil(props.modelValue) ? '' : String(props.modelValue)
@@ -408,7 +410,16 @@ const resizeTextarea = () => {
 const createOnceInitResize = (resizeTextarea: () => void) => {
   let isInit = false
   return () => {
-    if (isInit || !props.autosize) return
+    if (isInit || !props.autosize) {
+      if (props.resize !== 'none') {
+        // The execution here may occur before `setTimeout(resizeTextarea)`,
+        // potentially causing a regression of issue #21836, so the assignment needs to be deferred.
+        setTimeout(() => {
+          textareaHeight.value = textarea.value?.style.height
+        })
+      }
+      return
+    }
     const isElHidden = textarea.value?.offsetParent === null
     if (!isElHidden) {
       setTimeout(resizeTextarea)
@@ -634,7 +645,12 @@ const clear = (evt?: MouseEvent) => {
 watch(
   () => props.modelValue,
   () => {
-    nextTick(() => resizeTextarea())
+    nextTick(() => {
+      resizeTextarea()
+      if (props.autosize) {
+        textareaHeight.value = undefined
+      }
+    })
     if (props.validateEvent) {
       elFormItem?.validate?.('change').catch(NOOP)
     }
