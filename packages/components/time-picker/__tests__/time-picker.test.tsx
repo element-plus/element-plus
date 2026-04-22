@@ -318,8 +318,8 @@ describe('TimePicker', () => {
     await currentHour.trigger('mouseover')
     await picker.find('.el-time-panel__btn.cancel').trigger('click')
     const secondInput = wrapper.findAll('.el-range-input')[1]
-    await secondInput.setValue('07:40:00')
-    expect(secondInput.element.value).toBe('07:40:00')
+    await secondInput.setValue('09:40:00')
+    expect(secondInput.element.value).toBe('09:40:00')
     await input.trigger('blur')
     expect(secondInput.element.value).toBe('09:40:00')
   })
