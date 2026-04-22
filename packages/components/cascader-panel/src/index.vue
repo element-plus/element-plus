@@ -65,7 +65,6 @@ import type {
   CascaderNode,
   CascaderNodeValue,
   CascaderOption,
-  CascaderProps,
   CascaderValue,
   ElCascaderPanelContext,
 } from './types'
@@ -77,8 +76,8 @@ defineOptions({
 })
 
 const props = withDefaults(defineProps<CascaderPanelProps>(), {
-  options: () => [] as CascaderOption[],
-  props: () => ({}) as CascaderProps,
+  options: () => [],
+  props: () => ({}),
   border: true,
   itemSize: CASCADER_PANEL_ITEM_SIZE,
   height: CASCADER_PANEL_HEIGHT,

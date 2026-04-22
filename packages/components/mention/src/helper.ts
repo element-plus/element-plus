@@ -2,9 +2,9 @@ import { ensureArray, isFirefox } from '@element-plus/utils'
 
 import type { MentionCtx, MentionOption } from './types'
 
-export const filterOption = (
+export const filterOption = <T extends MentionOption = MentionOption>(
   pattern: string,
-  option: MentionOption
+  option: T & MentionOption
 ): boolean => {
   const lowerCase = pattern.toLowerCase()
   const label = option.label || option.value || ''

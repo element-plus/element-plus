@@ -282,7 +282,7 @@ import {
 import { cloneDeep } from 'lodash-unified'
 import { useCssVar, useDebounceFn, useResizeObserver } from '@vueuse/core'
 import {
-  debugWarn,
+  NOOP,
   focusNode,
   getEventCode,
   getSibling,
@@ -491,7 +491,7 @@ const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
   },
   afterBlur() {
     if (props.validateEvent) {
-      formItem?.validate?.('blur').catch((err) => debugWarn(err))
+      formItem?.validate?.('blur').catch(NOOP)
     }
   },
 })
@@ -529,7 +529,7 @@ const checkedValue = computed<CascaderValue>({
     emit(UPDATE_MODEL_EVENT, value)
     emit(CHANGE_EVENT, value)
     if (props.validateEvent) {
-      formItem?.validate('change').catch((err) => debugWarn(err))
+      formItem?.validate('change').catch(NOOP)
     }
   },
 })
@@ -693,7 +693,12 @@ const focusFirstNode = () => {
 
   if (firstNode) {
     firstNode.focus()
-    !filtering.value && firstNode.click()
+    if (
+      !filtering.value &&
+      firstNode.getAttribute('aria-haspopup') === 'true'
+    ) {
+      firstNode.click()
+    }
   }
 }
 
@@ -971,7 +976,17 @@ const handleInput = (val: string, e?: InputEvent) => {
 
   if (e?.isComposing) return
 
-  val ? handleFilter() : hideSuggestionPanel()
+  if (val) {
+    handleFilter()
+  } else {
+    const passed = props.beforeFilter('')
+    if (isPromise(passed)) {
+      passed.catch(() => {
+        /* prevent log error */
+      })
+    }
+    hideSuggestionPanel()
+  }
 }
 
 const getInputInnerHeight = (inputInner: HTMLElement): number =>

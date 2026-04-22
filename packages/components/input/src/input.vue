@@ -35,8 +35,8 @@
           :class="nsInput.e('inner')"
           v-bind="attrs"
           :name="name"
-          :minlength="minlength"
-          :maxlength="maxlength"
+          :minlength="countGraphemes ? undefined : minlength"
+          :maxlength="countGraphemes ? undefined : maxlength"
           :type="showPassword ? (passwordVisible ? 'text' : 'password') : type"
           :disabled="inputDisabled"
           :readonly="readonly"
@@ -60,6 +60,15 @@
         <!-- suffix slot -->
         <span v-if="suffixVisible" :class="nsInput.e('suffix')">
           <span :class="nsInput.e('suffix-inner')">
+            <el-icon
+              v-if="renderClear"
+              :class="[nsInput.e('icon'), nsInput.e('clear')]"
+              :style="{ visibility: showClear ? 'visible' : 'hidden' }"
+              @mousedown.prevent="NOOP"
+              @click="clear"
+            >
+              <component :is="clearIcon" />
+            </el-icon>
             <template
               v-if="!showClear || !showPwdVisible || !isWordLimitVisible"
             >
@@ -68,14 +77,6 @@
                 <component :is="suffixIcon" />
               </el-icon>
             </template>
-            <el-icon
-              v-if="showClear"
-              :class="[nsInput.e('icon'), nsInput.e('clear')]"
-              @mousedown.prevent="NOOP"
-              @click="clear"
-            >
-              <component :is="clearIcon" />
-            </el-icon>
             <el-icon
               v-if="showPwdVisible"
               :class="[nsInput.e('icon'), nsInput.e('password')]"
@@ -130,8 +131,8 @@
         ]"
         v-bind="attrs"
         :name="name"
-        :minlength="minlength"
-        :maxlength="maxlength"
+        :minlength="countGraphemes ? undefined : minlength"
+        :maxlength="countGraphemes ? undefined : maxlength"
         :tabindex="tabindex"
         :disabled="inputDisabled"
         :readonly="readonly"
@@ -233,7 +234,6 @@ const props = withDefaults(defineProps<InputProps>(), inputPropsDefaults)
 const emit = defineEmits(inputEmits)
 
 const rawAttrs = useRawAttrs()
-const attrs = useAttrs()
 const slots = useSlots()
 
 const containerKls = computed(() => [
@@ -258,6 +258,9 @@ const wrapperKls = computed(() => [
   nsInput.is('focus', isFocused.value),
 ])
 
+const attrs = useAttrs()
+const maxlength = computed(() => props.maxlength?.toString())
+
 const { form: elForm, formItem: elFormItem } = useFormItem()
 const { inputId } = useFormItemInputId(props, {
   formItemContext: elFormItem,
@@ -274,17 +277,20 @@ const hovering = ref(false)
 const passwordVisible = ref(false)
 const countStyle = ref<StyleValue>()
 const textareaCalcStyle = shallowRef(props.inputStyle)
+const saveValue = ref('')
+const textareaHeight = ref<string>()
 
 const _ref = computed(() => input.value || textarea.value)
 
 // wrapperRef for type="text", handleFocus and handleBlur for type="textarea"
+// @ts-ignore - used in template ref binding, TS cannot detect template usage
 const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
   _ref,
   {
     disabled: inputDisabled,
     afterBlur() {
       if (props.validateEvent) {
-        elFormItem?.validate?.('blur').catch((err) => debugWarn(err))
+        elFormItem?.validate?.('blur').catch(NOOP)
       }
     },
   }
@@ -303,15 +309,17 @@ const textareaStyle = computed<StyleValue>(() => [
   props.inputStyle,
   textareaCalcStyle.value,
   { resize: props.resize },
+  textareaHeight.value ? { height: textareaHeight.value } : undefined,
 ])
 const nativeInputValue = computed(() =>
   isNil(props.modelValue) ? '' : String(props.modelValue)
 )
+const renderClear = computed(
+  () => props.clearable && !inputDisabled.value && !props.readonly
+)
 const showClear = computed(
   () =>
-    props.clearable &&
-    !inputDisabled.value &&
-    !props.readonly &&
+    renderClear.value &&
     !!nativeInputValue.value &&
     (isFocused.value || hovering.value)
 )
@@ -321,23 +329,28 @@ const showPwdVisible = computed(
 const isWordLimitVisible = computed(
   () =>
     props.showWordLimit &&
-    !!props.maxlength &&
+    !!maxlength.value &&
     (props.type === 'text' || props.type === 'textarea') &&
     !inputDisabled.value &&
     !props.readonly &&
     !props.showPassword
 )
-const textLength = computed(() => nativeInputValue.value.length)
+const textLength = computed(() => {
+  if (props.countGraphemes && props.showWordLimit) {
+    return props.countGraphemes(nativeInputValue.value)
+  }
+  return nativeInputValue.value.length
+})
 const inputExceed = computed(
   () =>
     // show exceed style if length of initial value greater then maxlength
-    !!isWordLimitVisible.value && textLength.value > Number(props.maxlength)
+    !!isWordLimitVisible.value && textLength.value > Number(maxlength.value)
 )
 const suffixVisible = computed(
   () =>
     !!slots.suffix ||
     !!props.suffixIcon ||
-    showClear.value ||
+    props.clearable ||
     props.showPassword ||
     isWordLimitVisible.value ||
     (!!validateState.value && needStatusIcon.value)
@@ -397,7 +410,16 @@ const resizeTextarea = () => {
 const createOnceInitResize = (resizeTextarea: () => void) => {
   let isInit = false
   return () => {
-    if (isInit || !props.autosize) return
+    if (isInit || !props.autosize) {
+      if (props.resize !== 'none') {
+        // The execution here may occur before `setTimeout(resizeTextarea)`,
+        // potentially causing a regression of issue #21836, so the assignment needs to be deferred.
+        setTimeout(() => {
+          textareaHeight.value = textarea.value?.style.height
+        })
+      }
+      return
+    }
     const isElHidden = textarea.value?.offsetParent === null
     if (!isElHidden) {
       setTimeout(resizeTextarea)
@@ -438,6 +460,7 @@ const handleInput = async (event: Event) => {
 
   const { lazy } = props.modelModifiers
   let { value } = event.target as TargetElement
+  let shouldForceNativeUpdate = false
   if (lazy) {
     emit(INPUT_EVENT, value)
     return
@@ -445,15 +468,112 @@ const handleInput = async (event: Event) => {
 
   value = formatValue(value)
 
+  if (props.countGraphemes && maxlength.value != null) {
+    const limit = Number(maxlength.value)
+    const graphemes = props.countGraphemes(value)
+    const saveGraphemes = props.countGraphemes(saveValue.value)
+    if (graphemes > limit && graphemes > saveGraphemes) {
+      // If current value already exceeds limit, block further input and keep exceed state.
+      if (saveGraphemes > limit) {
+        value = saveValue.value
+        shouldForceNativeUpdate = true
+      } else {
+        // Keep unchanged suffix like native maxlength behavior.
+        // Instead of truncating from the end of the whole string,
+        // only limit the inserted segment to available capacity.
+        const prevValue = saveValue.value
+        const nextValue = value
+        let prefixLen = 0
+
+        while (
+          prefixLen < prevValue.length &&
+          prefixLen < nextValue.length &&
+          prevValue[prefixLen] === nextValue[prefixLen]
+        ) {
+          prefixLen++
+        }
+
+        let prevSuffixIndex = prevValue.length
+        let nextSuffixIndex = nextValue.length
+        while (
+          prevSuffixIndex > prefixLen &&
+          nextSuffixIndex > prefixLen &&
+          prevValue[prevSuffixIndex - 1] === nextValue[nextSuffixIndex - 1]
+        ) {
+          prevSuffixIndex--
+          nextSuffixIndex--
+        }
+
+        const before = nextValue.slice(0, prefixLen)
+        const removed = prevValue.slice(prefixLen, prevSuffixIndex)
+        const inserted = nextValue.slice(prefixLen, nextSuffixIndex)
+        const after = nextValue.slice(nextSuffixIndex)
+
+        const removedCount = props.countGraphemes(removed)
+        const baseCount = saveGraphemes - removedCount
+        const availableInserted = Math.max(0, limit - baseCount)
+
+        let acceptedInserted = ''
+        if (availableInserted > 0) {
+          // Use Intl.Segmenter for proper grapheme cluster iteration if available.
+          if (typeof Intl !== 'undefined' && 'Segmenter' in Intl) {
+            const segmenter = new Intl.Segmenter(undefined, {
+              granularity: 'grapheme',
+            })
+            for (const { segment } of segmenter.segment(inserted)) {
+              const candidate = acceptedInserted + segment
+              const newCount = props.countGraphemes(candidate)
+              if (newCount > availableInserted) break
+              acceptedInserted = candidate
+            }
+          } else {
+            // Fallback to code-point iteration for older environments.
+            for (const char of Array.from(inserted)) {
+              const candidate = acceptedInserted + char
+              const newCount = props.countGraphemes(candidate)
+              if (newCount > availableInserted) break
+              acceptedInserted = candidate
+            }
+          }
+        }
+
+        value = before + acceptedInserted + after
+        shouldForceNativeUpdate = true
+      }
+    }
+  }
+
   // hack for https://github.com/ElemeFE/element/issues/8548
   // should remove the following line when we don't support IE
   if (String(value) === nativeInputValue.value) {
     // preserve native features while being compatible with #9501
-    if (props.formatter) {
+    if (props.formatter || shouldForceNativeUpdate) {
+      const target = event.target as TargetElement
+      const blockedValue = target.value
+      const selectionStart = target.selectionStart
+      const selectionEnd = target.selectionEnd
       setNativeInputValue()
+      // Keep caret position stable when input is blocked and value is reset.
+      if (
+        shouldForceNativeUpdate &&
+        _ref.value &&
+        selectionStart != null &&
+        selectionEnd != null
+      ) {
+        const restoredValue = _ref.value.value
+        const afterTxt = blockedValue.slice(Math.max(0, selectionEnd))
+        let caretPos = Math.min(selectionStart, restoredValue.length)
+
+        if (afterTxt && restoredValue.endsWith(afterTxt)) {
+          caretPos = restoredValue.length - afterTxt.length
+        }
+
+        _ref.value.setSelectionRange(caretPos, caretPos)
+      }
     }
     return
   }
+  saveValue.value = value
 
   recordCursor()
   emit(UPDATE_MODEL_EVENT, value)
@@ -525,11 +645,24 @@ const clear = (evt?: MouseEvent) => {
 watch(
   () => props.modelValue,
   () => {
-    nextTick(() => resizeTextarea())
+    nextTick(() => {
+      resizeTextarea()
+      if (props.autosize) {
+        textareaHeight.value = undefined
+      }
+    })
     if (props.validateEvent) {
-      elFormItem?.validate?.('change').catch((err) => debugWarn(err))
+      elFormItem?.validate?.('change').catch(NOOP)
     }
   }
+)
+
+watch(
+  () => nativeInputValue.value,
+  (val) => {
+    saveValue.value = val
+  },
+  { immediate: true }
 )
 
 // native input value is set explicitly
@@ -597,6 +730,9 @@ defineExpose({
 
   /** @description is input composing */
   isComposing,
+
+  /** @description whether the password is visible */
+  passwordVisible,
 
   /** @description HTML input element native method */
   focus,

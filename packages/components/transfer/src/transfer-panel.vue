@@ -57,7 +57,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup generic="T extends TransferDataItem = TransferDataItem">
 import { computed, reactive, toRefs, useSlots } from 'vue'
 import { isEmpty, mutable } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
@@ -68,13 +68,14 @@ import { transferPanelEmits } from './transfer-panel'
 import { useCheck, usePropsAlias } from './composables'
 
 import type { VNode } from 'vue'
+import type { TransferDataItem } from './transfer'
 import type { TransferPanelProps, TransferPanelState } from './transfer-panel'
 
 defineOptions({
   name: 'ElTransferPanel',
 })
 
-const props = withDefaults(defineProps<TransferPanelProps>(), {
+const props = withDefaults(defineProps<TransferPanelProps<T>>(), {
   data: () => [],
   format: () => ({}),
   defaultChecked: () => [],

@@ -8,6 +8,7 @@
 import { computed, provide, reactive, ref, toRefs, watch } from 'vue'
 import { cloneDeep } from 'lodash-unified'
 import {
+  NOOP,
   debugWarn,
   ensureArray,
   getProp,
@@ -69,7 +70,9 @@ const getField: FormContext['getField'] = (prop) => {
 }
 
 const addField: FormContext['addField'] = (field) => {
-  fields.push(field)
+  if (!fields.includes(field)) {
+    fields.push(field)
+  }
   if (field.propString) {
     if (initialValues.has(field.propString)) {
       field.setInitialValue(initialValues.get(field.propString))
@@ -79,9 +82,19 @@ const addField: FormContext['addField'] = (field) => {
   }
 }
 
-const removeField: FormContext['removeField'] = (field) => {
-  if (field.prop) {
-    fields.splice(fields.indexOf(field), 1)
+const removeField: FormContext['removeField'] = (field, oldPropString?) => {
+  if (oldPropString) {
+    // Prop changed on a live field: delete stale key, field stays in fields[]
+    initialValues.delete(oldPropString)
+    return
+  }
+  // Unmount: splice from array, cache initialValue for potential remount
+  const idx = fields.indexOf(field)
+  if (idx > -1) {
+    fields.splice(idx, 1)
+    if (field.propString) {
+      initialValues.set(field.propString, cloneDeep(field.getInitialValue()))
+    }
   }
 }
 
@@ -227,7 +240,7 @@ watch(
   () => props.rules,
   () => {
     if (props.validateOnRuleChange) {
-      validate().catch((err) => debugWarn(err))
+      validate().catch(NOOP)
     }
   },
   { deep: true, flush: 'post' }

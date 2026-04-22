@@ -41,7 +41,7 @@ import {
   useFormItemInputId,
   useFormSize,
 } from '@element-plus/components/form'
-import { debugWarn, isObject } from '@element-plus/utils'
+import { NOOP, isObject } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { defaultProps, segmentedEmits } from './segmented'
 
@@ -183,12 +183,14 @@ useResizeObserver(segmentedRef, updateSelect)
 
 watch(activeElement, updateSelect)
 
+watch(() => props.options, updateSelect, { deep: true, flush: 'post' })
+
 watch(
   () => props.modelValue,
   () => {
     updateSelect()
     if (props.validateEvent) {
-      formItem?.validate?.('change').catch((err) => debugWarn(err))
+      formItem?.validate?.('change').catch(NOOP)
     }
   },
   {
