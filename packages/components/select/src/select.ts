@@ -14,7 +14,6 @@ import { defaultProps } from '@element-plus/components/select-v2/src/useProps'
 
 import type { EmitFn } from '@element-plus/utils'
 import type {
-  CSSProperties,
   ClassValue,
   ExtractPropTypes,
   ExtractPublicPropTypes,
@@ -37,8 +36,8 @@ export interface TagTooltipProps {
   placement?: Placement
   fallbackPlacements?: Placement[]
   effect?: PopperEffect
-  popperClass?: string
-  popperStyle?: string | CSSProperties
+  popperClass?: ClassValue
+  popperStyle?: StyleValue
   transition?: string
   teleported?: boolean
   popperOptions?: Partial<Options>
