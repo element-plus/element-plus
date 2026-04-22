@@ -230,11 +230,7 @@ function useWatcher<T extends DefaultRow>() {
     } = {}
   ) => {
     const { emitChange = true } = options
-    if (treeStates.checkStrictly.value) {
-      selectionIndeterminate.value = {}
-      return
-    }
-    if (!rowKey.value) {
+    if (treeStates.checkStrictly.value || !rowKey.value) {
       selectionIndeterminate.value = {}
       return
     }
@@ -353,7 +349,7 @@ function useWatcher<T extends DefaultRow>() {
       )
       selection.value = newSelection
       updateSelectionByChildren({ emitChange: false })
-      instance.emit('selection-change', selection.value.slice())
+      instance.emit('selection-change', newSelection.slice())
     }
   }
 
