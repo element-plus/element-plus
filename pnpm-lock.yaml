@@ -26,7 +26,7 @@ catalogs:
       specifier: ^3.5.32
       version: 3.5.32
     '@vue/shared':
-      specifier: ^3.5.22
+      specifier: ^3.5.32
       version: 3.5.32
     '@vue/test-utils':
       specifier: ^2.4.6
