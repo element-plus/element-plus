@@ -250,14 +250,21 @@ describe('Segmented.vue', () => {
 
     const mockLayout = () => {
       const labels = wrapper.findAll('.el-segmented__item')
+      let cleanup: (() => void)[] = []
       labels.forEach((label, index) => {
         const el = label.element as HTMLElement
-        defineGetter(el, 'offsetWidth', ITEM_WIDTH)
-        defineGetter(el, 'offsetLeft', index * ITEM_WIDTH)
+        cleanup.push(
+          defineGetter(el, 'offsetWidth', ITEM_WIDTH),
+          defineGetter(el, 'offsetLeft', index * ITEM_WIDTH)
+        )
       })
+      return () => {
+        cleanup.forEach((fn) => fn())
+        cleanup = []
+      }
     }
 
-    mockLayout()
+    const cleanup = mockLayout()
     options.value.reverse()
     await nextTick()
 
@@ -269,6 +276,7 @@ describe('Segmented.vue', () => {
     ).toMatchInlineSnapshot(
       `"width: 30px; height: 100%; transform: translateX(60px); display: block;"`
     )
+    cleanup()
   })
 
   test('The disabled state of a component has higher priority than that of a form', async () => {
