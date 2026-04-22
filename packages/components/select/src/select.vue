@@ -290,6 +290,7 @@
             :aria-label="ariaLabel"
             aria-orientation="vertical"
             @scroll="popupScroll"
+            @end-reached="endReached"
           >
             <el-option
               v-if="showNewOption"
@@ -444,6 +445,7 @@ export default defineComponent({
     'focus',
     'blur',
     'popup-scroll',
+    'end-reached',
   ],
 
   setup(props, { emit, slots }) {
