@@ -17,7 +17,7 @@ import { inputProps } from '@element-plus/components/input'
 import type { ComponentInstance, ExtractPublicPropTypes } from 'vue'
 import type { ComponentExposed } from 'vue-component-type-helpers'
 import type Autocomplete from './autocomplete.vue'
-import type { Placement } from '@element-plus/components/popper'
+import type { Options, Placement } from '@element-plus/components/popper'
 import type { Awaitable } from '@element-plus/utils'
 import type { InputProps } from '@element-plus/components/input'
 import type { ElTooltipContentProps } from '@element-plus/components/tooltip'
@@ -77,6 +77,14 @@ export interface AutocompleteProps<
    * @description custom style for autocomplete's dropdown
    */
   popperStyle?: ElTooltipContentProps['popperStyle']
+  /**
+   * @description [popper.js](https://popper.js.org/docs/v2/) parameters
+   */
+  popperOptions?: Partial<Options>
+  /**
+   * @description determines whether the arrow is displayed
+   */
+  showArrow?: boolean
   /**
    * @description whether show suggestions when input focus
    */
@@ -167,6 +175,17 @@ export const autocompleteProps = buildProps({
    * @description custom style for autocomplete's dropdown
    */
   popperStyle: useTooltipContentProps.popperStyle,
+  /**
+   * @description [popper.js](https://popper.js.org/docs/v2/) parameters
+   */
+  popperOptions: useTooltipContentProps.popperOptions,
+  /**
+   * @description determines whether the arrow is displayed
+   */
+  showArrow: {
+    type: Boolean,
+    default: true,
+  },
   /**
    * @description whether show suggestions when input focus
    */
