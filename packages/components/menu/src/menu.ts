@@ -455,7 +455,7 @@ export default defineComponent({
           closeMenu,
           handleMenuItemClick,
           handleSubMenuClick,
-        })
+        }) as unknown as MenuProvider
       )
 
       provide<SubMenuProvider>(`${SUB_MENU_INJECTION_KEY}${instance.uid}`, {
