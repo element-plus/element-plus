@@ -19,6 +19,7 @@
     :hide-after="0"
     persistent
     @before-show="onBeforeShow"
+    @before-hide="onBeforeHide"
     @show="onShow"
     @hide="onHide"
   >
@@ -386,6 +387,10 @@ const onBeforeShow = () => {
 
 const onShow = () => {
   emit('visible-change', true)
+}
+
+const onBeforeHide = () => {
+  blur()
 }
 
 const onHide = () => {
