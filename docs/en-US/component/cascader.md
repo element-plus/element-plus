@@ -193,7 +193,7 @@ cascader/custom-header-footer
 
 :::
 
-## Virtual Scroll ^(2.13.7)
+## Virtual Scroll ^(2.14.0)
 
 When dealing with large amounts of data, you can enable virtual scrolling to improve performance.
 
