@@ -134,22 +134,20 @@ const isLoading = computed(() => !panel.initialLoaded)
 const menuId = computed(() => `${id.value}-${props.index}`)
 
 const getActiveNodeIndex = () => {
-  const expandingNodeLevel = panel.expandingNode?.level ?? 0
   let activeNodeId: number | undefined
 
-  if (props.index < expandingNodeLevel) {
-    activeNodeId = panel.expandingNode?.pathNodes[props.index]?.uid
+  if (panel.expandingNode) {
+    const { level, pathNodes } = panel.expandingNode
+    if (props.index < level) {
+      activeNodeId = pathNodes[props.index]?.uid
+    } else if (props.index === level && panel.checkedNodes.length > 0) {
+      activeNodeId = panel.checkedNodes[0]?.pathNodes[props.index]?.uid
+    }
   } else if (
-    props.index === expandingNodeLevel &&
-    panel.checkedNodes.length > 0
-  ) {
-    activeNodeId = panel.checkedNodes[0]?.pathNodes[props.index]?.uid
-  } else if (
-    !panel.expandingNode &&
     panel.checkedNodes.length > 0 &&
     props.index < panel.checkedNodes[0].pathNodes.length
   ) {
-    activeNodeId = panel.checkedNodes[0]?.pathNodes[props.index]?.uid
+    activeNodeId = panel.checkedNodes[0].pathNodes[props.index]?.uid
   }
 
   return activeNodeId !== undefined
