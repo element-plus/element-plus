@@ -87,6 +87,20 @@ describe('MessageBox', () => {
     expect(icon.querySelector('svg')!.innerHTML).toBe(svg.innerHTML)
   })
 
+  test('custom icon placement', async () => {
+    MessageBox({
+      type: 'warning',
+      title: 'This is title',
+      message: 'This is message',
+      iconPlacement: 'title',
+    })
+    await rAF()
+    const title = document.querySelector('.el-message-box__title')
+    const titleIcon = title.querySelector('.el-message-box__status')
+
+    expect(titleIcon).toBeTruthy()
+  })
+
   test('html string', async () => {
     MessageBox({
       title: 'html string',
