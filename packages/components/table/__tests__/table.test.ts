@@ -222,6 +222,24 @@ describe('Table.vue', () => {
       expect(hasRecursiveError).toBe(false)
     })
 
+    it('rapidly update height should apply latest value, not stale callbacks', async () => {
+      const wrapper = createTable(':height="height"', {
+        data() {
+          return {
+            height: 0,
+          }
+        },
+        mounted() {
+          this.height = 200
+        },
+      })
+
+      await doubleWait()
+      const style = wrapper.attributes('style')
+      expect(style).toContain('height: 200px')
+      wrapper.unmount()
+    })
+
     it('stripe', async () => {
       const wrapper = createTable('stripe')
       await doubleWait()
