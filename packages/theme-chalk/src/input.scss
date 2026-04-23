@@ -107,6 +107,7 @@
   @include e(clear) {
     position: absolute;
     top: 15px;
+    right: 11px;
     transform: translateY(-50%);
     color: getCssVar('input-icon-color');
     font-size: map.get($input-font-size, 'default');

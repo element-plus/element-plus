@@ -376,10 +376,14 @@ useResizeObserver(textarea, (entries) => {
   const { width } = entry.target.getBoundingClientRect()
 
   const updateStyle = () => {
-    /** right: 100% - width - right(10) */
-    const right = `calc(100% - ${width - 10}px)`
-    countStyle.value = { right }
-    clearIconStyle.value = { right }
+    countStyle.value = {
+      /** right: 100% - (width - right(10)) */
+      right: `calc(100% - ${width - 10}px)`,
+    }
+    clearIconStyle.value = {
+      /** right: 100% - (width - right(11)) */
+      right: `calc(100% - ${width - 11}px)`,
+    }
   }
 
   if (isFirstObserve) {
