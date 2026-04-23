@@ -205,6 +205,7 @@ import {
   debugWarn,
   isClient,
   isObject,
+  rAF,
 } from '@element-plus/utils'
 import {
   useAttrs,
@@ -390,7 +391,7 @@ useResizeObserver(textarea, (entries) => {
     updateStyle()
     isFirstObserve = false
   } else {
-    requestIdleCallback(updateStyle)
+    rAF(updateStyle)
   }
 })
 
