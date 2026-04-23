@@ -106,7 +106,6 @@
 
   @include e(clear) {
     position: absolute;
-    right: 11px;
     top: 15px;
     transform: translateY(-50%);
     color: getCssVar('input-icon-color');

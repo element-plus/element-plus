@@ -157,6 +157,7 @@
       <el-icon
         v-if="showClear"
         :class="[nsTextarea.e('icon'), nsTextarea.e('clear')]"
+        :style="clearIconStyle"
         @mousedown.prevent="NOOP"
         @click="clear"
       >
@@ -276,6 +277,7 @@ const textarea = shallowRef<HTMLTextAreaElement>()
 const hovering = ref(false)
 const passwordVisible = ref(false)
 const countStyle = ref<StyleValue>()
+const clearIconStyle = ref<StyleValue>()
 const textareaCalcStyle = shallowRef(props.inputStyle)
 const saveValue = ref('')
 const textareaHeight = ref<string>()
@@ -361,6 +363,8 @@ const hasModelModifiers = computed(
 
 const [recordCursor, setCursor] = useCursor(input)
 
+let isFirstObserve = true
+
 useResizeObserver(textarea, (entries) => {
   onceInitSizeTextarea()
   if (
@@ -369,10 +373,20 @@ useResizeObserver(textarea, (entries) => {
   )
     return
   const entry = entries[0]
-  const { width } = entry.contentRect
-  countStyle.value = {
-    /** right: 100% - width + padding(22) - right(10) */
-    right: `calc(100% - ${width + 22 - 10}px)`,
+  const { width } = entry.target.getBoundingClientRect()
+
+  const updateStyle = () => {
+    /** right: 100% - width - right(10) */
+    const right = `calc(100% - ${width - 10}px)`
+    countStyle.value = { right }
+    clearIconStyle.value = { right }
+  }
+
+  if (isFirstObserve) {
+    updateStyle()
+    isFirstObserve = false
+  } else {
+    requestIdleCallback(updateStyle)
   }
 })
 
