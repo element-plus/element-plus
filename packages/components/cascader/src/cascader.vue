@@ -181,7 +181,7 @@
         <el-scrollbar
           v-if="!virtualScroll"
           v-show="filtering"
-          ref="suggestionPanel"
+          :ref="(ref) => (suggestionPanel = (ref as ScrollbarInstance)?.$el)"
           tag="ul"
           :class="nsCascader.e('suggestion-panel')"
           :wrap-class="nsCascader.e('suggestion-wrap')"
@@ -425,7 +425,7 @@ const tagTooltipRef = ref<TooltipInstance>()
 const inputRef = ref<InputInstance>()
 const tagWrapper = ref<HTMLDivElement>()
 const cascaderPanelRef = ref<CascaderPanelInstance>()
-const suggestionPanel = ref<ScrollbarInstance | HTMLDivElement>()
+const suggestionPanel = ref<HTMLElement>()
 const suggestionVirtualListRef = ref<FixedSizeListInstance>()
 const popperVisible = ref(false)
 const inputHover = ref(false)
@@ -667,24 +667,16 @@ const calculateSuggestions = () => {
   updatePopperPosition()
 }
 
-const getSuggestionPanelEl = (selector?: string) => {
+const getSuggestionPanelEl = (selector?: string): HTMLElement | undefined => {
   const el = suggestionPanel.value
-  const $el = (el instanceof HTMLElement ? el : el?.$el) as
-    | HTMLElement
-    | undefined
-  if (selector && $el) {
-    return $el.querySelector(selector) as HTMLElement | null
-  }
-  return $el
+  return selector ? (el?.querySelector(selector) ?? undefined) : el
 }
 
 const focusFirstNode = () => {
-  let firstNode!: HTMLElement
+  let firstNode: HTMLElement | undefined
 
   if (filtering.value && suggestionPanel.value) {
-    firstNode = getSuggestionPanelEl(
-      `.${nsCascader.e('suggestion-item')}`
-    ) as HTMLElement
+    firstNode = getSuggestionPanelEl(`.${nsCascader.e('suggestion-item')}`)
   } else {
     firstNode = cascaderPanelRef.value?.$el.querySelector(
       `.${nsCascader.b('node')}[tabindex="-1"]`
