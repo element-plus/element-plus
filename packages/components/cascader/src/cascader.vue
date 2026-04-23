@@ -861,12 +861,9 @@ const handleSuggestionClick = (node: CascaderNode) => {
 }
 
 const getSuggestionIndexFromTarget = (target: HTMLElement) => {
-  const suggestionItem = target.closest(
-    '[data-suggestion-index]'
-  ) as HTMLElement | null
-  if (!suggestionItem) return -1
+  const suggestionItem = target.closest<HTMLElement>('[data-suggestion-index]')
+  const indexStr = suggestionItem?.dataset.suggestionIndex
 
-  const indexStr = suggestionItem.dataset.suggestionIndex
   if (!indexStr) return -1
 
   const index = Number.parseInt(indexStr, 10)
@@ -890,12 +887,8 @@ const handleSuggestionKeyDown = (e: KeyboardEvent) => {
       if (props.virtualScroll && suggestionVirtualListRef.value) {
         const currentIndex = getSuggestionIndexFromTarget(target)
         if (currentIndex >= 0) {
-          let targetIndex = currentIndex + distance
-          if (targetIndex < 0) {
-            targetIndex = suggestions.value.length - 1
-          } else if (targetIndex >= suggestions.value.length) {
-            targetIndex = 0
-          }
+          const length = suggestions.value.length
+          const targetIndex = (currentIndex + distance + length) % length
 
           suggestionVirtualListRef.value.scrollToItem(targetIndex)
 
