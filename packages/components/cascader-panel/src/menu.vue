@@ -1,69 +1,34 @@
 <template>
-  <div
-    v-if="virtualScroll"
-    :key="menuId"
-    :class="ns.b()"
-    @mousemove="handleMouseMove"
-    @mouseleave="clearHoverZone"
-  >
-    <el-fixed-size-list
-      ref="virtualListRef"
-      :height="height"
-      :item-size="itemSize"
-      :data="nodes"
-      :total="nodes.length"
-      :class-name="ns.e('list')"
-      inner-element="ul"
-      :inner-props="{
-        role: 'menu',
-        class: ns.is('empty', isEmpty),
-      }"
-    >
-      <template #default="{ data, index: nodeIndex, style }">
-        <el-cascader-node
-          :key="data[nodeIndex].uid"
-          :node="data[nodeIndex]"
-          :menu-id="menuId"
-          :style="style"
-          @expand="handleExpand"
-        />
-      </template>
-    </el-fixed-size-list>
-    <div v-if="isLoading" :class="ns.e('empty-text')">
-      <el-icon :size="14" :class="ns.is('loading')">
-        <Loading />
-      </el-icon>
-      {{ t('el.cascader.loading') }}
-    </div>
-    <div v-else-if="isEmpty" :class="ns.e('empty-text')">
-      <slot name="empty">{{ t('el.cascader.noData') }}</slot>
-    </div>
-    <!-- eslint-disable vue/html-self-closing -->
-    <svg
-      v-else-if="panel?.isHoverMenu"
-      ref="hoverZone"
-      :class="ns.e('hover-zone')"
-    ></svg>
-    <!-- eslint-enable vue/html-self-closing -->
-  </div>
-  <template v-else>
-    <el-scrollbar
+  <template v-if="virtualScroll">
+    <div
       :key="menuId"
-      tag="ul"
-      role="menu"
       :class="ns.b()"
-      :wrap-class="ns.e('wrap')"
-      :view-class="[ns.e('list'), ns.is('empty', isEmpty)]"
       @mousemove="handleMouseMove"
       @mouseleave="clearHoverZone"
     >
-      <el-cascader-node
-        v-for="node in nodes"
-        :key="node.uid"
-        :node="node"
-        :menu-id="menuId"
-        @expand="handleExpand"
-      />
+      <el-fixed-size-list
+        ref="virtualListRef"
+        :height="height"
+        :item-size="itemSize"
+        :data="nodes"
+        :total="nodes.length"
+        :class-name="ns.e('list')"
+        inner-element="ul"
+        :inner-props="{
+          role: 'menu',
+          class: ns.is('empty', isEmpty),
+        }"
+      >
+        <template #default="{ data, index: nodeIndex, style }">
+          <el-cascader-node
+            :key="data[nodeIndex].uid"
+            :node="data[nodeIndex]"
+            :menu-id="menuId"
+            :style="style"
+            @expand="handleExpand"
+          />
+        </template>
+      </el-fixed-size-list>
       <div v-if="isLoading" :class="ns.e('empty-text')">
         <el-icon :size="14" :class="ns.is('loading')">
           <Loading />
@@ -80,8 +45,43 @@
         :class="ns.e('hover-zone')"
       ></svg>
       <!-- eslint-enable vue/html-self-closing -->
-    </el-scrollbar>
+    </div>
   </template>
+  <el-scrollbar
+    v-else
+    :key="menuId"
+    tag="ul"
+    role="menu"
+    :class="ns.b()"
+    :wrap-class="ns.e('wrap')"
+    :view-class="[ns.e('list'), ns.is('empty', isEmpty)]"
+    @mousemove="handleMouseMove"
+    @mouseleave="clearHoverZone"
+  >
+    <el-cascader-node
+      v-for="node in nodes"
+      :key="node.uid"
+      :node="node"
+      :menu-id="menuId"
+      @expand="handleExpand"
+    />
+    <div v-if="isLoading" :class="ns.e('empty-text')">
+      <el-icon :size="14" :class="ns.is('loading')">
+        <Loading />
+      </el-icon>
+      {{ t('el.cascader.loading') }}
+    </div>
+    <div v-else-if="isEmpty" :class="ns.e('empty-text')">
+      <slot name="empty">{{ t('el.cascader.noData') }}</slot>
+    </div>
+    <!-- eslint-disable vue/html-self-closing -->
+    <svg
+      v-else-if="panel?.isHoverMenu"
+      ref="hoverZone"
+      :class="ns.e('hover-zone')"
+    ></svg>
+    <!-- eslint-enable vue/html-self-closing -->
+  </el-scrollbar>
 </template>
 
 <script lang="ts" setup>
