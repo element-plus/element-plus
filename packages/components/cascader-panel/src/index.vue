@@ -296,7 +296,7 @@ const scrollToExpandingNode = () => {
     const menuElement = menu?.$el
     if (menuElement) {
       // virtual scroll mode, use scrollToItem method
-      if (props.virtualScroll) {
+      if (virtualScroll.value) {
         const activeIndex = menu?.getActiveNodeIndex?.()
         if (activeIndex !== undefined && activeIndex >= 0) {
           menu?.scrollToItem?.(activeIndex)
@@ -331,7 +331,7 @@ const handleKeyDown = (e: KeyboardEvent) => {
       e.preventDefault()
       const distance = code === EVENT_CODE.up ? -1 : 1
 
-      if (props.virtualScroll) {
+      if (virtualScroll.value) {
         const menuIndex = getMenuIndex(target)
         const menu = menuList.value[menuIndex]
         if (menu) {

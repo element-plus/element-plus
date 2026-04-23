@@ -279,7 +279,7 @@ import {
   useAttrs,
   watch,
 } from 'vue'
-import { cloneDeep } from 'lodash-unified'
+import { clamp, cloneDeep } from 'lodash-unified'
 import { useCssVar, useDebounceFn, useResizeObserver } from '@vueuse/core'
 import {
   NOOP,
@@ -297,10 +297,7 @@ import ElCascaderPanel, {
 import ElInput from '@element-plus/components/input'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
-import {
-  FixedSizeList as ElFixedSizeList,
-  type FixedSizeListInstance,
-} from '@element-plus/components/virtual-list'
+import { FixedSizeList as ElFixedSizeList } from '@element-plus/components/virtual-list'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 import {
@@ -329,6 +326,7 @@ import type { ComputedRef, StyleValue } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { InputInstance } from '@element-plus/components/input'
 import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
+import type { FixedSizeListInstance } from '@element-plus/components/virtual-list'
 import type {
   CascaderNode,
   CascaderPanelInstance,
@@ -437,7 +435,7 @@ const suggestions = ref<CascaderNode[]>([])
 const suggestionListWidth = ref<string | number>('100%')
 const hasCustomSuggestionItemSlot = computed(() => !!slots['suggestion-item'])
 const clampedSuggestionListHeight = computed(() =>
-  Math.min(props.height, Math.max(1, suggestions.value.length) * props.itemSize)
+  clamp(suggestions.value.length * props.itemSize, props.itemSize, props.height)
 )
 
 const showTagList = computed(() => {

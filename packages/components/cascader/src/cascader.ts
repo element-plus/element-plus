@@ -1,8 +1,5 @@
 import { placements } from '@popperjs/core'
-import {
-  CommonProps,
-  cascaderVirtualScrollProps,
-} from '@element-plus/components/cascader-panel'
+import { CommonProps } from '@element-plus/components/cascader-panel'
 import {
   buildProps,
   definePropType,
@@ -144,18 +141,6 @@ export interface CascaderComponentProps
    * @description whether to show the radio or checkbox prefix
    */
   showPrefix?: boolean
-  /**
-   * @description whether to enable virtual scrolling
-   */
-  virtualScroll?: boolean
-  /**
-   * @description node height for virtual scrolling
-   */
-  itemSize?: number
-  /**
-   * @description menu height for virtual scrolling
-   */
-  height?: number
   /**
    * @description whether the width of the suggestion panel is the same as the input, if the value is `number`, then the width is fixed
    */
@@ -333,7 +318,6 @@ export const cascaderProps = buildProps({
     type: Boolean,
     default: true,
   },
-  ...cascaderVirtualScrollProps,
   /**
    * @description whether the width of the suggestion panel is the same as the input, if the value is `number`, then the width is fixed
    */

@@ -86,6 +86,7 @@
 
 <script lang="ts" setup>
 import { computed, getCurrentInstance, inject, nextTick, ref } from 'vue'
+import { clamp } from 'lodash-unified'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import { FixedSizeList as ElFixedSizeList } from '@element-plus/components/virtual-list'
 import { useId, useLocale, useNamespace } from '@element-plus/hooks'
@@ -94,27 +95,29 @@ import ElIcon from '@element-plus/components/icon'
 import { focusNode } from '@element-plus/utils'
 import ElCascaderNode from './node.vue'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
-import { cascaderVirtualScrollProps } from './config'
+import { CASCADER_PANEL_HEIGHT, CASCADER_PANEL_ITEM_SIZE } from './config'
 
 import type { CascaderNode } from './types'
-import type { PropType } from 'vue'
+import type { CascaderCommonProps } from './config'
 import type { FixedSizeListInstance } from '@element-plus/components/virtual-list'
 
 defineOptions({
   name: 'ElCascaderMenu',
 })
 
-const props = defineProps({
-  nodes: {
-    type: Array as PropType<CascaderNode[]>,
-    required: true,
-  },
-  index: {
-    type: Number,
-    required: true,
-  },
-  ...cascaderVirtualScrollProps,
-})
+const props = withDefaults(
+  defineProps<
+    {
+      nodes: CascaderNode[]
+      index: number
+    } & Pick<CascaderCommonProps, 'virtualScroll' | 'itemSize' | 'height'>
+  >(),
+  {
+    virtualScroll: false,
+    itemSize: CASCADER_PANEL_ITEM_SIZE,
+    height: CASCADER_PANEL_HEIGHT,
+  }
+)
 
 const instance = getCurrentInstance()!
 const ns = useNamespace('cascader-menu')
@@ -163,18 +166,18 @@ const getNodeIndexById = (nodeId: string | undefined) => {
 }
 
 const scrollToItem = (index: number) => {
-  const targetIndex = Math.max(0, Math.min(index, props.nodes.length - 1))
+  const targetIndex = clamp(index, 0, props.nodes.length - 1)
   virtualListRef.value?.scrollToItem(targetIndex)
 }
 
 const focusNodeAt = (index: number) => {
   if (!props.nodes.length) return
-  const targetIndex = Math.max(0, Math.min(index, props.nodes.length - 1))
+  const targetIndex = clamp(index, 0, props.nodes.length - 1)
   scrollToItem(targetIndex)
   nextTick(() => {
-    const node = (instance.vnode.el as HTMLElement).querySelector(
+    const node = (instance.vnode.el as HTMLElement)?.querySelector<HTMLElement>(
       `#${menuId.value}-${props.nodes[targetIndex].uid}`
-    ) as HTMLElement | null
+    )
     if (node) focusNode(node)
   })
 }
