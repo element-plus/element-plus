@@ -203,7 +203,7 @@ cascader/virtual-scroll
 
 :::
 
-## Custom Suggestion Width ^(2.13.7)
+## Custom Suggestion Width ^(2.14.0)
 
 The width of the suggestion panel (when filtering) is calculated by default based on the maximum width of the matched options. If you customize the suggestion options through the `suggestion-item` slot, it is likely that the text displayed in the options is not equal to the value of `label`, resulting in calculation errors. In this case, you can use the `fit-input-width` attribute to fix its width. When the value is `number`, the width is a specific fixed pixel value.
 
@@ -257,10 +257,10 @@ cascader/fit-input-width
 | placement ^(2.8.1)                         | position of dropdown                                                                                                                                                             | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | bottom-start |
 | popper-append-to-body ^(deprecated)        | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false                                                      | ^[boolean]                                                                                                                                                                  | true         |
 | show-checked-strategy ^(2.10.5)            | strategy for displaying checked nodes in multiple selection mode. Use `parent` when you want things tidy. Use `child` when every single item matters                             | ^[enum]`'parent' \| 'child'`                                                                                                                                                | child        |
-| virtual-scroll ^(2.13.7)                   | whether to enable virtual scrolling for large data                                                                                                                               | ^[boolean]                                                                                                                                                                  | false        |
-| fit-input-width ^(2.13.7)                  | whether the width of the suggestion panel is the same as the input, if the value is `number`, then the width is fixed                                                            | ^[boolean] / ^[number]                                                                                                                                                      | false        |
-| item-size ^(2.13.7)                        | node height for virtual scrolling (px)                                                                                                                                           | ^[number]                                                                                                                                                                   | 34           |
-| height ^(2.13.7)                           | menu height for virtual scrolling (px)                                                                                                                                           | ^[number]                                                                                                                                                                   | 204          |
+| virtual-scroll ^(2.14.0)                   | whether to enable virtual scrolling for large data                                                                                                                               | ^[boolean]                                                                                                                                                                  | false        |
+| fit-input-width ^(2.14.0)                  | whether the width of the suggestion panel is the same as the input, if the value is `number`, then the width is fixed                                                            | ^[boolean] / ^[number]                                                                                                                                                      | false        |
+| item-size ^(2.14.0)                        | node height for virtual scrolling (px)                                                                                                                                           | ^[number]                                                                                                                                                                   | 34           |
+| height ^(2.14.0)                           | menu height for virtual scrolling (px)                                                                                                                                           | ^[number]                                                                                                                                                                   | 204          |
 
 ### Cascader Events
 
@@ -307,9 +307,9 @@ cascader/fit-input-width
 | model-value / v-model    | binding value                                                                            | ^[string]/^[number]/^[array]`string[] \| number[] \| any` | —       |
 | options                  | data of the options, the key of `value` and `label` can be customize by `CascaderProps`. | ^[array]`CascaderOption[]`                                | —       |
 | [props](#cascaderprops)  | configuration options, see the following `CascaderProps` table.                          | ^[object]`CascaderProps`                                  | —       |
-| virtual-scroll ^(2.13.7) | whether to enable virtual scrolling for large data                                       | ^[boolean]                                                | false   |
-| item-size ^(2.13.7)      | node height for virtual scrolling (px)                                                   | ^[number]                                                 | 34      |
-| height ^(2.13.7)         | menu height for virtual scrolling (px)                                                   | ^[number]                                                 | 204     |
+| virtual-scroll ^(2.14.0) | whether to enable virtual scrolling for large data                                       | ^[boolean]                                                | false   |
+| item-size ^(2.14.0)      | node height for virtual scrolling (px)                                                   | ^[number]                                                 | 34      |
+| height ^(2.14.0)         | menu height for virtual scrolling (px)                                                   | ^[number]                                                 | 204     |
 
 ### CascaderPanel Events
 
