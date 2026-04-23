@@ -202,6 +202,7 @@ import {
 import {
   NOOP,
   ValidateComponentsMap,
+  cAF,
   debugWarn,
   isClient,
   isObject,
@@ -365,6 +366,7 @@ const hasModelModifiers = computed(
 const [recordCursor, setCursor] = useCursor(input)
 
 let isFirstObserve = true
+let rAFId: number | undefined
 
 useResizeObserver(textarea, (entries) => {
   onceInitSizeTextarea()
@@ -391,7 +393,8 @@ useResizeObserver(textarea, (entries) => {
     updateStyle()
     isFirstObserve = false
   } else {
-    rAF(updateStyle)
+    rAFId && cAF(rAFId)
+    rAFId = rAF(updateStyle)
   }
 })
 
