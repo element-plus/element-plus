@@ -160,6 +160,7 @@
     align-items: center;
     padding: 0 10px;
     vertical-align: middle;
+    flex-grow: 0;
   }
 
   @include when(active) {
