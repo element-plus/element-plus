@@ -223,6 +223,7 @@ import {
   onMounted,
   ref,
   useAttrs,
+  useSlots,
   watch,
 } from 'vue'
 import { cloneDeep } from 'lodash-unified'
@@ -330,7 +331,7 @@ const props = withDefaults(defineProps<CascaderComponentProps>(), {
 })
 const emit = defineEmits(cascaderEmits)
 const attrs = useAttrs()
-const slots = defineSlots()
+const slots = useSlots()
 
 let inputInitialHeight = 0
 let pressDeleteCount = 0
