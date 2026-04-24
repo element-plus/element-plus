@@ -181,6 +181,7 @@
 import {
   computed,
   nextTick,
+  onBeforeUnmount,
   onMounted,
   ref,
   shallowRef,
@@ -375,6 +376,7 @@ useResizeObserver(textarea, (entries) => {
   const { width } = entry.target.getBoundingClientRect()
 
   const updateStyle = () => {
+    rAFId = undefined
     countStyle.value = {
       /** right: 100% - (width - right(10)) */
       right: `calc(100% - ${width - 10}px)`,
@@ -731,6 +733,10 @@ onMounted(() => {
   }
   setNativeInputValue()
   nextTick(resizeTextarea)
+})
+
+onBeforeUnmount(() => {
+  rAFId && cAF(rAFId)
 })
 
 defineExpose({
