@@ -366,7 +366,6 @@ const hasModelModifiers = computed(
 
 const [recordCursor, setCursor] = useCursor(input)
 
-let isFirstObserve = true
 let rAFId: number | undefined
 
 useResizeObserver(textarea, (entries) => {
@@ -391,13 +390,8 @@ useResizeObserver(textarea, (entries) => {
     }
   }
 
-  if (isFirstObserve) {
-    updateStyle()
-    isFirstObserve = false
-  } else {
-    rAFId && cAF(rAFId)
-    rAFId = rAF(updateStyle)
-  }
+  rAFId && cAF(rAFId)
+  rAFId = rAF(updateStyle)
 })
 
 const resizeTextarea = () => {
