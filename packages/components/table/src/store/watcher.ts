@@ -204,25 +204,25 @@ function useWatcher<T extends DefaultRow>() {
   }
 
   // Used by selectable to compute row indices in tree-shaped data
-  const buildRowIndexMap = () => {
-    const rowIndexMap = new Map<string, number>()
-    if (!rowKey.value || !selectable.value) return rowIndexMap
-    let rowIndex = 0
+  const rowIndexMap = computed(() => {
+    const map = new Map<string, number>()
+    if (!rowKey.value || !selectable.value) return map
+    let index = 0
     const _traverse = (rows: T[]) => {
       if (!isArray(rows)) return
       rows.forEach((row) => {
         const id = getRowIdentity(row, rowKey.value)
-        rowIndexMap.set(id, rowIndex)
-        rowIndex += 1
+        map.set(id, index)
+        index += 1
         const children = getRowChildren(row)
         if (children.length) _traverse(children)
       })
     }
     _traverse(data.value || [])
-    return rowIndexMap
-  }
+    return map
+  })
 
-  // 依据子节点选中状态更新父节点选中与半选态
+  // Update parent selection and indeterminate state based on children selection
   const updateSelectionByChildren = (
     options: {
       emitChange?: boolean
@@ -235,7 +235,7 @@ function useWatcher<T extends DefaultRow>() {
       return
     }
     const rowKeyValue = rowKey.value
-    const rowIndexMap = options.rowIndexMap ?? buildRowIndexMap()
+    const rowIndexMapValue = options.rowIndexMap ?? rowIndexMap.value
     const selectableFn = selectable.value
     const rowIdCache = new WeakMap<T, string>()
     const getCachedRowId = (row: T) => {
@@ -251,7 +251,7 @@ function useWatcher<T extends DefaultRow>() {
     )
     const rowsToAdd: T[] = []
     let selectionChanged = false
-    // 在不触发外部 select 事件的前提下同步父节点选中
+    // Sync parent selection without triggering external select event
     const _updateSelectionForRow = (row: T, id: string, selected: boolean) => {
       const isRowSelected = selectedIdSet.has(id)
       if (selected && !isRowSelected) {
@@ -278,7 +278,7 @@ function useWatcher<T extends DefaultRow>() {
           childSelectableCount = childResult.selectableCount
         }
         const rowSelectable = selectableFn
-          ? selectableFn.call(null, row, rowIndexMap.get(id) ?? 0)
+          ? selectableFn.call(null, row, rowIndexMapValue.get(id) ?? 0)
           : true
         if (rowSelectable) {
           if (childSelectableCount > 0) {
@@ -389,6 +389,7 @@ function useWatcher<T extends DefaultRow>() {
     const { lazyTreeNodeMap, childrenColumnName } = instance.store.states
     const id = getRowIdentity(row, rowKey.value)
     const lazyChildren = (lazyTreeNodeMap.value?.[id] ?? []) as T[]
+    const inlineChildren = (row[childrenColumnName.value] ?? []) as T[]
     const treeProps = {
       children: childrenColumnName.value,
       checkStrictly: false,
@@ -406,8 +407,11 @@ function useWatcher<T extends DefaultRow>() {
         childIndex,
         rowKey.value
       )
+      // Recursively handle lazy children's inline descendants
+      cascadeToLazyChildren(child, selected, rowIndexMap)
     }
-    for (const child of getRowChildren(row)) {
+    // Only recurse into inline children (lazy children handled above)
+    for (const child of inlineChildren) {
       cascadeToLazyChildren(child, selected, rowIndexMap)
     }
   }
@@ -432,17 +436,19 @@ function useWatcher<T extends DefaultRow>() {
       rowKey.value
     )
     if (changed) {
-      // lazy 且非严格模式时，补齐 lazy 子节点的选中状态
+      // lazy mode and non-strict mode, sync lazy children selection status
       if (treeStates.lazy.value && !treeStates.checkStrictly.value) {
-        const rowIndexMap = buildRowIndexMap()
         const finalSelected = selected ?? isSelected(row)
-        cascadeToLazyChildren(row, finalSelected, rowIndexMap)
-        updateSelectionByChildren({ emitChange: false, rowIndexMap })
+        cascadeToLazyChildren(row, finalSelected, rowIndexMap.value)
+        updateSelectionByChildren({
+          emitChange: false,
+          rowIndexMap: rowIndexMap.value,
+        })
       } else {
         updateSelectionByChildren({ emitChange: false })
       }
       const newSelection = (selection.value || []).slice()
-      // 调用 API 修改选中值，不触发 select 事件
+      // API call to modify selection, don't trigger select event
       if (emitChange) {
         instance.emit('select', newSelection, row)
       }
@@ -485,12 +491,13 @@ function useWatcher<T extends DefaultRow>() {
       childrenCount += getChildrenCount(getRowIdentity(row, rowKey))
     })
 
-    const rowIndexMap = buildRowIndexMap()
+    const rowIndexMapVal = rowIndexMap.value
 
     if (treeStates.lazy.value && !treeStates.checkStrictly.value && rowKey) {
       for (const lazyRows of Object.values(treeStates.lazyTreeNodeMap.value)) {
         for (const child of lazyRows as T[]) {
-          const childIndex = rowIndexMap.get(getRowIdentity(child, rowKey)) ?? 0
+          const childIndex =
+            rowIndexMapVal.get(getRowIdentity(child, rowKey)) ?? 0
           if (
             toggleRowStatus(
               selection.value,
@@ -503,12 +510,15 @@ function useWatcher<T extends DefaultRow>() {
             )
           )
             selectionChanged = true
-          cascadeToLazyChildren(child, value, rowIndexMap)
+          cascadeToLazyChildren(child, value, rowIndexMapVal)
         }
       }
     }
 
-    updateSelectionByChildren({ emitChange: false, rowIndexMap })
+    updateSelectionByChildren({
+      emitChange: false,
+      rowIndexMap: rowIndexMapVal,
+    })
 
     if (selectionChanged) {
       instance.emit(
@@ -520,7 +530,7 @@ function useWatcher<T extends DefaultRow>() {
   }
 
   const updateAllSelected = () => {
-    // data 为 null 时，解构时的默认值会被忽略
+    // When data is null, default values during destructuring are ignored
     if (data.value?.length === 0) {
       isAllSelected.value = false
       return
@@ -627,7 +637,7 @@ function useWatcher<T extends DefaultRow>() {
     })
   }
 
-  // 根据 filters 与 sort 去过滤 data
+  // Filter and sort data based on filters and sort conditions
   const execQuery = (ignore: { filter: boolean } | undefined = undefined) => {
     if (!ignore?.filter) {
       execFilter()
@@ -723,14 +733,14 @@ function useWatcher<T extends DefaultRow>() {
     data,
     rowKey,
   })
-  // 适配层，expand-row-keys 在 Expand 与 TreeTable 中都有使用
+  // Adapter layer, expand-row-keys is used in both Expand and TreeTable
   const setExpandRowKeysAdapter = (val: string[]) => {
-    // 这里会触发额外的计算，但为了兼容性，暂时这么做
+    // Triggers extra computation, but kept for compatibility
     setExpandRowKeys(val)
     updateTreeExpandKeys(val)
   }
 
-  // 展开行与 TreeTable 都要使用
+  // Used for both expand rows and TreeTable
   const toggleRowExpansionAdapter = (row: T, expanded?: boolean) => {
     const hasExpandColumn = columns.value.some(({ type }) => type === 'expand')
     if (hasExpandColumn) {
@@ -746,7 +756,7 @@ function useWatcher<T extends DefaultRow>() {
       if (value) {
         selectionIndeterminate.value = {}
       } else {
-        // 切换严格模式时仅做内部同步，避免触发selection-change
+        // Internal sync when switching strict mode, avoid triggering selection-change
         updateSelectionByChildren({ emitChange: false })
       }
       updateAllSelected()
@@ -762,7 +772,7 @@ function useWatcher<T extends DefaultRow>() {
         !rowKey.value
       )
         return
-      const rowIndexMap = buildRowIndexMap()
+      const rowIndexMapVal = rowIndexMap.value
       const prevLen = selection.value.length
 
       for (const parentId of Object.keys(treeStates.lazyTreeNodeMap.value)) {
@@ -770,12 +780,15 @@ function useWatcher<T extends DefaultRow>() {
         cascadeToLazyChildren(
           selectedMap.value[parentId].row,
           true,
-          rowIndexMap
+          rowIndexMapVal
         )
       }
 
       const cascadeChanged = selection.value.length !== prevLen
-      updateSelectionByChildren({ emitChange: !cascadeChanged, rowIndexMap })
+      updateSelectionByChildren({
+        emitChange: !cascadeChanged,
+        rowIndexMap: rowIndexMapVal,
+      })
       updateAllSelected()
       if (cascadeChanged) {
         instance.emit('selection-change', selection.value.slice())
