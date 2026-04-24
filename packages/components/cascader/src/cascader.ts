@@ -141,6 +141,10 @@ export interface CascaderComponentProps
    * @description whether to show the radio or checkbox prefix
    */
   showPrefix?: boolean
+  /**
+   * @description whether the width of the suggestion panel is the same as the input, if the value is `number`, then the width is fixed
+   */
+  fitInputWidth?: boolean | number
 }
 
 /**
@@ -313,6 +317,13 @@ export const cascaderProps = buildProps({
   showPrefix: {
     type: Boolean,
     default: true,
+  },
+  /**
+   * @description whether the width of the suggestion panel is the same as the input, if the value is `number`, then the width is fixed
+   */
+  fitInputWidth: {
+    type: [Boolean, Number],
+    default: false,
   },
   ...useEmptyValuesProps,
 })
