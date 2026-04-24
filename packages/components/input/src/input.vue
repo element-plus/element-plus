@@ -371,7 +371,11 @@ let rAFId: number | undefined
 
 useResizeObserver(textarea, (entries) => {
   onceInitSizeTextarea()
-  if (props.resize !== 'both' && props.resize !== 'horizontal') return
+  if (
+    (!isWordLimitVisible.value && !renderClear.value) ||
+    (props.resize !== 'both' && props.resize !== 'horizontal')
+  )
+    return
   const entry = entries[0]
   const { width } = entry.target.getBoundingClientRect()
 
