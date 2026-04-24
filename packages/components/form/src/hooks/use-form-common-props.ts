@@ -4,7 +4,7 @@ import { useProp } from '@element-plus/hooks/use-prop'
 import { formContextKey, formItemContextKey } from '../constants'
 
 import type { ComponentSize } from '@element-plus/constants'
-import type { MaybeRef } from '@vueuse/core'
+import type { MaybeRef } from 'vue'
 
 export const useFormSize = (
   fallback?: MaybeRef<ComponentSize | undefined>,

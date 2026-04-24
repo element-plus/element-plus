@@ -60,6 +60,15 @@
         <!-- suffix slot -->
         <span v-if="suffixVisible" :class="nsInput.e('suffix')">
           <span :class="nsInput.e('suffix-inner')">
+            <el-icon
+              v-if="renderClear"
+              :class="[nsInput.e('icon'), nsInput.e('clear')]"
+              :style="{ visibility: showClear ? 'visible' : 'hidden' }"
+              @mousedown.prevent="NOOP"
+              @click="clear"
+            >
+              <component :is="clearIcon" />
+            </el-icon>
             <template
               v-if="!showClear || !showPwdVisible || !isWordLimitVisible"
             >
@@ -68,14 +77,6 @@
                 <component :is="suffixIcon" />
               </el-icon>
             </template>
-            <el-icon
-              v-if="showClear"
-              :class="[nsInput.e('icon'), nsInput.e('clear')]"
-              @mousedown.prevent="NOOP"
-              @click="clear"
-            >
-              <component :is="clearIcon" />
-            </el-icon>
             <el-icon
               v-if="showPwdVisible"
               :class="[nsInput.e('icon'), nsInput.e('password')]"
@@ -277,6 +278,7 @@ const passwordVisible = ref(false)
 const countStyle = ref<StyleValue>()
 const textareaCalcStyle = shallowRef(props.inputStyle)
 const saveValue = ref('')
+const textareaHeight = ref<string>()
 
 const _ref = computed(() => input.value || textarea.value)
 
@@ -288,7 +290,7 @@ const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
     disabled: inputDisabled,
     afterBlur() {
       if (props.validateEvent) {
-        elFormItem?.validate?.('blur').catch((err) => debugWarn(err))
+        elFormItem?.validate?.('blur').catch(NOOP)
       }
     },
   }
@@ -307,15 +309,17 @@ const textareaStyle = computed<StyleValue>(() => [
   props.inputStyle,
   textareaCalcStyle.value,
   { resize: props.resize },
+  textareaHeight.value ? { height: textareaHeight.value } : undefined,
 ])
 const nativeInputValue = computed(() =>
   isNil(props.modelValue) ? '' : String(props.modelValue)
 )
+const renderClear = computed(
+  () => props.clearable && !inputDisabled.value && !props.readonly
+)
 const showClear = computed(
   () =>
-    props.clearable &&
-    !inputDisabled.value &&
-    !props.readonly &&
+    renderClear.value &&
     !!nativeInputValue.value &&
     (isFocused.value || hovering.value)
 )
@@ -346,7 +350,7 @@ const suffixVisible = computed(
   () =>
     !!slots.suffix ||
     !!props.suffixIcon ||
-    showClear.value ||
+    props.clearable ||
     props.showPassword ||
     isWordLimitVisible.value ||
     (!!validateState.value && needStatusIcon.value)
@@ -406,7 +410,16 @@ const resizeTextarea = () => {
 const createOnceInitResize = (resizeTextarea: () => void) => {
   let isInit = false
   return () => {
-    if (isInit || !props.autosize) return
+    if (isInit || !props.autosize) {
+      if (props.resize !== 'none') {
+        // The execution here may occur before `setTimeout(resizeTextarea)`,
+        // potentially causing a regression of issue #21836, so the assignment needs to be deferred.
+        setTimeout(() => {
+          textareaHeight.value = textarea.value?.style.height
+        })
+      }
+      return
+    }
     const isElHidden = textarea.value?.offsetParent === null
     if (!isElHidden) {
       setTimeout(resizeTextarea)
@@ -632,9 +645,14 @@ const clear = (evt?: MouseEvent) => {
 watch(
   () => props.modelValue,
   () => {
-    nextTick(() => resizeTextarea())
+    nextTick(() => {
+      resizeTextarea()
+      if (props.autosize) {
+        textareaHeight.value = undefined
+      }
+    })
     if (props.validateEvent) {
-      elFormItem?.validate?.('change').catch((err) => debugWarn(err))
+      elFormItem?.validate?.('change').catch(NOOP)
     }
   }
 )

@@ -12,10 +12,8 @@ import type { MenuItemRegistered } from './types'
 export interface MenuItemProps {
   /**
    * @description unique identification
-   * - will be required in the next major version
-   * - required: true
    */
-  index?: string | null
+  index: string
   /**
    * @description Vue Router object
    */
@@ -34,10 +32,8 @@ export const menuItemProps = buildProps({
    * @description unique identification
    */
   index: {
-    type: definePropType<string | null>([String, null]),
-    // will be required in the next major version
-    // required: true,
-    default: null,
+    type: String,
+    required: true,
   },
   /**
    * @description Vue Router object

@@ -1,9 +1,10 @@
-import { computed, onMounted, ref, watch } from 'vue'
-import { MaybeRefOrGetter, isClient, toValue } from '@vueuse/core'
+import { computed, onMounted, ref, toValue, watch } from 'vue'
+import { isClient } from '@vueuse/core'
 import { utoa } from '../utils'
 import { isDark } from './dark'
 
 import type { Link } from '../types'
+import type { MaybeRefOrGetter } from 'vue'
 
 const MAIN_FILE_NAME = 'App.vue'
 

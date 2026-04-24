@@ -144,6 +144,15 @@ tabs/default-value
 | tabListRef ^(2.9.10) | el_tabs\_\_nav html element | ^[object]`Ref<HTMLDivElement \| undefined>` |
 | tabBarRef ^(2.9.10)  | el_tabs\_\_nav bar instance | ^[object]`Ref<TabBarInstance \| undefined>` |
 
+## Tab-bar API
+
+### Tab-bar Exposes
+
+| Name             | Description                                                       | Type                                        |
+| ---------------- | ----------------------------------------------------------------- | ------------------------------------------- |
+| ref ^(2.9.10)    | tab root html element                                             | ^[object]`Ref<HTMLDivElement \| undefined>` |
+| update ^(2.9.10) | method to manually update tab bar style, return the updated style | ^[Function]`() => CSSProperties`            |
+
 ## Tab-pane API
 
 ### Tab-pane Attributes
@@ -162,22 +171,6 @@ tabs/default-value
 | ------- | ------------------ |
 | default | Tab-pane's content |
 | label   | Tab-pane's label   |
-
-## Type Declarations
-
-<details>
-  <summary>Show declarations</summary>
-
-```ts
-type TabBarInstance = InstanceType<typeof TabBar> & {
-  /** @description tab root html element */
-  ref: barRef
-  /** @description method to manually update tab bar style */
-  update
-}
-```
-
-</details>
 
 ## FAQ
 

@@ -59,6 +59,14 @@ datetime-picker/date-and-time-range
 
 :::
 
+## Single Panel ^(2.14.0)
+
+:::demo By default date picker ranges have two panels. If you want one panel set the `single-panel` attribute.
+
+datetime-picker/single-panel
+
+:::
+
 ## Default time value for start date and end date
 
 :::demo When picking date range on the date panel with type `datetimerange`, `00:00:00` will be used as the default time value for start and end date. We can control it with the `default-time` attribute. `default-time` accepts an array of up to two Date objects. The first item controls time value of the start date and the second item controls time value of the end date.
@@ -109,6 +117,7 @@ datetime-picker/custom-icon
 | id                           | same as `id` in native input                                                                                         | ^[string] / ^[array]`[string, string]`                                                         | —                                  |
 | name                         | same as `name` in native input                                                                                       | ^[string]                                                                                      | —                                  |
 | unlink-panels                | unlink two date-panels in range-picker                                                                               | ^[boolean]                                                                                     | false                              |
+| single-panel ^(2.14.0)       | show only one panel in range-picker                                                                                  | ^[boolean]                                                                                     | false                              |
 | prefix-icon                  | Custom prefix icon component                                                                                         | ^[string] / `Component`                                                                        | Date                               |
 | clear-icon                   | Custom clear icon component                                                                                          | ^[string] / `Component`                                                                        | CircleClose                        |
 | shortcuts                    | an object array to set shortcut options                                                                              | ^[array]`Array<{ text: string, value: Date \| Function }>`                                     | —                                  |
@@ -123,7 +132,7 @@ datetime-picker/custom-icon
 | show-now ^(2.8.7)            | whether to show the now button                                                                                       | ^[boolean]                                                                                     | true                               |
 | show-footer ^(2.10.5)        | whether to show footer where the date picker is one ^[enum]`'datetime' \| 'datetimerange'`                           | ^[boolean]                                                                                     | true                               |
 | show-confirm ^(2.11.0)       | whether to show the confirm button                                                                                   | ^[boolean]                                                                                     | true                               |
-| show-week-number ^(2.10.3)   | show the week number besides the week                                                                                | `boolean`                                                                                      | false                              |
+| show-week-number ^(2.10.3)   | show the week number besides the week                                                                                | ^[boolean]                                                                                     | false                              |
 
 ### Events
 

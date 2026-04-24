@@ -102,7 +102,7 @@ export const useDialog = (
       globalConfig.value?.transition ??
       DEFAULT_DIALOG_TRANSITION
     const baseConfig = {
-      name: transition,
+      name: transition as string,
       onAfterEnter: afterEnter,
       onBeforeLeave: beforeLeave,
       onAfterLeave: afterLeave,
