@@ -234,25 +234,29 @@ function useWatcher<T extends DefaultRow>() {
       selectionIndeterminate.value = {}
       return
     }
+    const rowKeyValue = rowKey.value
     const rowIndexMap = options.rowIndexMap ?? buildRowIndexMap()
+    const selectableFn = selectable.value
     const indeterminateMap: Record<string, boolean> = {}
+    const selectedIdSet = new Set(
+      selection.value.map((row) => getRowIdentity(row, rowKeyValue))
+    )
+    const originalSelectedIdSet = new Set(selectedIdSet)
+    const rowsToAdd: T[] = []
+    const rowsToAddIdSet = new Set<string>()
     let selectionChanged = false
     // 在不触发外部 select 事件的前提下同步父节点选中
-    const _updateSelectionForRow = (row: T, selected: boolean) => {
-      const id = getRowIdentity(row, rowKey.value)
-      const rowIndex = rowIndexMap.get(id) ?? 0
-      const rowSelectable = selectable.value
-        ? selectable.value.call(null, row, rowIndex)
-        : true
-      if (!rowSelectable) return
-      const index = selection.value.findIndex(
-        (item) => getRowIdentity(item, rowKey.value) === id
-      )
-      if (selected && index === -1) {
-        selection.value.push(row)
+    const _updateSelectionForRow = (row: T, id: string, selected: boolean) => {
+      const isRowSelected = selectedIdSet.has(id)
+      if (selected && !isRowSelected) {
+        if (!originalSelectedIdSet.has(id) && !rowsToAddIdSet.has(id)) {
+          rowsToAdd.push(row)
+          rowsToAddIdSet.add(id)
+        }
+        selectedIdSet.add(id)
         selectionChanged = true
-      } else if (!selected && index !== -1) {
-        selection.value.splice(index, 1)
+      } else if (!selected && isRowSelected) {
+        selectedIdSet.delete(id)
         selectionChanged = true
       }
     }
@@ -261,7 +265,7 @@ function useWatcher<T extends DefaultRow>() {
       let selectableCount = 0
       if (!isArray(rows)) return { selectedCount, selectableCount }
       rows.forEach((row) => {
-        const id = getRowIdentity(row, rowKey.value)
+        const id = getRowIdentity(row, rowKeyValue)
         const children = getRowChildren(row)
         let childSelectedCount = 0
         let childSelectableCount = 0
@@ -270,25 +274,22 @@ function useWatcher<T extends DefaultRow>() {
           childSelectedCount = childResult.selectedCount
           childSelectableCount = childResult.selectableCount
         }
-        const rowIndex = rowIndexMap.get(id) ?? 0
-        const rowSelectable = selectable.value
-          ? selectable.value.call(null, row, rowIndex)
+        const rowSelectable = selectableFn
+          ? selectableFn.call(null, row, rowIndexMap.get(id) ?? 0)
           : true
         if (rowSelectable) {
           if (childSelectableCount > 0) {
             const allSelected = childSelectedCount === childSelectableCount
             const noneSelected = childSelectedCount === 0
-            indeterminateMap[id] = !allSelected && !noneSelected
-            _updateSelectionForRow(row, allSelected)
-          } else {
-            indeterminateMap[id] = false
+            if (!allSelected && !noneSelected) {
+              indeterminateMap[id] = true
+            }
+            _updateSelectionForRow(row, id, allSelected)
           }
-        } else {
-          indeterminateMap[id] = false
         }
         if (rowSelectable) {
           selectableCount += 1
-          if (isSelected(row)) {
+          if (selectedIdSet.has(id)) {
             selectedCount += 1
           }
         }
@@ -298,6 +299,16 @@ function useWatcher<T extends DefaultRow>() {
       return { selectedCount, selectableCount }
     }
     _walk(data.value || [])
+    if (selectionChanged) {
+      const nextSelection = selection.value.filter((row) =>
+        selectedIdSet.has(getRowIdentity(row, rowKeyValue))
+      )
+      rowsToAdd.forEach((row) => {
+        if (!selectedIdSet.has(getRowIdentity(row, rowKeyValue))) return
+        nextSelection.push(row)
+      })
+      selection.value = nextSelection
+    }
     selectionIndeterminate.value = indeterminateMap
     if (selectionChanged && emitChange) {
       instance.emit(
