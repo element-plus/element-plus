@@ -9,6 +9,9 @@
       :ref="(item) => (menuList[index] = item as CascaderMenuInstance)"
       :index="index"
       :nodes="[...menu]"
+      :virtual-scroll="virtualScroll"
+      :item-size="itemSize"
+      :height="height"
     >
       <template #empty>
         <slot name="empty" />
@@ -49,7 +52,12 @@ import { useNamespace } from '@element-plus/hooks'
 import ElCascaderMenu from './menu.vue'
 import Store from './store'
 import Node from './node'
-import { cascaderPanelEmits, useCascaderConfig } from './config'
+import {
+  CASCADER_PANEL_HEIGHT,
+  CASCADER_PANEL_ITEM_SIZE,
+  cascaderPanelEmits,
+  useCascaderConfig,
+} from './config'
 import { checkNode, getMenuIndex, sortByOriginalOrder } from './utils'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
 
@@ -57,7 +65,6 @@ import type {
   CascaderNode,
   CascaderNodeValue,
   CascaderOption,
-  CascaderProps,
   CascaderValue,
   ElCascaderPanelContext,
 } from './types'
@@ -69,9 +76,11 @@ defineOptions({
 })
 
 const props = withDefaults(defineProps<CascaderPanelProps>(), {
-  options: () => [] as CascaderOption[],
-  props: () => ({}) as CascaderProps,
+  options: () => [],
+  props: () => ({}),
   border: true,
+  itemSize: CASCADER_PANEL_ITEM_SIZE,
+  height: CASCADER_PANEL_HEIGHT,
 })
 const emit = defineEmits(cascaderPanelEmits)
 
@@ -93,6 +102,9 @@ const checkedNodes = ref<CascaderNode[]>([])
 
 const isHoverMenu = computed(() => config.value.expandTrigger === 'hover')
 const renderLabelFn = computed(() => props.renderLabel || slots.default)
+const virtualScroll = computed(() => props.virtualScroll)
+const itemSize = computed(() => props.itemSize)
+const height = computed(() => props.height)
 
 const initStore = () => {
   const { options } = props
@@ -283,19 +295,28 @@ const scrollToExpandingNode = () => {
   menuList.value.forEach((menu) => {
     const menuElement = menu?.$el
     if (menuElement) {
-      const container = menuElement.querySelector(
-        `.${ns.namespace.value}-scrollbar__wrap`
-      )
-      let activeNode = menuElement.querySelector(
-        `.${ns.b('node')}.in-active-path`
-      )
-      if (!activeNode) {
-        const activeElements = menuElement.querySelectorAll(
-          `.${ns.b('node')}.${ns.is('active')}`
+      // virtual scroll mode, use scrollToItem method
+      if (virtualScroll.value) {
+        const activeIndex = menu?.getActiveNodeIndex?.()
+        if (activeIndex !== undefined && activeIndex >= 0) {
+          menu?.scrollToItem?.(activeIndex)
+        }
+      } else {
+        // logic for non-virtual scroll mode
+        const container = menuElement.querySelector(
+          `.${ns.namespace.value}-scrollbar__wrap`
         )
-        activeNode = activeElements[activeElements.length - 1]
+        let activeNode = menuElement.querySelector(
+          `.${ns.b('node')}.in-active-path`
+        )
+        if (!activeNode) {
+          const activeElements = menuElement.querySelectorAll(
+            `.${ns.b('node')}.${ns.is('active')}`
+          )
+          activeNode = activeElements[activeElements.length - 1]
+        }
+        scrollIntoView(container, activeNode)
       }
-      scrollIntoView(container, activeNode)
     }
   })
 }
@@ -309,6 +330,29 @@ const handleKeyDown = (e: KeyboardEvent) => {
     case EVENT_CODE.down: {
       e.preventDefault()
       const distance = code === EVENT_CODE.up ? -1 : 1
+
+      if (virtualScroll.value) {
+        const menuIndex = getMenuIndex(target)
+        const menu = menuList.value[menuIndex]
+        if (menu) {
+          // For virtual scroll, calculate the target index and use focusNodeAt
+          const currentIndex = menu.getNodeIndexById(target.id)
+          if (currentIndex >= 0) {
+            const nodesInMenu = menus.value[menuIndex] ?? []
+            const nodesCount = nodesInMenu.length
+            // Find the next non-disabled node
+            let targetIndex = currentIndex + distance
+            while (targetIndex >= 0 && targetIndex < nodesCount) {
+              if (!nodesInMenu[targetIndex].isDisabled) {
+                menu.focusNodeAt(targetIndex)
+                return
+              }
+              targetIndex += distance
+            }
+          }
+        }
+      }
+
       focusNode(
         getSibling(
           target,
@@ -352,6 +396,9 @@ provide(
     isHoverMenu,
     initialLoaded,
     renderLabelFn,
+    virtualScroll,
+    itemSize,
+    height,
     lazyLoad,
     expandNode,
     handleCheckChange,

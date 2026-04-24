@@ -736,6 +736,51 @@ describe('TimePicker(range)', () => {
     expect(findPicker().exists()).toBe(false)
   })
 
+  it('clearing only one side of timerange should not clear the whole model', async () => {
+    const changeHandler = vi.fn()
+    const value = ref<[Date, Date]>([
+      new Date(2025, 0, 1, 9, 0, 0),
+      new Date(2025, 0, 1, 17, 0, 0),
+    ])
+    const wrapper = mount(() => (
+      <TimePicker v-model={value.value} is-range onChange={changeHandler} />
+    ))
+
+    const [startInput] = wrapper.findAll('input')
+
+    await startInput.setValue('')
+    expect(startInput.element.value).toBe('')
+
+    await startInput.trigger('blur')
+    await nextTick()
+    expect(changeHandler).not.toHaveBeenCalled()
+    expect(value.value).not.toBeNull()
+  })
+
+  it('manually clear timerange via keyboard', async () => {
+    const changeHandler = vi.fn()
+    const value = ref<[Date, Date]>([
+      new Date(2025, 0, 1, 9, 0, 0),
+      new Date(2025, 0, 1, 17, 0, 0),
+    ])
+    const wrapper = mount(() => (
+      <TimePicker v-model={value.value} is-range onChange={changeHandler} />
+    ))
+
+    const [startInput, endInput] = wrapper.findAll('input')
+
+    await startInput.setValue('')
+    expect(startInput.element.value).toBe('')
+
+    await endInput.setValue('')
+    expect(endInput.element.value).toBe('')
+
+    await startInput.trigger('blur')
+    await nextTick()
+    expect(changeHandler).toHaveBeenCalledTimes(1)
+    expect(value.value).toBeNull()
+  })
+
   it('selectableRange ', async () => {
     // left ['08:00:00 - 12:59:59'] right ['11:00:00 - 16:59:59']
     const value = ref([

@@ -24,13 +24,19 @@ type ViteConfig = Required<UserConfig>['vite']
 type ResolveOptions = Required<ViteConfig>['resolve']
 type AliasOptions = Required<ResolveOptions>['alias']
 
+const IGNORED_DEPENDENCIES = [
+  'normalize.css',
+  'vue-component-type-helpers',
+  '@docsearch/css',
+]
+
 const { dependencies: epDeps } = getPackageDependencies(epPackage)
 const { dependencies: docsDeps } = getPackageDependencies(docPackage)
 const optimizeDeps = [...new Set([...epDeps, ...docsDeps])].filter(
   (dep) =>
     !dep.startsWith('@types/') &&
     !['@element-plus/metadata', 'element-plus'].includes(dep) &&
-    !['normalize.css'].includes(dep)
+    !IGNORED_DEPENDENCIES.includes(dep)
 )
 optimizeDeps.push(
   ...(await glob(['dayjs/plugin/*.js'], {

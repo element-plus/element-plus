@@ -290,6 +290,7 @@
             :aria-label="ariaLabel"
             aria-orientation="vertical"
             @scroll="popupScroll"
+            @end-reached="endReached"
           >
             <el-option
               v-if="showNewOption"
@@ -358,7 +359,6 @@ import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
-import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { flattedChildren, isArray, isObject } from '@element-plus/utils'
 import { useCalcInputWidth } from '@element-plus/hooks'
 import { useProps } from '@element-plus/components/select-v2/src/useProps'
@@ -367,7 +367,7 @@ import ElSelectMenu from './select-dropdown.vue'
 import { useSelect } from './useSelect'
 import { selectKey } from './token'
 import ElOptions from './options'
-import { selectProps } from './select'
+import { selectEmits, selectProps } from './select'
 import ElOptionGroup from './option-group.vue'
 
 import type { AppConfig, AppContext, VNode } from 'vue'
@@ -435,16 +435,7 @@ export default defineComponent({
   },
   directives: { ClickOutside },
   props: selectProps,
-  emits: [
-    UPDATE_MODEL_EVENT,
-    CHANGE_EVENT,
-    'remove-tag',
-    'clear',
-    'visible-change',
-    'focus',
-    'blur',
-    'popup-scroll',
-  ],
+  emits: selectEmits,
 
   setup(props, { emit, slots }) {
     const instance = getCurrentInstance()!
@@ -508,14 +499,14 @@ export default defineComponent({
             const flatData = flatTreeSelectData(treeData)
             flatData.forEach((treeItem: any) => {
               treeItem.currentLabel =
-                treeItem.label ||
+                treeItem.label ??
                 (isObject(treeItem.value) ? '' : treeItem.value)
               API.onOptionCreate(treeItem)
             })
           } else if (_name === 'ElOption') {
             const obj = { ...item.props } as any
             obj.currentLabel =
-              obj.label || (isObject(obj.value) ? '' : obj.value)
+              obj.label ?? (isObject(obj.value) ? '' : obj.value)
             API.onOptionCreate(obj)
           }
         }
@@ -535,6 +526,13 @@ export default defineComponent({
         // when the dropdown is currently expanded (mounted options will manage themselves).
         if (props.persistent || API.expanded.value) {
           // If persistent is true, we don't need to manually render slots.
+          return
+        }
+        // When using :options prop (no slot content), el-option components register
+        // and unregister themselves via onOptionCreate/onOptionDestroy lifecycle hooks.
+        // Calling options.clear() here would prematurely wipe options that are still
+        // mounted, causing a "No Data" flash during rapid open/close toggling.
+        if (!slots.default) {
           return
         }
         // Reset current options snapshot before re-collecting from slots.

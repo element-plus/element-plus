@@ -1,10 +1,90 @@
 ## Changelog
 
 
+### 2.13.7
+
+_2026-04-10_
+
+#### Features
+
+- Components [input] add count-graphemes (#12041 by @btea)
+- Components [dialog] bring clicked dialog to front (#23863 by @snowbitx)
+- Components [input] expose passwordVisible (#23921 by @snowbitx)
+- Components [button] support custom color with link/text (#24005 by @LostElkByte)
+
+#### Bug fixes
+
+- Using csstype type ts error (#23887 by @btea)
+- Components [checkbox] reset selection state when model is null (#23856 by @zuwenyin)
+- Hooks [use-timeout] avoid window usage in SSR (#23907 by @iml885203)
+- Components [time-picker] allow clearing time via keyboard when using `is-range` (#23878 by @IceMooncake)
+- Components [cascader] trigger before-filter on empty query (#23898 by @snowbitx)
+- Components [form] reset stale props on dynamic fields (#23706 by @l246804)
+- Components [scrollbar] sync offsets while resize (#23853 by @ZacharyBear)
+- Components [table-v2] add slot typings (#23948 by @DDDDD12138)
+- Components [table] lingering row background when layout changes (#23961 by @rzzf)
+- Build compatible with generic components (#23968 by @btea)
+- Components [cascader] prevent selecting first leaf node on ArrowDown (#23954 by @lw56777)
+- Components [scrollbar] incorrect boundary detection float number (#23971 by @btea)
+- Deps update dependency @eslint/markdown to v8 (#23985 by @renovate[bot])
+- Components [select/v2] prevent blur close on modified mousedown (#23969 by @rzzf)
+- Components [message] fix offset position anomaly (#23988 by @qeTM)
+- Deps update dependency globals to v17 (#23992 by @renovate[bot])
+- Deps update dependency eslint-plugin-jsonc to v3 (#23991 by @renovate[bot])
+- Deps update dependency consola to v3 (#23997 by @renovate[bot])
+- Deps update dependency eslint-plugin-unicorn to v64 (#23998 by @renovate[bot])
+- Deps update dependency @pnpm/logger to v5 (#23987 by @renovate[bot])
+- Deps update eslint monorepo to v10 (major) (#24002 by @renovate[bot])
+
+#### Refactors
+
+- Components [calendar,data-picker] unify using constants (#23868 by @micaiguai)
+- Components [mention] make component generic (#23926 by @rzzf)
+- Components [transfer] make component generic (#23666 by @Dsaquel)
+- Components cleanup defineProps types (#23934 by @rzzf)
+- Components [autocomplete] make component generic (#23927 by @snowbitx)
+- Components [mention/autocomplete] remove references marked as deprecated (#23970 by @rzzf)
+
+### 2.13.6
+
+_2026-03-20_
+
+#### Features
+
+- Components [slider] allow `step` to be set to "mark" (#23685 by @zhixiaotong)
+- Components [input] add `password-icon` slot (#23772 by @zhixiaotong)
+- Components [color-picker-panel] add hue-slider-class and hue-slider-style props (#23499 by @ZacharyBear)
+- Components [input] support inputmode for textarea (#23813 by @snowbitx)
+
+#### Bug fixes
+
+- Components [tooltip] sync visible after disabled toggle (#23738 by @snowbitx)
+- Components [mention] remove the whole input containing a split (#23753 by @rzzf)
+- Components [tab] incorrect boundary detection when container size is a float number (#23774 by @rzzf)
+- Components [table] expanded rows cannot be updated using array methods (#23761 by @rzzf)
+- Components [tree-v2] update expanded state when defaultExpandedKeys change (#23557 by @hellomrbigshot)
+- Components [select] using the options prop can cause list data loss when quickly switching between dropdowns (#23780 by @lw56777)
+- Components [select] allow empty labels when persistent is false (#23809 by @snowbitx)
+- Components [popper] update popover style when content size changes (#23802 by @rzzf)
+- Components [tabs] incorrect boundary detection when container size is a float number (#23776 by @rzzf)
+- Hooks [use-composition] abnormal state in Korean input composition (#23831 by @rzzf)
+- Components [select/select-v2] avoid hiding the dropdown when there is data in `options` (#23838 by @keeplearning66)
+- Improvement(components): [tabs] navigation wheel scrolling experience (#23775 by @rzzf)
+- Style(components): [tag] fix icon in slot causing text wrap (#23725 by @zmyjs)
+
+#### Refactors
+
+- Components [segmented] make component generic (#23678 by @rzzf)
+- Docs avoid duplicate create regexp (#23848 by @btea)
+
 ### 2.13.5
 
 _2026-03-07_
 
+#### Bug fixes
+
+- Chore: fix build (#23737 by @btea)
+- Chore: fix locale/lang/*.ts dts default export (#23741 by @rzzf)
 
 ### 2.13.4
 

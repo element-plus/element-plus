@@ -1,4 +1,4 @@
-import findWorkspacePackages from '@pnpm/find-workspace-packages'
+import { findWorkspacePackages } from '@pnpm/find-workspace-packages'
 import { normalizePath, projRoot } from './paths'
 
 import type { ProjectManifest } from '@pnpm/types'

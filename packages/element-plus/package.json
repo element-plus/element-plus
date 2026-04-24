@@ -77,7 +77,7 @@
     "lib/components/*/style/*"
   ],
   "peerDependencies": {
-    "vue": "^3.3.0"
+    "vue": "^3.3.7"
   },
   "dependencies": {
     "@ctrl/tinycolor": "catalog:",
@@ -93,11 +93,12 @@
     "lodash-es": "^4.17.23",
     "lodash-unified": "^1.0.3",
     "memoize-one": "^6.0.0",
-    "normalize-wheel-es": "^1.2.0"
+    "normalize-wheel-es": "^1.2.0",
+    "vue-component-type-helpers": "catalog:"
   },
   "devDependencies": {
     "@types/node": "*",
-    "vue-router": "^4.0.16"
+    "vue-router": "^5.0.4"
   },
   "vetur": {
     "tags": "tags.json",

@@ -2,6 +2,7 @@ export const DEFAULT_DYNAMIC_LIST_ITEM_SIZE = 50
 
 export const ITEM_RENDER_EVT = 'itemRendered'
 export const SCROLL_EVT = 'scroll'
+export const END_REACHED_EVT = 'end-reached'
 
 export const FORWARD = 'forward'
 export const BACKWARD = 'backward'
