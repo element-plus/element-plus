@@ -2687,6 +2687,73 @@ describe('Table.vue', () => {
       expect(parentInput.classes()).toContain('is-indeterminate')
     })
 
+    it('cleanSelection removes lazy children when parent is removed', async () => {
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table
+            ref="table"
+            :data="testData"
+            row-key="id"
+            lazy
+            :load="load"
+            :tree-props="treeProps"
+          >
+            <el-table-column type="selection" />
+            <el-table-column prop="name" label="name" />
+          </el-table>
+        `,
+        data() {
+          return {
+            treeProps: {
+              children: 'children',
+              hasChildren: 'hasChildren',
+              checkStrictly: false,
+            },
+            testData: [
+              { id: 1, name: 'parent', hasChildren: true },
+              { id: 2, name: 'sibling' },
+            ],
+          }
+        },
+        methods: {
+          load(row, treeNode, resolve) {
+            if (row.id === 1) {
+              resolve([{ id: 11, name: 'child-1' }])
+              return
+            }
+            resolve([])
+          },
+        },
+      })
+      await doubleWait()
+      const tableRef = wrapper.findComponent({ ref: 'table' })
+      const parentCheckbox = wrapper.findAll('.el-table__body .el-checkbox')[0]
+      await parentCheckbox.trigger('click')
+      await doubleWait()
+      const expandIcons = wrapper.findAll('.el-table__expand-icon')
+      await expandIcons[0].trigger('click')
+      await doubleWait()
+      const selectedBefore = (tableRef.vm as any)
+        .getSelectionRows()
+        .map((row: any) => row.id)
+      expect(selectedBefore).toContain(1)
+      expect(selectedBefore).toContain(11)
+      const vm = wrapper.vm as any
+      vm.testData.splice(0, 1)
+      await doubleWait()
+      await doubleWait()
+
+      const selectedAfter = (tableRef.vm as any)
+        .getSelectionRows()
+        .map((row: any) => row.id)
+      expect(selectedAfter).not.toContain(1)
+      expect(selectedAfter).not.toContain(11)
+    })
+
     it('a11y', async () => {
       wrapper = mount({
         components: {

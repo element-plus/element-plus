@@ -337,17 +337,21 @@ function useWatcher<T extends DefaultRow>() {
       deleted = []
       const childrenKey = instance?.store?.states?.childrenColumnName.value
       const dataMap = getKeysMap(data.value, rowKey.value, true, childrenKey)
-      // Include lazy-loaded children so they are not treated as deleted
+      // Include lazy-loaded children only if their parent is still in data
       const { lazyTreeNodeMap } = instance.store.states
       if (lazyTreeNodeMap.value) {
-        Object.values(lazyTreeNodeMap.value).forEach((lazyRows) => {
-          ;(lazyRows as T[]).forEach((row) => {
-            const id = getRowIdentity(row, rowKey.value)
-            if (!dataMap[id]) {
-              dataMap[id] = { row, index: -1 }
+        Object.entries(lazyTreeNodeMap.value).forEach(
+          ([parentId, lazyRows]) => {
+            if (dataMap[parentId]) {
+              ;(lazyRows as T[]).forEach((row) => {
+                const id = getRowIdentity(row, rowKey.value)
+                if (!dataMap[id]) {
+                  dataMap[id] = { row, index: -1 }
+                }
+              })
             }
-          })
-        })
+          }
+        )
       }
       for (const key in selectedMap.value) {
         if (hasOwn(selectedMap.value, key) && !dataMap[key]) {
