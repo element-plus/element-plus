@@ -367,7 +367,7 @@ function useWatcher<T extends DefaultRow>() {
       )
       selection.value = newSelection
       updateSelectionByChildren({ emitChange: false })
-      instance.emit('selection-change', newSelection.slice())
+      instance.emit('selection-change', [...newSelection])
     }
   }
 
@@ -523,7 +523,7 @@ function useWatcher<T extends DefaultRow>() {
     if (selectionChanged) {
       instance.emit(
         'selection-change',
-        selection.value ? selection.value.slice() : []
+        selection.value ? [...selection.value] : []
       )
     }
     instance.emit('select-all', (selection.value || []).slice())
@@ -791,7 +791,7 @@ function useWatcher<T extends DefaultRow>() {
       })
       updateAllSelected()
       if (cascadeChanged) {
-        instance.emit('selection-change', selection.value.slice())
+        instance.emit('selection-change', [...selection.value])
       }
     }
   )
