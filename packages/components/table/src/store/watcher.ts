@@ -237,22 +237,25 @@ function useWatcher<T extends DefaultRow>() {
     const rowKeyValue = rowKey.value
     const rowIndexMap = options.rowIndexMap ?? buildRowIndexMap()
     const selectableFn = selectable.value
+    const rowIdCache = new WeakMap<T, string>()
+    const getCachedRowId = (row: T) => {
+      const cachedId = rowIdCache.get(row)
+      if (cachedId) return cachedId
+      const id = getRowIdentity(row, rowKeyValue)
+      rowIdCache.set(row, id)
+      return id
+    }
     const indeterminateMap: Record<string, boolean> = {}
     const selectedIdSet = new Set(
-      selection.value.map((row) => getRowIdentity(row, rowKeyValue))
+      selection.value.map((row) => getCachedRowId(row))
     )
-    const originalSelectedIdSet = new Set(selectedIdSet)
     const rowsToAdd: T[] = []
-    const rowsToAddIdSet = new Set<string>()
     let selectionChanged = false
     // 在不触发外部 select 事件的前提下同步父节点选中
     const _updateSelectionForRow = (row: T, id: string, selected: boolean) => {
       const isRowSelected = selectedIdSet.has(id)
       if (selected && !isRowSelected) {
-        if (!originalSelectedIdSet.has(id) && !rowsToAddIdSet.has(id)) {
-          rowsToAdd.push(row)
-          rowsToAddIdSet.add(id)
-        }
+        rowsToAdd.push(row)
         selectedIdSet.add(id)
         selectionChanged = true
       } else if (!selected && isRowSelected) {
@@ -265,11 +268,11 @@ function useWatcher<T extends DefaultRow>() {
       let selectableCount = 0
       if (!isArray(rows)) return { selectedCount, selectableCount }
       rows.forEach((row) => {
-        const id = getRowIdentity(row, rowKeyValue)
+        const id = getCachedRowId(row)
         const children = getRowChildren(row)
         let childSelectedCount = 0
         let childSelectableCount = 0
-        if (isArray(children) && children.length) {
+        if (children.length) {
           const childResult = _walk(children)
           childSelectedCount = childResult.selectedCount
           childSelectableCount = childResult.selectableCount
@@ -301,10 +304,10 @@ function useWatcher<T extends DefaultRow>() {
     _walk(data.value || [])
     if (selectionChanged) {
       const nextSelection = selection.value.filter((row) =>
-        selectedIdSet.has(getRowIdentity(row, rowKeyValue))
+        selectedIdSet.has(getCachedRowId(row))
       )
       rowsToAdd.forEach((row) => {
-        if (!selectedIdSet.has(getRowIdentity(row, rowKeyValue))) return
+        if (!selectedIdSet.has(getCachedRowId(row))) return
         nextSelection.push(row)
       })
       selection.value = nextSelection
