@@ -18,7 +18,7 @@
     "@vueuse/core": "catalog:",
     "clipboard-copy": "^4.0.1",
     "element-plus": "npm:element-plus@latest",
-    "markdown-it": "^14.1.0",
+    "markdown-it": "^14.1.1",
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0"
   },
