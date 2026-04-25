@@ -38,6 +38,9 @@
   "i18n-ally.keystyle": "nested",
   "iconify.includes": ["ep"],
   "unocss.root": "./docs",
+  "files.associations": {
+    "**/renovate.json": "jsonc"
+  },
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.patterns": {
     "package.json": "pnpm-lock.yaml, pnpm-workspace.yaml",
