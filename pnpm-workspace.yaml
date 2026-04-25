@@ -19,7 +19,7 @@ catalog:
   '@vitejs/plugin-vue-jsx': ^5.1.5
   '@vue/server-renderer': ^3.5.22
   '@vue/shared': ^3.5.22
-  '@vue/test-utils': ^2.4.6
+  '@vue/test-utils': ^2.4.8
   '@vueuse/core': 14.2.1
   lodash-unified: ^1.0.3
   normalize-wheel-es: ^1.2.0

@@ -29,8 +29,8 @@ catalogs:
       specifier: ^3.5.22
       version: 3.5.25
     '@vue/test-utils':
-      specifier: ^2.4.6
-      version: 2.4.6
+      specifier: ^2.4.8
+      version: 2.4.8
     '@vueuse/core':
       specifier: 14.2.1
       version: 14.2.1
@@ -177,7 +177,7 @@ importers:
         version: 3.5.25
       '@vue/test-utils':
         specifier: 'catalog:'
-        version: 2.4.6
+        version: 2.4.8(@vue/compiler-dom@3.5.25)(@vue/server-renderer@3.5.25)(vue@3.5.25)
       consola:
         specifier: ^3.4.2
         version: 3.4.2
@@ -521,7 +521,7 @@ importers:
         version: link:../test-utils
       '@vue/test-utils':
         specifier: 'catalog:'
-        version: 2.4.6
+        version: 2.4.8(@vue/compiler-dom@3.5.25)(@vue/server-renderer@3.5.25)(vue@3.5.25)
       vue:
         specifier: 'catalog:'
         version: 3.5.25(typescript@6.0.2)
@@ -545,7 +545,7 @@ importers:
     devDependencies:
       '@vue/test-utils':
         specifier: 'catalog:'
-        version: 2.4.6
+        version: 2.4.8(@vue/compiler-dom@3.5.25)(@vue/server-renderer@3.5.25)(vue@3.5.25)
       vue:
         specifier: 'catalog:'
         version: 3.5.25(typescript@6.0.2)
@@ -625,7 +625,7 @@ importers:
     devDependencies:
       '@vue/test-utils':
         specifier: 'catalog:'
-        version: 2.4.6
+        version: 2.4.8(@vue/compiler-dom@3.5.25)(@vue/server-renderer@3.5.25)(vue@3.5.25)
       vue:
         specifier: 'catalog:'
         version: 3.5.25(typescript@6.0.2)
@@ -636,7 +636,7 @@ importers:
     dependencies:
       '@vue/test-utils':
         specifier: 'catalog:'
-        version: 2.4.6
+        version: 2.4.8(@vue/compiler-dom@3.5.25)(@vue/server-renderer@3.5.25)(vue@3.5.25)
       lodash-unified:
         specifier: 'catalog:'
         version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.23)(lodash@4.17.23)
@@ -682,7 +682,7 @@ importers:
         version: 3.5.25
       '@vue/test-utils':
         specifier: 'catalog:'
-        version: 2.4.6
+        version: 2.4.8(@vue/compiler-dom@3.5.25)(@vue/server-renderer@3.5.25)(vue@3.5.25)
       expect-type:
         specifier: ^1.3.0
         version: 1.3.0
@@ -3040,8 +3040,15 @@ packages:
   '@vue/shared@3.5.27':
     resolution: {integrity: sha512-dXr/3CgqXsJkZ0n9F3I4elY8wM9jMJpP3pvRG52r6m0tu/MsAFIe6JpXVGeNMd/D9F4hQynWT8Rfuj0bdm9kFQ==}
 
-  '@vue/test-utils@2.4.6':
-    resolution: {integrity: sha512-FMxEjOpYNYiFe0GkaHsnJPXFHxQ6m4t8vI/ElPGpMWxZKpmRvQ33OIrvRXemy6yha03RxhOlQuy+gZMC3CQSow==}
+  '@vue/test-utils@2.4.8':
+    resolution: {integrity: sha512-cjAKFbSXFhtZ9Cj+ug60b21lW/BN737e+Syu2LPACIW6R0zVtj65Fnfe649KjfHor3Etx3ZavDFFBrZ+p21YNw==}
+    peerDependencies:
+      '@vue/compiler-dom': 3.x
+      '@vue/server-renderer': 3.x
+      vue: 3.x
+    peerDependenciesMeta:
+      '@vue/server-renderer':
+        optional: true
 
   '@vueuse/core@12.0.0':
     resolution: {integrity: sha512-C12RukhXiJCbx4MGhjmd/gH52TjJsc3G0E0kQj/kb19H3Nt6n1CA4DRWuTdWWcaFRdlTe0npWDS942mvacvNBw==}
@@ -7104,9 +7111,6 @@ packages:
   vscode-uri@3.1.0:
     resolution: {integrity: sha512-/BpdSx+yCQGnCvecbyXdxHDkuk55/G3xwnC0GqY4gmQ3j+A+g8kzzgB4Nk/SINjqn6+waqw3EgbVF2QKExkRxQ==}
 
-  vue-component-type-helpers@2.2.12:
-    resolution: {integrity: sha512-YbGqHZ5/eW4SnkPNR44mKVc6ZKQoRs/Rux1sxC6rdwXb4qpbOSYfDr9DsTHolOTGmIKgM9j141mZbBeg05R1pw==}
-
   vue-component-type-helpers@3.2.4:
     resolution: {integrity: sha512-05lR16HeZDcDpB23ku5b5f1fBOoHqFnMiKRr2CiEvbG5Ux4Yi0McmQBOET0dR0nxDXosxyVqv67q6CzS3AK8rw==}
 
@@ -9696,10 +9700,14 @@ snapshots:
 
   '@vue/shared@3.5.27': {}
 
-  '@vue/test-utils@2.4.6':
+  '@vue/test-utils@2.4.8(@vue/compiler-dom@3.5.25)(@vue/server-renderer@3.5.25)(vue@3.5.25)':
     dependencies:
+      '@vue/compiler-dom': 3.5.25
       js-beautify: 1.15.4
-      vue-component-type-helpers: 2.2.12
+      vue: 3.5.25(typescript@6.0.2)
+      vue-component-type-helpers: 3.2.4
+    optionalDependencies:
+      '@vue/server-renderer': 3.5.25(vue@3.5.25)
 
   '@vueuse/core@12.0.0(typescript@6.0.2)':
     dependencies:
@@ -10595,7 +10603,7 @@ snapshots:
       '@one-ini/wasm': 0.1.1
       commander: 10.0.1
       minimatch: 9.0.1
-      semver: 7.7.3
+      semver: 7.7.4
 
   electron-to-chromium@1.5.267: {}
 
@@ -11314,7 +11322,7 @@ snapshots:
       foreground-child: 3.3.1
       jackspeak: 3.4.3
       minimatch: 9.0.5
-      minipass: 7.1.2
+      minipass: 7.1.3
       package-json-from-dist: 1.0.1
       path-scurry: 1.11.1
 
@@ -12748,7 +12756,7 @@ snapshots:
   path-scurry@1.11.1:
     dependencies:
       lru-cache: 10.4.3
-      minipass: 7.1.2
+      minipass: 7.1.3
 
   path-scurry@2.0.2:
     dependencies:
@@ -14266,8 +14274,6 @@ snapshots:
       - msw
 
   vscode-uri@3.1.0: {}
-
-  vue-component-type-helpers@2.2.12: {}
 
   vue-component-type-helpers@3.2.4: {}
 
