@@ -30,8 +30,7 @@
     "globals": "^17.5.0",
     "prettier": "^3.8.3",
     "typescript": "~6.0.3",
-    "typescript-eslint": "^8.59.0",
-    "vue-eslint-parser": "^10.4.0"
+    "typescript-eslint": "^8.59.0"
   },
   "devDependencies": {
     "eslint": "^10.2.1"
