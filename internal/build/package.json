@@ -17,7 +17,7 @@
     "@pnpm/logger": "^5.2.0",
     "@vitejs/plugin-vue": "catalog:",
     "@vitejs/plugin-vue-jsx": "catalog:",
-    "components-helper": "^2.1.4",
+    "components-helper": "^2.2.0",
     "consola": "^3.4.2",
     "lodash": "^4.17.23",
     "magic-string": "^0.30.21",

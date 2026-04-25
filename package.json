@@ -54,7 +54,7 @@
     "@element-plus/utils": "workspace:*",
     "@floating-ui/dom": "^1.0.1",
     "@popperjs/core": "npm:@sxzz/popperjs-es@^2.11.8",
-    "@types/lodash": "^4.17.20",
+    "@types/lodash": "^4.17.24",
     "@types/lodash-es": "^4.17.12",
     "@vueuse/core": "catalog:",
     "async-validator": "^4.2.5",
