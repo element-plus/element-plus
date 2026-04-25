@@ -1,0 +1,19 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:base", "schedule:weekly"],
+  "labels": ["dependencies"],
+  "rangeStrategy": "bump",
+  "packageRules": [
+    {
+      "matchDepTypes": ["peerDependencies"],
+      "enabled": false
+    },
+    {
+      "matchUpdateTypes": ["patch"],
+      "matchDepTypes": ["devDependencies"],
+      "groupName": "all patch devDependencies",
+      "groupSlug": "all-patch-dev-dependencies"
+    }
+  ],
+  "ignoreDeps": ["node", "chalk", "cypress", "jsdom", "vitest", "unocss"]
+}
