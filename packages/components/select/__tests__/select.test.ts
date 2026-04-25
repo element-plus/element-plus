@@ -4638,3 +4638,54 @@ describe('Select', () => {
     }
   })
 })
+
+test('should preserve selected label when remote options change', async () => {
+  vi.useFakeTimers()
+  const wrapper = mount(
+    {
+      template: `
+        <el-select
+          v-model="value"
+          :options="options"
+          value-key="value"
+          multiple
+          filterable
+          remote
+          :remote-method="remoteMethod"
+        />`,
+      components: { ElSelect: Select },
+      data() {
+        return { options: [] as any[], value: [] as string[], loading: false }
+      },
+      methods: {
+        remoteMethod(query: string) {
+          if (query) {
+            this.options = Array.from({ length: 5 }, (_, i) => ({
+              value: `${query}-${i}`,
+              label: `Label ${query}-${i}`,
+            }))
+          } else {
+            this.options = []
+          }
+        },
+      },
+    },
+    { attachTo: 'body' }
+  )
+
+  const select = wrapper.findComponent({ name: 'ElSelect' }).vm
+  select.onInput({ target: { value: 'foo' } })
+  vi.runAllTimers()
+  await nextTick()
+  getOptions()[0].click()
+  await nextTick()
+  expect(select.states.selected[0].currentLabel).toBe('Label foo-0')
+
+  select.onInput({ target: { value: 'bar' } })
+  vi.runAllTimers()
+  await nextTick()
+
+  expect(select.states.selected[0].currentLabel).toBe('Label foo-0')
+  expect(select.states.selected[0].value).toBe('foo-0')
+  vi.useRealTimers()
+})
