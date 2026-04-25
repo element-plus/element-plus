@@ -1,11 +1,17 @@
 {
-  extends: ['config:base', 'schedule:weekly', 'group:allNonMajor'],
+  extends: ['config:base', 'schedule:weekly'],
   labels: ['dependencies'],
   rangeStrategy: 'bump',
   packageRules: [
     {
-      depTypeList: ['peerDependencies'],
+      matchDepTypes: ['peerDependencies'],
       enabled: false,
+    },
+    {
+      matchUpdateTypes: ['patch'],
+      matchDepTypes: ['devDependencies'],
+      groupName: 'all patch devDependencies',
+      groupSlug: 'all-patch-dev-dependencies',
     },
   ],
   ignoreDeps: [
