@@ -4,12 +4,12 @@
   rangeStrategy: 'bump',
   packageRules: [
     {
-      depTypeList: ['peerDependencies'],
+      matchDepTypes: ['peerDependencies'],
       enabled: false,
     },
     {
       matchUpdateTypes: ['patch'],
-      depTypeList: ['devDependencies'],
+      matchDepTypes: ['devDependencies'],
       groupName: 'all patch devDependencies',
       groupSlug: 'all-patch-dev-dependencies',
     },
