@@ -209,8 +209,8 @@ importers:
         specifier: ^16.4.0
         version: 16.4.0
       prettier:
-        specifier: ^3.6.2
-        version: 3.7.4
+        specifier: ^3.8.3
+        version: 3.8.3
       puppeteer:
         specifier: ^24.26.1
         version: 24.33.0(typescript@6.0.2)
@@ -298,7 +298,7 @@ importers:
         version: 3.0.2
       '@prettier/sync':
         specifier: ^0.6.1
-        version: 0.6.1(prettier@3.7.4)
+        version: 0.6.1(prettier@3.8.3)
       '@vitejs/plugin-vue-jsx':
         specifier: 'catalog:'
         version: 5.1.5(vite@8.0.8)(vue@3.5.25)
@@ -432,7 +432,7 @@ importers:
         version: 3.1.2(eslint@10.2.0)
       eslint-plugin-prettier:
         specifier: ^5.5.4
-        version: 5.5.4(eslint-config-prettier@10.1.8)(eslint@10.2.0)(prettier@3.7.4)
+        version: 5.5.4(eslint-config-prettier@10.1.8)(eslint@10.2.0)(prettier@3.8.3)
       eslint-plugin-unicorn:
         specifier: ^64.0.0
         version: 64.0.0(eslint@10.2.0)
@@ -443,8 +443,8 @@ importers:
         specifier: ^17.4.0
         version: 17.4.0
       prettier:
-        specifier: ^3.6.2
-        version: 3.7.4
+        specifier: ^3.8.3
+        version: 3.8.3
       typescript:
         specifier: ~6.0.2
         version: 6.0.2
@@ -5977,8 +5977,8 @@ packages:
     resolution: {integrity: sha512-GbK2cP9nraSSUF9N2XwUwqfzlAFlMNYYl+ShE/V+H8a9uNl/oUqB1w2EL54Jh0OlyRSd8RfWYJ3coVS4TROP2w==}
     engines: {node: '>=6.0.0'}
 
-  prettier@3.7.4:
-    resolution: {integrity: sha512-v6UNi1+3hSlVvv8fSaoUbggEM5VErKmmpGA7Pl3HF8V6uKY7rvClBOJlH6yNwQtfTueNkGVpOv/mtWL9L4bgRA==}
+  prettier@3.8.3:
+    resolution: {integrity: sha512-7igPTM53cGHMW8xWuVTydi2KO233VFiTNyF5hLJqpilHfmn8C8gPf+PS7dUT64YcXFbiMGZxS9pCSxL/Dxm/Jw==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -8804,10 +8804,10 @@ snapshots:
 
   '@polka/url@1.0.0-next.29': {}
 
-  '@prettier/sync@0.6.1(prettier@3.7.4)':
+  '@prettier/sync@0.6.1(prettier@3.8.3)':
     dependencies:
       make-synchronized: 0.8.0
-      prettier: 3.7.4
+      prettier: 3.8.3
 
   '@puppeteer/browsers@2.11.0':
     dependencies:
@@ -10918,10 +10918,10 @@ snapshots:
     transitivePeerDependencies:
       - '@eslint/json'
 
-  eslint-plugin-prettier@5.5.4(eslint-config-prettier@10.1.8)(eslint@10.2.0)(prettier@3.7.4):
+  eslint-plugin-prettier@5.5.4(eslint-config-prettier@10.1.8)(eslint@10.2.0)(prettier@3.8.3):
     dependencies:
       eslint: 10.2.0(jiti@2.6.1)
-      prettier: 3.7.4
+      prettier: 3.8.3
       prettier-linter-helpers: 1.0.0
       synckit: 0.11.11
     optionalDependencies:
@@ -12976,7 +12976,7 @@ snapshots:
     dependencies:
       fast-diff: 1.3.0
 
-  prettier@3.7.4: {}
+  prettier@3.8.3: {}
 
   pretty-bytes@5.6.0: {}
 
