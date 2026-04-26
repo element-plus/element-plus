@@ -9,6 +9,7 @@ import type {
   UseDropdownHoverControllerReturn,
   UseDropdownVisibleReturn,
 } from './index'
+import type { OnClickOutsideReturn } from '@vueuse/core'
 
 interface UseDropdownControllerOptions
   extends
@@ -40,7 +41,7 @@ export function useDropdownController({
 }: UseDropdownControllerOptions) {
   const popperContentRefs = ref<HTMLElement[]>([])
   const triggeringElementRef = ref()
-  let stopHandle: ReturnType<typeof onClickOutside> | undefined
+  let stopHandle: OnClickOutsideReturn | undefined
 
   const triggerRef = computed(() => {
     if (props.disabled) return undefined
