@@ -1,6 +1,10 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:base", "schedule:weekly"],
+  "extends": [
+    "config:base",
+    "schedule:weekly",
+    ":semanticCommitTypeAll(chore)"
+  ],
   "labels": ["dependencies"],
   "rangeStrategy": "bump",
   "packageRules": [
@@ -24,9 +28,6 @@
     // test
     "cypress",
     "jsdom",
-
-    // https://github.com/vitest-dev/vitest/pull/1340
-    "vitest",
 
     // can't work in v0.34.0
     "unocss"
