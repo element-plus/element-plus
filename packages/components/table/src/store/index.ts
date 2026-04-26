@@ -65,6 +65,7 @@ function useStore<T extends DefaultRow>() {
           instance.store.cleanSelection()
         }
       }
+      instance.store.updateSelectionByChildren({ emitChange: false })
       instance.store.updateAllSelected()
       if (instance.$ready) {
         instance.store.scheduleLayout()
