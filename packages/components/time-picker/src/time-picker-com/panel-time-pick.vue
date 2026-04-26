@@ -76,7 +76,14 @@ const ns = useNamespace('time')
 const { t, lang } = useLocale()
 // data
 const selectionRange = ref([0, 2])
-const oldValue = useOldValue(props)
+
+const oldValue = useOldValue(props, {
+  modelValue: computed(() => pickerBase.props.modelValue),
+  valueOnClear: computed(() =>
+    pickerBase?.emptyValues ? pickerBase.emptyValues.valueOnClear.value : null
+  ),
+})
+
 // computed
 const transitionName = computed(() => {
   return isUndefined(props.actualVisible)
@@ -191,4 +198,5 @@ emit('set-picker-option', ['parseUserInput', parseUserInput])
 emit('set-picker-option', ['handleKeydownInput', handleKeydown])
 emit('set-picker-option', ['getRangeAvailableTime', getRangeAvailableTime])
 emit('set-picker-option', ['getDefaultValue', getDefaultValue])
+emit('set-picker-option', ['handleCancel', handleCancel])
 </script>

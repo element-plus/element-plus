@@ -32,4 +32,5 @@ export type {
   Filter,
   TableColumnCtx,
   TableTooltipData,
+  TableConfigContext,
 } from './src/table/defaults'

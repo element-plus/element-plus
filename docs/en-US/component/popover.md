@@ -106,10 +106,10 @@ popover/directive-usage
 
 ### Slots
 
-| Name      | Description                                                                |
-| --------- | -------------------------------------------------------------------------- |
-| default   | text content of popover                                                    |
-| reference | HTML element that triggers popover, only a single root element is accepted |
+| Name      | Description                                                                     | Type                          |
+| --------- | ------------------------------------------------------------------------------- | ----------------------------- |
+| default   | content of popover, version ^(2.13.4) and later can receive the hide parameter. | ^[object]`{hide: () => void}` |
+| reference | HTML element that triggers popover, only a single root element is accepted      | -                             |
 
 ### Events
 

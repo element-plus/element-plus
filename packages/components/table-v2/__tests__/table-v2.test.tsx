@@ -1,9 +1,10 @@
 import { h, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
-import TableV2 from '../src/table-v2'
+import TableV2, { type TableV2Instance } from '../src/table-v2'
 import { TableV2SortOrder } from '../index'
 
+import type { ScrollPos } from '../src/composables/use-scrollbar'
 import type {
   TableV2HeaderRowCellRendererParams,
   TableV2RowCellRenderParam,
@@ -261,6 +262,38 @@ describe('TableV2.vue', () => {
     expect(cell.find('div [style^=margin-inline-star]').exists()).toBe(false)
   })
 
+  test('scrollToRow keeps horizontal offset unchanged', async () => {
+    const columns = ref(generateColumns(10))
+    const data = ref(generateData(columns.value, 200))
+    const scrollLogs: ScrollPos[] = []
+    const wrapper = mount(() => (
+      <TableV2
+        fixed
+        columns={columns.value}
+        data={data.value}
+        width={400}
+        height={400}
+        onScroll={(pos: ScrollPos) => scrollLogs.push({ ...pos })}
+      />
+    ))
+
+    const tableVm = wrapper.findComponent(TableV2).vm.$
+      .exposed as TableV2Instance
+    tableVm.scrollToLeft(150)
+    await nextTick()
+    await nextTick()
+
+    const prevScrollLeft = scrollLogs[scrollLogs.length - 1]?.scrollLeft ?? 0
+    expect(prevScrollLeft).toBeGreaterThan(0)
+
+    tableVm.scrollToRow(50)
+    await nextTick()
+    await nextTick()
+
+    const lastScrollLeft = scrollLogs[scrollLogs.length - 1]?.scrollLeft ?? 0
+    expect(lastScrollLeft).toBe(prevScrollLeft)
+  })
+
   describe('a11y', () => {
     test('expand button', async () => {
       const columns = generateColumns(10)
@@ -317,5 +350,53 @@ describe('TableV2.vue', () => {
       expect(header.attributes('ariasort')).toBe('ascending')
       expect(header.attributes('role')).toBe('columnheader')
     })
+  })
+
+  test('expand button of sub-row should not apply margin style of icon', async () => {
+    const columns = [
+      {
+        key: 'column-0',
+        dataKey: 'column-0',
+        title: 'Column 0',
+        width: 150,
+      },
+    ]
+    const data = [
+      {
+        id: 'row-0',
+        'column-0': 'Row 0 - Col 0',
+        children: [
+          {
+            id: 'row-0-sub-0',
+            parentId: 'row-0',
+            'column-0': 'Sub 0',
+            children: [
+              {
+                id: 'row-0-sub-0-sub-0',
+                parentId: 'row-0-sub-0',
+                'column-0': 'Sub-Sub 0',
+              },
+            ],
+          },
+        ],
+      },
+    ]
+
+    const wrapper = mount(() => (
+      <TableV2
+        columns={columns}
+        data={data}
+        width={300}
+        height={200}
+        expand-column-key="column-0"
+      />
+    ))
+
+    const expandButton = wrapper.find('.el-table-v2__expand-icon')
+    await expandButton.trigger('click')
+    await nextTick()
+
+    const subExpandButton = wrapper.findAll('.el-table-v2__expand-icon')[1]
+    expect(subExpandButton.attributes('style')).toBeFalsy()
   })
 })

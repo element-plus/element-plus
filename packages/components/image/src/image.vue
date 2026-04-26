@@ -79,8 +79,9 @@ import {
   isString,
   isWindow,
 } from '@element-plus/utils'
-import { imageEmits, imageProps } from './image'
+import { imageEmits } from './image'
 
+import type { ImageProps } from './image'
 import type { CSSProperties } from 'vue'
 
 defineOptions({
@@ -88,7 +89,18 @@ defineOptions({
   inheritAttrs: false,
 })
 
-const props = defineProps(imageProps)
+const props = withDefaults(defineProps<ImageProps>(), {
+  src: '',
+  fit: '',
+  previewSrcList: () => [],
+  initialIndex: 0,
+  infinite: true,
+  closeOnPressEscape: true,
+  zoomRate: 1.2,
+  scale: 1,
+  minScale: 0.2,
+  maxScale: 7,
+})
 const emit = defineEmits(imageEmits)
 
 const { t } = useLocale()

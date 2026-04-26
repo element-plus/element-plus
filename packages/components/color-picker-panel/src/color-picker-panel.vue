@@ -6,10 +6,11 @@
     <div :class="ns.e('wrapper')">
       <hue-slider
         ref="hueRef"
-        class="hue-slider"
         :color="color"
         vertical
         :disabled="disabled"
+        :class="['hue-slider', hueSliderClass]"
+        :style="hueSliderStyle"
       />
       <sv-panel ref="svRef" :color="color" :disabled="disabled" />
     </div>
@@ -46,7 +47,7 @@ import { computed, inject, nextTick, onMounted, provide, ref, watch } from 'vue'
 import { ElInput } from '@element-plus/components/input'
 import { useFormDisabled, useFormItem } from '@element-plus/components/form'
 import { useNamespace } from '@element-plus/hooks'
-import { debugWarn } from '@element-plus/utils'
+import { NOOP } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import AlphaSlider from './components/alpha-slider.vue'
 import HueSlider from './components/hue-slider.vue'
@@ -56,16 +57,21 @@ import {
   ROOT_COMMON_COLOR_INJECTION_KEY,
   colorPickerPanelContextKey,
   colorPickerPanelEmits,
-  colorPickerPanelProps,
 } from './color-picker-panel'
 import { useCommonColor } from './composables/use-common-color'
 
+import type { ColorPickerPanelProps } from './color-picker-panel'
 import type { InputInstance } from '@element-plus/components/input'
 
 defineOptions({
   name: 'ElColorPickerPanel',
 })
-const props = defineProps(colorPickerPanelProps)
+const props = withDefaults(defineProps<ColorPickerPanelProps>(), {
+  modelValue: undefined,
+  border: true,
+  validateEvent: true,
+  showAlpha: false,
+})
 const emit = defineEmits(colorPickerPanelEmits)
 
 const ns = useNamespace('color-picker-panel')
@@ -92,7 +98,7 @@ function handleConfirm() {
 
 function handleFocusout() {
   if (props.validateEvent) {
-    formItem?.validate?.('blur').catch((err) => debugWarn(err))
+    formItem?.validate?.('blur').catch(NOOP)
   }
 }
 
@@ -124,7 +130,7 @@ watch(
     emit(UPDATE_MODEL_EVENT, val)
     customInput.value = val
     if (props.validateEvent) {
-      formItem?.validate('change').catch((err) => debugWarn(err))
+      formItem?.validate('change').catch(NOOP)
     }
   }
 )

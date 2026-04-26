@@ -252,3 +252,13 @@ export type TableV2RowCellRenderParam = {
     onExpand: (expand: boolean) => void
   }
 }
+
+export type TableV2RowSlotProps = {
+  cells: VNode[]
+  columns: TableV2RowProps['columns']
+  depth: number
+  style: TableV2RowProps['style']
+  rowData: any
+  rowIndex: number
+  isScrolling: boolean
+}

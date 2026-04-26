@@ -222,6 +222,24 @@ describe('Table.vue', () => {
       expect(hasRecursiveError).toBe(false)
     })
 
+    it('rapidly update height should apply latest value, not stale callbacks', async () => {
+      const wrapper = createTable(':height="height"', {
+        data() {
+          return {
+            height: 0,
+          }
+        },
+        mounted() {
+          this.height = 200
+        },
+      })
+
+      await doubleWait()
+      const style = wrapper.attributes('style')
+      expect(style).toContain('height: 200px')
+      wrapper.unmount()
+    })
+
     it('stripe', async () => {
       const wrapper = createTable('stripe')
       await doubleWait()
@@ -383,6 +401,93 @@ describe('Table.vue', () => {
       await doubleWait()
       expect(tr.classes()).not.toContain('current-row')
       expect(rows[1].classes()).toContain('current-row')
+      wrapper.unmount()
+    })
+
+    it('current-change event should pass correct oldCurrentRow when using current-row-key', async () => {
+      const currentChangeCalls: Array<[any, any]> = []
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+        <el-table 
+          :data="testData" 
+          row-key="id" 
+          highlight-current-row 
+          :current-row-key="currentRowKey"
+          @current-change="handleCurrentChange">
+          <el-table-column prop="name" label="片名" />
+          <el-table-column prop="release" label="发行日期" />
+          <el-table-column prop="director" label="导演" />
+          <el-table-column prop="runtime" label="时长（分）" />
+        </el-table>
+      `,
+        created() {
+          this.testData = getTestData()
+        },
+        data() {
+          return { currentRowKey: null }
+        },
+        methods: {
+          handleCurrentChange(currentRow, oldCurrentRow) {
+            currentChangeCalls.push([currentRow, oldCurrentRow])
+          },
+        },
+      })
+
+      await doubleWait()
+
+      // 第一次设置 current-row-key: oldCurrentRow 应该为 null
+      wrapper.vm.currentRowKey = 1
+      await doubleWait()
+      expect(currentChangeCalls.length).toBe(1)
+      expect(currentChangeCalls[0][0]).toMatchObject({
+        id: 1,
+        name: 'Toy Story',
+      })
+      expect(currentChangeCalls[0][1]).toBeNull()
+
+      // 从第1行切到第2行: oldCurrentRow 应该是第1行的数据
+      wrapper.vm.currentRowKey = 2
+      await doubleWait()
+      expect(currentChangeCalls.length).toBe(2)
+      expect(currentChangeCalls[1][0]).toMatchObject({
+        id: 2,
+        name: "A Bug's Life",
+      })
+      expect(currentChangeCalls[1][1]).toMatchObject({
+        id: 1,
+        name: 'Toy Story',
+      })
+
+      // 从第2行切到第3行: oldCurrentRow 应该是第2行的数据
+      wrapper.vm.currentRowKey = 3
+      await doubleWait()
+      expect(currentChangeCalls.length).toBe(3)
+      expect(currentChangeCalls[2][0]).toMatchObject({
+        id: 3,
+        name: 'Toy Story 2',
+      })
+      expect(currentChangeCalls[2][1]).toMatchObject({
+        id: 2,
+        name: "A Bug's Life",
+      })
+
+      // 从第3行切到第4行: oldCurrentRow 应该是第3行的数据
+      wrapper.vm.currentRowKey = 4
+      await doubleWait()
+      expect(currentChangeCalls.length).toBe(4)
+      expect(currentChangeCalls[3][0]).toMatchObject({
+        id: 4,
+        name: 'Monsters, Inc.',
+      })
+      expect(currentChangeCalls[3][1]).toMatchObject({
+        id: 3,
+        name: 'Toy Story 2',
+      })
+
       wrapper.unmount()
     })
   })
@@ -1968,6 +2073,25 @@ describe('Table.vue', () => {
       childRows = wrapper.findAll('.el-table__row--level-1')
       childRows.forEach((item) => {
         expect(item.attributes('style')).toContain('')
+      })
+
+      // #23759
+      wrapper.vm.expandRowKeys.splice(1, 1)
+      await doubleWait()
+      childRows = wrapper.findAll('.el-table__row--level-1')
+      childRows.forEach((item, index) => {
+        if (index < 2) {
+          expect(item.attributes('style')).not.toContain('display: none')
+        } else {
+          expect(item.attributes('style')).toContain('display: none')
+        }
+      })
+
+      wrapper.vm.expandRowKeys.push('1999-3-31')
+      await doubleWait()
+      childRows = wrapper.findAll('.el-table__row--level-1')
+      childRows.forEach((item) => {
+        expect(item.attributes('style')).not.toContain('display: none')
       })
     })
 

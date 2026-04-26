@@ -16,6 +16,17 @@
     overflow: hidden;
   }
 
+  // When vertical with outside indicators, use flex layout for horizontal arrangement
+  @include when(vertical-outside) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    @include e(container) {
+      flex: 1;
+    }
+  }
+
   @include e(container) {
     position: relative;
     height: 300px;
@@ -79,10 +90,6 @@
     }
 
     @include m(outside) {
-      bottom: calc(
-        getCssVar('carousel-indicator-height') +
-          getCssVar('carousel-indicator-padding-vertical') * 2
-      );
       text-align: center;
       position: static;
       transform: none;
@@ -102,14 +109,7 @@
     }
 
     @include m(labels) {
-      left: 0;
-      right: 0;
-      transform: none;
-      text-align: center;
-
       .#{$namespace}-carousel__button {
-        height: auto;
-        width: auto;
         padding: 2px 18px;
         font-size: 12px;
         color: $color-black;
@@ -164,6 +164,13 @@
     margin: 0;
     cursor: pointer;
     transition: getCssVar('transition-duration');
+
+    // To prevent styles from being overridden
+    // When labels exist, use auto size so button content can center correctly
+    .#{$namespace}-carousel__indicators--labels & {
+      height: auto;
+      width: auto;
+    }
   }
 }
 

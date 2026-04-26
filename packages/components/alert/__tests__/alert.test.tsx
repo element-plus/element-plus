@@ -1,3 +1,4 @@
+import { Comment, h } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import { TypeComponentsMap } from '@element-plus/utils'
@@ -49,5 +50,40 @@ describe('Alert.vue', () => {
 
     await closeBtn.trigger('click')
     expect(wrapper.emitted()).toBeDefined()
+  })
+
+  describe('default slot', () => {
+    test.each([
+      {
+        name: 'with content',
+        slots: { default: AXIOM },
+        exists: true,
+        text: AXIOM,
+      },
+      {
+        name: 'empty',
+        slots: { default: '' },
+        exists: false,
+      },
+      {
+        name: 'only comment nodes',
+        slots: { default: () => [h(Comment, 'some comment')] },
+        exists: false,
+      },
+      {
+        name: 'comment nodes followed by real node',
+        slots: { default: () => [h(Comment, 'some comment'), AXIOM] },
+        exists: true,
+        text: AXIOM,
+      },
+    ])('$name', ({ slots, exists, text }) => {
+      const wrapper = mount(Alert, { slots })
+      const description = wrapper.find('.el-alert__description')
+
+      expect(description.exists()).toBe(exists)
+      if (exists) {
+        expect(description.text()).toBe(text)
+      }
+    })
   })
 })

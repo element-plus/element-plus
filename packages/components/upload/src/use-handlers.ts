@@ -26,7 +26,18 @@ const revokeFileObjectURL = (file: UploadFile) => {
 }
 
 export const useHandlers = (
-  props: UploadProps,
+  props: UploadProps &
+    Required<
+      Pick<
+        UploadProps,
+        | 'listType'
+        | 'onChange'
+        | 'onError'
+        | 'onProgress'
+        | 'onSuccess'
+        | 'onRemove'
+      >
+    >,
   uploadRef: ShallowRef<UploadContentInstance | undefined>
 ) => {
   const uploadFiles = useVModel(
@@ -39,7 +50,7 @@ export const useHandlers = (
   const getFile = (rawFile: UploadRawFile) =>
     uploadFiles.value.find((file) => file.uid === rawFile.uid)
 
-  function abort(file: UploadFile) {
+  function abort(file?: UploadFile) {
     uploadRef.value?.abort(file)
   }
 

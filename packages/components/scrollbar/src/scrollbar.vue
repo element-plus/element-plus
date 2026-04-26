@@ -39,13 +39,19 @@ import {
   watch,
 } from 'vue'
 import { useEventListener, useResizeObserver } from '@vueuse/core'
-import { addUnit, debugWarn, isNumber, isObject } from '@element-plus/utils'
+import {
+  addUnit,
+  debugWarn,
+  isGreaterThan,
+  isNumber,
+  isObject,
+} from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import Bar from './bar.vue'
 import { scrollbarContextKey } from './constants'
-import { scrollbarEmits, scrollbarProps } from './scrollbar'
+import { scrollbarEmits } from './scrollbar'
 
-import type { ScrollbarDirection } from './scrollbar'
+import type { ScrollbarDirection, ScrollbarProps } from './scrollbar'
 import type { BarInstance } from './bar'
 import type { CSSProperties, StyleValue } from 'vue'
 
@@ -55,7 +61,18 @@ defineOptions({
   name: COMPONENT_NAME,
 })
 
-const props = defineProps(scrollbarProps)
+const props = withDefaults(defineProps<ScrollbarProps>(), {
+  distance: 0,
+  height: '',
+  maxHeight: '',
+  wrapStyle: '',
+  wrapClass: '',
+  viewStyle: '',
+  viewClass: '',
+  tag: 'div',
+  minSize: 20,
+  tabindex: undefined,
+})
 const emit = defineEmits(scrollbarEmits)
 
 const ns = useNamespace('scrollbar')
@@ -134,14 +151,16 @@ const handleScroll = () => {
     wrapScrollLeft = wrapRef.value.scrollLeft
 
     const arrivedStates = {
-      bottom:
-        wrapScrollTop + wrapRef.value.clientHeight >=
+      bottom: !isGreaterThan(
         wrapRef.value.scrollHeight - props.distance,
+        wrapRef.value.clientHeight + wrapScrollTop
+      ),
       top: wrapScrollTop <= props.distance && prevTop !== 0,
       right:
-        wrapScrollLeft + wrapRef.value.clientWidth >=
-          wrapRef.value.scrollWidth - props.distance &&
-        prevLeft !== wrapScrollLeft,
+        !isGreaterThan(
+          wrapRef.value.scrollWidth - props.distance,
+          wrapRef.value.clientWidth + wrapScrollLeft
+        ) && prevLeft !== wrapScrollLeft,
       left: wrapScrollLeft <= props.distance && prevLeft !== 0,
     }
 
@@ -195,6 +214,7 @@ const setScrollLeft = (value: number) => {
 const update = () => {
   barRef.value?.update()
   distanceScrollState[direction] = false
+  if (wrapRef.value) barRef.value?.handleScroll(wrapRef.value)
 }
 
 watch(
@@ -219,9 +239,6 @@ watch(
     if (!props.native)
       nextTick(() => {
         update()
-        if (wrapRef.value) {
-          barRef.value?.handleScroll(wrapRef.value)
-        }
       })
   }
 )

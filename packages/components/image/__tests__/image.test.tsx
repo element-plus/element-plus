@@ -1,6 +1,6 @@
 import { nextTick } from 'vue'
 import { flushPromises, mount } from '@vue/test-utils'
-import { describe, expect, test, vi } from 'vitest'
+import { afterEach, describe, expect, test, vi } from 'vitest'
 import {
   IMAGE_FAIL,
   IMAGE_SUCCESS,
@@ -19,6 +19,23 @@ type ElImageProps = ImgHTMLAttributes &
   AnchorHTMLAttributes &
   Partial<ImageProps>
 
+let intersectionCallback: IntersectionObserverCallback | undefined
+
+vi.mock('@vueuse/core', async () => {
+  return {
+    ...((await vi.importActual('@vueuse/core')) as Record<string, any>),
+    useIntersectionObserver: (
+      _target: any,
+      cb: IntersectionObserverCallback
+    ) => {
+      intersectionCallback = cb
+      return {
+        stop: vi.fn(),
+      }
+    },
+  }
+})
+
 // firstly wait for image event
 // secondly wait for vue render
 async function doubleWait() {
@@ -36,6 +53,10 @@ const _mount = (template: string, data: Record<string, any>) =>
   })
 
 describe('Image.vue', () => {
+  afterEach(() => {
+    intersectionCallback = undefined
+  })
+
   test('render test', () => {
     const wrapper = mount(Image)
     expect(wrapper.find('.el-image').exists()).toBe(true)
@@ -172,7 +193,28 @@ describe('Image.vue', () => {
       IMAGE_FAIL + 1
     )
   })
-  //@todo lazy image test
+
+  test('lazy image loads when entering viewport', async () => {
+    const wrapper = mount(Image, {
+      props: {
+        src: IMAGE_SUCCESS,
+        lazy: true,
+      } as ElImageProps,
+    })
+    await doubleWait()
+    expect(wrapper.find('img').exists()).toBe(false)
+    expect(intersectionCallback).toBeDefined()
+    intersectionCallback?.(
+      [
+        {
+          isIntersecting: true,
+        } as IntersectionObserverEntry,
+      ],
+      {} as IntersectionObserver
+    )
+    await nextTick()
+    expect(wrapper.find('img').attributes('src')).toBe(IMAGE_SUCCESS)
+  })
 
   test('`show-progress` prop to control whether to display progress', async () => {
     const url = IMAGE_SUCCESS

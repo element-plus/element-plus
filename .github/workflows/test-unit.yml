@@ -15,9 +15,9 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20, 22, 24]
+        node-version: [20.19.0, 22, 24]
         include:
-          - node-version: 20
+          - node-version: 20.19.0
             node-name: LTS
           - node-version: 22
             node-name: Current
@@ -25,13 +25,13 @@ jobs:
             node-name: New
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
 
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'

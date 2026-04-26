@@ -59,6 +59,14 @@ datetime-picker/date-and-time-range
 
 :::
 
+## Single Panel ^(2.14.0)
+
+:::demo By default date picker ranges have two panels. If you want one panel set the `single-panel` attribute.
+
+datetime-picker/single-panel
+
+:::
+
 ## Default time value for start date and end date
 
 :::demo When picking date range on the date panel with type `datetimerange`, `00:00:00` will be used as the default time value for start and end date. We can control it with the `default-time` attribute. `default-time` accepts an array of up to two Date objects. The first item controls time value of the start date and the second item controls time value of the end date.
@@ -94,7 +102,7 @@ datetime-picker/custom-icon
 | end-placeholder              | placeholder for the end date in range mode                                                                           | ^[string]                                                                                      | —                                  |
 | arrow-control                | whether to pick time using arrow buttons                                                                             | ^[boolean]                                                                                     | false                              |
 | type                         | type of the picker                                                                                                   | ^[enum]`'year' \| 'month' \| 'date' \| 'datetime' \| 'week' \| 'datetimerange' \| 'daterange'` | date                               |
-| format                       | format of the displayed value in the input box                                                                       | ^[string] see [date formats](/en-US/component/date-picker#date-formats)                        | YYYY-MM-DD HH:mm:ss                |
+| format                       | format of the displayed value in the input box                                                                       | ^[string] see [date formats](./date-picker.md#date-formats)                                    | YYYY-MM-DD HH:mm:ss                |
 | popper-class                 | custom class name for DateTimePicker's dropdown                                                                      | ^[string]                                                                                      | —                                  |
 | popper-style                 | custom style for DateTimePicker's dropdown                                                                           | ^[string] / ^[object]                                                                          | —                                  |
 | popper-options               | Customized popper option see more at [popper.js](https://popper.js.org/docs/v2/)                                     | ^[object]`Partial<PopperOptions>`                                                              | {}                                 |
@@ -109,6 +117,7 @@ datetime-picker/custom-icon
 | id                           | same as `id` in native input                                                                                         | ^[string] / ^[array]`[string, string]`                                                         | —                                  |
 | name                         | same as `name` in native input                                                                                       | ^[string]                                                                                      | —                                  |
 | unlink-panels                | unlink two date-panels in range-picker                                                                               | ^[boolean]                                                                                     | false                              |
+| single-panel ^(2.14.0)       | show only one panel in range-picker                                                                                  | ^[boolean]                                                                                     | false                              |
 | prefix-icon                  | Custom prefix icon component                                                                                         | ^[string] / `Component`                                                                        | Date                               |
 | clear-icon                   | Custom clear icon component                                                                                          | ^[string] / `Component`                                                                        | CircleClose                        |
 | shortcuts                    | an object array to set shortcut options                                                                              | ^[array]`Array<{ text: string, value: Date \| Function }>`                                     | —                                  |
@@ -118,12 +127,12 @@ datetime-picker/custom-icon
 | disabled-seconds             | To specify the array of seconds that cannot be selected                                                              | ^[Function]`(hour: number, minute: number, role: string, comparingDate?: Dayjs) => number[]`   | —                                  |
 | cell-class-name              | set custom className                                                                                                 | ^[Function]`(data: Date) => string`                                                            | —                                  |
 | teleported                   | whether datetime-picker dropdown is teleported to the body                                                           | ^[boolean]                                                                                     | true                               |
-| empty-values ^(2.7.0)        | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations)       | ^[array]                                                                                       | —                                  |
-| value-on-clear ^(2.7.0)      | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)              | ^[string] / ^[number] / ^[boolean] / ^[Function]                                               | —                                  |
+| empty-values ^(2.7.0)        | empty values of component, [see config-provider](./config-provider.md#empty-values-configurations)                   | ^[array]                                                                                       | —                                  |
+| value-on-clear ^(2.7.0)      | clear return value, [see config-provider](./config-provider.md#empty-values-configurations)                          | ^[string] / ^[number] / ^[boolean] / ^[Function]                                               | —                                  |
 | show-now ^(2.8.7)            | whether to show the now button                                                                                       | ^[boolean]                                                                                     | true                               |
 | show-footer ^(2.10.5)        | whether to show footer where the date picker is one ^[enum]`'datetime' \| 'datetimerange'`                           | ^[boolean]                                                                                     | true                               |
 | show-confirm ^(2.11.0)       | whether to show the confirm button                                                                                   | ^[boolean]                                                                                     | true                               |
-| show-week-number ^(2.10.3)   | show the week number besides the week                                                                                | `boolean`                                                                                      | false                              |
+| show-week-number ^(2.10.3)   | show the week number besides the week                                                                                | ^[boolean]                                                                                     | false                              |
 
 ### Events
 

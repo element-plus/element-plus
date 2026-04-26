@@ -209,7 +209,7 @@ const message: MessageFn &
       ({ vnode: vm }) => vm.props?.message === normalized.message
     )
     if (instance) {
-      instance.props.repeatNum += 1
+      instance.props.repeatNum! += 1
       instance.props.type = normalized.type
       return instance.handler
     }

@@ -62,6 +62,80 @@ describe('TimeLine.vue', () => {
     expect(timestampWrapper.classes('is-top')).toBe(true)
   })
 
+  describe('mode', () => {
+    test('mode-start', () => {
+      const wrapper = mount(() => (
+        <TimeLine>
+          {activities.map((activity, index) => (
+            <TimeLineItem key={index}>{activity.content}</TimeLineItem>
+          ))}
+        </TimeLine>
+      ))
+
+      const timeline = wrapper.find('.el-timeline')
+      const timelineItems = wrapper.findAll('.el-timeline-item')
+
+      expect(timeline.classes('is-start')).toBe(true)
+      timelineItems.forEach((item) => {
+        expect(item.classes('is-start')).toBe(true)
+      })
+    })
+
+    test('mode-alternate', () => {
+      const wrapper = mount(() => (
+        <TimeLine mode="alternate">
+          {activities.map((activity, index) => (
+            <TimeLineItem key={index}>{activity.content}</TimeLineItem>
+          ))}
+        </TimeLine>
+      ))
+
+      const timeline = wrapper.find('.el-timeline')
+      const timelineItems = wrapper.findAll('.el-timeline-item')
+
+      expect(timeline.classes('is-alternate')).toBe(true)
+      timelineItems.forEach((item) => {
+        expect(item.classes('is-alternate')).toBe(true)
+      })
+    })
+
+    test('mode-alternate-reverse', () => {
+      const wrapper = mount(() => (
+        <TimeLine mode="alternate-reverse">
+          {activities.map((activity, index) => (
+            <TimeLineItem key={index}>{activity.content}</TimeLineItem>
+          ))}
+        </TimeLine>
+      ))
+
+      const timeline = wrapper.find('.el-timeline')
+      const timelineItems = wrapper.findAll('.el-timeline-item')
+
+      expect(timeline.classes('is-alternate-reverse')).toBe(true)
+      timelineItems.forEach((item) => {
+        expect(item.classes('is-alternate-reverse')).toBe(true)
+      })
+    })
+
+    test('mode-end', () => {
+      const wrapper = mount(() => (
+        <TimeLine mode="end">
+          {activities.map((activity, index) => (
+            <TimeLineItem key={index}>{activity.content}</TimeLineItem>
+          ))}
+        </TimeLine>
+      ))
+
+      const timeline = wrapper.find('.el-timeline')
+      const timelineItems = wrapper.findAll('.el-timeline-item')
+
+      expect(timeline.classes('is-end')).toBe(true)
+      timelineItems.forEach((item) => {
+        expect(item.classes('is-end')).toBe(true)
+      })
+    })
+  })
+
   test('hide-timestamp', () => {
     activities[0].hideTimestamp = true
 

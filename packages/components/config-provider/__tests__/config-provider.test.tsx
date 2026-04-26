@@ -140,7 +140,8 @@ describe('config-provider', () => {
         round: true,
         autoInsertSpace: true,
         text: true,
-      })
+        dashed: true,
+      } as const)
 
       const wrapper = mount(() => (
         <ConfigProvider button={config}>
@@ -151,7 +152,7 @@ describe('config-provider', () => {
       expect(
         wrapper
           .find(
-            '.el-button.el-button--warning.is-plain.is-round.is-text .el-button__text--expand'
+            '.el-button.el-button--warning.is-plain.is-round.is-text.is-dashed .el-button__text--expand'
           )
           .exists()
       ).toBe(true)
@@ -162,7 +163,7 @@ describe('config-provider', () => {
     it('should have shadow="hover" instead of \'always\'', async () => {
       const config = reactive({
         shadow: 'hover',
-      })
+      } as const)
       const overrideShadow = ref('')
 
       const wrapper = mount(() => (
@@ -183,7 +184,7 @@ describe('config-provider', () => {
       const config = reactive({
         type: 'success',
         underline: 'always',
-      })
+      } as const)
 
       const wrapper = mount(() => (
         <ConfigProvider link={config}>

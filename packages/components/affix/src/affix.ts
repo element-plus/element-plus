@@ -5,21 +5,47 @@ import {
   isNumber,
 } from '@element-plus/utils'
 import { CHANGE_EVENT } from '@element-plus/constants'
-import { teleportProps } from '@element-plus/components/teleport'
 
-import type {
-  CSSProperties,
-  ExtractPropTypes,
-  ExtractPublicPropTypes,
-} from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 import type Affix from './affix.vue'
+import type { ZIndexType } from '@element-plus/utils'
 
+export interface AffixProps {
+  /**
+   * @description affix element zIndex value
+   * */
+  zIndex?: ZIndexType
+  /**
+   * @description target container. (CSS selector)
+   */
+  target?: string
+  /**
+   * @description offset distance
+   * */
+  offset?: number
+  /**
+   * @description position of affix
+   * */
+  position?: 'top' | 'bottom'
+  /**
+   * @description whether affix element is teleported, if `true` it will be teleported to where `append-to` sets
+   * */
+  teleported?: boolean
+  /**
+   * @description which element the affix element appends to
+   * */
+  appendTo?: string | HTMLElement
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `AffixProps` instead.
+ */
 export const affixProps = buildProps({
   /**
    * @description affix element zIndex value
    * */
   zIndex: {
-    type: definePropType<CSSProperties['z-index']>([Number, String]),
+    type: definePropType<ZIndexType>([Number, String]),
     default: 100,
   },
   /**
@@ -52,11 +78,14 @@ export const affixProps = buildProps({
    * @description which element the affix element appends to
    * */
   appendTo: {
-    type: teleportProps.to.type,
+    type: definePropType<string | HTMLElement>([String, Object]),
     default: 'body',
   },
 } as const)
-export type AffixProps = ExtractPropTypes<typeof affixProps>
+
+/**
+ * @deprecated Removed after 3.0.0, Use `AffixProps` instead.
+ */
 export type AffixPropsPublic = ExtractPublicPropTypes<typeof affixProps>
 
 export const affixEmits = {

@@ -32,6 +32,8 @@ const ExpandIcon = (
   )
 }
 
+ExpandIcon.inheritAttrs = false
+
 export default ExpandIcon
 
 export type ExpandIconInstance = ReturnType<typeof ExpandIcon>

@@ -38,7 +38,6 @@
 </template>
 
 <script lang="ts" setup>
-// @ts-nocheck
 import {
   computed,
   getCurrentInstance,
@@ -49,26 +48,24 @@ import {
   toRef,
 } from 'vue'
 import ElTooltip from '@element-plus/components/tooltip'
-import { debugWarn, isPropAbsent, throwError } from '@element-plus/utils'
+import { throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import useMenu from './use-menu'
-import { menuItemEmits, menuItemProps } from './menu-item'
+import { menuItemEmits } from './menu-item'
 import { MENU_INJECTION_KEY, SUB_MENU_INJECTION_KEY } from './tokens'
 
+import type { MenuItemProps } from './menu-item'
 import type { MenuItemRegistered, MenuProvider, SubMenuProvider } from './types'
 
 const COMPONENT_NAME = 'ElMenuItem'
 defineOptions({
   name: COMPONENT_NAME,
 })
-const props = defineProps(menuItemProps)
+const props = defineProps<MenuItemProps>()
 const emit = defineEmits(menuItemEmits)
 
-isPropAbsent(props.index) &&
-  debugWarn(COMPONENT_NAME, 'Missing required prop: "index"')
-
 const instance = getCurrentInstance()!
-const rootMenu = inject<MenuProvider>(MENU_INJECTION_KEY)
+const rootMenu = inject<MenuProvider>(MENU_INJECTION_KEY)!
 const nsMenu = useNamespace('menu')
 const nsMenuItem = useNamespace('menu-item')
 if (!rootMenu) throwError(COMPONENT_NAME, 'can not inject root menu')

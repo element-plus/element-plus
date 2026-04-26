@@ -4,8 +4,14 @@ import { popperArrowProps, popperProps } from '@element-plus/components/popper'
 import { useTooltipContentProps } from './content'
 import { useTooltipTriggerProps } from './trigger'
 
+import type {
+  PopperArrowProps,
+  PopperProps,
+} from '@element-plus/components/popper'
+import type { ElTooltipContentProps } from './content'
+import type { UseTooltipTriggerProps } from './trigger'
 import type Tooltip from './tooltip.vue'
-import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 
 export const {
   useModelToggleProps: useTooltipModelToggleProps,
@@ -13,6 +19,22 @@ export const {
   useModelToggle: useTooltipModelToggle,
 } = createModelToggleComposable('visible' as const)
 
+export interface UseTooltipProps
+  extends
+    PopperProps,
+    ElTooltipContentProps,
+    UseTooltipTriggerProps,
+    PopperArrowProps {
+  /**
+   * @description whether the tooltip content has an arrow
+   */
+  showArrow?: boolean
+  'onUpdate:visible'?: (value: boolean) => void
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `UseTooltipProps` instead.
+ */
 export const useTooltipProps = buildProps({
   ...popperProps,
   ...useTooltipModelToggleProps,
@@ -36,9 +58,16 @@ export const tooltipEmits = [
   'hide',
   'open',
   'close',
-]
+] as const
 
-export type ElTooltipProps = ExtractPropTypes<typeof useTooltipProps>
+/**
+ * @deprecated Removed after 3.0.0, Use `UseTooltipProps` instead.
+ */
+export type ElTooltipProps = UseTooltipProps
+
+/**
+ * @deprecated Removed after 3.0.0, Use `UseTooltipProps` instead.
+ */
 export type ElTooltipPropsPublic = ExtractPublicPropTypes<
   typeof useTooltipProps
 >

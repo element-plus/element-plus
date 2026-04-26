@@ -37,7 +37,7 @@ switch/text-description
 
 :::tip
 
-Use the `active-icon` and `inactive-icon` attribute to add icon. You can pass either string for the component name (registered in advance) or the component itself which is a SVG Vue component. Element Plus has provided a set of icon that you can find at [icon](/en-US/component/icon)
+Use the `active-icon` and `inactive-icon` attribute to add icon. You can pass either string for the component name (registered in advance) or the component itself which is a SVG Vue component. Element Plus has provided a set of icon that you can find at [icon](./icon.md)
 
 :::
 
@@ -81,7 +81,7 @@ switch/prevent-switching
 
 ## Custom action icon ^(2.3.9)
 
-:::demo You can add `active-action-icon` and `inactive-active-icon` attribute to show icons.
+:::demo You can add `active-action-icon` and `inactive-action-icon` attribute to show icons.
 
 switch/custom-action-icon
 

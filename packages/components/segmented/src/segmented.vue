@@ -24,14 +24,14 @@
           @change="handleChange($event, item)"
         />
         <div :class="ns.e('item-label')">
-          <slot :item="intoAny(item)">{{ getLabel(item) }}</slot>
+          <slot :item="item">{{ getLabel(item) }}</slot>
         </div>
       </label>
     </div>
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup generic="T extends Option = Option">
 import { computed, reactive, ref, watch } from 'vue'
 import { useActiveElement, useResizeObserver } from '@vueuse/core'
 import { useId, useNamespace } from '@element-plus/hooks'
@@ -41,17 +41,25 @@ import {
   useFormItemInputId,
   useFormSize,
 } from '@element-plus/components/form'
-import { debugWarn, isObject } from '@element-plus/utils'
+import { NOOP, isObject } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { defaultProps, segmentedEmits, segmentedProps } from './segmented'
+import { defaultProps, segmentedEmits } from './segmented'
 
 import type { Option } from './types'
+import type { SegmentedProps } from './segmented'
 
 defineOptions({
   name: 'ElSegmented',
 })
 
-const props = defineProps(segmentedProps)
+const props = withDefaults(defineProps<SegmentedProps<T>>(), {
+  direction: 'horizontal',
+  options: () => [],
+  props: () => defaultProps,
+  validateEvent: true,
+  modelValue: undefined,
+  disabled: undefined,
+})
 const emit = defineEmits(segmentedEmits)
 
 const ns = useNamespace('segmented')
@@ -75,7 +83,7 @@ const state = reactive({
   focusVisible: false,
 })
 
-const handleChange = (evt: Event, item: Option) => {
+const handleChange = (evt: Event, item: T) => {
   const value = getValue(item)
   emit(UPDATE_MODEL_EVENT, value)
   emit(CHANGE_EVENT, value)
@@ -84,25 +92,22 @@ const handleChange = (evt: Event, item: Option) => {
 
 const aliasProps = computed(() => ({ ...defaultProps, ...props.props }))
 
-//FIXME: remove this when vue >=3.3
-const intoAny = (item: any) => item
-
-const getValue = (item: Option) => {
+const getValue = (item: T) => {
   return isObject(item) ? item[aliasProps.value.value] : item
 }
 
-const getLabel = (item: Option) => {
+const getLabel = (item: T) => {
   return isObject(item) ? item[aliasProps.value.label] : item
 }
 
-const getDisabled = (item: Option | undefined) => {
+const getDisabled = (item: T | undefined) => {
   return !!(
     _disabled.value ||
     (isObject(item) ? item[aliasProps.value.disabled] : false)
   )
 }
 
-const getSelected = (item: Option) => {
+const getSelected = (item: T) => {
   return props.modelValue === getValue(item)
 }
 
@@ -110,7 +115,7 @@ const getOption = (value: any) => {
   return props.options.find((item) => getValue(item) === value)
 }
 
-const getItemCls = (item: Option) => {
+const getItemCls = (item: T) => {
   return [
     ns.e('item'),
     ns.is('selected', getSelected(item)),
@@ -178,12 +183,14 @@ useResizeObserver(segmentedRef, updateSelect)
 
 watch(activeElement, updateSelect)
 
+watch(() => props.options, updateSelect, { deep: true, flush: 'post' })
+
 watch(
   () => props.modelValue,
   () => {
     updateSelect()
     if (props.validateEvent) {
-      formItem?.validate?.('change').catch((err) => debugWarn(err))
+      formItem?.validate?.('change').catch(NOOP)
     }
   },
   {

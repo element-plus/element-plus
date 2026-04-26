@@ -1,6 +1,6 @@
+import type { IconPropType } from '@element-plus/utils'
 import type {
   ComponentInternalInstance,
-  ExtractPropTypes,
   ExtractPublicPropTypes,
   SetupContext,
 } from 'vue'
@@ -17,13 +17,58 @@ export interface TreeOptionProps {
   label?: string
   value?: string
   disabled?: string
-  class?: (
-    data: TreeNodeData,
-    node: TreeNode
-  ) => string | { [key: string]: boolean }
+  class?:
+    | ((
+        data: TreeNodeData,
+        node: TreeNode
+      ) => string | { [key: string]: boolean })
+    | string
 }
 
-export type TreeProps = ExtractPropTypes<typeof treeProps>
+export interface TreeProps {
+  data?: TreeData
+  emptyText?: string
+  height?: number
+  props?: TreeOptionProps
+  highlightCurrent?: boolean
+  showCheckbox?: boolean
+  defaultCheckedKeys?: TreeKey[]
+  // Whether checked state of a node not affects its father and
+  // child nodes when show-checkbox is true
+  checkStrictly?: boolean
+  defaultExpandedKeys?: TreeKey[]
+  indent?: number
+  itemSize?: number
+  icon?: IconPropType
+  expandOnClickNode?: boolean
+  checkOnClickNode?: boolean
+  checkOnClickLeaf?: boolean
+  currentNodeKey?: string | number
+  accordion?: boolean
+  filterMethod?: FilterMethod
+  // Performance mode will increase memory usage, but scrolling will be smoother
+  perfMode?: boolean
+  /**
+   * @description always show scrollbar
+   */
+  scrollbarAlwaysOn?: boolean
+}
+
+export interface TreeNodeProps {
+  node?: TreeNode
+  expanded?: boolean
+  checked?: boolean
+  indeterminate?: boolean
+  showCheckbox?: boolean
+  disabled?: boolean
+  current?: boolean
+  hiddenExpandIcon?: boolean
+  itemSize?: number
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `TreeProps` instead.
+ */
 export type TreePropsPublic = ExtractPublicPropTypes<typeof treeProps>
 
 export interface TreeNode {

@@ -24,10 +24,11 @@ import { isClient, throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { scrollbarContextKey } from './constants'
 import { BAR_MAP, renderThumbStyle } from './util'
-import { thumbProps } from './thumb'
+
+import type { ThumbProps } from './thumb'
 
 const COMPONENT_NAME = 'Thumb'
-const props = defineProps(thumbProps)
+const props = defineProps<ThumbProps>()
 
 const scrollbar = inject(scrollbarContextKey)
 const ns = useNamespace('scrollbar')

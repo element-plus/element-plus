@@ -220,9 +220,10 @@ dropdown/sub-menu
 
 ### Dropdown-Item Slots
 
-| Name    | Description                |
-| ------- | -------------------------- |
-| default | customize of Dropdown Item |
+| Name           | Description                                 |
+| -------------- | ------------------------------------------- |
+| default        | customize of Dropdown Item                  |
+| icon ^(2.13.1) | custom icon, it will override the icon prop |
 
 ### Dropdown-Item Events
 

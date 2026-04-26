@@ -1,5 +1,4 @@
 import { getCurrentInstance, ref, unref } from 'vue'
-import { isNull } from 'lodash-unified'
 import { getRowIdentity } from '../util'
 
 import type { Ref } from 'vue'
@@ -23,6 +22,7 @@ function useCurrent<T extends DefaultRow>(watcherData: WatcherPropsData<T>) {
 
   const setCurrentRowByKey = (key: string) => {
     const { data, rowKey } = watcherData
+    const oldCurrentRow = currentRow.value
     let _currentRow: T | null = null
     if (rowKey.value) {
       _currentRow =
@@ -31,7 +31,7 @@ function useCurrent<T extends DefaultRow>(watcherData: WatcherPropsData<T>) {
         ) ?? null
     }
     currentRow.value = _currentRow ?? null
-    instance.emit('current-change', currentRow.value, null)
+    instance.emit('current-change', currentRow.value, oldCurrentRow)
   }
 
   const updateCurrentRow = (_currentRow: T) => {
@@ -59,8 +59,6 @@ function useCurrent<T extends DefaultRow>(watcherData: WatcherPropsData<T>) {
         setCurrentRowByKey(currentRowKey)
       } else {
         currentRow.value = null
-      }
-      if (isNull(currentRow.value)) {
         instance.emit('current-change', null, oldCurrentRow)
       }
     } else if (_currentRowKey.value) {

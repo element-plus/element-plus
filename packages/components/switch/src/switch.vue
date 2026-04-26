@@ -84,6 +84,7 @@
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, ref, shallowRef, watch } from 'vue'
 import {
+  NOOP,
   addUnit,
   debugWarn,
   isBoolean,
@@ -104,16 +105,27 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
-import { switchEmits, switchProps } from './switch'
+import { switchEmits } from './switch'
 
 import type { CSSProperties } from 'vue'
+import type { SwitchProps } from './switch'
 
 const COMPONENT_NAME = 'ElSwitch'
 defineOptions({
   name: COMPONENT_NAME,
 })
 
-const props = defineProps(switchProps)
+const props = withDefaults(defineProps<SwitchProps>(), {
+  modelValue: false,
+  disabled: undefined,
+  activeText: '',
+  inactiveText: '',
+  activeValue: true,
+  inactiveValue: false,
+  name: '',
+  validateEvent: true,
+  width: '',
+})
 const emit = defineEmits(switchEmits)
 
 const { formItem } = useFormItem()
@@ -181,7 +193,7 @@ watch(checked, (val) => {
   input.value!.checked = val
 
   if (props.validateEvent) {
-    formItem?.validate?.('change').catch((err) => debugWarn(err))
+    formItem?.validate?.('change').catch(NOOP)
   }
 })
 

@@ -11,6 +11,7 @@ import {
 import { findLastIndex, get, isEqual } from 'lodash-unified'
 import { useDebounceFn, useResizeObserver } from '@vueuse/core'
 import {
+  NOOP,
   ValidateComponentsMap,
   debugWarn,
   escapeStringRegexp,
@@ -47,6 +48,7 @@ import { useProps } from './useProps'
 import type { Option, OptionType, SelectStates } from './select.types'
 import type { SelectV2Props } from './token'
 import type { SelectV2EmitFn } from './defaults'
+import type { ScrollbarDirection } from '@element-plus/components/scrollbar'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { SelectDropdownInstance } from './select-dropdown'
 
@@ -124,7 +126,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
       expanded.value = false
       states.menuVisibleOnFocus = false
       if (props.validateEvent) {
-        elFormItem?.validate?.('blur').catch((err) => debugWarn(err))
+        elFormItem?.validate?.('blur').catch(NOOP)
       }
     },
   })
@@ -397,7 +399,9 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
         (props.loading ||
           !isRemoteSearchEmpty.value ||
           (props.remote && !!slots.empty)) &&
-        (!debouncing.value || !isEmpty(states.previousQuery))
+        (!debouncing.value ||
+          !isEmpty(states.previousQuery) ||
+          hasOptions.value)
       )
     },
     set(val: boolean) {
@@ -563,6 +567,10 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     calculatePopperSize()
   }
 
+  const onEndReached = (direction: ScrollbarDirection) => {
+    emit('end-reached', direction)
+  }
+
   const resetSelectionWidth = () => {
     states.selectionWidth = Number.parseFloat(
       window.getComputedStyle(selectionRef.value!).width
@@ -608,7 +616,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
       if (option.created) {
         handleQueryChange('')
       }
-      if (props.filterable && !props.reserveKeyword) {
+      if (props.filterable && (option.created || !props.reserveKeyword)) {
         states.inputValue = ''
       }
     } else {
@@ -905,6 +913,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
       states.inputValue = ''
       states.previousQuery = null
       states.isBeforeHide = true
+      states.menuVisibleOnFocus = false
       createNewOption('')
     }
   })
@@ -923,7 +932,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
         initStates(true)
       }
       if (!isEqual(val, oldVal) && props.validateEvent) {
-        elFormItem?.validate?.('change').catch((err) => debugWarn(err))
+        elFormItem?.validate?.('change').catch(NOOP)
       }
     },
     {
@@ -1081,6 +1090,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     onInput,
     onKeyboardNavigate,
     onKeyboardSelect,
+    onEndReached,
     onSelect,
     onHover: onHoverOption,
     handleCompositionStart,

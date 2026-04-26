@@ -1162,7 +1162,7 @@ describe('Datetimerange', () => {
   it('should show clear btn on focus', async () => {
     const wrapper = _mount(() => (
       <DatePicker
-        type="datetimerange"
+        type="datetime"
         modelValue={new Date(2016, 9, 10, 18, 40)}
         clearable
       />

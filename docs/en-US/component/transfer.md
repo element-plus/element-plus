@@ -122,7 +122,10 @@ type TransferDirection = 'left' | 'right'
 
 type TransferDataItem = Record<string, any>
 
-type renderContent = (h: typeof H, option: TransferDataItem) => VNode | VNode[]
+type renderContent<T extends TransferDataItem = TransferDataItem> = (
+  h: typeof H,
+  option: T
+) => VNode | VNode[]
 
 interface TransferFormat {
   noChecked?: string

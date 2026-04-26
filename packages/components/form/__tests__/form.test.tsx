@@ -125,14 +125,14 @@ describe('Form', () => {
             labelWidth="150px"
             model={form}
           >
-            <FormItem label="名称">
+            <FormItem label="Name">
               <Input v-model={form.name} />
             </FormItem>
-            <FormItem label="活动区域" label-width="auto">
+            <FormItem label="Activity Region" label-width="auto">
               <Input v-model={form.region} />
             </FormItem>
             <FormItem
-              label="活动形式(我是一个很长很长很长很长的label)"
+              label="Activity Form (I am a very very very very long label)"
               label-width="auto"
             >
               <Input v-model={form.type} />
@@ -369,6 +369,44 @@ describe('Form', () => {
     expect(form.type.length).toBe(0)
     expect(wrapper.findAll('.el-form-item__error')).toHaveLength(0)
     vi.useRealTimers()
+  })
+
+  it('reset dynamic fields after prop switch', async () => {
+    const form = reactive({
+      prop: 'name' as 'name' | 'name2',
+      name: 'jerry',
+      name2: '',
+    })
+
+    const wrapper = mount({
+      setup() {
+        return () => (
+          <Form ref="form" model={form}>
+            <FormItem ref="field" prop={form.prop}>
+              <Input v-model={form[form.prop]} />
+            </FormItem>
+          </Form>
+        )
+      },
+    })
+
+    form.name = 'tom'
+    form.prop = 'name2'
+    await nextTick()
+    form.name2 = 'jack'
+
+    const formRef = wrapper.findComponent({ ref: 'form' }).vm as FormInstance
+    const fieldRef = wrapper.findComponent({ ref: 'field' })
+      .vm as FormItemInstance
+
+    fieldRef.resetField()
+    expect(form.name2).toBe('')
+    expect(form.name).toBe('tom')
+
+    form.name2 = 'jack'
+    formRef.resetFields()
+    expect(form.name2).toBe('')
+    expect(form.name).toBe('tom')
   })
 
   it('clear validate', async () => {
@@ -1018,6 +1056,185 @@ describe('Form', () => {
       await rAF()
       expect(onError).not.toHaveBeenCalled()
       expect(onSubmit).toHaveBeenCalled()
+    })
+  })
+
+  describe('setInitialValues', () => {
+    it('should update initial values for all fields', async () => {
+      vi.useFakeTimers()
+      const form = reactive({
+        name: '',
+        age: '',
+        address: '',
+      })
+      const wrapper = mount({
+        setup() {
+          return { form }
+        },
+        render() {
+          return (
+            <Form ref="formRef" model={form}>
+              <FormItem label="Name" prop="name">
+                <Input v-model={form.name} />
+              </FormItem>
+              <FormItem label="Age" prop="age">
+                <Input v-model={form.age} />
+              </FormItem>
+              <FormItem label="Address" prop="address">
+                <Input v-model={form.address} />
+              </FormItem>
+            </Form>
+          )
+        },
+      })
+
+      await nextTick()
+
+      const formRef = wrapper.findComponent({ ref: 'formRef' })
+        .vm as FormInstance
+
+      // Set new initial values
+      formRef.setInitialValues({
+        name: 'InitName',
+        age: '30',
+        address: 'Los Angeles',
+      })
+      await nextTick()
+
+      // Modify form values
+      form.name = 'Modified'
+      form.age = '40'
+      form.address = 'Chicago'
+      await nextTick()
+
+      // Reset form, should reset to values set by setInitialValues
+      formRef.resetFields()
+      await nextTick()
+      vi.runAllTimers()
+      await nextTick()
+
+      expect(form.name).toBe('InitName')
+      expect(form.age).toBe('30')
+      expect(form.address).toBe('Los Angeles')
+
+      vi.useRealTimers()
+    })
+
+    it('should work with partial field updates', async () => {
+      vi.useFakeTimers()
+      const form = reactive({
+        name: 'DefaultName',
+        age: '20',
+        address: 'DefaultAddress',
+      })
+      const wrapper = mount({
+        setup() {
+          return { form }
+        },
+        render() {
+          return (
+            <Form ref="formRef" model={form}>
+              <FormItem label="Name" prop="name">
+                <Input v-model={form.name} />
+              </FormItem>
+              <FormItem label="Age" prop="age">
+                <Input v-model={form.age} />
+              </FormItem>
+              <FormItem label="Address" prop="address">
+                <Input v-model={form.address} />
+              </FormItem>
+            </Form>
+          )
+        },
+      })
+
+      await nextTick()
+
+      const formRef = wrapper.findComponent({ ref: 'formRef' })
+        .vm as FormInstance
+
+      // Only update initial values for partial fields
+      formRef.setInitialValues({
+        name: 'NewInitName',
+        age: '25',
+      })
+      await nextTick()
+
+      // Modify all fields
+      form.name = 'Modified'
+      form.age = '30'
+      form.address = 'ModifiedAddress'
+      await nextTick()
+
+      // Reset form
+      formRef.resetFields()
+      await nextTick()
+      vi.runAllTimers()
+      await nextTick()
+
+      // name and age should reset to new initial values
+      expect(form.name).toBe('NewInitName')
+      expect(form.age).toBe('25')
+      // address has no new initial value set in partial update, resets to undefined with unified cache
+      expect(form.address).toBeUndefined()
+
+      vi.useRealTimers()
+    })
+  })
+
+  describe('setInitialValue (FormItem)', () => {
+    it('should update initial value for single field', async () => {
+      vi.useFakeTimers()
+      const form = reactive({
+        name: '',
+        age: '',
+      })
+      const wrapper = mount({
+        setup() {
+          return { form }
+        },
+        render() {
+          return (
+            <Form ref="formRef" model={form}>
+              <FormItem ref="nameItem" label="Name" prop="name">
+                <Input v-model={form.name} />
+              </FormItem>
+              <FormItem label="Age" prop="age">
+                <Input v-model={form.age} />
+              </FormItem>
+            </Form>
+          )
+        },
+      })
+
+      await nextTick()
+
+      const formRef = wrapper.findComponent({ ref: 'formRef' })
+        .vm as FormInstance
+      const nameItem = wrapper.findComponent({ ref: 'nameItem' })
+        .vm as FormItemInstance
+
+      // Set new initial value only for name field
+      nameItem.setInitialValue('CustomInitName')
+      await nextTick()
+
+      // Modify field values
+      form.name = 'Modified'
+      form.age = '30'
+      await nextTick()
+
+      // Reset form
+      formRef.resetFields()
+      await nextTick()
+      vi.runAllTimers()
+      await nextTick()
+
+      // name should reset to custom initial value
+      expect(form.name).toBe('CustomInitName')
+      // age should reset to original mounted value
+      expect(form.age).toBe('')
+
+      vi.useRealTimers()
     })
   })
 })

@@ -1,9 +1,51 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
-import type { ExtractPropTypes, ExtractPublicPropTypes, StyleValue } from 'vue'
+import type { ExtractPublicPropTypes, StyleValue } from 'vue'
 import type { Dayjs } from 'dayjs'
 import type Statistic from './statistic.vue'
 
+export interface StatisticProps {
+  /**
+   * @description Setting the decimal point
+   */
+  decimalSeparator?: string
+  /**
+   * @description Sets the thousandth identifier
+   */
+  groupSeparator?: string
+  /**
+   * @description numerical precision
+   */
+  precision?: number
+  /**
+   * @description Custom numerical presentation
+   */
+  formatter?: (...args: any[]) => string | number
+  /**
+   * @description Numerical content
+   */
+  value?: number | Dayjs
+  /**
+   * @description Sets the prefix of a number
+   */
+  prefix?: string
+  /**
+   * @description  Sets the suffix of a number
+   */
+  suffix?: string
+  /**
+   * @description Numeric titles
+   */
+  title?: string
+  /**
+   * @description Styles numeric values
+   */
+  valueStyle?: StyleValue
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `StatisticProps` instead.
+ */
 export const statisticProps = buildProps({
   /**
    * @description Setting the decimal point
@@ -57,7 +99,10 @@ export const statisticProps = buildProps({
     type: definePropType<StyleValue>([String, Object, Array]),
   },
 } as const)
-export type StatisticProps = ExtractPropTypes<typeof statisticProps>
+
+/**
+ * @deprecated Removed after 3.0.0, Use `StatisticProps` instead.
+ */
 export type StatisticPropsPublic = ExtractPublicPropTypes<typeof statisticProps>
 
 export type StatisticInstance = InstanceType<typeof Statistic> & unknown

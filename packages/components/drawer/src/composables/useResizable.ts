@@ -6,7 +6,7 @@ import type { Ref, SetupContext } from 'vue'
 import type { DrawerEmits, DrawerProps } from '../drawer'
 
 export function useResizable(
-  props: DrawerProps,
+  props: DrawerProps & Required<Pick<DrawerProps, 'direction'>>,
   target: Ref<HTMLElement | undefined>,
   emit: SetupContext<DrawerEmits>['emit']
 ) {

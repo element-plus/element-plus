@@ -127,11 +127,13 @@ export const cellForced = {
       row,
       store,
       expanded,
+      $index,
     }: {
       column: TableColumnCtx<T>
       row: T
       store: Store<T>
       expanded: boolean
+      $index: number
     }) {
       const { ns } = store
       const classes = [ns.e('expand-icon')]
@@ -143,10 +145,16 @@ export const cellForced = {
         e.stopPropagation()
         store.toggleRowExpansion(row)
       }
+      const isRowExpandable =
+        store.states.rowExpandable.value?.(row, $index) ?? true
+      if (!isRowExpandable) {
+        classes.push(ns.is('disabled'))
+      }
       return h(
         'button',
         {
           type: 'button',
+          disabled: !isRowExpandable,
           'aria-label': store.t(
             expanded ? 'el.table.collapseRowLabel' : 'el.table.expandRowLabel'
           ),
@@ -160,6 +168,7 @@ export const cellForced = {
               return [
                 column.renderExpand({
                   expanded,
+                  expandable: isRowExpandable,
                 }),
               ]
             }

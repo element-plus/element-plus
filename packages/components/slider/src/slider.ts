@@ -54,14 +54,14 @@ export const sliderProps = buildProps({
     default: 100,
   },
   /**
-   * @description step size
+   * @description step size, can be a number or `'mark'` to restrict values to marks. When set to `'mark'`, the `marks` attribute must be set
    */
   step: {
-    type: Number,
+    type: definePropType<number | 'mark'>([Number, String]),
     default: 1,
   },
   /**
-   * @description whether to display an input box, works when `range` is false
+   * @description whether to display an input box, works when `range` is false and `step` is not `'mark'`
    */
   showInput: Boolean,
   /**

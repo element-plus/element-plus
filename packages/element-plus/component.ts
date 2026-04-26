@@ -1,7 +1,7 @@
 import { ElAffix } from '@element-plus/components/affix'
 import { ElAlert } from '@element-plus/components/alert'
 import { ElAutocomplete } from '@element-plus/components/autocomplete'
-import { ElAvatar } from '@element-plus/components/avatar'
+import { ElAvatar, ElAvatarGroup } from '@element-plus/components/avatar'
 import { ElBacktop } from '@element-plus/components/backtop'
 import { ElBadge } from '@element-plus/components/badge'
 import {
@@ -56,6 +56,7 @@ import { ElImageViewer } from '@element-plus/components/image-viewer'
 import { ElInput } from '@element-plus/components/input'
 import { ElInputNumber } from '@element-plus/components/input-number'
 import { ElInputTag } from '@element-plus/components/input-tag'
+import { ElInputOtp } from '@element-plus/components/input-otp'
 import { ElLink } from '@element-plus/components/link'
 import {
   ElMenu,
@@ -120,6 +121,7 @@ export default [
   ElAutocomplete,
   ElAutoResizer,
   ElAvatar,
+  ElAvatarGroup,
   ElBacktop,
   ElBadge,
   ElBreadcrumb,
@@ -168,6 +170,7 @@ export default [
   ElInput,
   ElInputNumber,
   ElInputTag,
+  ElInputOtp,
   ElLink,
   ElMenu,
   ElMenuItem,

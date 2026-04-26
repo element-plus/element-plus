@@ -54,8 +54,9 @@ import { uploadContextKey } from './constants'
 import UploadList from './upload-list.vue'
 import UploadContent from './upload-content.vue'
 import { useHandlers } from './use-handlers'
-import { uploadProps } from './upload'
+import { uploadPropsDefaults } from './upload'
 
+import type { UploadProps } from './upload'
 import type {
   UploadContentInstance,
   UploadContentProps,
@@ -65,7 +66,7 @@ defineOptions({
   name: 'ElUpload',
 })
 
-const props = defineProps(uploadProps)
+const props = withDefaults(defineProps<UploadProps>(), uploadPropsDefaults)
 
 const disabled = useFormDisabled()
 

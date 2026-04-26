@@ -1,6 +1,6 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
-import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 import type { Placement, Strategy, VirtualElement } from '@floating-ui/dom'
 
 export const tourStrategies = ['absolute', 'fixed'] as const
@@ -20,6 +20,36 @@ export const tourPlacements = [
   'right',
 ] as const
 
+export interface TourContentProps {
+  /**
+   * @description position of the guide card relative to the target element
+   */
+  placement?: Placement
+  /**
+   * @description the reference dom
+   */
+  reference?: HTMLElement | VirtualElement | null
+  /**
+   * @description position strategy of the content
+   */
+  strategy?: Strategy
+  /**
+   * @description offset of the arrow
+   */
+  offset?: number
+  /**
+   * @description whether to show the arrow
+   */
+  showArrow?: boolean
+  /**
+   * @description content's zIndex
+   */
+  zIndex?: number
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `TourContentProps` instead.
+ */
 export const tourContentProps = buildProps({
   /**
    * @description position of the guide card relative to the target element
@@ -64,7 +94,9 @@ export const tourContentProps = buildProps({
   },
 })
 
-export type TourContentProps = ExtractPropTypes<typeof tourContentProps>
+/**
+ * @deprecated Removed after 3.0.0, Use `TourContentProps` instead.
+ */
 export type TourContentPropsPublic = ExtractPublicPropTypes<
   typeof tourContentProps
 >

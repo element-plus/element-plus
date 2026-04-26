@@ -222,9 +222,18 @@ export const useBasicDateTable = (
   }
 
   const getDateOfCell = (row: number, column: number) => {
-    const offsetFromStart =
-      row * 7 + (column - (props.showWeekNumber ? 1 : 0)) - unref(offsetDay)
-    return unref(startDate).add(offsetFromStart, 'day')
+    //NOTE: because relying of startDate is not reliable in every weekStart (especially 2, 3); we re-create it
+    const startOfMonthDay = unref(days).startOfMonthDay
+    const offset = unref(offsetDay)
+    const numberOfDaysFromPreviousMonth =
+      startOfMonthDay + offset < 0
+        ? 7 + startOfMonthDay + offset
+        : startOfMonthDay + offset
+    const offsetFromStart = row * 7 + (column - (props.showWeekNumber ? 1 : 0))
+    return props.date
+      .startOf('month')
+      .subtract(numberOfDaysFromPreviousMonth, 'day')
+      .add(offsetFromStart, 'day')
   }
 
   const handleMouseMove = (event: MouseEvent) => {

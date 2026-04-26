@@ -12,6 +12,7 @@ import {
   isNumber,
 } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { scrollbarEmits } from '@element-plus/components/scrollbar'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { ArrowDown, CircleClose } from '@element-plus/icons-vue'
 import { tagProps } from '../../tag'
@@ -21,12 +22,35 @@ import type SelectV2 from './select.vue'
 import type { Option, OptionType } from './select.types'
 import type { Props } from './useProps'
 import type { EmitFn } from '@element-plus/utils/vue/typescript'
-import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
+import type {
+  CSSProperties,
+  ExtractPropTypes,
+  ExtractPublicPropTypes,
+} from 'vue'
 import type {
   Options,
   Placement,
   PopperEffect,
 } from '@element-plus/components/popper'
+
+/**
+ * @description Tag tooltip configuration interface
+ */
+export interface TagTooltipProps {
+  appendTo?: string | HTMLElement
+  placement?: Placement
+  fallbackPlacements?: Placement[]
+  effect?: PopperEffect
+  popperClass?: string
+  popperStyle?: string | CSSProperties
+  transition?: string
+  teleported?: boolean
+  popperOptions?: Partial<Options>
+  showAfter?: number
+  hideAfter?: number
+  autoClose?: number
+  offset?: number
+}
 
 export const selectV2Props = buildProps({
   /**
@@ -71,6 +95,13 @@ export const selectV2Props = buildProps({
    */
   collapseTagsTooltip: Boolean,
   /**
+   * @description configuration object for the collapse-tags tooltip. To use this, `collapse-tags` and `collapse-tags-tooltip` must be true
+   */
+  tagTooltip: {
+    type: definePropType<TagTooltipProps>(Object),
+    default: () => ({}),
+  },
+  /**
    * @description The max tags number to be shown. To use this, `collapse-tags` must be true
    */
   maxCollapseTags: {
@@ -89,7 +120,7 @@ export const selectV2Props = buildProps({
     default: undefined,
   },
   /**
-   * @description
+   * @description Estimated item height for variable option sizes. Defaults to fixed `itemHeight` when omitted.
    */
   estimatedOptionHeight: {
     type: Number,
@@ -345,6 +376,7 @@ export const optionV2Props = buildProps({
 export const selectV2Emits = {
   [UPDATE_MODEL_EVENT]: (val: SelectV2Props['modelValue']) => true,
   [CHANGE_EVENT]: (val: SelectV2Props['modelValue']) => true,
+  'end-reached': scrollbarEmits['end-reached'],
   'remove-tag': (val: unknown) => true,
   'visible-change': (visible: boolean) => true,
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,

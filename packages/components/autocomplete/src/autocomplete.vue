@@ -6,6 +6,8 @@
     :fallback-placements="['bottom-start', 'top-start']"
     :popper-class="[ns.e('popper'), popperClass!]"
     :popper-style="popperStyle"
+    :popper-options="popperOptions"
+    :show-arrow="showArrow"
     :teleported="teleported"
     :append-to="appendTo"
     :gpu-acceleration="false"
@@ -112,7 +114,11 @@
   </el-tooltip>
 </template>
 
-<script lang="ts" setup>
+<script
+  lang="ts"
+  setup
+  generic="T extends AutocompleteDataItem = AutocompleteDataItem"
+>
 import {
   computed,
   mergeProps,
@@ -125,22 +131,26 @@ import { pick } from 'lodash-unified'
 import { onClickOutside, useDebounceFn } from '@vueuse/core'
 import { Loading } from '@element-plus/icons-vue'
 import { useId, useNamespace } from '@element-plus/hooks'
-import { getEventCode, isArray, throwError } from '@element-plus/utils'
+import { NOOP, getEventCode, isArray, throwError } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
   EVENT_CODE,
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import ElInput, { inputProps } from '@element-plus/components/input'
+import ElInput, { inputPropsDefaults } from '@element-plus/components/input'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElIcon from '@element-plus/components/icon'
 import { useFormDisabled } from '@element-plus/components/form'
-import { autocompleteEmits, autocompleteProps } from './autocomplete'
+import { autocompleteEmits } from './autocomplete'
 
-import type { AutocompleteData } from './autocomplete'
-import type { StyleValue } from 'vue'
+import type {
+  AutocompleteData,
+  AutocompleteDataItem,
+  AutocompleteProps,
+} from './autocomplete'
+import type { Ref, StyleValue } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { InputInstance } from '@element-plus/components/input'
 
@@ -150,10 +160,25 @@ defineOptions({
   inheritAttrs: false,
 })
 
-const props = defineProps(autocompleteProps)
+const props = withDefaults(defineProps<AutocompleteProps<T>>(), {
+  ...inputPropsDefaults,
+  valueKey: 'value',
+  modelValue: '',
+  debounce: 300,
+  placement: 'bottom-start',
+  fetchSuggestions: NOOP,
+  triggerOnFocus: true,
+  loopNavigation: true,
+  teleported: true,
+  showArrow: true,
+  popperOptions: () => ({}),
+})
 const emit = defineEmits(autocompleteEmits)
-
-const passInputProps = computed(() => pick(props, Object.keys(inputProps)))
+const passInputProps = computed(() => {
+  const inputProps = ElInput.props ?? []
+  const keys = isArray(inputProps) ? inputProps : Object.keys(inputProps)
+  return pick(props, keys)
+})
 
 const rawAttrs = useRawAttrs()
 const disabled = useFormDisabled()
@@ -166,7 +191,7 @@ const listboxRef = ref<HTMLElement>()
 
 let readonly = false
 let ignoreFocusEvent = false
-const suggestions = ref<AutocompleteData>([])
+const suggestions = ref([]) as Ref<AutocompleteData<T>>
 const highlightedIndex = ref(-1)
 const dropdownWidth = ref('')
 const activated = ref(false)
@@ -205,7 +230,7 @@ const onHide = () => {
 const getData = async (queryString: string) => {
   if (suggestionDisabled.value) return
 
-  const cb = (suggestionList: AutocompleteData) => {
+  const cb = (suggestionList: AutocompleteData<T>) => {
     loading.value = false
     if (suggestionDisabled.value) return
 
@@ -335,7 +360,7 @@ const blur = () => {
   inputRef.value?.blur()
 }
 
-const handleSelect = async (item: any) => {
+const handleSelect = async (item: T) => {
   emit(INPUT_EVENT, item[props.valueKey])
   emit(UPDATE_MODEL_EVENT, item[props.valueKey])
   emit('select', item)
@@ -384,10 +409,17 @@ const getSuggestionContext = () => {
   return [suggestion, suggestionList] as const
 }
 
-const stopHandle = onClickOutside(listboxRef, () => {
+const stopHandle = onClickOutside(listboxRef, (event: FocusEvent) => {
   // Prevent closing if focus is inside popper content
   if (popperRef.value?.isFocusInsideContent()) return
-  suggestionVisible.value && close()
+  const hadIgnoredFocus = ignoreFocusEvent
+  ignoreFocusEvent = false
+  if (!suggestionVisible.value) return
+  if (hadIgnoredFocus) {
+    handleBlur(new FocusEvent('blur', event))
+  } else {
+    close()
+  }
 })
 
 const handleKeydown = (e: KeyboardEvent | Event) => {
@@ -443,7 +475,7 @@ onMounted(() => {
   ;[
     { key: 'role', value: 'textbox' },
     { key: 'aria-autocomplete', value: 'list' },
-    { key: 'aria-controls', value: 'id' },
+    { key: 'aria-controls', value: listboxId.value },
     {
       key: 'aria-activedescendant',
       value: `${listboxId.value}-item-${highlightedIndex.value}`,

@@ -5,7 +5,7 @@ lang: en-US
 
 # Space
 
-Even though we have [Divider](/en-US/component/divider), but sometimes we need more than one [Divider](/en-US/component/divider) to split the elements apart, so we stack each elements upon [Divider](/en-US/component/divider), but doing so not only makes our code ugly but also makes it difficult to maintain. **Space** is this kind of component provides us both productivity and elegance.
+Even though we have [Divider](./divider.md), but sometimes we need more than one [Divider](./divider.md) to split the elements apart, so we stack each elements upon [Divider](./divider.md), but doing so not only makes our code ugly but also makes it difficult to maintain. **Space** is this kind of component provides us both productivity and elegance.
 
 ## Basic usage
 

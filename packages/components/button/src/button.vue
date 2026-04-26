@@ -27,18 +27,33 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, markRaw } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
+import { Loading } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useButton } from './use-button'
-import { buttonEmits, buttonProps } from './button'
+import { buttonEmits } from './button'
 import { useButtonCustomStyle } from './button-custom'
+
+import type { ButtonProps } from './button'
 
 defineOptions({
   name: 'ElButton',
 })
 
-const props = defineProps(buttonProps)
+const props = withDefaults(defineProps<ButtonProps>(), {
+  disabled: undefined,
+  type: '',
+  nativeType: 'button',
+  loadingIcon: markRaw(Loading),
+  plain: undefined,
+  text: undefined,
+  round: undefined,
+  dashed: undefined,
+  autoInsertSpace: undefined,
+  tag: 'button',
+})
+
 const emit = defineEmits(buttonEmits)
 
 const buttonStyle = useButtonCustomStyle(props)
@@ -52,6 +67,7 @@ const {
   _plain,
   _round,
   _text,
+  _dashed,
   shouldAddSpace,
   handleClick,
 } = useButton(props, emit)
@@ -65,6 +81,7 @@ const buttonKls = computed(() => [
   ns.is('round', _round.value),
   ns.is('circle', props.circle),
   ns.is('text', _text.value),
+  ns.is('dashed', _dashed.value),
   ns.is('link', props.link),
   ns.is('has-bg', props.bg),
 ])

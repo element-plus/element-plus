@@ -3,6 +3,7 @@ import { easeInOutCubic } from '../easings'
 import { isFunction, isWindow } from '../types'
 import { cAF, rAF } from '../raf'
 import { getStyle } from './style'
+import { isShadowRoot } from './aria'
 
 export const isScroll = (el: HTMLElement, isVertical?: boolean): boolean => {
   if (!isClient) return false
@@ -31,7 +32,11 @@ export const getScrollContainer = (
 
     if (isScroll(parent, isVertical)) return parent
 
-    parent = parent.parentNode as HTMLElement
+    if (isShadowRoot(parent)) {
+      parent = parent.host as HTMLElement
+    } else {
+      parent = parent.parentNode as HTMLElement
+    }
   }
 
   return parent

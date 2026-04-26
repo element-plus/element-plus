@@ -20,8 +20,10 @@
     @pointerleave="(e) => $emit('pointerleave', e)"
     @pointerdown="(e) => $emit('pointerdown', e)"
   >
-    <el-icon v-if="icon">
-      <component :is="icon" />
+    <el-icon v-if="icon || $slots.icon">
+      <slot name="icon">
+        <component :is="icon" />
+      </slot>
     </el-icon>
     <slot />
   </li>

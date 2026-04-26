@@ -167,6 +167,7 @@
         :show-confirm="showConfirm"
         :show-footer="showFooter"
         :show-week-number="showWeekNumber"
+        :single-panel="singlePanel"
         @pick="onPick"
         @select-range="setSelectionRange"
         @set-picker-option="onSetPickerOption"
@@ -205,7 +206,7 @@ import {
 import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
-import { NOOP, debugWarn, getEventCode, isArray } from '@element-plus/utils'
+import { NOOP, getEventCode, isArray } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
   EVENT_CODE,
@@ -295,11 +296,16 @@ const { isFocused, handleFocus, handleBlur } = useFocusController(inputRef, {
     )
   },
   afterBlur() {
-    handleChange()
+    if (isTimePicker.value && !props.saveOnBlur) {
+      if (!valueIsEmpty.value) {
+        pickerOptions.value.handleCancel?.()
+      }
+    } else {
+      handleChange()
+    }
     pickerVisible.value = false
     hasJustTabExitedInput = false
-    props.validateEvent &&
-      formItem?.validate('blur').catch((err) => debugWarn(err))
+    props.validateEvent && formItem?.validate('blur').catch(NOOP)
   },
 })
 
@@ -345,8 +351,7 @@ const emitChange = (
     emit(CHANGE_EVENT, val)
     // Set the value of valueOnOpen when clearing to avoid triggering change events multiple times.
     isClear && (valueOnOpen.value = val)
-    props.validateEvent &&
-      formItem?.validate('change').catch((err) => debugWarn(err))
+    props.validateEvent && formItem?.validate('change').catch(NOOP)
   }
 }
 const emitKeydown = (e: KeyboardEvent) => {
@@ -401,12 +406,13 @@ const displayValue = computed<UserInput>(() => {
   const formattedValue = formatToString(parsedValue.value)
   if (isArray(userInput.value)) {
     return [
-      userInput.value[0] || (formattedValue && formattedValue[0]) || '',
-      userInput.value[1] || (formattedValue && formattedValue[1]) || '',
+      userInput.value[0] ?? (formattedValue && formattedValue[0]) ?? '',
+      userInput.value[1] ?? (formattedValue && formattedValue[1]) ?? '',
     ]
   } else if (userInput.value !== null) {
     return userInput.value
   }
+  if (isTimePicker.value && valueIsEmpty.value && !props.saveOnBlur) return ''
   if (!isTimePicker.value && valueIsEmpty.value) return ''
   if (!pickerVisible.value && valueIsEmpty.value) return ''
   if (formattedValue) {
@@ -518,7 +524,12 @@ onBeforeUnmount(() => {
 })
 
 const handleChange = () => {
-  if (userInput.value) {
+  if (isTimePicker.value && !props.saveOnBlur) return
+
+  const isRangeEmpty =
+    isArray(userInput.value) && userInput.value.every((v) => v === '')
+
+  if (userInput.value && !isRangeEmpty) {
     const value = parseUserInputToDayjs(displayValue.value)
     if (value) {
       if (isValidValue(value)) {
@@ -527,7 +538,7 @@ const handleChange = () => {
       userInput.value = null
     }
   }
-  if (userInput.value === '') {
+  if (userInput.value === '' || isRangeEmpty) {
     emitInput(emptyValues.valueOnClear.value)
     emitChange(emptyValues.valueOnClear.value, true)
     userInput.value = null
