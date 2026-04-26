@@ -5,6 +5,7 @@
     "schedule:weekly",
     ":semanticCommitTypeAll(chore)"
   ],
+  "rebaseWhen": "conflicted",
   "labels": ["dependencies"],
   "rangeStrategy": "bump",
   "packageRules": [
