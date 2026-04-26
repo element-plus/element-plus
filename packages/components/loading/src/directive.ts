@@ -81,6 +81,9 @@ const vLoading: Directive<ElementLoading, LoadingBinding> = {
     }
   },
   updated(el, binding) {
+    if(binding.oldValue === binding.value){
+			return;
+		}
     const instance = el[INSTANCE_KEY]
     if (!binding.value) {
       instance?.instance.close()
