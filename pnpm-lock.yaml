@@ -9653,7 +9653,7 @@ snapshots:
     dependencies:
       '@vue/compiler-dom': 3.5.25
       js-beautify: 1.15.4
-      vue: 3.5.25(typescript@6.0.2)
+      vue: 3.5.25(typescript@6.0.3)
       vue-component-type-helpers: 3.2.4
     optionalDependencies:
       '@vue/server-renderer': 3.5.25(vue@3.5.25)
