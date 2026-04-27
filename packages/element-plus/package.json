@@ -83,7 +83,7 @@
     "@ctrl/tinycolor": "catalog:",
     "@element-plus/icons-vue": "^2.3.2",
     "@floating-ui/dom": "catalog:",
-    "@popperjs/core": "npm:@sxzz/popperjs-es@^2.11.7",
+    "@popperjs/core": "catalog:",
     "@types/lodash": "^4.17.24",
     "@types/lodash-es": "^4.17.12",
     "@vueuse/core": "catalog:",
