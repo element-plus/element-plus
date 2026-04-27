@@ -82,7 +82,8 @@ export const virtualizedProps = buildProps({
   },
 
   style: {
-    type: definePropType<StyleValue>([Object, String, Array]),
+    type: definePropType<StyleValue>([Boolean, Object, String, Array]),
+    default: undefined,
   },
 
   useIsScrolling: Boolean,

@@ -66,7 +66,8 @@ export const countdownProps = buildProps({
    * @description Styles countdown values
    */
   valueStyle: {
-    type: definePropType<StyleValue>([String, Object, Array]),
+    type: definePropType<StyleValue>([Boolean, String, Object, Array]),
+    default: undefined,
   },
 } as const)
 

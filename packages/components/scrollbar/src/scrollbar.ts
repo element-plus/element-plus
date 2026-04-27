@@ -118,7 +118,7 @@ export const scrollbarProps = buildProps({
    * @description style of wrap
    */
   wrapStyle: {
-    type: definePropType<StyleValue>([String, Object, Array]),
+    type: definePropType<StyleValue>([Boolean, String, Object, Array]),
     default: '',
   },
   /**
@@ -139,7 +139,7 @@ export const scrollbarProps = buildProps({
    * @description style of view
    */
   viewStyle: {
-    type: [String, Array, Object],
+    type: [Boolean, String, Array, Object],
     default: '',
   },
   /**

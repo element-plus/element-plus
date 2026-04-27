@@ -9,7 +9,10 @@ import type {
 } from 'vue'
 
 export const rovingFocusGroupProps = buildProps({
-  style: { type: definePropType<StyleValue>([String, Array, Object]) },
+  style: {
+    type: definePropType<StyleValue>([Boolean, String, Array, Object]),
+    default: undefined,
+  },
   currentTabId: {
     type: definePropType<string | null>(String),
   },

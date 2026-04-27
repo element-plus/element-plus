@@ -340,7 +340,7 @@ export const inputProps = buildProps({
    * @description input or textarea element style
    */
   inputStyle: {
-    type: definePropType<StyleValue>([Object, Array, String]),
+    type: definePropType<StyleValue>([Boolean, Object, Array, String]),
     default: () => mutable({} as const),
   },
   /**
