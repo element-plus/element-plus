@@ -145,6 +145,7 @@ export const popperContentProps = buildProps({
   },
   popperStyle: {
     type: definePropType<StyleValue>([String, Array, Object, Boolean]),
+    default: undefined,
   },
   referenceEl: {
     type: definePropType<HTMLElement>(Object),
