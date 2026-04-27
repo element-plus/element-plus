@@ -86,7 +86,7 @@
     "@vue/test-utils": "catalog:",
     "consola": "^3.4.2",
     "csstype": "^3.2.3",
-    "cz-git": "^1.12.0",
+    "cz-git": "^1.13.0",
     "czg": "^1.12.0",
     "eslint": "^10.2.1",
     "expect-type": "^1.3.0",
