@@ -139,7 +139,7 @@ export const scrollbarProps = buildProps({
    * @description style of view
    */
   viewStyle: {
-    type: [Boolean, String, Array, Object],
+    type: definePropType<StyleValue>([String, Object, Array, Boolean]),
     default: '',
   },
   /**
