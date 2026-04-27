@@ -157,6 +157,7 @@
       <el-icon
         v-if="showClear"
         :class="[nsTextarea.e('icon'), nsTextarea.e('clear')]"
+        :style="clearIconStyle"
         @mousedown.prevent="NOOP"
         @click="clear"
       >
@@ -180,6 +181,7 @@
 import {
   computed,
   nextTick,
+  onBeforeUnmount,
   onMounted,
   ref,
   shallowRef,
@@ -201,9 +203,11 @@ import {
 import {
   NOOP,
   ValidateComponentsMap,
+  cAF,
   debugWarn,
   isClient,
   isObject,
+  rAF,
 } from '@element-plus/utils'
 import {
   useAttrs,
@@ -276,6 +280,7 @@ const textarea = shallowRef<HTMLTextAreaElement>()
 const hovering = ref(false)
 const passwordVisible = ref(false)
 const countStyle = ref<StyleValue>()
+const clearIconStyle = ref<StyleValue>()
 const textareaCalcStyle = shallowRef(props.inputStyle)
 const saveValue = ref('')
 const textareaHeight = ref<string>()
@@ -361,19 +366,32 @@ const hasModelModifiers = computed(
 
 const [recordCursor, setCursor] = useCursor(input)
 
+let rAFId: number | undefined
+
 useResizeObserver(textarea, (entries) => {
   onceInitSizeTextarea()
   if (
-    !isWordLimitVisible.value ||
+    (!isWordLimitVisible.value && !renderClear.value) ||
     (props.resize !== 'both' && props.resize !== 'horizontal')
   )
     return
   const entry = entries[0]
-  const { width } = entry.contentRect
-  countStyle.value = {
-    /** right: 100% - width + padding(22) - right(10) */
-    right: `calc(100% - ${width + 22 - 10}px)`,
+  const { width } = entry.target.getBoundingClientRect()
+
+  const updateStyle = () => {
+    rAFId = undefined
+    countStyle.value = {
+      /** right: 100% - (width - right(10)) */
+      right: `calc(100% - ${width - 10}px)`,
+    }
+    clearIconStyle.value = {
+      /** right: 100% - (width - right(11)) */
+      right: `calc(100% - ${width - 11}px)`,
+    }
   }
+
+  rAFId && cAF(rAFId)
+  rAFId = rAF(updateStyle)
 })
 
 const resizeTextarea = () => {
@@ -713,6 +731,10 @@ onMounted(() => {
   }
   setNativeInputValue()
   nextTick(resizeTextarea)
+})
+
+onBeforeUnmount(() => {
+  rAFId && cAF(rAFId)
 })
 
 defineExpose({
