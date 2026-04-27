@@ -14,6 +14,10 @@
       "enabled": false
     },
     {
+      "matchDepTypes": ["dependencies"],
+      "enabled": false
+    },
+    {
       "matchUpdateTypes": ["patch"],
       "matchDepTypes": ["devDependencies"],
       "groupName": "all patch devDependencies",
@@ -22,14 +26,11 @@
   ],
   "ignoreDeps": [
     "node",
-
     // pure esm
     "chalk",
-
     // test
     "cypress",
     "jsdom",
-
     // can't work in v0.34.0
     "unocss"
   ]
