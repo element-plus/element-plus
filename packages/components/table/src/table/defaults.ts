@@ -389,7 +389,7 @@ export default {
    */
   load: Function as PropType<TableProps<any>['load']>,
   style: {
-    type: [Boolean, String, Object, Array] as PropType<
+    type: [String, Object, Array, Boolean] as PropType<
       TableProps<any>['style']
     >,
     default: () => ({}),
