@@ -17,7 +17,7 @@ catalogs:
       specifier: ^1.0.1
       version: 1.7.4
     '@popperjs/core':
-      specifier: npm:@sxzz/popperjs-es@^2.11.7
+      specifier: npm:@sxzz/popperjs-es@^2.11.8
       version: 2.11.8
     '@vitejs/plugin-vue':
       specifier: ^6.0.6
@@ -94,7 +94,7 @@ importers:
         specifier: 'catalog:'
         version: 1.7.4
       '@popperjs/core':
-        specifier: npm:@sxzz/popperjs-es@^2.11.8
+        specifier: 'catalog:'
         version: '@sxzz/popperjs-es@2.11.8'
       '@types/lodash':
         specifier: ^4.17.24
@@ -568,8 +568,8 @@ importers:
         specifier: 'catalog:'
         version: 1.7.4
       '@popperjs/core':
-        specifier: npm:@sxzz/popperjs-es@^2.11.7
-        version: '@sxzz/popperjs-es@2.11.7'
+        specifier: 'catalog:'
+        version: '@sxzz/popperjs-es@2.11.8'
       '@types/lodash':
         specifier: ^4.17.24
         version: 4.17.24
@@ -2647,9 +2647,6 @@ packages:
 
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
-
-  '@sxzz/popperjs-es@2.11.7':
-    resolution: {integrity: sha512-Ccy0NlLkzr0Ex2FKvh2X+OyERHXJ88XJ1MXtsI9y9fGexlaXaVTPzBCRBwIxFkORuOb+uBqeu+RqnpgYTEZRUQ==}
 
   '@sxzz/popperjs-es@2.11.8':
     resolution: {integrity: sha512-wOwESXvvED3S8xBmcPWHs2dUuzrE4XiZeFu7e1hROIJkm02a49N120pmOXxY33sBb6hArItm5W5tcg1cBtV+HQ==}
@@ -9045,8 +9042,6 @@ snapshots:
   '@simple-libs/stream-utils@1.2.0': {}
 
   '@standard-schema/spec@1.1.0': {}
-
-  '@sxzz/popperjs-es@2.11.7': {}
 
   '@sxzz/popperjs-es@2.11.8': {}
 
