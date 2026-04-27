@@ -191,8 +191,8 @@ importers:
         specifier: ^1.13.0
         version: 1.13.0
       czg:
-        specifier: ^1.12.0
-        version: 1.12.0
+        specifier: ^1.13.0
+        version: 1.13.0
       eslint:
         specifier: ^10.2.1
         version: 10.2.1(jiti@2.6.1)
@@ -3778,8 +3778,8 @@ packages:
     resolution: {integrity: sha512-oTxNSypCvhfHJF7KmnO8lSDup4lYa/s6bbF1700vyONepDIMTcMMXQweSxE/7ANIm7hcv1ckz4HLitZNM02fCw==}
     engines: {node: '>=v12.20.0'}
 
-  czg@1.12.0:
-    resolution: {integrity: sha512-LGltcoZ5m7vhe3WNw16QXqd5WurnHegx9V15MwZJtFAU2AVCYLCqDbwxPUgZOnAcdzzooq33ONcU148HOQsjdA==}
+  czg@1.13.0:
+    resolution: {integrity: sha512-Y2f2gBpnCa3wJbBGic0mfNJt9zGbWKtrBlJFMclDNUyipvCgn0As2WPHaAtBkBSMlZgzORHRfwAP96C5lrCIYA==}
     engines: {node: '>=v12.20.0'}
     hasBin: true
 
@@ -10373,7 +10373,7 @@ snapshots:
 
   cz-git@1.13.0: {}
 
-  czg@1.12.0: {}
+  czg@1.13.0: {}
 
   dashdash@1.14.1:
     dependencies:
