@@ -14,7 +14,7 @@ catalogs:
       specifier: ^2.3.2
       version: 2.3.2
     '@popperjs/core':
-      specifier: npm:@sxzz/popperjs-es@^2.11.7
+      specifier: npm:@sxzz/popperjs-es@^2.11.8
       version: 2.11.8
     '@vitejs/plugin-vue':
       specifier: ^6.0.6
