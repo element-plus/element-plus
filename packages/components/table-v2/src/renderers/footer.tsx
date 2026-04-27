@@ -1,7 +1,7 @@
-import type { CSSProperties, FunctionalComponent } from 'vue'
+import type { CSSProperties, FunctionalComponent, HTMLAttributes } from 'vue'
 
 type FooterRendererProps = {
-  class?: JSX.IntrinsicAttributes['class']
+  class?: HTMLAttributes['class']
   style: CSSProperties
 }
 
