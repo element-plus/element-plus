@@ -80,13 +80,7 @@ const nextPanel = computed(() => {
 
 const isResizable = computed(() => {
   if (!nextPanel.value) return false
-  return (
-    props.resizable &&
-    nextPanel.value?.resizable &&
-    // If it is 0, it means it is collapsed => check if the minimum value is set
-    (panelSize.value !== 0 || !props.min) &&
-    (nextSize.value !== 0 || !nextPanel.value.min)
-  )
+  return props.resizable && nextPanel.value?.resizable
 })
 
 // The last panel doesn't need a drag bar
