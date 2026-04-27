@@ -17,13 +17,13 @@ catalog:
   '@popperjs/core': npm:@sxzz/popperjs-es@^2.11.7
   '@vitejs/plugin-vue': ^6.0.6
   '@vitejs/plugin-vue-jsx': ^5.1.5
-  '@vue/server-renderer': ^3.5.22
-  '@vue/shared': ^3.5.22
+  '@vue/server-renderer': ^3.5.33
+  '@vue/shared': ^3.5.33
   '@vue/test-utils': ^2.4.6
   '@vueuse/core': 14.2.1
   lodash-unified: ^1.0.3
   normalize-wheel-es: ^1.2.0
-  vue: ^3.5.22
+  vue: ^3.5.33
   vue-component-type-helpers: ^3.2.7
   # vitest: ^2.0.5
 
