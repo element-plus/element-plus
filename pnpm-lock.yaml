@@ -188,8 +188,8 @@ importers:
         specifier: ^3.2.3
         version: 3.2.3
       cz-git:
-        specifier: ^1.12.0
-        version: 1.12.0
+        specifier: ^1.13.0
+        version: 1.13.0
       czg:
         specifier: ^1.12.0
         version: 1.12.0
@@ -3774,8 +3774,8 @@ packages:
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
 
-  cz-git@1.12.0:
-    resolution: {integrity: sha512-LaZ+8whPPUOo6Y0Zy4nIbf6JOleV3ejp41sT6N4RPKiKKA+ICWf4ueeIlxIO8b6JtdlDxRzHH/EcRji07nDxcg==}
+  cz-git@1.13.0:
+    resolution: {integrity: sha512-oTxNSypCvhfHJF7KmnO8lSDup4lYa/s6bbF1700vyONepDIMTcMMXQweSxE/7ANIm7hcv1ckz4HLitZNM02fCw==}
     engines: {node: '>=v12.20.0'}
 
   czg@1.12.0:
@@ -10371,7 +10371,7 @@ snapshots:
 
   csstype@3.2.3: {}
 
-  cz-git@1.12.0: {}
+  cz-git@1.13.0: {}
 
   czg@1.12.0: {}
 
