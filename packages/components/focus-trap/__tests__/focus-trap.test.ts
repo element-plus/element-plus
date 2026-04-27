@@ -102,7 +102,7 @@ describe('<ElFocusTrap', () => {
       const child = findFocusContainer()
       expect(document.activeElement).toBe(child.element)
 
-      wrapper.unmount()
+      await wrapper.setProps({ trapped: false })
       expect(focusOnUnmount).toHaveBeenCalled()
       expect(document.activeElement).toBe(document.body)
     })
@@ -316,7 +316,7 @@ describe('<ElFocusTrap', () => {
         code: EVENT_CODE.tab,
       })
       expect(document.activeElement).not.toBe(items.at(0)?.element)
-      newFocusTrap.unmount()
+      await newFocusTrap.setProps({ trapped: false })
       await nextTick()
 
       expect(document.activeElement).toBe(items.at(2)?.element)

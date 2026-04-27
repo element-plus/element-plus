@@ -534,7 +534,7 @@ describe('Table.vue', () => {
       await doubleWait()
     })
 
-    afterEach(() => wrapper.unmount())
+    afterEach(() => wrapper?.unmount())
 
     it('render', () => {
       expect(
@@ -631,7 +631,6 @@ describe('Table.vue', () => {
         ...filter.querySelector('.el-table-filter__bottom button').classList,
       ]).toContain('is-disabled')
       filter.parentNode.removeChild(filter)
-      wrapper.unmount()
     })
   })
 
@@ -2199,7 +2198,7 @@ describe('Table.vue', () => {
     })
 
     it('selectable tree', async () => {
-      const wrapper = mount({
+      wrapper = mount({
         components: {
           ElTable,
           ElTableColumn,

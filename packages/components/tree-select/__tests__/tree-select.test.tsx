@@ -123,7 +123,6 @@ describe('TreeSelect.vue', () => {
   afterEach(() => {
     vi.clearAllTimers()
     vi.useRealTimers()
-    document.body.innerHTML = ''
   })
   test('render test', async () => {
     const { wrapper, tree } = createComponent({

@@ -67,9 +67,6 @@ const _mount = (template: string, data: any = () => ({}), otherObj?) =>
       },
       template,
       data,
-      setup() {
-        return usePopperContainerId()
-      },
       ...otherObj,
     },
     {
@@ -2830,6 +2827,8 @@ describe('Select', () => {
   })
 
   describe('teleported API', () => {
+    const { selector } = usePopperContainerId()
+
     it('should mount on popper container', async () => {
       expect(document.body.innerHTML).toBe('')
       wrapper = _mount(
@@ -2855,8 +2854,7 @@ describe('Select', () => {
       )
 
       await nextTick()
-      const { selector } = wrapper.vm
-      expect(document.body.querySelector(selector).innerHTML).not.toBe('')
+      expect(document.body.querySelector(selector.value).innerHTML).not.toBe('')
     })
 
     it('should not mount on the popper container', async () => {
@@ -2884,8 +2882,7 @@ describe('Select', () => {
       )
 
       await nextTick()
-      const { selector } = wrapper.vm
-      expect(document.body.querySelector(selector).innerHTML).toBe('')
+      expect(document.body.querySelector(selector.value).innerHTML).toBe('')
     })
   })
 

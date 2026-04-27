@@ -104,7 +104,7 @@ describe('Popover.vue', () => {
   })
 
   it('should be able to emit after-enter and after-leave', async () => {
-    const wrapper = _mount({ trigger: 'click' })
+    wrapper = _mount({ trigger: 'click' })
 
     await nextTick()
     const trigger$ = wrapper.findComponent(ElPopperTrigger)
@@ -129,7 +129,7 @@ describe('Popover.vue', () => {
   })
 
   it('test visible controlled mode trigger invalid', async () => {
-    const wrapper = _mount({ visible: false, trigger: 'click' })
+    wrapper = _mount({ visible: false, trigger: 'click' })
     await nextTick()
     const trigger$ = wrapper.findComponent(ElPopperTrigger)
     const triggerEl = trigger$.find('.el-tooltip__trigger')
@@ -158,7 +158,7 @@ describe('Popover.vue', () => {
   })
 
   it('test v-model:visible', async () => {
-    const wrapper = mount(
+    wrapper = mount(
       {
         setup() {
           const visible = ref(false)
@@ -199,7 +199,7 @@ describe('Popover.vue', () => {
   describe('teleported API', () => {
     it('should mount on popper container', async () => {
       expect(document.body.innerHTML).toBe('')
-      _mount()
+      wrapper = _mount()
 
       await nextTick()
       const { selector } = usePopperContainerId()
@@ -210,7 +210,7 @@ describe('Popover.vue', () => {
 
     it('should not mount on the popper container', async () => {
       expect(document.body.innerHTML).toBe('')
-      _mount({ teleported: false })
+      wrapper = _mount({ teleported: false })
 
       await nextTick()
       const { selector } = usePopperContainerId()
