@@ -13,6 +13,9 @@ catalogs:
     '@element-plus/icons-vue':
       specifier: ^2.3.2
       version: 2.3.2
+    '@floating-ui/dom':
+      specifier: ^1.0.1
+      version: 1.7.4
     '@popperjs/core':
       specifier: npm:@sxzz/popperjs-es@^2.11.7
       version: 2.11.8
@@ -88,7 +91,7 @@ importers:
         specifier: workspace:*
         version: link:packages/utils
       '@floating-ui/dom':
-        specifier: ^1.0.1
+        specifier: 'catalog:'
         version: 1.7.4
       '@popperjs/core':
         specifier: npm:@sxzz/popperjs-es@^2.11.8
@@ -562,7 +565,7 @@ importers:
         specifier: ^2.3.2
         version: 2.3.2(vue@3.5.25)
       '@floating-ui/dom':
-        specifier: ^1.0.1
+        specifier: 'catalog:'
         version: 1.7.4
       '@popperjs/core':
         specifier: npm:@sxzz/popperjs-es@^2.11.7
@@ -614,7 +617,7 @@ importers:
   packages/hooks:
     dependencies:
       '@floating-ui/dom':
-        specifier: ^1.0.1
+        specifier: 'catalog:'
         version: 1.7.4
       '@popperjs/core':
         specifier: 'catalog:'
