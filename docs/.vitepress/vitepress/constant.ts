@@ -8,4 +8,5 @@ export const breakpoints = {
   lg: 960,
   xlg: 1280,
   xxl: 1440,
+  max: 1680,
 }

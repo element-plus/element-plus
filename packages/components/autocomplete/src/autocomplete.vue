@@ -6,6 +6,8 @@
     :fallback-placements="['bottom-start', 'top-start']"
     :popper-class="[ns.e('popper'), popperClass!]"
     :popper-style="popperStyle"
+    :popper-options="popperOptions"
+    :show-arrow="showArrow"
     :teleported="teleported"
     :append-to="appendTo"
     :gpu-acceleration="false"
@@ -168,6 +170,8 @@ const props = withDefaults(defineProps<AutocompleteProps<T>>(), {
   triggerOnFocus: true,
   loopNavigation: true,
   teleported: true,
+  showArrow: true,
+  popperOptions: () => ({}),
 })
 const emit = defineEmits(autocompleteEmits)
 const passInputProps = computed(() => {
