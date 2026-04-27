@@ -10,7 +10,7 @@ import type {
 
 export const rovingFocusGroupProps = buildProps({
   style: {
-    type: definePropType<StyleValue>([Boolean, String, Array, Object]),
+    type: definePropType<StyleValue>([String, Array, Object, Boolean]),
     default: undefined,
   },
   currentTabId: {

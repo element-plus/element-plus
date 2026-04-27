@@ -55,7 +55,7 @@ export const cardProps = buildProps({
    * @description CSS style of card body
    */
   bodyStyle: {
-    type: definePropType<StyleValue>([Boolean, String, Object, Array]),
+    type: definePropType<StyleValue>([String, Object, Array, Boolean]),
     default: '',
   },
   /**

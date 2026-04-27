@@ -69,7 +69,7 @@ export const avatarGroupProps = {
    * @description custom style for the collapse-avatar
    */
   collapseStyle: {
-    type: definePropType<StyleValue>([Boolean, String, Array, Object]),
+    type: definePropType<StyleValue>([String, Array, Object, Boolean]),
     default: undefined,
   },
 } as const

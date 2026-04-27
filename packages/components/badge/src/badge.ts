@@ -94,7 +94,7 @@ export const badgeProps = buildProps({
    * @description CSS style of badge
    */
   badgeStyle: {
-    type: definePropType<StyleValue>([Boolean, String, Object, Array]),
+    type: definePropType<StyleValue>([String, Object, Array, Boolean]),
     default: undefined,
   },
   /**
