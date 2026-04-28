@@ -1,5 +1,6 @@
 import { onBeforeUnmount, onMounted, ref, watchEffect } from 'vue'
 import { addUnit } from '@element-plus/utils'
+import { clamp } from 'lodash-unified'
 
 import type { ComputedRef, Ref } from 'vue'
 
@@ -38,8 +39,8 @@ export const useDraggable = (
         offsetY
 
       if (!overflow?.value) {
-        moveX = Math.min(Math.max(moveX, minLeft), maxLeft)
-        moveY = Math.min(Math.max(moveY, minTop), maxTop)
+        moveX = clamp(moveX, minLeft, maxLeft)
+        moveY = clamp(moveY, minTop, maxTop)
       }
 
       transform.offsetX = moveX
