@@ -109,7 +109,8 @@ export const colorPickerPanelProps = buildProps({
    * @description styles will be passed to <hue-slider />
    */
   hueSliderStyle: {
-    type: definePropType<StyleValue>([String, Array, Object]),
+    type: definePropType<StyleValue>([String, Array, Object, Boolean]),
+    default: undefined,
   },
 } as const)
 export const colorPickerPanelEmits = {

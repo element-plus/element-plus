@@ -8,9 +8,16 @@
   "rebaseWhen": "conflicted",
   "labels": ["dependencies"],
   "rangeStrategy": "bump",
+  "vulnerabilityAlerts": {
+    "enabled": true
+  },
   "packageRules": [
     {
       "matchDepTypes": ["peerDependencies"],
+      "enabled": false
+    },
+    {
+      "matchDepTypes": ["dependencies"],
       "enabled": false
     },
     {
@@ -22,14 +29,11 @@
   ],
   "ignoreDeps": [
     "node",
-
     // pure esm
     "chalk",
-
     // test
     "cypress",
     "jsdom",
-
     // can't work in v0.34.0
     "unocss"
   ]
