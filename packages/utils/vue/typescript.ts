@@ -9,6 +9,21 @@ import type {
 } from 'vue'
 import type { ComponentEmit, ComponentProps } from 'vue-component-type-helpers'
 
+type NativeType =
+  | null
+  | undefined
+  | number
+  | string
+  | boolean
+  | symbol
+  | ((...args: any[]) => any)
+
+type InferDefaults<T> = {
+  [K in keyof T]?:
+    | ((props: T) => T[K] & {})
+    | (T[K] extends NativeType ? T[K] : never)
+}
+
 type ExtractEventNames<T> =
   ComponentEmit<T> extends (event: string, ...args: any[]) => any
     ? never
@@ -36,11 +51,13 @@ export type SFCInstallWithContext<T> = SFCWithInstall<T> & {
 
 export type SFCWithPropsDefaultsSetter<T> = T extends Component
   ? {
-      setPropsDefaults: (defaults: {
-        [K in keyof ComponentProps<T> as K extends ExcludedProps<T>
-          ? never
-          : K]?: ComponentProps<T>[K]
-      }) => void
+      setPropsDefaults: (
+        defaults: InferDefaults<{
+          [K in keyof ComponentProps<T> as K extends ExcludedProps<T>
+            ? never
+            : K]?: ComponentProps<T>[K]
+        }>
+      ) => void
     }
   : unknown
 
