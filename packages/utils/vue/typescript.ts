@@ -16,13 +16,14 @@ type NativeType =
   | string
   | boolean
   | symbol
-  | ((...args: any[]) => any)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+  | Function
 
 type InferDefaults<T> = {
-  [K in keyof T]?:
-    | ((props: T) => T[K] & {})
-    | (T[K] extends NativeType ? T[K] : never)
+  [K in keyof T as string extends K ? never : K]?: InferDefault<T[K]>
 }
+
+type InferDefault<T> = (() => T & {}) | (T extends NativeType ? T : never)
 
 type ExtractEventNames<T> =
   ComponentEmit<T> extends (event: string, ...args: any[]) => any
