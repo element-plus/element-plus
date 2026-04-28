@@ -21,8 +21,8 @@ export const useDraggable = (
     if (targetRef.value) {
       const { offsetX, offsetY } = transform
       const targetRect = targetRef.value.getBoundingClientRect()
-      const targetLeft = targetRect.left
-      const targetTop = targetRect.top
+      const targetLeft = Math.max(targetRect.left, 0)
+      const targetTop = Math.max(targetRect.top, 0)
       const targetWidth = targetRect.width
       const targetHeight = targetRect.height
 
