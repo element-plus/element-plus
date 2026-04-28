@@ -9,6 +9,25 @@ import type {
 } from 'vue'
 import type { ComponentEmit, ComponentProps } from 'vue-component-type-helpers'
 
+type NativeType =
+  | null
+  | undefined
+  | number
+  | string
+  | boolean
+  | symbol
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+  | Function
+
+/**
+ * Reference from https://github.com/vuejs/core/blob/main/packages/runtime-core/src/apiSetupHelpers.ts#L338-L340
+ */
+type InferDefaults<T> = {
+  [K in keyof T as string extends K ? never : K]?: InferDefault<T[K]>
+}
+
+type InferDefault<T> = (() => T & {}) | (T extends NativeType ? T : never)
+
 type ExtractEventNames<T> =
   ComponentEmit<T> extends (event: string, ...args: any[]) => any
     ? never
@@ -36,11 +55,13 @@ export type SFCInstallWithContext<T> = SFCWithInstall<T> & {
 
 export type SFCWithPropsDefaultsSetter<T> = T extends Component
   ? {
-      setPropsDefaults: (defaults: {
-        [K in keyof ComponentProps<T> as K extends ExcludedProps<T>
-          ? never
-          : K]?: ComponentProps<T>[K]
-      }) => void
+      setPropsDefaults: (
+        defaults: InferDefaults<{
+          [K in keyof ComponentProps<T> as K extends ExcludedProps<T>
+            ? never
+            : K]?: ComponentProps<T>[K]
+        }>
+      ) => void
     }
   : unknown
 
