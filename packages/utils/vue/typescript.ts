@@ -19,6 +19,9 @@ type NativeType =
   // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   | Function
 
+/**
+ * Reference from https://github.com/vuejs/core/blob/main/packages/runtime-core/src/apiSetupHelpers.ts#L338-L340
+ */
 type InferDefaults<T> = {
   [K in keyof T as string extends K ? never : K]?: InferDefault<T[K]>
 }
