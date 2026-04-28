@@ -135,6 +135,7 @@
 
       & .#{$namespace}-sub-menu__title {
         height: 100%;
+        line-height: normal;
         border-bottom: 2px solid transparent;
         color: getCssVar('menu-text-color');
 
