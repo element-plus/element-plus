@@ -18,6 +18,9 @@
   height: map.get($tag-height, 'default');
   padding: 0 map.get($tag-padding, 'default') - $border-width;
   user-select: none;
+  text-wrap: nowrap;
+  white-space: nowrap;
+  flex-wrap: nowrap;
 
   &:hover {
     background-color: getCssVar('color', 'info', 'light-7');
