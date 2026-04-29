@@ -1,0 +1,40 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base",
+    "schedule:weekly",
+    ":semanticCommitTypeAll(chore)"
+  ],
+  "rebaseWhen": "conflicted",
+  "labels": ["dependencies"],
+  "rangeStrategy": "bump",
+  "vulnerabilityAlerts": {
+    "enabled": true
+  },
+  "packageRules": [
+    {
+      "matchDepTypes": ["peerDependencies"],
+      "enabled": false
+    },
+    {
+      "matchDepTypes": ["dependencies"],
+      "enabled": false
+    },
+    {
+      "matchUpdateTypes": ["patch"],
+      "matchDepTypes": ["devDependencies"],
+      "groupName": "all patch devDependencies",
+      "groupSlug": "all-patch-dev-dependencies"
+    }
+  ],
+  "ignoreDeps": [
+    "node",
+    // pure esm
+    "chalk",
+    // test
+    "cypress",
+    "jsdom",
+    // can't work in v0.34.0
+    "unocss"
+  ]
+}

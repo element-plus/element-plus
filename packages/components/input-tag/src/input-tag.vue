@@ -91,6 +91,7 @@
           @compositionstart="handleCompositionStart"
           @compositionupdate="handleCompositionUpdate"
           @compositionend="handleCompositionEnd"
+          @paste="handlePaste"
           @input="handleInput"
           @keydown="handleKeydown"
           @keyup="handleKeyup"
@@ -198,6 +199,7 @@ const {
   showTagList,
   collapseTagList,
   handleDragged,
+  handlePaste,
   handleInput,
   handleKeydown,
   handleKeyup,

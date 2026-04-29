@@ -1,14 +1,17 @@
-// @ts-nocheck
-import { markRaw } from 'vue'
+import { h, markRaw } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
 import { triggerNativeCompositeClick } from '@element-plus/test-utils/composite-click'
 import { QuestionFilled as QuestionFilledIcon } from '@element-plus/icons-vue'
+import { ElButton } from '@element-plus/components/button'
 import MessageBox from '../src/messageBox'
 import { ElMessageBox } from '..'
 
+import type { Action } from '..'
+
 const selector = '.el-overlay'
+const CUSTOM_BTN_CLZ = 'custom-message-box-actions'
 const QuestionFilled = markRaw(QuestionFilledIcon)
 
 vi.mock('@element-plus/utils/error', () => ({
@@ -45,16 +48,16 @@ describe('MessageBox', () => {
         width: '100px',
       },
     })
-    const msgbox: HTMLElement = document.querySelector(selector)
+    const msgbox: HTMLElement = document.querySelector(selector)!
 
     expect(msgbox).toBeDefined()
     await rAF()
     expect(
-      msgbox.querySelector('.el-message-box__title span').textContent
+      msgbox.querySelector('.el-message-box__title span')?.textContent
     ).toEqual('消息')
     expect(
-      msgbox.querySelector('.el-message-box__message').querySelector('p')
-        .textContent
+      msgbox.querySelector('.el-message-box__message')?.querySelector('p')
+        ?.textContent
     ).toEqual('这是一段内容')
     /** custom inline style */
     expect(
@@ -78,12 +81,12 @@ describe('MessageBox', () => {
       message: '这是一段内容',
     })
     await rAF()
-    const icon = document.querySelector('.el-message-box__status')
+    const icon = document.querySelector('.el-message-box__status')!
 
     expect(icon.classList.contains('el-icon')).toBe(true)
 
     const svg = mount(QuestionFilled).find('svg').element
-    expect(icon.querySelector('svg').innerHTML).toBe(svg.innerHTML)
+    expect(icon.querySelector('svg')!.innerHTML).toBe(svg.innerHTML)
   })
 
   test('html string', async () => {
@@ -93,7 +96,7 @@ describe('MessageBox', () => {
       message: '<strong>html string</strong>',
     })
     await rAF()
-    const message = document.querySelector('.el-message-box__message strong')
+    const message = document.querySelector('.el-message-box__message strong')!
     expect(message.textContent).toEqual('html string')
   })
 
@@ -104,7 +107,7 @@ describe('MessageBox', () => {
         title: '消息',
         message: '这是一段内容',
         distinguishCancelAndClose: true,
-        callback: (action) => {
+        callback: (action: Action) => {
           msgAction = action
         },
       })
@@ -127,9 +130,9 @@ describe('MessageBox', () => {
       type: 'warning',
     })
     await rAF()
-    await triggerNativeCompositeClick(document.querySelector(selector))
+    await triggerNativeCompositeClick(document.querySelector(selector)!)
     await rAF()
-    const msgbox: HTMLElement = document.querySelector(selector)
+    const msgbox: HTMLElement = document.querySelector(selector)!
     expect(msgbox.style.display).toEqual('')
     expect(msgbox.querySelector('.el-icon-warning')).toBeDefined()
   })
@@ -142,10 +145,10 @@ describe('MessageBox', () => {
     await rAF()
     const btn = document
       .querySelector(selector)
-      .querySelector('.el-button--primary') as HTMLButtonElement
+      ?.querySelector('.el-button--primary') as HTMLButtonElement
     btn.click()
     await rAF()
-    const msgbox: HTMLElement = document.querySelector(selector)
+    const msgbox: HTMLElement = document.querySelector(selector)!
     expect(msgbox).toBe(null)
   })
 
@@ -157,7 +160,7 @@ describe('MessageBox', () => {
     await rAF()
     const btnElm = document.querySelector(
       '.el-message-box__btns .el-button--primary'
-    )
+    )!
     const haveFocus = btnElm.isSameNode(document.activeElement)
     expect(haveFocus).toBe(false)
   })
@@ -170,10 +173,10 @@ describe('MessageBox', () => {
     })
     await rAF()
     const inputElm = document
-      .querySelector(selector)
-      .querySelector('.el-message-box__input')
+      .querySelector(selector)!
+      .querySelector('.el-message-box__input')!
     const haveFocus = inputElm
-      .querySelector('input')
+      .querySelector('input')!
       .isSameNode(document.activeElement)
     expect(inputElm).toBeDefined()
     expect(haveFocus).toBe(true)
@@ -186,8 +189,8 @@ describe('MessageBox', () => {
     })
     await rAF()
     const textareaElm = document
-      .querySelector(selector)
-      .querySelector('textarea')
+      .querySelector(selector)!
+      .querySelector('textarea')!
     const haveFocus = textareaElm.isSameNode(document.activeElement)
     expect(haveFocus).toBe(true)
   })
@@ -197,7 +200,7 @@ describe('MessageBox', () => {
     MessageBox({
       title: '消息',
       message: '这是一段内容',
-      callback: (action) => {
+      callback: (action: Action) => {
         msgAction = action
       },
     })
@@ -239,7 +242,7 @@ describe('MessageBox', () => {
   test('beforeClose', async () => {
     let msgAction = ''
     MessageBox({
-      callback: (action) => {
+      callback: (action: Action) => {
         msgAction = action
       },
       title: '消息',
@@ -262,7 +265,7 @@ describe('MessageBox', () => {
     test('resolve', async () => {
       let msgAction = ''
       MessageBox.confirm('此操作将永久删除该文件, 是否继续?', '提示').then(
-        (action) => {
+        (action: Action) => {
           msgAction = action
         }
       )
@@ -272,6 +275,29 @@ describe('MessageBox', () => {
       ) as HTMLButtonElement
       btn.click()
       await rAF()
+      expect(msgAction).toEqual('confirm')
+    })
+
+    test('resolve prompt value', async () => {
+      let inputValue = ''
+      let msgAction = ''
+      MessageBox.prompt('请输入内容', '提示').then(({ value, action }) => {
+        inputValue = value
+        msgAction = action
+      })
+      await rAF()
+      const input = document
+        .querySelector(selector)!
+        .querySelector('.el-message-box__input input') as HTMLInputElement
+      input.value = 'test value'
+      input.dispatchEvent(new Event('input'))
+      await rAF()
+      const btn = document.querySelector(
+        '.el-message-box__btns .el-button--primary'
+      ) as HTMLButtonElement
+      btn.click()
+      await rAF()
+      expect(inputValue).toEqual('test value')
       expect(msgAction).toEqual('confirm')
     })
 
@@ -287,6 +313,52 @@ describe('MessageBox', () => {
       ;(btn as HTMLButtonElement).click()
       await rAF()
       expect(msgAction).toEqual('cancel')
+    })
+
+    test('calling action handlers should settle the promise correctly', async () => {
+      const cases = [
+        {
+          action: 'confirm',
+          options: undefined,
+          assert: (promise: Promise<Action>) =>
+            promise.then((action) => {
+              expect(action).toBe('confirm')
+            }),
+        },
+        {
+          action: 'cancel',
+          options: undefined,
+          assert: (promise: Promise<Action>) =>
+            promise.catch((action) => {
+              expect(action).toBe('cancel')
+            }),
+        },
+        {
+          action: 'close',
+          options: { distinguishCancelAndClose: true },
+          assert: (promise: Promise<Action>) =>
+            promise.catch((action) => {
+              expect(action).toBe('close')
+            }),
+        },
+      ] as const
+
+      for (const { action, options, assert } of cases) {
+        const promise = MessageBox.confirm((handlers) => {
+          return h('div', { class: CUSTOM_BTN_CLZ }, [
+            h(ElButton, {
+              onClick: () => {
+                handlers[action]()
+              },
+            }),
+          ])
+        }, options)
+        await rAF()
+        const btn = document.querySelector(`.${CUSTOM_BTN_CLZ} .el-button`)
+        expect(btn).not.toBeNull()
+        ;(btn as HTMLButtonElement).click()
+        await assert(promise)
+      }
     })
   })
   describe('context inheritance', () => {
@@ -312,7 +384,7 @@ describe('MessageBox', () => {
         title: 'append to test',
         message: 'append to test',
       })
-      const msgbox: HTMLElement = document.querySelector(`body > ${selector}`)
+      const msgbox: HTMLElement = document.querySelector(`body > ${selector}`)!
       expect(msgbox).toBeDefined()
     })
 
@@ -322,7 +394,7 @@ describe('MessageBox', () => {
         message: 'append to test',
         appendTo: '.not-existing-selector',
       })
-      const msgbox: HTMLElement = document.querySelector(`body > ${selector}`)
+      const msgbox: HTMLElement = document.querySelector(`body > ${selector}`)!
       expect(msgbox).toBeDefined()
     })
 
@@ -334,7 +406,7 @@ describe('MessageBox', () => {
         message: 'append to test',
         appendTo: htmlElement,
       })
-      const msgbox: HTMLElement = htmlElement.querySelector(selector)
+      const msgbox: HTMLElement = htmlElement.querySelector(selector)!
       expect(msgbox).toBeDefined()
     })
 
@@ -347,7 +419,7 @@ describe('MessageBox', () => {
         message: 'append to test',
         appendTo: '.custom-html-element',
       })
-      const msgbox: HTMLElement = htmlElement.querySelector(selector)
+      const msgbox: HTMLElement = htmlElement.querySelector(selector)!
       expect(msgbox).toBeDefined()
     })
   })
@@ -412,7 +484,9 @@ describe('MessageBox', () => {
       })
       await rAF()
       const msgbox: HTMLElement = document.querySelector(selector)!
-      const confirmBtn = msgbox.querySelector('.el-button--primary')!
+      const confirmBtn = msgbox.querySelector(
+        '.el-button--primary'
+      )! as HTMLButtonElement
       const error = msgbox.querySelector('.el-message-box__errormsg')!
 
       expect(inputValidator).toHaveBeenCalledTimes(0)

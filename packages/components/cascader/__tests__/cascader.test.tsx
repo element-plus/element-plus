@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
+import { rAF } from '@element-plus/test-utils/tick'
 import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
 import { usePopperContainerId } from '@element-plus/hooks'
 import { hasClass } from '@element-plus/utils'
@@ -588,6 +589,29 @@ describe('Cascader.vue', () => {
     expect(value.value).toEqual(['zhejiang', 'hangzhou'])
   })
 
+  test('fitInputWidth', async () => {
+    const wrapper = _mount(() => (
+      <Cascader filterable fitInputWidth options={OPTIONS} />
+    ))
+    const inputWrapperEl = wrapper.find('.el-input').element as HTMLElement
+    const mockGetBoundingClientRect = vi
+      .spyOn(inputWrapperEl, 'getBoundingClientRect')
+      .mockReturnValue({ width: 221 } as DOMRect)
+
+    const input = wrapper.find('input')
+    input.element.value = 'Ni'
+    await input.trigger('compositionstart')
+    await input.trigger('input')
+    await input.trigger('compositionend')
+    await nextTick()
+
+    const suggestionPanel = document.querySelector(
+      SUGGESTION_PANEL
+    ) as HTMLElement
+    expect(suggestionPanel.style.width).toBe('221px')
+    mockGetBoundingClientRect.mockRestore()
+  })
+
   test('filterable in multiple mode', async () => {
     const value = ref([])
     const props = { multiple: true }
@@ -611,6 +635,26 @@ describe('Cascader.vue', () => {
     hzSuggestion.click()
     await nextTick()
     expect(value.value).toEqual([])
+  })
+
+  test('before-filter should be called when search keyword is cleared', async () => {
+    const beforeFilter = vi.fn(() => true)
+    const wrapper = _mount(() => (
+      <Cascader
+        filterable
+        options={OPTIONS}
+        beforeFilter={beforeFilter}
+        teleported={false}
+      />
+    ))
+
+    const input = wrapper.find('input')
+
+    await input.setValue('Ha')
+    expect(beforeFilter).toHaveBeenNthCalledWith(1, 'Ha')
+
+    await input.setValue('')
+    expect(beforeFilter).toHaveBeenNthCalledWith(2, '')
   })
 
   test('filter method', async () => {
@@ -654,6 +698,90 @@ describe('Cascader.vue', () => {
     triggerEvent(hzSuggestion, 'keydown', EVENT_CODE.enter)
     await nextTick()
     expect(value.value).toEqual(['zhejiang', 'hangzhou'])
+  })
+
+  test('filterable keyboard navigation in virtual scroll mode', async () => {
+    const value = ref([])
+    const options = [
+      {
+        value: 'root',
+        label: 'Root',
+        children: Array.from({ length: 60 }).map((_, index) => ({
+          value: `child-${index}`,
+          label: `Child ${index}`,
+        })),
+      },
+    ]
+    const wrapper = _mount(() => (
+      <Cascader
+        v-model={value.value}
+        filterable
+        virtualScroll
+        height={68}
+        options={options}
+      />
+    ))
+
+    const input = wrapper.find('input')
+    input.element.value = 'Child'
+    await input.trigger('input')
+    await nextTick()
+
+    const dropdown = document.querySelector(DROPDOWN)!
+    const suggestions = dropdown.querySelectorAll(
+      SUGGESTION_ITEM
+    ) as NodeListOf<HTMLElement>
+    const current = suggestions[suggestions.length - 1]
+    const getSuggestionIndex = (el: HTMLElement) =>
+      Number.parseInt(el.dataset.suggestionIndex || '-1', 10)
+    const currentIndex = getSuggestionIndex(current)
+
+    current.focus()
+    triggerEvent(current, 'keydown', EVENT_CODE.down)
+    await nextTick()
+    await nextTick()
+
+    const active = document.activeElement as HTMLElement
+    const activeIndex = getSuggestionIndex(active)
+    expect(activeIndex).toBe(currentIndex + 1)
+  })
+
+  test('virtual scroll should apply inner width with suggestion-item slot', async () => {
+    const value = ref([])
+    const options = [
+      {
+        value: 'root',
+        label: 'Root',
+        children: Array.from({ length: 60 }).map((_, index) => ({
+          value: `child-${index}`,
+          label: `Child ${index}`,
+        })),
+      },
+    ]
+    const wrapper = _mount(() => (
+      <Cascader
+        v-model={value.value}
+        filterable
+        virtualScroll
+        height={68}
+        options={options}
+      >
+        {{
+          'suggestion-item': ({ item }: any) => (
+            <span>{`${item.text} - custom-content`}</span>
+          ),
+        }}
+      </Cascader>
+    ))
+
+    const input = wrapper.find('input')
+    input.element.value = 'Child'
+    await input.trigger('input')
+    await nextTick()
+
+    const cascader = wrapper.findComponent(Cascader).vm as any
+    expect(cascader.hasCustomSuggestionItemSlot).toBe(true)
+    expect(cascader.suggestionListWidth).toBeDefined()
   })
 
   describe('teleported API', () => {
@@ -1248,5 +1376,38 @@ describe('Cascader.vue', () => {
     await trigger.trigger('blur')
     await trigger.trigger('focus')
     expect(document.querySelectorAll(MENU)).toHaveLength(2)
+  })
+
+  it('should not select the first node when it is a leaf node', async () => {
+    const value = ref<string[]>([])
+    const options = [
+      { value: 'a', label: 'Node A' },
+      { value: 'b', label: 'Node B' },
+    ]
+    let visible = false
+
+    const visibleChange = vi.fn((v: boolean) => (visible = v))
+
+    const wrapper = mount(() => (
+      <Cascader
+        v-model={value.value}
+        options={options}
+        onVisibleChange={visibleChange}
+      />
+    ))
+    await nextTick()
+
+    const input = wrapper.find('.el-input__inner')
+    await input.trigger('click')
+
+    const firstNode = document.querySelector(NODE)!
+
+    await input.trigger('keydown', { code: EVENT_CODE.down })
+    await nextTick()
+    await rAF()
+
+    expect(visible).toBeTruthy()
+    expect(firstNode.matches(':focus')).toBeTruthy()
+    expect(value.value).toEqual([])
   })
 })
