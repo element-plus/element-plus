@@ -26,7 +26,9 @@ export async function generateTypesDefinitions() {
       [
         '**/index.ts',
         'locale/lang/*.ts',
-        'components/tree-v2/src/virtual-tree.ts',
+        'components/tree/**/*.ts',
+        'components/tree-select/**/*.ts',
+        'components/tree-v2/**/*.ts',
         '!**/style/index.ts',
       ],
       {
