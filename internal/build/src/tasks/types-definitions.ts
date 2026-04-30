@@ -29,6 +29,7 @@ export async function generateTypesDefinitions() {
         'components/tree/**/*.ts',
         'components/tree-select/**/*.ts',
         'components/tree-v2/**/*.ts',
+        'components/select-v2/**/*.ts',
         '!**/style/index.ts',
       ],
       {
