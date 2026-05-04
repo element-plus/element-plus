@@ -5,7 +5,7 @@ import Statistic from '../src/statistic.vue'
 
 const TITLE_CLASS = '.el-statistic__head'
 const CONTENT_CLASS = '.el-statistic__content'
-const PERFIX_CLASS = '.el-statistic__prefix'
+const PREFIX_CLASS = '.el-statistic__prefix'
 const SUFFIX_CLASS = '.el-statistic__suffix'
 
 describe('Statistic.vue', () => {
@@ -41,7 +41,7 @@ describe('Statistic.vue', () => {
     }
     const wrapper = mount(() => <Statistic v-slots={slots} value={57454157} />)
 
-    expect(wrapper.find(PERFIX_CLASS).text()).toBe('prefix')
+    expect(wrapper.find(PREFIX_CLASS).text()).toBe('prefix')
     expect(wrapper.find(SUFFIX_CLASS).text()).toBe('suffix')
     expect(wrapper.find(CONTENT_CLASS).text()).toBe('prefix57,454,157suffix')
   })

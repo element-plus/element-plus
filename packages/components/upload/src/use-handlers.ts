@@ -1,8 +1,9 @@
-import { watch } from 'vue'
+import { nextTick, watch } from 'vue'
 import { isNil } from 'lodash-unified'
 import { useVModel } from '@vueuse/core'
 import { debugWarn, throwError } from '@element-plus/utils'
 import { genFileId } from './upload'
+
 import type { ShallowRef } from 'vue'
 import type {
   UploadContentInstance,
@@ -18,14 +19,25 @@ import type {
 
 const SCOPE = 'ElUpload'
 
-const revokeObjectURL = (file: UploadFile) => {
+const revokeFileObjectURL = (file: UploadFile) => {
   if (file.url?.startsWith('blob:')) {
     URL.revokeObjectURL(file.url)
   }
 }
 
 export const useHandlers = (
-  props: UploadProps,
+  props: UploadProps &
+    Required<
+      Pick<
+        UploadProps,
+        | 'listType'
+        | 'onChange'
+        | 'onError'
+        | 'onProgress'
+        | 'onSuccess'
+        | 'onRemove'
+      >
+    >,
   uploadRef: ShallowRef<UploadContentInstance | undefined>
 ) => {
   const uploadFiles = useVModel(
@@ -38,7 +50,7 @@ export const useHandlers = (
   const getFile = (rawFile: UploadRawFile) =>
     uploadFiles.value.find((file) => file.uid === rawFile.uid)
 
-  function abort(file: UploadFile) {
+  function abort(file?: UploadFile) {
     uploadRef.value?.abort(file)
   }
 
@@ -51,15 +63,25 @@ export const useHandlers = (
     )
   }
 
+  function removeFile(file: UploadFile) {
+    uploadFiles.value = uploadFiles.value.filter(
+      (uploadFile) => uploadFile.uid !== file.uid
+    )
+  }
+
+  const emitChange = (file: UploadFile) => {
+    nextTick(() => props.onChange(file, uploadFiles.value))
+  }
+
   const handleError: UploadContentProps['onError'] = (err, rawFile) => {
     const file = getFile(rawFile)
     if (!file) return
 
     console.error(err)
     file.status = 'fail'
-    uploadFiles.value.splice(uploadFiles.value.indexOf(file), 1)
+    removeFile(file)
     props.onError(err, file, uploadFiles.value)
-    props.onChange(file, uploadFiles.value)
+    emitChange(file)
   }
 
   const handleProgress: UploadContentProps['onProgress'] = (evt, rawFile) => {
@@ -81,7 +103,7 @@ export const useHandlers = (
     file.status = 'success'
     file.response = response
     props.onSuccess(response, file, uploadFiles.value)
-    props.onChange(file, uploadFiles.value)
+    emitChange(file)
   }
 
   const handleStart: UploadContentProps['onStart'] = (file) => {
@@ -107,7 +129,7 @@ export const useHandlers = (
       }
     }
     uploadFiles.value = [...uploadFiles.value, uploadFile]
-    props.onChange(uploadFile, uploadFiles.value)
+    emitChange(uploadFile)
   }
 
   const handleRemove: UploadContentProps['onRemove'] = async (
@@ -118,10 +140,9 @@ export const useHandlers = (
 
     const doRemove = (file: UploadFile) => {
       abort(file)
-      const fileList = uploadFiles.value
-      fileList.splice(fileList.indexOf(file), 1)
-      props.onRemove(file, fileList)
-      revokeObjectURL(file)
+      removeFile(file)
+      props.onRemove(file, uploadFiles.value)
+      revokeFileObjectURL(file)
     }
 
     if (props.beforeRemove) {
@@ -193,5 +214,6 @@ export const useHandlers = (
     handleRemove,
     submit,
     setFileUrl,
+    revokeFileObjectURL,
   }
 }

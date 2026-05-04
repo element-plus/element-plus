@@ -5,6 +5,7 @@
     </template>
   </el-page-header>
 </template>
+
 <script lang="ts" setup>
 const goBack = () => {
   console.log('go back')

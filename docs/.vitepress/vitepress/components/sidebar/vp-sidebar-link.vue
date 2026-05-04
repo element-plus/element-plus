@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue'
-import { useRoute } from 'vitepress'
+import { useRoute, withBase } from 'vitepress'
 import { isActive } from '../../utils'
 
 import type { Link } from '../../types'
@@ -15,7 +15,9 @@ const sidebarItem = ref<HTMLElement>()
 
 const route = useRoute()
 
-const activeLink = computed<boolean>(() => isActive(route, props.item.link))
+const activeLink = computed<boolean>(() =>
+  isActive(route.data.relativePath, props.item.link)
+)
 
 watch([activeLink, sidebarItem], ([active, el]) => {
   if (active && el) {
@@ -32,11 +34,11 @@ watch([activeLink, sidebarItem], ([active, el]) => {
       active: activeLink,
       'flex items-center': item.promotion,
     }"
-    :href="item.link"
+    :href="withBase(item.link)"
     @click="$emit('close')"
   >
     <p class="link-text">{{ item.text }}</p>
-    <VersionTag v-if="item.promotion" class="ml-2" :version="item.promotion" />
+    <VersionTag v-if="item.promotion" :version="item.promotion" />
   </a>
 </template>
 
@@ -53,6 +55,10 @@ watch([activeLink, sidebarItem], ([active, el]) => {
 
   .link-text {
     margin: 0;
+  }
+
+  .link-text + * {
+    margin-left: 0.5rem;
   }
 }
 

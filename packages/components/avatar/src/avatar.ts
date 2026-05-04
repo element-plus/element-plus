@@ -5,9 +5,45 @@ import {
   isNumber,
 } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
-import type { ExtractPropTypes } from 'vue'
-import type { ObjectFitProperty } from 'csstype'
 
+import type { ExtractPublicPropTypes } from 'vue'
+import type { ComponentSize } from '@element-plus/constants'
+import type { IconPropType, ObjectFit } from '@element-plus/utils'
+
+export interface AvatarProps {
+  /**
+   * @description avatar size.
+   */
+  size?: number | ComponentSize
+  /**
+   * @description avatar shape.
+   */
+  shape?: 'circle' | 'square'
+  /**
+   * @description representation type to icon, more info on icon component.
+   */
+  icon?: IconPropType
+  /**
+   * @description the source of the image for an image avatar.
+   */
+  src?: string
+  /**
+   * @description native attribute `alt` of image avatar.
+   */
+  alt?: string
+  /**
+   * @description native attribute srcset of image avatar.
+   */
+  srcSet?: string
+  /**
+   * @description set how the image fit its container for an image avatar.
+   */
+  fit?: ObjectFit
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `AvatarProps` instead.
+ */
 export const avatarProps = buildProps({
   /**
    * @description avatar size.
@@ -15,7 +51,6 @@ export const avatarProps = buildProps({
   size: {
     type: [Number, String],
     values: componentSizes,
-    default: '',
     validator: (val: unknown): val is number => isNumber(val),
   },
   /**
@@ -24,7 +59,6 @@ export const avatarProps = buildProps({
   shape: {
     type: String,
     values: ['circle', 'square'],
-    default: 'circle',
   },
   /**
    * @description representation type to icon, more info on icon component.
@@ -51,11 +85,15 @@ export const avatarProps = buildProps({
    * @description set how the image fit its container for an image avatar.
    */
   fit: {
-    type: definePropType<ObjectFitProperty>(String),
+    type: definePropType<ObjectFit>(String),
     default: 'cover',
   },
 } as const)
-export type AvatarProps = ExtractPropTypes<typeof avatarProps>
+
+/**
+ * @deprecated Removed after 3.0.0, Use `AvatarProps` instead.
+ */
+export type AvatarPropsPublic = ExtractPublicPropTypes<typeof avatarProps>
 
 export const avatarEmits = {
   error: (evt: Event) => evt instanceof Event,

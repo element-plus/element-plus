@@ -2,14 +2,15 @@ import { computed, defineComponent, h, renderSlot } from 'vue'
 import { buildProps } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 
-const spaceItemProps = buildProps({
+export const spaceItemProps = buildProps({
   prefixCls: {
     type: String,
   },
 } as const)
 export type SpaceItemProps = ExtractPropTypes<typeof spaceItemProps>
+export type SpaceItemPropsPublic = ExtractPublicPropTypes<typeof spaceItemProps>
 
 const SpaceItem = defineComponent({
   name: 'ElSpaceItem',
@@ -25,6 +26,6 @@ const SpaceItem = defineComponent({
       h('div', { class: classes.value }, renderSlot(slots, 'default'))
   },
 })
-export type SpaceItemInstance = InstanceType<typeof SpaceItem>
+export type SpaceItemInstance = InstanceType<typeof SpaceItem> & unknown
 
 export default SpaceItem

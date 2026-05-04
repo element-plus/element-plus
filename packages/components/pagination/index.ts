@@ -1,8 +1,10 @@
 import { withInstall } from '@element-plus/utils'
-
 import Pagination from './src/pagination'
 
-export const ElPagination = withInstall(Pagination)
+import type { SFCWithInstall } from '@element-plus/utils'
+
+export const ElPagination: SFCWithInstall<typeof Pagination> =
+  withInstall(Pagination)
 export default ElPagination
 
 export * from './src/pagination'

@@ -1,5 +1,10 @@
 <template>
-  <el-select v-model="value" clearable placeholder="Select">
+  <el-select
+    v-model="value"
+    clearable
+    placeholder="Select"
+    style="width: 240px"
+  >
     <el-option
       v-for="item in options"
       :key="item.value"

@@ -141,7 +141,7 @@ describe('<ElFocusTrap', () => {
       expect(wrapper.emitted('release-requested')).toBeFalsy()
 
       focusContainer?.trigger('keydown', {
-        key: EVENT_CODE.esc,
+        code: EVENT_CODE.esc,
       })
 
       await nextTick()
@@ -155,7 +155,7 @@ describe('<ElFocusTrap', () => {
       await nextTick()
 
       focusContainer?.trigger('keydown', {
-        key: EVENT_CODE.esc,
+        code: EVENT_CODE.esc,
       })
 
       // Expect no emit if esc while layer paused
@@ -173,13 +173,13 @@ describe('<ElFocusTrap', () => {
 
       expect(wrapper.emitted('focusout-prevented')).toBeFalsy()
       await childComponent.trigger('keydown.shift', {
-        key: EVENT_CODE.tab,
+        code: EVENT_CODE.tab,
       })
       expect(document.activeElement).toBe(items.at(0)?.element)
       expect(wrapper.emitted('focusout-prevented')?.length).toBe(2)
       ;(items.at(2)?.element as HTMLElement).focus()
       await childComponent.trigger('keydown', {
-        key: EVENT_CODE.tab,
+        code: EVENT_CODE.tab,
       })
       expect(wrapper.emitted('focusout-prevented')?.length).toBe(4)
     })
@@ -203,14 +203,14 @@ describe('<ElFocusTrap', () => {
        */
       // when loop is off
       await childComponent.trigger('keydown.shift', {
-        key: EVENT_CODE.tab,
+        code: EVENT_CODE.tab,
       })
       expect(document.activeElement).toBe(items.at(0)?.element)
       ;(items.at(2)?.element as HTMLElement).focus()
       expect(document.activeElement).toBe(items.at(2)?.element)
 
       await childComponent.trigger('keydown', {
-        key: EVENT_CODE.tab,
+        code: EVENT_CODE.tab,
       })
       expect(document.activeElement).toBe(items.at(2)?.element)
 
@@ -220,12 +220,12 @@ describe('<ElFocusTrap', () => {
       })
 
       await childComponent.trigger('keydown', {
-        key: EVENT_CODE.tab,
+        code: EVENT_CODE.tab,
       })
       expect(document.activeElement).toBe(items.at(0)?.element)
 
       await childComponent.trigger('keydown.shift', {
-        key: EVENT_CODE.tab,
+        code: EVENT_CODE.tab,
       })
       expect(document.activeElement).toBe(items.at(2)?.element)
     })
@@ -239,7 +239,7 @@ describe('<ElFocusTrap', () => {
       expect(document.activeElement).toBe(focusComponent.element)
 
       await focusComponent.trigger('keydown', {
-        key: EVENT_CODE.tab,
+        code: EVENT_CODE.tab,
       })
       expect(document.activeElement).toBe(focusComponent.element)
     })
@@ -268,7 +268,7 @@ describe('<ElFocusTrap', () => {
       expect(document.activeElement).toBe(beforeTrap.element)
 
       await focusContainer.trigger('keydown', {
-        key: EVENT_CODE.tab,
+        code: EVENT_CODE.tab,
         preventDefault,
       })
       if (!isDefaultPrevented) {
@@ -278,7 +278,7 @@ describe('<ElFocusTrap', () => {
       expect(document.activeElement).toBe(items.at(0)?.element)
 
       await focusContainer.trigger('keydown', {
-        key: EVENT_CODE.tab,
+        code: EVENT_CODE.tab,
         preventDefault,
       })
       if (!isDefaultPrevented) {
@@ -303,7 +303,7 @@ describe('<ElFocusTrap', () => {
       expect(document.activeElement).toBe(items.at(0)?.element)
 
       await focusComponent.trigger('keydown.shift', {
-        key: EVENT_CODE.tab,
+        code: EVENT_CODE.tab,
       })
       expect(document.activeElement).toBe(items.at(2)?.element)
 
@@ -313,7 +313,7 @@ describe('<ElFocusTrap', () => {
       expect(document.activeElement).toBe(newFocusTrap.find('.item').element)
 
       await focusComponent.trigger('keydown', {
-        key: EVENT_CODE.tab,
+        code: EVENT_CODE.tab,
       })
       expect(document.activeElement).not.toBe(items.at(0)?.element)
       newFocusTrap.unmount()
@@ -322,7 +322,7 @@ describe('<ElFocusTrap', () => {
       expect(document.activeElement).toBe(items.at(2)?.element)
 
       await focusComponent.trigger('keydown', {
-        key: EVENT_CODE.tab,
+        code: EVENT_CODE.tab,
       })
       expect(document.activeElement).toBe(items.at(0)?.element)
     })

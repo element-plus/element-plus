@@ -66,18 +66,20 @@ But usually, if you want to change style, you need to change all color, because 
 | --el-empty-fill-color-8 | #e0e3e9               |
 | --el-empty-fill-color-9 | #d5d7de               |
 
-## Empty Attributes
+## API
 
-| Name        | Description        | Type   | Acceptable Value | Default |
-| ----------- | ------------------ | ------ | ---------------- | ------- |
-| image       | image URL          | string | —                | —       |
-| image-size  | image size (width) | number | —                | —       |
-| description | description        | string | —                | —       |
+### Attributes
 
-## Empty Slots
+| Name        | Description                 | Type      | Default |
+| ----------- | --------------------------- | --------- | ------- |
+| image       | image URL of empty          | ^[string] | ''      |
+| image-size  | image size (width) of empty | ^[number] | —       |
+| description | description of empty        | ^[string] | ''      |
 
-| Name        | Description           |
-| ----------- | --------------------- |
-| default     | Custom bottom content |
-| image       | Custom image          |
-| description | Custom description    |
+### Slots
+
+| Name        | Description               |
+| ----------- | ------------------------- |
+| default     | content as bottom content |
+| image       | content as image          |
+| description | content as description    |

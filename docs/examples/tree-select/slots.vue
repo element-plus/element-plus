@@ -1,8 +1,8 @@
 <template>
-  <el-tree-select v-model="value" :data="data">
+  <el-tree-select v-model="value" :data="data" style="width: 240px">
     <template #default="{ data: { label } }">
-      {{ label }}<span style="color: gray">(suffix)</span></template
-    >
+      {{ label }}<span style="color: gray">(suffix)</span>
+    </template>
   </el-tree-select>
   <el-divider />
   use render content:
@@ -10,6 +10,7 @@
     v-model="value"
     :data="data"
     :render-content="renderContent"
+    style="width: 240px"
   />
 </template>
 

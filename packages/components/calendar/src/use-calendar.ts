@@ -1,7 +1,7 @@
-import { computed, ref, useSlots } from 'vue'
+import { computed, ref } from 'vue'
 import dayjs from 'dayjs'
-import { useDeprecated, useLocale } from '@element-plus/hooks'
-import { debugWarn } from '@element-plus/utils'
+import { useLocale } from '@element-plus/hooks'
+import { debugWarn, isArray, isDate } from '@element-plus/utils'
 import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
 import type { ComputedRef, SetupContext } from 'vue'
@@ -56,7 +56,6 @@ export const useCalendar = (
   emit: SetupContext<CalendarEmits>['emit'],
   componentName: string
 ) => {
-  const slots = useSlots()
   const { lang } = useLocale()
 
   const selectedDay = ref<Dayjs>()
@@ -79,7 +78,13 @@ export const useCalendar = (
 
   // if range is valid, we get a two-digit array
   const validatedRange = computed(() => {
-    if (!props.range) return []
+    if (
+      !props.range ||
+      !isArray(props.range) ||
+      props.range.length !== 2 ||
+      props.range.some((item) => !isDate(item))
+    )
+      return []
     const rangeArrDayjs = props.range.map((_) => dayjs(_).locale(lang.value))
     const [startDayjs, endDayjs] = rangeArrDayjs
     if (startDayjs.isAfter(endDayjs)) {
@@ -128,7 +133,7 @@ export const useCalendar = (
     const firstMonth = firstDay.get('month')
     const lastMonth = lastDay.get('month')
 
-    // Current mouth
+    // Current month
     if (firstMonth === lastMonth) {
       return [[firstDay, lastDay]]
     }
@@ -173,17 +178,13 @@ export const useCalendar = (
     }
   }
 
-  useDeprecated(
-    {
-      from: '"dateCell"',
-      replacement: '"date-cell"',
-      scope: 'ElCalendar',
-      version: '2.3.0',
-      ref: 'https://element-plus.org/en-US/component/calendar.html#slots',
-      type: 'Slot',
-    },
-    computed(() => !!slots.dateCell)
-  )
+  const handleDateChange = (date: Dayjs | 'today') => {
+    if (date === 'today') {
+      selectDate('today')
+    } else {
+      pickDay(date)
+    }
+  }
 
   return {
     calculateValidatedDateRange,
@@ -192,5 +193,6 @@ export const useCalendar = (
     pickDay,
     selectDate,
     validatedRange,
+    handleDateChange,
   }
 }

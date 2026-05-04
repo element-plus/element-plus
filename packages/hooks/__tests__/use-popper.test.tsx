@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vitest } from 'vitest'
 import { usePopper } from '../use-popper'
 
-import type { State } from '@popperjs/core'
+import type { VueWrapper } from '@vue/test-utils'
 import type { PartialOptions } from '../use-popper'
 
 describe('usePopper', () => {
@@ -20,7 +20,7 @@ describe('usePopper', () => {
     },
   })
 
-  let wrapper: ReturnType<typeof mount>
+  let wrapper: VueWrapper<InstanceType<typeof TestComponent>>
 
   const createComponent = async () => {
     wrapper = mount(TestComponent)
@@ -28,8 +28,6 @@ describe('usePopper', () => {
     referenceRef.value = document.createElement('div')
     popperRef.value = document.createElement('div')
   }
-
-  const getExposed = (key: string) => wrapper.vm[key] as any
 
   beforeEach(async () => {
     await createComponent()
@@ -45,46 +43,46 @@ describe('usePopper', () => {
   it('should render well', async () => {
     await createComponent()
 
-    expect(getExposed('state')).toBeDefined()
+    expect(wrapper.vm.state).toBeDefined()
   })
 
   describe('updates', () => {
     it('should not render popper instance when elements have not changed', async () => {
-      const preservedInstance = getExposed('instanceRef')
+      const preservedInstance = wrapper.vm.instanceRef
 
       await wrapper.setProps({})
 
-      expect(preservedInstance).toStrictEqual(getExposed('instanceRef'))
+      expect(preservedInstance).toStrictEqual(wrapper.vm.instanceRef)
     })
 
     it('should render again after reference/popper element changed', async () => {
-      let prevInstance = getExposed('instanceRef')
+      let prevInstance = wrapper.vm.instanceRef
 
       referenceRef.value = document.createElement('div')
       await nextTick()
 
-      expect(prevInstance).not.toStrictEqual(getExposed('instanceRef'))
+      expect(prevInstance).not.toStrictEqual(wrapper.vm.instanceRef)
 
-      prevInstance = getExposed('instanceRef')
+      prevInstance = wrapper.vm.instanceRef
 
       popperRef.value = document.createElement('div')
       await nextTick()
 
-      expect(prevInstance).not.toStrictEqual(getExposed('instanceRef'))
+      expect(prevInstance).not.toStrictEqual(wrapper.vm.instanceRef)
     })
 
     it('should not render twice if only options changed', async () => {
-      const instance = getExposed('instanceRef')
+      const instance = wrapper.vm.instanceRef
       optionsRef.value = { placement: 'bottom' } as PartialOptions
       await nextTick()
 
-      expect(getExposed('instanceRef')).toStrictEqual(instance)
+      expect(wrapper.vm.instanceRef).toStrictEqual(instance)
     })
 
     it('update options', async () => {
-      const instance = getExposed('instanceRef') as any
+      const instance = wrapper.vm.instanceRef!
 
-      const setOptionSpy = vitest.spyOn(instance, 'setOptions')
+      const setOptionSpy = vitest.spyOn(instance!, 'setOptions')
 
       optionsRef.value = { placement: 'bottom' } as PartialOptions
       await nextTick()
@@ -93,7 +91,7 @@ describe('usePopper', () => {
     })
 
     it('destroys popper instance when unmounted', async () => {
-      const instance = getExposed('instanceRef') as any
+      const instance = wrapper.vm.instanceRef!
 
       const destroySpy = vitest.spyOn(instance, 'destroy')
 
@@ -111,7 +109,7 @@ describe('usePopper', () => {
       } as PartialOptions
       await nextTick()
 
-      expect((getExposed('state').styles as State['styles']).arrow).toEqual(
+      expect(wrapper.vm.state.styles!.arrow).toEqual(
         expect.objectContaining({
           position: 'absolute',
           transform: 'translate(0px, 0px)',

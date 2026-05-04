@@ -7,7 +7,7 @@ import { ElMessage } from 'element-plus'
 
 const open = () => {
   ElMessage({
-    message: 'this is a message.',
+    message: 'This is a message.',
     grouping: true,
     type: 'success',
   })

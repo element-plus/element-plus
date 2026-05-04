@@ -1,0 +1,148 @@
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+
+@include b(splitter) {
+  position: relative;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  @include e(mask) {
+    position: absolute;
+    z-index: 999;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+  @include e(mask-horizontal) {
+    cursor: ew-resize;
+  }
+  @include e(mask-vertical) {
+    cursor: ns-resize;
+  }
+
+  @include e(horizontal) {
+    flex-direction: row;
+  }
+
+  @include e(vertical) {
+    flex-direction: column;
+  }
+}
+
+@include b(splitter-bar) {
+  flex: none;
+  position: relative;
+  user-select: none;
+
+  @include e(dragger) {
+    z-index: 1;
+    position: absolute;
+    background: transparent;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: getCssVar('border-color-light');
+    }
+
+    &:not(.is-lazy)::after {
+      display: none;
+    }
+
+    &::after {
+      opacity: 0.4;
+    }
+
+    &:hover {
+      &:not(.is-disabled)::before {
+        background-color: getCssVar('color-primary-light-5');
+      }
+    }
+  }
+  @include e(dragger-horizontal) {
+    &::before,
+    &::after {
+      height: 100%;
+      width: 2px;
+    }
+  }
+  @include e(dragger-vertical) {
+    &::before,
+    &::after {
+      height: 2px;
+      width: 100%;
+    }
+  }
+  @include e(dragger-active) {
+    &::before,
+    &::after {
+      background-color: getCssVar('color-primary-light-3');
+    }
+
+    &.#{$namespace}-splitter-bar__dragger-horizontal::after {
+      transform: translate(calc(-50% + getCssVar('splitter-bar-offset')), -50%);
+    }
+
+    &.#{$namespace}-splitter-bar__dragger-vertical::after {
+      transform: translate(-50%, calc(-50% + getCssVar('splitter-bar-offset')));
+    }
+  }
+  &:hover {
+    @include e(collapse-icon) {
+      opacity: 1;
+    }
+  }
+  @include e(collapse-icon) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    background: getCssVar('border-color-light');
+    border-radius: 2px;
+    cursor: pointer;
+    opacity: 0;
+    z-index: 9;
+    &:hover {
+      opacity: 1;
+      background-color: getCssVar('color-primary-light-5');
+    }
+  }
+  @include e(horizontal-collapse-icon-start) {
+    left: -12px;
+    top: 50%;
+    height: 24px;
+    width: 16px;
+    transform: translate(-50%, -50%);
+  }
+  @include e(horizontal-collapse-icon-end) {
+    left: 12px;
+    top: 50%;
+    height: 24px;
+    width: 16px;
+    transform: translate(-50%, -50%);
+  }
+  @include e(vertical-collapse-icon-start) {
+    top: -12px;
+    right: 50%;
+    height: 16px;
+    width: 24px;
+    transform: translate(50%, -50%);
+  }
+  @include e(vertical-collapse-icon-end) {
+    top: 12px;
+    right: 50%;
+    height: 16px;
+    width: 24px;
+    transform: translate(50%, -50%);
+  }
+}

@@ -1,5 +1,4 @@
 import '@element-plus/components/base/style/css'
-import '@element-plus/components/input/style/css'
 import '@element-plus/components/tag/style/css'
 import '@element-plus/components/option/style/css'
 import '@element-plus/components/option-group/style/css'

@@ -1,19 +1,25 @@
 import { computed, inject, ref, unref } from 'vue'
-import { useNamespace } from '@element-plus/hooks'
-import { generateId } from '@element-plus/utils'
+import { useIdInjection, useNamespace } from '@element-plus/hooks'
 import { collapseContextKey } from './constants'
 
 import type { CollapseItemProps } from './collapse-item'
 
 export const useCollapseItem = (props: CollapseItemProps) => {
   const collapse = inject(collapseContextKey)
+  const { namespace } = useNamespace('collapse')
 
   const focusing = ref(false)
   const isClick = ref(false)
-  const id = ref(generateId())
+  const idInjection = useIdInjection()
+  const id = computed(() => idInjection.current++)
+  const name = computed(() => {
+    return (
+      props.name ?? `${namespace.value}-id-${idInjection.prefix}-${unref(id)}`
+    )
+  })
 
   const isActive = computed(() =>
-    collapse?.activeNames.value.includes(props.name)
+    collapse?.activeNames.value.includes(unref(name))
   )
 
   const handleFocus = () => {
@@ -26,15 +32,20 @@ export const useCollapseItem = (props: CollapseItemProps) => {
     }, 50)
   }
 
-  const handleHeaderClick = () => {
+  const handleHeaderClick = (e: MouseEvent) => {
     if (props.disabled) return
-    collapse?.handleItemClick(props.name)
+    const target = e.target as HTMLElement
+    if (target?.closest('input, textarea, select')) return
+    collapse?.handleItemClick(unref(name))
     focusing.value = false
     isClick.value = true
   }
 
-  const handleEnterClick = () => {
-    collapse?.handleItemClick(props.name)
+  const handleEnterClick = (e: KeyboardEvent) => {
+    const target = e.target as HTMLElement
+    if (target?.closest('input, textarea, select')) return
+    e.preventDefault()
+    collapse?.handleItemClick(unref(name))
   }
 
   return {
@@ -67,12 +78,14 @@ export const useCollapseItemDOM = (
     ns.be('item', 'arrow'),
     ns.is('active', unref(isActive)),
   ])
+  const itemTitleKls = computed(() => [ns.be('item', 'title')])
   const itemWrapperKls = computed(() => ns.be('item', 'wrap'))
   const itemContentKls = computed(() => ns.be('item', 'content'))
   const scopedContentId = computed(() => ns.b(`content-${unref(id)}`))
   const scopedHeadId = computed(() => ns.b(`head-${unref(id)}`))
 
   return {
+    itemTitleKls,
     arrowKls,
     headKls,
     rootKls,

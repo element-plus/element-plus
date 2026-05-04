@@ -8,7 +8,16 @@
   "unpkg": "index.js",
   "jsdelivr": "index.js",
   "peerDependencies": {
-    "vue": "^3.2.0"
+    "vue": "catalog:"
+  },
+  "dependencies": {
+    "@element-plus/constants": "workspace:^",
+    "@element-plus/utils": "workspace:^",
+    "normalize-wheel-es": "catalog:"
+  },
+  "devDependencies": {
+    "@vue/test-utils": "catalog:",
+    "vue": "catalog:"
   },
   "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
 }

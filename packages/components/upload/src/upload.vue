@@ -5,11 +5,12 @@
       :disabled="disabled"
       :list-type="listType"
       :files="uploadFiles"
+      :crossorigin="crossorigin"
       :handle-preview="onPreview"
       @remove="handleRemove"
     >
-      <template v-if="$slots.file" #default="{ file }">
-        <slot name="file" :file="file" />
+      <template v-if="$slots.file" #default="{ file, index }">
+        <slot name="file" :file="file" :index="index" />
       </template>
       <template #append>
         <upload-content
@@ -17,8 +18,8 @@
           v-bind="uploadContentProps"
           @set-file-url="setFileUrl"
         >
-          <slot v-if="slots.trigger" name="trigger" />
-          <slot v-if="!slots.trigger && slots.default" />
+          <slot v-if="$slots.trigger" name="trigger" />
+          <slot v-if="!$slots.trigger && $slots.default" />
         </upload-content>
       </template>
     </upload-list>
@@ -29,8 +30,8 @@
       v-bind="uploadContentProps"
       @set-file-url="setFileUrl"
     >
-      <slot v-if="slots.trigger" name="trigger" />
-      <slot v-if="!slots.trigger && slots.default" />
+      <slot v-if="$slots.trigger" name="trigger" />
+      <slot v-if="!$slots.trigger && $slots.default" />
     </upload-content>
 
     <slot v-if="$slots.trigger" />
@@ -40,32 +41,27 @@
       :disabled="disabled"
       :list-type="listType"
       :files="uploadFiles"
+      :crossorigin="crossorigin"
       :handle-preview="onPreview"
       @remove="handleRemove"
     >
-      <template v-if="$slots.file" #default="{ file }">
-        <slot name="file" :file="file" />
+      <template v-if="$slots.file" #default="{ file, index }">
+        <slot name="file" :file="file" :index="index" />
       </template>
     </upload-list>
   </div>
 </template>
 
 <script lang="ts" setup>
-import {
-  computed,
-  onBeforeUnmount,
-  provide,
-  shallowRef,
-  toRef,
-  useSlots,
-} from 'vue'
+import { computed, onBeforeUnmount, provide, shallowRef, toRef } from 'vue'
 import { useFormDisabled } from '@element-plus/components/form'
 import { uploadContextKey } from './constants'
 import UploadList from './upload-list.vue'
 import UploadContent from './upload-content.vue'
 import { useHandlers } from './use-handlers'
-import { uploadProps } from './upload'
+import { uploadPropsDefaults } from './upload'
 
+import type { UploadProps } from './upload'
 import type {
   UploadContentInstance,
   UploadContentProps,
@@ -75,9 +71,8 @@ defineOptions({
   name: 'ElUpload',
 })
 
-const props = defineProps(uploadProps)
+const props = withDefaults(defineProps<UploadProps>(), uploadPropsDefaults)
 
-const slots = useSlots()
 const disabled = useFormDisabled()
 
 const uploadRef = shallowRef<UploadContentInstance>()
@@ -92,6 +87,7 @@ const {
   handleSuccess,
   handleProgress,
   setFileUrl,
+  revokeFileObjectURL,
 } = useHandlers(props, uploadRef)
 
 const isPictureCard = computed(() => props.listType === 'picture-card')
@@ -107,9 +103,7 @@ const uploadContentProps = computed<UploadContentProps>(() => ({
 }))
 
 onBeforeUnmount(() => {
-  uploadFiles.value.forEach(({ url }) => {
-    if (url?.startsWith('blob:')) URL.revokeObjectURL(url)
-  })
+  uploadFiles.value.forEach(revokeFileObjectURL)
 })
 
 provide(uploadContextKey, {

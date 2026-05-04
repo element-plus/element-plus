@@ -2,9 +2,6 @@
 @use 'common/var' as *;
 
 @include b(overlay) {
-  #{& + '-root'} {
-    height: 0;
-  }
   position: fixed;
   top: 0;
   right: 0;
@@ -14,4 +11,7 @@
   height: 100%;
   background-color: getCssVar('overlay-color', 'lighter');
   overflow: auto;
+  #{& + '-root'} {
+    height: 0;
+  }
 }

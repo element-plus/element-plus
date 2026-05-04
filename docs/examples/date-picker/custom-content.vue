@@ -14,6 +14,20 @@
         </div>
       </template>
     </el-date-picker>
+    <el-date-picker v-model="month" type="month" placeholder="Pick a month">
+      <template #default="cell">
+        <div class="el-date-table-cell" :class="{ current: cell.isCurrent }">
+          <span class="el-date-table-cell__text">{{ cell.text + 1 }}期</span>
+        </div>
+      </template>
+    </el-date-picker>
+    <el-date-picker v-model="year" type="year" placeholder="Pick a year">
+      <template #default="cell">
+        <div class="el-date-table-cell" :class="{ current: cell.isCurrent }">
+          <span class="el-date-table-cell__text">{{ cell.text + 1 }}y</span>
+        </div>
+      </template>
+    </el-date-picker>
   </div>
 </template>
 
@@ -21,6 +35,8 @@
 import { ref } from 'vue'
 
 const value = ref('2021-10-29')
+const month = ref('')
+const year = ref('')
 const holidays = [
   '2021-10-01',
   '2021-10-02',
@@ -37,11 +53,22 @@ const isHoliday = ({ dayjs }) => {
 </script>
 
 <style scoped>
+.demo-date-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.demo-date-picker > * {
+  margin: 0 !important;
+}
+
 .cell {
   height: 30px;
   padding: 3px 0;
   box-sizing: border-box;
 }
+
 .cell .text {
   width: 24px;
   height: 24px;
@@ -53,10 +80,12 @@ const isHoliday = ({ dayjs }) => {
   transform: translateX(-50%);
   border-radius: 50%;
 }
+
 .cell.current .text {
   background: #626aef;
   color: #fff;
 }
+
 .cell .holiday {
   position: absolute;
   width: 6px;
@@ -66,5 +95,11 @@ const isHoliday = ({ dayjs }) => {
   bottom: 0px;
   left: 50%;
   transform: translateX(-50%);
+}
+
+@media screen and (max-width: 768px) {
+  .demo-date-picker {
+    gap: 1.5rem;
+  }
 }
 </style>

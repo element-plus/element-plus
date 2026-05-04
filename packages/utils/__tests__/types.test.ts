@@ -1,6 +1,4 @@
-import * as vue from 'vue'
 import * as vueShared from '@vue/shared'
-import * as vueuse from '@vueuse/core'
 import { describe, expect, it } from 'vitest'
 import {
   isArray,
@@ -16,7 +14,6 @@ import {
   isString,
   isSymbol,
   isUndefined,
-  isVNode,
 } from '..'
 
 describe('types', () => {
@@ -30,13 +27,13 @@ describe('types', () => {
     expect(isSymbol).toBe(vueShared.isSymbol)
   })
 
-  it('re-export from vueuse', () => {
-    expect(isBoolean).toBe(vueuse.isBoolean)
-    expect(isNumber).toBe(vueuse.isNumber)
-  })
-
-  it('re-export from vue', () => {
-    expect(isVNode).toBe(vue.isVNode)
+  it('isBoolean and isNumber should work', () => {
+    expect(isBoolean(true)).toBe(true)
+    expect(isBoolean(false)).toBe(true)
+    expect(isBoolean('true')).toBe(false)
+    expect(isBoolean('false')).toBe(false)
+    expect(isNumber(0)).toBe(true)
+    expect(isNumber('0')).toBe(false)
   })
 
   it('isUndefined should work', () => {

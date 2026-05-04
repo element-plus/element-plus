@@ -13,6 +13,7 @@
     </template>
   </el-table-v2>
 </template>
+
 <script lang="tsx" setup>
 import { TableV2FixedDir, TableV2Placeholder } from 'element-plus'
 

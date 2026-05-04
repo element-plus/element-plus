@@ -23,6 +23,7 @@ const handleCommand = (command: string | number | object) => {
   ElMessage(`click on item ${command}`)
 }
 </script>
+
 <style scoped>
 .example-showcase .el-dropdown-link {
   cursor: pointer;

@@ -1,19 +1,20 @@
-import { onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
+
 import type { Table } from './defaults'
 
 export default function useKeyRender(table: Table<[]>) {
-  const observer = ref<MutationObserver>()
+  let observer: MutationObserver | undefined
 
   const initWatchDom = () => {
     const el = table.vnode.el
     const columnsWrapper = (el as HTMLElement).querySelector('.hidden-columns')
     const config = { childList: true, subtree: true }
     const updateOrderFns = table.store.states.updateOrderFns
-    observer.value = new MutationObserver(() => {
+    observer = new MutationObserver(() => {
       updateOrderFns.forEach((fn: () => void) => fn())
     })
 
-    observer.value.observe(columnsWrapper!, config)
+    observer.observe(columnsWrapper!, config)
   }
 
   onMounted(() => {
@@ -22,6 +23,6 @@ export default function useKeyRender(table: Table<[]>) {
   })
 
   onUnmounted(() => {
-    observer.value?.disconnect()
+    observer?.disconnect()
   })
 }

@@ -1,11 +1,19 @@
 <template>
-  <el-tree-v2 :data="data" :props="props" show-checkbox :height="208" />
+  <el-tree-v2
+    style="max-width: 600px"
+    :data="data"
+    :props="props"
+    show-checkbox
+    :height="200"
+  />
 </template>
+
 <script lang="ts" setup>
 interface Tree {
   id: string
   label: string
   children?: Tree[]
+  disabled: boolean
 }
 
 const getKey = (prefix: string, id: number) => {
@@ -32,6 +40,7 @@ const createData = (
         children: childrenNumber
           ? createData(maxDeep, maxChildren, childrenNumber, deep + 1, nodeKey)
           : undefined,
+        disabled: nodeKey.includes('2'),
       }
     })
 }

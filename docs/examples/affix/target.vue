@@ -5,6 +5,7 @@
     </el-affix>
   </div>
 </template>
+
 <style scoped>
 .affix-container {
   text-align: center;

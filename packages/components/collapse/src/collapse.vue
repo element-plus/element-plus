@@ -1,22 +1,27 @@
 <template>
-  <div :class="rootKls" role="tablist" aria-multiselectable="true">
+  <div :class="rootKls">
     <slot />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { collapseEmits, collapseProps } from './collapse'
+import { collapseEmits } from './collapse'
 import { useCollapse, useCollapseDOM } from './use-collapse'
+
+import type { CollapseProps } from './collapse'
 
 defineOptions({
   name: 'ElCollapse',
 })
-const props = defineProps(collapseProps)
+const props = withDefaults(defineProps<CollapseProps>(), {
+  modelValue: () => [],
+  expandIconPosition: 'right',
+})
 const emit = defineEmits(collapseEmits)
 
 const { activeNames, setActiveNames } = useCollapse(props, emit)
 
-const { rootKls } = useCollapseDOM()
+const { rootKls } = useCollapseDOM(props)
 
 defineExpose({
   /** @description active names */

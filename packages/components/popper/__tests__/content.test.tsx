@@ -18,7 +18,7 @@ const popperInjection = {
 const TestComponent = defineComponent({
   setup() {
     return {
-      contentRef: ref(),
+      contentRef: ref<PopperContentInstance>(),
     }
   },
   render() {
@@ -37,7 +37,7 @@ const mountContent = (props = {}) =>
         [POPPER_INJECTION_KEY as symbol]: popperInjection,
       },
     },
-  })
+  }) as unknown as VueWrapper<PopperContentInstance>
 
 const mountWrappedContent = (props = {}) =>
   mount(<TestComponent {...props} />, {
@@ -46,7 +46,7 @@ const mountWrappedContent = (props = {}) =>
         [POPPER_INJECTION_KEY as symbol]: popperInjection,
       },
     },
-  })
+  }) as unknown as VueWrapper<InstanceType<typeof TestComponent>>
 
 describe('<ElPopperContent />', () => {
   describe('with triggerRef provided', () => {
@@ -75,14 +75,14 @@ describe('<ElPopperContent />', () => {
       expect(wrapper.classes()).toEqual(['el-popper', 'is-dark'])
       expect(wrapper.vm.contentStyle).toHaveLength(3)
       expect(wrapper.vm.contentStyle[0]).toHaveProperty('zIndex')
-      expect(wrapper.vm.contentStyle[1]).toEqual({})
-      expect(wrapper.vm.contentStyle[2]).toEqual(
+      expect(wrapper.vm.contentStyle[1]).toEqual(
         expect.objectContaining({
           position: 'absolute',
           top: '0',
           left: '0',
         })
       )
+      expect(wrapper.vm.contentStyle[2]).toEqual({})
     })
 
     it('should be able to be pure and themed', async () => {
@@ -102,13 +102,13 @@ describe('<ElPopperContent />', () => {
       await nextTick()
 
       const style = {
-        position: 'absolute',
+        position: 'absolute' as const,
       }
       await wrapper.setProps({
         popperStyle: style,
       })
 
-      expect(wrapper.vm.contentStyle[1]).toEqual(style)
+      expect(wrapper.vm.contentStyle[2]).toEqual(style)
     })
 
     it('should be able to emit events', async () => {
@@ -149,7 +149,7 @@ describe('<ElPopperContent />', () => {
         await nextTick()
 
         const { contentRef } = w.vm
-        const oldInstance = contentRef.popperInstanceRef
+        const oldInstance = contentRef!.popperInstanceRef
 
         const newRef = document.createElement('div')
         newRef.classList.add('new-ref')
@@ -157,13 +157,13 @@ describe('<ElPopperContent />', () => {
         popperInjection.triggerRef.value = newRef
         await nextTick()
 
-        expect(contentRef.popperInstanceRef).not.toStrictEqual(oldInstance)
+        expect(contentRef!.popperInstanceRef).not.toStrictEqual(oldInstance)
 
         popperInjection.triggerRef.value = undefined
 
         await nextTick()
 
-        expect(contentRef.popperInstanceRef).toBeUndefined()
+        expect(contentRef!.popperInstanceRef).toBeUndefined()
       })
     })
   })

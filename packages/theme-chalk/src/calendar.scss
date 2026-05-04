@@ -22,6 +22,20 @@
   @include e(body) {
     padding: 12px 20px 35px;
   }
+
+  @include e(select-controller) {
+    .#{$namespace}-select {
+      margin-right: 8px;
+    }
+
+    .#{$namespace}-calendar-select__year {
+      width: 120px;
+    }
+
+    .#{$namespace}-calendar-select__month {
+      width: 60px;
+    }
+  }
 }
 
 @include b(calendar-table) {

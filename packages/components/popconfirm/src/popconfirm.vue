@@ -2,17 +2,21 @@
   <el-tooltip
     ref="tooltipRef"
     trigger="click"
-    effect="light"
+    :effect="effect"
     v-bind="$attrs"
+    :virtual-triggering="virtualTriggering"
+    :virtual-ref="virtualRef"
     :popper-class="`${ns.namespace.value}-popover`"
     :popper-style="style"
     :teleported="teleported"
     :fallback-placements="['bottom', 'top', 'right', 'left']"
     :hide-after="hideAfter"
     :persistent="persistent"
+    loop
+    @show="showPopper"
   >
     <template #content>
-      <div :class="ns.b()">
+      <div ref="rootRef" tabindex="-1" :class="ns.b()">
         <div :class="ns.e('main')">
           <el-icon
             v-if="!hideIcon && icon"
@@ -24,22 +28,24 @@
           {{ title }}
         </div>
         <div :class="ns.e('action')">
-          <el-button
-            size="small"
-            :type="cancelButtonType === 'text' ? '' : cancelButtonType"
-            :text="cancelButtonType === 'text'"
-            @click="cancel"
-          >
-            {{ finalCancelButtonText }}
-          </el-button>
-          <el-button
-            size="small"
-            :type="confirmButtonType === 'text' ? '' : confirmButtonType"
-            :text="confirmButtonType === 'text'"
-            @click="confirm"
-          >
-            {{ finalConfirmButtonText }}
-          </el-button>
+          <slot name="actions" :confirm="confirm" :cancel="cancel">
+            <el-button
+              size="small"
+              :type="cancelButtonType === 'text' ? '' : cancelButtonType"
+              :text="cancelButtonType === 'text'"
+              @click="cancel"
+            >
+              {{ finalCancelButtonText }}
+            </el-button>
+            <el-button
+              size="small"
+              :type="confirmButtonType === 'text' ? '' : confirmButtonType"
+              :text="confirmButtonType === 'text'"
+              @click="confirm"
+            >
+              {{ finalConfirmButtonText }}
+            </el-button>
+          </slot>
         </div>
       </div>
     </template>
@@ -50,26 +56,46 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed, ref, unref } from 'vue'
 import ElButton from '@element-plus/components/button'
 import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { addUnit } from '@element-plus/utils'
-import { popconfirmEmits, popconfirmProps } from './popconfirm'
+import { QuestionFilled } from '@element-plus/icons-vue'
+import { popconfirmEmits } from './popconfirm'
 
 import type { TooltipInstance } from '@element-plus/components/tooltip'
+import type { PopconfirmProps } from './popconfirm'
 
 defineOptions({
   name: 'ElPopconfirm',
 })
 
-const props = defineProps(popconfirmProps)
+const props = withDefaults(defineProps<PopconfirmProps>(), {
+  confirmButtonType: 'primary',
+  cancelButtonType: 'text',
+  icon: () => QuestionFilled,
+  iconColor: '#f90',
+  hideAfter: 200,
+  effect: 'light',
+  teleported: true,
+  width: 150,
+})
 const emit = defineEmits(popconfirmEmits)
 
 const { t } = useLocale()
 const ns = useNamespace('popconfirm')
 const tooltipRef = ref<TooltipInstance>()
+const rootRef = ref<HTMLElement>()
+
+const popperRef = computed(() => {
+  return unref(tooltipRef)?.popperRef
+})
+
+const showPopper = () => {
+  rootRef.value?.focus?.()
+}
 
 const hidePopper = () => {
   tooltipRef.value?.onClose?.()
@@ -96,4 +122,9 @@ const finalConfirmButtonText = computed(
 const finalCancelButtonText = computed(
   () => props.cancelButtonText || t('el.popconfirm.cancelButtonText')
 )
+
+defineExpose({
+  popperRef,
+  hide: hidePopper,
+})
 </script>

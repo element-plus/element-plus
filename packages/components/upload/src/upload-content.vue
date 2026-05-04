@@ -1,12 +1,23 @@
 <template>
   <div
-    :class="[ns.b(), ns.m(listType), ns.is('drag', drag)]"
-    tabindex="0"
+    :class="[
+      ns.b(),
+      ns.m(listType),
+      ns.is('drag', drag),
+      ns.is('disabled', disabled),
+    ]"
+    :tabindex="disabled ? undefined : 0"
+    :aria-disabled="disabled"
+    role="button"
     @click="handleClick"
     @keydown.self.enter.space="handleKeydown"
   >
     <template v-if="drag">
-      <upload-dragger :disabled="disabled" @file="uploadFiles">
+      <upload-dragger
+        :disabled="disabled"
+        :directory="directory"
+        @file="uploadFiles"
+      >
         <slot />
       </upload-dragger>
     </template>
@@ -17,8 +28,10 @@
       ref="inputRef"
       :class="ns.e('input')"
       :name="name"
+      :disabled="disabled"
       :multiple="multiple"
       :accept="accept"
+      :webkitdirectory="directory || undefined"
       type="file"
       @change="handleChange"
       @click.stop
@@ -28,13 +41,15 @@
 
 <script lang="ts" setup>
 import { shallowRef } from 'vue'
+import { cloneDeep, isEqual } from 'lodash-unified'
+import { entriesOf, isFunction, isPlainObject } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import { entriesOf } from '@element-plus/utils'
 import { useFormDisabled } from '@element-plus/components/form'
 import UploadDragger from './upload-dragger.vue'
-import { uploadContentProps } from './upload-content'
 import { genFileId } from './upload'
+import { uploadContentPropsDefaults } from './upload-content'
 
+import type { UploadContentProps } from './upload-content'
 import type {
   UploadFile,
   UploadHooks,
@@ -47,7 +62,10 @@ defineOptions({
   inheritAttrs: false,
 })
 
-const props = defineProps(uploadContentProps)
+const props = withDefaults(
+  defineProps<UploadContentProps>(),
+  uploadContentPropsDefaults
+)
 const emit = defineEmits(['set-file-url'])
 const ns = useNamespace('upload')
 const disabled = useFormDisabled()
@@ -79,7 +97,7 @@ const uploadFiles = (files: File[]) => {
   }
 }
 
-const upload = async (rawFile: UploadRawFile) => {
+const upload = async (rawFile: UploadRawFile): Promise<void> => {
   inputRef.value!.value = ''
 
   if (!props.beforeUpload) {
@@ -87,9 +105,18 @@ const upload = async (rawFile: UploadRawFile) => {
   }
 
   let hookResult: Exclude<ReturnType<UploadHooks['beforeUpload']>, Promise<any>>
+  let beforeData: UploadContentProps['data'] = {}
+
   try {
-    hookResult = await props.beforeUpload(rawFile)
+    // origin data: Handle data changes after synchronization tasks are executed
+    const originData = props.data
+    const beforeUploadPromise = props.beforeUpload(rawFile)
+    beforeData = isPlainObject(props.data) ? cloneDeep(props.data) : props.data
+    hookResult = await beforeUploadPromise
     props.autoUpload && emit('set-file-url', rawFile)
+    if (isPlainObject(props.data) && isEqual(originData, beforeData)) {
+      beforeData = cloneDeep(props.data)
+    }
   } catch {
     hookResult = false
   }
@@ -113,11 +140,26 @@ const upload = async (rawFile: UploadRawFile) => {
   doUpload(
     Object.assign(file, {
       uid: rawFile.uid,
-    })
+    }),
+    beforeData
   )
 }
 
-const doUpload = (rawFile: UploadRawFile) => {
+const resolveData = async (
+  data: UploadContentProps['data'],
+  rawFile: UploadRawFile
+): Promise<Record<string, any>> => {
+  if (isFunction(data)) {
+    return data(rawFile)
+  }
+
+  return data!
+}
+
+const doUpload = async (
+  rawFile: UploadRawFile,
+  beforeData?: UploadContentProps['data']
+) => {
   const {
     headers,
     data,
@@ -131,12 +173,19 @@ const doUpload = (rawFile: UploadRawFile) => {
     httpRequest,
   } = props
 
+  try {
+    beforeData = await resolveData(beforeData ?? data, rawFile)
+  } catch {
+    props.onRemove(rawFile)
+    return
+  }
+
   const { uid } = rawFile
   const options: UploadRequestOptions = {
     headers: headers || {},
     withCredentials,
     file: rawFile,
-    data,
+    data: beforeData,
     method,
     filename,
     action,

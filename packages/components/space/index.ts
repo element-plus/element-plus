@@ -1,8 +1,9 @@
 import { withInstall } from '@element-plus/utils'
-
 import Space from './src/space'
 
-export const ElSpace = withInstall(Space)
+import type { SFCWithInstall } from '@element-plus/utils'
+
+export const ElSpace: SFCWithInstall<typeof Space> = withInstall(Space)
 export default ElSpace
 
 export * from './src/space'

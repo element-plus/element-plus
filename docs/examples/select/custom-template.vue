@@ -1,5 +1,5 @@
 <template>
-  <el-select v-model="value" placeholder="Select">
+  <el-select v-model="value" placeholder="Select" style="width: 240px">
     <el-option
       v-for="item in cities"
       :key="item.value"
@@ -13,8 +13,9 @@
           color: var(--el-text-color-secondary);
           font-size: 13px;
         "
-        >{{ item.value }}</span
       >
+        {{ item.value }}
+      </span>
     </el-option>
   </el-select>
 </template>

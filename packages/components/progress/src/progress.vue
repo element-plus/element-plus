@@ -23,6 +23,8 @@
           :class="[
             ns.be('bar', 'inner'),
             { [ns.bem('bar', 'inner', 'indeterminate')]: indeterminate },
+            { [ns.bem('bar', 'inner', 'striped')]: striped },
+            { [ns.bem('bar', 'inner', 'striped-flow')]: stripedFlow },
           ]"
           :style="barStyle"
         >
@@ -47,6 +49,7 @@
           :class="ns.be('circle', 'track')"
           :d="trackPath"
           :stroke="`var(${ns.cssVarName('fill-color-light')}, #e5e9f2)`"
+          :stroke-linecap="strokeLinecap"
           :stroke-width="relativeStrokeWidth"
           fill="none"
           :style="trailPathStyle"
@@ -70,7 +73,9 @@
     >
       <slot :percentage="percentage">
         <span v-if="!status">{{ content }}</span>
-        <el-icon v-else><component :is="statusIcon" /></el-icon>
+        <el-icon v-else>
+          <component :is="statusIcon" />
+        </el-icon>
       </slot>
     </div>
   </div>
@@ -88,9 +93,9 @@ import {
 } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
 import { isFunction, isString } from '@element-plus/utils'
-import { progressProps } from './progress'
+
 import type { CSSProperties } from 'vue'
-import type { ProgressColor } from './progress'
+import type { ProgressColor, ProgressProps } from './progress'
 
 defineOptions({
   name: 'ElProgress',
@@ -103,15 +108,34 @@ const STATUS_COLOR_MAP: Record<string, string> = {
   default: '#20a0ff',
 }
 
-const props = defineProps(progressProps)
+const props = withDefaults(defineProps<ProgressProps>(), {
+  type: 'line',
+  percentage: 0,
+  status: '',
+  duration: 3,
+  strokeWidth: 6,
+  strokeLinecap: 'round',
+  width: 126,
+  showText: true,
+  color: '',
+  format: (percentage: number): string => `${percentage}%`,
+})
 
 const ns = useNamespace('progress')
 
-const barStyle = computed<CSSProperties>(() => ({
-  width: `${props.percentage}%`,
-  animationDuration: `${props.duration}s`,
-  backgroundColor: getCurrentColor(props.percentage),
-}))
+const barStyle = computed<CSSProperties>(() => {
+  const barStyle: CSSProperties = {
+    width: `${props.percentage}%`,
+    animationDuration: `${props.duration}s`,
+  }
+  const color = getCurrentColor(props.percentage)
+  if (color.includes('gradient')) {
+    barStyle.background = color
+  } else {
+    barStyle.backgroundColor = color
+  }
+  return barStyle
+})
 
 const relativeStrokeWidth = computed(() =>
   ((props.strokeWidth / props.width) * 100).toFixed(1)

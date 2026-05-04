@@ -1,9 +1,15 @@
 <template>
-  <el-tree :props="props" :load="loadNode" lazy show-checkbox />
+  <el-tree
+    style="max-width: 600px"
+    :props="props"
+    :load="loadNode"
+    lazy
+    show-checkbox
+  />
 </template>
 
 <script lang="ts" setup>
-import type Node from 'element-plus/es/components/tree/src/model/node'
+import type { LoadFunction } from 'element-plus'
 
 interface Tree {
   name: string
@@ -16,7 +22,7 @@ const props = {
   isLeaf: 'leaf',
 }
 
-const loadNode = (node: Node, resolve: (data: Tree[]) => void) => {
+const loadNode: LoadFunction = (node, resolve) => {
   if (node.level === 0) {
     return resolve([{ name: 'region' }])
   }

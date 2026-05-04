@@ -1,7 +1,11 @@
 import { Row } from '../components'
 import { tryCall } from '../utils'
 
-import type { FunctionalComponent, UnwrapNestedRefs } from 'vue'
+import type {
+  ComponentInternalInstance,
+  FunctionalComponent,
+  UnwrapNestedRefs,
+} from 'vue'
 import type { UseNamespaceReturn } from '@element-plus/hooks'
 import type { UseTableReturn } from '../use-table'
 import type { TableV2Props } from '../table'
@@ -23,13 +27,13 @@ type RowRendererProps = TableGridRowSlotParams &
       | 'depthMap'
       | 'expandedRowKeys'
       | 'hasFixedColumns'
-      | 'hoveringRowKey'
       | 'onRowHovered'
       | 'onRowExpanded'
       | 'columnsStyles'
     >
   > & {
     ns: UseNamespaceReturn
+    tableInstance?: ComponentInternalInstance
   }
 
 const RowRenderer: FunctionalComponent<RowRendererProps> = (
@@ -44,7 +48,6 @@ const RowRenderer: FunctionalComponent<RowRendererProps> = (
     expandedRowKeys,
     estimatedRowHeight,
     hasFixedColumns,
-    hoveringRowKey,
     rowData,
     rowIndex,
     style,
@@ -71,12 +74,11 @@ const RowRenderer: FunctionalComponent<RowRendererProps> = (
   const kls = [
     ns.e('row'),
     rowKls,
+    ns.is('expanded', canExpand && expandedRowKeys.includes(_rowKey)),
+    ns.is('fixed', !depth && isFixedRow),
+    ns.is('customized', Boolean(slots.row)),
     {
       [ns.e(`row-depth-${depth}`)]: canExpand && rowIndex >= 0,
-      [ns.is('expanded')]: canExpand && expandedRowKeys.includes(_rowKey),
-      [ns.is('hovered')]: !isScrolling && _rowKey === hoveringRowKey,
-      [ns.is('fixed')]: !depth && isFixedRow,
-      [ns.is('customized')]: Boolean(slots.row),
     },
   ]
 
@@ -98,8 +100,34 @@ const RowRenderer: FunctionalComponent<RowRendererProps> = (
     style,
   }
 
+  const handlerMouseEnter = (e: MouseEvent) => {
+    onRowHover?.({
+      hovered: true,
+      rowKey: _rowKey,
+      event: e,
+      rowData,
+      rowIndex,
+    })
+  }
+
+  const handlerMouseLeave = (e: MouseEvent) => {
+    onRowHover?.({
+      hovered: false,
+      rowKey: _rowKey,
+      event: e,
+      rowData,
+      rowIndex,
+    })
+  }
+
   return (
-    <Row {..._rowProps} onRowHover={onRowHover} onRowExpand={onRowExpanded}>
+    <Row
+      {..._rowProps}
+      onRowExpand={onRowExpanded}
+      onMouseenter={handlerMouseEnter}
+      onMouseleave={handlerMouseLeave}
+      rowkey={_rowKey}
+    >
       {slots}
     </Row>
   )

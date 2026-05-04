@@ -1,11 +1,12 @@
 import { onMounted, ref, shallowRef } from 'vue'
 import { useEventListener, useThrottleFn } from '@vueuse/core'
 import { throwError } from '@element-plus/utils'
+
 import type { SetupContext } from 'vue'
 import type { BacktopEmits, BacktopProps } from './backtop'
 
 export const useBackTop = (
-  props: BacktopProps,
+  props: Required<BacktopProps>,
   emit: SetupContext<BacktopEmits>['emit'],
   componentName: string
 ) => {
@@ -36,6 +37,8 @@ export const useBackTop = (
       }
       container.value = el.value
     }
+    // Give visible an initial value, fix #13066
+    handleScroll()
   })
 
   return {

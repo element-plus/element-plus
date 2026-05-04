@@ -1,14 +1,15 @@
 import { withInstall, withInstallDirective } from '@element-plus/utils'
-
 import Popover from './src/popover.vue'
 import PopoverDirective, { VPopover } from './src/directive'
 
-export const ElPopoverDirective = withInstallDirective(
-  PopoverDirective,
-  VPopover
-)
+import type { SFCWithInstall } from '@element-plus/utils'
 
-export const ElPopover = withInstall(Popover, {
+export const ElPopoverDirective: SFCWithInstall<typeof PopoverDirective> =
+  withInstallDirective(PopoverDirective, VPopover)
+
+export const ElPopover: SFCWithInstall<typeof Popover> & {
+  directive: typeof ElPopoverDirective
+} = withInstall(Popover, {
   directive: ElPopoverDirective,
 })
 export default ElPopover

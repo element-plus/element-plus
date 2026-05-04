@@ -11,10 +11,10 @@ import {
   epOutput,
   epPackage,
   getPackageManifest,
+  normalizePath,
   projRoot,
 } from '@element-plus/build-utils'
 
-import type { TaskFunction } from 'gulp'
 import type {
   ReAttribute,
   ReComponentName,
@@ -27,18 +27,25 @@ const typeMap = {
   vue: ['Component', 'VNode', 'CSSProperties', 'StyleValue'],
 }
 
-const reComponentName: ReComponentName = (title) =>
-  `el-${hyphenate(title).replace(/[ ]+/g, '-')}`
+const removeTag = (str: string) => {
+  return str.replaceAll(/\^\([^)]*\)/g, '').trim()
+}
+
+const reComponentName: ReComponentName = (title) => {
+  return `el-${hyphenate(removeTag(title)).replace(/[ ]+/g, '-')}`
+}
 
 const reDocUrl: ReDocUrl = (fileName, header) => {
   const docs = 'https://element-plus.org/en-US/component/'
-  const _header = header ? header.replaceAll(/\s+/g, '-').toLowerCase() : ''
+  const _header = header
+    ? removeTag(header).replaceAll(/\s+/g, '-').toLowerCase()
+    : ''
 
   return `${docs}${fileName}.html${_header ? '#' : ''}${_header}`
 }
 
 const reWebTypesSource: ReWebTypesSource = (title) => {
-  const symbol = `El${title
+  const symbol = `El${removeTag(title)
     .replaceAll(/-/g, ' ')
     .replaceAll(/^\w|\s+\w/g, (item) => {
       return item.trim().toUpperCase()
@@ -48,11 +55,11 @@ const reWebTypesSource: ReWebTypesSource = (title) => {
 }
 
 const reAttribute: ReAttribute = (value, key) => {
-  const str = value
+  const str = removeTag(value)
+    .replaceAll(/<del>.*<\/del>/g, '')
     .replace(/^\*\*(.*)\*\*$/, '$1')
     .replace(/^`(.*)`$/, '$1')
     .replace(/^~~(.*)~~$/, '')
-    .replaceAll(/<del>.*<\/del>/g, '')
 
   if (key === 'Name' && /^(-|—)$/.test(str)) {
     return 'default'
@@ -73,7 +80,6 @@ const reAttribute: ReAttribute = (value, key) => {
   } else if (key === 'Type') {
     return rewriteType(str)
       .replaceAll(/\bfunction(\(.*\))?(:\s*\w+)?\b/gi, 'Function')
-      .replaceAll(/\bdate\b/g, 'Date')
       .replaceAll(/\([^)]*\)(?!\s*=>)/g, '')
       .replaceAll(/(<[^>]*>|\{[^}]*}|\([^)]*\))/g, (item) => {
         return item.replaceAll(/(\/|\|)/g, '=_0!')
@@ -100,11 +106,12 @@ const reAttribute: ReAttribute = (value, key) => {
 
 const reWebTypesType: ReWebTypesType = (type) => {
   const isPublicType = isCommonType(type)
+  const isNumber = /^\d+$/.test(type)
   const symbol = getTypeSymbol(type)
   const isUnion = isUnionType(symbol)
   const module = findModule(symbol)
 
-  return isPublicType || !symbol || isUnion
+  return isPublicType || isNumber || !symbol || isUnion
     ? type
     : { name: type, source: { symbol, module } }
 }
@@ -181,7 +188,7 @@ const transformFunction = (str: string) => {
   return `(${params}) => ${returns}`
 }
 
-export const buildHelper: TaskFunction = (done) => {
+export const buildHelper = () => {
   const { name, version } = getPackageManifest(epPackage)
 
   const tagVer = process.env.TAG_VERSION
@@ -190,14 +197,15 @@ export const buildHelper: TaskFunction = (done) => {
       ? tagVer.slice(1)
       : tagVer
     : version!
+  const entry = `${path.resolve(
+    projRoot,
+    'docs/en-US/component'
+  )}/!(datetime-picker|message-box|message).md`
 
   main({
     name: name!,
     version: _version,
-    entry: `${path.resolve(
-      projRoot,
-      'docs/en-US/component'
-    )}/!(datetime-picker|message-box|message).md`,
+    entry: normalizePath(entry),
     outDir: epOutput,
     reComponentName,
     reDocUrl,
@@ -209,6 +217,4 @@ export const buildHelper: TaskFunction = (done) => {
     tableRegExp:
       /#+\s+(.*\s*Attributes|.*\s*Events|.*\s*Slots|.*\s*Directives)\s*\n+(\|?.+\|.+)\n\|?\s*:?-+:?\s*\|.+((\n\|?.+\|.+)+)/g,
   })
-
-  done()
 }

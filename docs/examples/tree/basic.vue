@@ -1,5 +1,10 @@
 <template>
-  <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick" />
+  <el-tree
+    style="max-width: 600px"
+    :data="data"
+    :props="defaultProps"
+    @node-click="handleNodeClick"
+  />
 </template>
 
 <script lang="ts" setup>

@@ -12,7 +12,7 @@ describe('strings', () => {
   it('escapeStringRegexp should work', () => {
     expect(escapeStringRegexp('foo')).toMatchInlineSnapshot('"foo"')
     expect(escapeStringRegexp('**\\//aa^~#$')).toMatchInlineSnapshot(
-      '"\\\\*\\\\*\\\\\\\\//aa\\\\^~#\\\\$"'
+      `"\\*\\*\\\\//aa\\^~#\\$"`
     )
   })
 

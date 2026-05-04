@@ -1,5 +1,54 @@
 <template>
+  <template v-if="virtualScroll">
+    <div
+      :key="menuId"
+      :class="ns.b()"
+      @mousemove="handleMouseMove"
+      @mouseleave="clearHoverZone"
+    >
+      <el-fixed-size-list
+        ref="virtualListRef"
+        :height="height"
+        :item-size="itemSize"
+        :data="nodes"
+        :total="nodes.length"
+        :class-name="ns.e('list')"
+        inner-element="ul"
+        :inner-props="{
+          role: 'menu',
+          class: ns.is('empty', isEmpty),
+        }"
+      >
+        <template #default="{ data, index: nodeIndex, style }">
+          <el-cascader-node
+            :key="data[nodeIndex].uid"
+            :node="data[nodeIndex]"
+            :menu-id="menuId"
+            :style="style"
+            @expand="handleExpand"
+          />
+        </template>
+      </el-fixed-size-list>
+      <div v-if="isLoading" :class="ns.e('empty-text')">
+        <el-icon :size="14" :class="ns.is('loading')">
+          <Loading />
+        </el-icon>
+        {{ t('el.cascader.loading') }}
+      </div>
+      <div v-else-if="isEmpty" :class="ns.e('empty-text')">
+        <slot name="empty">{{ t('el.cascader.noData') }}</slot>
+      </div>
+      <!-- eslint-disable vue/html-self-closing -->
+      <svg
+        v-else-if="panel?.isHoverMenu"
+        ref="hoverZone"
+        :class="ns.e('hover-zone')"
+      ></svg>
+      <!-- eslint-enable vue/html-self-closing -->
+    </div>
+  </template>
   <el-scrollbar
+    v-else
     :key="menuId"
     tag="ul"
     role="menu"
@@ -17,126 +66,172 @@
       @expand="handleExpand"
     />
     <div v-if="isLoading" :class="ns.e('empty-text')">
-      <el-icon size="14" :class="ns.is('loading')">
-        <loading />
+      <el-icon :size="14" :class="ns.is('loading')">
+        <Loading />
       </el-icon>
       {{ t('el.cascader.loading') }}
     </div>
     <div v-else-if="isEmpty" :class="ns.e('empty-text')">
-      {{ t('el.cascader.noData') }}
+      <slot name="empty">{{ t('el.cascader.noData') }}</slot>
     </div>
+    <!-- eslint-disable vue/html-self-closing -->
     <svg
       v-else-if="panel?.isHoverMenu"
       ref="hoverZone"
       :class="ns.e('hover-zone')"
-    />
+    ></svg>
+    <!-- eslint-enable vue/html-self-closing -->
   </el-scrollbar>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, getCurrentInstance, inject, ref } from 'vue'
+<script lang="ts" setup>
+import { computed, getCurrentInstance, inject, nextTick, ref } from 'vue'
+import { clamp } from 'lodash-unified'
 import ElScrollbar from '@element-plus/components/scrollbar'
-import { useLocale, useNamespace } from '@element-plus/hooks'
-import { generateId } from '@element-plus/utils'
+import { FixedSizeList as ElFixedSizeList } from '@element-plus/components/virtual-list'
+import { useId, useLocale, useNamespace } from '@element-plus/hooks'
 import { Loading } from '@element-plus/icons-vue'
 import ElIcon from '@element-plus/components/icon'
+import { focusNode } from '@element-plus/utils'
 import ElCascaderNode from './node.vue'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
+import { CASCADER_PANEL_HEIGHT, CASCADER_PANEL_ITEM_SIZE } from './config'
 
-import type { default as CascaderNode } from './node'
-import type { PropType } from 'vue'
-import type { Nullable } from '@element-plus/utils'
+import type { CascaderNode } from './types'
+import type { CascaderCommonProps } from './config'
+import type { FixedSizeListInstance } from '@element-plus/components/virtual-list'
 
-export default defineComponent({
+defineOptions({
   name: 'ElCascaderMenu',
+})
 
-  components: {
-    Loading,
-    ElIcon,
-    ElScrollbar,
-    ElCascaderNode,
-  },
+const props = withDefaults(
+  defineProps<
+    {
+      nodes: CascaderNode[]
+      index: number
+    } & Pick<CascaderCommonProps, 'virtualScroll' | 'itemSize' | 'height'>
+  >(),
+  {
+    virtualScroll: false,
+    itemSize: CASCADER_PANEL_ITEM_SIZE,
+    height: CASCADER_PANEL_HEIGHT,
+  }
+)
 
-  props: {
-    nodes: {
-      type: Array as PropType<CascaderNode[]>,
-      required: true,
-    },
-    index: {
-      type: Number,
-      required: true,
-    },
-  },
+const instance = getCurrentInstance()!
+const ns = useNamespace('cascader-menu')
 
-  setup(props) {
-    const instance = getCurrentInstance()!
-    const ns = useNamespace('cascader-menu')
+const { t } = useLocale()
+const id = useId()
+let activeNode: HTMLElement
+let hoverTimer: number | undefined
 
-    const { t } = useLocale()
-    const id = generateId()
-    let activeNode: Nullable<HTMLElement> = null
-    let hoverTimer: Nullable<number> = null
+const panel = inject(CASCADER_PANEL_INJECTION_KEY)!
 
-    const panel = inject(CASCADER_PANEL_INJECTION_KEY)!
+const hoverZone = ref<SVGSVGElement>()
+const virtualListRef = ref<FixedSizeListInstance>()
 
-    const hoverZone = ref<null | SVGSVGElement>(null)
+const isEmpty = computed(() => !props.nodes.length)
+const isLoading = computed(() => !panel.initialLoaded)
+const menuId = computed(() => `${id.value}-${props.index}`)
 
-    const isEmpty = computed(() => !props.nodes.length)
-    const isLoading = computed(() => !panel.initialLoaded)
-    const menuId = computed(() => `cascader-menu-${id}-${props.index}`)
+const getActiveNodeIndex = () => {
+  let activeNodeId: number | undefined
 
-    const handleExpand = (e: MouseEvent) => {
-      activeNode = e.target as HTMLElement
+  if (panel.expandingNode) {
+    const { level, pathNodes } = panel.expandingNode
+    if (props.index < level) {
+      activeNodeId = pathNodes[props.index]?.uid
+    } else if (props.index === level && panel.checkedNodes.length > 0) {
+      activeNodeId = panel.checkedNodes[0]?.pathNodes[props.index]?.uid
     }
+  } else if (
+    panel.checkedNodes.length > 0 &&
+    props.index < panel.checkedNodes[0].pathNodes.length
+  ) {
+    activeNodeId = panel.checkedNodes[0].pathNodes[props.index]?.uid
+  }
 
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!panel.isHoverMenu || !activeNode || !hoverZone.value) return
+  return activeNodeId !== undefined
+    ? props.nodes.findIndex((node) => node.uid === activeNodeId)
+    : -1
+}
 
-      if (activeNode.contains(e.target as HTMLElement)) {
-        clearHoverTimer()
+const getNodeIndexById = (nodeId: string | undefined) => {
+  if (!nodeId) return -1
+  return props.nodes.findIndex(
+    (node) => `${menuId.value}-${node.uid}` === nodeId
+  )
+}
 
-        const el = instance.vnode.el as HTMLElement
-        const { left } = el.getBoundingClientRect()
-        const { offsetWidth, offsetHeight } = el
-        const startX = e.clientX - left
-        const top = activeNode.offsetTop
-        const bottom = top + activeNode.offsetHeight
+const scrollToItem = (index: number) => {
+  const targetIndex = clamp(index, 0, props.nodes.length - 1)
+  virtualListRef.value?.scrollToItem(targetIndex)
+}
 
-        hoverZone.value.innerHTML = `
-          <path style="pointer-events: auto;" fill="transparent" d="M${startX} ${top} L${offsetWidth} 0 V${top} Z" />
-          <path style="pointer-events: auto;" fill="transparent" d="M${startX} ${bottom} L${offsetWidth} ${offsetHeight} V${bottom} Z" />
+const focusNodeAt = (index: number) => {
+  if (!props.nodes.length) return
+  const targetIndex = clamp(index, 0, props.nodes.length - 1)
+  scrollToItem(targetIndex)
+  nextTick(() => {
+    const node = (instance.vnode.el as HTMLElement)?.querySelector<HTMLElement>(
+      `#${menuId.value}-${props.nodes[targetIndex].uid}`
+    )
+    if (node) focusNode(node)
+  })
+}
+
+const handleExpand = (e: MouseEvent) => {
+  activeNode = e.target as HTMLElement
+}
+
+const handleMouseMove = (e: MouseEvent) => {
+  if (!panel.isHoverMenu || !activeNode || !hoverZone.value) return
+
+  if (activeNode.contains(e.target as HTMLElement)) {
+    clearHoverTimer()
+
+    const el = instance.vnode.el as HTMLElement
+    const { left } = el.getBoundingClientRect()
+    const { offsetWidth, offsetHeight } = el
+    const startX = e.clientX - left
+    const top = activeNode.offsetTop
+    const bottom = top + activeNode.offsetHeight
+
+    const scrollTop = props.virtualScroll
+      ? virtualListRef.value?.states?.scrollOffset || 0
+      : el.querySelector(`.${ns.e('wrap')}`)?.scrollTop || 0
+
+    hoverZone.value.innerHTML = `
+          <path style="pointer-events: auto;" fill="transparent" d="M${startX} ${top} L${offsetWidth} ${scrollTop} V${top} Z" />
+          <path style="pointer-events: auto;" fill="transparent" d="M${startX} ${bottom} L${offsetWidth} ${offsetHeight + scrollTop} V${bottom} Z" />
         `
-      } else if (!hoverTimer) {
-        hoverTimer = window.setTimeout(
-          clearHoverZone,
-          panel.config.hoverThreshold
-        )
-      }
-    }
+  } else if (!hoverTimer) {
+    hoverTimer = window.setTimeout(clearHoverZone, panel.config.hoverThreshold)
+  }
+}
 
-    const clearHoverTimer = () => {
-      if (!hoverTimer) return
-      clearTimeout(hoverTimer)
-      hoverTimer = null
-    }
+const clearHoverTimer = () => {
+  if (!hoverTimer) return
+  clearTimeout(hoverTimer)
+  hoverTimer = undefined
+}
 
-    const clearHoverZone = () => {
-      if (!hoverZone.value) return
-      hoverZone.value.innerHTML = ''
-      clearHoverTimer()
-    }
-    return {
-      ns,
-      panel,
-      hoverZone,
-      isEmpty,
-      isLoading,
-      menuId,
-      t,
-      handleExpand,
-      handleMouseMove,
-      clearHoverZone,
-    }
+const clearHoverZone = () => {
+  if (!hoverZone.value) return
+  hoverZone.value.innerHTML = ''
+  clearHoverTimer()
+}
+
+defineExpose({
+  getActiveNodeIndex,
+  getNodeIndexById,
+  scrollToItem,
+  focusNodeAt,
+  virtualListRef,
+  get $el() {
+    return instance.vnode.el as HTMLElement
   },
 })
 </script>

@@ -5,22 +5,24 @@ import { rAF } from '@element-plus/test-utils/tick'
 import { TypeComponentsMap } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import Message from '../src/message.vue'
-import type { CSSProperties, Component, ComponentPublicInstance } from 'vue'
+import { messageTypes } from '../src/message'
+
+import type { CSSProperties, Component } from 'vue'
 
 const AXIOM = 'Rem is the best girl'
 
-type MessageInstance = ComponentPublicInstance<{
-  visible: boolean
-  iconComponent: string | Component
-  customStyle: CSSProperties
-}>
-
 const onClose = vi.fn()
-const _mount = makeMount(Message, {
-  props: {
-    onClose,
+
+const _mount = makeMount(
+  Message as typeof Message & {
+    new (): { iconComponent: string | Component; customStyle: CSSProperties }
   },
-})
+  {
+    props: {
+      onClose,
+    },
+  }
+)
 
 describe('Message.vue', () => {
   describe('render', () => {
@@ -31,7 +33,7 @@ describe('Message.vue', () => {
         },
       })
 
-      const vm = wrapper.vm as MessageInstance
+      const vm = wrapper.vm
 
       expect(wrapper.text()).toEqual(AXIOM)
       expect(vm.visible).toBe(true)
@@ -49,12 +51,24 @@ describe('Message.vue', () => {
       expect(wrapper.find('.text-node').exists()).toBe(true)
     })
 
+    test('VNode should be wrapped in .el-message__content', () => {
+      const wrapper = _mount({
+        slots: {
+          default: h('span', AXIOM),
+        },
+      })
+
+      const content = wrapper.find('.el-message__content')
+      expect(content.exists()).toBe(true)
+      expect(content.text()).toEqual(AXIOM)
+    })
+
     test('should be able to render raw HTML with dangerouslyUseHTMLString prop', () => {
       const tagClass = 'test-class'
       const wrapper = _mount({
         props: {
           dangerouslyUseHTMLString: true,
-          message: `<string class="${tagClass}"'>${AXIOM}</strong>`,
+          message: `<strong class="${tagClass}"'>${AXIOM}</strong>`,
         },
       })
 
@@ -66,7 +80,7 @@ describe('Message.vue', () => {
       const wrapper = _mount({
         props: {
           dangerouslyUseHTMLString: false,
-          message: `<string class="${tagClass}"'>${AXIOM}</strong>`,
+          message: `<strong class="${tagClass}"'>${AXIOM}</strong>`,
         },
       })
 
@@ -76,7 +90,7 @@ describe('Message.vue', () => {
 
   describe('Message.type', () => {
     test('should be able to render typed messages', () => {
-      for (const type of ['success', 'warning', 'info', 'error'] as const) {
+      for (const type of messageTypes) {
         const wrapper = _mount({ props: { type } })
 
         expect(wrapper.findComponent(TypeComponentsMap[type]).exists()).toBe(
@@ -112,14 +126,14 @@ describe('Message.vue', () => {
       const closeBtn = wrapper.find('.el-message__closeBtn')
       expect(closeBtn.exists()).toBe(true)
       await closeBtn.trigger('click')
-      expect((wrapper.vm as MessageInstance).visible).toBe(false)
+      expect(wrapper.vm.visible).toBe(false)
     })
 
     test('it should close after duration', async () => {
       vi.useFakeTimers()
       const duration = 1000
       const wrapper = _mount({ props: { duration } })
-      const vm = wrapper.vm as MessageInstance
+      const vm = wrapper.vm
       await nextTick()
       expect(vm.visible).toBe(true)
       vi.runAllTimers()
@@ -132,7 +146,7 @@ describe('Message.vue', () => {
       vi.useFakeTimers()
       const duration = 1000
       const wrapper = _mount({ props: { duration } })
-      const vm = wrapper.vm as MessageInstance
+      const vm = wrapper.vm
       vi.advanceTimersByTime(50)
       expect(vm.visible).toBe(true)
       await wrapper.find('[role="alert"]').trigger('mouseenter')
@@ -149,7 +163,7 @@ describe('Message.vue', () => {
       vi.useFakeTimers()
       const duration = 0
       const wrapper = _mount({ props: { duration } })
-      const vm = wrapper.vm as MessageInstance
+      const vm = wrapper.vm
       expect(vm.visible).toBe(true)
       vi.runAllTimers()
       expect(vm.visible).toBe(true)
@@ -164,7 +178,7 @@ describe('Message.vue', () => {
       })
       document.dispatchEvent(event)
 
-      expect((wrapper.vm as MessageInstance).visible).toBe(false)
+      expect(wrapper.vm.visible).toBe(false)
     })
 
     test('it should call close after transition ends', async () => {
@@ -174,11 +188,84 @@ describe('Message.vue', () => {
         props: { onClose },
       })
       await rAF()
-      const vm = wrapper.vm as MessageInstance
+      const vm = wrapper.vm
       vm.visible = false
       await rAF()
 
       expect(onClose).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  describe('placement', () => {
+    test('should render with top placement by default', () => {
+      const wrapper = _mount({
+        slots: { default: AXIOM },
+      })
+      const vm = wrapper.vm
+      expect(vm.customStyle).toHaveProperty('top', '16px')
+      expect(wrapper.classes()).not.toContain('is-bottom')
+    })
+
+    test('should render with top-left placement', () => {
+      const wrapper = _mount({
+        slots: { default: AXIOM },
+        props: {
+          placement: 'top-left',
+        },
+      })
+      const vm = wrapper.vm
+      expect(vm.customStyle).toHaveProperty('top', '16px')
+      expect(vm.placement).toBe('top-left')
+    })
+
+    test('should render with top-right placement', () => {
+      const wrapper = _mount({
+        slots: { default: AXIOM },
+        props: {
+          placement: 'top-right',
+        },
+      })
+      const vm = wrapper.vm
+      expect(vm.customStyle).toHaveProperty('top', '16px')
+      expect(vm.placement).toBe('top-right')
+    })
+
+    test('should render with bottom placement', () => {
+      const wrapper = _mount({
+        slots: { default: AXIOM },
+        props: {
+          placement: 'bottom',
+        },
+      })
+      const vm = wrapper.vm
+      expect(vm.customStyle).toHaveProperty('bottom', '16px')
+      expect(wrapper.classes()).toContain('is-bottom')
+    })
+
+    test('should render with bottom-left placement', () => {
+      const wrapper = _mount({
+        slots: { default: AXIOM },
+        props: {
+          placement: 'bottom-left',
+        },
+      })
+      const vm = wrapper.vm
+      expect(vm.customStyle).toHaveProperty('bottom', '16px')
+      expect(vm.placement).toBe('bottom-left')
+      expect(wrapper.classes()).toContain('is-bottom')
+    })
+
+    test('should render with bottom-right placement', () => {
+      const wrapper = _mount({
+        slots: { default: AXIOM },
+        props: {
+          placement: 'bottom-right',
+        },
+      })
+      const vm = wrapper.vm
+      expect(vm.customStyle).toHaveProperty('bottom', '16px')
+      expect(vm.placement).toBe('bottom-right')
+      expect(wrapper.classes()).toContain('is-bottom')
     })
   })
 })

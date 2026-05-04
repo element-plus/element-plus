@@ -3,6 +3,7 @@
     ref="tooltipRef"
     v-bind="$attrs"
     :trigger="trigger"
+    :trigger-keys="triggerKeys"
     :placement="placement"
     :disabled="disabled"
     :visible="visible"
@@ -21,6 +22,7 @@
     :popper-class="kls"
     :popper-style="style"
     :teleported="teleported"
+    :append-to="appendTo"
     :persistent="persistent"
     :gpu-acceleration="gpuAcceleration"
     @update:visible="onUpdateVisible"
@@ -37,25 +39,28 @@
       <div v-if="title" :class="ns.e('title')" role="title">
         {{ title }}
       </div>
-      <slot>
+      <slot :hide="hide">
         {{ content }}
       </slot>
     </template>
   </el-tooltip>
 </template>
+
 <script lang="ts" setup>
 import { computed, ref, unref } from 'vue'
 import { ElTooltip } from '@element-plus/components/tooltip'
 import { addUnit } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import { popoverEmits, popoverProps } from './popover'
+import { popoverEmits, popoverPropsDefaults } from './popover'
+
 import type { TooltipInstance } from '@element-plus/components/tooltip'
+import type { PopoverProps } from './popover'
 
 defineOptions({
   name: 'ElPopover',
 })
 
-const props = defineProps(popoverProps)
+const props = withDefaults(defineProps<PopoverProps>(), popoverPropsDefaults)
 const emit = defineEmits(popoverEmits)
 
 const updateEventKeyRaw = `onUpdate:visible` as const

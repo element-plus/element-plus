@@ -4,6 +4,7 @@ import {
   SIZE_INJECTION_KEY,
   defaultInitialZIndex,
   defaultNamespace,
+  emptyValuesContextKey,
   localeContextKey,
   namespaceContextKey,
   useLocale,
@@ -13,8 +14,7 @@ import {
 } from '@element-plus/hooks'
 import { configProviderContextKey } from '../constants'
 
-import type { MaybeRef } from '@vueuse/core'
-import type { App, Ref } from 'vue'
+import type { App, MaybeRef, Ref } from 'vue'
 import type { ConfigProviderContext } from '../constants'
 
 // this is meant to fix global methods like `ElMessage(opts)`, this way we can inject current locale
@@ -24,7 +24,7 @@ const globalConfig = ref<ConfigProviderContext>()
 
 export function useGlobalConfig<
   K extends keyof ConfigProviderContext,
-  D extends ConfigProviderContext[K]
+  D extends ConfigProviderContext[K],
 >(
   key: K,
   defaultValue?: D
@@ -111,6 +111,14 @@ export const provideGlobalConfig = (
     size: computed(() => context.value.size || ''),
   })
 
+  provideFn(
+    emptyValuesContextKey,
+    computed(() => ({
+      emptyValues: context.value.emptyValues,
+      valueOnClear: context.value.valueOnClear,
+    }))
+  )
+
   if (global || !globalConfig.value) {
     globalConfig.value = context.value
   }
@@ -124,7 +132,7 @@ const mergeConfig = (
   const keys = [...new Set([...keysOf(a), ...keysOf(b)])]
   const obj: Record<string, any> = {}
   for (const key of keys) {
-    obj[key] = b[key] ?? a[key]
+    obj[key] = b[key] !== undefined ? b[key] : a[key]
   }
   return obj
 }

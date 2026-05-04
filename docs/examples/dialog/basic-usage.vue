@@ -1,22 +1,22 @@
 <template>
-  <el-button text @click="dialogVisible = true">
-    click to open the Dialog
+  <el-button plain @click="dialogVisible = true">
+    Click to open the Dialog
   </el-button>
 
   <el-dialog
     v-model="dialogVisible"
     title="Tips"
-    width="30%"
+    width="500"
     :before-close="handleClose"
   >
     <span>This is a message</span>
     <template #footer>
-      <span class="dialog-footer">
+      <div class="dialog-footer">
         <el-button @click="dialogVisible = false">Cancel</el-button>
         <el-button type="primary" @click="dialogVisible = false">
           Confirm
         </el-button>
-      </span>
+      </div>
     </template>
   </el-dialog>
 </template>
@@ -37,8 +37,3 @@ const handleClose = (done: () => void) => {
     })
 }
 </script>
-<style scoped>
-.dialog-footer button:first-child {
-  margin-right: 10px;
-}
-</style>

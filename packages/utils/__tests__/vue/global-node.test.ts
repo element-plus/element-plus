@@ -41,4 +41,13 @@ describe('global-nodes', () => {
 
     expect(el.parentElement).toBe(target)
   })
+
+  it('should create node with id', () => {
+    const myId = 'my-id'
+    const el = createGlobalNode(myId)
+
+    expect(el).not.toBeNull()
+
+    expect(el.getAttribute('id')).toBe(myId)
+  })
 })

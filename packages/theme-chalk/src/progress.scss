@@ -120,6 +120,23 @@
       transform: translateZ(0);
       animation: indeterminate 3s infinite;
     }
+
+    @include m(striped) {
+      background-image: linear-gradient(
+        45deg,
+        rgba(0, 0, 0, 0.1) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(0, 0, 0, 0.1) 50%,
+        rgba(0, 0, 0, 0.1) 75%,
+        transparent 75%,
+        transparent
+      );
+      background-size: 1.25em 1.25em;
+      &.#{$namespace}-progress-bar__inner--striped-flow {
+        animation: striped-flow 3s linear infinite;
+      }
+    }
   }
 
   @include e(innerText) {
@@ -148,5 +165,15 @@
 
   100% {
     left: 100%;
+  }
+}
+
+@keyframes striped-flow {
+  0% {
+    background-position: -100%;
+  }
+
+  100% {
+    background-position: 100%;
   }
 }

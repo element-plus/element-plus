@@ -4,18 +4,23 @@
   </component>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed, provide } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { rowContextKey } from './constants'
-import { rowProps } from './row'
+
 import type { CSSProperties } from 'vue'
+import type { RowProps } from './row'
 
 defineOptions({
   name: 'ElRow',
 })
 
-const props = defineProps(rowProps)
+const props = withDefaults(defineProps<RowProps>(), {
+  tag: 'div',
+  gutter: 0,
+  justify: 'start',
+})
 
 const ns = useNamespace('row')
 const gutter = computed(() => props.gutter)
@@ -37,6 +42,6 @@ const style = computed(() => {
 const rowKls = computed(() => [
   ns.b(),
   ns.is(`justify-${props.justify}`, props.justify !== 'start'),
-  ns.is(`align-${props.align}`, props.align !== 'top'),
+  ns.is(`align-${props.align}`, !!props.align),
 ])
 </script>

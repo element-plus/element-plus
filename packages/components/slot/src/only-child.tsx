@@ -7,13 +7,12 @@ import {
   inject,
   withDirectives,
 } from 'vue'
-import { NOOP, isObject } from '@vue/shared'
+import { NOOP, debugWarn, isObject } from '@element-plus/utils'
 import {
   FORWARD_REF_INJECTION_KEY,
   useForwardRefDirective,
   useNamespace,
 } from '@element-plus/hooks'
-import { debugWarn } from '@element-plus/utils'
 
 import type { Ref, VNode } from 'vue'
 
@@ -29,16 +28,14 @@ export const OnlyChild = defineComponent({
     return () => {
       const defaultSlot = slots.default?.(attrs)
       if (!defaultSlot) return null
+      const [firstLegitNode, length] = findFirstLegitChild(defaultSlot)
 
-      if (defaultSlot.length > 1) {
-        debugWarn(NAME, 'requires exact only one valid child.')
-        return null
-      }
-
-      const firstLegitNode = findFirstLegitChild(defaultSlot)
       if (!firstLegitNode) {
         debugWarn(NAME, 'no valid child node found')
         return null
+      }
+      if (length > 1) {
+        debugWarn(NAME, 'requires exact only one valid child.')
       }
 
       return withDirectives(cloneVNode(firstLegitNode!, attrs), [
@@ -48,9 +45,13 @@ export const OnlyChild = defineComponent({
   },
 })
 
-function findFirstLegitChild(node: VNode[] | undefined): VNode | null {
-  if (!node) return null
+function findFirstLegitChild(
+  node: VNode[] | undefined
+): [VNode | null, number] {
+  if (!node) return [null, 0]
   const children = node as VNode[]
+  const len = children.filter((c) => c.type !== Comment).length
+
   for (const child of children) {
     /**
      * when user uses h(Fragment, [text]) to render plain string,
@@ -63,16 +64,16 @@ function findFirstLegitChild(node: VNode[] | undefined): VNode | null {
           continue
         case Text:
         case 'svg':
-          return wrapTextContent(child)
+          return [wrapTextContent(child), len]
         case Fragment:
           return findFirstLegitChild(child.children as VNode[])
         default:
-          return child
+          return [child, len]
       }
     }
-    return wrapTextContent(child)
+    return [wrapTextContent(child), len]
   }
-  return null
+  return [null, 0]
 }
 
 function wrapTextContent(s: string | VNode) {

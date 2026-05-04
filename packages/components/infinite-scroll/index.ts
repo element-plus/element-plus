@@ -1,3 +1,4 @@
+// TODO: remove the directive in 3.0
 import InfiniteScroll from './src'
 
 import type { App } from 'vue'
