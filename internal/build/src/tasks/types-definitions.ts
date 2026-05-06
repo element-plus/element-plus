@@ -22,11 +22,19 @@ const external = [/^@floating-ui/, /^@vue/, /^vue/, /^csstype/, ...pkgExternal]
 
 export async function generateTypesDefinitions() {
   const input = excludeFiles(
-    await glob(['**/index.ts', 'locale/lang/*.ts', '!**/style/index.ts'], {
-      cwd: pkgRoot,
-      absolute: true,
-      onlyFiles: true,
-    })
+    await glob(
+      [
+        '**/index.ts',
+        'locale/lang/*.ts',
+        'components/tree-v2/src/virtual-tree.ts',
+        '!**/style/index.ts',
+      ],
+      {
+        cwd: pkgRoot,
+        absolute: true,
+        onlyFiles: true,
+      }
+    )
   )
   const options: BuildOptions = {
     input,
