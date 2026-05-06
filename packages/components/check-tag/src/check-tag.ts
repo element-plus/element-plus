@@ -36,12 +36,20 @@ export const checkTagProps = buildProps({
    */
   disabled: Boolean,
   /**
-   * @description type of Tag
+   * @description type of check-tag
    */
   type: {
     type: String,
     values: ['primary', 'success', 'info', 'warning', 'danger'],
     default: 'primary',
+  },
+  /**
+   * @description size of check-tag
+   */
+  size: {
+    type: String,
+    values: ['', 'default', 'small', 'large'],
+    default: 'default',
   },
 } as const)
 

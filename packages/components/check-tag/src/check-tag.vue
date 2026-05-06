@@ -28,7 +28,7 @@ const containerKls = computed(() => [
   ns.is('checked', props.checked),
   ns.is('disabled', props.disabled),
   ns.m(props.type || 'primary'),
-  ns.m(tagSize.value || 'default'),
+  ns.m(tagSize.value),
 ])
 
 const handleChange = () => {
