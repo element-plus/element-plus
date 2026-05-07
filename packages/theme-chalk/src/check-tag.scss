@@ -16,7 +16,7 @@
   transition: getCssVar('transition', 'all');
   font-weight: bold;
   height: map.get($tag-height, 'default');
-  padding: 0 map.get($tag-padding, 'default') - $border-width;
+  padding: 0 map.get($tag-padding, 'default');
   user-select: none;
   white-space: nowrap;
 
@@ -68,7 +68,7 @@
   @each $size in (large, small) {
     @include m($size) {
       height: map.get($tag-height, $size);
-      padding: 0 map.get($tag-padding, $size) - $border-width;
+      padding: 0 map.get($tag-padding, $size);
     }
   }
 }
