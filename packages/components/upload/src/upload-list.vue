@@ -29,13 +29,10 @@
           alt=""
         />
         <el-icon
-          v-if="!file.url"
-          :class="[
-            nsUpload.be('list', 'item-thumbnail'),
-            nsUpload.is('loading'),
-          ]"
+          v-if="!file.url && listType !== 'text'"
+          :class="[nsUpload.be('list', 'loading-icon'), nsUpload.is('loading')]"
         >
-          <loading />
+          <Loading />
         </el-icon>
         <div
           v-if="file.status === 'uploading' || listType !== 'picture-card'"
