@@ -316,6 +316,32 @@ describe('Splitter', () => {
     expect(panels[0].attributes('style')).toContain('flex-basis: 400px;')
   })
 
+  it('should expand a collapsible panel whose initial size is 0 to its min size', async () => {
+    const size = ref(0)
+    const wrapper = mount(() => (
+      <ElSplitter>
+        <ElSplitterPanel v-model:size={size.value} min={100} collapsible>
+          Left Panel
+        </ElSplitterPanel>
+        <ElSplitterPanel min={200}>Right Panel</ElSplitterPanel>
+      </ElSplitter>
+    ))
+    await nextTick()
+
+    const panels = wrapper.findAll('.el-splitter-panel')
+    const endCollapseButton = wrapper.find(
+      '.el-splitter-bar__horizontal-collapse-icon-end'
+    )
+
+    expect(panels[0].attributes('style')).toContain('flex-basis: 0px;')
+
+    await endCollapseButton.trigger('click')
+    await nextTick()
+
+    expect(panels[0].attributes('style')).toContain('flex-basis: 100px;')
+    expect(size.value).toBe(100)
+  })
+
   it('should not update panel size until drag ends when lazy is true', async () => {
     const wrapper = mount(() => (
       <div style={{ width: '400px', height: '400px' }}>

@@ -130,7 +130,11 @@ export function useResize(
   const cacheCollapsedSize: number[] = []
   const onCollapse = (index: number, type: 'start' | 'end') => {
     if (!cacheCollapsedSize.length) {
-      cacheCollapsedSize.push(...pxSizes.value)
+      cacheCollapsedSize.push(
+        ...pxSizes.value.map((size, i) =>
+          size <= 0 ? getLimitSize(limitSizes.value[i]?.[0], 0) : size
+        )
+      )
     }
 
     const currentSizes = pxSizes.value
