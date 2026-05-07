@@ -1,4 +1,5 @@
 import { computed, ref, watch } from 'vue'
+import { clamp } from 'lodash-unified'
 import { getPct, getPx, isPct, isPx } from './useSize'
 import { NOOP } from '@element-plus/utils'
 
@@ -152,7 +153,11 @@ export function useResize(
     } else {
       const totalSize = currentSize + targetSize
 
-      const targetCacheCollapsedSize = cacheCollapsedSize[index]
+      const targetCacheCollapsedSize = clamp(
+        cacheCollapsedSize[index],
+        0,
+        totalSize
+      )
       const currentCacheCollapsedSize = totalSize - targetCacheCollapsedSize
 
       currentSizes[targetIndex] = targetCacheCollapsedSize
