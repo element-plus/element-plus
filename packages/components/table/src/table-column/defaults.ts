@@ -226,7 +226,7 @@ export type {
 /**
  * @deprecated Removed after 3.0.0, Use `TableColumnProps` instead.
  */
-export default {
+export const tableColumnProps = {
   /**
    * @description type of the column. If set to `selection`, the column will display checkbox. If set to `index`, the column will display index of the row (staring from 1). If set to `expand`, the column will display expand icon
    */
@@ -383,3 +383,5 @@ export default {
     },
   },
 }
+
+export default tableColumnProps

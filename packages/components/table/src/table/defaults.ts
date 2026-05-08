@@ -344,7 +344,7 @@ interface TableConfigContext {
 /**
  * @deprecated Removed after 3.0.0, Use `TableProps` instead.
  */
-export default {
+export const tableProps = {
   /**
    * @description table data
    */
@@ -600,3 +600,5 @@ export type {
   RenderExpanded,
   TableConfigContext,
 }
+
+export default tableProps
