@@ -5,7 +5,6 @@ import {
   isNumber,
 } from '@element-plus/utils'
 import { CHANGE_EVENT } from '@element-plus/constants'
-import { teleportProps } from '@element-plus/components/teleport'
 
 import type { ExtractPublicPropTypes } from 'vue'
 import type Affix from './affix.vue'
@@ -79,7 +78,7 @@ export const affixProps = buildProps({
    * @description which element the affix element appends to
    * */
   appendTo: {
-    type: teleportProps.to.type,
+    type: definePropType<string | HTMLElement>([String, Object]),
     default: 'body',
   },
 } as const)

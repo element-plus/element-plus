@@ -96,7 +96,8 @@ export const statisticProps = buildProps({
    * @description Styles numeric values
    */
   valueStyle: {
-    type: definePropType<StyleValue>([String, Object, Array]),
+    type: definePropType<StyleValue>([String, Object, Array, Boolean]),
+    default: undefined,
   },
 } as const)
 
