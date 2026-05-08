@@ -91,8 +91,141 @@ interface TableColumn<T extends DefaultRow> extends ComponentInternalInstance {
   columnConfig: Ref<Partial<TableColumnCtx<T>>>
 }
 
-export type { Filters, FilterMethods, TableColumnCtx, TableColumn, ValueOf }
+interface TableColumnProps<T extends DefaultRow = DefaultRow> {
+  /**
+   * @description type of the column. If set to `selection`, the column will display checkbox. If set to `index`, the column will display index of the row (staring from 1). If set to `expand`, the column will display expand icon
+   */
+  type?: string
+  /**
+   * @description column label
+   */
+  label?: string
+  /**
+   * @description class name of cells in the column
+   */
+  className?: string
+  /**
+   * @description class name of the label of this column
+   */
+  labelClassName?: string
+  /**
+   * @description
+   */
+  property?: string
+  /**
+   * @description field name. You can also use its alias: `property`
+   */
+  prop?: string
+  /**
+   * @description column width
+   */
+  width?: string | number
+  /**
+   * @description column minimum width. Columns with `width` has a fixed width, while columns with `min-width` has a width that is distributed in proportion
+   */
+  minWidth?: string | number
+  /**
+   * @description render function for table header of this column
+   */
+  renderHeader?: TableColumnCtx<T>['renderHeader']
+  /**
+   * @description whether column can be sorted. Remote sorting can be done by setting this attribute to 'custom' and listening to the `sort-change` event of Table
+   */
+  sortable?: boolean | string
+  /**
+   * @description sorting method, works when `sortable` is `true`. Should return a number, just like Array.sort
+   */
+  sortMethod?: TableColumnCtx<T>['sortMethod']
+  /**
+   * @description specify which property to sort by, works when `sortable` is `true` and `sort-method` is `undefined`. If set to an Array, the column will sequentially sort by the next property if the previous one is equal
+   */
+  sortBy?: TableColumnCtx<T>['sortBy']
+  /**
+   * @description whether column width can be resized, works when `border` of `el-table` is `true`
+   */
+  resizable?: boolean
+  /**
+   * @description column's key. If you need to use the filter-change event, you need this attribute to identify which column is being filtered
+   */
+  columnKey?: string
+  /**
+   * @description alignment, the value should be 'left' \/ 'center' \/ 'right'
+   */
+  align?: string
+  /**
+   * @description alignment of the table header. If omitted, the value of the above `align` attribute will be applied, the value should be 'left' \/ 'center' \/ 'right'
+   */
+  headerAlign?: string
+  /**
+   * @description whether to hide extra content and show them in a tooltip when hovering on the cell
+   */
+  showOverflowTooltip?: TableColumnCtx<T>['showOverflowTooltip']
+  /**
+   * @description function that formats cell tooltip content, works when `show-overflow-tooltip` is `true`
+   */
+  tooltipFormatter?: TableColumnCtx<T>['tooltipFormatter']
+  /**
+   * @description whether column is fixed at left / right. Will be fixed at left if `true`
+   */
+  fixed?: boolean | string
+  /**
+   * @description function that formats cell content
+   */
+  formatter?: TableColumnCtx<T>['formatter']
+  /**
+   * @description function that determines if a certain row can be selected, works when `type` is 'selection'
+   */
+  selectable?: TableColumnCtx<T>['selectable']
+  /**
+   * @description whether to reserve selection after data refreshing, works when `type` is 'selection'. Note that `row-key` is required for this to work
+   */
+  reserveSelection?: boolean
+  /**
+   * @description data filtering method. If `filter-multiple` is on, this method will be called multiple times for each row, and a row will display if one of the calls returns `true`
+   */
+  filterMethod?: TableColumnCtx<T>['filterMethod']
+  /**
+   * @description filter value for selected data, might be useful when table header is rendered with `render-header`
+   */
+  filteredValue?: TableColumnCtx<T>['filteredValue']
+  /**
+   * @description an array of data filtering options. For each element in this array, `text` and `value` are required
+   */
+  filters?: TableColumnCtx<T>['filters']
+  /**
+   * @description placement for the filter dropdown
+   */
+  filterPlacement?: string
+  /**
+   * @description whether data filtering supports multiple options
+   */
+  filterMultiple?: boolean
+  /**
+   * @description className for the filter dropdown
+   */
+  filterClassName?: string
+  /**
+   * @description customize indices for each row, works on columns with `type=index`
+   */
+  index?: TableColumnCtx<T>['index']
+  /**
+   * @description the order of the sorting strategies used when sorting the data, works when `sortable` is `true`. Accepts an array, as the user clicks on the header, the column is sorted in order of the elements in the array
+   */
+  sortOrders?: TableColumnCtx<T>['sortOrders']
+}
 
+export type {
+  Filters,
+  FilterMethods,
+  TableColumnCtx,
+  TableColumn,
+  TableColumnProps,
+  ValueOf,
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `TableColumnProps` instead.
+ */
 export default {
   /**
    * @description type of the column. If set to `selection`, the column will display checkbox. If set to `index`, the column will display index of the row (staring from 1). If set to `expand`, the column will display expand icon
