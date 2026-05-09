@@ -1,3 +1,7 @@
+<template>
+  <TableColumnRenderer />
+</template>
+
 <script lang="ts" setup generic="T extends DefaultRow = DefaultRow">
 import {
   Fragment,
@@ -22,44 +26,6 @@ import type { DefaultRow } from '../table/defaults'
 
 defineOptions({
   name: 'ElTableColumn',
-  render: () => {
-    try {
-      const instance = getCurrentInstance()
-      const renderDefault = instance?.slots.default?.({
-        row: {},
-        column: {},
-        $index: -1,
-      })
-      const children = []
-      if (isArray(renderDefault)) {
-        for (const childNode of renderDefault) {
-          if (
-            (childNode.type as any)?.name === 'ElTableColumn' ||
-            childNode.shapeFlag & 2
-          ) {
-            children.push(childNode)
-          } else if (
-            childNode.type === Fragment &&
-            isArray(childNode.children)
-          ) {
-            childNode.children.forEach((vnode) => {
-              // No rendering when vnode is dynamic slot or text
-              if (
-                (vnode as VNode)?.patchFlag !== 1024 &&
-                !isString((vnode as VNode)?.children)
-              ) {
-                children.push(vnode)
-              }
-            })
-          }
-        }
-      }
-      const vnode = h('div', children)
-      return vnode
-    } catch {
-      return h('div', [])
-    }
-  },
 })
 
 const props = withDefaults(defineProps<TableColumnProps<T>>(), {
@@ -230,4 +196,38 @@ onBeforeUnmount(() => {
 instance.columnId = columnId.value
 
 instance.columnConfig = columnConfig as any
+
+const TableColumnRenderer = () => {
+  try {
+    const renderDefault = slots.default?.({
+      row: {} as T,
+      column: {} as TableColumnCtx<T>,
+      $index: -1,
+    })
+    const children = []
+    if (isArray(renderDefault)) {
+      for (const childNode of renderDefault) {
+        if (
+          (childNode.type as any)?.name === 'ElTableColumn' ||
+          childNode.shapeFlag & 2
+        ) {
+          children.push(childNode)
+        } else if (childNode.type === Fragment && isArray(childNode.children)) {
+          childNode.children.forEach((vnode: VNode) => {
+            // No rendering when vnode is dynamic slot or text
+            if (
+              (vnode as VNode)?.patchFlag !== 1024 &&
+              !isString((vnode as VNode)?.children)
+            ) {
+              children.push(vnode)
+            }
+          })
+        }
+      }
+    }
+    return h('div', children)
+  } catch {
+    return h('div', [])
+  }
+}
 </script>
