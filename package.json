@@ -1,6 +1,6 @@
 {
   "private": true,
-  "packageManager": "pnpm@11.0.8",
+  "packageManager": "pnpm@11.0.9",
   "workspaces": [
     "packages/*",
     "play",
