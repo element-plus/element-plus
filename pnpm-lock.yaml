@@ -14,8 +14,8 @@ catalogs:
       specifier: ^2.3.2
       version: 2.3.2
     '@floating-ui/dom':
-      specifier: ^1.0.1
-      version: 1.7.4
+      specifier: ^1.7.6
+      version: 1.7.6
     '@popperjs/core':
       specifier: npm:@sxzz/popperjs-es@^2.11.8
       version: 2.11.8
@@ -92,7 +92,7 @@ importers:
         version: link:packages/utils
       '@floating-ui/dom':
         specifier: 'catalog:'
-        version: 1.7.4
+        version: 1.7.6
       '@popperjs/core':
         specifier: 'catalog:'
         version: '@sxzz/popperjs-es@2.11.8'
@@ -566,7 +566,7 @@ importers:
         version: 2.3.2(vue@3.5.25)
       '@floating-ui/dom':
         specifier: 'catalog:'
-        version: 1.7.4
+        version: 1.7.6
       '@popperjs/core':
         specifier: 'catalog:'
         version: '@sxzz/popperjs-es@2.11.8'
@@ -618,7 +618,7 @@ importers:
     dependencies:
       '@floating-ui/dom':
         specifier: 'catalog:'
-        version: 1.7.4
+        version: 1.7.6
       '@popperjs/core':
         specifier: 'catalog:'
         version: '@sxzz/popperjs-es@2.11.8'
@@ -1634,11 +1634,20 @@ packages:
   '@floating-ui/core@1.7.3':
     resolution: {integrity: sha512-sGnvb5dmrJaKEZ+LDIpguvdX3bDlEllmv4/ClQ9awcmCZrlx5jQyyMWFM5kBI+EyNOCDDiKk8il0zeuX3Zlg/w==}
 
+  '@floating-ui/core@1.7.5':
+    resolution: {integrity: sha512-1Ih4WTWyw0+lKyFMcBHGbb5U5FtuHJuujoyyr5zTaWS5EYMeT6Jb2AuDeftsCsEuchO+mM2ij5+q9crhydzLhQ==}
+
   '@floating-ui/dom@1.7.4':
     resolution: {integrity: sha512-OOchDgh4F2CchOX94cRVqhvy7b3AFb+/rQXyswmzmGakRfkMgoWVjfnLWkRirfLEfuD4ysVW16eXzwt3jHIzKA==}
 
+  '@floating-ui/dom@1.7.6':
+    resolution: {integrity: sha512-9gZSAI5XM36880PPMm//9dfiEngYoC6Am2izES1FF406YFsjvyBMmeJ2g4SAju3xWwtuynNRFL2s9hgxpLI5SQ==}
+
   '@floating-ui/utils@0.2.10':
     resolution: {integrity: sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==}
+
+  '@floating-ui/utils@0.2.11':
+    resolution: {integrity: sha512-RiB/yIh78pcIxl6lLMG0CgBXAZ2Y0eVHqMPYugu+9U0AeT6YBeiJpf7lbdJNIugFP5SIjwNRgo4DhR1Qxi26Gg==}
 
   '@gwhitney/detect-indent@7.0.1':
     resolution: {integrity: sha512-7bQW+gkKa2kKZPeJf6+c6gFK9ARxQfn+FKy9ScTBppyKRWH2KzsmweXUoklqeEiHiNVWaeP5csIdsNq6w7QhzA==}
@@ -8044,12 +8053,23 @@ snapshots:
     dependencies:
       '@floating-ui/utils': 0.2.10
 
+  '@floating-ui/core@1.7.5':
+    dependencies:
+      '@floating-ui/utils': 0.2.11
+
   '@floating-ui/dom@1.7.4':
     dependencies:
       '@floating-ui/core': 1.7.3
       '@floating-ui/utils': 0.2.10
 
+  '@floating-ui/dom@1.7.6':
+    dependencies:
+      '@floating-ui/core': 1.7.5
+      '@floating-ui/utils': 0.2.11
+
   '@floating-ui/utils@0.2.10': {}
+
+  '@floating-ui/utils@0.2.11': {}
 
   '@gwhitney/detect-indent@7.0.1': {}
 
