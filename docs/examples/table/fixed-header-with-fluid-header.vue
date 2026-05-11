@@ -6,6 +6,7 @@
     <el-table-column prop="city" label="City" width="120" />
     <el-table-column prop="address" label="Address" width="600" />
     <el-table-column prop="zip" label="Zip" width="120" />
+    <!-- @vue-generic {UnwrapRef<typeof tableData>[number]} -->
     <el-table-column fixed="right" label="Operations" min-width="120">
       <template #default="scope">
         <el-button
@@ -27,6 +28,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import dayjs from 'dayjs'
+
+import type { UnwrapRef } from 'vue'
 
 const now = new Date()
 
