@@ -787,10 +787,7 @@ const handleDateInput = (value: string | null, type: ChangeType) => {
         .year(parsedValueD.year())
         .month(parsedValueD.month())
         .date(parsedValueD.date())
-      if (
-        !props.unlinkPanels &&
-        (!maxDate.value || maxDate.value.isBefore(minDate.value))
-      ) {
+      if (!props.unlinkPanels && !maxDate.value) {
         const adjustedMax = findValidDateToward(
           minDate.value.add(1, 'month'),
           minDate.value
@@ -804,10 +801,7 @@ const handleDateInput = (value: string | null, type: ChangeType) => {
         .year(parsedValueD.year())
         .month(parsedValueD.month())
         .date(parsedValueD.date())
-      if (
-        !props.unlinkPanels &&
-        (!minDate.value || minDate.value.isAfter(maxDate.value))
-      ) {
+      if (!props.unlinkPanels && !minDate.value) {
         const adjustedMin = findValidDateToward(
           maxDate.value.subtract(1, 'month'),
           maxDate.value
@@ -823,6 +817,37 @@ const handleDateInput = (value: string | null, type: ChangeType) => {
 
 const handleDateChange = (_: unknown, type: ChangeType) => {
   dateUserInput.value[type] = null
+  if (type === 'min') {
+    if (
+      !props.unlinkPanels &&
+      maxDate.value &&
+      minDate.value &&
+      maxDate.value.isBefore(minDate.value)
+    ) {
+      const adjustedMax = findValidDateToward(
+        minDate.value.add(1, 'month'),
+        minDate.value
+      )
+      rightDate.value = adjustedMax
+      maxDate.value = adjustedMax
+    }
+  } else {
+    if (
+      !props.unlinkPanels &&
+      minDate.value &&
+      maxDate.value &&
+      minDate.value.isAfter(maxDate.value)
+    ) {
+      const adjustedMin = findValidDateToward(
+        maxDate.value.subtract(1, 'month'),
+        maxDate.value
+      )
+      leftDate.value = adjustedMin
+      minDate.value = adjustedMin
+    }
+  }
+  sortDates(minDate.value, maxDate.value)
+  handleRangeConfirm(true)
 }
 
 const handleTimeInput = (value: string | null, type: ChangeType) => {

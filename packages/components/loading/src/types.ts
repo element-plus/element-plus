@@ -1,5 +1,4 @@
-import type { VNode } from 'vue'
-import type { MaybeRef } from '@vueuse/core'
+import type { MaybeRef, VNode } from 'vue'
 
 export type LoadingOptionsResolved = {
   parent: LoadingParentElement

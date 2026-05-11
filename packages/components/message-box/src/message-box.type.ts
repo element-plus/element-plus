@@ -19,6 +19,12 @@ export interface MessageBoxInputData {
 export type MessageBoxInputValidator =
   | ((value: string) => boolean | string)
   | undefined
+export type CloseFn = () => void
+export interface MessageBoxActionHandlers {
+  confirm: CloseFn
+  cancel: CloseFn
+  close: CloseFn
+}
 
 export declare interface MessageBoxState {
   autofocus: boolean
@@ -134,7 +140,7 @@ export interface ElMessageBoxOptions {
   overflow?: boolean
 
   /** Content of the MessageBox */
-  message?: string | VNode | (() => VNode)
+  message?: string | VNode | ((params: MessageBoxActionHandlers) => VNode)
 
   /** Title of the MessageBox */
   title?: string | ElMessageBoxOptions
@@ -243,5 +249,5 @@ export interface IElMessageBox {
   prompt: ElMessageBoxShortcutMethod
 
   /** Close current message box */
-  close(): void
+  close: CloseFn
 }

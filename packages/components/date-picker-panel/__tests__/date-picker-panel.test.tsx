@@ -1020,6 +1020,49 @@ describe('DatePickerPanel', () => {
         expect(rightHeader.text()).toBe('February')
       })
 
+      it('should not corrupt start date when typing intermediate end date values', async () => {
+        const value = ref([
+          new Date(2026, 3, 1, 1, 0, 0),
+          new Date(2026, 4, 1, 0, 0, 0),
+        ])
+        const wrapper = mount(() => (
+          <DatePickerPanel v-model={value.value} type="datetimerange" />
+        ))
+        await nextTick()
+
+        const pickerss = wrapper.findAll(
+          '.el-date-range-picker__time-header .el-date-range-picker__editors-wrap'
+        )
+        const leftDateInput = pickerss[0].find(
+          '.el-date-range-picker__time-picker-wrap:nth-child(1) input'
+        ).element as HTMLInputElement
+        const rightDateInput = pickerss[1].find(
+          '.el-date-range-picker__time-picker-wrap:nth-child(1) input'
+        ).element as HTMLInputElement
+
+        expect(leftDateInput.value).toBe('2026-04-01')
+        expect(rightDateInput.value).toBe('2026-05-01')
+
+        // Simulate the user to change the end date and month from 05 to 04 (intermediate state, the date has not been changed yet)
+        rightDateInput.value = '2026-04-01'
+        rightDateInput.dispatchEvent(new Event('input'))
+        await nextTick()
+
+        // Intermediate input should not trigger correction, start date should remain unchanged
+        expect(leftDateInput.value).toBe('2026-04-01')
+        expect(value.value[0]).toStrictEqual(new Date(2026, 3, 1, 1, 0, 0))
+
+        // User continues to input the complete target date
+        rightDateInput.value = '2026-04-20'
+        rightDateInput.dispatchEvent(new Event('input'))
+        rightDateInput.dispatchEvent(new Event('change'))
+        await nextTick()
+
+        // Final value is correct, start date is not corrupted
+        expect(leftDateInput.value).toBe('2026-04-01')
+        expect(value.value[0]).toStrictEqual(new Date(2026, 3, 1, 1, 0, 0))
+      })
+
       it('should not duplicate panels after confirm left time input', async () => {
         vi.useFakeTimers()
         vi.setSystemTime(new Date(2000, 0))

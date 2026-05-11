@@ -122,7 +122,8 @@ export const popperContentProps = buildProps({
   ...popperArrowProps,
   id: String,
   style: {
-    type: definePropType<StyleValue>([String, Array, Object]),
+    type: definePropType<StyleValue>([String, Array, Object, Boolean]),
+    default: undefined,
   },
   className: {
     type: definePropType<ClassType>([String, Array, Object]),
@@ -143,7 +144,8 @@ export const popperContentProps = buildProps({
     type: definePropType<ClassType>([String, Array, Object]),
   },
   popperStyle: {
-    type: definePropType<StyleValue>([String, Array, Object]),
+    type: definePropType<StyleValue>([String, Array, Object, Boolean]),
+    default: undefined,
   },
   referenceEl: {
     type: definePropType<HTMLElement>(Object),

@@ -22,7 +22,7 @@ const external = [/^@floating-ui/, /^@vue/, /^vue/, /^csstype/, ...pkgExternal]
 
 export async function generateTypesDefinitions() {
   const input = excludeFiles(
-    await glob(['**/index.ts', 'locale/lang/*.ts', '!**/style/index.ts'], {
+    await glob(['**/*.{ts,tsx,vue}', '!**/style/*.ts'], {
       cwd: pkgRoot,
       absolute: true,
       onlyFiles: true,
