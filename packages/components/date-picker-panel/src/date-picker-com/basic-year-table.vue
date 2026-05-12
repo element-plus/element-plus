@@ -59,7 +59,7 @@ type YearCell = {
 }
 
 const datesInYear = (year: number, lang: string) => {
-  const firstDay = dayjs(String(year)).locale(lang).startOf('year')
+  const firstDay = dayjs(String(year)).locale(lang).startOf('year').hour(12)
   const lastDay = firstDay.endOf('year')
   const numOfDays = lastDay.dayOfYear()
   return rangeArr(numOfDays).map((n) => firstDay.add(n, 'day').toDate())

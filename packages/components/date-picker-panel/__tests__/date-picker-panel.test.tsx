@@ -6,6 +6,7 @@ import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { describe, expect, it, vi } from 'vitest'
 import DatePickerPanel from '../src/date-picker-panel'
 import DatePickerRange from '../src/date-picker-com/panel-date-range.vue'
+import { datesInMonth } from '../src/utils'
 
 import type { DatePickerType } from '../src/types'
 
@@ -1159,5 +1160,24 @@ describe('DatePickerPanel', () => {
         expect(rightBtns[3].attributes('disabled')).toBeUndefined()
       })
     })
+  })
+})
+
+describe('datesInMonth', () => {
+  it('anchors probe dates at local noon regardless of input time', () => {
+    const inputs = [
+      dayjs(new Date(2026, 5, 15, 0, 0, 0)),
+      dayjs(new Date(2026, 5, 15, 13, 30, 0)),
+      dayjs(new Date(2026, 5, 15, 23, 59, 59)),
+    ]
+    for (const input of inputs) {
+      const dates = datesInMonth(input, 2027, 0, 'en')
+      expect(dates).toHaveLength(31)
+      expect(dates.every((d) => d.getHours() === 12)).toBe(true)
+      expect(dates.every((d) => d.getFullYear() === 2027)).toBe(true)
+      expect(dates.every((d) => d.getMonth() === 0)).toBe(true)
+      expect(dates[0].getDate()).toBe(1)
+      expect(dates.at(-1)!.getDate()).toBe(31)
+    }
   })
 })

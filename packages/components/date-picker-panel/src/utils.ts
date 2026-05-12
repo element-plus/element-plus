@@ -142,7 +142,7 @@ export const buildPickerTable = (
 }
 
 export const datesInMonth = (
-  date: Dayjs,
+  _date: Dayjs,
   year: number,
   month: number,
   lang: string
@@ -152,9 +152,7 @@ export const datesInMonth = (
     .startOf('month')
     .month(month)
     .year(year)
-    .hour(date.hour())
-    .minute(date.minute())
-    .second(date.second())
+    .hour(12)
 
   const numOfDays = firstDay.daysInMonth()
   return rangeArr(numOfDays).map((n) => firstDay.add(n, 'day').toDate())
@@ -178,7 +176,7 @@ export const getValidDateOfMonth = (
     return !disabledDate?.(date)
   })
   if (_date) {
-    return dayjs(_date).locale(lang)
+    return _value.date(_date.getDate()).locale(lang)
   }
   return _value.locale(lang)
 }
