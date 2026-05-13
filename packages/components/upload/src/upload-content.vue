@@ -169,6 +169,7 @@ const doUpload = async (
     onSuccess,
     onError,
     httpRequest,
+    concurrency,
   } = props
 
   try {
@@ -187,6 +188,7 @@ const doUpload = async (
     method,
     filename,
     action,
+    concurrency,
     onProgress: (evt) => {
       onProgress(evt, rawFile)
     },

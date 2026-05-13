@@ -30,6 +30,7 @@ export interface UploadRequestOptions {
   onProgress: (evt: UploadProgressEvent) => void
   onSuccess: (response: any) => void
   withCredentials: boolean
+  concurrency?: number
 }
 export interface UploadFile {
   name: string
@@ -153,6 +154,10 @@ export interface UploadBaseProps {
    * @description maximum number of uploads allowed
    */
   limit?: number
+  /**
+   * @description Set the concurrent number of queue
+   */
+  concurrency?: number
   /**
    * @description whether to support uploading directory
    */
@@ -409,6 +414,7 @@ export const uploadBasePropsDefaults = {
   listType: 'text',
   httpRequest: ajaxUpload,
   disabled: undefined,
+  concurrency: Infinity,
 } as const
 
 export const uploadPropsDefaults = {

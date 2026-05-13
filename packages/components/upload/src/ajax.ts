@@ -1,5 +1,5 @@
 import { isNil } from 'lodash-unified'
-import { isArray, isString, throwError } from '@element-plus/utils'
+import { isArray, isString, throwError, Queue } from '@element-plus/utils'
 
 import type {
   UploadProgressEvent,
@@ -88,17 +88,6 @@ export const ajaxUpload: UploadRequestHandler = (option) => {
   }
   formData.append(option.filename, option.file, option.file.name)
 
-  xhr.addEventListener('error', () => {
-    option.onError(getError(action, option, xhr))
-  })
-
-  xhr.addEventListener('load', () => {
-    if (xhr.status < 200 || xhr.status >= 300) {
-      return option.onError(getError(action, option, xhr))
-    }
-    option.onSuccess(getBody(xhr))
-  })
-
   xhr.open(option.method, action, true)
 
   if (option.withCredentials && 'withCredentials' in xhr) {
@@ -115,6 +104,52 @@ export const ajaxUpload: UploadRequestHandler = (option) => {
     }
   }
 
-  xhr.send(formData)
+  if (option.concurrency && option.concurrency != Infinity) {
+    const queue = new Queue()
+
+    const rawAbort = xhr.abort.bind(xhr)
+    xhr.abort = () => {
+      queue.remove(option.file.uid)
+      rawAbort()
+    }
+
+    queue.add(
+      option.file.uid,
+      () =>
+        new Promise((resolve) => {
+          xhr.addEventListener('abort', () => {
+            resolve(true)
+          })
+          xhr.addEventListener('error', () => {
+            resolve(true)
+            option.onError(getError(action, option, xhr))
+          })
+
+          xhr.addEventListener('load', () => {
+            if (xhr.status < 200 || xhr.status >= 300) {
+              resolve(true)
+              return option.onError(getError(action, option, xhr))
+            }
+            resolve(true)
+            option.onSuccess(getBody(xhr))
+          })
+          xhr.send(formData)
+        })
+    )
+
+    return xhr
+  }
+
+  xhr.addEventListener('error', () => {
+    option.onError(getError(action, option, xhr))
+  })
+
+  xhr.addEventListener('load', () => {
+    if (xhr.status < 200 || xhr.status >= 300) {
+      return option.onError(getError(action, option, xhr))
+    }
+    option.onSuccess(getBody(xhr))
+  })
+
   return xhr
 }
