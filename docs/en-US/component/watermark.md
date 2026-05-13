@@ -55,7 +55,7 @@ watermark/custom
 | ------- | ----------------------------------------------------------------------------------------------- | ---------------------------- | -------------------------- |
 | width   |the width of the watermark, the default value of `content` is its own width                     | ^[number]                    | 120                        |
 | height  |the height of the watermark, the default value of `content` is its own height                   | ^[number]                    | 64                         |
-| rotate  |when the watermark is drawn, the rotation Angle, unit `°`                                       | ^[number]                    | -22                        |
+| rotate  |when the watermark is drawn, the rotation angle, unit `°`                                       | ^[number]                    | -22                        |
 | z-index |the z-index of the appended watermark element                                                   | ^[number]                    | 9                          |
 | image   |image source, it is recommended to export 2x or 3x image, high priority                         | ^[string]                    | —                          |
 | content |watermark text content                                                                          | ^[string]/^[array]`string[]` | Element Plus               |

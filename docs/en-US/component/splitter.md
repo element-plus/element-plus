@@ -115,4 +115,4 @@ splitter/lazy
 
 | Name                       | Description                | Type                           |
 | -------------------------- | -------------------------- | ------------------------------ |
-| splitterPanelRef ^(2.11.9) | splitterPanel html element | ^[object]`Ref<HTMLDivElement>` |
+| splitterPanelRef ^(2.11.9) | splitterPanel HTML element | ^[object]`Ref<HTMLDivElement>` |
