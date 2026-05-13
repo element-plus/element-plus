@@ -40,11 +40,21 @@ export class Queue<T = unknown> {
    * @param id
    */
   public remove(id: number) {
-    this.queue = this.queue.filter((item) => item.id !== id)
+    const remaining: typeof this.queue = []
+    for (const item of this.queue) {
+      if (item.id === id) {
+        item.reject(new Error(`Queue task ${id} removed`))
+      } else {
+        remaining.push(item)
+      }
+    }
+    this.queue = remaining
   }
 
   public clear() {
+    const pending = this.queue
     this.queue = []
+    pending.forEach((item) => item.reject(new Error('Queue cleared')))
   }
 
   private _next(): void {

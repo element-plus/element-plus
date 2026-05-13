@@ -1,5 +1,6 @@
 import { isNil } from 'lodash-unified'
 import { isArray, isString, throwError } from '@element-plus/utils'
+import type { Queue } from '@element-plus/utils'
 
 import type {
   UploadProgressEvent,
@@ -121,7 +122,7 @@ export const ajaxUpload: UploadRequestHandler = (option) => {
 
 export const queueAjaxUpload: (
   option: UploadRequestOptions,
-  queue: any
+  queue: Queue<unknown>
 ) => XMLHttpRequest = (option, queue) => {
   if (typeof XMLHttpRequest === 'undefined')
     throwError(SCOPE, 'XMLHttpRequest is undefined')

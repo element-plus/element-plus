@@ -210,7 +210,7 @@ const doUpload = async (
     },
   }
   const request =
-    props.concurrency && props.concurrency != Infinity
+    props.concurrency && props.concurrency !== Infinity
       ? queueAjaxUpload(options, queue)
       : httpRequest(options)
   requests.value[uid] = request

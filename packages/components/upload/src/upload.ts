@@ -154,7 +154,7 @@ export interface UploadBaseProps {
    */
   limit?: number
   /**
-   * @description Set the concurrent number of queue
+   * @description maximum number of concurrent upload requests. When undefined or `Infinity`, requests are not queued. When set to a finite positive number, additional requests are queued.
    */
   concurrency?: number
   /**
@@ -413,6 +413,7 @@ export const uploadBasePropsDefaults = {
   listType: 'text',
   httpRequest: ajaxUpload,
   disabled: undefined,
+  concurrency: Infinity,
 } as const
 
 export const uploadPropsDefaults = {
