@@ -55,9 +55,9 @@ statistic/card
 
 | Name   | Description                 |
 | ------ | --------------------------- |
-| prefix |numeric prefix              |
+| prefix | numeric prefix              |
 | suffix | suffixes for numeric values |
-| title  |numeric titles              |
+| title  | numeric titles              |
 
 ### Statistic Exposes
 
