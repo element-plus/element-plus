@@ -35,6 +35,11 @@
     "cypress",
     "jsdom",
     // can't work in v0.34.0
-    "unocss"
+    "unocss",
+    // locked due to test regressions in newer patch versions
+    "vue",
+    "@vue/server-renderer",
+    "@vue/shared",
+    "@vue/test-utils"
   ]
 }
