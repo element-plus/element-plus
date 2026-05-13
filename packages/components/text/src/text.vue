@@ -41,12 +41,10 @@ const textKls = computed(() => [
 ])
 
 const bindTitle = async () => {
+  await nextTick()
   const inheritTitle = attrs.title
 
   if (inheritTitle) return
-
-  await nextTick()
-
   let shouldAddTitle = false
   const text = textRef.value?.textContent || ''
 
