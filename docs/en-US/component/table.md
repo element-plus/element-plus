@@ -329,14 +329,14 @@ table/tooltip-formatter
 | current-change     | triggers when current row changes                                                                                                            | ^[Function]`(currentRow: any, oldCurrentRow: any) => void`                                              |
 | header-dragend     | triggers after changing a column's width by dragging the column header's border                                                              | ^[Function]`(newWidth: number, oldWidth: number, column: TableColumnCtx<T>, event: MouseEvent) => void` |
 | expand-change      | triggers when user expands or collapses a row (for expandable table, second param is expandedRows; for tree Table, second param is expanded) | ^[Function]`(row: any, expandedRows: any[]) => void & (row: any, expanded: boolean) => void`            |
-| scroll ^(2.9.0)    | Invoked after scrolled                                                                                                                       | ^[Function]`({ scrollLeft: number, scrollTop: number }) => void`                                        |
+| scroll ^(2.9.0)    |invoked after scrolled                                                                                                                       | ^[Function]`({ scrollLeft: number, scrollTop: number }) => void`                                        |
 
 ### Table Slots
 
 | Name    | Description                                                                                                                                                                                   | Subtags      |
 | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
 | default | customize default content                                                                                                                                                                     | Table-column |
-| append  | Contents to be inserted after the last row. You may need this slot if you want to implement infinite scroll for the table. This slot will be displayed above the summary row if there is one. | —            |
+| append  | contents to be inserted after the last row. You may need this slot if you want to implement infinite scroll for the table. This slot will be displayed above the summary row if there is one. | —            |
 | empty   | you can customize content when data is empty.                                                                                                                                                 | —            |
 
 ### Table Exposes
@@ -399,10 +399,10 @@ table/tooltip-formatter
 
 | Name                 | Description                                                                                      | Type                                                               |
 | -------------------- | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------ |
-| default              | Custom content for table columns                                                                 | ^[object]`{ row: any, column: TableColumnCtx<T>, $index: number }` |
-| header               | Custom content for table header                                                                  | ^[object]`{ column: TableColumnCtx<T>, $index: number }`           |
-| filter-icon ^(2.7.8) | Custom content for filter icon                                                                   | ^[object]`{ filterOpened: boolean }`                               |
-| expand ^(2.10.0)     | Custom content for expand columns. The `expandable` property is supported starting from v2.13.2. | ^[object]`{ expanded: boolean, expandable: boolean }`              |
+| default              |custom content for table columns                                                                 | ^[object]`{ row: any, column: TableColumnCtx<T>, $index: number }` |
+| header               |custom content for table header                                                                  | ^[object]`{ column: TableColumnCtx<T>, $index: number }`           |
+| filter-icon ^(2.7.8) |custom content for filter icon                                                                   | ^[object]`{ filterOpened: boolean }`                               |
+| expand ^(2.10.0)     | custom content for expand columns. The `expandable` property is supported starting from v2.13.2. | ^[object]`{ expanded: boolean, expandable: boolean }`              |
 
 ## Type Declarations
 

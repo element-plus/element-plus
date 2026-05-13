@@ -73,17 +73,17 @@ splitter/lazy
 
 | Name           | Description                      | Type                                | Default    |
 | -------------- | -------------------------------- | ----------------------------------- | ---------- |
-| layout         | Layout direction of the splitter | ^[enum]`'horizontal' \| 'vertical'` | horizontal |
-| lazy ^(2.11.0) | Whether to enable lazy mode      | ^[boolean]                          | false      |
+| layout         | layout direction of the splitter | ^[enum]`'horizontal' \| 'vertical'` | horizontal |
+| lazy ^(2.11.0) |whether to enable lazy mode      | ^[boolean]                          | false      |
 
 ### Splitter Events
 
 | Name               | Description                                                              | type                                                                          |
 | ------------------ | ------------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
-| resize-start       | Triggered when starting to resize a panel, `index` is the drag bar index | ^[Function]`(index: number, sizes: number[]) => void`                         |
-| resize             | Triggered while resizing a panel, `index` is the drag bar index          | ^[Function]`(index: number, sizes: number[]) => void`                         |
-| resize-end         | Triggered when panel resizing ends, `index` is the drag bar index        | ^[Function]`(index: number, sizes: number[]) => void`                         |
-| collapse ^(2.10.3) | Triggered when a panel is collapsed, `index` is the drag bar index       | ^[Function]`(index: number, type: 'start' \| 'end', sizes: number[]) => void` |
+| resize-start       | triggered when starting to resize a panel, `index` is the drag bar index | ^[Function]`(index: number, sizes: number[]) => void`                         |
+| resize             |triggered while resizing a panel, `index` is the drag bar index          | ^[Function]`(index: number, sizes: number[]) => void`                         |
+| resize-end         |triggered when panel resizing ends, `index` is the drag bar index        | ^[Function]`(index: number, sizes: number[]) => void`                         |
+| collapse ^(2.10.3) |triggered when a panel is collapsed, `index` is the drag bar index       | ^[Function]`(index: number, type: 'start' \| 'end', sizes: number[]) => void` |
 
 ## SplitterPanel API
 
@@ -91,28 +91,28 @@ splitter/lazy
 
 | Name                | Description                                         | Type                  | Default |
 | ------------------- | --------------------------------------------------- | --------------------- | ------- |
-| size / v-model:size | Size of the panel (in pixels or percentage)         | ^[string] / ^[number] | -       |
-| min                 | Minimum size of the panel (in pixels or percentage) | ^[string] / ^[number] | -       |
-| max                 | Maximum size of the panel (in pixels or percentage) | ^[string] / ^[number] | -       |
-| resizable           | Whether the panel can be resized                    | ^[boolean]            | true    |
-| collapsible         | Whether the panel can be collapsed                  | ^[boolean]            | false   |
+| size / v-model:size |size of the panel (in pixels or percentage)         | ^[string] / ^[number] | -       |
+| min                 | minimum size of the panel (in pixels or percentage) | ^[string] / ^[number] | -       |
+| max                 | maximum size of the panel (in pixels or percentage) | ^[string] / ^[number] | -       |
+| resizable           |whether the panel can be resized                    | ^[boolean]            | true    |
+| collapsible         |whether the panel can be collapsed                  | ^[boolean]            | false   |
 
 ### SplitterPanel Events
 
 | Name        | Description                       | type                                |
 | ----------- | --------------------------------- | ----------------------------------- |
-| update:size | Triggered when panel size changes | ^[Function]`(size: number) => void` |
+| update:size | triggered when panel size changes | ^[Function]`(size: number) => void` |
 
 ### SplitterPanel Slots
 
 | Name              | Description                                     |
 | ----------------- | ----------------------------------------------- |
-| default           | Default content of the panel                    |
-| start-collapsible | Custom content for the start collapsible button |
-| end-collapsible   | Custom content for the end collapsible button   |
+| default           |default content of the panel                    |
+| start-collapsible | custom content for the start collapsible button |
+| end-collapsible   |custom content for the end collapsible button   |
 
 ### SplitterPanel Exposes
 
 | Name                       | Description                | Type                           |
 | -------------------------- | -------------------------- | ------------------------------ |
-| splitterPanelRef ^(2.11.9) | SplitterPanel html element | ^[object]`Ref<HTMLDivElement>` |
+| splitterPanelRef ^(2.11.9) | splitterPanel html element | ^[object]`Ref<HTMLDivElement>` |

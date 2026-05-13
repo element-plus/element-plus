@@ -92,20 +92,20 @@ anchor/affix
 
 | Name   | Description                                | Type                                                |
 | ------ | ------------------------------------------ | --------------------------------------------------- |
-| change | Callback when the step changes             | ^[Function]`(href: string) => void`                 |
-| click  | Triggered when the user clicks on the link | ^[Function]`(e: MouseEvent, href?: string) => void` |
+| change |callback when the step changes             | ^[Function]`(href: string) => void`                 |
+| click  | triggered when the user clicks on the link | ^[Function]`(e: MouseEvent, href?: string) => void` |
 
 ### Anchor Exposes
 
 | Name     | Description                               | Type                                |
 | -------- | ----------------------------------------- | ----------------------------------- |
-| scrollTo | Manually scroll to the specific position. | ^[Function]`(href: string) => void` |
+| scrollTo | manually scroll to the specific position. | ^[Function]`(href: string) => void` |
 
 ### Anchor Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |
-| default | AnchorLink component list |
+| default | anchorLink component list |
 
 ### AnchorLink Attributes
 
@@ -118,5 +118,5 @@ anchor/affix
 
 | Name     | Description                     |
 | -------- | ------------------------------- |
-| default  | The content of the anchor link. |
-| sub-link | Slots for child links.          |
+| default  | the content of the anchor link. |
+| sub-link |slots for child links.          |

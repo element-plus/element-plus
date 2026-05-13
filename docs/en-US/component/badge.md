@@ -66,7 +66,7 @@ badge/offset
 | is-dot               | if a little dot is displayed.                                                 | ^[boolean]                                                         | false   |
 | hidden               | hidden badge.                                                                 | ^[boolean]                                                         | false   |
 | type                 | badge type.                                                                   | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | danger  |
-| show-zero ^(2.6.0)   | Whether to show badge when value is zero.                                     | ^[boolean]                                                         | true    |
+| show-zero ^(2.6.0)   |whether to show badge when value is zero.                                     | ^[boolean]                                                         | true    |
 | color ^(2.6.3)       | background color of the dot                                                   | ^[string]                                                          |         |
 | offset ^(2.7.0)      | offset of badge                                                               | ^[array]`[number, number]`                                         | [0, 0]  |
 | badge-style ^(2.7.1) | custom style of badge                                                         | ^[object]`CSSProperties`                                           | —       |

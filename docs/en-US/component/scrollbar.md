@@ -90,7 +90,7 @@ scrollbar/infinite-scroll
 | ------------- | ------------------------------------------ | -------------------------------------------------------------------------- |
 | handleScroll  | handle scroll event                        | ^[Function]`() => void`                                                    |
 | scrollTo      | scrolls to a particular set of coordinates | ^[Function]`(options: ScrollToOptions \| number, yCoord?: number) => void` |
-| setScrollTop  | Set distance to scroll top                 | ^[Function]`(scrollTop: number) => void`                                   |
-| setScrollLeft | Set distance to scroll left                | ^[Function]`(scrollLeft: number) => void`                                  |
+| setScrollTop  |set distance to scroll top                 | ^[Function]`(scrollTop: number) => void`                                   |
+| setScrollLeft |set distance to scroll left                | ^[Function]`(scrollLeft: number) => void`                                  |
 | update        | update scrollbar state manually            | ^[Function]`() => void`                                                    |
 | wrapRef       | scrollbar wrap ref                         | ^[object]`Ref<HTMLDivElement>`                                             |

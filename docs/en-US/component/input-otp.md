@@ -91,40 +91,40 @@ input-otp/validator
 
 | Name                  | Description                                                                                                                                | Type                                                      | Default    |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------- | ---------- |
-| model-value / v-model | The value of the OTP fields. Since numbers must not have leading zeros, `modelValue` is allowed to be a number only during initialization. | ^[string] / ^[number]                                     | undefined  |
-| length                | The OTP fields length                                                                                                                      | ^[number]                                                 | 6          |
-| validator             | Custom validator function                                                                                                                  | ^[Function]`(char: string, index: number) => boolean`     | () => true |
-| inputmode             | Native `inputmode` attribute                                                                                                               | ^[string]                                                 | —          |
-| type                  | The type of the OTP fields                                                                                                                 | ^[enum]`'outlined' \| 'filled' \| 'underlined'`           | 'outlined' |
-| size                  | The size of the OTP fields                                                                                                                 | ^[enum]`'large' \| 'default' \| 'small'`                  | 'default'  |
-| mask                  | Whether to enable password mode                                                                                                            | ^[boolean]                                                | —          |
-| disabled              | Whether the OTP fields are disabled                                                                                                        | ^[boolean]                                                | undefined  |
-| separator             | The separator between OTP fields                                                                                                           | ^[string] / ^[VNode] / ^[Function]`() => string \| VNode` | —          |
-| validate-event        | Whether to trigger form validation                                                                                                         | ^[boolean]                                                | true       |
-| readonly              | Same as `readonly` in native input                                                                                                         | ^[boolean]                                                | false      |
-| id                    | Native `id` attribute                                                                                                                      | ^[string]                                                 | —          |
-| aria-label ^(a11y)    | Native `aria-label` attribute                                                                                                              | ^[string]                                                 | —          |
+| model-value / v-model | the value of the OTP fields. Since numbers must not have leading zeros, `modelValue` is allowed to be a number only during initialization. | ^[string] / ^[number]                                     | undefined  |
+| length                |the OTP fields length                                                                                                                      | ^[number]                                                 | 6          |
+| validator             |custom validator function                                                                                                                  | ^[Function]`(char: string, index: number) => boolean`     | () => true |
+| inputmode             |native `inputmode` attribute                                                                                                               | ^[string]                                                 | —          |
+| type                  |the type of the OTP fields                                                                                                                 | ^[enum]`'outlined' \| 'filled' \| 'underlined'`           | 'outlined' |
+| size                  |the size of the OTP fields                                                                                                                 | ^[enum]`'large' \| 'default' \| 'small'`                  | 'default'  |
+| mask                  |whether to enable password mode                                                                                                            | ^[boolean]                                                | —          |
+| disabled              |whether the OTP fields are disabled                                                                                                        | ^[boolean]                                                | undefined  |
+| separator             |the separator between OTP fields                                                                                                           | ^[string] / ^[VNode] / ^[Function]`() => string \| VNode` | —          |
+| validate-event        |whether to trigger form validation                                                                                                         | ^[boolean]                                                | true       |
+| readonly              |same as `readonly` in native input                                                                                                         | ^[boolean]                                                | false      |
+| id                    |native `id` attribute                                                                                                                      | ^[string]                                                 | —          |
+| aria-label ^(a11y)    |native `aria-label` attribute                                                                                                              | ^[string]                                                 | —          |
 
 ### Events
 
 | Name              | Description                                      | Type                                     |
 | ----------------- | ------------------------------------------------ | ---------------------------------------- |
-| update:modelValue | Triggers when value updates                      | ^[Function]`(value: string) => void`     |
-| change            | Triggers when the value changes after input blur | ^[Function]`(value: string) => void`     |
-| finish            | Fires when all fields have been filled           | ^[Function]`(value: string) => void`     |
-| focus             | Triggers when input is focused                   | ^[Function]`(event: FocusEvent) => void` |
-| blur              | Triggers when input is blurred                   | ^[Function]`(event: FocusEvent) => void` |
+| update:modelValue |triggers when value updates                      | ^[Function]`(value: string) => void`     |
+| change            | triggers when the value changes after input blur | ^[Function]`(value: string) => void`     |
+| finish            |fires when all fields have been filled           | ^[Function]`(value: string) => void`     |
+| focus             |triggers when input is focused                   | ^[Function]`(event: FocusEvent) => void` |
+| blur              |triggers when input is blurred                   | ^[Function]`(event: FocusEvent) => void` |
 
 ### Slots
 
 | Name      | Description                      | Type                         |
 | --------- | -------------------------------- | ---------------------------- |
-| separator | The separator between OTP fields | ^[object]`{ index: number }` |
+| separator | the separator between OTP fields | ^[object]`{ index: number }` |
 
 ### Exposes
 
 | Name      | Description                      | Type                                              |
 | --------- | -------------------------------- | ------------------------------------------------- |
 | inputRefs | HTML input elements array        | ^[object]`Ref<(HTMLInputElement \| undefined)[]>` |
-| focus     | Focus an OTP input field         | ^[Function]`(index?: number) => void`             |
-| blur      | Blur the focused OTP input field | ^[Function]`() => void`                           |
+| focus     |focus an OTP input field         | ^[Function]`(index?: number) => void`             |
+| blur      | blur the focused OTP input field | ^[Function]`() => void`                           |

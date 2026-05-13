@@ -135,7 +135,7 @@ ElMessage({}, appContext)
 | placement ^(2.11.0)      | message placement position                                                                             | ^[enum]`'top' \| 'top-left' \| 'top-right' \| 'bottom' \| 'bottom-left' \| 'bottom-right'` | top     |
 | appendTo                 | set the root element for the message, default to `document.body`                                       | ^[CSSSelector] / ^[HTMLElement]                                                            | —       |
 | grouping                 | merge messages with the same content, type of VNode message is not supported                           | ^[boolean]                                                                                 | false   |
-| repeatNum                | The number of repetitions, similar to badge, is used as the initial number when used with `grouping`   | ^[number]                                                                                  | 1       |
+| repeatNum                |the number of repetitions, similar to badge, is used as the initial number when used with `grouping`   | ^[number]                                                                                  | 1       |
 
 ### Methods
 

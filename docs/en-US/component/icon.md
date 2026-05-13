@@ -232,4 +232,4 @@ import { Edit, Share, Delete, Search, Loading } from '@element-plus/icons-vue'
 
 | Name    | Description               |
 | ------- | ------------------------- |
-| default | Customize default content |
+| default | customize default content |

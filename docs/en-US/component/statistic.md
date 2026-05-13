@@ -55,9 +55,9 @@ statistic/card
 
 | Name   | Description                 |
 | ------ | --------------------------- |
-| prefix | Numeric prefix              |
-| suffix | Suffixes for numeric values |
-| title  | Numeric titles              |
+| prefix |numeric prefix              |
+| suffix | suffixes for numeric values |
+| title  |numeric titles              |
 
 ### Statistic Exposes
 
@@ -82,7 +82,7 @@ statistic/card
 
 | Name   | Description                  | Type                                 |
 | ------ | ---------------------------- | ------------------------------------ |
-| change | Time difference change event | ^[Function]`(value: number) => void` |
+| change | time difference change event | ^[Function]`(value: number) => void` |
 | finish | countdown end event          | ^[Function]`() => void`              |
 
 ### Countdown Slots

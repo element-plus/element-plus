@@ -102,4 +102,4 @@ progress/striped-progress
 
 | Name    | Description        | Type                              |
 | ------- | ------------------ | --------------------------------- |
-| default | Customized content | ^[object]`{ percentage: number }` |
+| default | customized content | ^[object]`{ percentage: number }` |

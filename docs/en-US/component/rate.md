@@ -116,7 +116,7 @@ Use `css/scss` language to change the global or local color. We set some global 
 
 | Name   | Description                         | Type                                 |
 | ------ | ----------------------------------- | ------------------------------------ |
-| change | Triggers when rate value is changed | ^[Function]`(value: number) => void` |
+| change | triggers when rate value is changed | ^[Function]`(value: number) => void` |
 
 ### Exposes
 

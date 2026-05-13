@@ -86,7 +86,7 @@ transfer/prop-alias
 
 | Name                 | Description                                                          | Type                                    |
 | -------------------- | -------------------------------------------------------------------- | --------------------------------------- |
-| default              | Custom content for data items.                                       | ^[object]`{ option: TransferDataItem }` |
+| default              |custom content for data items.                                       | ^[object]`{ option: TransferDataItem }` |
 | left-footer          | content of left list footer                                          | —                                       |
 | right-footer         | content of right list footer                                         | —                                       |
 | left-empty ^(2.9.0)  | content when left panel is empty or when no data matches the filter  | —                                       |
