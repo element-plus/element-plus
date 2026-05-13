@@ -118,3 +118,89 @@ export const ajaxUpload: UploadRequestHandler = (option) => {
   xhr.send(formData)
   return xhr
 }
+
+export const queueAjaxUpload: (
+  option: UploadRequestOptions,
+  queue: any
+) => XMLHttpRequest = (option, queue) => {
+  if (typeof XMLHttpRequest === 'undefined')
+    throwError(SCOPE, 'XMLHttpRequest is undefined')
+
+  const xhr = new XMLHttpRequest()
+  const action = option.action
+
+  if (xhr.upload) {
+    xhr.upload.addEventListener('progress', (evt) => {
+      const progressEvt = evt as UploadProgressEvent
+      progressEvt.percent = evt.total > 0 ? (evt.loaded / evt.total) * 100 : 0
+      option.onProgress(progressEvt)
+    })
+  }
+
+  const formData = new FormData()
+  if (option.data) {
+    for (const [key, value] of Object.entries(option.data)) {
+      if (isArray(value)) {
+        if (
+          value.length === 2 &&
+          value[0] instanceof Blob &&
+          isString(value[1])
+        ) {
+          formData.append(key, value[0], value[1])
+        } else {
+          value.forEach((item) => {
+            formData.append(key, item)
+          })
+        }
+      } else formData.append(key, value)
+    }
+  }
+  formData.append(option.filename, option.file, option.file.name)
+
+  xhr.open(option.method, action, true)
+
+  if (option.withCredentials && 'withCredentials' in xhr) {
+    xhr.withCredentials = true
+  }
+
+  const headers = option.headers || {}
+  if (headers instanceof Headers) {
+    headers.forEach((value, key) => xhr.setRequestHeader(key, value))
+  } else {
+    for (const [key, value] of Object.entries(headers)) {
+      if (isNil(value)) continue
+      xhr.setRequestHeader(key, String(value))
+    }
+  }
+
+  const rawAbort = xhr.abort.bind(xhr)
+  xhr.abort = () => {
+    queue.remove(option.file.uid)
+    rawAbort()
+  }
+
+  queue.add(
+    option.file.uid,
+    () =>
+      new Promise((resolve) => {
+        xhr.addEventListener('abort', () => {
+          resolve(true)
+        })
+        xhr.addEventListener('error', () => {
+          resolve(true)
+          option.onError(getError(action, option, xhr))
+        })
+
+        xhr.addEventListener('load', () => {
+          if (xhr.status < 200 || xhr.status >= 300) {
+            resolve(true)
+            return option.onError(getError(action, option, xhr))
+          }
+          resolve(true)
+          option.onSuccess(getBody(xhr))
+        })
+        xhr.send(formData)
+      })
+  )
+  return xhr
+}

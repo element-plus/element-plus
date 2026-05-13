@@ -154,6 +154,10 @@ export interface UploadBaseProps {
    */
   limit?: number
   /**
+   * @description Set the concurrent number of queue
+   */
+  concurrency?: number
+  /**
    * @description whether to support uploading directory
    */
   directory?: boolean

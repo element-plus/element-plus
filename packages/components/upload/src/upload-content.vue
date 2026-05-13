@@ -42,12 +42,18 @@
 <script lang="ts" setup>
 import { shallowRef } from 'vue'
 import { cloneDeep, isEqual } from 'lodash-unified'
-import { entriesOf, isFunction, isPlainObject } from '@element-plus/utils'
+import {
+  entriesOf,
+  isFunction,
+  isPlainObject,
+  Queue,
+} from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormDisabled } from '@element-plus/components/form'
 import UploadDragger from './upload-dragger.vue'
 import { genFileId } from './upload'
 import { uploadContentPropsDefaults } from './upload-content'
+import { queueAjaxUpload } from './ajax'
 
 import type { UploadContentProps } from './upload-content'
 import type {
@@ -68,6 +74,10 @@ const props = withDefaults(
 )
 const ns = useNamespace('upload')
 const disabled = useFormDisabled()
+
+const queue = new Queue({
+  concurrency: props.concurrency,
+})
 
 const requests = shallowRef<Record<string, XMLHttpRequest | Promise<unknown>>>(
   {}
@@ -199,7 +209,10 @@ const doUpload = async (
       delete requests.value[uid]
     },
   }
-  const request = httpRequest(options)
+  const request =
+    props.concurrency && props.concurrency != Infinity
+      ? queueAjaxUpload(options, queue)
+      : httpRequest(options)
   requests.value[uid] = request
   if (request instanceof Promise) {
     request.then(options.onSuccess, options.onError)
