@@ -2,7 +2,7 @@ import type { Store } from '../store'
 import type { DefaultRow } from './defaults'
 
 function useUtils<T extends DefaultRow>(store: Store<T>) {
-  const setCurrentRow = (row: T) => {
+  const setCurrentRow = (row?: T) => {
     store.commit('setCurrentRow', row)
   }
   const getSelectionRows = () => {
