@@ -10,6 +10,7 @@
       label="extends table formatter"
       width="240"
     />
+    <!-- @vue-generic {TableData} -->
     <el-table-column
       prop="tags"
       label="formatter object"

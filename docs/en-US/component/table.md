@@ -489,6 +489,37 @@ type TableColumnCtx<T extends DefaultRow = DefaultRow> = {
 
 ## FAQ
 
+#### How to infer the correct slot types for `el-table-column`?
+
+`el-table-column` is a generic component. If TypeScript cannot infer the row type for its slots from the surrounding context, place Vue's `@vue-generic` directive comment immediately before `el-table-column` and pass the row type explicitly. For more details, see the Vue documentation on [Generics](https://vuejs.org/api/sfc-script-setup.html#generics).
+
+```vue{3}
+<template>
+  <el-table :data="tableData">
+    <!-- @vue-generic {User} -->
+    <el-table-column label="Name">
+      <template #default="{ row }">
+        {{ row.name }}
+      </template>
+    </el-table-column>
+  </el-table>
+</template>
+
+<script lang="ts" setup>
+interface User {
+  name: string
+  address: string
+}
+
+const tableData: User[] = [
+  {
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+]
+</script>
+```
+
 #### How to use image preview in the table?
 
 ```vue{4}
