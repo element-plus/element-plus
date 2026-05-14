@@ -346,55 +346,28 @@ interface TableEmits<T extends DefaultRow = DefaultRow> {
   (e: 'select-all', selection: T[]): void
   (e: 'selection-change', newSelection: T[]): void
   (
-    e: 'cell-mouse-enter',
+    e:
+      | 'cell-mouse-enter'
+      | 'cell-mouse-leave'
+      | 'cell-contextmenu'
+      | 'cell-click'
+      | 'cell-dblclick',
     row: T,
     column: TableColumnCtx<T>,
     cell: HTMLTableCellElement,
     event: Event
   ): void
   (
-    e: 'cell-mouse-leave',
-    row: T,
-    column: TableColumnCtx<T>,
-    cell: HTMLTableCellElement,
-    event: Event
-  ): void
-  (
-    e: 'cell-contextmenu',
-    row: T,
-    column: TableColumnCtx<T>,
-    cell: HTMLTableCellElement,
-    event: Event
-  ): void
-  (
-    e: 'cell-click',
-    row: T,
-    column: TableColumnCtx<T>,
-    cell: HTMLTableCellElement,
-    event: Event
-  ): void
-  (
-    e: 'cell-dblclick',
-    row: T,
-    column: TableColumnCtx<T>,
-    cell: HTMLTableCellElement,
-    event: Event
-  ): void
-  (e: 'row-click', row: T, column: TableColumnCtx<T> | null, event: Event): void
-  (
-    e: 'row-contextmenu',
+    e: 'row-click' | 'row-contextmenu' | 'row-dblclick',
     row: T,
     column: TableColumnCtx<T> | null,
     event: Event
   ): void
   (
-    e: 'row-dblclick',
-    row: T,
-    column: TableColumnCtx<T> | null,
+    e: 'header-click' | 'header-contextmenu',
+    column: TableColumnCtx<T>,
     event: Event
   ): void
-  (e: 'header-click', column: TableColumnCtx<T>, event: Event): void
-  (e: 'header-contextmenu', column: TableColumnCtx<T>, event: Event): void
   (
     e: 'sort-change',
     data: {
