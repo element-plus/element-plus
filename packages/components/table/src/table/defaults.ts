@@ -341,6 +341,78 @@ interface TableConfigContext {
   tooltipFormatter?: TableOverflowTooltipFormatter<any>
 }
 
+interface TableEmits<T extends DefaultRow = DefaultRow> {
+  (e: 'select', selection: T[], row: T): void
+  (e: 'select-all', selection: T[]): void
+  (e: 'selection-change', newSelection: T[]): void
+  (
+    e: 'cell-mouse-enter',
+    row: T,
+    column: TableColumnCtx<T>,
+    cell: HTMLTableCellElement,
+    event: Event
+  ): void
+  (
+    e: 'cell-mouse-leave',
+    row: T,
+    column: TableColumnCtx<T>,
+    cell: HTMLTableCellElement,
+    event: Event
+  ): void
+  (
+    e: 'cell-contextmenu',
+    row: T,
+    column: TableColumnCtx<T>,
+    cell: HTMLTableCellElement,
+    event: Event
+  ): void
+  (
+    e: 'cell-click',
+    row: T,
+    column: TableColumnCtx<T>,
+    cell: HTMLTableCellElement,
+    event: Event
+  ): void
+  (
+    e: 'cell-dblclick',
+    row: T,
+    column: TableColumnCtx<T>,
+    cell: HTMLTableCellElement,
+    event: Event
+  ): void
+  (e: 'row-click', row: T, column: TableColumnCtx<T>, event: Event): void
+  (e: 'row-contextmenu', row: T, column: TableColumnCtx<T>, event: Event): void
+  (e: 'row-dblclick', row: T, column: TableColumnCtx<T>, event: Event): void
+  (e: 'header-click', column: TableColumnCtx<T>, event: Event): void
+  (e: 'header-contextmenu', column: TableColumnCtx<T>, event: Event): void
+  (
+    e: 'sort-change',
+    data: {
+      column: TableColumnCtx<T>
+      prop: string
+      order: TableSortOrder | null
+    }
+  ): void
+  (e: 'filter-change', newFilters: Record<string, string[]>): void
+  (e: 'current-change', currentRow: T, oldCurrentRow: T): void
+  (
+    e: 'header-dragend',
+    newWidth: number,
+    oldWidth: number,
+    column: TableColumnCtx<T>,
+    event: MouseEvent
+  ): void
+  (e: 'expand-change', row: T, expandedRows: T[]): void
+  (e: 'expand-change', row: T, expanded: boolean): void
+  (
+    e: 'scroll',
+    data: {
+      scrollLeft: number
+      scrollTop: number
+    }
+  ): void
+}
+
 /**
  * @deprecated Removed after 3.0.0, Use `TableProps` instead.
  */
@@ -599,6 +671,7 @@ export type {
   TableSortOrder,
   RenderExpanded,
   TableConfigContext,
+  TableEmits,
 }
 
 export default tableProps
