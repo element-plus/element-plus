@@ -380,9 +380,19 @@ interface TableEmits<T extends DefaultRow = DefaultRow> {
     cell: HTMLTableCellElement,
     event: Event
   ): void
-  (e: 'row-click', row: T, column: TableColumnCtx<T>, event: Event): void
-  (e: 'row-contextmenu', row: T, column: TableColumnCtx<T>, event: Event): void
-  (e: 'row-dblclick', row: T, column: TableColumnCtx<T>, event: Event): void
+  (e: 'row-click', row: T, column: TableColumnCtx<T> | null, event: Event): void
+  (
+    e: 'row-contextmenu',
+    row: T,
+    column: TableColumnCtx<T> | null,
+    event: Event
+  ): void
+  (
+    e: 'row-dblclick',
+    row: T,
+    column: TableColumnCtx<T> | null,
+    event: Event
+  ): void
   (e: 'header-click', column: TableColumnCtx<T>, event: Event): void
   (e: 'header-contextmenu', column: TableColumnCtx<T>, event: Event): void
   (
@@ -394,7 +404,7 @@ interface TableEmits<T extends DefaultRow = DefaultRow> {
     }
   ): void
   (e: 'filter-change', newFilters: Record<string, string[]>): void
-  (e: 'current-change', currentRow: T, oldCurrentRow: T): void
+  (e: 'current-change', currentRow: T | null, oldCurrentRow: T | null): void
   (
     e: 'header-dragend',
     newWidth: number,
