@@ -8,6 +8,7 @@
       {
         'has-sidebar': $slots.sidebar || hasShortcuts,
         'has-time': showTime,
+        'single-panel': singlePanel,
       },
     ]"
   >
@@ -109,7 +110,13 @@
             </span>
           </span>
         </div>
-        <div :class="[ppNs.e('content'), drpNs.e('content')]" class="is-left">
+        <div
+          :class="[
+            ppNs.e('content'),
+            drpNs.e('content'),
+            drpNs.is('left', !singlePanel),
+          ]"
+        >
           <div :class="drpNs.e('header')">
             <button
               type="button"
@@ -141,7 +148,7 @@
               </slot>
             </button>
             <button
-              v-if="unlinkPanels"
+              v-if="unlinkPanels || singlePanel"
               type="button"
               :disabled="!enableYearArrow || dateRangeDisabled"
               :class="[
@@ -159,7 +166,7 @@
               </slot>
             </button>
             <button
-              v-if="unlinkPanels && leftCurrentView === 'date'"
+              v-if="(unlinkPanels && leftCurrentView === 'date') || singlePanel"
               type="button"
               :disabled="!enableMonthArrow || dateRangeDisabled"
               :class="[
@@ -242,7 +249,11 @@
             @pick="handleLeftMonthPick"
           />
         </div>
-        <div :class="[ppNs.e('content'), drpNs.e('content')]" class="is-right">
+        <div
+          v-if="!singlePanel"
+          :class="[ppNs.e('content'), drpNs.e('content')]"
+          class="is-right"
+        >
           <div :class="drpNs.e('header')">
             <button
               v-if="unlinkPanels"
@@ -668,19 +679,21 @@ const enableMonthArrow = computed(() => {
   const nextMonth = (leftMonth.value + 1) % 12
   const yearOffset = leftMonth.value + 1 >= 12 ? 1 : 0
   return (
-    props.unlinkPanels &&
-    new Date(leftYear.value + yearOffset, nextMonth) <
-      new Date(rightYear.value, rightMonth.value)
+    props.singlePanel ||
+    (props.unlinkPanels &&
+      new Date(leftYear.value + yearOffset, nextMonth) <
+        new Date(rightYear.value, rightMonth.value))
   )
 })
 
 const enableYearArrow = computed(() => {
   return (
-    props.unlinkPanels &&
-    rightYear.value * 12 +
-      rightMonth.value -
-      (leftYear.value * 12 + leftMonth.value + 1) >=
-      12
+    props.singlePanel ||
+    (props.unlinkPanels &&
+      rightYear.value * 12 +
+        rightMonth.value -
+        (leftYear.value * 12 + leftMonth.value + 1) >=
+        12)
   )
 })
 
@@ -763,10 +776,7 @@ const handleDateInput = (value: string | null, type: ChangeType) => {
         .year(parsedValueD.year())
         .month(parsedValueD.month())
         .date(parsedValueD.date())
-      if (
-        !props.unlinkPanels &&
-        (!maxDate.value || maxDate.value.isBefore(minDate.value))
-      ) {
+      if (!props.unlinkPanels && !maxDate.value) {
         rightDate.value = parsedValueD.add(1, 'month')
         maxDate.value = minDate.value.add(1, 'month')
       }
@@ -776,10 +786,7 @@ const handleDateInput = (value: string | null, type: ChangeType) => {
         .year(parsedValueD.year())
         .month(parsedValueD.month())
         .date(parsedValueD.date())
-      if (
-        !props.unlinkPanels &&
-        (!minDate.value || minDate.value.isAfter(maxDate.value))
-      ) {
+      if (!props.unlinkPanels && !minDate.value) {
         leftDate.value = parsedValueD.subtract(1, 'month')
         minDate.value = maxDate.value.subtract(1, 'month')
       }
@@ -791,6 +798,29 @@ const handleDateInput = (value: string | null, type: ChangeType) => {
 
 const handleDateChange = (_: unknown, type: ChangeType) => {
   dateUserInput.value[type] = null
+  if (type === 'min') {
+    if (
+      !props.unlinkPanels &&
+      maxDate.value &&
+      minDate.value &&
+      maxDate.value.isBefore(minDate.value)
+    ) {
+      rightDate.value = minDate.value.add(1, 'month')
+      maxDate.value = minDate.value.add(1, 'month')
+    }
+  } else {
+    if (
+      !props.unlinkPanels &&
+      minDate.value &&
+      maxDate.value &&
+      minDate.value.isAfter(maxDate.value)
+    ) {
+      leftDate.value = maxDate.value.subtract(1, 'month')
+      minDate.value = maxDate.value.subtract(1, 'month')
+    }
+  }
+  sortDates(minDate.value, maxDate.value)
+  handleRangeConfirm(true)
 }
 
 const handleTimeInput = (value: string | null, type: ChangeType) => {

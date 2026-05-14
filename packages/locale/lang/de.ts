@@ -196,5 +196,9 @@ export default {
       rightArrow: 'Karussell-Pfeil rechts',
       indicator: 'Karussell zu Index {index} wechseln',
     },
+    inputOTP: {
+      groupLabel: 'OTP Input', // to be translated
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
+    },
   },
 }

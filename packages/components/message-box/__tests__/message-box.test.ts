@@ -1,15 +1,17 @@
-import { markRaw } from 'vue'
+import { h, markRaw } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
 import { triggerNativeCompositeClick } from '@element-plus/test-utils/composite-click'
 import { QuestionFilled as QuestionFilledIcon } from '@element-plus/icons-vue'
+import { ElButton } from '@element-plus/components/button'
 import MessageBox from '../src/messageBox'
 import { ElMessageBox } from '..'
 
 import type { Action } from '..'
 
 const selector = '.el-overlay'
+const CUSTOM_BTN_CLZ = 'custom-message-box-actions'
 const QuestionFilled = markRaw(QuestionFilledIcon)
 
 vi.mock('@element-plus/utils/error', () => ({
@@ -311,6 +313,52 @@ describe('MessageBox', () => {
       ;(btn as HTMLButtonElement).click()
       await rAF()
       expect(msgAction).toEqual('cancel')
+    })
+
+    test('calling action handlers should settle the promise correctly', async () => {
+      const cases = [
+        {
+          action: 'confirm',
+          options: undefined,
+          assert: (promise: Promise<Action>) =>
+            promise.then((action) => {
+              expect(action).toBe('confirm')
+            }),
+        },
+        {
+          action: 'cancel',
+          options: undefined,
+          assert: (promise: Promise<Action>) =>
+            promise.catch((action) => {
+              expect(action).toBe('cancel')
+            }),
+        },
+        {
+          action: 'close',
+          options: { distinguishCancelAndClose: true },
+          assert: (promise: Promise<Action>) =>
+            promise.catch((action) => {
+              expect(action).toBe('close')
+            }),
+        },
+      ] as const
+
+      for (const { action, options, assert } of cases) {
+        const promise = MessageBox.confirm((handlers) => {
+          return h('div', { class: CUSTOM_BTN_CLZ }, [
+            h(ElButton, {
+              onClick: () => {
+                handlers[action]()
+              },
+            }),
+          ])
+        }, options)
+        await rAF()
+        const btn = document.querySelector(`.${CUSTOM_BTN_CLZ} .el-button`)
+        expect(btn).not.toBeNull()
+        ;(btn as HTMLButtonElement).click()
+        await assert(promise)
+      }
     })
   })
   describe('context inheritance', () => {
