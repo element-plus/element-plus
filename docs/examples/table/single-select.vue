@@ -34,7 +34,7 @@ const singleTableRef = ref<TableInstance>()
 const setCurrent = (row?: User) => {
   singleTableRef.value!.setCurrentRow(row)
 }
-const handleCurrentChange = (val: User | undefined) => {
+const handleCurrentChange = (val: User | null) => {
   currentRow.value = val
 }
 const tableData: User[] = [
