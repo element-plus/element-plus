@@ -372,7 +372,7 @@ interface TableEmits<T extends DefaultRow = DefaultRow> {
     e: 'sort-change',
     data: {
       column: TableColumnCtx<T>
-      prop: string
+      prop: string | undefined
       order: TableSortOrder | null
     }
   ): void
