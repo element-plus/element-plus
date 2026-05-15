@@ -72,7 +72,10 @@ type SummaryMethod<T extends DefaultRow> = (data: {
   data: T[]
 }) => (string | VNode)[]
 
-interface Table<T extends DefaultRow = any> extends ComponentInternalInstance {
+interface Table<T extends DefaultRow = any> extends Omit<
+  ComponentInternalInstance,
+  'emit'
+> {
   $ready: boolean
   hoverState?: HoverState<T> | null
   renderExpanded: RenderExpanded<T>
@@ -81,6 +84,7 @@ interface Table<T extends DefaultRow = any> extends ComponentInternalInstance {
   refs: TableRefs
   tableId: string
   state: TableState
+  emit: TableEmits<T>
 }
 
 type ColumnCls<T> = string | ((data: { row: T; rowIndex: number }) => string)
@@ -372,7 +376,7 @@ interface TableEmits<T extends DefaultRow = DefaultRow> {
     e: 'sort-change',
     data: {
       column: TableColumnCtx<T>
-      prop: string | undefined
+      prop: string | null
       order: TableSortOrder | null
     }
   ): void

@@ -221,7 +221,7 @@ function useEvent<T extends DefaultRow>(
         sortingColumn.order = null
       }
       states.sortingColumn.value = column
-      sortProp = column.property
+      sortProp = column.property ?? null
     }
     if (!order) {
       sortOrder = column.order = null

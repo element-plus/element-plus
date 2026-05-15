@@ -17,13 +17,15 @@ import { TABLE_INJECTION_KEY } from '../tokens'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type { TableBodyProps } from './defaults'
 import type { TableOverflowTooltipOptions } from '../util'
-import type { DefaultRow } from '../table/defaults'
+import type { DefaultRow, Table } from '../table/defaults'
+
+type PointerEventName = 'click' | 'dblclick' | 'contextmenu'
 
 function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
-  const parent = inject(TABLE_INJECTION_KEY)
+  const parent = inject(TABLE_INJECTION_KEY) as Table<T>
   const tooltipContent = ref('')
   const tooltipTrigger = ref(h('div'))
-  const handleEvent = (event: Event, row: T, name: string) => {
+  const handleEvent = (event: Event, row: T, name: PointerEventName) => {
     const table = parent
     const cell = getCell(event)
     let column: TableColumnCtx<T> | null = null
@@ -189,12 +191,12 @@ function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     if (cell.rowSpan > 1) {
       toggleRowClassByCell(cell.rowSpan, event, removeClass)
     }
-    const oldHoverState = parent?.hoverState
+    const oldHoverState = parent?.hoverState!
     parent?.emit(
       'cell-mouse-leave',
       oldHoverState?.row,
       oldHoverState?.column,
-      oldHoverState?.cell,
+      oldHoverState?.cell as HTMLTableCellElement,
       event
     )
   }

@@ -180,7 +180,7 @@ function useStore<T extends DefaultRow>() {
 
       if (!options || !(options.silent || options.init)) {
         instance.emit('sort-change', {
-          column: columnValue,
+          column: columnValue!,
           prop: propValue,
           order: orderValue,
         })
