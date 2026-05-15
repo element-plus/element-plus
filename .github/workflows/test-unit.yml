@@ -20,9 +20,9 @@ jobs:
           - node-version: 22.13.0
             node-name: LTS
           - node-version: 24
-            node-name: Current
+            node-name: LTS(24)
           - node-version: 26
-            node-name: Next
+            node-name: Current
     steps:
       - uses: actions/checkout@v6
 
@@ -33,7 +33,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "pnpm"
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
