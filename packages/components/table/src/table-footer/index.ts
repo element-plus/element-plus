@@ -75,7 +75,7 @@ export default defineComponent({
           sums[index] = sumText
           return
         }
-        const values = data.map((item) => Number(item[column.property]))
+        const values = data.map((item) => Number(item[column.property!]))
         const precisions: number[] = []
         let notNumber = true
         values.forEach((value) => {
