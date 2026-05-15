@@ -92,7 +92,7 @@ anchor/affix
 
 | Name   | Description                                | Type                                                |
 | ------ | ------------------------------------------ | --------------------------------------------------- |
-| change |callback when the anchor link changes             | ^[Function]`(href: string) => void`                 |
+| change |callback when the step changes             | ^[Function]`(href: string) => void`                 |
 | click  | triggered when the user clicks on the link | ^[Function]`(e: MouseEvent, href?: string) => void` |
 
 ### Anchor Exposes
@@ -105,7 +105,7 @@ anchor/affix
 
 | Name    | Description               |
 | ------- | ------------------------- |
-| default | anchorLink component list |
+| default | AnchorLink component list |
 
 ### AnchorLink Attributes
 

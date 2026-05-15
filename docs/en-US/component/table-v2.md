@@ -349,7 +349,7 @@ table-v2/manual-scroll
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
 | column-sort          |invoked when column sorted                                                                                                      | `object`\<[ColumnSortParam](#typings)\>       |
 | expanded-rows-change |invoked when expanded rows changed                                                                                              | [KeyType[]](#typings)                         |
-| end-reached          | invoked when the end of the table is reached. The callback contain the remain distance, it is the usually the scrollbar height. | ^[Function]`(remainDistance: number) => void` |
+| end-reached          | invoked when the end of the table is reached. The callback contains the remaining distance, which is usually the scrollbar height. | ^[Function]`(remainDistance: number) => void` |
 | scroll               |invoked after scrolling                                                                                                         | `object`\<[ScrollParams](#typings)\>          |
 | rows-rendered        |invoked when rows are rendered                                                                                                  | `object`\<[RowsRenderedParams](#typings)\>    |
 | row-expand           |invoked when expand/collapse the tree node by clicking the arrow icon                                                           | `object`\<[RowExpandParams](#typings)\>       |
