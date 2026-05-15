@@ -54,7 +54,7 @@ export const spaceProps = buildProps({
    * @description Extra style rules
    */
   style: {
-    type: definePropType<StyleValue>([String, Array, Object]),
+    type: definePropType<StyleValue>([String, Array, Object, Boolean]),
     default: '',
   },
   /**

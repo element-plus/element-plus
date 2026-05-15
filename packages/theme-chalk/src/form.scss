@@ -10,6 +10,10 @@
       display: inline-flex;
       vertical-align: middle;
       margin-right: 32px;
+
+      &:last-child {
+        margin-right: 0;
+      }
     }
 
     &.#{$namespace}-form--label-top {

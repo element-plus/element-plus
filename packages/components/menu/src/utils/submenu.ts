@@ -1,38 +1,33 @@
-// @ts-nocheck
 import { getEventCode, triggerEvent } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 
 import type MenuItem from './menu-item'
 
 class SubMenu {
-  public subMenuItems: NodeList
-  public subIndex = 0
+  public subMenuItems: NodeListOf<HTMLLIElement>
+  public subIndex: number
   constructor(
     public parent: MenuItem,
     public domNode: ParentNode
   ) {
     this.subIndex = 0
-    this.init()
-  }
-
-  init(): void {
     this.subMenuItems = this.domNode.querySelectorAll('li')
     this.addListeners()
   }
 
-  gotoSubIndex(idx: number): void {
+  gotoSubIndex(idx: number) {
     if (idx === this.subMenuItems.length) {
       idx = 0
     } else if (idx < 0) {
       idx = this.subMenuItems.length - 1
     }
-    ;(this.subMenuItems[idx] as HTMLElement).focus()
+    this.subMenuItems[idx].focus()
     this.subIndex = idx
   }
 
-  addListeners(): void {
+  addListeners() {
     const parentNode = this.parent.domNode
-    Array.prototype.forEach.call(this.subMenuItems, (el: Element) => {
+    this.subMenuItems.forEach((el) => {
       el.addEventListener('keydown', (event: KeyboardEvent) => {
         const code = getEventCode(event)
         let prevDef = false
@@ -49,7 +44,7 @@ class SubMenu {
             break
           }
           case EVENT_CODE.tab: {
-            triggerEvent(parentNode as HTMLElement, 'mouseleave')
+            triggerEvent(parentNode, 'mouseleave')
             break
           }
           case EVENT_CODE.enter:
