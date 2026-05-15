@@ -328,8 +328,8 @@ table/tooltip-formatter
 | filter-change      | triggers when the table's filter changes                                                                                                     | ^[Function]`(newFilters: Record<string, string[]>) => void`                                                                    |
 | current-change     | triggers when current row changes                                                                                                            | ^[Function]`<T = DefaultRow>(currentRow: T \| null, oldCurrentRow: T \| null) => void`                                         |
 | header-dragend     | triggers after changing a column's width by dragging the column header's border                                                              | ^[Function]`<T = DefaultRow>(newWidth: number, oldWidth: number, column: TableColumnCtx<T>, event: MouseEvent) => void`        |
-| expand-change      | triggers when user expands or collapses a row (for expandable table, second param is expandedRows; for tree Table, second param is expanded) | ^[Function]`<T = DefaultRow>(row: T, expandedRows: T[]) => void & (row: T, expanded: boolean) => void`                         |
-| scroll ^(2.9.0)    | Invoked after scrolled                                                                                                                       | ^[Function]`<T = DefaultRow>({ scrollLeft: number, scrollTop: number }) => void`                                               |
+| expand-change      | triggers when user expands or collapses a row (for expandable table, second param is expandedRows; for tree Table, second param is expanded) | ^[Function]`<T = DefaultRow>(row: T, expandedRows: T[]) => void & <T = DefaultRow>(row: T, expanded: boolean) => void`         |
+| scroll ^(2.9.0)    | Invoked after scrolled                                                                                                                       | ^[Function]`({ scrollLeft: number, scrollTop: number }) => void`                                                               |
 
 ### Table Slots
 
