@@ -191,7 +191,8 @@ function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     if (cell.rowSpan > 1) {
       toggleRowClassByCell(cell.rowSpan, event, removeClass)
     }
-    const oldHoverState = parent?.hoverState!
+    // From the normal user interaction flow, it should never be empty. However, to avoid potential runtime errors, we still keep this defensive optional handling.
+    const oldHoverState = parent?.hoverState as NonNullable<Table['hoverState']>
     parent?.emit(
       'cell-mouse-leave',
       oldHoverState?.row,
