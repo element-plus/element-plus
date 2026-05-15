@@ -15,15 +15,14 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.19.0, 22, 24]
+        node-version: [22.13.0, 24, 26]
         include:
-          - node-version: 20.19.0
+          - node-version: 22.13.0
             node-name: LTS
-          - node-version: 22
-            node-name: Current
           - node-version: 24
-            node-name: New
-
+            node-name: Current
+          - node-version: 26
+            node-name: Next
     steps:
       - uses: actions/checkout@v6
 
@@ -34,7 +33,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
