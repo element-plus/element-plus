@@ -64,7 +64,7 @@ color-picker/sizes
 | label ^(a11y) ^(deprecated) | ColorPicker aria-label                                                                             | ^[string]                                                                                             | —                                                                            |
 | persistent ^(2.10.5)        | when color-picker inactive and persistent is false, the color panel will be destroyed              | ^[boolean]                                                                                            | true                                                                         |
 | append-to ^(2.10.5)         | which element the color-picker panel appends to                                                    | ^[CSSSelector] / ^[HTMLElement]                                                                       | -                                                                            |
-| focus-on-show ^(2.23.8)     | which element to focus when the picker panel opens                                                 | ^[enum]`'input' \| 'sv-cursor' \| false`                                                              | input                                                                        |
+| focus-on-show ^(2.14.1)     | which element to focus when the picker panel opens                                                 | ^[enum]`'input' \| 'sv-cursor' \| false`                                                              | input                                                                        |
 
 ### Events
 
