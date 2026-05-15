@@ -33,8 +33,8 @@ type TableColumnCtx<T extends DefaultRow = DefaultRow> = {
   label: string
   className: string
   labelClassName: string
-  property?: string
-  prop?: string
+  property: string
+  prop: string
   width?: string | number
   minWidth: string | number
   renderHeader: (data: CI<T>) => VNode

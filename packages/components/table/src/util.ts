@@ -440,7 +440,7 @@ const getTableOverflowTooltipProps = <T extends DefaultRow>(
     ? column.tooltipFormatter({
         row,
         column,
-        cellValue: getProp(row, column.property!).value,
+        cellValue: getProp(row, column.property).value,
       })
     : undefined
 
