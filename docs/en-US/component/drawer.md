@@ -155,7 +155,7 @@ Drawer provides an API called `destroy-on-close`, which is a flag variable that 
 | ------------------- | ---------------------------------------------------------------------------------------------- |
 | default             |drawer's content                                                                               |
 | header              | drawer header section; replacing this removes the title, but does not remove the close button. |
-| footer              |drawer footer Section                                                                          |
+| footer              |drawer footer section                                                                          |
 | title ^(deprecated) |works the same as the header slot. Use that instead.                                           |
 
 :::warning
