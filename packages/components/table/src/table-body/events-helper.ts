@@ -19,13 +19,16 @@ import type { TableBodyProps } from './defaults'
 import type { TableOverflowTooltipOptions } from '../util'
 import type { DefaultRow, Table } from '../table/defaults'
 
-type PointerEventName = 'click' | 'dblclick' | 'contextmenu'
+interface HandleEvent<T> {
+  (event: PointerEvent, row: T, name: 'click' | 'contextmenu'): void
+  (event: MouseEvent, row: T, name: 'dblclick'): void
+}
 
 function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
   const parent = inject(TABLE_INJECTION_KEY) as Table<T>
   const tooltipContent = ref('')
   const tooltipTrigger = ref(h('div'))
-  const handleEvent = (event: Event, row: T, name: PointerEventName) => {
+  const handleEvent: HandleEvent<T> = (event, row, name) => {
     const table = parent
     const cell = getCell(event)
     let column: TableColumnCtx<T> | null = null
@@ -39,19 +42,21 @@ function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
         namespace
       )
       if (column) {
+        // @ts-expect-error
         table?.emit(`cell-${name}`, row, column, cell, event)
       }
     }
+    // @ts-expect-error
     table?.emit(`row-${name}`, row, column, event)
   }
-  const handleDoubleClick = (event: Event, row: T) => {
+  const handleDoubleClick = (event: MouseEvent, row: T) => {
     handleEvent(event, row, 'dblclick')
   }
-  const handleClick = (event: Event, row: T) => {
+  const handleClick = (event: PointerEvent, row: T) => {
     props.store?.commit('setCurrentRow', row)
     handleEvent(event, row, 'click')
   }
-  const handleContextMenu = (event: Event, row: T) => {
+  const handleContextMenu = (event: PointerEvent, row: T) => {
     handleEvent(event, row, 'contextmenu')
   }
   const handleMouseEnter = debounce((index: number) => {
