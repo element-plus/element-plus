@@ -1,6 +1,6 @@
 {
   "private": true,
-  "packageManager": "pnpm@11.1.1",
+  "packageManager": "pnpm@11.1.2",
   "workspaces": [
     "packages/*",
     "play",
@@ -93,13 +93,13 @@
     "happy-dom": "^20.9.0",
     "husky": "^9.1.7",
     "jsdom": "16.4.0",
-    "lint-staged": "^17.0.4",
+    "lint-staged": "^17.0.5",
     "prettier": "^3.8.3",
-    "puppeteer": "^24.43.1",
+    "puppeteer": "^25.0.2",
     "resize-observer-polyfill": "^1.5.1",
     "rimraf": "^6.1.3",
     "tinyglobby": "^0.2.16",
-    "tsx": "^4.21.0",
+    "tsx": "^4.22.0",
     "typescript": "~6.0.3",
     "vitest": "^4.1.6",
     "vue": "catalog:",
@@ -107,7 +107,7 @@
     "vue-tsc": "=3.2.9"
   },
   "engines": {
-    "node": ">= 20.19.0"
+    "node": ">= 22.13.0"
   },
   "config": {
     "commitizen": {

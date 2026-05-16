@@ -25,7 +25,10 @@ function useEvent<T extends DefaultRow>(
     return
   }
 
-  const handleHeaderClick = (event: Event, column: TableColumnCtx<T>) => {
+  const handleHeaderClick = (
+    event: PointerEvent,
+    column: TableColumnCtx<T>
+  ) => {
     if (!column.filters && column.sortable) {
       handleSortClick(event, column, false)
     } else if (column.filterable && !column.sortable) {
@@ -34,7 +37,10 @@ function useEvent<T extends DefaultRow>(
     parent?.emit('header-click', column, event)
   }
 
-  const handleHeaderContextMenu = (event: Event, column: TableColumnCtx<T>) => {
+  const handleHeaderContextMenu = (
+    event: PointerEvent,
+    column: TableColumnCtx<T>
+  ) => {
     parent?.emit('header-contextmenu', column, event)
   }
   const draggingColumn = ref<TableColumnCtx<T> | null>(null)
@@ -221,7 +227,7 @@ function useEvent<T extends DefaultRow>(
         sortingColumn.order = null
       }
       states.sortingColumn.value = column
-      sortProp = column.property
+      sortProp = column.property ?? null
     }
     if (!order) {
       sortOrder = column.order = null

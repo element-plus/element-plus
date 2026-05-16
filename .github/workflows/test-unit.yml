@@ -15,15 +15,14 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.19.0, 22, 24]
+        node-version: [22.13.0, 24, 26]
         include:
-          - node-version: 20.19.0
+          - node-version: 22.13.0
             node-name: LTS
-          - node-version: 22
-            node-name: Current
           - node-version: 24
-            node-name: New
-
+            node-name: LTS(24)
+          - node-version: 26
+            node-name: Current
     steps:
       - uses: actions/checkout@v6
 
