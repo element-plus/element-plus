@@ -106,7 +106,7 @@ import ElIcon from '@element-plus/components/icon'
 import ElRovingFocusGroup from '@element-plus/components/roving-focus-group'
 import { ElOnlyChild } from '@element-plus/components/slot'
 import { useFormSize } from '@element-plus/components/form'
-import { addUnit, ensureArray } from '@element-plus/utils'
+import { addUnit } from '@element-plus/utils'
 import { ArrowDown } from '@element-plus/icons-vue'
 import { useId, useLocale, useNamespace } from '@element-plus/hooks'
 import { dropdownProps } from './dropdown'
@@ -151,7 +151,6 @@ export default defineComponent({
       maxHeight: addUnit(props.maxHeight),
     }))
     const dropdownTriggerKls = computed(() => [ns.m(dropdownSize.value)])
-    const trigger = computed(() => ensureArray(props.trigger))
 
     const defaultTriggerId = useId().value
     const triggerId = computed<string>(() => props.id || defaultTriggerId)
@@ -177,14 +176,12 @@ export default defineComponent({
     function onItemEnter() {
       // NOOP for now
     }
-
     function onItemLeave() {
       const contentEl = unref(contentRef)
 
-      trigger.value.includes('hover') &&
-        contentEl?.focus({
-          preventScroll: true,
-        })
+      contentEl?.focus({
+        preventScroll: true,
+      })
       currentTabId.value = null
     }
 
