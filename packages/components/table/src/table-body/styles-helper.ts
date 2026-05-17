@@ -148,7 +148,7 @@ function useStyles<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
       .map(({ realWidth, width }) => realWidth || width)
       .slice(index, index + colspan)
     return Number(
-      widthArr.reduce((acc, width) => Number(acc) + Number(width), -1)
+      widthArr.reduce((acc, width) => Number(acc) + Number(width), 0)
     )
   }
 
