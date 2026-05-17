@@ -181,10 +181,9 @@ export default defineComponent({
     function onItemLeave() {
       const contentEl = unref(contentRef)
 
-      trigger.value.includes('hover') &&
-        contentEl?.focus({
-          preventScroll: true,
-        })
+      contentEl?.focus({
+        preventScroll: true,
+      })
       currentTabId.value = null
     }
 
