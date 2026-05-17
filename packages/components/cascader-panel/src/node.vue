@@ -170,7 +170,10 @@ const handleSelectCheck = (checked: CheckboxValueType | undefined) => {
 
 const handleCheck = (checked: boolean) => {
   if (!props.node.loaded) {
-    doLoad()
+    panel.lazyLoad(props.node, () => {
+      doCheck(checked)
+      if (!isLeaf.value) doExpand()
+    })
   } else {
     doCheck(checked)
     !checkStrictly.value && doExpand()
