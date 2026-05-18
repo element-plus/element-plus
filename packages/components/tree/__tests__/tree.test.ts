@@ -2439,7 +2439,7 @@ describe('Tree.vue', () => {
   })
 
   test('lazy load with check-strictly should not auto-check children', async () => {
-    const { wrapper, vm } = getTreeVm(
+    const { wrapper } = getTreeVm(
       `:props="defaultProps" node-key="id" lazy :load="loadNode" show-checkbox check-strictly`,
       {
         methods: {
@@ -2478,12 +2478,11 @@ describe('Tree.vue', () => {
 
     // Expand parent to trigger lazy load
     const nodeContent = wrapper.findAll('.el-tree-node__content')
+    vi.useFakeTimers()
     await nodeContent[0].trigger('click')
 
-    vi.useFakeTimers()
     vi.runAllTimers()
     vi.useRealTimers()
-    await nextTick()
     await nextTick()
 
     // Children should NOT be auto-checked (check-strictly mode)
