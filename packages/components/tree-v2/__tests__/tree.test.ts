@@ -220,6 +220,36 @@ describe('Virtual Tree', () => {
     expect(treeVm.flattenTree.length).toBeGreaterThanOrEqual(NODE_NUMBER)
   })
 
+  test('getCurrentKey returns clicked node key in node-click event', async () => {
+    const currentKeys: TreeKey[] = []
+    const { wrapper } = createTree({
+      data() {
+        return {
+          data: [
+            {
+              id: '1',
+              label: 'node-1',
+            },
+            {
+              id: '2',
+              label: 'node-2',
+            },
+          ],
+        }
+      },
+      methods: {
+        onNodeClick() {
+          currentKeys.push(this.$refs.tree.getCurrentKey())
+        },
+      },
+    })
+    await nextTick()
+    const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+    await nodes[0].trigger('click')
+    await nodes[1].trigger('click')
+    expect(currentKeys).toEqual(['1', '2'])
+  })
+
   test('drop on node', async () => {
     const onNodeDrop = vi.fn()
     const { wrapper, treeVm } = createTree({
