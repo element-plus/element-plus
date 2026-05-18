@@ -2470,14 +2470,12 @@ describe('Tree.vue', () => {
     await nextTick()
     const treeRef = wrapper.findComponent({ name: 'ElTree' }).vm as TreeInstance
 
-    const checkboxes = wrapper.findAll('.el-checkbox__original')
-    await checkboxes[0].trigger('click')
-    await nextTick()
+    const checkbox = wrapper.find(TREE_NODE_CHECKBOX_CLASS_NAME)
+    await checkbox.trigger('click')
 
     expect(treeRef.getCheckedKeys()).toEqual([1])
 
-    const nodeContent = wrapper.findAll('.el-tree-node__content')
-    await nodeContent[0].trigger('click')
+    await wrapper.find('.el-tree-node__content').trigger('click')
     vi.runAllTimers()
     await nextTick()
 
