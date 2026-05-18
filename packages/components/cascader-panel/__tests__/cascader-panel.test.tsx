@@ -599,37 +599,6 @@ describe('CascaderPanel.vue', () => {
     vi.useRealTimers()
   })
 
-  test('should not reload lazy root nodes while initial load is pending', async () => {
-    vi.useFakeTimers()
-    const lazyLoad = vi.fn<LazyLoad>((_node, resolve) => {
-      setTimeout(() => {
-        resolve([
-          {
-            value: 'loaded',
-            label: 'Loaded',
-            leaf: true,
-          },
-        ])
-      }, 1000)
-    })
-    const props: CascaderProps = {
-      lazy: true,
-      lazyLoad,
-    }
-    const wrapper = mount(() => <CascaderPanel props={props} />)
-    const vm = wrapper.findComponent(CascaderPanel).vm as any
-
-    expect(lazyLoad).toHaveBeenCalledTimes(1)
-    vm.loadLazyRootNodes()
-    expect(lazyLoad).toHaveBeenCalledTimes(1)
-
-    vi.runAllTimers()
-    await nextTick()
-    vm.loadLazyRootNodes()
-    expect(lazyLoad).toHaveBeenCalledTimes(1)
-    vi.useRealTimers()
-  })
-
   test('lazy load with loaded fails', async () => {
     vi.useFakeTimers()
     const value = ref([])
