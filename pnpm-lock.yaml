@@ -322,8 +322,8 @@ importers:
         specifier: ^32.0.0
         version: 32.0.0(vue@3.5.25)
       vite-plugin-inspect:
-        specifier: ^0.8.7
-        version: 0.8.9(rollup@4.55.1)(vite@8.0.13)
+        specifier: ^0.10.6
+        version: 0.10.6(rollup@4.55.1)(vite@8.0.13)
       vite-plugin-mkcert:
         specifier: ^2.0.0
         version: 2.0.0(vite@8.0.13)
@@ -719,8 +719,8 @@ importers:
         specifier: ^8.0.13
         version: 8.0.13(@types/node@24.12.4)(esbuild@0.28.0)(jiti@2.7.0)(sass-embedded@1.99.0)(sass@1.99.0)(tsx@4.22.0)(yaml@2.8.4)
       vite-plugin-inspect:
-        specifier: ^0.8.7
-        version: 0.8.9(rollup@4.55.1)(vite@8.0.13)
+        specifier: ^0.10.6
+        version: 0.10.6(rollup@4.55.1)(vite@8.0.13)
       vite-plugin-mkcert:
         specifier: ^2.0.0
         version: 2.0.0(vite@8.0.13)
@@ -6721,12 +6721,12 @@ packages:
   vfile@6.0.3:
     resolution: {integrity: sha512-KzIbH/9tXat2u30jf+smMwFCsno4wHVdNmzFyL+T/L3UGqqk6JKfVqOFOZEpZSHADH1k40ab6NUIXZq422ov3Q==}
 
-  vite-plugin-inspect@0.8.9:
-    resolution: {integrity: sha512-22/8qn+LYonzibb1VeFZmISdVao5kC22jmEKm24vfFE8siEn47EpVcCLYMv6iKOYMJfjSvSJfueOwcFCkUnV3A==}
+  vite-plugin-inspect@0.10.6:
+    resolution: {integrity: sha512-R3pwljjBbjFM2sZvy6Zvynnm51oaEwLYyYPk9Wp2lF97w/YMBq+KtTJXpCA17IO2pImX0bWA6WB05kuqRnkuyQ==}
     engines: {node: '>=14'}
     peerDependencies:
       '@nuxt/kit': '*'
-      vite: ^3.1.0 || ^4.0.0 || ^5.0.0-0 || ^6.0.1
+      vite: ^6.0.0
     peerDependenciesMeta:
       '@nuxt/kit':
         optional: true
@@ -8768,7 +8768,7 @@ snapshots:
 
   '@rollup/pluginutils@5.3.0(rollup@4.55.1)':
     dependencies:
-      '@types/estree': 1.0.8
+      '@types/estree': 1.0.9
       estree-walker: 2.0.2
       picomatch: 4.0.4
     optionalDependencies:
@@ -11258,7 +11258,7 @@ snapshots:
 
   is-reference@1.2.1:
     dependencies:
-      '@types/estree': 1.0.8
+      '@types/estree': 1.0.9
 
   is-regex@1.2.1:
     dependencies:
@@ -13650,7 +13650,7 @@ snapshots:
       '@types/unist': 3.0.3
       vfile-message: 4.0.3
 
-  vite-plugin-inspect@0.8.9(rollup@4.55.1)(vite@8.0.13):
+  vite-plugin-inspect@0.10.6(rollup@4.55.1)(vite@8.0.13):
     dependencies:
       '@antfu/utils': 0.7.10
       '@rollup/pluginutils': 5.3.0(rollup@4.55.1)
