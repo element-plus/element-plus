@@ -2437,4 +2437,56 @@ describe('Tree.vue', () => {
     await nodes[0].trigger('click')
     expect(treeRef.getCheckedKeys()).toEqual(keys)
   })
+
+  test('lazy load with check-strictly should not auto-check children', async () => {
+    const { wrapper, vm } = getTreeVm(
+      `:props="defaultProps" node-key="id" lazy :load="loadNode" show-checkbox check-strictly`,
+      {
+        methods: {
+          loadNode(node, resolve) {
+            if (node.level === 0) {
+              return resolve([
+                { label: 'region1', id: 1 },
+                { label: 'region2', id: 2 },
+              ])
+            }
+            if (node.level === 1) {
+              setTimeout(() => {
+                resolve([
+                  { label: 'zone1', id: 11 },
+                  { label: 'zone2', id: 12 },
+                ])
+              }, 50)
+            } else {
+              resolve([])
+            }
+          },
+        },
+      }
+    )
+
+    await nextTick()
+    const treeRef = wrapper.findComponent({ name: 'ElTree' }).vm as TreeInstance
+
+    // Check the parent node
+    const checkboxes = wrapper.findAll('.el-checkbox__original')
+    await checkboxes[0].trigger('click')
+    await nextTick()
+
+    // Only parent should be checked
+    expect(treeRef.getCheckedKeys()).toEqual([1])
+
+    // Expand parent to trigger lazy load
+    const nodeContent = wrapper.findAll('.el-tree-node__content')
+    await nodeContent[0].trigger('click')
+
+    vi.useFakeTimers()
+    vi.runAllTimers()
+    vi.useRealTimers()
+    await nextTick()
+    await nextTick()
+
+    // Children should NOT be auto-checked (check-strictly mode)
+    expect(treeRef.getCheckedKeys()).toEqual([1])
+  })
 })
