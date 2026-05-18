@@ -118,9 +118,10 @@ const doCheck = (checked: boolean) => {
   panel.handleCheckChange(node, checked)
 }
 
-const doLoad = () => {
+const doLoad = (cb?: () => void) => {
   panel.lazyLoad(props.node, () => {
     if (!isLeaf.value) doExpand()
+    cb?.()
   })
 }
 
@@ -170,7 +171,7 @@ const handleSelectCheck = (checked: CheckboxValueType | undefined) => {
 
 const handleCheck = (checked: boolean) => {
   if (!props.node.loaded) {
-    doLoad()
+    doLoad(() => doCheck(checked))
   } else {
     doCheck(checked)
     !checkStrictly.value && doExpand()
