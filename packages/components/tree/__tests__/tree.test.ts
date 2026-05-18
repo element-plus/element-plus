@@ -2470,8 +2470,7 @@ describe('Tree.vue', () => {
     await nextTick()
     const treeRef = wrapper.findComponent({ name: 'ElTree' }).vm as TreeInstance
 
-    const checkbox = wrapper.find(TREE_NODE_CHECKBOX_CLASS_NAME)
-    await checkbox.trigger('click')
+    await wrapper.find(TREE_NODE_CHECKBOX_CLASS_NAME).trigger('click')
 
     expect(treeRef.getCheckedKeys()).toEqual([1])
 
