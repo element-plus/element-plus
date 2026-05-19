@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: create
-        uses: actions-cool/maintain-one-comment@v3.3.0
+        uses: actions-cool/maintain-one-comment@0bff3c7c0b1ab0fe95273f6b65194f748a798adb # v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           body: |
