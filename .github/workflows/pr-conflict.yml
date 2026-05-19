@@ -17,7 +17,7 @@ jobs:
         if: |
           contains(github.event.pull_request.labels.*.name, 'conflict pending') &&
           github.repository_owner == 'element-plus'
-        uses: actions-cool/maintain-one-comment@4b2dbf086015f892dcb5e8c1106f5fccd6c1476b # v3.3.0
+        uses: actions-cool/maintain-one-comment@0bff3c7c0b1ab0fe95273f6b65194f748a798adb # v3
         with:
           body: |
             @${{ github.event.pull_request.user.login }} This PR has conflicts, please resolve them.
