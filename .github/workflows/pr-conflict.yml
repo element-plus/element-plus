@@ -17,7 +17,7 @@ jobs:
         if: |
           contains(github.event.pull_request.labels.*.name, 'conflict pending') &&
           github.repository_owner == 'element-plus'
-        uses: actions-cool/maintain-one-comment@v3.3.0
+        uses: actions-cool/maintain-one-comment@4b2dbf086015f892dcb5e8c1106f5fccd6c1476b # v3.3.0
         with:
           body: |
             @${{ github.event.pull_request.user.login }} This PR has conflicts, please resolve them.
@@ -70,7 +70,7 @@ jobs:
           github.repository_owner == 'element-plus' &&
           contains(github.event.pull_request.labels.*.name, 'conflict pending') &&
           steps.poll.outputs.mergeable == 'true'
-        uses: actions-cool/issues-helper@v3
+        uses: actions-cool/issues-helper@ed34c898b92b678c2e97a339945e05460596fc9f # v3
         with:
           actions: 'remove-labels'
           labels: 'conflict pending'

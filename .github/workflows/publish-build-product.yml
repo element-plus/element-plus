@@ -46,12 +46,12 @@ jobs:
 
       - name: Read diff file
         id: diff
-        uses: juliangruber/read-file-action@v1
+        uses: juliangruber/read-file-action@271ff311a4947af354c6abcd696a306553b9ec18 # v1
         with:
           path: ./tmp/diff.md
 
       - name: Set comment
-        uses: actions-cool/maintain-one-comment@v3.3.0
+        uses: actions-cool/maintain-one-comment@4b2dbf086015f892dcb5e8c1106f5fccd6c1476b # v3.3.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           body: ${{ steps.diff.outputs.content }}
