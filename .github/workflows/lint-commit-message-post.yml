@@ -55,7 +55,7 @@ jobs:
     steps:
       - name: Successfully
         if: ${{ needs.result.outputs.succeeded == 'true' }}
-        uses: actions-awesome/pr-helper@1.1.1
+        uses: actions-awesome/pr-helper@48f7641b8b2feebab7d6a2fbc22812fd0bfee829 # 1.1.1
         with:
           actions: 'maintain-comment, add-labels, remove-labels'
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -65,7 +65,7 @@ jobs:
 
       - name: Failed
         if: ${{ needs.result.outputs.succeeded != 'true' }}
-        uses: actions-awesome/pr-helper@1.1.1
+        uses: actions-awesome/pr-helper@48f7641b8b2feebab7d6a2fbc22812fd0bfee829 # 1.1.1
         with:
           actions: 'remove-labels, add-labels, maintain-comment'
           labels-to-add: 'CommitMessage::Unqualified'
