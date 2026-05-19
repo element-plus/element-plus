@@ -35810,27 +35810,27 @@ You can use `tooltip-formatter` to customize the tooltip content.
 
 ### Table Events
 
-| Name               | Description                                                                                                                                  | Type                                                                                                    |
-| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| select             | triggers when user clicks the checkbox in a row                                                                                              | ^[Function]`<T = any>(selection: T[], row: T) => void`                                                  |
-| select-all         | triggers when user clicks the checkbox in table header                                                                                       | ^[Function]`(selection: any[]) => void`                                                                 |
-| selection-change   | triggers when selection changes                                                                                                              | ^[Function]`(newSelection: any[]) => void`                                                              |
-| cell-mouse-enter   | triggers when hovering into a cell                                                                                                           | ^[Function]`(row: any, column: TableColumnCtx<T>, cell: HTMLTableCellElement, event: Event) => void`    |
-| cell-mouse-leave   | triggers when hovering out of a cell                                                                                                         | ^[Function]`(row: any, column: TableColumnCtx<T>, cell: HTMLTableCellElement, event: Event) => void`    |
-| cell-click         | triggers when clicking a cell                                                                                                                | ^[Function]`(row: any, column: TableColumnCtx<T>, cell: HTMLTableCellElement, event: Event) => void`    |
-| cell-dblclick      | triggers when double clicking a cell                                                                                                         | ^[Function]`(row: any, column: TableColumnCtx<T>, cell: HTMLTableCellElement, event: Event) => void`    |
-| cell-contextmenu   | triggers when user right clicks on a cell                                                                                                    | ^[Function]`(row: any, column: TableColumnCtx<T>, cell: HTMLTableCellElement, event: Event) => void`    |
-| row-click          | triggers when clicking a row                                                                                                                 | ^[Function]`(row: any, column: TableColumnCtx<T>, event: Event) => void`                                |
-| row-contextmenu    | triggers when user right clicks on a row                                                                                                     | ^[Function]`(row: any, column: TableColumnCtx<T>, event: Event) => void`                                |
-| row-dblclick       | triggers when double clicking a row                                                                                                          | ^[Function]`(row: any, column: TableColumnCtx<T>, event: Event) => void`                                |
-| header-click       | triggers when clicking a column header                                                                                                       | ^[Function]`(column: TableColumnCtx<T>, event: Event) => void`                                          |
-| header-contextmenu | triggers when user right clicks on a column header                                                                                           | ^[Function]`(column: TableColumnCtx<T>, event: Event) => void`                                          |
-| sort-change        | triggers when Table's sorting changes                                                                                                        | ^[Function]`(data: {column: TableColumnCtx<T>, prop: string, order: any }) => void`                     |
-| filter-change      | triggers when the table's filter changes                                                                                                     | ^[Function]`(newFilters: any) => void`                                                                  |
-| current-change     | triggers when current row changes                                                                                                            | ^[Function]`(currentRow: any, oldCurrentRow: any) => void`                                              |
-| header-dragend     | triggers after changing a column's width by dragging the column header's border                                                              | ^[Function]`(newWidth: number, oldWidth: number, column: TableColumnCtx<T>, event: MouseEvent) => void` |
-| expand-change      | triggers when user expands or collapses a row (for expandable table, second param is expandedRows; for tree Table, second param is expanded) | ^[Function]`(row: any, expandedRows: any[]) => void & (row: any, expanded: boolean) => void`            |
-| scroll ^(2.9.0)    | Invoked after scrolled                                                                                                                       | ^[Function]`({ scrollLeft: number, scrollTop: number }) => void`                                        |
+| Name               | Description                                                                                                                                  | Type                                                                                                                           |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| select             | triggers when user clicks the checkbox in a row                                                                                              | ^[Function]`<T = DefaultRow>(selection: T[], row: T) => void`                                                                  |
+| select-all         | triggers when user clicks the checkbox in table header                                                                                       | ^[Function]`<T = DefaultRow>(selection: T[]) => void`                                                                          |
+| selection-change   | triggers when selection changes                                                                                                              | ^[Function]`<T = DefaultRow>(newSelection: T[]) => void`                                                                       |
+| cell-mouse-enter   | triggers when hovering into a cell                                                                                                           | ^[Function]`<T = DefaultRow>(row: T, column: TableColumnCtx<T>, cell: HTMLTableCellElement, event: MouseEvent) => void`        |
+| cell-mouse-leave   | triggers when hovering out of a cell                                                                                                         | ^[Function]`<T = DefaultRow>(row: T, column: TableColumnCtx<T>, cell: HTMLTableCellElement, event: MouseEvent) => void`        |
+| cell-click         | triggers when clicking a cell                                                                                                                | ^[Function]`<T = DefaultRow>(row: T, column: TableColumnCtx<T>, cell: HTMLTableCellElement, event: PointerEvent) => void`      |
+| cell-dblclick      | triggers when double clicking a cell                                                                                                         | ^[Function]`<T = DefaultRow>(row: T, column: TableColumnCtx<T>, cell: HTMLTableCellElement, event: MouseEvent) => void`        |
+| cell-contextmenu   | triggers when user right clicks on a cell                                                                                                    | ^[Function]`<T = DefaultRow>(row: T, column: TableColumnCtx<T>, cell: HTMLTableCellElement, event: PointerEvent) => void`      |
+| row-click          | triggers when clicking a row                                                                                                                 | ^[Function]`<T = DefaultRow>(row: T, column: TableColumnCtx<T> \| null, event: PointerEvent) => void`                          |
+| row-contextmenu    | triggers when user right clicks on a row                                                                                                     | ^[Function]`<T = DefaultRow>(row: T, column: TableColumnCtx<T> \| null, event: PointerEvent) => void`                          |
+| row-dblclick       | triggers when double clicking a row                                                                                                          | ^[Function]`<T = DefaultRow>(row: T, column: TableColumnCtx<T> \| null, event: MouseEvent) => void`                            |
+| header-click       | triggers when clicking a column header                                                                                                       | ^[Function]`<T = DefaultRow>(column: TableColumnCtx<T>, event: PointerEvent) => void`                                          |
+| header-contextmenu | triggers when user right clicks on a column header                                                                                           | ^[Function]`<T = DefaultRow>(column: TableColumnCtx<T>, event: PointerEvent) => void`                                          |
+| sort-change        | triggers when Table's sorting changes                                                                                                        | ^[Function]`<T = DefaultRow>(data: {column: TableColumnCtx<T>, prop: string \| null, order: TableSortOrder \| null }) => void` |
+| filter-change      | triggers when the table's filter changes                                                                                                     | ^[Function]`(newFilters: Record<string, string[]>) => void`                                                                    |
+| current-change     | triggers when current row changes                                                                                                            | ^[Function]`<T = DefaultRow>(currentRow: T \| null, oldCurrentRow: T \| null) => void`                                         |
+| header-dragend     | triggers after changing a column's width by dragging the column header's border                                                              | ^[Function]`<T = DefaultRow>(newWidth: number, oldWidth: number, column: TableColumnCtx<T>, event: MouseEvent) => void`        |
+| expand-change      | triggers when user expands or collapses a row (for expandable table, second param is expandedRows; for tree Table, second param is expanded) | ^[Function]`<T = DefaultRow>(row: T, expandedRows: T[]) => void & <T = DefaultRow>(row: T, expanded: boolean) => void`         |
+| scroll ^(2.9.0)    | Invoked after scrolled                                                                                                                       | ^[Function]`({ scrollLeft: number, scrollTop: number }) => void`                                                               |
 
 ### Table Slots
 
@@ -35990,6 +35990,37 @@ type TableColumnCtx<T extends DefaultRow = DefaultRow> = {
 
 ## FAQ
 
+#### How to infer the correct slot types for `el-table-column`?
+
+`el-table-column` is a generic component. If TypeScript cannot infer the row type for its slots from the surrounding context, place Vue's `@vue-generic` directive comment immediately before `el-table-column` and pass the row type explicitly. For more details, see the Vue documentation on [Generics](https://vuejs.org/api/sfc-script-setup.html#generics).
+
+```vue{3}
+<template>
+  <el-table :data="tableData">
+    <!-- @vue-generic {User} -->
+    <el-table-column label="Name">
+      <template #default="{ row }">
+        {{ row.name }}
+      </template>
+    </el-table-column>
+  </el-table>
+</template>
+
+<script lang="ts" setup>
+interface User {
+  name: string
+  address: string
+}
+
+const tableData: User[] = [
+  {
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+]
+</script>
+```
+
 #### How to use image preview in the table?
 
 ```vue{4}
@@ -36141,6 +36172,7 @@ const tableData: User[] = [
 ```vue
 <template>
   <el-table :data="tableData" style="width: 100%">
+    <!-- @vue-generic {User} -->
     <el-table-column label="Date" width="180">
       <template #default="scope">
         <div style="display: flex; align-items: center">
@@ -36149,6 +36181,7 @@ const tableData: User[] = [
         </div>
       </template>
     </el-table-column>
+    <!-- @vue-generic {User} -->
     <el-table-column label="Name" width="180">
       <template #default="scope">
         <el-popover effect="light" trigger="hover" placement="top" width="auto">
@@ -36162,6 +36195,7 @@ const tableData: User[] = [
         </el-popover>
       </template>
     </el-table-column>
+    <!-- @vue-generic {User} -->
     <el-table-column label="Operations">
       <template #default="scope">
         <el-button size="small" @click="handleEdit(scope.$index, scope.row)">
@@ -36227,6 +36261,7 @@ const tableData: User[] = [
   <el-table :data="filterTableData" style="width: 100%">
     <el-table-column label="Date" prop="date" />
     <el-table-column label="Name" prop="name" />
+    <!-- @vue-generic {User} -->
     <el-table-column align="right">
       <template #header>
         <el-input v-model="search" size="small" placeholder="Type to search" />
@@ -36366,6 +36401,7 @@ const tableData = [
     :preserve-expanded-content="preserveExpanded"
     style="width: 100%"
   >
+    <!-- @vue-generic {typeof tableData[number]} -->
     <el-table-column type="expand">
       <template #default="props">
         <div m="4">
@@ -36641,6 +36677,7 @@ const tableData = [
     <el-table-column prop="name" label="Name" width="180" />
     <el-table-column prop="address" label="Address" :formatter="formatter" />
 
+    <!-- @vue-generic {User} -->
     <el-table-column
       prop="tag"
       label="Tag"
@@ -36960,6 +36997,7 @@ const tableData = [
     <el-table-column prop="city" label="City" width="120" />
     <el-table-column prop="address" label="Address" width="600" />
     <el-table-column prop="zip" label="Zip" width="120" />
+    <!-- @vue-generic {UnwrapRef<typeof tableData>[number]} -->
     <el-table-column fixed="right" label="Operations" min-width="120">
       <template #default="scope">
         <el-button
@@ -36981,6 +37019,8 @@ const tableData = [
 <script lang="ts" setup>
 import { ref } from 'vue'
 import dayjs from 'dayjs'
+
+import type { UnwrapRef } from 'vue'
 
 const now = new Date()
 
@@ -37173,6 +37213,7 @@ const tableData = [
     @selection-change="handleSelectionChange"
   >
     <el-table-column type="selection" :selectable="selectable" width="55" />
+    <!-- @vue-generic {User} -->
     <el-table-column label="Date" width="120">
       <template #default="scope">{{ scope.row.date }}</template>
     </el-table-column>
@@ -37403,6 +37444,7 @@ const tableData: User[] = [
 <template>
   <el-table :data="tableData" style="width: 100%">
     <el-table-column type="selection" width="55" />
+    <!-- @vue-generic {User} -->
     <el-table-column label="Date" width="120">
       <template #default="scope">{{ scope.row.date }}</template>
     </el-table-column>
@@ -37487,7 +37529,7 @@ const singleTableRef = ref<TableInstance>()
 const setCurrent = (row?: User) => {
   singleTableRef.value!.setCurrentRow(row)
 }
-const handleCurrentChange = (val: User | undefined) => {
+const handleCurrentChange = (val: User | null) => {
   currentRow.value = val
 }
 const tableData: User[] = [
@@ -37647,7 +37689,7 @@ interface Product {
   amount3: number
 }
 
-interface SummaryMethodProps<T = Product> {
+interface SummaryMethodProps<T extends Product = Product> {
   columns: TableColumnCtx<T>[]
   data: T[]
 }
@@ -37782,6 +37824,7 @@ const tableData = [
       label="extends table formatter"
       width="240"
     />
+    <!-- @vue-generic {TableData} -->
     <el-table-column
       prop="tags"
       label="formatter object"
