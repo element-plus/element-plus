@@ -396,10 +396,12 @@ class Node {
     if (this.shouldLoadData()) {
       this.loadData((data) => {
         if (isArray(data)) {
-          if (this.checked) {
-            this.setChecked(true, true)
-          } else if (!this.store.checkStrictly) {
-            reInitChecked(this)
+          if (!this.store.checkStrictly) {
+            if (this.checked) {
+              this.setChecked(true, true)
+            } else {
+              reInitChecked(this)
+            }
           }
           done()
         }

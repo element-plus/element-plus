@@ -89,7 +89,7 @@ function useWatcher<T extends DefaultRow>() {
   const filteredData: Ref<T[] | null> = ref(null)
   const sortingColumn: Ref<TableColumnCtx<T> | null> = ref(null)
   const sortProp: Ref<string | null> = ref(null)
-  const sortOrder: Ref<string | number | null> = ref(null)
+  const sortOrder: Ref<TableSortOrder | null> = ref(null)
   const hoverRow: Ref<T | null> = ref(null)
 
   const selectedMap = computed(() => {
