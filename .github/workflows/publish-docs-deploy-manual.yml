@@ -64,21 +64,67 @@ jobs:
           commit-message: website deploy ${{ steps.get_release.outputs.latest_version }}
 
       - name: Deploy to Vercel
-        uses: JamesIves/github-pages-deploy-action@d92aa235d04922e8f08b40ce78cc5442fcfbfa2f # v4.8.0
-        with:
-          token: ${{ secrets.EP_BOT_TOKEN }}
-          branch: main
-          folder: docs/.vitepress/dist
-          repository-name: element-plus/vercel-publish
-          git-config-name: ElementPlusBot
-          git-config-email: element-plus@outlook.com
+        run: |
+          set -euo pipefail
+
+          REPO_DIR="$(mktemp -d)"
+
+          git clone \
+            --depth=1 \
+            https://x-access-token:${{ secrets.EP_BOT_TOKEN }}@github.com/element-plus/vercel-publish.git \
+            "$REPO_DIR"
+
+          rsync -a \
+            --delete \
+            --exclude .git \
+            docs/.vitepress/dist/ \
+            "$REPO_DIR/"
+
+          cd "$REPO_DIR"
+
+          git config user.name "ElementPlusBot"
+          git config user.email "element-plus@outlook.com"
+
+          git add -A
+
+          if git diff --cached --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+
+          git commit -m "deploy ${{ steps.get_release.outputs.latest_version }}"
+
+          git push origin main --force-with-lease
 
       - name: Deploy to Vercel Main
-        uses: JamesIves/github-pages-deploy-action@d92aa235d04922e8f08b40ce78cc5442fcfbfa2f # v4.8.0
-        with:
-          token: ${{ secrets.EP_BOT_TOKEN }}
-          branch: main
-          folder: docs/.vitepress/dist
-          repository-name: element-plus/vercel-publish-main
-          git-config-name: ElementPlusBot
-          git-config-email: element-plus@outlook.com
+        run: |
+          set -euo pipefail
+
+          REPO_DIR="$(mktemp -d)"
+
+          git clone \
+            --depth=1 \
+            https://x-access-token:${{ secrets.EP_BOT_TOKEN }}@github.com/element-plus/vercel-publish-main.git \
+            "$REPO_DIR"
+
+          rsync -a \
+            --delete \
+            --exclude .git \
+            docs/.vitepress/dist/ \
+            "$REPO_DIR/"
+
+          cd "$REPO_DIR"
+
+          git config user.name "ElementPlusBot"
+          git config user.email "element-plus@outlook.com"
+
+          git add -A
+
+          if git diff --cached --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+
+          git commit -m "deploy ${{ steps.get_release.outputs.latest_version }}"
+
+          git push origin main --force-with-lease
