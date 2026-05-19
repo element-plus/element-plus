@@ -9,7 +9,7 @@ jobs:
   pr-open-greeting:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions-cool/check-user-permission@7b90a27f92f3961b368376107661682c441f6103 # v2
+      - uses: actions-cool/check-user-permission@2cc6444dae75317d510762d50ca78effb4330fd4 # v2
         id: isTeamMember
         with:
           require: 'write'
