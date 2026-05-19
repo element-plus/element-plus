@@ -13,10 +13,9 @@ import {
   isUndefined,
   throwError,
 } from '@element-plus/utils'
-import ElTooltip, {
-  type ElTooltipProps,
-} from '@element-plus/components/tooltip'
+import ElTooltip from '@element-plus/components/tooltip'
 
+import type { UseTooltipProps } from '@element-plus/components/tooltip'
 import type { DefaultRow, Table, TreeProps } from './table/defaults'
 import type { TableColumnCtx } from './table-column/defaults'
 import type { CSSProperties, VNode, VNodeArrayChildren } from 'vue'
@@ -31,19 +30,17 @@ export const createTableColumnId = (parentId: string) =>
   `${parentId}_column_${columnIdSeed++}`
 
 export type TableOverflowTooltipOptions = Partial<
-  Pick<
-    ElTooltipProps,
-    | 'appendTo'
-    | 'effect'
-    | 'enterable'
-    | 'hideAfter'
-    | 'offset'
-    | 'placement'
-    | 'popperClass'
-    | 'popperOptions'
-    | 'showAfter'
-    | 'showArrow'
-    | 'transition'
+  Omit<
+    UseTooltipProps,
+    | 'content'
+    | 'rawContent'
+    | 'persistent'
+    | 'visible'
+    | 'autoClose'
+    | 'referenceEl'
+    | 'triggerTargetEl'
+    | 'virtualRef'
+    | 'virtualTriggering'
   >
 >
 
