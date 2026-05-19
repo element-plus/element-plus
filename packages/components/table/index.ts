@@ -24,6 +24,7 @@ export type TableColumnInstance = ComponentInstance<typeof TableColumn> &
 export type {
   SummaryMethod,
   Table,
+  TableEmits,
   TableProps,
   TableRefs,
   ColumnCls,
