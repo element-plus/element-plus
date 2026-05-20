@@ -427,12 +427,6 @@ const getTableOverflowTooltipProps = <T extends DefaultRow>(
   row: T,
   column: TableColumnCtx<T> | null
 ) => {
-  // merge popperOptions
-  const popperOptions = {
-    strategy: 'fixed',
-    ...props.popperOptions,
-  }
-
   const tooltipFormatterContent = isFunction(column?.tooltipFormatter)
     ? column.tooltipFormatter({
         row,
@@ -445,16 +439,16 @@ const getTableOverflowTooltipProps = <T extends DefaultRow>(
     return {
       slotContent: tooltipFormatterContent,
       content: null,
+      strategy: 'fixed',
       ...props,
-      popperOptions,
     }
   }
 
   return {
     slotContent: null,
     content: tooltipFormatterContent ?? innerText,
+    strategy: 'fixed',
     ...props,
-    popperOptions,
   }
 }
 
