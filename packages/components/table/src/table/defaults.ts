@@ -72,7 +72,10 @@ type SummaryMethod<T extends DefaultRow> = (data: {
   data: T[]
 }) => (string | VNode)[]
 
-interface Table<T extends DefaultRow = any> extends ComponentInternalInstance {
+interface Table<T extends DefaultRow = any> extends Omit<
+  ComponentInternalInstance,
+  'emit'
+> {
   $ready: boolean
   hoverState?: HoverState<T> | null
   renderExpanded: RenderExpanded<T>
@@ -81,6 +84,7 @@ interface Table<T extends DefaultRow = any> extends ComponentInternalInstance {
   refs: TableRefs
   tableId: string
   state: TableState
+  emit: TableEmits<T>
 }
 
 type ColumnCls<T> = string | ((data: { row: T; rowIndex: number }) => string)
@@ -341,6 +345,69 @@ interface TableConfigContext {
   tooltipFormatter?: TableOverflowTooltipFormatter<any>
 }
 
+interface TableEmits<T extends DefaultRow = DefaultRow> {
+  (e: 'select', selection: T[], row: T): void
+  (e: 'select-all', selection: T[]): void
+  (e: 'selection-change', newSelection: T[]): void
+  (
+    e: 'cell-mouse-enter' | 'cell-mouse-leave' | 'cell-dblclick',
+    row: T,
+    column: TableColumnCtx<T>,
+    cell: HTMLTableCellElement,
+    event: MouseEvent
+  ): void
+  (
+    e: 'cell-contextmenu' | 'cell-click',
+    row: T,
+    column: TableColumnCtx<T>,
+    cell: HTMLTableCellElement,
+    event: PointerEvent
+  ): void
+  (
+    e: 'row-dblclick',
+    row: T,
+    column: TableColumnCtx<T> | null,
+    event: MouseEvent
+  ): void
+  (
+    e: 'row-click' | 'row-contextmenu',
+    row: T,
+    column: TableColumnCtx<T> | null,
+    event: PointerEvent
+  ): void
+  (
+    e: 'header-click' | 'header-contextmenu',
+    column: TableColumnCtx<T>,
+    event: PointerEvent
+  ): void
+  (
+    e: 'sort-change',
+    data: {
+      column: TableColumnCtx<T>
+      prop: string | null
+      order: TableSortOrder | null
+    }
+  ): void
+  (e: 'filter-change', newFilters: Record<string, string[]>): void
+  (e: 'current-change', currentRow: T | null, oldCurrentRow: T | null): void
+  (
+    e: 'header-dragend',
+    newWidth: number,
+    oldWidth: number,
+    column: TableColumnCtx<T>,
+    event: MouseEvent
+  ): void
+  (e: 'expand-change', row: T, expandedRows: T[]): void
+  (e: 'expand-change', row: T, expanded: boolean): void
+  (
+    e: 'scroll',
+    data: {
+      scrollLeft: number
+      scrollTop: number
+    }
+  ): void
+}
+
 /**
  * @deprecated Removed after 3.0.0, Use `TableProps` instead.
  */
@@ -599,6 +666,7 @@ export type {
   TableSortOrder,
   RenderExpanded,
   TableConfigContext,
+  TableEmits,
 }
 
 export default tableProps

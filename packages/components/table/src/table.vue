@@ -191,7 +191,12 @@ import { TABLE_INJECTION_KEY } from './tokens'
 import { hColgroup } from './h-helper'
 import { useScrollbar } from './composables/use-scrollbar'
 
-import type { DefaultRow, Table, TableProps } from './table/defaults'
+import type {
+  DefaultRow,
+  Table,
+  TableEmits,
+  TableProps,
+} from './table/defaults'
 
 defineOptions({
   name: 'ElTable',
@@ -216,27 +221,7 @@ const props = withDefaults(defineProps<TableProps<T>>(), {
   allowDragLastColumn: true,
 })
 
-defineEmits([
-  'select',
-  'select-all',
-  'selection-change',
-  'cell-mouse-enter',
-  'cell-mouse-leave',
-  'cell-contextmenu',
-  'cell-click',
-  'cell-dblclick',
-  'row-click',
-  'row-contextmenu',
-  'row-dblclick',
-  'header-click',
-  'header-contextmenu',
-  'sort-change',
-  'filter-change',
-  'current-change',
-  'header-dragend',
-  'expand-change',
-  'scroll',
-])
+defineEmits<TableEmits<T>>()
 
 const { t } = useLocale()
 const ns = useNamespace('table')
