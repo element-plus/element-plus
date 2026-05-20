@@ -1,6 +1,62 @@
 ## Changelog
 
 
+### 2.14.0
+
+_2026-05-08_
+
+#### Features
+
+- Components [date-picker] add `singlePanel` for range-picker (#19498 by @Dsaquel)
+- Components [input-number] add `tabindex` prop (#23582 by @rzzf)
+- Components [tree/tree-v2/tree-select] setChecked supports deep check (#23591 by @l246804)
+- Components [input-otp] new component (#23634 by @rzzf)
+- Components [input-number] add formatter and parser props (#23271 by @rzzf)
+- Components [select/select-v2] add `end-reached` event (#23806 by @ALypovskyi)
+- Components [autocomplete] add `popper-options` and `show-arrow` props (#24109 by @rzzf)
+- Components [cascader] support `virtual-scroll` & `fitInputWidth` & `height` & `item-size` (#23877 by @zhixiaotong)
+- Components [message-box] pass action-handlers to vnode (#23901 by @micaiguai)
+- Components style properties support Boolean values (#24165 by @rzzf)
+
+#### Bug fixes
+
+- Deps update dependency @docsearch/css to v4 (#24000 by @renovate[bot])
+- Deps update dependency @docsearch/js to v4 (#24001 by @renovate[bot])
+- Deps update dependency typescript to v6 (#24026 by @renovate[bot])
+- Components [message] missing content wrapper in VNode message (#23352 by @romankaravia)
+- Style [form-item] remove trailing inline margin (#23671 by @Dsaquel)
+- Components [virtual-list] `scrollbar-always-on` loses reactivity (#24064 by @rzzf)
+- Components [input] prevent layout shift when toggling clear icon (#23661 by @Dsaquel)
+- Components [input] avoid border flicker while resizing (#24078 by @rzzf)
+- Components [segmented] incorrect bg position after update options (#24101 by @rzzf)
+- Dts some type declarations in tree-v2 are missing (#24116 by @rzzf)
+- Components [table] prevent stale height callbacks (#24118 by @xingyixiang)
+- Deps update dependency typescript to ~6.0.3 (#24125 by @renovate[bot])
+- Deps update dependency globals to ^17.5.0 (#24133 by @renovate[bot])
+- Deps update dependency components-helper to ^2.2.0 (#24127 by @renovate[bot])
+- Deps update dependency @types/lodash to ^4.17.24 (#24126 by @renovate[bot])
+- Deps update dependency eslint-plugin-prettier to ^5.5.5 (#24124 by @renovate[bot])
+- Deps update dependency prettier to ^3.8.3 (#24129 by @renovate[bot])
+- Deps update dependency typescript-eslint to ^8.59.0 (#24130 by @renovate[bot])
+- Components [select] correctly display selected labels after `options` change (#24036 by @LostElkByte)
+- Deps update dependency markdown-it to ^14.1.1 (#24138 by @renovate[bot])
+- Deps update dependency tinyglobby to ^0.2.16 (#24139 by @renovate[bot])
+- Deps update dependency eslint-plugin-vue to ^10.9.0 (#24128 by @renovate[bot])
+- Components [table] parent-child selection mismatch in tree data (#23596 by @zhixiaotong)
+- Components [input] incorrect positioning of icon and count when resizing `textarea` (#24115 by @rzzf)
+- Components [dialog] incorrect boundary when resizing the window (#24172 by @rzzf)
+- Components [splitter] expand panel with initial zero size (#24200 by @rzzf)
+- Build generate correct DTS for all non-entry files (#24179 by @rzzf)
+
+#### Refactors
+
+- Components remove console noises from failed form validation (#23663 by @Dsaquel)
+- Components [select/v2] remove the unnecessary `computed` (#24058 by @ixyzorg)
+- Types import MaybeRef from vue instead of @vueuse/core (#24068 by @btea)
+- Element-plus remove `el-teleport` (#23219 by @micaiguai)
+- Components [menu-item] set index attribute to required (#20453 by @zzjiaxiang)
+- Components [cascader] replace `defineSlots` with `useSlots` (#24114 by @rzzf)
+
 ### 2.13.7
 
 _2026-04-10_

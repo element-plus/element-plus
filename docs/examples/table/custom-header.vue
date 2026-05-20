@@ -2,6 +2,7 @@
   <el-table :data="filterTableData" style="width: 100%">
     <el-table-column label="Date" prop="date" />
     <el-table-column label="Name" prop="name" />
+    <!-- @vue-generic {User} -->
     <el-table-column align="right">
       <template #header>
         <el-input v-model="search" size="small" placeholder="Type to search" />
