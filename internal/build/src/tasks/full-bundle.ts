@@ -60,6 +60,9 @@ async function buildFullEntry(minify: boolean) {
       sourcemap: minify,
       banner,
       minify,
+      comments: {
+        jsdoc: false,
+      },
     },
     {
       format: 'esm',
@@ -71,6 +74,9 @@ async function buildFullEntry(minify: boolean) {
       sourcemap: minify,
       banner,
       minify,
+      comments: {
+        jsdoc: false,
+      },
     },
   ])
 }

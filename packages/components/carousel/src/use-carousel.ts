@@ -19,6 +19,7 @@ import { CHANGE_EVENT } from '@element-plus/constants'
 import { CAROUSEL_ITEM_NAME, carouselContextKey } from './constants'
 
 import type { SetupContext } from 'vue'
+import type { DebouncedFunc } from 'lodash-unified'
 import type { CarouselItemContext } from './constants'
 import type { CarouselEmits, CarouselProps } from './carousel'
 
@@ -74,7 +75,7 @@ export const useCarousel = (
   })
 
   // methods
-  const throttledArrowClick = throttle(
+  const throttledArrowClick: DebouncedFunc<(index: number) => void> = throttle(
     (index: number) => {
       setActiveItem(index)
     },
@@ -82,9 +83,10 @@ export const useCarousel = (
     { trailing: true }
   )
 
-  const throttledIndicatorHover = throttle((index: number) => {
-    handleIndicatorHover(index)
-  }, THROTTLE_TIME)
+  const throttledIndicatorHover: DebouncedFunc<(index: number) => void> =
+    throttle((index: number) => {
+      handleIndicatorHover(index)
+    }, THROTTLE_TIME)
 
   const isTwoLengthShow = (index: number) => {
     if (!isItemsTwoLength.value) return true
