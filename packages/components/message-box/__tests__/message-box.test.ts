@@ -498,20 +498,18 @@ describe('MessageBox', () => {
       expect(error.textContent).toBe('error message')
     })
   })
+
   test('should hide btns container when both buttons are hidden', async () => {
-  MessageBox({
-    title: '消息',
-    message: '这是一段内容',
-    showConfirmButton: false,
-    showCancelButton: false,
+    MessageBox({
+      title: '消息',
+      message: '这是一段内容',
+      showConfirmButton: false,
+      showCancelButton: false
+    })
+    await rAF()
+    const btns = document.querySelector('.el-message-box__btns')
+    expect(btns).toBeNull()
   })
-
-  await rAF()
-
-  const btns = document.querySelector('.el-message-box__btns')
-
-  expect(btns).toBeNull()
-})
 
   test('should work with confirmButtonType and cancelButtonType props', async () => {
     MessageBox({

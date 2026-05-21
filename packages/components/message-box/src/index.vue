@@ -113,7 +113,7 @@
                 </div>
               </div>
             </div>
-            <div :class="ns.e('btns')" v-if="showCancelButton || showConfirmButton">
+            <div v-if="showCancelButton || showConfirmButton" :class="ns.e('btns')">
               <el-button
                 v-if="showCancelButton"
                 :type="cancelButtonType === 'text' ? '' : cancelButtonType"
