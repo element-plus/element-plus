@@ -504,7 +504,7 @@ describe('MessageBox', () => {
       title: '消息',
       message: '这是一段内容',
       showConfirmButton: false,
-      showCancelButton: false
+      showCancelButton: false,
     })
     await rAF()
     const btns = document.querySelector('.el-message-box__btns')
