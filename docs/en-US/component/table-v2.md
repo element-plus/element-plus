@@ -311,7 +311,7 @@ table-v2/manual-scroll
 | row-props                 | Customized props name passed to row component                                                                              | `object` / Function<[RowPropsGetter](#typings)>        | —         |
 | row-height                | The height of each row, used for calculating the total height of the table                                                 | `number`                                               | 50        |
 | row-event-handlers        | A collection of handlers attached to each row                                                                              | `object`\<[RowEventHandlers](#typings)\>               | —         |
-| cell-props                | extra props passed to each cell (except header cells)                                                                      | `object` / Function<[CellPropsGetter](#typings)>       | —         |
+| cell-props                | Extra props passed to each cell (except header cells)                                                                      | `object` / Function<[CellPropsGetter](#typings)>       | —         |
 | columns                   | An array of column definitions.                                                                                            | [Column[]](#column-attribute)                          | —         |
 | data                      | An array of data to be rendered in the table.                                                                              | [Data[]](#typings)                                     | []        |
 | data-getter               | A method to customize data fetch from the data source.                                                                     | Function<[DataGetter\<T\>](#typings)>                  | —         |
@@ -324,7 +324,7 @@ table-v2/manual-scroll
 | width ^(required)         | Width of the table                                                                                                         | `number`                                               | —         |
 | height ^(required)        | Height of the table                                                                                                        | `number`                                               | —         |
 | max-height                | Maximum height of the table                                                                                                | `number`                                               | —         |
-| indent-size               | horizontal indentation of tree table                                                                                       | `number`                                               | 12        |
+| indent-size               | Horizontal indentation of tree table                                                                                       | `number`                                               | 12        |
 | h-scrollbar-size          | Indicates the horizontal scrollbar's size for the table, used to prevent the horizontal and vertical scrollbar to collapse | `number`                                               | 6         |
 | v-scrollbar-size          | Indicates the vertical scrollbar's size for the table, used to prevent the horizontal and vertical scrollbar to collapse   | `number`                                               | 6         |
 | scrollbar-always-on       | If true, the scrollbar will always be shown instead of when mouse is placed above the table                                | `boolean`                                              | false     |
@@ -361,7 +361,7 @@ table-v2/manual-scroll
 | scrollTo     | Scroll to a given position                           | ^[Function]`(param: {scrollLeft?: number, scrollTop?: number}) => void`                |
 | scrollToLeft | Scroll to a given horizontal position                | ^[Function]`(scrollLeft: number) => void`                                              |
 | scrollToTop  | Scroll to a given vertical position                  | ^[Function]`(scrollTop: number) => void`                                               |
-| scrollToRow  | scroll to a given row with specified scroll strategy | ^[Function]`(row: number, strategy?: 'center' \| 'end' \| 'start' \| 'smart') => void` |
+| scrollToRow  | Scroll to a given row with specified scroll strategy | ^[Function]`(row: number, strategy?: 'center' \| 'end' \| 'start' \| 'smart') => void` |
 
 :::tip
 

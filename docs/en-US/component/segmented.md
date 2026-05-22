@@ -83,37 +83,37 @@ segmented/custom-style
 
 | Name                     | Description                                    | Type                                           | Default    |
 | ------------------------ | ---------------------------------------------- | ---------------------------------------------- | ---------- |
-| model-value / v-model    | binding value                                  | ^[string] / ^[number] / ^[boolean]             | —          |
-| options                  | data of the options                            | ^[array]`Option[]`                             | []         |
-| [props](#props) ^(2.9.8) | configuration options, see the following table | ^[object]                                      | —          |
-| size                     | size of component                              | ^[enum]`'' \| 'large' \| 'default' \| 'small'` | ''         |
-| block                    | fit width of parent content                    | ^[boolean]                                     | false      |
-| disabled                 | whether segmented is disabled                  | ^[boolean]                                     | false      |
-| validate-event           | whether to trigger form validation             | ^[boolean]                                     | true       |
-| name                     | native `name` attribute                        | ^[string]                                      | —          |
-| id                       | native `id` attribute                          | ^[string]                                      | —          |
-| aria-label ^(a11y)       | native `aria-label` attribute                  | ^[string]                                      | —          |
-| direction ^(2.8.7)       | display direction                              | ^[enum]`'horizontal' \| 'vertical'`            | horizontal |
+| model-value / v-model    | Binding value                                  | ^[string] / ^[number] / ^[boolean]             | —          |
+| options                  | Data of the options                            | ^[array]`Option[]`                             | []         |
+| [props](#props) ^(2.9.8) | Configuration options, see the following table | ^[object]                                      | —          |
+| size                     | Size of component                              | ^[enum]`'' \| 'large' \| 'default' \| 'small'` | ''         |
+| block                    | Fit width of parent content                    | ^[boolean]                                     | false      |
+| disabled                 | Whether segmented is disabled                  | ^[boolean]                                     | false      |
+| validate-event           | Whether to trigger form validation             | ^[boolean]                                     | true       |
+| name                     | Native `name` attribute                        | ^[string]                                      | —          |
+| id                       | Native `id` attribute                          | ^[string]                                      | —          |
+| aria-label ^(a11y)       | Native `aria-label` attribute                  | ^[string]                                      | —          |
+| direction ^(2.8.7)       | Display direction                              | ^[enum]`'horizontal' \| 'vertical'`            | horizontal |
 
 ### props
 
 | Attribute | Description                                                     | Type      | Default  |
 | --------- | --------------------------------------------------------------- | --------- | -------- |
-| value     | specify which key of node object is used as the node's value    | ^[string] | value    |
-| label     | specify which key of node object is used as the node's label    | ^[string] | label    |
-| disabled  | specify which key of node object is used as the node's disabled | ^[string] | disabled |
+| value     | Specify which key of node object is used as the node's value    | ^[string] | value    |
+| label     | Specify which key of node object is used as the node's label    | ^[string] | label    |
+| disabled  | Specify which key of node object is used as the node's disabled | ^[string] | disabled |
 
 ### Events
 
 | Name   | Description                                                                   | Type                            |
 | ------ | ----------------------------------------------------------------------------- | ------------------------------- |
-| change | triggers when the selected value changes, the param is current selected value | ^[Function]`(val: any) => void` |
+| change | Triggers when the selected value changes, the param is current selected value | ^[Function]`(val: any) => void` |
 
 ### Slots
 
 | Name    | Description     | Type                        |
 | ------- | --------------- | --------------------------- |
-| default | option renderer | ^[object]`{ item: Option }` |
+| default | Option renderer | ^[object]`{ item: Option }` |
 
 ## Type Declarations
 

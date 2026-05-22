@@ -67,17 +67,17 @@ watermark/custom
 
 | Name              | Description   | Type                                                                                 | Default         |
 | ----------------- | ------------- | ------------------------------------------------------------------------------------ | --------------- |
-| color             | font color    | ^[string]                                                                            | rgba(0,0,0,.15) |
-| fontSize          | font size     | ^[number] / ^[string]                                                                | 16              |
-| fontWeight        | font weight   | ^[enum]`'normal' \| 'bold' \| 'lighter' \| 'bolder' \| number`                       | normal          |
-| fontFamily        | font family   | ^[string]                                                                            | sans-serif      |
-| fontGap ^(2.11.5) | font gap      | ^[number]                                                                            | 3               |
-| fontStyle         | font style    | ^[enum]`'none' \| 'normal' \| 'italic' \| 'oblique'`                                 | normal          |
-| textAlign         | text align    | ^[enum]`'left' \| 'right' \| 'center' \| 'start' \| 'end' `                          | center          |
-| textBaseline      | text baseline | ^[enum]`'top' \| 'hanging' \| 'middle' \| 'alphabetic' \| 'ideographic' \| 'bottom'` | hanging         |
+| color             | Font color    | ^[string]                                                                            | rgba(0,0,0,.15) |
+| fontSize          | Font size     | ^[number] / ^[string]                                                                | 16              |
+| fontWeight        | Font weight   | ^[enum]`'normal' \| 'bold' \| 'lighter' \| 'bolder' \| number`                       | normal          |
+| fontFamily        | Font family   | ^[string]                                                                            | sans-serif      |
+| fontGap ^(2.11.5) | Font gap      | ^[number]                                                                            | 3               |
+| fontStyle         | Font style    | ^[enum]`'none' \| 'normal' \| 'italic' \| 'oblique'`                                 | normal          |
+| textAlign         | Text align    | ^[enum]`'left' \| 'right' \| 'center' \| 'start' \| 'end' `                          | center          |
+| textBaseline      | Text baseline | ^[enum]`'top' \| 'hanging' \| 'middle' \| 'alphabetic' \| 'ideographic' \| 'bottom'` | hanging         |
 
 ### Slots
 
 | Name    | Description                    |
 | ------- | ------------------------------ |
-| default | container for adding watermark |
+| default | Container for adding watermark |

@@ -210,8 +210,8 @@ tooltip/append-to
 
 | Name                 | Description                                                       | Type                                                |
 | -------------------- | ----------------------------------------------------------------- | --------------------------------------------------- |
-| popperRef            | el-popper component instance                                      | ^[object]`Ref<PopperInstance \| undefined>`         |
-| contentRef           | el-tooltip-content component instance                             | ^[object]`Ref<TooltipContentInstance \| undefined>` |
+| popperRef            | El-popper component instance                                      | ^[object]`Ref<PopperInstance \| undefined>`         |
+| contentRef           | El-tooltip-content component instance                             | ^[object]`Ref<TooltipContentInstance \| undefined>` |
 | isFocusInsideContent | Validate current focus event is trigger inside el-tooltip-content | ^[Function]`() => boolean \| undefined`             |
 | updatePopper         | Update el-popper component instance                               | ^[Function]`() => void`                             |
 | onOpen               | Expose onOpen function to manage el-tooltip open state            | ^[Function]`(event?: Event \| undefined) => void`   |

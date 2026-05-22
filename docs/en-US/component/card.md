@@ -53,18 +53,18 @@ card/shadow
 
 | Name                  | Description                                                    | Type                              | Default |
 | --------------------- | -------------------------------------------------------------- | --------------------------------- | ------- |
-| header                | title of the card. Also accepts a DOM passed by `slot#header`  | ^[string]                         | —       |
-| footer ^(2.4.3)       | footer of the card. Also accepts a DOM passed by `slot#footer` | ^[string]                         | —       |
+| header                | Title of the card. Also accepts a DOM passed by `slot#header`  | ^[string]                         | —       |
+| footer ^(2.4.3)       | Footer of the card. Also accepts a DOM passed by `slot#footer` | ^[string]                         | —       |
 | body-style            | CSS style of card body                                         | ^[object]`CSSProperties`          | —       |
-| header-class ^(2.9.8) | custom class name of card header                               | ^[string]                         | —       |
-| body-class ^(2.3.10)  | custom class name of card body                                 | ^[string]                         | —       |
-| footer-class ^(2.9.8) | custom class name of card footer                               | ^[string]                         | —       |
-| shadow                | when to show card shadows                                      | ^[enum]`always \| never \| hover` | always  |
+| header-class ^(2.9.8) | Custom class name of card header                               | ^[string]                         | —       |
+| body-class ^(2.3.10)  | Custom class name of card body                                 | ^[string]                         | —       |
+| footer-class ^(2.9.8) | Custom class name of card footer                               | ^[string]                         | —       |
+| shadow                | When to show card shadows                                      | ^[enum]`always \| never \| hover` | always  |
 
 ### Slots
 
 | Name    | Description                |
 | ------- | -------------------------- |
-| default | customize default content  |
-| header  | content of the Card header |
-| footer  | content of the Card footer |
+| default | Customize default content  |
+| header  | Content of the Card header |
+| footer  | Content of the Card footer |

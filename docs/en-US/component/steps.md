@@ -83,25 +83,25 @@ steps/simple
 
 | Name           | Description                                                                   | Type                                                             | Default    |
 | -------------- | ----------------------------------------------------------------------------- | ---------------------------------------------------------------- | ---------- |
-| space          | the spacing of each step, will be responsive if omitted. Supports percentage. | ^[number] / ^[string]                                            | ''         |
-| direction      | display direction                                                             | ^[enum]`'vertical' \| 'horizontal'`                              | horizontal |
-| active         | current activation step                                                       | ^[number]                                                        | 0          |
-| process-status | status of current step                                                        | ^[enum]`'wait' \| 'process' \| 'finish' \| 'error' \| 'success'` | process    |
-| finish-status  | status of end step                                                            | ^[enum]`'wait' \| 'process' \| 'finish' \| 'error' \| 'success'` | finish     |
-| align-center   | center title and description                                                  | ^[boolean]                                                       | —          |
-| simple         | whether to apply simple theme                                                 | ^[boolean]                                                       | —          |
+| space          | The spacing of each step, will be responsive if omitted. Supports percentage. | ^[number] / ^[string]                                            | ''         |
+| direction      | Display direction                                                             | ^[enum]`'vertical' \| 'horizontal'`                              | horizontal |
+| active         | Current activation step                                                       | ^[number]                                                        | 0          |
+| process-status | Status of current step                                                        | ^[enum]`'wait' \| 'process' \| 'finish' \| 'error' \| 'success'` | process    |
+| finish-status  | Status of end step                                                            | ^[enum]`'wait' \| 'process' \| 'finish' \| 'error' \| 'success'` | finish     |
+| align-center   | Center title and description                                                  | ^[boolean]                                                       | —          |
+| simple         | Whether to apply simple theme                                                 | ^[boolean]                                                       | —          |
 
 ### Steps Events
 
 | Name   | Description                           | Parameters                                            |
 | ------ | ------------------------------------- | ----------------------------------------------------- |
-| change | triggers when the active step changes | ^[Function]`(newVal: number, oldVal: number) => void` |
+| change | Triggers when the active step changes | ^[Function]`(newVal: number, oldVal: number) => void` |
 
 ### Steps Slots
 
 | Name    | Description               | Subtags |
 | ------- | ------------------------- | ------- |
-| default | customize default content | Step    |
+| default | Customize default content | Step    |
 
 ## Step API
 
@@ -109,15 +109,15 @@ steps/simple
 
 | Name        | Description                                                              | Type                                                                   | Default |
 | ----------- | ------------------------------------------------------------------------ | ---------------------------------------------------------------------- | ------- |
-| title       | step title                                                               | ^[string]                                                              | ''      |
-| description | step description                                                         | ^[string]                                                              | ''      |
-| icon        | step custom icon. Icons can be passed via named slot as well             | ^[string] / ^[Component]                                               | —       |
-| status      | current status. It will be automatically set by Steps if not configured. | ^[enum]`'' \| 'wait' \| 'process' \| 'finish' \| 'error' \| 'success'` | ''      |
+| title       | Step title                                                               | ^[string]                                                              | ''      |
+| description | Step description                                                         | ^[string]                                                              | ''      |
+| icon        | Step custom icon. Icons can be passed via named slot as well             | ^[string] / ^[Component]                                               | —       |
+| status      | Current status. It will be automatically set by Steps if not configured. | ^[enum]`'' \| 'wait' \| 'process' \| 'finish' \| 'error' \| 'success'` | ''      |
 
 ### Step Slots
 
 | Name        | Description      |
 | ----------- | ---------------- |
-| icon        | custom icon      |
-| title       | step title       |
-| description | step description |
+| icon        | Custom icon      |
+| title       | Step title       |
+| description | Step description |

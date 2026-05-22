@@ -122,19 +122,19 @@ ElMessage({}, appContext)
 
 | Name                     | Description                                                                                            | Type                                                                                       | Default |
 | ------------------------ | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------- |
-| message                  | message text                                                                                           | ^[string] / ^[VNode] / ^[Function]`() => VNode`                                            | ''      |
-| type                     | message type                                                                                           | ^[enum]`'primary' (2.9.11) \| 'success' \| 'warning' \| 'info' \| 'error'`                 | info    |
-| plain ^(2.6.3)           | whether message is plain                                                                               | ^[boolean]                                                                                 | false   |
-| icon                     | custom icon component, overrides `type`                                                                | ^[string] / ^[Component]                                                                   | —       |
-| dangerouslyUseHTMLString | whether `message` is treated as HTML string                                                            | ^[boolean]                                                                                 | false   |
-| customClass              | custom class name for Message                                                                          | ^[string]                                                                                  | ''      |
-| duration                 | display duration, millisecond. If set to 0, it will not turn off automatically                         | ^[number]                                                                                  | 3000    |
-| showClose                | whether to show a close button                                                                         | ^[boolean]                                                                                 | false   |
-| onClose                  | callback function when closed with the message instance as the parameter                               | ^[Function]`() => void`                                                                    | —       |
-| offset                   | set the distance to the viewport edge (top when placement is 'top', bottom when placement is 'bottom') | ^[number]                                                                                  | 16      |
-| placement ^(2.11.0)      | message placement position                                                                             | ^[enum]`'top' \| 'top-left' \| 'top-right' \| 'bottom' \| 'bottom-left' \| 'bottom-right'` | top     |
-| appendTo                 | set the root element for the message, default to `document.body`                                       | ^[CSSSelector] / ^[HTMLElement]                                                            | —       |
-| grouping                 | merge messages with the same content, type of VNode message is not supported                           | ^[boolean]                                                                                 | false   |
+| message                  | Message text                                                                                           | ^[string] / ^[VNode] / ^[Function]`() => VNode`                                            | ''      |
+| type                     | Message type                                                                                           | ^[enum]`'primary' (2.9.11) \| 'success' \| 'warning' \| 'info' \| 'error'`                 | info    |
+| plain ^(2.6.3)           | Whether message is plain                                                                               | ^[boolean]                                                                                 | false   |
+| icon                     | Custom icon component, overrides `type`                                                                | ^[string] / ^[Component]                                                                   | —       |
+| dangerouslyUseHTMLString | Whether `message` is treated as HTML string                                                            | ^[boolean]                                                                                 | false   |
+| customClass              | Custom class name for Message                                                                          | ^[string]                                                                                  | ''      |
+| duration                 | Display duration, millisecond. If set to 0, it will not turn off automatically                         | ^[number]                                                                                  | 3000    |
+| showClose                | Whether to show a close button                                                                         | ^[boolean]                                                                                 | false   |
+| onClose                  | Callback function when closed with the message instance as the parameter                               | ^[Function]`() => void`                                                                    | —       |
+| offset                   | Set the distance to the viewport edge (top when placement is 'top', bottom when placement is 'bottom') | ^[number]                                                                                  | 16      |
+| placement ^(2.11.0)      | Message placement position                                                                             | ^[enum]`'top' \| 'top-left' \| 'top-right' \| 'bottom' \| 'bottom-left' \| 'bottom-right'` | top     |
+| appendTo                 | Set the root element for the message, default to `document.body`                                       | ^[CSSSelector] / ^[HTMLElement]                                                            | —       |
+| grouping                 | Merge messages with the same content, type of VNode message is not supported                           | ^[boolean]                                                                                 | false   |
 | repeatNum                | The number of repetitions, similar to badge, is used as the initial number when used with `grouping`   | ^[number]                                                                                  | 1       |
 
 ### Methods
@@ -143,4 +143,4 @@ ElMessage({}, appContext)
 
 | Name  | Description       | Type                    |
 | ----- | ----------------- | ----------------------- |
-| close | close the Message | ^[Function]`() => void` |
+| close | Close the Message | ^[Function]`() => void` |

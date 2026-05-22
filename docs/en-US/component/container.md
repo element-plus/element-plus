@@ -85,13 +85,13 @@ container/example
 
 | Name      | Description                         | Type                                | Default                                                                    |
 | --------- | ----------------------------------- | ----------------------------------- | -------------------------------------------------------------------------- |
-| direction | layout direction for child elements | ^[enum]`'horizontal' \| 'vertical'` | vertical when nested with `el-header` or `el-footer`; horizontal otherwise |
+| direction | Layout direction for child elements | ^[enum]`'horizontal' \| 'vertical'` | vertical when nested with `el-header` or `el-footer`; horizontal otherwise |
 
 ### Container Slots
 
 | Name    | Description               | Subtags                                    |
 | ------- | ------------------------- | ------------------------------------------ |
-| default | customize default content | Container / Header / Aside / Main / Footer |
+| default | Customize default content | Container / Header / Aside / Main / Footer |
 
 ## Header API
 
@@ -99,13 +99,13 @@ container/example
 
 | Name   | Description          | Type      | Default |
 | ------ | -------------------- | --------- | ------- |
-| height | height of the header | ^[string] | 60px    |
+| height | Height of the header | ^[string] | 60px    |
 
 ### Header Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |
-| default | customize default content |
+| default | Customize default content |
 
 ## Aside API
 
@@ -113,13 +113,13 @@ container/example
 
 | Name  | Description               | Type      | Default |
 | ----- | ------------------------- | --------- | ------- |
-| width | width of the side section | ^[string] | 300px   |
+| width | Width of the side section | ^[string] | 300px   |
 
 ### Aside Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |
-| default | customize default content |
+| default | Customize default content |
 
 ## Main API
 
@@ -127,7 +127,7 @@ container/example
 
 | Name    | Description               |
 | ------- | ------------------------- |
-| default | customize default content |
+| default | Customize default content |
 
 ## Footer API
 
@@ -135,10 +135,10 @@ container/example
 
 | Name   | Description          | Type      | Default |
 | ------ | -------------------- | --------- | ------- |
-| height | height of the footer | ^[string] | 60px    |
+| height | Height of the footer | ^[string] | 60px    |
 
 ### Footer Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |
-| default | customize default content |
+| default | Customize default content |

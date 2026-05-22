@@ -150,13 +150,13 @@ form/accessibility
 
 | Name     | Description                             | Type                                                                         |
 | -------- | --------------------------------------- | ---------------------------------------------------------------------------- |
-| validate | triggers after a form item is validated | ^[Function]`(prop: FormItemProp, isValid: boolean, message: string) => void` |
+| validate | Triggers after a form item is validated | ^[Function]`(prop: FormItemProp, isValid: boolean, message: string) => void` |
 
 ### Form Slots
 
 | Name    | Description               | Subtags  |
 | ------- | ------------------------- | -------- |
-| default | customize default content | FormItem |
+| default | Customize default content | FormItem |
 
 ### Form Exposes
 

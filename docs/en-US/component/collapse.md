@@ -79,29 +79,29 @@ collapse/prevent-collapsing
 
 | Name                           | Description                                                                                                                                          | Type                                           | Default |
 | ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- | ------- |
-| model-value / v-model          | currently active panel, the type is `string` in accordion mode, otherwise it is `array`                                                              | ^[string] / ^[array]                           | []      |
-| accordion                      | whether to activate accordion mode                                                                                                                   | ^[boolean]                                     | false   |
-| expand-icon-position ^(2.9.10) | set expand icon position                                                                                                                             | ^[enum]`'left' \| 'right' `                    | right   |
-| before-collapse ^(2.9.11)      | before-collapse hook before the collapse state changes. If `false` is returned or a `Promise` is returned and then is rejected, will stop collapsing | ^[Function]`() => Promise<boolean> \| boolean` | —       |
+| model-value / v-model          | Currently active panel, the type is `string` in accordion mode, otherwise it is `array`                                                              | ^[string] / ^[array]                           | []      |
+| accordion                      | Whether to activate accordion mode                                                                                                                   | ^[boolean]                                     | false   |
+| expand-icon-position ^(2.9.10) | Set expand icon position                                                                                                                             | ^[enum]`'left' \| 'right' `                    | right   |
+| before-collapse ^(2.9.11)      | Before-collapse hook before the collapse state changes. If `false` is returned or a `Promise` is returned and then is rejected, will stop collapsing | ^[Function]`() => Promise<boolean> \| boolean` | —       |
 
 ### Collapse Events
 
 | Name   | Description                                                                                                   | Type                                                |
 | ------ | ------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
-| change | triggers when active panels change, the parameter type is `string` in accordion mode, otherwise it is `array` | ^[Function]`(activeNames: array \| string) => void` |
+| change | Triggers when active panels change, the parameter type is `string` in accordion mode, otherwise it is `array` | ^[Function]`(activeNames: array \| string) => void` |
 
 ### Collapse Slots
 
 | Name    | Description               | Subtags       |
 | ------- | ------------------------- | ------------- |
-| default | customize default content | Collapse Item |
+| default | Customize default content | Collapse Item |
 
 ### Collapse Exposes
 
 | Name           | Description                  | Type                                                     |
 | -------------- | ---------------------------- | -------------------------------------------------------- |
-| activeNames    | currently active panel names | ^[object]`ComputedRef<(string \| number)[]>`             |
-| setActiveNames | set active panel names       | ^[Function]`(activeNames: (string \| number)[]) => void` |
+| activeNames    | Currently active panel names | ^[object]`ComputedRef<(string \| number)[]>`             |
+| setActiveNames | Set active panel names       | ^[Function]`(activeNames: (string \| number)[]) => void` |
 
 ## Collapse Item API
 
@@ -109,21 +109,21 @@ collapse/prevent-collapsing
 
 | Name          | Description                        | Type                     | Default    |
 | ------------- | ---------------------------------- | ------------------------ | ---------- |
-| name          | unique identification of the panel | ^[string] / ^[number]    | —          |
-| title         | title of the panel                 | ^[string]                | ''         |
-| icon ^(2.8.3) | icon of the collapse item          | ^[string] / ^[Component] | ArrowRight |
-| disabled      | disable the collapse item          | ^[boolean]               | false      |
+| name          | Unique identification of the panel | ^[string] / ^[number]    | —          |
+| title         | Title of the panel                 | ^[string]                | ''         |
+| icon ^(2.8.3) | Icon of the collapse item          | ^[string] / ^[Component] | ArrowRight |
+| disabled      | Disable the collapse item          | ^[boolean]               | false      |
 
 ### Collapse Item Slot
 
 | Name          | Description                    | Type                             |
 | ------------- | ------------------------------ | -------------------------------- |
-| default       | content of Collapse Item       | —                                |
-| title         | content of Collapse Item title | ^[object]`{ isActive: boolean }` |
-| icon ^(2.8.3) | content of Collapse Item icon  | ^[object]`{ isActive: boolean }` |
+| default       | Content of Collapse Item       | —                                |
+| title         | Content of Collapse Item title | ^[object]`{ isActive: boolean }` |
+| icon ^(2.8.3) | Content of Collapse Item icon  | ^[object]`{ isActive: boolean }` |
 
 ### Collapse Item Exposes
 
 | Name     | Description                                 | Type                                         |
 | -------- | ------------------------------------------- | -------------------------------------------- |
-| isActive | whether the current collapse item is active | ^[object]`ComputedRef<boolean \| undefined>` |
+| isActive | Whether the current collapse item is active | ^[object]`ComputedRef<boolean \| undefined>` |

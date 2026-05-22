@@ -93,25 +93,25 @@ radio/radio-button
 
 | Name                  | Description                                                            | Type                                     | Default |
 | --------------------- | ---------------------------------------------------------------------- | ---------------------------------------- | ------- |
-| model-value / v-model | binding value                                                          | ^[string] / ^[number] / ^[boolean]       | —       |
-| value ^(2.6.0)        | the value of Radio                                                     | ^[string] / ^[number] / ^[boolean]       | —       |
-| label                 | the label of Radio. If there's no `value`, `label` will act as `value` | ^[string] / ^[number] / ^[boolean]       | —       |
-| disabled              | whether Radio is disabled                                              | ^[boolean]                               | false   |
-| border                | whether to add a border around Radio                                   | ^[boolean]                               | false   |
-| size                  | size of the Radio                                                      | ^[enum]`'large' \| 'default' \| 'small'` | —       |
-| name                  | native `name` attribute                                                | ^[string]                                | —       |
+| model-value / v-model | Binding value                                                          | ^[string] / ^[number] / ^[boolean]       | —       |
+| value ^(2.6.0)        | The value of Radio                                                     | ^[string] / ^[number] / ^[boolean]       | —       |
+| label                 | The label of Radio. If there's no `value`, `label` will act as `value` | ^[string] / ^[number] / ^[boolean]       | —       |
+| disabled              | Whether Radio is disabled                                              | ^[boolean]                               | false   |
+| border                | Whether to add a border around Radio                                   | ^[boolean]                               | false   |
+| size                  | Size of the Radio                                                      | ^[enum]`'large' \| 'default' \| 'small'` | —       |
+| name                  | Native `name` attribute                                                | ^[string]                                | —       |
 
 ### Radio Events
 
 | Name   | Description                           | Type                                                      |
 | ------ | ------------------------------------- | --------------------------------------------------------- |
-| change | triggers when the bound value changes | ^[Function]`(value: string \| number \| boolean) => void` |
+| change | Triggers when the bound value changes | ^[Function]`(value: string \| number \| boolean) => void` |
 
 ### Radio Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |
-| default | customize default content |
+| default | Customize default content |
 
 ## RadioGroup API
 
@@ -119,31 +119,31 @@ radio/radio-button
 
 | Name                        | Description                                                                                    | Type                                                            | Default                                                  |
 | --------------------------- | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------- | -------------------------------------------------------- |
-| model-value / v-model       | binding value                                                                                  | ^[string] / ^[number] / ^[boolean]                              | —                                                        |
-| size                        | the size of radio buttons or bordered radios                                                   | ^[string]                                                       | default                                                  |
-| disabled                    | whether the nesting radios are disabled                                                        | ^[boolean]                                                      | false                                                    |
-| validate-event              | whether to trigger form validation                                                             | ^[boolean]                                                      | true                                                     |
-| text-color                  | font color when button is active                                                               | ^[string]                                                       | #ffffff                                                  |
-| fill                        | border and background color when button is active                                              | ^[string]                                                       | #409eff                                                  |
-| aria-label ^(a11y) ^(2.7.2) | same as `aria-label` in RadioGroup                                                             | ^[string]                                                       | —                                                        |
-| name                        | native `name` attribute                                                                        | ^[string]                                                       | —                                                        |
-| id                          | native `id` attribute                                                                          | ^[string]                                                       | —                                                        |
-| label ^(a11y) ^(deprecated) | same as `aria-label` in RadioGroup                                                             | ^[string]                                                       | —                                                        |
-| options ^(2.11.2)           | data of the options, the key of `value` and `label` and `disabled` can be customize by `props` | ^[array]`Array<{[key: string]: any}>`                           | —                                                        |
-| props ^(2.11.2)             | configuration options                                                                          | ^[object]`{ value?: string, label?: string, disabled?: string}` | `{value: 'value', label: 'label', disabled: 'disabled'}` |
-| type ^(2.11.5)              | component type to render options (e.g. `'button'`)                                             | ^[enum]`'radio' \| 'button'`                                    | 'radio'                                                  |
+| model-value / v-model       | Binding value                                                                                  | ^[string] / ^[number] / ^[boolean]                              | —                                                        |
+| size                        | The size of radio buttons or bordered radios                                                   | ^[string]                                                       | default                                                  |
+| disabled                    | Whether the nesting radios are disabled                                                        | ^[boolean]                                                      | false                                                    |
+| validate-event              | Whether to trigger form validation                                                             | ^[boolean]                                                      | true                                                     |
+| text-color                  | Font color when button is active                                                               | ^[string]                                                       | #ffffff                                                  |
+| fill                        | Border and background color when button is active                                              | ^[string]                                                       | #409eff                                                  |
+| aria-label ^(a11y) ^(2.7.2) | Same as `aria-label` in RadioGroup                                                             | ^[string]                                                       | —                                                        |
+| name                        | Native `name` attribute                                                                        | ^[string]                                                       | —                                                        |
+| id                          | Native `id` attribute                                                                          | ^[string]                                                       | —                                                        |
+| label ^(a11y) ^(deprecated) | Same as `aria-label` in RadioGroup                                                             | ^[string]                                                       | —                                                        |
+| options ^(2.11.2)           | Data of the options, the key of `value` and `label` and `disabled` can be customize by `props` | ^[array]`Array<{[key: string]: any}>`                           | —                                                        |
+| props ^(2.11.2)             | Configuration options                                                                          | ^[object]`{ value?: string, label?: string, disabled?: string}` | `{value: 'value', label: 'label', disabled: 'disabled'}` |
+| type ^(2.11.5)              | Component type to render options (e.g. `'button'`)                                             | ^[enum]`'radio' \| 'button'`                                    | 'radio'                                                  |
 
 ### RadioGroup Events
 
 | Name   | Description                           | Type                                                      |
 | ------ | ------------------------------------- | --------------------------------------------------------- |
-| change | triggers when the bound value changes | ^[Function]`(value: string \| number \| boolean) => void` |
+| change | Triggers when the bound value changes | ^[Function]`(value: string \| number \| boolean) => void` |
 
 ### RadioGroup Slots
 
 | Name    | Description               | Subtags             |
 | ------- | ------------------------- | ------------------- |
-| default | customize default content | Radio / RadioButton |
+| default | Customize default content | Radio / RadioButton |
 
 ## RadioButton API
 
@@ -151,13 +151,13 @@ radio/radio-button
 
 | Name           | Description                                                            | Type                               | Default |
 | -------------- | ---------------------------------------------------------------------- | ---------------------------------- | ------- |
-| value ^(2.6.0) | the value of Radio                                                     | ^[string] / ^[number] / ^[boolean] | —       |
-| label          | the label of Radio. If there's no `value`, `label` will act as `value` | ^[string] / ^[number] / ^[boolean] | —       |
-| disabled       | whether Radio is disabled                                              | ^[boolean]                         | false   |
-| name           | native 'name' attribute                                                | ^[string]                          | —       |
+| value ^(2.6.0) | The value of Radio                                                     | ^[string] / ^[number] / ^[boolean] | —       |
+| label          | The label of Radio. If there's no `value`, `label` will act as `value` | ^[string] / ^[number] / ^[boolean] | —       |
+| disabled       | Whether Radio is disabled                                              | ^[boolean]                         | false   |
+| name           | Native 'name' attribute                                                | ^[string]                          | —       |
 
 ### RadioButton Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |
-| default | customize default content |
+| default | Customize default content |

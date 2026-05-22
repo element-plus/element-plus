@@ -109,16 +109,16 @@ The classes are:
 
 | Name    | Description                         | Type                                                                                         | Default |
 | ------- | ----------------------------------- | -------------------------------------------------------------------------------------------- | ------- |
-| gutter  | grid spacing                        | ^[number]                                                                                    | 0       |
-| justify | horizontal alignment of flex layout | ^[enum]`'start' \| 'end' \| 'center' \| 'space-around' \| 'space-between' \| 'space-evenly'` | start   |
-| align   | vertical alignment of flex layout   | ^[enum]`'top' \| 'middle' \| 'bottom'`                                                       | —       |
-| tag     | custom element tag                  | ^[string]                                                                                    | div     |
+| gutter  | Grid spacing                        | ^[number]                                                                                    | 0       |
+| justify | Horizontal alignment of flex layout | ^[enum]`'start' \| 'end' \| 'center' \| 'space-around' \| 'space-between' \| 'space-evenly'` | start   |
+| align   | Vertical alignment of flex layout   | ^[enum]`'top' \| 'middle' \| 'bottom'`                                                       | —       |
+| tag     | Custom element tag                  | ^[string]                                                                                    | div     |
 
 ### Row Slots
 
 | Name    | Description               | Subtags |
 | ------- | ------------------------- | ------- |
-| default | customize default content | Col     |
+| default | Customize default content | Col     |
 
 ## Col API
 
@@ -126,22 +126,22 @@ The classes are:
 
 | Name   | Description                                         | Type                                                                                  | Default |
 | ------ | --------------------------------------------------- | ------------------------------------------------------------------------------------- | ------- |
-| span   | number of column the grid spans                     | ^[number]                                                                             | 24      |
-| offset | number of spacing on the left side of the grid      | ^[number]                                                                             | 0       |
-| push   | number of columns that grid moves to the right      | ^[number]                                                                             | 0       |
-| pull   | number of columns that grid moves to the left       | ^[number]                                                                             | 0       |
+| span   | Number of column the grid spans                     | ^[number]                                                                             | 24      |
+| offset | Number of spacing on the left side of the grid      | ^[number]                                                                             | 0       |
+| push   | Number of columns that grid moves to the right      | ^[number]                                                                             | 0       |
+| pull   | Number of columns that grid moves to the left       | ^[number]                                                                             | 0       |
 | xs     | `<768px` Responsive columns or column props object  | ^[number] / ^[object]`{span?: number, offset?: number, pull?: number, push?: number}` | —       |
 | sm     | `≥768px` Responsive columns or column props object  | ^[number] / ^[object]`{span?: number, offset?: number, pull?: number, push?: number}` | —       |
 | md     | `≥992px` Responsive columns or column props object  | ^[number] / ^[object]`{span?: number, offset?: number, pull?: number, push?: number}` | —       |
 | lg     | `≥1200px` Responsive columns or column props object | ^[number] / ^[object]`{span?: number, offset?: number, pull?: number, push?: number}` | —       |
 | xl     | `≥1920px` Responsive columns or column props object | ^[number] / ^[object]`{span?: number, offset?: number, pull?: number, push?: number}` | —       |
-| tag    | custom element tag                                  | ^[string]                                                                             | div     |
+| tag    | Custom element tag                                  | ^[string]                                                                             | div     |
 
 ### Col Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |
-| default | customize default content |
+| default | Customize default content |
 
 <style lang="scss">
 @use '../../examples/layout/index.scss';

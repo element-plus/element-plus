@@ -53,14 +53,14 @@ text/mixed
 
 | Name                | Description        | Type                                                               | Default |
 | ------------------- | ------------------ | ------------------------------------------------------------------ | ------- |
-| type                | text type          | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | —       |
-| size                | text size          | ^[enum]`'large' \| 'default' \| 'small'`                           | default |
-| truncated           | render ellipsis    | ^[boolean]                                                         | false   |
-| line-clamp ^(2.4.0) | maximum lines      | ^[string] / ^[number]                                              | —       |
-| tag                 | custom element tag | ^[string]                                                          | span    |
+| type                | Text type          | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | —       |
+| size                | Text size          | ^[enum]`'large' \| 'default' \| 'small'`                           | default |
+| truncated           | Render ellipsis    | ^[boolean]                                                         | false   |
+| line-clamp ^(2.4.0) | Maximum lines      | ^[string] / ^[number]                                              | —       |
+| tag                 | Custom element tag | ^[string]                                                          | span    |
 
 ### Slots
 
 | Name    | Description     |
 | ------- | --------------- |
-| default | default content |
+| default | Default content |

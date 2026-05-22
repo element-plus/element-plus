@@ -125,18 +125,18 @@ skeleton/leading-trailing-without-bouncing
 
 | Name     | Description                                                                                                                                                                                                                                 | Type                                                                              | Default |
 | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ------- |
-| animated | whether showing the animation                                                                                                                                                                                                               | ^[boolean]                                                                        | false   |
-| count    | how many fake items to render to the DOM                                                                                                                                                                                                    | ^[number]                                                                         | 1       |
-| loading  | whether showing the real DOM                                                                                                                                                                                                                | ^[boolean]                                                                        | false   |
-| rows     | numbers of the row, only useful when no template slot were given                                                                                                                                                                            | ^[number]                                                                         | 3       |
-| throttle | rendering delay in milliseconds. Numbers represent delayed display, and can also be set to delay hide, for example `{ leading: 500, trailing: 500 }`. When needing to control the initial value of loading, you can set `{ initVal: true }` | ^[number] / ^[object]`{ leading?: number, trailing?: number, initVal?: boolean }` | 0       |
+| animated | Whether showing the animation                                                                                                                                                                                                               | ^[boolean]                                                                        | false   |
+| count    | How many fake items to render to the DOM                                                                                                                                                                                                    | ^[number]                                                                         | 1       |
+| loading  | Whether showing the real DOM                                                                                                                                                                                                                | ^[boolean]                                                                        | false   |
+| rows     | Numbers of the row, only useful when no template slot were given                                                                                                                                                                            | ^[number]                                                                         | 3       |
+| throttle | Rendering delay in milliseconds. Numbers represent delayed display, and can also be set to delay hide, for example `{ leading: 500, trailing: 500 }`. When needing to control the initial value of loading, you can set `{ initVal: true }` | ^[number] / ^[object]`{ leading?: number, trailing?: number, initVal?: boolean }` | 0       |
 
 ### Skeleton Slots
 
 | Name     | Description                            | Type                       |
 | -------- | -------------------------------------- | -------------------------- |
-| default  | real rendering DOM                     | ^[object]`$attrs`          |
-| template | content as rendering skeleton template | ^[object]`{ key: number }` |
+| default  | Real rendering DOM                     | ^[object]`$attrs`          |
+| template | Content as rendering skeleton template | ^[object]`{ key: number }` |
 
 ## SkeletonItem API
 
@@ -144,4 +144,4 @@ skeleton/leading-trailing-without-bouncing
 
 | Name    | Description                         | Type                                                                                             | Default |
 | ------- | ----------------------------------- | ------------------------------------------------------------------------------------------------ | ------- |
-| variant | the current rendering skeleton type | ^[enum]`'p' \| 'text' \| 'h1' \| 'h3' \| 'caption' \| 'button' \| 'image' \| 'circle' \| 'rect'` | text    |
+| variant | The current rendering skeleton type | ^[enum]`'p' \| 'text' \| 'h1' \| 'h3' \| 'caption' \| 'button' \| 'image' \| 'circle' \| 'rect'` | text    |
