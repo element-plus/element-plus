@@ -55,7 +55,7 @@ pagination/auto-hide-pagination
 
 Add more modules based on your scenario.
 
-:::demo This example is a complete use case. It uses `size-change` and `current-change` event to handle page size changes and current page changes. `page-sizes` accepts an array of integers, each of which represents a different page size in the `sizes` select options, e.g. `[100, 200, 300, 400]` indicates that the select will have four options: 100, 200, 300 or 400 items per page.
+:::demo This example is a complete use case. It uses `v-model` for two-way data binding to handle page size changes and current page changes. `page-sizes` accepts an array of integers, each of which represents a different page size in the `sizes` select options, e.g. `[100, 200, 300, 400]` indicates that the select will have four options: 100, 200, 300 or 400 items per page.
 
 pagination/more-elements
 

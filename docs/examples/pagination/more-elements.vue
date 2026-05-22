@@ -27,8 +27,6 @@
       :background="background"
       layout="total, prev, pager, next"
       :total="1000"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
     />
   </div>
   <div class="demo-pagination-block">
@@ -42,8 +40,6 @@
       :background="background"
       layout="sizes, prev, pager, next"
       :total="1000"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
     />
   </div>
   <div class="demo-pagination-block">
@@ -56,8 +52,6 @@
       :background="background"
       layout="prev, pager, next, jumper"
       :total="1000"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
     />
   </div>
   <div class="demo-pagination-block">
@@ -71,8 +65,6 @@
       :background="background"
       layout="total, sizes, prev, pager, next, jumper"
       :total="400"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
     />
   </div>
 </template>
@@ -93,12 +85,7 @@ const size = ref<ComponentSize>('default')
 const background = ref(false)
 const disabled = ref(false)
 
-const handleSizeChange = (val: number) => {
-  console.log(`${val} items per page`)
-}
-const handleCurrentChange = (val: number) => {
-  console.log(`current page: ${val}`)
-}
+
 </script>
 
 <style scoped>
