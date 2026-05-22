@@ -33,6 +33,7 @@ import useWheel from '@element-plus/components/virtual-list/src/hooks/use-wheel'
 import { clamp } from 'lodash-unified'
 import TabBar from './tab-bar.vue'
 import { tabsRootContextKey } from './constants'
+import { useTabNavTouch } from './use-tab-nav-touch'
 
 import type {
   CSSProperties,
@@ -42,11 +43,7 @@ import type {
 } from 'vue'
 import type { TabBarInstance } from './tab-bar'
 import type { TabPaneName, TabsPaneContext } from './constants'
-
-interface Scrollable {
-  next?: boolean
-  prev?: number
-}
+import type { Scrollable } from './use-tab-nav-touch'
 
 export const tabNavProps = buildProps({
   panes: {
@@ -118,7 +115,8 @@ const TabNav = defineComponent({
     const navStyle = computed<CSSProperties>(() => {
       const dir = sizeName.value === 'width' ? 'X' : 'Y'
       return {
-        transition: isWheelScrolling.value ? 'none' : undefined,
+        transition:
+          isWheelScrolling.value || isTouchScrolling.value ? 'none' : undefined,
         transform: `translate${dir}(-${navOffset.value}px)`,
       }
     })
@@ -164,6 +162,19 @@ const TabNav = defineComponent({
         isWheelScrolling.value = false
       })
     }
+
+    const {
+      isTouchScrolling,
+      handleTouchStart,
+      handleTouchMove,
+      handleTouchEnd,
+    } = useTabNavTouch({
+      scrollable,
+      navOffset,
+      navSize,
+      navContainerSize,
+      isHorizontal,
+    })
 
     const scrollPrev = () => {
       if (!navScroll$.value) return
@@ -481,6 +492,10 @@ const TabNav = defineComponent({
                 role="tablist"
                 onKeydown={changeTab}
                 onWheel={handleWheel}
+                onTouchstart={handleTouchStart}
+                onTouchmove={handleTouchMove}
+                onTouchend={handleTouchEnd}
+                onTouchcancel={handleTouchEnd}
               >
                 {...[
                   !props.type ? (
