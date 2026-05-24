@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - name: Comment on PR
-        uses: actions-cool/maintain-one-comment@909842216bc8e8658364c572ec52100f4c2cc50a # v3
+        uses: actions-cool/maintain-one-comment-backup@17f644ff1665b05890083f7c1091fef135bce5e4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           body: |
