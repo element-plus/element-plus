@@ -33,7 +33,7 @@ import useWheel from '@element-plus/components/virtual-list/src/hooks/use-wheel'
 import { clamp } from 'lodash-unified'
 import TabBar from './tab-bar.vue'
 import { tabsRootContextKey } from './constants'
-import { useTabNavTouch } from './use-tab-nav-touch'
+import { useTabNavTouch } from './composables/use-tab-nav-touch'
 
 import type {
   CSSProperties,
@@ -43,7 +43,7 @@ import type {
 } from 'vue'
 import type { TabBarInstance } from './tab-bar'
 import type { TabPaneName, TabsPaneContext } from './constants'
-import type { Scrollable } from './use-tab-nav-touch'
+import type { Scrollable } from './composables/use-tab-nav-touch'
 
 export const tabNavProps = buildProps({
   panes: {
