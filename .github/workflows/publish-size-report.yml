@@ -23,7 +23,7 @@ jobs:
           node-version: 24
           cache: 'pnpm'
 
-      - uses: preactjs/compressed-size-action@f38486648b00a34e8854dd44e21ba901f51d7454
+      - uses: preactjs/compressed-size-action@66325aad6443cb7cf89c4bfcd414aea2367cda94 # 2.9.1
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           pattern: './dist/element-plus/dist/*.{js,mjs,css}'
