@@ -89,6 +89,7 @@ jobs:
           rsync -a \
             --delete \
             --exclude .git \
+            --exclude CNAME \
             docs/.vitepress/dist/ \
             "$REPO_DIR/"
 
@@ -107,4 +108,3 @@ jobs:
           git commit -m "website deploy ${{ steps.get_release.outputs.latest_version }}"
 
           git push origin main --force-with-lease
-

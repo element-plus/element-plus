@@ -84,6 +84,7 @@ jobs:
           rsync -a \
             --delete \
             --exclude .git \
+            --exclude CNAME \
             docs/.vitepress/dist/ \
             "$REPO_DIR/"
 
@@ -117,6 +118,7 @@ jobs:
           rsync -a \
             --delete \
             --exclude .git \
+            --exclude CNAME \
             docs/.vitepress/dist/ \
             "$REPO_DIR/"
 
