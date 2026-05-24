@@ -104,7 +104,7 @@
     "vitest": "^4.1.7",
     "vue": "catalog:",
     "vue-router": "^5.0.7",
-    "vue-tsc": "=3.1.5"
+    "vue-tsc": "=3.3.1"
   },
   "engines": {
     "node": ">= 22.13.0"
