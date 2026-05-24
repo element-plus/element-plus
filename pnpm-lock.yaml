@@ -43,6 +43,9 @@ catalogs:
     normalize-wheel-es:
       specifier: ^1.2.0
       version: 1.2.0
+    tsx:
+      specifier: ^4.22.3
+      version: 4.22.3
     vue:
       specifier: ^3.5.22
       version: 3.5.25
@@ -225,7 +228,7 @@ importers:
         specifier: ^0.2.16
         version: 0.2.16
       tsx:
-        specifier: ^4.22.3
+        specifier: 'catalog:'
         version: 4.22.3
       typescript:
         specifier: ~6.0.3
@@ -487,7 +490,7 @@ importers:
         specifier: ^0.2.16
         version: 0.2.16
       tsx:
-        specifier: ^4.22.3
+        specifier: 'catalog:'
         version: 4.22.3
 
   packages/components:
@@ -663,7 +666,7 @@ importers:
         specifier: ^0.2.16
         version: 0.2.16
       tsx:
-        specifier: ^4.22.3
+        specifier: 'catalog:'
         version: 4.22.3
 
   packages/utils:
@@ -6708,7 +6711,7 @@ packages:
 
   uuid@3.4.0:
     resolution: {integrity: sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==}
-    deprecated: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
+    deprecated: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
     hasBin: true
 
   varint@6.0.0:

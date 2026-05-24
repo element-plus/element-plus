@@ -31,7 +31,7 @@
     "lightningcss": "^1.32.0",
     "tinyglobby": "^0.2.16",
     "sass-embedded": "^1.100.0",
-    "tsx": "^4.22.3"
+    "tsx": "catalog:"
   },
   "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
 }
