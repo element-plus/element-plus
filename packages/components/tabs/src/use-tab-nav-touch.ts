@@ -80,15 +80,23 @@ export const useTabNavTouch = ({
       return
     }
 
-    if (maxOffset.value <= 0) return
-
-    event.preventDefault()
-    isTouchScrolling.value = true
-    navOffset.value = clamp(
+    const nextOffset = clamp(
       touchState.startOffset + mainAxisDelta,
       0,
       maxOffset.value
     )
+
+    if (
+      maxOffset.value <= 0 ||
+      nextOffset === navOffset.value ||
+      !event.cancelable
+    ) {
+      return
+    }
+
+    event.preventDefault()
+    isTouchScrolling.value = true
+    navOffset.value = nextOffset
   }
 
   const handleTouchEnd = () => {
