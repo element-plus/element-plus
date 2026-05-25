@@ -1,12 +1,15 @@
-import { nextTick, ref } from 'vue'
+import { defineComponent, inject, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
 import { Check, Loading } from '@element-plus/icons-vue'
 import CascaderPanel from '../src/index.vue'
 import Node from '../src/node.vue'
+import { CASCADER_PANEL_INJECTION_KEY } from '../src/types'
 
+import type { PropType } from 'vue'
 import type {
+  CascaderNode,
   CascaderOption,
   CascaderProps,
   CascaderValue,
@@ -768,43 +771,70 @@ describe('CascaderPanel.vue', () => {
     vi.useRealTimers()
   })
 
-  test('no loaded nodes should not be checked', async () => {
+  test('lazy unloaded descendants should be checked when parent is checked', async () => {
     vi.useFakeTimers()
+    const value = ref<CascaderValue>([])
+    const lazyLoad = vi.fn<LazyLoad>((node, resolve) => {
+      const childrenMap: Record<string, CascaderOption[]> = {
+        root: [
+          {
+            value: 'parent',
+            label: 'Parent',
+            leaf: false,
+          },
+        ],
+        parent: [
+          {
+            value: 'child',
+            label: 'Child',
+            leaf: false,
+          },
+          {
+            value: 'sibling',
+            label: 'Sibling',
+            leaf: true,
+          },
+        ],
+        child: [
+          {
+            value: 'grandchild',
+            label: 'Grandchild',
+            leaf: true,
+          },
+        ],
+      }
+
+      setTimeout(() => {
+        resolve(childrenMap[String(node.value ?? 'root')] ?? [])
+      }, 1000)
+    })
     const props: CascaderProps = {
       multiple: true,
       lazy: true,
-      lazyLoad(node, resolve) {
-        const { level } = node
-        setTimeout(() => {
-          const nodes = Array.from({ length: level + 1 }).map(() => {
-            ++id
-            return {
-              value: id,
-              label: `option${id}`,
-              leaf: id === 3,
-            }
-          })
-          resolve(nodes)
-        }, 1000)
-      },
+      lazyLoad,
     }
-    const wrapper = mount(() => <CascaderPanel props={props} />)
+    const wrapper = mount(() => (
+      <CascaderPanel v-model={value.value} props={props} />
+    ))
 
-    vi.runAllTimers()
+    await vi.runAllTimersAsync()
     await nextTick()
     const firstMenu = wrapper.findAll(MENU)[0]
     const firstOption = wrapper.find(NODE)
     await firstOption.trigger('click')
-    vi.runAllTimers()
+    await vi.runAllTimersAsync()
     await nextTick()
 
     await firstMenu.find(CHECKBOX).find('input').trigger('click')
+    await vi.runAllTimersAsync()
+    await nextTick()
 
     const secondMenu = wrapper.findAll(MENU)[1]
     expect(secondMenu.exists()).toBe(true)
-    expect(firstMenu.find(CHECKBOX).classes('is-checked')).toBe(false)
-    expect(firstMenu.find(CHECKBOX).classes('is-indeterminate')).toBe(true)
-    expect(secondMenu.findAll(CHECKBOX)[0].classes('is-checked')).toBe(false)
+    expect(lazyLoad).toHaveBeenCalledTimes(3)
+    expect(firstMenu.find(CHECKBOX).classes('is-checked')).toBe(true)
+    expect(firstMenu.find(CHECKBOX).classes('is-indeterminate')).toBe(false)
+    expect(secondMenu.findAll(CHECKBOX)[0].classes('is-checked')).toBe(true)
     expect(secondMenu.findAll(CHECKBOX)[0].classes('is-indeterminate')).toBe(
       false
     )
@@ -812,6 +842,532 @@ describe('CascaderPanel.vue', () => {
     expect(secondMenu.findAll(CHECKBOX)[1].classes('is-indeterminate')).toBe(
       false
     )
+    expect(value.value).toEqual([
+      ['parent', 'sibling'],
+      ['parent', 'child', 'grandchild'],
+    ])
+
+    await firstMenu.find(CHECKBOX).find('input').trigger('click')
+    await nextTick()
+    expect(lazyLoad).toHaveBeenCalledTimes(3)
+    expect(value.value).toEqual([])
+    vi.useRealTimers()
+  })
+
+  test('lazy parent check should wait for in-flight descendant load', async () => {
+    vi.useFakeTimers()
+    const value = ref<CascaderValue>([])
+    const options: CascaderOption[] = [
+      {
+        value: 'parent',
+        label: 'Parent',
+        children: [
+          {
+            value: 'child-a',
+            label: 'Child A',
+            leaf: true,
+          },
+          {
+            value: 'child-b',
+            label: 'Child B',
+            leaf: false,
+          },
+        ],
+      },
+    ]
+    const lazyLoad = vi.fn<LazyLoad>((node, resolve) => {
+      setTimeout(() => {
+        resolve([
+          {
+            value: 'grandchild',
+            label: 'Grandchild',
+            leaf: true,
+          },
+        ])
+      }, 1000)
+    })
+    const props: CascaderProps = {
+      multiple: true,
+      lazy: true,
+      lazyLoad,
+    }
+    const wrapper = mount(() => (
+      <CascaderPanel v-model={value.value} options={options} props={props} />
+    ))
+
+    await nextTick()
+    await wrapper.find(NODE).trigger('click')
+    await nextTick()
+
+    const secondMenu = wrapper.findAll(MENU)[1]
+    await secondMenu.findAll(NODE)[1].trigger('click')
+    await nextTick()
+    expect(lazyLoad).toHaveBeenCalledTimes(1)
+
+    const parentInput = wrapper.findAll(MENU)[0].find(CHECKBOX).find('input')
+    parentInput.element.checked = true
+    await parentInput.trigger('change')
+    await nextTick()
+    expect(value.value).toEqual([])
+
+    await vi.runAllTimersAsync()
+    await nextTick()
+
+    expect(lazyLoad).toHaveBeenCalledTimes(1)
+    expect(value.value).toEqual([
+      ['parent', 'child-a'],
+      ['parent', 'child-b', 'grandchild'],
+    ])
+    vi.useRealTimers()
+  })
+
+  test('lazy load should reuse pending request for raw and reactive nodes', async () => {
+    vi.useFakeTimers()
+    const value = ref<CascaderValue>([])
+    const options: CascaderOption[] = [
+      {
+        value: 'parent',
+        label: 'Parent',
+        children: [
+          {
+            value: 'child',
+            label: 'Child',
+            leaf: false,
+          },
+        ],
+      },
+    ]
+    const lazyLoad = vi.fn<LazyLoad>((node, resolve) => {
+      setTimeout(() => {
+        resolve([
+          {
+            value: 'grandchild',
+            label: 'Grandchild',
+            leaf: true,
+          },
+        ])
+      }, 1000)
+    })
+    const props: CascaderProps = {
+      multiple: true,
+      lazy: true,
+      lazyLoad,
+    }
+    const wrapper = mount(() => (
+      <CascaderPanel v-model={value.value} options={options} props={props} />
+    ))
+
+    await nextTick()
+    value.value = [['parent', 'child']]
+    await nextTick()
+    expect(lazyLoad).toHaveBeenCalledTimes(1)
+
+    const parentInput = wrapper.findAll(MENU)[0].find(CHECKBOX).find('input')
+    parentInput.element.checked = true
+    await parentInput.trigger('change')
+    await nextTick()
+    expect(lazyLoad).toHaveBeenCalledTimes(1)
+
+    await vi.runAllTimersAsync()
+    await nextTick()
+
+    expect(lazyLoad).toHaveBeenCalledTimes(1)
+    expect(value.value).toEqual([['parent', 'child', 'grandchild']])
+    vi.useRealTimers()
+  })
+
+  test('lazy load should run callbacks attached to pending request', async () => {
+    vi.useFakeTimers()
+    const firstCallback = vi.fn()
+    const secondCallback = vi.fn()
+    const requestedNodes = new Set<number>()
+    const loadedChildren: CascaderOption[] = [
+      {
+        value: 'grandchild',
+        label: 'Grandchild',
+        leaf: true,
+      },
+    ]
+    const options: CascaderOption[] = [
+      {
+        value: 'parent',
+        label: 'Parent',
+        children: [
+          {
+            value: 'child',
+            label: 'Child',
+            leaf: false,
+          },
+        ],
+      },
+    ]
+    const lazyLoad = vi.fn<LazyLoad>((node, resolve) => {
+      setTimeout(() => {
+        resolve(loadedChildren)
+      }, 1000)
+    })
+    const props: CascaderProps = {
+      lazy: true,
+      lazyLoad,
+    }
+    const LazyLoadProbe = defineComponent({
+      props: {
+        node: {
+          type: Object as PropType<CascaderNode>,
+          required: true,
+        },
+      },
+      setup(props) {
+        const panel = inject(CASCADER_PANEL_INJECTION_KEY)!
+
+        if (
+          props.node.value === 'child' &&
+          !requestedNodes.has(props.node.uid)
+        ) {
+          requestedNodes.add(props.node.uid)
+          panel.lazyLoad(props.node, firstCallback)
+          panel.lazyLoad(props.node, secondCallback)
+        }
+
+        return () => props.node.label
+      },
+    })
+    const wrapper = mount(() => (
+      <CascaderPanel options={options} props={props}>
+        {({ node }: { node: CascaderNode }) => <LazyLoadProbe node={node} />}
+      </CascaderPanel>
+    ))
+
+    await wrapper.find(NODE).trigger('click')
+    await nextTick()
+    expect(lazyLoad).toHaveBeenCalledTimes(1)
+
+    await vi.runAllTimersAsync()
+    await nextTick()
+
+    expect(firstCallback).toHaveBeenCalledTimes(1)
+    expect(secondCallback).toHaveBeenCalledTimes(1)
+    expect(firstCallback).toHaveBeenCalledWith(loadedChildren)
+    expect(secondCallback).toHaveBeenCalledWith(loadedChildren)
+    vi.useRealTimers()
+  })
+
+  test('lazy load should reject when lazyLoad throws', async () => {
+    const loadError = new Error('lazy load failed')
+    let caughtError: unknown
+    const requestedNodes = new Set<number>()
+    const options: CascaderOption[] = [
+      {
+        value: 'parent',
+        label: 'Parent',
+        children: [
+          {
+            value: 'child',
+            label: 'Child',
+            leaf: false,
+          },
+        ],
+      },
+    ]
+    const props: CascaderProps = {
+      lazy: true,
+      lazyLoad: () => {
+        throw loadError
+      },
+    }
+    const LazyLoadProbe = defineComponent({
+      props: {
+        node: {
+          type: Object as PropType<CascaderNode>,
+          required: true,
+        },
+      },
+      setup(props) {
+        const panel = inject(CASCADER_PANEL_INJECTION_KEY)!
+
+        if (
+          props.node.value === 'child' &&
+          !requestedNodes.has(props.node.uid)
+        ) {
+          requestedNodes.add(props.node.uid)
+          panel.lazyLoad(props.node).catch((error: unknown) => {
+            caughtError = error
+          })
+        }
+
+        return () => props.node.label
+      },
+    })
+    const wrapper = mount(() => (
+      <CascaderPanel options={options} props={props}>
+        {({ node }: { node: CascaderNode }) => <LazyLoadProbe node={node} />}
+      </CascaderPanel>
+    ))
+
+    await wrapper.find(NODE).trigger('click')
+    await Promise.resolve()
+
+    expect(caughtError).toBe(loadError)
+  })
+
+  test('lazy parent check should be cancelled by parent uncheck', async () => {
+    vi.useFakeTimers()
+    const value = ref<CascaderValue>([])
+    const options: CascaderOption[] = [
+      {
+        value: 'parent',
+        label: 'Parent',
+        children: [
+          {
+            value: 'child',
+            label: 'Child',
+            leaf: false,
+          },
+        ],
+      },
+    ]
+    const lazyLoad = vi.fn<LazyLoad>((node, resolve) => {
+      setTimeout(() => {
+        resolve([
+          {
+            value: 'grandchild',
+            label: 'Grandchild',
+            leaf: true,
+          },
+        ])
+      }, 1000)
+    })
+    const props: CascaderProps = {
+      multiple: true,
+      lazy: true,
+      lazyLoad,
+    }
+    const wrapper = mount(() => (
+      <CascaderPanel v-model={value.value} options={options} props={props} />
+    ))
+
+    await nextTick()
+
+    const parentInput = wrapper.find(CHECKBOX).find('input')
+    parentInput.element.checked = true
+    await parentInput.trigger('change')
+    await nextTick()
+    expect(lazyLoad).toHaveBeenCalledTimes(1)
+
+    parentInput.element.checked = false
+    await parentInput.trigger('change')
+    await nextTick()
+
+    await vi.runAllTimersAsync()
+    await nextTick()
+
+    expect(wrapper.find(CHECKBOX).classes('is-checked')).toBe(false)
+    expect(value.value).toEqual([])
+    vi.useRealTimers()
+  })
+
+  test('lazy parent check should be cancelled by descendant change', async () => {
+    vi.useFakeTimers()
+    const value = ref<CascaderValue>([])
+    const lazyLoad = vi.fn<LazyLoad>((node, resolve) => {
+      const childrenMap: Record<string, CascaderOption[]> = {
+        root: [
+          {
+            value: 'parent',
+            label: 'Parent',
+            leaf: false,
+          },
+        ],
+        parent: [
+          {
+            value: 'child-a',
+            label: 'Child A',
+            leaf: true,
+          },
+          {
+            value: 'child-b',
+            label: 'Child B',
+            leaf: false,
+          },
+        ],
+        'child-b': [
+          {
+            value: 'grandchild',
+            label: 'Grandchild',
+            leaf: true,
+          },
+        ],
+      }
+
+      setTimeout(() => {
+        resolve(childrenMap[String(node.value ?? 'root')] ?? [])
+      }, 1000)
+    })
+    const props: CascaderProps = {
+      multiple: true,
+      lazy: true,
+      lazyLoad,
+    }
+    const wrapper = mount(() => (
+      <CascaderPanel v-model={value.value} props={props} />
+    ))
+
+    await vi.runAllTimersAsync()
+    await nextTick()
+    await wrapper.find(NODE).trigger('click')
+    await vi.runAllTimersAsync()
+    await nextTick()
+
+    const secondMenu = wrapper.findAll(MENU)[1]
+    const childAInput = secondMenu.findAll(CHECKBOX)[0].find('input')
+    childAInput.element.checked = true
+    await childAInput.trigger('change')
+    await nextTick()
+    expect(value.value).toEqual([['parent', 'child-a']])
+
+    const parentInput = wrapper.findAll(MENU)[0].find(CHECKBOX).find('input')
+    parentInput.element.checked = true
+    await parentInput.trigger('change')
+    await nextTick()
+
+    childAInput.element.checked = false
+    await childAInput.trigger('change')
+    await nextTick()
+    expect(value.value).toEqual([])
+
+    await vi.runAllTimersAsync()
+    await nextTick()
+
+    const menus = wrapper.findAll(MENU)
+    expect(lazyLoad).toHaveBeenCalledTimes(3)
+    expect(menus[0].find(CHECKBOX).classes('is-checked')).toBe(false)
+    expect(menus[0].find(CHECKBOX).classes('is-indeterminate')).toBe(false)
+    expect(menus[1].findAll(CHECKBOX)[0].classes('is-checked')).toBe(false)
+    expect(menus[1].findAll(CHECKBOX)[1].classes('is-checked')).toBe(false)
+    expect(value.value).toEqual([])
+    vi.useRealTimers()
+  })
+
+  test('lazy parent check should be cancelled by external model update', async () => {
+    vi.useFakeTimers()
+    const value = ref<CascaderValue>([['parent', 'child-a']])
+    const options: CascaderOption[] = [
+      {
+        value: 'parent',
+        label: 'Parent',
+        children: [
+          {
+            value: 'child-a',
+            label: 'Child A',
+            leaf: true,
+          },
+          {
+            value: 'child-b',
+            label: 'Child B',
+            leaf: false,
+          },
+        ],
+      },
+    ]
+    const lazyLoad = vi.fn<LazyLoad>((node, resolve) => {
+      const childrenMap: Record<string, CascaderOption[]> = {
+        'child-b': [
+          {
+            value: 'grandchild',
+            label: 'Grandchild',
+            leaf: true,
+          },
+        ],
+      }
+
+      setTimeout(() => {
+        resolve(childrenMap[String(node.value)] ?? [])
+      }, 1000)
+    })
+    const props: CascaderProps = {
+      multiple: true,
+      lazy: true,
+      lazyLoad,
+    }
+    const wrapper = mount(() => (
+      <CascaderPanel v-model={value.value} options={options} props={props} />
+    ))
+
+    await nextTick()
+
+    let menus = wrapper.findAll(MENU)
+    expect(menus[0].find(CHECKBOX).classes('is-indeterminate')).toBe(true)
+    expect(menus[1].findAll(CHECKBOX)[0].classes('is-checked')).toBe(true)
+
+    const parentInput = menus[0].find(CHECKBOX).find('input')
+    parentInput.element.checked = true
+    await parentInput.trigger('change')
+    await nextTick()
+    expect(lazyLoad).toHaveBeenCalledTimes(1)
+
+    value.value = []
+    await nextTick()
+    await nextTick()
+    expect(value.value).toEqual([])
+
+    await vi.runAllTimersAsync()
+    await nextTick()
+
+    menus = wrapper.findAll(MENU)
+    expect(menus[0].find(CHECKBOX).classes('is-checked')).toBe(false)
+    expect(menus[0].find(CHECKBOX).classes('is-indeterminate')).toBe(false)
+    expect(menus[1].findAll(CHECKBOX)[0].classes('is-checked')).toBe(false)
+    expect(menus[1].findAll(CHECKBOX)[1].classes('is-checked')).toBe(false)
+    expect(value.value).toEqual([])
+    vi.useRealTimers()
+  })
+
+  test('lazy parent check should retry after load rejected', async () => {
+    vi.useFakeTimers()
+    const value = ref<CascaderValue>([])
+    const lazyLoad = vi.fn<LazyLoad>((node, resolve, reject) => {
+      const { level } = node
+      setTimeout(() => {
+        const nodes = Array.from({ length: level + 1 }).map(() => ({
+          value: ++id,
+          label: `option${id}`,
+          leaf: level >= 2,
+        }))
+        if (level === 1) {
+          reject()
+          return
+        }
+        resolve(nodes)
+      }, 1000)
+    })
+    const props: CascaderProps = {
+      multiple: true,
+      lazy: true,
+      lazyLoad,
+    }
+    const wrapper = mount(() => (
+      <CascaderPanel v-model={value.value} props={props} />
+    ))
+
+    await vi.runAllTimersAsync()
+    await nextTick()
+    expect(lazyLoad).toHaveBeenCalledTimes(1)
+
+    await wrapper.find(CHECKBOX).find('input').trigger('click')
+    await vi.runAllTimersAsync()
+    await nextTick()
+
+    expect(lazyLoad).toHaveBeenCalledTimes(2)
+    expect(wrapper.find(CHECKBOX).classes('is-checked')).toBe(false)
+    expect(value.value).toEqual([])
+
+    await wrapper.find(CHECKBOX).find('input').trigger('click')
+    await vi.runAllTimersAsync()
+    await nextTick()
+
+    expect(lazyLoad).toHaveBeenCalledTimes(3)
+    expect(wrapper.find(CHECKBOX).classes('is-checked')).toBe(false)
+    expect(value.value).toEqual([])
     vi.useRealTimers()
   })
 

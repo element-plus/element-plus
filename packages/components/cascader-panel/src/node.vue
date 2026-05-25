@@ -124,6 +124,18 @@ const doLoad = () => {
   })
 }
 
+const hasUnloadedLazyDescendant = (node: CascaderNode): boolean =>
+  !node.isDisabled &&
+  !node.isLeaf &&
+  (!node.loaded || node.children.some(hasUnloadedLazyDescendant))
+
+const shouldHandleLazyCheck = (checked: boolean) =>
+  panel.config.lazy &&
+  multiple.value &&
+  !checkStrictly.value &&
+  (checked || panel.isLazyCheckPending(props.node)) &&
+  hasUnloadedLazyDescendant(props.node)
+
 const handleHoverExpand = (e: Event) => {
   if (!isHoverMenu.value) return
   handleExpand()
@@ -168,12 +180,22 @@ const handleSelectCheck = (checked: CheckboxValueType | undefined) => {
   }
 }
 
-const handleCheck = (checked: boolean) => {
+const handleCheck = async (checked: boolean) => {
+  if (shouldHandleLazyCheck(checked)) {
+    const checkedChanged = await panel.handleLazyCheckChange(
+      props.node,
+      checked
+    )
+    checkedChanged && props.node.loaded && doExpand()
+    return
+  }
+
   if (!props.node.loaded) {
     doLoad()
-  } else {
-    doCheck(checked)
-    !checkStrictly.value && doExpand()
+    return
   }
+
+  doCheck(checked)
+  !checkStrictly.value && doExpand()
 }
 </script>
