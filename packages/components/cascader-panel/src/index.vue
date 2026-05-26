@@ -89,7 +89,7 @@ const emit = defineEmits(cascaderPanelEmits)
 // for interrupt sync check status in lazy mode
 let manualChecked = false
 let shouldSkipNextModelValueInvalidate = false
-let expectedModelValueEcho: CascaderValue
+let expectedModelValueEcho: CascaderValue | undefined
 let expectedModelValueEchoToken = 0
 
 type LazyLoadCallback = (dataList: CascaderOption[]) => void
@@ -130,7 +130,7 @@ const resetExpectedModelValueEcho = () => {
   expectedModelValueEcho = undefined
 }
 
-const markExpectedModelValueEcho = (value: CascaderValue) => {
+const markExpectedModelValueEcho = (value: CascaderValue | undefined) => {
   const token = ++expectedModelValueEchoToken
   shouldSkipNextModelValueInvalidate = true
   expectedModelValueEcho = cloneDeep(value ?? undefined)
