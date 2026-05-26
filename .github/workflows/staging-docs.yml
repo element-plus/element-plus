@@ -5,6 +5,9 @@ on:
     branches:
       - 'dev'
 
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
   cancel-in-progress: true
@@ -105,6 +108,6 @@ jobs:
             exit 0
           fi
 
-          git commit -m "website deploy ${{ steps.get_release.outputs.latest_version }}"
+          git commit -m "website deploy ${TAG_VERSION}"
 
           git push origin main --force-with-lease

@@ -8,6 +8,8 @@ on:
 jobs:
   close-issues:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     if: ${{ github.repository_owner == 'element-plus' }}
     steps:
       - name: need reproduction
@@ -29,6 +31,8 @@ jobs:
 
   lock-issues:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     if: ${{ github.repository_owner == 'element-plus' }}
     steps:
       - name: lock-issues
@@ -42,6 +46,8 @@ jobs:
 
   check-inactive:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     if: ${{ github.repository_owner == 'element-plus' }}
     steps:
       - name: check-inactive

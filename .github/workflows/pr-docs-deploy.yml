@@ -2,6 +2,7 @@
 name: PR Docs Deploy
 
 on:
+  # zizmor: ignore[dangerous-triggers] downstream workflow deploys the named docs artifact with scoped permissions and does not execute artifact contents
   workflow_run:
     workflows: ['PR Docs Build']
     types: [completed]
@@ -11,6 +12,9 @@ jobs:
   on-success:
     name: Build successfully
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      pull-requests: write
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Download pr number
@@ -78,6 +82,9 @@ jobs:
   on-failure:
     name: Build failed
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      pull-requests: write
     if: ${{ github.event.workflow_run.conclusion == 'failure' }}
     steps:
       - name: Download pr number

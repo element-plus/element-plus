@@ -1,6 +1,7 @@
 name: 📮 Lint Commit Message Post
 
 on:
+  # zizmor: ignore[dangerous-triggers] downstream workflow only reads artifacts from the named lint workflow and uses scoped job permissions
   workflow_run:
     workflows: ['Lint Commit Message']
     types: [completed]
@@ -8,6 +9,8 @@ on:
 jobs:
   result:
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
 
     outputs:
       succeeded: ${{ steps.assert.outputs.succeeded }}

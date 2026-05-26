@@ -3,15 +3,15 @@ name: Comment on PR with conflict Label
 # DO NOT ADD ANY CHECKOUT/CACHING in this workflow
 
 on:
+  # zizmor: ignore[dangerous-triggers] target-context workflow only comments, reads PR metadata, and updates labels without checking out code
   pull_request_target:
     types: [labeled, synchronize]
-
-permissions:
-  pull-requests: write
 
 jobs:
   comment:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       - name: Check for specific label
         if: |
@@ -27,6 +27,9 @@ jobs:
 
   remove-label:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: read
     steps:
       - name: Poll mergeable until ready
         id: poll
@@ -60,10 +63,14 @@ jobs:
 
       # Log final values (debug)
       - name: Log mergeable results
+        env:
+          MERGEABLE: ${{ steps.poll.outputs.mergeable }}
+          PR_MERGEABLE: ${{ github.event.pull_request.mergeable }}
+          PR_MERGEABLE_STATE: ${{ github.event.pull_request.mergeable_state }}
         run: |
-          echo "mergeable: ${{ steps.poll.outputs.mergeable }}"
-          echo "pull_request.mergeable: ${{ github.event.pull_request.mergeable }}"
-          echo "pull_request.mergeable_state: ${{ github.event.pull_request.mergeable_state }}"
+          echo "mergeable: $MERGEABLE"
+          echo "pull_request.mergeable: $PR_MERGEABLE"
+          echo "pull_request.mergeable_state: $PR_MERGEABLE_STATE"
 
       - name: Remove conflict pending label
         if: |

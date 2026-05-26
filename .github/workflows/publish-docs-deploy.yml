@@ -1,6 +1,7 @@
 name: Publish Docs Deploy
 
 on:
+  # zizmor: ignore[dangerous-triggers] release-only downstream deploy uses the published release workflow result with scoped permissions
   workflow_run:
     workflows: ['Publish to NPM registry']
     types: [completed]
@@ -8,6 +9,8 @@ on:
 jobs:
   deploy-docs:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'release' }}
 
     steps:
@@ -71,6 +74,8 @@ jobs:
           commit-message: website deploy ${{ steps.get_release.outputs.latest_version }}
 
       - name: Deploy to Vercel
+        env:
+          RELEASE_VERSION: ${{ steps.get_release.outputs.latest_version }}
         run: |
           set -euo pipefail
 
@@ -100,11 +105,13 @@ jobs:
             exit 0
           fi
 
-          git commit -m "website deploy ${{ steps.get_release.outputs.latest_version }}"
+          git commit -m "website deploy ${RELEASE_VERSION}"
 
           git push origin main --force-with-lease
 
       - name: Deploy to Vercel Main
+        env:
+          RELEASE_VERSION: ${{ steps.get_release.outputs.latest_version }}
         run: |
           set -euo pipefail
 
@@ -134,6 +141,6 @@ jobs:
             exit 0
           fi
 
-          git commit -m "website deploy ${{ steps.get_release.outputs.latest_version }}"
+          git commit -m "website deploy ${RELEASE_VERSION}"
 
           git push origin main --force-with-lease

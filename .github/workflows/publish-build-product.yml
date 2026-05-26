@@ -5,6 +5,10 @@ on:
     branches:
       - 'master'
 
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   check:
     name: Build Product Check
