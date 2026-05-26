@@ -507,6 +507,24 @@ describe('config-provider', () => {
       expect(vm.size).toBe('small')
     })
 
+    it('should respect zero as global configured zIndex', () => {
+      const receiverRef = ref()
+      const ReceiverComponent = defineComponent({
+        setup() {
+          receiverRef.value = useGlobalComponentSettings('button')
+        },
+        template: '<div></div>',
+      })
+
+      mount(() => (
+        <ConfigProvider zIndex={0}>
+          <ReceiverComponent />
+        </ConfigProvider>
+      ))
+
+      expect(receiverRef.value.zIndex.initialZIndex).toBe(0)
+    })
+
     // #18004
     it('dynamically modify global size configuration', async () => {
       const size = ref<ComponentSize>('small')
