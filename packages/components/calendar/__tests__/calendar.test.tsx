@@ -89,6 +89,22 @@ describe('Calendar.vue', () => {
     expect(cell?.classList.contains('is-selected')).toBeTruthy()
   })
 
+  it('falls back to normal calendar when range crosses years by more than two months', () => {
+    const wrapper = mount(() => (
+      <Calendar
+        modelValue={new Date(2024, 11, 2)}
+        range={[new Date(2024, 11, 2), new Date(2026, 0, 4)]}
+      />
+    ))
+
+    expect(
+      wrapper.element.querySelector('.el-calendar__button-group')
+    ).not.toBeNull()
+    expect(
+      wrapper.element.querySelectorAll('.el-calendar-table.is-range')
+    ).toHaveLength(0)
+  })
+
   // https://github.com/element-plus/element-plus/issues/3155
   it('range tow monthes when the start date will be calculated to last month', async () => {
     const wrapper = mount(() => (
