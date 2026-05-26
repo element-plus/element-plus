@@ -6,6 +6,9 @@ on:
   issue_comment:
     types: [created, edited]
 
+permissions:
+  issues: write
+
 jobs:
   issue-remove-inactive:
     runs-on: ubuntu-latest

@@ -4,6 +4,9 @@ on:
   issue_comment:
     types: [created, edited]
 
+permissions:
+  issues: write
+
 jobs:
   mark-duplicate:
     runs-on: ubuntu-latest

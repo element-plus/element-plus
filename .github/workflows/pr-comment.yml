@@ -3,6 +3,7 @@ name: Thanks to the PR Contributor
 # DO NOT ADD ANY CHECKOUT/CACHING in this workflow
 
 on:
+  # zizmor: ignore[dangerous-triggers] target-context workflow only posts a PR comment and never checks out code
   pull_request_target:
     types: [closed]
 
