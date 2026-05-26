@@ -23,7 +23,7 @@
       v-if="multiple && showPrefix"
       :model-value="node.checked"
       :indeterminate="node.indeterminate"
-      :disabled="isDisabled"
+      :disabled="isCheckDisabled"
       @click.stop
       @update:model-value="handleSelectCheck"
     />
@@ -49,7 +49,10 @@
     <node-content :node="node" />
     <!-- postfix -->
     <template v-if="!isLeaf">
-      <el-icon v-if="node.loading" :class="[ns.is('loading'), ns.e('postfix')]">
+      <el-icon
+        v-if="isNodeLoading"
+        :class="[ns.is('loading'), ns.e('postfix')]"
+      >
         <loading />
       </el-icon>
       <el-icon v-else :class="['arrow-right', ns.e('postfix')]">
@@ -92,6 +95,17 @@ const showPrefix = computed(() => panel.config.showPrefix)
 const checkedNodeId = computed(() => panel.checkedNodes[0]?.uid)
 const isDisabled = computed(() => props.node.isDisabled)
 const isLeaf = computed(() => props.node.isLeaf)
+const isNodeLoading = computed(
+  () => panel.config.lazy && panel.hasLoadingNode(props.node)
+)
+const hasLoadingLazyNode = computed(() => {
+  if (!panel.config.lazy || !multiple.value || checkStrictly.value) return false
+
+  return isNodeLoading.value
+})
+const isCheckDisabled = computed(
+  () => isDisabled.value || hasLoadingLazyNode.value
+)
 const expandable = computed(
   () => (checkStrictly.value && !isLeaf.value) || !isDisabled.value
 )
@@ -124,6 +138,18 @@ const doLoad = () => {
   })
 }
 
+const hasUnloadedLazyDescendant = (node: CascaderNode): boolean =>
+  !node.isDisabled &&
+  !node.isLeaf &&
+  (!node.loaded || node.children.some(hasUnloadedLazyDescendant))
+
+const shouldHandleLazyCheck = (checked: boolean) =>
+  panel.config.lazy &&
+  multiple.value &&
+  !checkStrictly.value &&
+  (checked || panel.isLazyCheckPending(props.node)) &&
+  hasUnloadedLazyDescendant(props.node)
+
 const handleHoverExpand = (e: Event) => {
   if (!isHoverMenu.value) return
   handleExpand()
@@ -149,7 +175,7 @@ const handleClick = () => {
     ((panel.config.checkOnClickNode &&
       (multiple.value || checkStrictly.value)) ||
       (isLeaf.value && panel.config.checkOnClickLeaf)) &&
-    !isDisabled.value
+    !isCheckDisabled.value
   ) {
     handleSelectCheck(!props.node.checked)
   } else if (!isHoverMenu.value) {
@@ -158,6 +184,8 @@ const handleClick = () => {
 }
 
 const handleSelectCheck = (checked: CheckboxValueType | undefined) => {
+  if (isCheckDisabled.value) return
+
   if (checkStrictly.value) {
     doCheck(checked as boolean)
     if (props.node.loaded) {
@@ -168,12 +196,22 @@ const handleSelectCheck = (checked: CheckboxValueType | undefined) => {
   }
 }
 
-const handleCheck = (checked: boolean) => {
+const handleCheck = async (checked: boolean) => {
+  if (shouldHandleLazyCheck(checked)) {
+    const checkedChanged = await panel.handleLazyCheckChange(
+      props.node,
+      checked
+    )
+    checkedChanged && props.node.loaded && doExpand()
+    return
+  }
+
   if (!props.node.loaded) {
     doLoad()
-  } else {
-    doCheck(checked)
-    !checkStrictly.value && doExpand()
+    return
   }
+
+  doCheck(checked)
+  !checkStrictly.value && doExpand()
 }
 </script>

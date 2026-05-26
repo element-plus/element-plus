@@ -68,16 +68,23 @@ export interface ElCascaderPanelContext {
   virtualScroll: boolean
   itemSize: number
   height: number
+  hasLoadingNode: (node: CascaderNode) => boolean
   lazyLoad: (
     node?: CascaderNode,
     cb?: (dataList: CascaderOption[]) => void
-  ) => void
+  ) => Promise<boolean>
   expandNode: (node: CascaderNode, silent?: boolean) => void
   handleCheckChange: (
     node: CascaderNode,
     checked: boolean,
     emitClose?: boolean
   ) => void
+  handleLazyCheckChange: (
+    node: CascaderNode,
+    checked: boolean,
+    emitClose?: boolean
+  ) => Promise<boolean>
+  isLazyCheckPending: (node: CascaderNode) => boolean
 }
 
 export const CASCADER_PANEL_INJECTION_KEY: InjectionKey<ElCascaderPanelContext> =
