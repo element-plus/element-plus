@@ -88,6 +88,9 @@ const emit = defineEmits(cascaderPanelEmits)
 
 // for interrupt sync check status in lazy mode
 let manualChecked = false
+let shouldSkipNextModelValueInvalidate = false
+let expectedModelValueEcho: CascaderValue
+let expectedModelValueEchoToken = 0
 
 type LazyLoadCallback = (dataList: CascaderOption[]) => void
 
@@ -122,12 +125,30 @@ const lazyCheck = createLazyCheck({
   handleCheckChange: (...args) => handleCheckChange(...args),
 })
 
+const resetExpectedModelValueEcho = () => {
+  shouldSkipNextModelValueInvalidate = false
+  expectedModelValueEcho = undefined
+}
+
+const markExpectedModelValueEcho = (value: CascaderValue) => {
+  const token = ++expectedModelValueEchoToken
+  shouldSkipNextModelValueInvalidate = true
+  expectedModelValueEcho = cloneDeep(value ?? undefined)
+
+  nextTick(() => {
+    if (expectedModelValueEchoToken === token) {
+      resetExpectedModelValueEcho()
+    }
+  })
+}
+
 const initStore = () => {
   const { options } = props
   const cfg = config.value
 
   lazyCheck.invalidateAll()
   manualChecked = false
+  resetExpectedModelValueEcho()
   store = new Store(options, cfg)
   menus.value = [store.getNodes()]
 
@@ -493,9 +514,15 @@ watch(() => props.options, initStore, {
 watch(
   () => props.modelValue,
   (modelValue) => {
-    if (!manualChecked || !isEqual(modelValue, checkedValue.value)) {
+    const isExpectedModelValueEcho =
+      shouldSkipNextModelValueInvalidate &&
+      isEqual(modelValue, expectedModelValueEcho)
+
+    if (!isExpectedModelValueEcho) {
       lazyCheck.invalidateAll()
     }
+
+    resetExpectedModelValueEcho()
     manualChecked = false
     syncCheckedValue()
   },
@@ -508,6 +535,7 @@ watch(
   () => checkedValue.value,
   (val) => {
     if (!isEqual(val, props.modelValue)) {
+      markExpectedModelValueEcho(val)
       emit(UPDATE_MODEL_EVENT, val)
       emit(CHANGE_EVENT, val)
     }

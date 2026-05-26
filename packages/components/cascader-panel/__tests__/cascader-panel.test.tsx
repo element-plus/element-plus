@@ -1,6 +1,7 @@
 import { defineComponent, inject, nextTick, ref } from 'vue'
-import { mount } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
+import { cloneDeep } from 'lodash-unified'
 import { EVENT_CODE } from '@element-plus/constants'
 import { Check, Loading } from '@element-plus/icons-vue'
 import CascaderPanel from '../src/index.vue'
@@ -1320,6 +1321,97 @@ describe('CascaderPanel.vue', () => {
     expect(menus[1].findAll(CHECKBOX)[1].classes('is-checked')).toBe(false)
     expect(value.value).toEqual([])
     vi.useRealTimers()
+  })
+
+  test('delayed model echo should cancel older pending lazy checks', async () => {
+    const value = ref<CascaderValue>([])
+    const pendingValue = ref<CascaderValue>([])
+    const resolvers = new Map<string, (dataList?: CascaderOption[]) => void>()
+    const lazyLoad = vi.fn<LazyLoad>((node, resolve) => {
+      resolvers.set(String(node.value), resolve)
+    })
+    const handleUpdateModelValue = vi.fn((modelValue: CascaderValue) => {
+      pendingValue.value = cloneDeep(modelValue)
+    })
+    const props: CascaderProps = {
+      multiple: true,
+      lazy: true,
+      lazyLoad,
+    }
+    const options: CascaderOption[] = [
+      {
+        value: 'parent-a',
+        label: 'Parent A',
+        leaf: false,
+      },
+      {
+        value: 'parent-b',
+        label: 'Parent B',
+        leaf: false,
+      },
+    ]
+    const applyPendingModelValue = () => {
+      value.value = cloneDeep(pendingValue.value)
+    }
+    const wrapper = mount(
+      defineComponent({
+        setup() {
+          return () => (
+            <CascaderPanel
+              modelValue={value.value}
+              options={options}
+              props={props}
+              {...{
+                'onUpdate:modelValue': handleUpdateModelValue,
+              }}
+            />
+          )
+        },
+      })
+    )
+
+    const [firstCheckbox, secondCheckbox] = wrapper.findAll(CHECKBOX)
+    await firstCheckbox.find('input').trigger('click')
+    await secondCheckbox.find('input').trigger('click')
+
+    expect(lazyLoad).toHaveBeenCalledTimes(2)
+
+    resolvers.get('parent-a')?.([
+      {
+        value: 'child-a',
+        label: 'Child A',
+        leaf: true,
+      },
+    ])
+    await flushPromises()
+    await nextTick()
+    await nextTick()
+
+    expect(handleUpdateModelValue).toHaveBeenCalledTimes(1)
+    expect(pendingValue.value).toEqual([['parent-a', 'child-a']])
+
+    await nextTick()
+    applyPendingModelValue()
+    await flushPromises()
+    await nextTick()
+    await nextTick()
+
+    resolvers.get('parent-b')?.([
+      {
+        value: 'child-b',
+        label: 'Child B',
+        leaf: true,
+      },
+    ])
+    await flushPromises()
+    await nextTick()
+    await nextTick()
+
+    const checkboxes = wrapper.findAll(CHECKBOX)
+    expect(handleUpdateModelValue).toHaveBeenCalledTimes(1)
+    expect(value.value).toEqual([['parent-a', 'child-a']])
+    expect(checkboxes[0].classes('is-checked')).toBe(true)
+    expect(checkboxes[1].classes('is-checked')).toBe(false)
   })
 
   test('lazy parent check should retry after load rejected', async () => {
