@@ -14,10 +14,13 @@ interface LazyCheckOptions {
   handleCheckChange: HandleCheckChange
 }
 
-const isSameBranch = (node: Node, target: Node) =>
-  node === target ||
-  node.pathNodes.includes(target) ||
-  target.pathNodes.includes(node)
+const isSameOrDescendant = (node: Node, target: Node) =>
+  node === target || node.pathNodes.includes(target)
+
+export const hasLoadingDescendant = (node: CascaderNode): boolean =>
+  !node.isDisabled &&
+  !node.isLeaf &&
+  node.children.some((child) => child.loading || hasLoadingDescendant(child))
 
 export const createLazyCheck = ({
   loadNode,
@@ -44,7 +47,7 @@ export const createLazyCheck = ({
     const target = node as Node
 
     activeNodeOrderMap.forEach((order, lazyCheckNode) => {
-      if (order < preserveOrder && isSameBranch(lazyCheckNode, target)) {
+      if (order < preserveOrder && isSameOrDescendant(lazyCheckNode, target)) {
         const version = nodeVersionMap.get(lazyCheckNode) ?? 0
         nodeVersionMap.set(lazyCheckNode, version + 1)
         activeNodeVersionMap.delete(lazyCheckNode)
@@ -107,34 +110,64 @@ export const createLazyCheck = ({
     if (node.isDisabled || node.isLeaf) return true
 
     if (!node.loaded) {
-      if (!(await loadNode(node))) return false
+      try {
+        if (!(await loadNode(node))) return false
+      } catch {
+        return false
+      }
     }
 
     const results = await Promise.all(node.children.map(loadDescendants))
     return results.every(Boolean)
   }
 
+  const collectUnloadedDescendants = (node: Node): Node[] => {
+    if (node.isDisabled || node.isLeaf) return []
+    if (!node.loaded) return [node]
+
+    return node.children.flatMap(collectUnloadedDescendants)
+  }
+
   const handleLazyCheckChange: ElCascaderPanelContext['handleLazyCheckChange'] =
     async (node, checked, emitClose = true) => {
       const currentNode = node as Node
+
+      if (
+        checked === node.checked ||
+        currentNode.loading ||
+        hasLoadingDescendant(currentNode)
+      )
+        return false
+
       const currentCheckVersion = checkVersion
       const currentTask = createTask(currentNode, checked)
-
-      try {
-        if (checked === node.checked) return false
-
-        if (checked) {
-          const loaded = await loadDescendants(currentNode)
-          if (
-            isTaskStale(currentNode, currentCheckVersion, currentTask) ||
-            !loaded
-          )
-            return false
-        }
-
+      const commitCheckChange = () =>
         commitTask(currentTask, () =>
           handleCheckChange(node, checked, emitClose)
         )
+      const commitLoadedDescendants = (nodes: Node[]) =>
+        commitTask(currentTask, () => {
+          nodes.forEach((node) => {
+            node.loaded && handleCheckChange(node, checked, emitClose)
+          })
+        })
+
+      try {
+        if (checked) {
+          const unloadedDescendants = collectUnloadedDescendants(currentNode)
+
+          commitCheckChange()
+
+          const loaded = await loadDescendants(currentNode)
+          if (isTaskStale(currentNode, currentCheckVersion, currentTask))
+            return false
+          commitLoadedDescendants(unloadedDescendants)
+          if (!loaded) return false
+        }
+
+        if (!checked) {
+          commitCheckChange()
+        }
         return true
       } finally {
         finishTask(currentNode, currentTask)

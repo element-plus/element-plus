@@ -36,6 +36,7 @@ import {
 import { cloneDeep, flattenDeep, isEqual } from 'lodash-unified'
 import {
   castArray,
+  debugWarn,
   focusNode,
   getEventCode,
   getSibling,
@@ -53,7 +54,7 @@ import { useNamespace } from '@element-plus/hooks'
 import ElCascaderMenu from './menu.vue'
 import Store from './store'
 import Node from './node'
-import { createLazyCheck } from './lazy-check'
+import { createLazyCheck, hasLoadingDescendant } from './lazy-check'
 import {
   CASCADER_PANEL_HEIGHT,
   CASCADER_PANEL_ITEM_SIZE,
@@ -113,6 +114,7 @@ const checkedValue = ref<CascaderValue>()
 const menus = ref<CascaderNode[][]>([])
 const expandingNode = ref<CascaderNode>()
 const checkedNodes = ref<CascaderNode[]>([])
+const lazyLoadStateVersion = ref(0)
 
 const isHoverMenu = computed(() => config.value.expandTrigger === 'hover')
 const renderLabelFn = computed(() => props.renderLabel || slots.default)
@@ -124,6 +126,13 @@ const lazyCheck = createLazyCheck({
   loadNode: (node) => lazyLoad(node),
   handleCheckChange: (...args) => handleCheckChange(...args),
 })
+
+const hasLoadingNode: ElCascaderPanelContext['hasLoadingNode'] = (node) => {
+  const isLazyLoadStateVersionValid = lazyLoadStateVersion.value >= 0
+  return (
+    isLazyLoadStateVersionValid && (node.loading || hasLoadingDescendant(node))
+  )
+}
 
 const resetExpectedModelValueEcho = () => {
   shouldSkipNextModelValueInvalidate = false
@@ -179,12 +188,12 @@ const lazyLoad: ElCascaderPanelContext['lazyLoad'] = (node, cb) => {
   }
 
   _node.loading = true
+  lazyLoadStateVersion.value += 1
 
   let resolveLoad!: (loaded: boolean) => void
-  let rejectLoad!: (reason: unknown) => void
-  const promise = new Promise<boolean>((resolve, reject) => {
+  let finished = false
+  const promise = new Promise<boolean>((resolve) => {
     resolveLoad = resolve
-    rejectLoad = reject
   })
   const request: LazyLoadRequest = {
     promise,
@@ -202,6 +211,9 @@ const lazyLoad: ElCascaderPanelContext['lazyLoad'] = (node, cb) => {
   }
 
   const finish = (loaded: boolean) => {
+    if (finished) return
+    finished = true
+    lazyLoadStateVersion.value += 1
     clearRequest()
     resolveLoad(loaded)
   }
@@ -211,14 +223,17 @@ const lazyLoad: ElCascaderPanelContext['lazyLoad'] = (node, cb) => {
     _node.loading = false
     _node.loaded = true
     _node.childrenData = _node.childrenData || []
-    if (dataList) {
-      store?.appendNodes(dataList, parent as Node)
-      request.callbacks.forEach((callback) => callback(dataList))
+    try {
+      if (dataList) {
+        store?.appendNodes(dataList, parent as Node)
+        request.callbacks.forEach((callback) => callback(dataList))
+      }
+    } finally {
+      if (_node.level === 0) {
+        initialLoadedOnce.value = true
+      }
+      finish(true)
     }
-    if (_node.level === 0) {
-      initialLoadedOnce.value = true
-    }
-    finish(true)
   }
 
   const reject = () => {
@@ -233,13 +248,17 @@ const lazyLoad: ElCascaderPanelContext['lazyLoad'] = (node, cb) => {
   try {
     cfg.lazyLoad(_node, resolve, reject)
   } catch (error) {
+    if (finished) {
+      throw error
+    }
+
     _node.loading = false
     _node.loaded = false
     if (_node.level === 0) {
       initialLoaded.value = true
     }
-    clearRequest()
-    rejectLoad(error)
+    debugWarn(error instanceof Error ? error : new Error(String(error)))
+    finish(false)
   }
 
   return promise
@@ -332,7 +351,7 @@ const syncCheckedValue = (loaded = false, forced = false) => {
     )
     const nodes = values
       .map((val) => store?.getNodeByValue(val))
-      .filter((node) => !!node && !node.loaded && !node.loading) as Node[]
+      .filter((node) => !!node && !node.loaded) as Node[]
 
     if (nodes.length) {
       nodes.forEach((node) => {
@@ -488,6 +507,7 @@ provide(
     virtualScroll,
     itemSize,
     height,
+    hasLoadingNode,
     lazyLoad,
     expandNode,
     handleCheckChange,

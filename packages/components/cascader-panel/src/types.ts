@@ -68,6 +68,7 @@ export interface ElCascaderPanelContext {
   virtualScroll: boolean
   itemSize: number
   height: number
+  hasLoadingNode: (node: CascaderNode) => boolean
   lazyLoad: (
     node?: CascaderNode,
     cb?: (dataList: CascaderOption[]) => void
