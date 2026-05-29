@@ -375,6 +375,28 @@ function useWatcher<T extends DefaultRow>() {
     return (selection.value || []).slice()
   }
 
+  const getHalfSelectionRows = () => {
+    if (!rowKey.value) return []
+    const indeterminateMap = selectionIndeterminate.value
+    const halfCheckedKeys = Object.keys(indeterminateMap).filter(
+      (key) => indeterminateMap[key]
+    )
+    const result: T[] = []
+    const _traverse = (rows: T[]) => {
+      if (!isArray(rows)) return
+      rows.forEach((row) => {
+        const id = getRowIdentity(row, rowKey.value)
+        if (halfCheckedKeys.includes(String(id))) {
+          result.push(row)
+        }
+        const children = getRowChildren(row)
+        if (children.length) _traverse(children)
+      })
+    }
+    _traverse(data.value || [])
+    return result
+  }
+
   const cascadeToLazyChildren = (
     row: T,
     selected: boolean,
@@ -804,6 +826,7 @@ function useWatcher<T extends DefaultRow>() {
     clearSelection,
     cleanSelection,
     getSelectionRows,
+    getHalfSelectionRows,
     toggleRowSelection,
     _toggleAllSelection,
     toggleAllSelection: null as (() => void) | null,
