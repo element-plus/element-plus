@@ -1,6 +1,32 @@
 ## Changelog
 
 
+### 2.14.1
+
+_2026-05-29_
+
+#### Features
+
+- Components [tabs] support scrolling via touch (#24292 by @rzzf)
+
+#### Bug fixes
+
+- Components [date-picker-panel] prevent early range fix (#24011 by @LostElkByte)
+- Components [tree-v2] get current key before node click (#24232 by @rzzf)
+- Components [text] refresh truncated title after layout changes (#24233 by @rzzf)
+- Components [date-picker-panel]honor disabledDate on adjusted range (#24085 by @LostElkByte)
+- Components [cascader] prevent duplicate root lazy-load calls (#24269 by @rzzf)
+- Components [tree] respect check-strictly on lazy load (#24267 by @ruguoba)
+- Components [message-box] hide btns container when both buttons are hidden (#24283 by @whcanic)
+- Components [select/v2] ios click listening (#24033 by @ixyzorg)
+- Components [config-provider] preserve zero zIndex (#24331 by @guozi9999)
+
+#### Refactors
+
+- Components [table] make component generic (#24201 by @rzzf)
+- Components [table] improve emits type (#24245 by @rzzf)
+- Components [table] use UseTooltipProps for overflow tooltip (#24278 by @xingyixiang)
+
 ### 2.14.0
 
 _2026-05-08_

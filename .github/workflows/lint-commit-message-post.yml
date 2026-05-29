@@ -1,6 +1,7 @@
 name: 📮 Lint Commit Message Post
 
 on:
+  # zizmor: ignore[dangerous-triggers] downstream workflow only reads artifacts from the named lint workflow and uses scoped job permissions
   workflow_run:
     workflows: ['Lint Commit Message']
     types: [completed]
@@ -8,6 +9,8 @@ on:
 jobs:
   result:
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
 
     outputs:
       succeeded: ${{ steps.assert.outputs.succeeded }}
@@ -16,21 +19,21 @@ jobs:
 
     steps:
       - name: Download result
-        uses: dawidd6/action-download-artifact@v21
+        uses: dawidd6/action-download-artifact@b6e2e70617bc3265edd6dab6c906732b2f1ae151 # v21
         with:
           workflow: ${{ github.event.workflow.id }}
           run_id: ${{ github.event.workflow_run.id }}
           name: commit-lint-result
 
       - name: Derive PR number
-        uses: dawidd6/action-download-artifact@v21
+        uses: dawidd6/action-download-artifact@b6e2e70617bc3265edd6dab6c906732b2f1ae151 # v21
         with:
           workflow: ${{ github.event.workflow.id }}
           run_id: ${{ github.event.workflow_run.id }}
           name: pr-number
 
       - name: Download PR author
-        uses: dawidd6/action-download-artifact@v21
+        uses: dawidd6/action-download-artifact@b6e2e70617bc3265edd6dab6c906732b2f1ae151 # v21
         with:
           workflow: ${{ github.event.workflow.id }}
           run_id: ${{ github.event.workflow_run.id }}
@@ -55,7 +58,7 @@ jobs:
     steps:
       - name: Successfully
         if: ${{ needs.result.outputs.succeeded == 'true' }}
-        uses: actions-awesome/pr-helper@1.1.1
+        uses: actions-awesome/pr-helper@48f7641b8b2feebab7d6a2fbc22812fd0bfee829 # 1.1.1
         with:
           actions: 'maintain-comment, add-labels, remove-labels'
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -65,7 +68,7 @@ jobs:
 
       - name: Failed
         if: ${{ needs.result.outputs.succeeded != 'true' }}
-        uses: actions-awesome/pr-helper@1.1.1
+        uses: actions-awesome/pr-helper@48f7641b8b2feebab7d6a2fbc22812fd0bfee829 # 1.1.1
         with:
           actions: 'remove-labels, add-labels, maintain-comment'
           labels-to-add: 'CommitMessage::Unqualified'

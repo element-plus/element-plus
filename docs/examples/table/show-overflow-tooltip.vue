@@ -1,6 +1,7 @@
 <template>
   <el-table :data="tableData" style="width: 100%">
     <el-table-column type="selection" width="55" />
+    <!-- @vue-generic {User} -->
     <el-table-column label="Date" width="120">
       <template #default="scope">{{ scope.row.date }}</template>
     </el-table-column>
