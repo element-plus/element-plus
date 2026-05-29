@@ -12,6 +12,7 @@ import {
   useZIndex,
   zIndexContextKey,
 } from '@element-plus/hooks'
+import { isNil } from 'lodash-unified'
 import { configProviderContextKey } from '../constants'
 
 import type { App, MaybeRef, Ref } from 'vue'
@@ -60,7 +61,7 @@ export function useGlobalComponentSettings(
   const zIndex = useZIndex(
     computed(() => {
       const zIndex = config.value?.zIndex
-      return zIndex == null || Number.isNaN(zIndex)
+      return isNil(zIndex) || Number.isNaN(zIndex)
         ? defaultInitialZIndex
         : zIndex
     })
