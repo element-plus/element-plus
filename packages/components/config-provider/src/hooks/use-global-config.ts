@@ -12,6 +12,7 @@ import {
   useZIndex,
   zIndexContextKey,
 } from '@element-plus/hooks'
+import { isNil } from 'lodash-unified'
 import { configProviderContextKey } from '../constants'
 
 import type { App, MaybeRef, Ref } from 'vue'
@@ -58,7 +59,12 @@ export function useGlobalComponentSettings(
 
   const locale = useLocale(computed(() => config.value?.locale))
   const zIndex = useZIndex(
-    computed(() => config.value?.zIndex || defaultInitialZIndex)
+    computed(() => {
+      const zIndex = config.value?.zIndex
+      return isNil(zIndex) || Number.isNaN(zIndex)
+        ? defaultInitialZIndex
+        : zIndex
+    })
   )
   const size = computed(() => unref(sizeFallback) || config.value?.size || '')
   provideGlobalConfig(computed(() => unref(config) || {}))
