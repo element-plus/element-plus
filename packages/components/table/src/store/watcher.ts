@@ -80,6 +80,7 @@ function useWatcher<T extends DefaultRow>() {
   const isAllSelected = ref(false)
   const selection: Ref<T[]> = ref([])
   const selectionIndeterminate = ref<Record<string, boolean>>({})
+  const halfSelection: Ref<T[]> = ref([])
   const reserveSelection = ref(false)
   const selectOnIndeterminate = ref(false)
   const selectable: Ref<((row: T, index: number) => boolean) | null> = ref(null)
@@ -232,6 +233,7 @@ function useWatcher<T extends DefaultRow>() {
     const { emitChange = true } = options
     if (treeStates.checkStrictly.value || !rowKey.value) {
       selectionIndeterminate.value = {}
+      halfSelection.value = []
       return
     }
     const rowKeyValue = rowKey.value
@@ -246,6 +248,7 @@ function useWatcher<T extends DefaultRow>() {
       return id
     }
     const indeterminateMap: Record<string, boolean> = {}
+    const nextHalfSelection: T[] = []
     const selectedIdSet = new Set(
       selection.value.map((row) => getCachedRowId(row))
     )
@@ -286,6 +289,7 @@ function useWatcher<T extends DefaultRow>() {
             const noneSelected = childSelectedCount === 0
             if (!allSelected && !noneSelected) {
               indeterminateMap[id] = true
+              nextHalfSelection.push(row)
             }
             _updateSelectionForRow(row, id, allSelected)
           }
@@ -313,6 +317,7 @@ function useWatcher<T extends DefaultRow>() {
       selection.value = nextSelection
     }
     selectionIndeterminate.value = indeterminateMap
+    halfSelection.value = nextHalfSelection
     if (selectionChanged && emitChange) {
       instance.emit(
         'selection-change',
@@ -326,6 +331,7 @@ function useWatcher<T extends DefaultRow>() {
     const oldSelection = selection.value
     selection.value = []
     selectionIndeterminate.value = {}
+    halfSelection.value = []
     if (oldSelection.length) {
       instance.emit('selection-change', [])
     }
@@ -376,25 +382,7 @@ function useWatcher<T extends DefaultRow>() {
   }
 
   const getHalfSelectionRows = () => {
-    if (!rowKey.value) return []
-    const indeterminateMap = selectionIndeterminate.value
-    const halfCheckedKeys = Object.keys(indeterminateMap).filter(
-      (key) => indeterminateMap[key]
-    )
-    const result: T[] = []
-    const _traverse = (rows: T[]) => {
-      if (!isArray(rows)) return
-      rows.forEach((row) => {
-        const id = getRowIdentity(row, rowKey.value)
-        if (halfCheckedKeys.includes(String(id))) {
-          result.push(row)
-        }
-        const children = getRowChildren(row)
-        if (children.length) _traverse(children)
-      })
-    }
-    _traverse(data.value || [])
-    return result
+    return halfSelection.value.slice()
   }
 
   const cascadeToLazyChildren = (
@@ -777,6 +765,7 @@ function useWatcher<T extends DefaultRow>() {
     (value) => {
       if (value) {
         selectionIndeterminate.value = {}
+        halfSelection.value = []
       } else {
         // Internal sync when switching strict mode, avoid triggering selection-change
         updateSelectionByChildren({ emitChange: false })
@@ -872,6 +861,7 @@ function useWatcher<T extends DefaultRow>() {
       isAllSelected,
       selection,
       selectionIndeterminate,
+      halfSelection,
       reserveSelection,
       selectOnIndeterminate,
       selectable,
