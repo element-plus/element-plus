@@ -13,6 +13,11 @@
   },
   "packageRules": [
     {
+      "matchDatasources": ["npm"],
+      "minimumReleaseAge": "1 day",
+      "internalChecksFilter": "strict"
+    },
+    {
       "matchDepTypes": ["peerDependencies"],
       "enabled": false
     },
