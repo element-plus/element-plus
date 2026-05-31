@@ -96,6 +96,15 @@ After completing your coding tasks, please note:
 5. In the description section, you can add more information about your changes, to help the reviewers for better
    understanding the context here.
 
+## Documentation Formatting Guidelines
+
+When updating documentation API tables, keep descriptions consistent:
+
+1. Keep attribute and prop names lowercase.
+2. Start API descriptions with an uppercase letter.
+3. Preserve code terms wrapped in backticks, such as `slot`, `Tooltip`, and `Popover`.
+4. Avoid broad reformatting changes unrelated to the current documentation update.
+
 ## Commit Template
 
 We have prepared a commit message template for you to refer to, you can also follow the instructions of the CLI tool to generate
