@@ -102,6 +102,14 @@ export interface TransferProps<T extends TransferDataItem = TransferDataItem> {
    * @description whether to trigger form validation
    */
   validateEvent?: boolean
+  /**
+   * @description whether to use virtual list
+   */
+  virtualized?: boolean
+  /**
+   * @description virtual item size
+   */
+  virtualItemSize?: number
 }
 
 /**

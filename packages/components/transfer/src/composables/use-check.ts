@@ -1,10 +1,14 @@
-import { computed, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { isFunction } from '@element-plus/utils'
+import { useElementSize } from '@vueuse/core'
 import { CHECKED_CHANGE_EVENT } from '../transfer-panel'
 import { usePropsAlias } from './use-props-alias'
 
 import type { SetupContext } from 'vue'
-import type { CheckboxValueType } from '@element-plus/components/checkbox'
+import type {
+  CheckboxGroupInstance,
+  CheckboxValueType,
+} from '@element-plus/components/checkbox'
 import type { TransferDataItem, TransferKey } from '../transfer'
 import type {
   TransferPanelEmits,
@@ -77,6 +81,11 @@ export const useCheck = <T extends TransferDataItem = TransferDataItem>(
       : []
   }
 
+  const checkboxGroupRef = ref<CheckboxGroupInstance>()
+  const { height: virtualListHeight } = useElementSize(
+    computed(() => checkboxGroupRef.value?.$el)
+  )
+
   watch(
     () => panelState.checked,
     (val, oldVal) => {
@@ -148,6 +157,8 @@ export const useCheck = <T extends TransferDataItem = TransferDataItem>(
     checkableData,
     checkedSummary,
     isIndeterminate,
+    checkboxGroupRef,
+    virtualListHeight,
     updateAllChecked,
     handleAllCheckedChange,
   }

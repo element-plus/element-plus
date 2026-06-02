@@ -27,20 +27,44 @@
       />
       <el-checkbox-group
         v-show="!hasNoMatch && !isEmpty(data)"
+        ref="checkboxGroupRef"
         v-model="checked"
         :validate-event="false"
         :class="[ns.is('filterable', filterable), ns.be('panel', 'list')]"
       >
-        <el-checkbox
-          v-for="item in filteredData"
-          :key="item[propsAlias.key]"
-          :class="ns.be('panel', 'item')"
-          :value="item[propsAlias.key]"
-          :disabled="item[propsAlias.disabled]"
-          :validate-event="false"
+        <template v-if="!virtualized">
+          <el-checkbox
+            v-for="item in filteredData"
+            :key="item[propsAlias.key]"
+            :class="ns.be('panel', 'item')"
+            :value="item[propsAlias.key]"
+            :disabled="item[propsAlias.disabled]"
+            :validate-event="false"
+          >
+            <option-content :option="optionRender?.(item)" />
+          </el-checkbox>
+        </template>
+        <FixedSizeList
+          v-else
+          :data="filteredData"
+          :total="filteredData.length"
+          :item-size="virtualItemSize"
+          :height="virtualListHeight"
         >
-          <option-content :option="optionRender?.(item)" />
-        </el-checkbox>
+          <template #default="{ data, index, style }">
+            <div :style="style">
+              <el-checkbox
+                :key="data[index][propsAlias.key]"
+                :class="ns.be('panel', 'item')"
+                :value="data[index][propsAlias.key]"
+                :disabled="data[index][propsAlias.disabled]"
+                :validate-event="false"
+              >
+                <option-content :option="optionRender?.(data[index])" />
+              </el-checkbox>
+            </div>
+          </template>
+        </FixedSizeList>
       </el-checkbox-group>
       <div
         v-show="hasNoMatch || isEmpty(data)"
@@ -63,6 +87,7 @@ import { isEmpty, mutable } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { ElCheckbox, ElCheckboxGroup } from '@element-plus/components/checkbox'
 import { ElInput } from '@element-plus/components/input'
+import { FixedSizeList } from '@element-plus/components/virtual-list'
 import { Search } from '@element-plus/icons-vue'
 import { transferPanelEmits } from './transfer-panel'
 import { useCheck, usePropsAlias } from './composables'
@@ -85,6 +110,7 @@ const props = withDefaults(defineProps<TransferPanelProps<T>>(), {
       key: 'key',
       disabled: 'disabled',
     }),
+  virtualized: false,
 })
 const emit = defineEmits(transferPanelEmits)
 const slots = useSlots()
@@ -107,6 +133,8 @@ const {
   filteredData,
   checkedSummary,
   isIndeterminate,
+  checkboxGroupRef,
+  virtualListHeight,
   handleAllCheckedChange,
 } = useCheck(props, panelState, emit)
 
