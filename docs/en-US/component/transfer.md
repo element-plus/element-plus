@@ -53,6 +53,16 @@ transfer/prop-alias
 
 :::
 
+## Virtual Support
+
+Use `virtualized` to enable virtual scroll
+
+:::demo
+
+transfer/virtual-scroll
+
+:::
+
 ## Transfer API
 
 ### Transfer Attributes
@@ -73,6 +83,8 @@ transfer/prop-alias
 | left-default-checked        | key array of initially checked data items of the left list                                                                                                                                                                                                                         | ^[array]`Array<string \| number>`                                  | []       |
 | right-default-checked       | key array of initially checked data items of the right list                                                                                                                                                                                                                        | ^[array]`Array<string \| number>`                                  | []       |
 | validate-event              | whether to trigger form validation                                                                                                                                                                                                                                                 | ^[boolean]                                                         | true     |
+| virtualized                 | whether to use virtual list                                                                                                                                                                                                                                                        | ^[boolean]                                                         | false    |
+| virtual-item-size           | virtual item size                                                                                                                                                                                                                                                                  | ^[number]                                                          | 30       |
 
 ### Transfer Events
 
