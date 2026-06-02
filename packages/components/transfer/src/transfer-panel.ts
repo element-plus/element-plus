@@ -32,8 +32,8 @@ export interface TransferPanelProps<
   filterMethod?: (query: string, item: T) => boolean
   defaultChecked?: TransferKey[]
   props?: TransferPropsAlias
-  virtualized?: boolean
-  virtualItemSize: number
+  virtualScroll?: boolean
+  itemSize: number
 }
 
 /**

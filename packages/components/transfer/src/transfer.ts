@@ -103,13 +103,13 @@ export interface TransferProps<T extends TransferDataItem = TransferDataItem> {
    */
   validateEvent?: boolean
   /**
-   * @description whether to use virtual list
+   * @description whether to enable virtual scrolling
    */
-  virtualized?: boolean
+  virtualScroll?: boolean
   /**
-   * @description virtual item size
+   * @description line height for virtual scrolling
    */
-  virtualItemSize?: number
+  itemSize?: number
 }
 
 /**
@@ -215,16 +215,16 @@ export const transferProps = buildProps({
     default: true,
   },
   /**
-   * @description whether to use virtual list
+   * @description whether to enable virtual scrolling
    */
-  virtualized: {
+  virtualScroll: {
     type: Boolean,
     default: false,
   },
   /**
-   * @description virtual item size
+   * @description line height for virtual scrolling
    */
-  virtualItemSize: {
+  itemSize: {
     type: Number,
     default: 30,
   },

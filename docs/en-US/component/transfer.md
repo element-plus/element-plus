@@ -53,11 +53,11 @@ transfer/prop-alias
 
 :::
 
-## Virtual Support ^(2.14.2)
+## Virtual Scroll ^(2.14.2)
 
-Use `virtualized` to enable virtual scroll
+When dealing with large amounts of data, you can enable virtual scrolling to improve performance.
 
-:::demo
+:::demo Set `virtual-scroll` to `true` to enable virtual scrolling. You can also customize the line height with `item-size`. Default item size is 30px.
 
 transfer/virtual-scroll
 
@@ -83,8 +83,8 @@ transfer/virtual-scroll
 | left-default-checked        | key array of initially checked data items of the left list                                                                                                                                                                                                                         | ^[array]`Array<string \| number>`                                  | []       |
 | right-default-checked       | key array of initially checked data items of the right list                                                                                                                                                                                                                        | ^[array]`Array<string \| number>`                                  | []       |
 | validate-event              | whether to trigger form validation                                                                                                                                                                                                                                                 | ^[boolean]                                                         | true     |
-| virtualized ^(2.14.2)       | whether to use virtual list                                                                                                                                                                                                                                                        | ^[boolean]                                                         | false    |
-| virtual-item-size ^(2.14.2) | virtual item size                                                                                                                                                                                                                                                                  | ^[number]                                                          | 30       |
+| virtual-scroll ^(2.14.2)    | whether to enable virtual scrolling                                                                                                                                                                                                                                                | ^[boolean]                                                         | false    |
+| item-size ^(2.14.2)         | line height for virtual scrolling                                                                                                                                                                                                                                                  | ^[number]                                                          | 30       |
 
 ### Transfer Events
 

@@ -11,8 +11,8 @@
       :filter-method="filterMethod"
       :default-checked="leftDefaultChecked"
       :props="props.props"
-      :virtualized="virtualized"
-      :virtual-item-size="virtualItemSize"
+      :virtual-scroll="virtualScroll"
+      :item-size="itemSize"
       @checked-change="onSourceCheckedChange"
     >
       <template #empty>
@@ -51,8 +51,8 @@
       :title="rightPanelTitle"
       :default-checked="rightDefaultChecked"
       :props="props.props"
-      :virtualized="virtualized"
-      :virtual-item-size="virtualItemSize"
+      :virtual-scroll="virtualScroll"
+      :item-size="itemSize"
       @checked-change="onTargetCheckedChange"
     >
       <template #empty>
@@ -108,8 +108,8 @@ const props = withDefaults(defineProps<TransferProps<T>>(), {
   }),
   targetOrder: 'original',
   validateEvent: true,
-  virtualized: false,
-  virtualItemSize: 30,
+  virtualScroll: false,
+  itemSize: 30,
 })
 const emit = defineEmits(transferEmits)
 const slots = defineSlots<{

@@ -1,10 +1,5 @@
 <template>
-  <el-transfer
-    v-model="value"
-    :data="data"
-    virtualized
-    :virtual-item-size="30"
-  />
+  <el-transfer v-model="value" :data="data" virtual-scroll :item-size="30" />
 </template>
 
 <script lang="ts" setup>

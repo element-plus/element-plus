@@ -32,7 +32,7 @@
         :validate-event="false"
         :class="[ns.is('filterable', filterable), ns.be('panel', 'list')]"
       >
-        <template v-if="!virtualized">
+        <template v-if="!virtualScroll">
           <el-checkbox
             v-for="item in filteredData"
             :key="item[propsAlias.key]"
@@ -48,7 +48,7 @@
           v-else
           :data="filteredData"
           :total="filteredData.length"
-          :item-size="virtualItemSize"
+          :item-size="itemSize"
           :height="virtualListHeight"
         >
           <template #default="{ data, index, style }">
@@ -110,7 +110,7 @@ const props = withDefaults(defineProps<TransferPanelProps<T>>(), {
       key: 'key',
       disabled: 'disabled',
     }),
-  virtualized: false,
+  virtualScroll: false,
 })
 const emit = defineEmits(transferPanelEmits)
 const slots = useSlots()
