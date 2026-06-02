@@ -1184,6 +1184,54 @@ describe('Virtual Tree', () => {
     expect(nodes[1].classes()).toContain('is-current')
   })
 
+  test('currentNodeKey with zero key', async () => {
+    const { wrapper, treeRef } = createTree({
+      data() {
+        return {
+          currentNodeKey: 0,
+          data: [
+            {
+              id: 0,
+              label: 'node-0',
+            },
+          ],
+        }
+      },
+    })
+    await nextTick()
+    const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+    expect(nodes[0].classes()).toContain('is-current')
+    expect(treeRef.getCurrentKey()).toBe(0)
+    expect(treeRef.getCurrentNode()).toMatchObject({
+      id: 0,
+      label: 'node-0',
+    })
+  })
+
+  test('currentNodeKey with empty string key', async () => {
+    const { wrapper, treeRef } = createTree({
+      data() {
+        return {
+          currentNodeKey: '',
+          data: [
+            {
+              id: '',
+              label: 'empty',
+            },
+          ],
+        }
+      },
+    })
+    await nextTick()
+    const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+    expect(nodes[0].classes()).toContain('is-current')
+    expect(treeRef.getCurrentKey()).toBe('')
+    expect(treeRef.getCurrentNode()).toMatchObject({
+      id: '',
+      label: 'empty',
+    })
+  })
+
   test('customNodeClass', async () => {
     const { wrapper } = createTree({
       data() {
