@@ -180,11 +180,11 @@ export default defineComponent({
 
     function onItemLeave() {
       const contentEl = unref(contentRef)
-
-      trigger.value.includes('hover') &&
-        contentEl?.focus({
+      if (contentEl) {
+        contentEl.focus({
           preventScroll: true,
         })
+      }
       currentTabId.value = null
     }
 
@@ -235,6 +235,7 @@ export default defineComponent({
       wrapStyle,
       dropdownTriggerKls,
       dropdownSize,
+      trigger,
       triggerId,
       currentTabId,
       handleCurrentTabIdChange,
