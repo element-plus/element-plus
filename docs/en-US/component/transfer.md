@@ -53,7 +53,7 @@ transfer/prop-alias
 
 :::
 
-## Virtual Support
+## Virtual Support ^(2.14.2)
 
 Use `virtualized` to enable virtual scroll
 
@@ -83,8 +83,8 @@ transfer/virtual-scroll
 | left-default-checked        | key array of initially checked data items of the left list                                                                                                                                                                                                                         | ^[array]`Array<string \| number>`                                  | []       |
 | right-default-checked       | key array of initially checked data items of the right list                                                                                                                                                                                                                        | ^[array]`Array<string \| number>`                                  | []       |
 | validate-event              | whether to trigger form validation                                                                                                                                                                                                                                                 | ^[boolean]                                                         | true     |
-| virtualized                 | whether to use virtual list                                                                                                                                                                                                                                                        | ^[boolean]                                                         | false    |
-| virtual-item-size           | virtual item size                                                                                                                                                                                                                                                                  | ^[number]                                                          | 30       |
+| virtualized ^(2.14.2)       | whether to use virtual list                                                                                                                                                                                                                                                        | ^[boolean]                                                         | false    |
+| virtual-item-size ^(2.14.2) | virtual item size                                                                                                                                                                                                                                                                  | ^[number]                                                          | 30       |
 
 ### Transfer Events
 
