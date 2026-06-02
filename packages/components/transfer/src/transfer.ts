@@ -214,6 +214,20 @@ export const transferProps = buildProps({
     type: Boolean,
     default: true,
   },
+  /**
+   * @description whether to use virtual list
+   */
+  virtualized: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * @description virtual item size
+   */
+  virtualItemSize: {
+    type: Number,
+    default: 30,
+  },
 } as const)
 
 /**
