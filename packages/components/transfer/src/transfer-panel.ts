@@ -53,6 +53,8 @@ export const transferPanelProps = buildProps({
   filterMethod: transferProps.filterMethod,
   defaultChecked: transferProps.leftDefaultChecked,
   props: transferProps.props,
+  virtualScroll: Boolean,
+  itemSize: Number,
 } as const)
 
 /**
