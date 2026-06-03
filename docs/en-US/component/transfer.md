@@ -57,7 +57,7 @@ transfer/prop-alias
 
 When dealing with large amounts of data, you can enable virtual scrolling to improve performance.
 
-:::demo Set `virtual-scroll` to `true` to enable virtual scrolling. You can also customize the line height with `item-size`. Default item size is 30px.
+:::demo Set `virtual-scroll` to `true` to enable virtual scrolling. You can also customize the item height with `item-size`. Default item size is 30px.
 
 transfer/virtual-scroll
 
