@@ -8,12 +8,25 @@ import Select from '@element-plus/components/select'
 import { ElForm, ElFormItem } from '@element-plus/components/form'
 import TimeSelect from '../src/time-select.vue'
 
+import type { VNode } from 'vue'
+import type { VueWrapper } from '@vue/test-utils'
+
 dayjs.extend(customParseFormat)
 
 const { Option } = Select
 
-afterEach(() => {
-  document.documentElement.innerHTML = ''
+const mountedWrappers: VueWrapper[] = []
+const _mount = (render: () => VNode, options?: Parameters<typeof mount>[1]) => {
+  const wrapper = mount(render, options)
+  mountedWrappers.push(wrapper)
+  return wrapper
+}
+
+afterEach(async () => {
+  mountedWrappers.forEach((wrapper) => wrapper.unmount())
+  mountedWrappers.length = 0
+  document.body.innerHTML = ''
+  await new Promise((resolve) => setTimeout(resolve, 0))
 })
 
 const WRAPPER_CLASS_NAME = 'el-select__wrapper'
@@ -21,7 +34,7 @@ const PLACEHOLDER_CLASS_NAME = 'el-select__placeholder'
 
 describe('TimeSelect', () => {
   it('create', async () => {
-    const wrapper = mount(() => (
+    const wrapper = _mount(() => (
       <TimeSelect style={{ color: 'red' }} class="customClass" />
     ))
 
@@ -31,7 +44,7 @@ describe('TimeSelect', () => {
   })
 
   it('should show clear btn on focus', async () => {
-    const wrapper = mount(() => <TimeSelect modelValue="08:30" clearable />)
+    const wrapper = _mount(() => <TimeSelect modelValue="08:30" clearable />)
     const input = wrapper.find('input')
     await input.trigger('blur')
     await input.trigger('focus')
@@ -40,7 +53,7 @@ describe('TimeSelect', () => {
 
   it('set default value', async () => {
     const value = ref('14:30')
-    const wrapper = mount(() => <TimeSelect v-model={value.value} />)
+    const wrapper = _mount(() => <TimeSelect v-model={value.value} />)
 
     const input = wrapper.find('input')
     input.trigger('blur')
@@ -51,7 +64,7 @@ describe('TimeSelect', () => {
   })
 
   it('set minTime', async () => {
-    const wrapper = mount(() => <TimeSelect minTime="14:30" />)
+    const wrapper = _mount(() => <TimeSelect minTime="14:30" />)
 
     const input = wrapper.find('input')
     input.trigger('blur')
@@ -63,7 +76,7 @@ describe('TimeSelect', () => {
   })
 
   it('set maxTime', async () => {
-    const wrapper = mount(() => <TimeSelect maxTime="14:30" />)
+    const wrapper = _mount(() => <TimeSelect maxTime="14:30" />)
 
     const input = wrapper.find('input')
     input.trigger('blur')
@@ -75,7 +88,7 @@ describe('TimeSelect', () => {
 
   it('set value update', async () => {
     const value = ref('10:00')
-    const wrapper = mount(() => <TimeSelect v-model={value.value} />)
+    const wrapper = _mount(() => <TimeSelect v-model={value.value} />)
 
     await nextTick()
     const input = wrapper.find('input')
@@ -94,7 +107,7 @@ describe('TimeSelect', () => {
 
   it('update value', async () => {
     const value = ref('10:00')
-    const wrapper = mount(() => <TimeSelect v-model={value.value} />)
+    const wrapper = _mount(() => <TimeSelect v-model={value.value} />)
 
     await nextTick()
     const vm = wrapper.findComponent({ name: 'ElTimeSelect' }).vm
@@ -115,7 +128,7 @@ describe('TimeSelect', () => {
   it('set disabled', async () => {
     const value = ref('10:00')
     const disabled = ref(false)
-    const wrapper = mount(() => (
+    const wrapper = _mount(() => (
       <TimeSelect v-model={value.value} disabled={disabled.value} />
     ))
 
@@ -130,7 +143,7 @@ describe('TimeSelect', () => {
   it('set editable', async () => {
     const value = ref('10:00')
     const editable = ref(false)
-    const wrapper = mount(() => (
+    const wrapper = _mount(() => (
       <TimeSelect v-model={value.value} editable={editable.value} />
     ))
 
@@ -143,7 +156,7 @@ describe('TimeSelect', () => {
   })
 
   it('should include end time', async () => {
-    const wrapper = mount(() => (
+    const wrapper = _mount(() => (
       <TimeSelect
         start="00:00"
         step="00:05"
@@ -162,7 +175,7 @@ describe('TimeSelect', () => {
   })
 
   it('should not duplicate end time when includeEndTime with custom format', async () => {
-    const wrapper = mount(() => (
+    const wrapper = _mount(() => (
       <TimeSelect
         start="08:30"
         step="00:15"
@@ -182,7 +195,7 @@ describe('TimeSelect', () => {
   })
 
   it('should not include end time', async () => {
-    const wrapper = mount(() => (
+    const wrapper = _mount(() => (
       <TimeSelect start="00:00" step="00:05" end="23:59" />
     ))
     const select = wrapper.findComponent({ name: 'ElTimeSelect' })
@@ -196,7 +209,7 @@ describe('TimeSelect', () => {
   })
 
   it('should include end whenever includeEndTime is false', async () => {
-    const wrapper = mount(() => (
+    const wrapper = _mount(() => (
       <TimeSelect start="00:10" end="00:20" step="00:02" />
     ))
     const select = wrapper.findComponent({ name: 'ElTimeSelect' })
@@ -210,7 +223,7 @@ describe('TimeSelect', () => {
   })
 
   it('ref focus', async () => {
-    const wrapper = mount(() => <TimeSelect />, {
+    const wrapper = _mount(() => <TimeSelect />, {
       attachTo: document.body,
     })
 
@@ -227,7 +240,7 @@ describe('TimeSelect', () => {
   })
 
   it('ref blur', async () => {
-    const wrapper = mount(() => <TimeSelect />, {
+    const wrapper = _mount(() => <TimeSelect />, {
       attachTo: document.body,
     })
 
@@ -246,7 +259,7 @@ describe('TimeSelect', () => {
 
   it('set format', async () => {
     const value = ref('')
-    const wrapper = mount(() => (
+    const wrapper = _mount(() => (
       <TimeSelect
         v-model={value.value}
         start="13:00"
@@ -264,13 +277,13 @@ describe('TimeSelect', () => {
   })
 
   it('should pass name to inner input', () => {
-    const wrapper = mount(() => <TimeSelect name="timeSelectName" />)
+    const wrapper = _mount(() => <TimeSelect name="timeSelectName" />)
     const input = wrapper.find('input')
     expect(input.attributes('name')).toBe('timeSelectName')
   })
 
   it('should fallback to default step when step is 00:00', async () => {
-    const wrapper = mount(() => (
+    const wrapper = _mount(() => (
       <TimeSelect start="09:00" end="10:00" step="00:00" />
     ))
     const input = wrapper.find('input')
@@ -281,7 +294,7 @@ describe('TimeSelect', () => {
   })
 
   it('should fallback to default start time when start time is invalid', async () => {
-    const wrapper = mount(() => <TimeSelect start="abc:00" end="18:00" />)
+    const wrapper = _mount(() => <TimeSelect start="abc:00" end="18:00" />)
 
     const input = wrapper.find('input')
     await input.trigger('click')
@@ -292,7 +305,7 @@ describe('TimeSelect', () => {
   })
 
   it('should fallback to default start time when start time is negative', async () => {
-    const wrapper = mount(() => <TimeSelect start="-12:00" end="18:00" />)
+    const wrapper = _mount(() => <TimeSelect start="-12:00" end="18:00" />)
 
     const input = wrapper.find('input')
     await input.trigger('click')
@@ -303,7 +316,7 @@ describe('TimeSelect', () => {
   })
 
   it('should fallback to default end time when end time is invalid', async () => {
-    const wrapper = mount(() => <TimeSelect start="17:00" end="abc:00" />)
+    const wrapper = _mount(() => <TimeSelect start="17:00" end="abc:00" />)
 
     const input = wrapper.find('input')
     await input.trigger('click')
@@ -314,7 +327,7 @@ describe('TimeSelect', () => {
   })
 
   it('should fallback to default end time when end time is negative', async () => {
-    const wrapper = mount(() => <TimeSelect start="17:00" end="-12:00" />)
+    const wrapper = _mount(() => <TimeSelect start="17:00" end="-12:00" />)
 
     const input = wrapper.find('input')
     await input.trigger('click')
@@ -326,7 +339,7 @@ describe('TimeSelect', () => {
 
   describe('form item accessibility integration', () => {
     it('automatic id attachment', async () => {
-      const wrapper = mount(() => (
+      const wrapper = _mount(() => (
         <ElFormItem label="Foobar" data-test-ref="item">
           <TimeSelect />
         </ElFormItem>
@@ -343,7 +356,7 @@ describe('TimeSelect', () => {
     })
 
     it('specified id attachment', async () => {
-      const wrapper = mount(() => (
+      const wrapper = _mount(() => (
         <ElFormItem label="Foobar" data-test-ref="item">
           <TimeSelect
             // type checking failed as `id` is a fallthrough attribute
@@ -365,7 +378,7 @@ describe('TimeSelect', () => {
     })
 
     it('form item role is group when multiple inputs', async () => {
-      const wrapper = mount(() => (
+      const wrapper = _mount(() => (
         <ElFormItem label="Foobar" data-test-ref="item">
           <TimeSelect />
           <TimeSelect />
@@ -378,7 +391,7 @@ describe('TimeSelect', () => {
     })
 
     it('The disabled state of a component has higher priority than that of a form', async () => {
-      const wrapper = mount(() => (
+      const wrapper = _mount(() => (
         <ElForm disabled>
           <TimeSelect disabled={false} />
         </ElForm>
