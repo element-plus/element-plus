@@ -99,7 +99,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, getCurrentInstance, ref } from 'vue'
+import { computed, defineComponent, getCurrentInstance, ref, watch } from 'vue'
 import { ElCheckbox, ElCheckboxGroup } from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
@@ -160,6 +160,15 @@ export default defineComponent({
     const rootRef = ref<HTMLElement | null>(null)
     const checkedIndex = ref(0)
     const storeFilteredValue = ref<string[]>([])
+
+    watch(
+      () => props.column?.filteredValue,
+      (val) => {
+        if (props.column?.filterOpened) {
+          storeFilteredValue.value = [...(val || [])]
+        }
+      }
+    )
 
     const filters = computed(() => {
       return props.column && props.column.filters
