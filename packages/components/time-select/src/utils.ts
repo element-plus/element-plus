@@ -8,6 +8,8 @@ export const parseTime = (time: string): null | Time => {
   if (values.length >= 2) {
     let hours = Number.parseInt(values[0], 10)
     const minutes = Number.parseInt(values[1], 10)
+    if (Number.isNaN(hours) || Number.isNaN(minutes)) return null
+
     const timeUpper = time.toUpperCase()
     if (timeUpper.includes('AM') && hours === 12) {
       hours = 0

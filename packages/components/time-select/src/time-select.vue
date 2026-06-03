@@ -48,7 +48,7 @@ import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { CircleClose, Clock } from '@element-plus/icons-vue'
 import { compareTime, formatTime, nextTime, parseTime } from './utils'
 import { debugWarn } from '@element-plus/utils'
-import { DEFAULT_STEP } from './time-select'
+import { DEFAULT_END, DEFAULT_START, DEFAULT_STEP } from './time-select'
 
 import type { TimeSelectProps } from './time-select'
 
@@ -68,8 +68,8 @@ const props = withDefaults(defineProps<TimeSelectProps>(), {
   editable: true,
   effect: 'light',
   clearable: true,
-  start: '09:00',
-  end: '18:00',
+  start: DEFAULT_START,
+  end: DEFAULT_END,
   step: DEFAULT_STEP,
   prefixIcon: () => Clock,
   clearIcon: () => CircleClose,
@@ -87,12 +87,38 @@ const { lang } = useLocale()
 const value = computed(() => props.modelValue)
 const start = computed(() => {
   const time = parseTime(props.start)
-  return time ? formatTime(time) : null
+  const isInvalidStart =
+    !time ||
+    time.hours < 0 ||
+    time.minutes < 0 ||
+    Number.isNaN(time.hours) ||
+    Number.isNaN(time.minutes)
+  if (isInvalidStart) {
+    debugWarn(
+      'ElTimeSelect',
+      `invalid start, fallback to default start (${DEFAULT_START}).`
+    )
+    return DEFAULT_START
+  }
+  return formatTime(time)
 })
 
 const end = computed(() => {
   const time = parseTime(props.end)
-  return time ? formatTime(time) : null
+  const isInvalidEnd =
+    !time ||
+    time.hours < 0 ||
+    time.minutes < 0 ||
+    Number.isNaN(time.hours) ||
+    Number.isNaN(time.minutes)
+  if (isInvalidEnd) {
+    debugWarn(
+      'ElTimeSelect',
+      `invalid end, fallback to default end (${DEFAULT_END}).`
+    )
+    return DEFAULT_END
+  }
+  return formatTime(time)
 })
 
 const minTime = computed(() => {
@@ -135,7 +161,7 @@ const items = computed(() => {
     })
   }
 
-  if (props.start && props.end && props.step) {
+  if (start.value && end.value && step.value) {
     let current = start.value
     let currentTime: string
     while (current && end.value && compareTime(current, end.value) <= 0) {
