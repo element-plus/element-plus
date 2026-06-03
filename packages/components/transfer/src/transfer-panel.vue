@@ -52,9 +52,8 @@
           :height="virtualListHeight"
         >
           <template #default="{ data, index, style }">
-            <div :style="style">
+            <div :key="data[index][propsAlias.key]" :style="style">
               <el-checkbox
-                :key="data[index][propsAlias.key]"
                 :class="ns.be('panel', 'item')"
                 :value="data[index][propsAlias.key]"
                 :disabled="data[index][propsAlias.disabled]"
