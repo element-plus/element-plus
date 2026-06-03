@@ -861,7 +861,6 @@ function useWatcher<T extends DefaultRow>() {
       isAllSelected,
       selection,
       selectionIndeterminate,
-      halfSelection,
       reserveSelection,
       selectOnIndeterminate,
       selectable,
