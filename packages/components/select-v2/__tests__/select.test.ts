@@ -2984,6 +2984,24 @@ describe('Select', () => {
     expect((select.vm as any).expanded).toBe(true)
   })
 
+  describe('input-wrapper in single mode', () => {
+    it('should not hide input-wrapper when filterable single select', async () => {
+      const wrapper = createSelect({
+        data: () => ({
+          multiple: false,
+          filterable: true,
+        }),
+      })
+      await nextTick()
+      const select = wrapper.findComponent(Select)
+      const inputWrapper = select.find('.el-select__input-wrapper')
+
+      // In single-select filterable mode, input-wrapper should never be hidden
+      // even when empty and not focused (regression from #24376)
+      expect(inputWrapper.classes()).not.toContain('is-hidden')
+    })
+  })
+
   describe('input-wrapper in multiple mode', () => {
     it('should hide input-wrapper when empty and not focused', async () => {
       const wrapper = createSelect({

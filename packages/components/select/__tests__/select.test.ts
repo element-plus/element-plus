@@ -4402,6 +4402,20 @@ describe('Select', () => {
     vi.useRealTimers()
   })
 
+  describe('input-wrapper in single mode', () => {
+    test('should not hide input-wrapper when filterable single select', async () => {
+      wrapper = getSelectVm({
+        multiple: false,
+        filterable: true,
+      })
+      const inputWrapper = wrapper.find('.el-select__input-wrapper')
+
+      // In single-select filterable mode, input-wrapper should never be hidden
+      // even when empty and not focused (regression from #24376)
+      expect(inputWrapper.classes()).not.toContain('is-hidden')
+    })
+  })
+
   describe('input-wrapper in multiple mode', () => {
     test('should hide input-wrapper when empty and not focused', async () => {
       wrapper = getSelectVm({
