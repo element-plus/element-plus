@@ -111,6 +111,7 @@ const props = withDefaults(defineProps<TransferPanelProps<T>>(), {
       disabled: 'disabled',
     }),
   virtualScroll: false,
+  itemSize: 30,
 })
 const emit = defineEmits(transferPanelEmits)
 const slots = useSlots()

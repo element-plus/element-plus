@@ -33,7 +33,7 @@ export interface TransferPanelProps<
   defaultChecked?: TransferKey[]
   props?: TransferPropsAlias
   virtualScroll?: boolean
-  itemSize: number
+  itemSize?: number
 }
 
 /**
