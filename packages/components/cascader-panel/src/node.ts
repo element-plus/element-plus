@@ -163,6 +163,8 @@ class Node {
   setCheckState(checked: boolean) {
     const totalNum = this.children.length
     const checkedNum = this.children.reduce((c, p) => {
+      // Don't count unloaded lazy nodes as checked for indeterminate calculation
+      if (!p.loaded && p.config.lazy) return c
       const num = p.checked ? 1 : p.indeterminate ? 0.5 : 0
       return c + num
     }, 0)
