@@ -46,7 +46,13 @@ import ElIcon from '@element-plus/components/icon'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { CircleClose, Clock } from '@element-plus/icons-vue'
-import { compareTime, formatTime, nextTime, parseTime } from './utils'
+import {
+  compareTime,
+  formatTime,
+  isValidTime,
+  nextTime,
+  parseTime,
+} from './utils'
 import { debugWarn } from '@element-plus/utils'
 import { DEFAULT_END, DEFAULT_START, DEFAULT_STEP } from './time-select'
 
@@ -87,13 +93,7 @@ const { lang } = useLocale()
 const value = computed(() => props.modelValue)
 const start = computed(() => {
   const time = parseTime(props.start)
-  const isInvalidStart =
-    !time ||
-    time.hours < 0 ||
-    time.minutes < 0 ||
-    Number.isNaN(time.hours) ||
-    Number.isNaN(time.minutes)
-  if (isInvalidStart) {
+  if (!isValidTime(time)) {
     debugWarn(
       'ElTimeSelect',
       `invalid start, fallback to default start (${DEFAULT_START}).`
@@ -105,13 +105,7 @@ const start = computed(() => {
 
 const end = computed(() => {
   const time = parseTime(props.end)
-  const isInvalidEnd =
-    !time ||
-    time.hours < 0 ||
-    time.minutes < 0 ||
-    Number.isNaN(time.hours) ||
-    Number.isNaN(time.minutes)
-  if (isInvalidEnd) {
+  if (!isValidTime(time)) {
     debugWarn(
       'ElTimeSelect',
       `invalid end, fallback to default end (${DEFAULT_END}).`
@@ -134,12 +128,7 @@ const maxTime = computed(() => {
 const step = computed(() => {
   const time = parseTime(props.step)
   const isInvalidStep =
-    !time ||
-    time.hours < 0 ||
-    time.minutes < 0 ||
-    Number.isNaN(time.hours) ||
-    Number.isNaN(time.minutes) ||
-    (time.hours === 0 && time.minutes === 0)
+    !isValidTime(time) || (time.hours === 0 && time.minutes === 0)
   if (isInvalidStep) {
     debugWarn(
       'ElTimeSelect',
