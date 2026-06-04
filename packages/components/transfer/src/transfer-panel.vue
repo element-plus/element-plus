@@ -46,6 +46,7 @@
         </template>
         <el-fixed-size-list
           v-else
+          ref="virtualListRef"
           :data="filteredData"
           :total="filteredData.length"
           :item-size="itemSize"
@@ -132,6 +133,7 @@ const propsAlias = usePropsAlias(props)
 const {
   filteredData,
   checkedSummary,
+  virtualListRef,
   isIndeterminate,
   checkboxGroupRef,
   virtualListHeight,

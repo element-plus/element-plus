@@ -1,4 +1,4 @@
-import { computed, ref, watch } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import { isFunction } from '@element-plus/utils'
 import { useElementSize } from '@vueuse/core'
 import { CHECKED_CHANGE_EVENT } from '../transfer-panel'
@@ -15,12 +15,13 @@ import type {
   TransferPanelProps,
   TransferPanelState,
 } from '../transfer-panel'
+import type { FixedSizeListInstance } from '@element-plus/components/virtual-list'
 
 export const useCheck = <T extends TransferDataItem = TransferDataItem>(
   props: Required<
     Pick<
       TransferPanelProps<T>,
-      'data' | 'format' | 'defaultChecked' | 'props' // 'props' needed by usePropsAlias
+      'data' | 'format' | 'defaultChecked' | 'props' | 'virtualScroll' // 'props' needed by usePropsAlias
     >
   > & { filterMethod: TransferPanelProps<T>['filterMethod'] },
   panelState: TransferPanelState,
@@ -85,6 +86,8 @@ export const useCheck = <T extends TransferDataItem = TransferDataItem>(
   const { height: virtualListHeight } = useElementSize(
     computed(() => checkboxGroupRef.value?.$el)
   )
+
+  const virtualListRef = ref<FixedSizeListInstance>()
 
   watch(
     () => panelState.checked,
@@ -152,10 +155,23 @@ export const useCheck = <T extends TransferDataItem = TransferDataItem>(
     }
   )
 
+  watch(
+    () => panelState.query,
+    () => {
+      if (!props.virtualScroll) {
+        return
+      }
+      nextTick(() => {
+        virtualListRef.value?.scrollToItem(0)
+      })
+    }
+  )
+
   return {
     filteredData,
     checkableData,
     checkedSummary,
+    virtualListRef,
     isIndeterminate,
     checkboxGroupRef,
     virtualListHeight,

@@ -426,5 +426,30 @@ describe('Transfer', () => {
       await nextTick()
       expect(ElTransfer.vm.sourceData.length).toBe(1997)
     })
+
+    it('reset scroll offset after filtering', async () => {
+      const value = ref([])
+
+      const wrapper = mount(() => (
+        <Transfer
+          v-model={value.value}
+          virtualScroll
+          filterable
+          data={getTestData(2000)}
+        />
+      ))
+
+      const leftPanel: any = wrapper.findComponent({ name: 'ElTransferPanel' })
+      const leftVirtualList = leftPanel.findComponent({
+        name: 'ElFixedSizeList',
+      })
+      leftVirtualList.vm.scrollToItem(1900)
+      await nextTick()
+      expect(leftVirtualList.vm.states.scrollOffset).toBeGreaterThan(0)
+      leftPanel.vm.query = '10'
+      await leftPanel.find('input').setValue('10')
+      await nextTick()
+      expect(leftVirtualList.vm.states.scrollOffset).toBe(0)
+    })
   })
 })
