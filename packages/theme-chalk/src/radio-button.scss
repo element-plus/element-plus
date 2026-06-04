@@ -91,11 +91,6 @@
             'radio-button-checked-border-color',
             map.get($radio-button, 'checked-border-color')
           );
-          box-shadow: -1px 0 0 0
-            getCssVarWithDefault(
-              'radio-button-checked-border-color',
-              map.get($radio-button, 'checked-border-color')
-            );
         }
       }
     }
