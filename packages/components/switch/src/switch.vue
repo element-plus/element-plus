@@ -184,6 +184,7 @@ const actualValue = computed(() => {
 const checked = computed(() => actualValue.value === props.activeValue)
 
 if (![props.activeValue, props.inactiveValue].includes(actualValue.value)) {
+  debugWarn(COMPONENT_NAME, 'modelValue must be activeValue or inactiveValue')
   emit(UPDATE_MODEL_EVENT, props.inactiveValue)
   emit(CHANGE_EVENT, props.inactiveValue)
   emit(INPUT_EVENT, props.inactiveValue)
