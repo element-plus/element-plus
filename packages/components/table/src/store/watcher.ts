@@ -80,7 +80,7 @@ function useWatcher<T extends DefaultRow>() {
   const isAllSelected = ref(false)
   const selection: Ref<T[]> = ref([])
   const selectionIndeterminate = ref<Record<string, boolean>>({})
-  const halfSelection: Ref<T[]> = ref([])
+  let halfSelection: T[] = []
   const reserveSelection = ref(false)
   const selectOnIndeterminate = ref(false)
   const selectable: Ref<((row: T, index: number) => boolean) | null> = ref(null)
@@ -233,7 +233,7 @@ function useWatcher<T extends DefaultRow>() {
     const { emitChange = true } = options
     if (treeStates.checkStrictly.value || !rowKey.value) {
       selectionIndeterminate.value = {}
-      halfSelection.value = []
+      halfSelection = []
       return
     }
     const rowKeyValue = rowKey.value
@@ -317,7 +317,7 @@ function useWatcher<T extends DefaultRow>() {
       selection.value = nextSelection
     }
     selectionIndeterminate.value = indeterminateMap
-    halfSelection.value = nextHalfSelection
+    halfSelection = nextHalfSelection
     if (selectionChanged && emitChange) {
       instance.emit(
         'selection-change',
@@ -331,7 +331,7 @@ function useWatcher<T extends DefaultRow>() {
     const oldSelection = selection.value
     selection.value = []
     selectionIndeterminate.value = {}
-    halfSelection.value = []
+    halfSelection = []
     if (oldSelection.length) {
       instance.emit('selection-change', [])
     }
@@ -382,7 +382,7 @@ function useWatcher<T extends DefaultRow>() {
   }
 
   const getHalfSelectionRows = () => {
-    return halfSelection.value.slice()
+    return halfSelection.slice()
   }
 
   const cascadeToLazyChildren = (
@@ -765,7 +765,7 @@ function useWatcher<T extends DefaultRow>() {
     (value) => {
       if (value) {
         selectionIndeterminate.value = {}
-        halfSelection.value = []
+        halfSelection = []
       } else {
         // Internal sync when switching strict mode, avoid triggering selection-change
         updateSelectionByChildren({ emitChange: false })
