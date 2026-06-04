@@ -142,6 +142,15 @@ const lazyLoad: ElCascaderPanelContext['lazyLoad'] = (node, cb) => {
     _node.childrenData = _node.childrenData || []
     dataList && store?.appendNodes(dataList, parent as Node)
     dataList && cb?.(dataList)
+
+    // If parent node was checked before children loaded (e.g. via select all),
+    // propagate the checked state to newly loaded children
+    if (parent && parent.checked && dataList?.length) {
+      parent.broadcast(true)
+      parent.onChildCheck()
+      calculateCheckedValue()
+    }
+
     if (node.level === 0) {
       initialLoadedOnce.value = true
     }

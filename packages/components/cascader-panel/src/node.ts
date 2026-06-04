@@ -167,6 +167,15 @@ class Node {
       return c + num
     }, 0)
 
+    // In lazy mode, if the node hasn't loaded its children yet,
+    // preserve the checked state so that "select all" works correctly.
+    // When children are loaded later, they will inherit this state.
+    if (!this.loaded && this.config.lazy) {
+      this.checked = checked
+      this.indeterminate = false
+      return
+    }
+
     this.checked =
       this.loaded &&
       this.children
