@@ -44,7 +44,7 @@
             <option-content :option="optionRender?.(item)" />
           </el-checkbox>
         </template>
-        <FixedSizeList
+        <el-fixed-size-list
           v-else
           :data="filteredData"
           :total="filteredData.length"
@@ -63,7 +63,7 @@
               </el-checkbox>
             </div>
           </template>
-        </FixedSizeList>
+        </el-fixed-size-list>
       </el-checkbox-group>
       <div
         v-show="hasNoMatch || isEmpty(data)"
@@ -86,7 +86,7 @@ import { isEmpty, mutable } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { ElCheckbox, ElCheckboxGroup } from '@element-plus/components/checkbox'
 import { ElInput } from '@element-plus/components/input'
-import { FixedSizeList } from '@element-plus/components/virtual-list'
+import { FixedSizeList as ElFixedSizeList } from '@element-plus/components/virtual-list'
 import { Search } from '@element-plus/icons-vue'
 import { transferPanelEmits } from './transfer-panel'
 import { useCheck, usePropsAlias } from './composables'
