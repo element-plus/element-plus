@@ -24,7 +24,8 @@
       #{getCssVarName('button-bg-color')},
       map.get($button, 'bg-color')
     );
-    outline: getCssVar('border');
+    border: getCssVar('border');
+    border-left-color: transparent;
     color: var(
       #{getCssVarName('button-text-color')},
       map.get($button, 'text-color')
@@ -32,6 +33,7 @@
     -webkit-appearance: none;
     text-align: center;
     box-sizing: border-box;
+    outline: none;
     margin: 0;
     position: relative;
     transition: getCssVar('transition-all');
@@ -108,6 +110,7 @@
 
   &:first-child {
     .#{$namespace}-checkbox-button__inner {
+      border-left: getCssVar('border');
       border-top-left-radius: getCssVar('border-radius-base');
       border-bottom-left-radius: getCssVar('border-radius-base');
       box-shadow: none !important;
