@@ -90,30 +90,32 @@ const select = ref<typeof ElSelect>()
 const _disabled = useFormDisabled()
 const { lang } = useLocale()
 
-const value = computed(() => props.modelValue)
-const start = computed(() => {
-  const time = parseTime(props.start)
-  if (!isValidTime(time)) {
+const getValidTimeOrDefault = (
+  value: string,
+  propName: 'start' | 'end' | 'step',
+  defaultValue: string,
+  allowZero = true
+) => {
+  const time = parseTime(value)
+  if (
+    !isValidTime(time) ||
+    (!allowZero && time.hours === 0 && time.minutes === 0)
+  ) {
     debugWarn(
       'ElTimeSelect',
-      `invalid start, fallback to default start (${DEFAULT_START}).`
+      `invalid ${propName}, fallback to default ${propName} (${defaultValue}).`
     )
-    return DEFAULT_START
+    return defaultValue
   }
   return formatTime(time)
-})
+}
 
-const end = computed(() => {
-  const time = parseTime(props.end)
-  if (!isValidTime(time)) {
-    debugWarn(
-      'ElTimeSelect',
-      `invalid end, fallback to default end (${DEFAULT_END}).`
-    )
-    return DEFAULT_END
-  }
-  return formatTime(time)
-})
+const value = computed(() => props.modelValue)
+const start = computed(() =>
+  getValidTimeOrDefault(props.start, 'start', DEFAULT_START)
+)
+
+const end = computed(() => getValidTimeOrDefault(props.end, 'end', DEFAULT_END))
 
 const minTime = computed(() => {
   const time = parseTime(props.minTime || '')
@@ -125,18 +127,9 @@ const maxTime = computed(() => {
   return time ? formatTime(time) : null
 })
 
-const step = computed(() => {
-  const time = parseTime(props.step)
-  const isInvalidStep =
-    !isValidTime(time) || (time.hours === 0 && time.minutes === 0)
-  if (isInvalidStep) {
-    debugWarn(
-      'ElTimeSelect',
-      `invalid step, fallback to default step (${DEFAULT_STEP}).`
-    )
-  }
-  return !isInvalidStep ? formatTime(time) : DEFAULT_STEP
-})
+const step = computed(() =>
+  getValidTimeOrDefault(props.step, 'step', DEFAULT_STEP, false)
+)
 
 const items = computed(() => {
   const result: { value: string; rawValue: string; disabled: boolean }[] = []
