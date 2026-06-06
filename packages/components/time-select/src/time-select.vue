@@ -143,26 +143,22 @@ const items = computed(() => {
     })
   }
 
-  if (start.value && end.value && step.value) {
-    let current = start.value
-    let currentTime: string
-    while (current && end.value && compareTime(current, end.value) <= 0) {
-      currentTime = dayjs(current, 'HH:mm')
-        .locale(lang.value)
-        .format(props.format)
-      push(currentTime, current)
-      current = nextTime(current, step.value!)
-    }
-    if (
-      props.includeEndTime &&
-      end.value &&
-      result[result.length - 1]?.rawValue !== end.value
-    ) {
-      const formattedValue = dayjs(end.value, 'HH:mm')
-        .locale(lang.value)
-        .format(props.format)
-      push(formattedValue, end.value)
-    }
+  let current = start.value
+  while (compareTime(current, end.value) <= 0) {
+    const currentTime = dayjs(current, 'HH:mm')
+      .locale(lang.value)
+      .format(props.format)
+    push(currentTime, current)
+    current = nextTime(current, step.value)
+  }
+  if (
+    props.includeEndTime &&
+    result[result.length - 1]?.rawValue !== end.value
+  ) {
+    const formattedValue = dayjs(end.value, 'HH:mm')
+      .locale(lang.value)
+      .format(props.format)
+    push(formattedValue, end.value)
   }
   return result
 })
