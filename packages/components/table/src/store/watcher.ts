@@ -80,7 +80,6 @@ function useWatcher<T extends DefaultRow>() {
   const isAllSelected = ref(false)
   const selection: Ref<T[]> = ref([])
   const selectionIndeterminate = ref<Record<string, boolean>>({})
-  let halfSelection: T[] = []
   const reserveSelection = ref(false)
   const selectOnIndeterminate = ref(false)
   const selectable: Ref<((row: T, index: number) => boolean) | null> = ref(null)
@@ -92,6 +91,8 @@ function useWatcher<T extends DefaultRow>() {
   const sortProp: Ref<string | null> = ref(null)
   const sortOrder: Ref<TableSortOrder | null> = ref(null)
   const hoverRow: Ref<T | null> = ref(null)
+
+  let halfSelection: T[] = []
 
   const selectedMap = computed(() => {
     return rowKey.value ? getKeysMap(selection.value, rowKey.value) : undefined
