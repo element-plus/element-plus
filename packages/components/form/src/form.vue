@@ -251,6 +251,7 @@ provide(
   reactive({
     ...toRefs(props),
     emit,
+    fields,
 
     resetFields,
     clearValidate,

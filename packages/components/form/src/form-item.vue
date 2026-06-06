@@ -74,13 +74,22 @@ import type {
   FormItemRule,
   FormValidateFailure,
 } from './types'
-import type { FormItemProps, FormItemValidateState } from './form-item'
+import type {
+  FormItemProp,
+  FormItemProps,
+  FormItemValidateState,
+} from './form-item'
+
+type PrivateFormItemContext = FormItemContext & {
+  validateRelation: FormItemContext['validate']
+}
 
 defineOptions({
   name: 'ElFormItem',
 })
 const props = withDefaults(defineProps<FormItemProps>(), {
   labelPosition: '',
+  relations: () => [],
   showMessage: true,
   required: undefined,
   inlineMessage: undefined,
@@ -159,9 +168,12 @@ const validateClasses = computed(() => [
   { [ns.em('error', 'inline')]: _inlineMessage.value },
 ])
 
+const getPropString = (prop: FormItemProp) =>
+  isArray(prop) ? prop.join('.') : prop
+
 const propString = computed(() => {
   if (!props.prop) return ''
-  return isArray(props.prop) ? props.prop.join('.') : props.prop
+  return getPropString(props.prop)
 })
 
 const hasLabel = computed<boolean>(() => {
@@ -301,7 +313,30 @@ const doValidate = async (rules: RuleItem[]): Promise<true> => {
     })
 }
 
-const validate: FormItemContext['validate'] = async (trigger, callback) => {
+const validateRelations = () => {
+  if (!formContext || props.relations.length === 0) return
+
+  const relationProps = new Set(props.relations)
+  for (const field of formContext.fields) {
+    if (
+      !field.propString ||
+      field.propString === propString.value ||
+      !relationProps.has(field.propString) ||
+      field.fieldValue == null
+    ) {
+      continue
+    }
+
+    const relationField = field as PrivateFormItemContext
+    relationField.validateRelation('', () => undefined)
+  }
+}
+
+const validateField = async (
+  trigger: string,
+  callback: Parameters<FormItemContext['validate']>[1],
+  skipRelations: boolean
+) => {
   // skip validation if its resetting
   if (isResettingField || !props.prop) {
     return false
@@ -319,6 +354,10 @@ const validate: FormItemContext['validate'] = async (trigger, callback) => {
     return true
   }
 
+  if (!skipRelations) {
+    validateRelations()
+  }
+
   setValidationState('validating')
 
   return doValidate(rules)
@@ -332,6 +371,12 @@ const validate: FormItemContext['validate'] = async (trigger, callback) => {
       return hasCallback ? false : Promise.reject(fields)
     })
 }
+
+const validate: FormItemContext['validate'] = (trigger, callback) =>
+  validateField(trigger, callback, false)
+
+const validateRelation: FormItemContext['validate'] = (trigger, callback) =>
+  validateField(trigger, callback, true)
 
 const clearValidate: FormItemContext['clearValidate'] = () => {
   setValidationState('')
@@ -386,7 +431,7 @@ watch(
   (val) => setValidationState(val || '')
 )
 
-const context: FormItemContext = reactive({
+const context: PrivateFormItemContext = reactive({
   ...toRefs(props),
   $el: formItemRef,
   size: _size,
@@ -402,6 +447,7 @@ const context: FormItemContext = reactive({
   resetField,
   clearValidate,
   validate,
+  validateRelation,
   propString,
   setInitialValue,
   getInitialValue,

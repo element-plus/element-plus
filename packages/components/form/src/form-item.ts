@@ -42,6 +42,10 @@ export interface FormItemProps {
    */
   rules?: Arrayable<FormItemRule>
   /**
+   * @description Related fields that should be revalidated when this form item is validated.
+   */
+  relations?: string[]
+  /**
    * @description Field error message, set its value and the field will validate error and show this message immediately.
    */
   error?: string
@@ -107,6 +111,13 @@ export const formItemProps = buildProps({
    */
   rules: {
     type: definePropType<Arrayable<FormItemRule>>([Object, Array]),
+  },
+  /**
+   * @description Related fields that should be revalidated when this form item is validated.
+   */
+  relations: {
+    type: definePropType<string[]>(Array),
+    default: () => [],
   },
   /**
    * @description Field error message, set its value and the field will validate error and show this message immediately.

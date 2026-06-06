@@ -19,8 +19,10 @@ import DynamicFormItem from './mock-data'
 import type { VueWrapper } from '@vue/test-utils'
 import type { MockInstance } from 'vitest'
 import type { InputInstance } from '@element-plus/components/input'
+import type { FormItemRule } from '../src/types'
 
 type FormItemInstance = InstanceType<typeof FormItem>
+type RuleValidator = NonNullable<FormItemRule['validator']>
 
 const AXIOM = 'Rem is the best girl'
 
@@ -132,6 +134,277 @@ describe('ElFormItem', () => {
           ['email', false, 'email is required'],
         ])
       })
+    })
+  })
+
+  describe('relations', () => {
+    const createPassValidator = (spy: () => void): RuleValidator => {
+      const validator: RuleValidator = (_rule, _value, callback) => {
+        spy()
+        callback()
+      }
+      return validator
+    }
+
+    it('should revalidate related fields by full prop', async () => {
+      const form = reactive({
+        password: 'same',
+        confirm: 'same',
+      })
+      const passwordItem = ref<FormItemInstance>()
+      const confirmItem = ref<FormItemInstance>()
+      const confirmValidator: RuleValidator = (_rule, value, callback) => {
+        if (value !== form.password) {
+          callback(new Error('passwords do not match'))
+        } else {
+          callback()
+        }
+      }
+      const wrapper = mount({
+        setup() {
+          return () => (
+            <Form model={form}>
+              <FormItem
+                ref={passwordItem}
+                prop="password"
+                relations={['confirm']}
+                rules={{ required: true, trigger: 'change' }}
+              >
+                <Input v-model={form.password} />
+              </FormItem>
+              <FormItem
+                ref={confirmItem}
+                prop="confirm"
+                rules={{ validator: confirmValidator, trigger: 'change' }}
+              >
+                <Input v-model={form.confirm} />
+              </FormItem>
+            </Form>
+          )
+        },
+      })
+
+      form.password = 'changed'
+      await nextTick()
+      await passwordItem.value!.validate('change')
+      await nextTick()
+
+      expect(confirmItem.value!.validateState).toBe('error')
+      expect(confirmItem.value!.validateMessage).toBe('passwords do not match')
+      wrapper.unmount()
+    })
+
+    it('should not match similar prop names', async () => {
+      const form = reactive({
+        trigger: 'trigger',
+        name: 'name',
+        username: 'username',
+      })
+      const triggerItem = ref<FormItemInstance>()
+      const nameValidate = vi.fn()
+      const usernameValidate = vi.fn()
+      const wrapper = mount({
+        setup() {
+          return () => (
+            <Form model={form}>
+              <FormItem
+                ref={triggerItem}
+                prop="trigger"
+                relations={['name']}
+                rules={{ required: true, trigger: 'change' }}
+              />
+              <FormItem
+                prop="name"
+                rules={{
+                  validator: createPassValidator(nameValidate),
+                  trigger: 'change',
+                }}
+              />
+              <FormItem
+                prop="username"
+                rules={{
+                  validator: createPassValidator(usernameValidate),
+                  trigger: 'change',
+                }}
+              />
+            </Form>
+          )
+        },
+      })
+
+      await triggerItem.value!.validate('change')
+      await nextTick()
+
+      expect(nameValidate).toHaveBeenCalledTimes(1)
+      expect(usernameValidate).not.toHaveBeenCalled()
+      wrapper.unmount()
+    })
+
+    it('should match dot relation paths with array prop paths', async () => {
+      const form = reactive({
+        trigger: 'trigger',
+        user: {
+          name: 'name',
+        },
+      })
+      const triggerItem = ref<FormItemInstance>()
+      const userNameValidate = vi.fn()
+      const wrapper = mount({
+        setup() {
+          return () => (
+            <Form model={form}>
+              <FormItem
+                ref={triggerItem}
+                prop="trigger"
+                relations={['user.name']}
+                rules={{ required: true, trigger: 'change' }}
+              />
+              <FormItem
+                prop={['user', 'name']}
+                rules={{
+                  validator: createPassValidator(userNameValidate),
+                  trigger: 'change',
+                }}
+              />
+            </Form>
+          )
+        },
+      })
+
+      await triggerItem.value!.validate('change')
+      await nextTick()
+
+      expect(userNameValidate).toHaveBeenCalledTimes(1)
+      wrapper.unmount()
+    })
+
+    it('should not recursively validate circular relations', async () => {
+      const form = reactive({
+        first: 'first',
+        second: 'second',
+      })
+      const firstItem = ref<FormItemInstance>()
+      const firstValidate = vi.fn()
+      const secondValidate = vi.fn()
+      const wrapper = mount({
+        setup() {
+          return () => (
+            <Form model={form}>
+              <FormItem
+                ref={firstItem}
+                prop="first"
+                relations={['second']}
+                rules={{
+                  validator: createPassValidator(firstValidate),
+                  trigger: 'change',
+                }}
+              />
+              <FormItem
+                prop="second"
+                relations={['first']}
+                rules={{
+                  validator: createPassValidator(secondValidate),
+                  trigger: 'change',
+                }}
+              />
+            </Form>
+          )
+        },
+      })
+
+      await firstItem.value!.validate('change')
+      await nextTick()
+
+      expect(firstValidate).toHaveBeenCalledTimes(1)
+      expect(secondValidate).toHaveBeenCalledTimes(1)
+      wrapper.unmount()
+    })
+
+    it('should ignore self and missing relation props', async () => {
+      const form = reactive({
+        trigger: 'trigger',
+      })
+      const triggerItem = ref<FormItemInstance>()
+      const triggerValidate = vi.fn()
+      const wrapper = mount({
+        setup() {
+          return () => (
+            <Form model={form}>
+              <FormItem
+                ref={triggerItem}
+                prop="trigger"
+                relations={['trigger', 'missing']}
+                rules={{
+                  validator: createPassValidator(triggerValidate),
+                  trigger: 'change',
+                }}
+              />
+            </Form>
+          )
+        },
+      })
+
+      await triggerItem.value!.validate('change')
+      await nextTick()
+
+      expect(triggerValidate).toHaveBeenCalledTimes(1)
+      wrapper.unmount()
+    })
+
+    it('should skip null and undefined relations but validate empty strings', async () => {
+      const form = reactive<{
+        trigger: string
+        empty: string
+        nullable: string | null
+        missing?: string
+      }>({
+        trigger: 'trigger',
+        empty: '',
+        nullable: null,
+        missing: undefined,
+      })
+      const triggerItem = ref<FormItemInstance>()
+      const emptyItem = ref<FormItemInstance>()
+      const nullableItem = ref<FormItemInstance>()
+      const missingItem = ref<FormItemInstance>()
+      const wrapper = mount({
+        setup() {
+          return () => (
+            <Form model={form}>
+              <FormItem
+                ref={triggerItem}
+                prop="trigger"
+                relations={['empty', 'nullable', 'missing']}
+                rules={{ required: true, trigger: 'change' }}
+              />
+              <FormItem
+                ref={emptyItem}
+                prop="empty"
+                rules={{ required: true, message: 'empty is required' }}
+              />
+              <FormItem
+                ref={nullableItem}
+                prop="nullable"
+                rules={{ required: true, message: 'nullable is required' }}
+              />
+              <FormItem
+                ref={missingItem}
+                prop="missing"
+                rules={{ required: true, message: 'missing is required' }}
+              />
+            </Form>
+          )
+        },
+      })
+
+      await triggerItem.value!.validate('change')
+      await nextTick()
+
+      expect(emptyItem.value!.validateState).toBe('error')
+      expect(emptyItem.value!.validateMessage).toBe('empty is required')
+      expect(nullableItem.value!.validateState).toBe('')
+      expect(missingItem.value!.validateState).toBe('')
+      wrapper.unmount()
     })
   })
 
