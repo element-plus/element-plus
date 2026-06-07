@@ -167,7 +167,8 @@ export default defineComponent({
         if (props.column?.filterOpened) {
           storeFilteredValue.value = [...(val || [])]
         }
-      }
+      },
+      { deep: true }
     )
 
     const filters = computed(() => {
