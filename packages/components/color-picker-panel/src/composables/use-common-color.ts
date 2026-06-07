@@ -6,6 +6,7 @@ type CommonColorProps = {
   modelValue?: string | null
   showAlpha: boolean
   colorFormat?: string
+  showGradient?: boolean
 }
 type CommonColorEmits = (event: 'update:modelValue', ...args: any[]) => void
 
@@ -30,7 +31,11 @@ export const useCommonColor = <
       color.enableAlpha = props.showAlpha
       color.format = props.colorFormat || color.format
       color.doOnChange()
-      emit(UPDATE_MODEL_EVENT, color.value)
+      if (color.isGradient) {
+        emit(UPDATE_MODEL_EVENT, color.toGradientValue())
+      } else {
+        emit(UPDATE_MODEL_EVENT, color.value)
+      }
     }
   )
 
