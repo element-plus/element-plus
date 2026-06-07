@@ -672,6 +672,9 @@ describe('check-button', () => {
     expect(
       checkbox.find('.el-checkbox-button__inner').attributes('style')
     ).contains('border-color: #ff0000;')
+    expect(
+      checkbox.find('.el-checkbox-button__inner').attributes('style')
+    ).contains('outline-color: rgb(255, 0, 0);')
   })
 
   test('button group tag', () => {

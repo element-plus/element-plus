@@ -24,6 +24,7 @@
       map.get($button, 'bg-color')
     );
     outline: getCssVar('border');
+    outline-offset: -1px;
     font-weight: var(
       #{getCssVarName('button-font-weight')},
       map.get($button, 'font-weight')
@@ -82,6 +83,10 @@
             map.get($radio-button, 'checked-bg-color')
           );
           border-color: getCssVarWithDefault(
+            'radio-button-checked-border-color',
+            map.get($radio-button, 'checked-border-color')
+          );
+          outline-color: getCssVarWithDefault(
             'radio-button-checked-border-color',
             map.get($radio-button, 'checked-border-color')
           );

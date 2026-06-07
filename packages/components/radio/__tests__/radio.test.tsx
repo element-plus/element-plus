@@ -382,7 +382,7 @@ describe('Radio Button', () => {
     ))
     const radio1 = wrapper.find('.el-radio-button')
     expect(radio1.find('span').attributes('style')).toContain(
-      'background-color: rgb(0, 0, 0); border-color: #000; box-shadow: -1px 0 0 0 #000; color: rgb(255, 255, 0);'
+      'background-color: rgb(0, 0, 0); border-color: #000; outline-color: rgb(0, 0, 0); box-shadow: -1px 0 0 0 #000; color: rgb(255, 255, 0);'
     )
   })
 
