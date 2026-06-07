@@ -38,7 +38,7 @@
     "unplugin-icons": "^23.0.1",
     "unplugin-vue-components": "^32.1.0",
     "vite-plugin-inspect": "^0.8.7",
-    "vite-plugin-mkcert": "^2.0.0",
+    "vite-plugin-mkcert": "^2.1.0",
     "vitepress": "^1.6.4",
     "vitepress-plugin-group-icons": "^1.7.5",
     "vue": "catalog:"
