@@ -86,7 +86,7 @@ You can also try out Element Plus with its built-in component playground.
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        <a href="https://fantastic-admin.github.io/" target="_blank">
+        <a href="https://fantastic-admin.hurui.me/" target="_blank">
           <img width="130px" src="https://github.com/user-attachments/assets/62988be3-1179-4f56-a07c-353851e7e1c4">
         </a>
       </td>
