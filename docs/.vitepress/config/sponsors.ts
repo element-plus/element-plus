@@ -18,6 +18,14 @@ export const rightBigLogoSponsors: Sponsor[] = []
 
 export const rightLogoSmallSponsors: Sponsor[] = [
   {
+    name: 'Fantastic-admin',
+    img: '/images/fantastic-admin.png',
+    imgL: '/images/fantastic-admin-l2.png',
+    url: 'https://fantastic-admin.github.io/',
+    slogan: 'A management system framework for AI development',
+    slogan_cn: '面向AI开发的管理系统框架',
+  },
+  {
     name: 'bit',
     img: '/images/bit.svg',
     imgL: '/images/bit-l.png',
