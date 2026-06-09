@@ -1,4 +1,4 @@
-import { computed, nextTick, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { isFunction } from '@element-plus/utils'
 import { useElementSize } from '@vueuse/core'
 import { CHECKED_CHANGE_EVENT } from '../transfer-panel'
@@ -161,10 +161,9 @@ export const useCheck = <T extends TransferDataItem = TransferDataItem>(
       if (!props.virtualScroll) {
         return
       }
-      nextTick(() => {
-        virtualListRef.value?.scrollToItem(0)
-      })
-    }
+      virtualListRef.value?.scrollToItem(0)
+    },
+    { flush: 'post' }
   )
 
   return {

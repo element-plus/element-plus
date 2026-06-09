@@ -217,10 +217,7 @@ export const transferProps = buildProps({
   /**
    * @description whether to enable virtual scrolling
    */
-  virtualScroll: {
-    type: Boolean,
-    default: false,
-  },
+  virtualScroll: Boolean,
   /**
    * @description line height for virtual scrolling
    */
