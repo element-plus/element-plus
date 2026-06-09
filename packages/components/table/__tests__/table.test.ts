@@ -2817,6 +2817,54 @@ describe('Table.vue', () => {
       expect(button.attributes('aria-label')).toBe('Collapse this row')
       expect(button.attributes('aria-expanded')).toBe('true')
     })
+
+    it('getHalfSelectionRows', async () => {
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table ref="table" :data="testData" row-key="id" default-expand-all>
+            <el-table-column type="selection" />
+            <el-table-column prop="name" label="name" />
+          </el-table>
+        `,
+        data() {
+          return {
+            testData: [
+              {
+                id: 1,
+                name: 'parent',
+                children: [
+                  { id: 11, name: 'child-1' },
+                  { id: 12, name: 'child-2' },
+                ],
+              },
+            ],
+          }
+        },
+      })
+      await doubleWait()
+      const checkboxes = wrapper.findAll('.el-table__body .el-checkbox')
+      const childCheckbox1 = checkboxes[1]
+
+      // Select childCheckbox1 to make parent indeterminate
+      await childCheckbox1.trigger('click')
+      await doubleWait()
+
+      const tableRef = wrapper.findComponent({ ref: 'table' })
+      const halfSelection = (tableRef.vm as any).getHalfSelectionRows()
+      expect(halfSelection.length).toEqual(1)
+      expect(halfSelection[0].id).toEqual(1)
+
+      // Select childCheckbox2 to make parent fully checked
+      const childCheckbox2 = checkboxes[2]
+      await childCheckbox2.trigger('click')
+      await doubleWait()
+
+      expect((tableRef.vm as any).getHalfSelectionRows().length).toEqual(0)
+    })
   })
 
   it('when tableLayout is auto', async () => {

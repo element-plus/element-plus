@@ -246,6 +246,7 @@ const isEmpty = computed(() => (store.states.data.value || []).length === 0)
 const {
   setCurrentRow,
   getSelectionRows,
+  getHalfSelectionRows,
   toggleRowSelection,
   clearSelection,
   clearFilter,
@@ -338,6 +339,10 @@ defineExpose({
    * @description returns the currently selected rows
    */
   getSelectionRows,
+  /**
+   * @description returns the currently half-selected rows
+   */
+  getHalfSelectionRows,
   /**
    * @description used in multiple selection Table, toggle if a certain row is selected. With the second parameter, you can directly set if this row is selected
    */
