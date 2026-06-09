@@ -157,7 +157,6 @@ export interface TourContext {
   updateModelValue(modelValue: boolean): void
   onClose(): void
   onFinish(): void
-  onChange(): void
 }
 
 export const tourKey: InjectionKey<TourContext> = Symbol('ElTour')
