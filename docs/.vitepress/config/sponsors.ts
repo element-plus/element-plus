@@ -26,6 +26,13 @@ export const rightLogoSmallSponsors: Sponsor[] = [
     slogan_cn: '面向AI开发的管理系统框架',
   },
   {
+    name: 'UnAIMyText',
+    img: '/images/unaimytext.png',
+    imgL: '/images/unaimytext-l.png',
+    url: 'https://unaimytext.com',
+    slogan: 'Humanize AI Text',
+  },
+  {
     name: 'bit',
     img: '/images/bit.svg',
     imgL: '/images/bit-l.png',
