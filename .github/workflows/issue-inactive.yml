@@ -8,17 +8,19 @@ on:
 jobs:
   close-issues:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     if: ${{ github.repository_owner == 'element-plus' }}
     steps:
       - name: need reproduction
-        uses: actions-cool/issues-helper@v3
+        uses: actions-cool/issues-helper-backup@d65454423c6fbbd20026b9b499d403f79422ac69
         with:
           actions: 'close-issues'
           labels: 'need reproduction'
           inactive-day: 3
 
       - name: needs more info
-        uses: actions-cool/issues-helper@v3
+        uses: actions-cool/issues-helper-backup@d65454423c6fbbd20026b9b499d403f79422ac69
         with:
           actions: 'close-issues'
           labels: 'needs more info'
@@ -29,10 +31,12 @@ jobs:
 
   lock-issues:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     if: ${{ github.repository_owner == 'element-plus' }}
     steps:
       - name: lock-issues
-        uses: actions-cool/issues-helper@v3
+        uses: actions-cool/issues-helper-backup@d65454423c6fbbd20026b9b499d403f79422ac69
         with:
           actions: 'lock-issues'
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -42,10 +46,12 @@ jobs:
 
   check-inactive:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     if: ${{ github.repository_owner == 'element-plus' }}
     steps:
       - name: check-inactive
-        uses: actions-cool/issues-helper@v3
+        uses: actions-cool/issues-helper-backup@d65454423c6fbbd20026b9b499d403f79422ac69
         with:
           actions: 'check-inactive'
           inactive-day: 30

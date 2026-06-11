@@ -65,6 +65,7 @@ function useStore<T extends DefaultRow>() {
           instance.store.cleanSelection()
         }
       }
+      instance.store.updateSelectionByChildren({ emitChange: false })
       instance.store.updateAllSelected()
       if (instance.$ready) {
         instance.store.scheduleLayout()
@@ -179,7 +180,7 @@ function useStore<T extends DefaultRow>() {
 
       if (!options || !(options.silent || options.init)) {
         instance.emit('sort-change', {
-          column: columnValue,
+          column: columnValue!,
           prop: propValue,
           order: orderValue,
         })

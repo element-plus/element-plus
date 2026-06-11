@@ -97,9 +97,9 @@ carousel/vertical
 
 ### Carousel Events
 
-| Name   | Description                                                                                                                                              | Type                                                    |
-| ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| change | triggers when the active slide switches, it has two parameters, the one is the index of the new active slide, and other is index of the old active slide | ^[Function]`(current: number, prev: number) => boolean` |
+| Name   | Description                                                                                                                                              | Type                                                 |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| change | triggers when the active slide switches, it has two parameters, the one is the index of the new active slide, and other is index of the old active slide | ^[Function]`(current: number, prev: number) => void` |
 
 ### Carousel Slots
 

@@ -84,6 +84,7 @@
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, ref, shallowRef, watch } from 'vue'
 import {
+  NOOP,
   addUnit,
   debugWarn,
   isBoolean,
@@ -183,6 +184,10 @@ const actualValue = computed(() => {
 const checked = computed(() => actualValue.value === props.activeValue)
 
 if (![props.activeValue, props.inactiveValue].includes(actualValue.value)) {
+  debugWarn(
+    COMPONENT_NAME,
+    'model-value must be active-value or inactive-value'
+  )
   emit(UPDATE_MODEL_EVENT, props.inactiveValue)
   emit(CHANGE_EVENT, props.inactiveValue)
   emit(INPUT_EVENT, props.inactiveValue)
@@ -192,7 +197,7 @@ watch(checked, (val) => {
   input.value!.checked = val
 
   if (props.validateEvent) {
-    formItem?.validate?.('change').catch((err) => debugWarn(err))
+    formItem?.validate?.('change').catch(NOOP)
   }
 })
 

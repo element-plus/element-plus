@@ -3,21 +3,21 @@ name: Comment on PR with conflict Label
 # DO NOT ADD ANY CHECKOUT/CACHING in this workflow
 
 on:
+  # zizmor: ignore[dangerous-triggers] target-context workflow only comments, reads PR metadata, and updates labels without checking out code
   pull_request_target:
     types: [labeled, synchronize]
-
-permissions:
-  pull-requests: write
 
 jobs:
   comment:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       - name: Check for specific label
         if: |
           contains(github.event.pull_request.labels.*.name, 'conflict pending') &&
           github.repository_owner == 'element-plus'
-        uses: actions-cool/maintain-one-comment@v3.2.0
+        uses: actions-cool/maintain-one-comment-backup@17f644ff1665b05890083f7c1091fef135bce5e4
         with:
           body: |
             @${{ github.event.pull_request.user.login }} This PR has conflicts, please resolve them.
@@ -27,6 +27,9 @@ jobs:
 
   remove-label:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: read
     steps:
       - name: Poll mergeable until ready
         id: poll
@@ -60,17 +63,21 @@ jobs:
 
       # Log final values (debug)
       - name: Log mergeable results
+        env:
+          MERGEABLE: ${{ steps.poll.outputs.mergeable }}
+          PR_MERGEABLE: ${{ github.event.pull_request.mergeable }}
+          PR_MERGEABLE_STATE: ${{ github.event.pull_request.mergeable_state }}
         run: |
-          echo "mergeable: ${{ steps.poll.outputs.mergeable }}"
-          echo "pull_request.mergeable: ${{ github.event.pull_request.mergeable }}"
-          echo "pull_request.mergeable_state: ${{ github.event.pull_request.mergeable_state }}"
+          echo "mergeable: $MERGEABLE"
+          echo "pull_request.mergeable: $PR_MERGEABLE"
+          echo "pull_request.mergeable_state: $PR_MERGEABLE_STATE"
 
       - name: Remove conflict pending label
         if: |
           github.repository_owner == 'element-plus' &&
           contains(github.event.pull_request.labels.*.name, 'conflict pending') &&
           steps.poll.outputs.mergeable == 'true'
-        uses: actions-cool/issues-helper@v3
+        uses: actions-cool/issues-helper-backup@d65454423c6fbbd20026b9b499d403f79422ac69
         with:
           actions: 'remove-labels'
           labels: 'conflict pending'

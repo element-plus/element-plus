@@ -470,7 +470,10 @@ describe('Cascader.vue', () => {
     const collapseTag = collapseTags[0]
     await collapseTag.trigger('hover')
     const scrollbars = wrapper.findAllComponents(ElScrollbar).filter((item) => {
-      return !hasClass(item.element, 'el-cascader-menu')
+      return (
+        !hasClass(item.element, 'el-cascader-menu') &&
+        !hasClass(item.element, 'el-cascader__panel-scrollbar')
+      )
     })
     expect(scrollbars.length).toBe(1)
     const scrollbar = scrollbars[0]
@@ -589,6 +592,29 @@ describe('Cascader.vue', () => {
     expect(value.value).toEqual(['zhejiang', 'hangzhou'])
   })
 
+  test('fitInputWidth', async () => {
+    const wrapper = _mount(() => (
+      <Cascader filterable fitInputWidth options={OPTIONS} />
+    ))
+    const inputWrapperEl = wrapper.find('.el-input').element as HTMLElement
+    const mockGetBoundingClientRect = vi
+      .spyOn(inputWrapperEl, 'getBoundingClientRect')
+      .mockReturnValue({ width: 221 } as DOMRect)
+
+    const input = wrapper.find('input')
+    input.element.value = 'Ni'
+    await input.trigger('compositionstart')
+    await input.trigger('input')
+    await input.trigger('compositionend')
+    await nextTick()
+
+    const suggestionPanel = document.querySelector(
+      SUGGESTION_PANEL
+    ) as HTMLElement
+    expect(suggestionPanel.style.width).toBe('221px')
+    mockGetBoundingClientRect.mockRestore()
+  })
+
   test('filterable in multiple mode', async () => {
     const value = ref([])
     const props = { multiple: true }
@@ -675,6 +701,90 @@ describe('Cascader.vue', () => {
     triggerEvent(hzSuggestion, 'keydown', EVENT_CODE.enter)
     await nextTick()
     expect(value.value).toEqual(['zhejiang', 'hangzhou'])
+  })
+
+  test('filterable keyboard navigation in virtual scroll mode', async () => {
+    const value = ref([])
+    const options = [
+      {
+        value: 'root',
+        label: 'Root',
+        children: Array.from({ length: 60 }).map((_, index) => ({
+          value: `child-${index}`,
+          label: `Child ${index}`,
+        })),
+      },
+    ]
+    const wrapper = _mount(() => (
+      <Cascader
+        v-model={value.value}
+        filterable
+        virtualScroll
+        height={68}
+        options={options}
+      />
+    ))
+
+    const input = wrapper.find('input')
+    input.element.value = 'Child'
+    await input.trigger('input')
+    await nextTick()
+
+    const dropdown = document.querySelector(DROPDOWN)!
+    const suggestions = dropdown.querySelectorAll(
+      SUGGESTION_ITEM
+    ) as NodeListOf<HTMLElement>
+    const current = suggestions[suggestions.length - 1]
+    const getSuggestionIndex = (el: HTMLElement) =>
+      Number.parseInt(el.dataset.suggestionIndex || '-1', 10)
+    const currentIndex = getSuggestionIndex(current)
+
+    current.focus()
+    triggerEvent(current, 'keydown', EVENT_CODE.down)
+    await nextTick()
+    await nextTick()
+
+    const active = document.activeElement as HTMLElement
+    const activeIndex = getSuggestionIndex(active)
+    expect(activeIndex).toBe(currentIndex + 1)
+  })
+
+  test('virtual scroll should apply inner width with suggestion-item slot', async () => {
+    const value = ref([])
+    const options = [
+      {
+        value: 'root',
+        label: 'Root',
+        children: Array.from({ length: 60 }).map((_, index) => ({
+          value: `child-${index}`,
+          label: `Child ${index}`,
+        })),
+      },
+    ]
+    const wrapper = _mount(() => (
+      <Cascader
+        v-model={value.value}
+        filterable
+        virtualScroll
+        height={68}
+        options={options}
+      >
+        {{
+          'suggestion-item': ({ item }: any) => (
+            <span>{`${item.text} - custom-content`}</span>
+          ),
+        }}
+      </Cascader>
+    ))
+
+    const input = wrapper.find('input')
+    input.element.value = 'Child'
+    await input.trigger('input')
+    await nextTick()
+
+    const cascader = wrapper.findComponent(Cascader).vm as any
+    expect(cascader.hasCustomSuggestionItemSlot).toBe(true)
+    expect(cascader.suggestionListWidth).toBeDefined()
   })
 
   describe('teleported API', () => {
@@ -1302,5 +1412,41 @@ describe('Cascader.vue', () => {
     expect(visible).toBeTruthy()
     expect(firstNode.matches(':focus')).toBeTruthy()
     expect(value.value).toEqual([])
+  })
+
+  test('should not reload lazy root nodes while initial load is pending', async () => {
+    vi.useFakeTimers()
+    try {
+      const lazyLoad = vi.fn((_, resolve) => {
+        setTimeout(() => {
+          resolve([
+            {
+              value: 'loaded',
+              label: 'Loaded',
+              leaf: true,
+            },
+          ])
+        }, 1000)
+      })
+      const props = {
+        lazy: true,
+        lazyLoad,
+      }
+      const wrapper = mount(() => <Cascader props={props} />)
+      const vm = wrapper.findComponent(Cascader).vm
+
+      await nextTick()
+      expect(lazyLoad).toHaveBeenCalledTimes(1)
+
+      vm.togglePopperVisible(true)
+      await nextTick()
+
+      expect(lazyLoad).toHaveBeenCalledTimes(1)
+      vi.runAllTimers()
+      await nextTick()
+      expect(lazyLoad).toHaveBeenCalledTimes(1)
+    } finally {
+      vi.useRealTimers()
+    }
   })
 })

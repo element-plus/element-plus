@@ -785,6 +785,26 @@ describe('Tree.vue', () => {
     expect(tree.getCheckedKeys().length).toEqual(0)
   })
 
+  test('should respect deep option when calling setChecked in checkStrictly mode', async () => {
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" check-strictly show-checkbox node-key="id"`
+    )
+    const treeWrapper = wrapper.findComponent(Tree)
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
+
+    tree.setChecked(111, true)
+    expect(tree.getCheckedNodes()).toEqual(tree.data[0].children[0].children)
+    expect(tree.getCheckedKeys()).toEqual([111])
+
+    tree.setChecked(tree.data[0], true, true)
+    expect(tree.getCheckedNodes()).toEqual([
+      tree.data[0],
+      tree.data[0].children[0],
+      tree.data[0].children[0].children[0],
+    ])
+    expect(tree.getCheckedKeys()).toEqual([1, 11, 111])
+  })
+
   test('setCheckedKeys with leafOnly=false', async () => {
     const { wrapper } = getTreeVm(
       `:props="defaultProps" show-checkbox node-key="id"`
@@ -2416,5 +2436,49 @@ describe('Tree.vue', () => {
     nodes = wrapper.findAll(TREE_NODE_CHECKBOX_CLASS_NAME)
     await nodes[0].trigger('click')
     expect(treeRef.getCheckedKeys()).toEqual(keys)
+  })
+
+  test('lazy load with check-strictly should not auto-check children', async () => {
+    vi.useFakeTimers()
+
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" node-key="id" lazy :load="loadNode" show-checkbox check-strictly`,
+      {
+        methods: {
+          loadNode(node, resolve) {
+            if (node.level === 0) {
+              return resolve([
+                { label: 'region1', id: 1 },
+                { label: 'region2', id: 2 },
+              ])
+            }
+            if (node.level === 1) {
+              setTimeout(() => {
+                resolve([
+                  { label: 'zone1', id: 11 },
+                  { label: 'zone2', id: 12 },
+                ])
+              }, 50)
+            } else {
+              resolve([])
+            }
+          },
+        },
+      }
+    )
+
+    await nextTick()
+    const treeRef = wrapper.findComponent({ name: 'ElTree' }).vm as TreeInstance
+
+    await wrapper.find(TREE_NODE_CHECKBOX_CLASS_NAME).trigger('click')
+
+    expect(treeRef.getCheckedKeys()).toEqual([1])
+
+    await wrapper.find('.el-tree-node__content').trigger('click')
+    vi.runAllTimers()
+    await nextTick()
+
+    expect(treeRef.getCheckedKeys()).toEqual([1])
+    vi.useRealTimers()
   })
 })

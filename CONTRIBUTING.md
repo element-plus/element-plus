@@ -16,13 +16,13 @@ Next section is for those who wants to help develop Element Plus.
 
 You should have:
 
-Node.js >= 20.19.0
+Node.js >= 22.13.0
 
 pnpm >= 11
 
 Git > 2.20
 
-Some of our compiled code relies on features introduced in Node.js >= 20.19.0, so you will need to install that version or a newer one.
+Some of our compiled code relies on features introduced in Node.js >= 22.13.0, so you will need to install that version or a newer one.
 
 ## Clone the Repository
 
@@ -95,6 +95,15 @@ After completing your coding tasks, please note:
 4. Push your local changes to your remote, and then submit a pull request to the upstream.
 5. In the description section, you can add more information about your changes, to help the reviewers for better
    understanding the context here.
+
+## Documentation Formatting Guidelines
+
+When updating documentation API tables, keep descriptions consistent:
+
+1. Keep attribute and prop names lowercase.
+2. Start API descriptions with an uppercase letter.
+3. Preserve code terms wrapped in backticks, such as `slot`, `Tooltip`, and `Popover`.
+4. Avoid broad reformatting changes unrelated to the current documentation update.
 
 ## Commit Template
 

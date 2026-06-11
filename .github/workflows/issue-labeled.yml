@@ -4,13 +4,16 @@ on:
   issues:
     types: [labeled]
 
+permissions:
+  issues: write
+
 jobs:
   reply-labeled:
     runs-on: ubuntu-latest
     steps:
       - name: contribution welcome
         if: github.event.label.name == 'contribution welcome' || github.event.label.name == 'help wanted'
-        uses: actions-cool/issues-helper@v3
+        uses: actions-cool/issues-helper-backup@d65454423c6fbbd20026b9b499d403f79422ac69
         with:
           actions: 'create-comment'
           issue-number: ${{ github.event.issue.number }}
@@ -21,7 +24,7 @@ jobs:
 
       - name: need reproduction
         if: github.event.label.name == 'need reproduction'
-        uses: actions-cool/issues-helper@v3
+        uses: actions-cool/issues-helper-backup@d65454423c6fbbd20026b9b499d403f79422ac69
         with:
           actions: 'create-comment'
           issue-number: ${{ github.event.issue.number }}
@@ -32,7 +35,7 @@ jobs:
 
       - name: invalid
         if: github.event.label.name == 'invalid'
-        uses: actions-cool/issues-helper@v3
+        uses: actions-cool/issues-helper-backup@d65454423c6fbbd20026b9b499d403f79422ac69
         with:
           actions: 'create-comment, close-issue'
           issue-number: ${{ github.event.issue.number }}

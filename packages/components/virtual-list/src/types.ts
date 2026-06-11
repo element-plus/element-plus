@@ -108,11 +108,13 @@ export type SharedExposes = {
   getItemStyleCache: (_: any, __: any, ___: any) => CSSProperties
 }
 
+export type ScrollDirection = typeof FORWARD | typeof BACKWARD
+
 export type ListExposes = {
   scrollTo: (offset: number) => void
   scrollToItem: (idx: number, alignment?: Alignment) => void
   states: {
-    scrollDir: Direction
+    scrollDir: ScrollDirection
     scrollOffset: number
   } & ExposesStates
 } & SharedExposes
@@ -121,8 +123,8 @@ export type GridExposes = {
   states: {
     scrollLeft: number
     scrollTop: number
-    xAxisScrollDir: Direction
-    yAxisScrollDir: Direction
+    xAxisScrollDir: ScrollDirection
+    yAxisScrollDir: ScrollDirection
   } & ExposesStates
   touchStartX: Ref<number>
   touchStartY: Ref<number>
@@ -216,12 +218,11 @@ export type GridItemKeyGetter = <
   rowIndex: number
 }) => string | number
 
-type Dir = typeof FORWARD | typeof BACKWARD
 export interface GridStates {
   isScrolling: boolean
   scrollLeft: number
   scrollTop: number
   updateRequested: boolean
-  xAxisScrollDir: Dir
-  yAxisScrollDir: Dir
+  xAxisScrollDir: ScrollDirection
+  yAxisScrollDir: ScrollDirection
 }

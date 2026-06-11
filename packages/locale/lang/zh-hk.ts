@@ -192,5 +192,9 @@ export default {
       rightArrow: '下一張幻燈片',
       indicator: '幻燈片切換至索引 {index}',
     },
+    inputOTP: {
+      groupLabel: '一次性密碼輸入框',
+      defaultLabel: '請輸入第 {index} 位 OTP 字元',
+    },
   },
 }
