@@ -157,6 +157,15 @@
     &.#{$namespace}-popper {
       box-shadow: getCssVar('cascader-menu-shadow');
     }
+
+    .#{$namespace}-cascader-panel {
+      overflow-x: hidden;
+    }
+  }
+
+  @include e(panel-scrollbar) {
+    height: auto;
+    max-width: calc(100vw - 16px);
   }
 
   @include e(header) {

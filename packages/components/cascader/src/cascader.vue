@@ -159,24 +159,29 @@
       <div v-if="$slots.header" :class="nsCascader.e('header')" @click.stop>
         <slot name="header" />
       </div>
-      <el-cascader-panel
+      <el-scrollbar
         v-show="!filtering"
-        ref="cascaderPanelRef"
-        v-model="checkedValue"
-        :options="options"
-        :props="props.props"
-        :border="false"
-        :render-label="$slots.default"
-        :virtual-scroll="virtualScroll"
-        :item-size="itemSize"
-        :height="height"
-        @expand-change="handleExpandChange"
-        @close="$nextTick(() => togglePopperVisible(false))"
+        ref="panelScrollbarRef"
+        :class="nsCascader.e('panel-scrollbar')"
       >
-        <template #empty>
-          <slot name="empty" />
-        </template>
-      </el-cascader-panel>
+        <el-cascader-panel
+          ref="cascaderPanelRef"
+          v-model="checkedValue"
+          :options="options"
+          :props="props.props"
+          :border="false"
+          :render-label="$slots.default"
+          :virtual-scroll="virtualScroll"
+          :item-size="itemSize"
+          :height="height"
+          @expand-change="handleExpandChange"
+          @close="$nextTick(() => togglePopperVisible(false))"
+        >
+          <template #empty>
+            <slot name="empty" />
+          </template>
+        </el-cascader-panel>
+      </el-scrollbar>
       <template v-if="filterable">
         <el-scrollbar
           v-if="!virtualScroll"
@@ -337,6 +342,7 @@ import type {
 import type { CascaderComponentProps } from './cascader'
 
 const SUGGESTION_ITEM_EXTRA_WIDTH = 34 // span margin-right (10px) + check icon width (24px)
+const POPPER_VIEWPORT_PADDING = 8
 
 const popperOptions: Partial<Options> = {
   modifiers: [
@@ -352,6 +358,19 @@ const popperOptions: Partial<Options> = {
         }
       },
       requires: ['arrow'],
+    },
+    {
+      name: 'preventOverflow',
+      options: {
+        altAxis: true,
+        tether: false,
+        padding: {
+          left: POPPER_VIEWPORT_PADDING,
+          right: POPPER_VIEWPORT_PADDING,
+          top: 0,
+          bottom: 0,
+        },
+      },
     },
   ],
 }
@@ -424,6 +443,7 @@ const tagTooltipRef = ref<TooltipInstance>()
 const inputRef = ref<InputInstance>()
 const tagWrapper = ref<HTMLDivElement>()
 const cascaderPanelRef = ref<CascaderPanelInstance>()
+const panelScrollbarRef = ref<ScrollbarInstance>()
 const suggestionPanel = ref<HTMLElement>()
 const suggestionVirtualListRef = ref<FixedSizeListInstance>()
 const popperVisible = ref(false)
@@ -577,6 +597,7 @@ const togglePopperVisible = (visible?: boolean) => {
       updatePopperPosition()
       cascaderPanelRef.value &&
         nextTick(cascaderPanelRef.value.scrollToExpandingNode)
+      nextTick(adjustPanelScroll)
     } else if (props.filterable) {
       syncPresentTextValue()
     }
@@ -592,6 +613,23 @@ const updatePopperPosition = () => {
 }
 const hideSuggestionPanel = () => {
   filtering.value = false
+}
+
+const adjustPanelScroll = () => {
+  if (!isClient) return
+  const wrapEl = panelScrollbarRef.value?.wrapRef
+  if (!wrapEl) return
+  panelScrollbarRef.value!.update()
+  const menus = wrapEl.querySelectorAll<HTMLElement>(`.${nsCascader.b('menu')}`)
+  const lastMenu = menus[menus.length - 1]
+  if (lastMenu) {
+    const overflow =
+      lastMenu.getBoundingClientRect().right -
+      wrapEl.getBoundingClientRect().right
+    if (overflow > 0) {
+      wrapEl.scrollLeft += overflow
+    }
+  }
 }
 
 const genTag = (node: CascaderNode): Tag => {
@@ -804,6 +842,11 @@ const getCheckedNodes = (leafOnly: boolean) => {
 const handleExpandChange = (value: CascaderValue) => {
   updatePopperPosition()
   emit('expandChange', value)
+  if (props.props.expandTrigger === 'hover') {
+    nextTick(() => panelScrollbarRef.value?.update())
+  } else {
+    nextTick(adjustPanelScroll)
+  }
 }
 
 const handleKeyDown = (e: KeyboardEvent) => {
