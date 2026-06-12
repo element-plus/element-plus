@@ -186,7 +186,45 @@ describe('ScrollBar', () => {
       'top: 21.5px; bottom: 21.5px;'
     )
     expect(wrapper.find('.is-vertical div').attributes('style')).toContain(
-      'height: 20px;'
+      'transform: translateY(1.1363636363636362%); height: 20px;'
+    )
+
+    offsetHeightRestore()
+    scrollHeightRestore()
+  })
+
+  test('should not show vertical thumb when only track gap overflows', async () => {
+    const outerHeight = 204
+    const innerHeight = 203
+    const wrapper = mount(() => (
+      <Scrollbar
+        style={`height: ${outerHeight}px;`}
+        verticalStartGap={1}
+        verticalEndGap={1}
+      >
+        <div style={`height: ${innerHeight}px;`}></div>
+      </Scrollbar>
+    ))
+
+    const scrollDom = wrapper.find('.el-scrollbar__wrap').element
+
+    const offsetHeightRestore = defineGetter(
+      scrollDom,
+      'offsetHeight',
+      outerHeight
+    )
+    const scrollHeightRestore = defineGetter(
+      scrollDom,
+      'scrollHeight',
+      innerHeight
+    )
+
+    await makeScroll(scrollDom, 'scrollTop', 0)
+    expect(wrapper.find('.is-vertical').attributes('style')).toContain(
+      'top: 3px; bottom: 3px;'
+    )
+    expect(wrapper.find('.is-vertical div').attributes('style')).not.toContain(
+      'height:'
     )
 
     offsetHeightRestore()

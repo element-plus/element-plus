@@ -117,7 +117,10 @@ const update = () => {
     (offsetWidth - originalWidth) /
     (width / (offsetWidth - width))
 
-  sizeHeight.value = height < trackHeight.size ? `${height}px` : ''
+  sizeHeight.value =
+    wrap.scrollHeight > wrap.offsetHeight && height < trackHeight.size
+      ? `${height}px`
+      : ''
   sizeWidth.value = width + GAP < offsetWidth ? `${width}px` : ''
 }
 
