@@ -120,3 +120,15 @@ export type ObjectFit = CSSProperties['objectFit']
 export type ZIndexType = CSSProperties['zIndex']
 
 export type AlignItems = CSSProperties['alignItems']
+
+/**
+ * Support for `class` attribute
+ * This type covered vue's define: https://github.com/vuejs/core/blob/main/packages/runtime-dom/src/jsx.ts
+ */
+export type ClassValue =
+  | false
+  | null
+  | undefined
+  | string
+  | Record<string, any>
+  | Array<ClassValue>
