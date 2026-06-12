@@ -19,6 +19,7 @@ import { useTimeoutFn } from '@vueuse/core'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElTooltip from '@element-plus/components/tooltip'
 import {
+  ClassValue,
   buildProps,
   definePropType,
   focusElement,
@@ -63,7 +64,7 @@ export const subMenuProps = buildProps({
   /**
    * @description custom class name for the popup menu
    */
-  popperClass: String,
+  popperClass: { type: definePropType<ClassValue>([String, Array, Object]) },
   /**
    * @description custom style for the popup menu
    */

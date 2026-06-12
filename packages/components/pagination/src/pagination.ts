@@ -9,6 +9,7 @@ import {
 } from 'vue'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 import {
+  ClassValue,
   buildProps,
   debugWarn,
   definePropType,
@@ -116,7 +117,7 @@ export const paginationProps = buildProps({
    * @description custom class name for the page size Select's dropdown
    */
   popperClass: {
-    type: String,
+    type: definePropType<ClassValue>([String, Array, Object]),
     default: '',
   },
   /**

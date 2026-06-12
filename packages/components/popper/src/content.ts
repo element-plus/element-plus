@@ -1,5 +1,5 @@
 import { placements } from '@popperjs/core'
-import { buildProps, definePropType } from '@element-plus/utils'
+import { ClassValue, buildProps, definePropType } from '@element-plus/utils'
 import { useAriaProps } from '@element-plus/hooks'
 import { popperArrowProps, popperArrowPropsDefaults } from './arrow'
 
@@ -9,9 +9,6 @@ import type { Options, Placement } from '@popperjs/core'
 import type { Measurable } from './constants'
 import type Content from './content.vue'
 import type { PopperArrowProps } from './arrow'
-
-type ClassObjectType = Record<string, boolean>
-type ClassType = string | ClassObjectType | ClassType[]
 
 const POSITIONING_STRATEGIES = ['fixed', 'absolute'] as const
 
@@ -96,14 +93,14 @@ export interface PopperContentProps
   extends PopperCoreConfigProps, PopperArrowProps {
   id?: string
   style?: StyleValue
-  className?: ClassType
+  className?: ClassValue
   effect?: PopperEffect
   visible?: boolean
   enterable?: boolean
   pure?: boolean
   focusOnShow?: boolean
   trapping?: boolean
-  popperClass?: ClassType
+  popperClass?: ClassValue
   popperStyle?: StyleValue
   referenceEl?: HTMLElement
   triggerTargetEl?: HTMLElement
@@ -126,7 +123,7 @@ export const popperContentProps = buildProps({
     default: undefined,
   },
   className: {
-    type: definePropType<ClassType>([String, Array, Object]),
+    type: definePropType<ClassValue>([String, Array, Object]),
   },
   effect: {
     type: definePropType<PopperEffect>(String),
@@ -141,7 +138,7 @@ export const popperContentProps = buildProps({
   focusOnShow: Boolean,
   trapping: Boolean,
   popperClass: {
-    type: definePropType<ClassType>([String, Array, Object]),
+    type: definePropType<ClassValue>([String, Array, Object]),
   },
   popperStyle: {
     type: definePropType<StyleValue>([String, Array, Object, Boolean]),

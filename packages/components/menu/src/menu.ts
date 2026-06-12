@@ -17,6 +17,7 @@ import { isNil } from 'lodash-unified'
 import ElIcon from '@element-plus/components/icon'
 import { More } from '@element-plus/icons-vue'
 import {
+  ClassValue,
   buildProps,
   definePropType,
   flattedChildren,
@@ -149,7 +150,7 @@ export const menuProps = buildProps({
   /**
    * @description custom class name for all popup menus
    */
-  popperClass: String,
+  popperClass: { type: definePropType<ClassValue>([String, Array, Object]) },
   /**
    * @description custom style for all popup menus
    */
@@ -452,7 +453,7 @@ export default defineComponent({
           closeMenu,
           handleMenuItemClick,
           handleSubMenuClick,
-        })
+        }) as unknown as MenuProvider // Avoid TS2589
       )
 
       provide<SubMenuProvider>(`${SUB_MENU_INJECTION_KEY}${instance.uid}`, {
