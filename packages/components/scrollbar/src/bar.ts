@@ -6,6 +6,8 @@ import type Bar from './bar.vue'
 export interface BarProps {
   always?: boolean
   minSize: number
+  verticalStartGap?: number
+  verticalEndGap?: number
 }
 
 /**
@@ -19,6 +21,14 @@ export const barProps = buildProps({
   minSize: {
     type: Number,
     required: true,
+  },
+  verticalStartGap: {
+    type: Number,
+    default: 0,
+  },
+  verticalEndGap: {
+    type: Number,
+    default: 0,
   },
 } as const)
 

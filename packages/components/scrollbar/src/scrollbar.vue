@@ -21,7 +21,13 @@
       </component>
     </div>
     <template v-if="!native">
-      <bar ref="barRef" :always="always" :min-size="minSize" />
+      <bar
+        ref="barRef"
+        :always="always"
+        :min-size="minSize"
+        :vertical-start-gap="verticalStartGap"
+        :vertical-end-gap="verticalEndGap"
+      />
     </template>
   </div>
 </template>
@@ -71,6 +77,8 @@ const props = withDefaults(defineProps<ScrollbarProps>(), {
   viewClass: '',
   tag: 'div',
   minSize: 20,
+  verticalStartGap: 0,
+  verticalEndGap: 0,
   tabindex: undefined,
 })
 const emit = defineEmits(scrollbarEmits)

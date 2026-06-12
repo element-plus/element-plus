@@ -41,6 +41,158 @@ describe('ScrollBar', () => {
     scrollHeightRestore()
   })
 
+  test('vertical track gap', async () => {
+    const outerHeight = 204
+    const innerHeight = 500
+    const wrapper = mount(() => (
+      <Scrollbar
+        style={`height: ${outerHeight}px;`}
+        verticalStartGap={20}
+        verticalEndGap={30}
+      >
+        <div style={`height: ${innerHeight}px;`}></div>
+      </Scrollbar>
+    ))
+
+    const scrollDom = wrapper.find('.el-scrollbar__wrap').element
+
+    const offsetHeightRestore = defineGetter(
+      scrollDom,
+      'offsetHeight',
+      outerHeight
+    )
+    const scrollHeightRestore = defineGetter(
+      scrollDom,
+      'scrollHeight',
+      innerHeight
+    )
+
+    await makeScroll(scrollDom, 'scrollTop', 100)
+    expect(wrapper.find('.is-vertical').attributes('style')).toContain(
+      'top: 22px; bottom: 32px;'
+    )
+    expect(wrapper.find('.is-vertical div').attributes('style')).toContain(
+      'transform: translateY(50%); height: 60px;'
+    )
+    await makeScroll(scrollDom, 'scrollTop', 300)
+    expect(wrapper.find('.is-vertical div').attributes('style')).toContain(
+      'transform: translateY(150%); height: 60px;'
+    )
+
+    offsetHeightRestore()
+    scrollHeightRestore()
+  })
+
+  test('should support one-sided vertical track gap', async () => {
+    const outerHeight = 204
+    const innerHeight = 500
+    const wrapper = mount(() => (
+      <Scrollbar style={`height: ${outerHeight}px;`} verticalStartGap={20}>
+        <div style={`height: ${innerHeight}px;`}></div>
+      </Scrollbar>
+    ))
+
+    const scrollDom = wrapper.find('.el-scrollbar__wrap').element
+
+    const offsetHeightRestore = defineGetter(
+      scrollDom,
+      'offsetHeight',
+      outerHeight
+    )
+    const scrollHeightRestore = defineGetter(
+      scrollDom,
+      'scrollHeight',
+      innerHeight
+    )
+
+    await makeScroll(scrollDom, 'scrollTop', 100)
+    expect(wrapper.find('.is-vertical').attributes('style')).toContain(
+      'top: 22px; bottom: 2px;'
+    )
+    expect(wrapper.find('.is-vertical div').attributes('style')).toContain(
+      'transform: translateY(50%); height: 72px;'
+    )
+
+    offsetHeightRestore()
+    scrollHeightRestore()
+  })
+
+  test('should normalize negative vertical track gap to zero', async () => {
+    const outerHeight = 204
+    const innerHeight = 500
+    const wrapper = mount(() => (
+      <Scrollbar
+        style={`height: ${outerHeight}px;`}
+        verticalStartGap={-20}
+        verticalEndGap={10}
+      >
+        <div style={`height: ${innerHeight}px;`}></div>
+      </Scrollbar>
+    ))
+
+    const scrollDom = wrapper.find('.el-scrollbar__wrap').element
+
+    const offsetHeightRestore = defineGetter(
+      scrollDom,
+      'offsetHeight',
+      outerHeight
+    )
+    const scrollHeightRestore = defineGetter(
+      scrollDom,
+      'scrollHeight',
+      innerHeight
+    )
+
+    await makeScroll(scrollDom, 'scrollTop', 100)
+    expect(wrapper.find('.is-vertical').attributes('style')).toContain(
+      'top: 2px; bottom: 12px;'
+    )
+    expect(wrapper.find('.is-vertical div').attributes('style')).toContain(
+      'transform: translateY(50%); height: 76px;'
+    )
+
+    offsetHeightRestore()
+    scrollHeightRestore()
+  })
+
+  test('should clamp vertical track gap to keep thumb draggable', async () => {
+    const outerHeight = 64
+    const innerHeight = 500
+    const wrapper = mount(() => (
+      <Scrollbar
+        style={`height: ${outerHeight}px;`}
+        verticalStartGap={40}
+        verticalEndGap={40}
+      >
+        <div style={`height: ${innerHeight}px;`}></div>
+      </Scrollbar>
+    ))
+
+    const scrollDom = wrapper.find('.el-scrollbar__wrap').element
+
+    const offsetHeightRestore = defineGetter(
+      scrollDom,
+      'offsetHeight',
+      outerHeight
+    )
+    const scrollHeightRestore = defineGetter(
+      scrollDom,
+      'scrollHeight',
+      innerHeight
+    )
+
+    await makeScroll(scrollDom, 'scrollTop', 100)
+    expect(wrapper.find('.is-vertical').attributes('style')).toContain(
+      'top: 21.5px; bottom: 21.5px;'
+    )
+    expect(wrapper.find('.is-vertical div').attributes('style')).toContain(
+      'height: 20px;'
+    )
+
+    offsetHeightRestore()
+    scrollHeightRestore()
+  })
+
   test('horizontal', async () => {
     const outerWidth = 204
     const innerWidth = 500

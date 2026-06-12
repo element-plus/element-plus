@@ -4,6 +4,7 @@
       v-show="always || visible"
       ref="instance"
       :class="[ns.e('bar'), ns.is(bar.key)]"
+      :style="barStyle"
       @mousedown="clickTrackHandler"
       @click.stop
     >
@@ -23,7 +24,7 @@ import { useEventListener } from '@vueuse/core'
 import { isClient, throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { scrollbarContextKey } from './constants'
-import { BAR_MAP, renderThumbStyle } from './util'
+import { BAR_MAP, GAP, renderThumbStyle } from './util'
 
 import type { ThumbProps } from './thumb'
 
@@ -50,6 +51,18 @@ let originalOnSelectStart:
   | null = isClient ? document.onselectstart : null
 
 const bar = computed(() => BAR_MAP[props.vertical ? 'vertical' : 'horizontal'])
+const hasVerticalGap = computed(
+  () => props.vertical && ((props.startGap ?? 0) > 0 || (props.endGap ?? 0) > 0)
+)
+
+const barStyle = computed(() => {
+  if (!props.vertical) return undefined
+
+  return {
+    top: `${GAP / 2 + (props.startGap ?? 0)}px`,
+    bottom: `${GAP / 2 + (props.endGap ?? 0)}px`,
+  }
+})
 
 const thumbStyle = computed(() =>
   renderThumbStyle({
@@ -69,6 +82,28 @@ const offsetRatio = computed(
     props.ratio /
     thumb.value![bar.value.offset]
 )
+
+const getScrollDistance = (thumbPosition: number, scrollSize: number) => {
+  if (!instance.value || !thumb.value || !scrollbar.wrapElement) return 0
+
+  if (!hasVerticalGap.value) {
+    const thumbPositionPercentage =
+      (thumbPosition * 100 * offsetRatio.value) /
+      instance.value[bar.value.offset]
+
+    return (thumbPositionPercentage * scrollSize) / 100
+  }
+
+  const trackSize = instance.value[bar.value.offset]
+  const thumbSize = thumb.value[bar.value.offset]
+  const thumbRange = trackSize - thumbSize
+  if (thumbRange <= 0) return 0
+
+  const viewportSize = scrollbar.wrapElement[bar.value.offset] - GAP
+  const scrollRange = scrollSize - viewportSize
+
+  return (thumbPosition / thumbRange) * scrollRange
+}
 
 const clickThumbHandler = (e: MouseEvent) => {
   // prevent click event of middle and right button
@@ -93,13 +128,11 @@ const clickTrackHandler = (e: MouseEvent) => {
       e[bar.value.client]
   )
   const thumbHalf = thumb.value[bar.value.offset] / 2
-  const thumbPositionPercentage =
-    ((offset - thumbHalf) * 100 * offsetRatio.value) /
-    instance.value[bar.value.offset]
 
-  scrollbar.wrapElement[bar.value.scroll] =
-    (thumbPositionPercentage * scrollbar.wrapElement[bar.value.scrollSize]) /
-    100
+  scrollbar.wrapElement[bar.value.scroll] = getScrollDistance(
+    offset - thumbHalf,
+    scrollbar.wrapElement[bar.value.scrollSize]
+  )
 }
 
 const startDrag = (e: MouseEvent) => {
@@ -125,16 +158,17 @@ const mouseMoveDocumentHandler = (e: MouseEvent) => {
       e[bar.value.client]) *
     -1
   const thumbClickPosition = thumb.value[bar.value.offset] - prevPage
-  const thumbPositionPercentage =
-    ((offset - thumbClickPosition) * 100 * offsetRatio.value) /
-    instance.value[bar.value.offset]
 
   if (bar.value.scroll === 'scrollLeft') {
-    scrollbar.wrapElement![bar.value.scroll] =
-      (thumbPositionPercentage * baseScrollWidth) / 100
+    scrollbar.wrapElement![bar.value.scroll] = getScrollDistance(
+      offset - thumbClickPosition,
+      baseScrollWidth
+    )
   } else {
-    scrollbar.wrapElement![bar.value.scroll] =
-      (thumbPositionPercentage * baseScrollHeight) / 100
+    scrollbar.wrapElement![bar.value.scroll] = getScrollDistance(
+      offset - thumbClickPosition,
+      baseScrollHeight
+    )
   }
 }
 
