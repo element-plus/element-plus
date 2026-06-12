@@ -33,12 +33,12 @@ export interface ScrollbarProps {
    * @description class of wrap
    * @default ''
    */
-  wrapClass?: string | string[]
+  wrapClass?: string | string[] | object
   /**
    * @description class of view
    * @default ''
    */
-  viewClass?: string | string[]
+  viewClass?: string | string[] | object
   /**
    * @description style of view
    * @default ''
@@ -125,14 +125,14 @@ export const scrollbarProps = buildProps({
    * @description class of wrap
    */
   wrapClass: {
-    type: [String, Array],
+    type: [String, Array, Object],
     default: '',
   },
   /**
    * @description class of view
    */
   viewClass: {
-    type: [String, Array],
+    type: [String, Array, Object],
     default: '',
   },
   /**
