@@ -31,9 +31,8 @@
 
 <script lang="ts" setup>
 import { computed, provide, ref, toRef, useSlots, watch } from 'vue'
-import { useVModel } from '@vueuse/core'
 import { useNamespace, useZIndex } from '@element-plus/hooks'
-import { isBoolean } from '@element-plus/utils'
+import { isBoolean, isUndefined } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import ElTourMask from './mask.vue'
 import ElTourContent from './content.vue'
@@ -50,7 +49,6 @@ defineOptions({
 })
 
 const props = withDefaults(defineProps<TourProps>(), {
-  current: 0,
   showArrow: true,
   showClose: true,
   placement: 'bottom',
@@ -66,9 +64,23 @@ const emit = defineEmits(tourEmits)
 const ns = useNamespace('tour')
 const total = ref(0)
 const currentStep = ref<TourStepProps>()
+const isControlled = computed(() => !isUndefined(props.current))
+const innerCurrent = ref(props.current ?? 0)
 
-const current = useVModel(props, 'current', emit, {
-  passive: true,
+const current = computed<number>({
+  get() {
+    return isUndefined(props.current) ? innerCurrent.value : props.current
+  },
+  set(newValue) {
+    const oldValue = isControlled.value ? props.current : innerCurrent.value
+    if (oldValue === newValue) return
+
+    if (!isControlled.value) {
+      innerCurrent.value = newValue
+    }
+
+    emit('update:current', newValue)
+  },
 })
 
 const currentTarget = computed(() => currentStep.value?.target)
@@ -115,9 +127,23 @@ const { mergedPosInfo: pos, triggerTarget } = useTarget(
 )
 
 watch(
+  () => props.current,
+  (val) => !isUndefined(val) && (innerCurrent.value = val)
+)
+
+watch(
+  current,
+  (newCurrent, oldCurrent) => {
+    if (!props.modelValue || newCurrent === oldCurrent) return
+    emit(CHANGE_EVENT, newCurrent)
+  },
+  { flush: 'post' }
+)
+
+watch(
   () => props.modelValue,
   (val) => {
-    if (!val) {
+    if (!val && current.value !== 0) {
       current.value = 0
     }
   }
@@ -153,9 +179,6 @@ provide(tourKey, {
   },
   onFinish() {
     emit('finish')
-  },
-  onChange() {
-    emit(CHANGE_EVENT, current.value)
   },
 })
 </script>

@@ -98,7 +98,8 @@
   },
   "devDependencies": {
     "@types/node": "*",
-    "vue-router": "^5.0.7"
+    "vue": "catalog:",
+    "vue-router": "^5.1.0"
   },
   "vetur": {
     "tags": "tags.json",

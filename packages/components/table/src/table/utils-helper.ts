@@ -8,6 +8,9 @@ function useUtils<T extends DefaultRow>(store: Store<T>) {
   const getSelectionRows = () => {
     return store.getSelectionRows()
   }
+  const getHalfSelectionRows = () => {
+    return store.getHalfSelectionRows()
+  }
   const toggleRowSelection = (
     row: T,
     selected?: boolean,
@@ -41,6 +44,7 @@ function useUtils<T extends DefaultRow>(store: Store<T>) {
   return {
     setCurrentRow,
     getSelectionRows,
+    getHalfSelectionRows,
     toggleRowSelection,
     clearSelection,
     clearFilter,

@@ -107,7 +107,6 @@ const {
   updateModelValue,
   onClose: tourOnClose,
   onFinish: tourOnFinish,
-  onChange,
 } = inject(tourKey)!
 
 watch(
@@ -135,7 +134,6 @@ const onPrev = () => {
   if (props.prevButtonProps?.onClick) {
     props.prevButtonProps?.onClick()
   }
-  onChange()
 }
 
 const onNext = () => {
@@ -147,7 +145,6 @@ const onNext = () => {
   if (props.nextButtonProps?.onClick) {
     props.nextButtonProps.onClick()
   }
-  onChange()
 }
 
 const onFinish = () => {
