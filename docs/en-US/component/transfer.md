@@ -53,6 +53,16 @@ transfer/prop-alias
 
 :::
 
+## Virtual Scroll ^(2.14.2)
+
+When dealing with large amounts of data, you can enable virtual scrolling to improve performance.
+
+:::demo Set `virtual-scroll` to `true` to enable virtual scrolling. You can also customize the item height with `item-size`. Default item size is 30px.
+
+transfer/virtual-scroll
+
+:::
+
 ## Transfer API
 
 ### Transfer Attributes
@@ -73,6 +83,8 @@ transfer/prop-alias
 | left-default-checked        | key array of initially checked data items of the left list                                                                                                                                                                                                                         | ^[array]`Array<string \| number>`                                  | []       |
 | right-default-checked       | key array of initially checked data items of the right list                                                                                                                                                                                                                        | ^[array]`Array<string \| number>`                                  | []       |
 | validate-event              | whether to trigger form validation                                                                                                                                                                                                                                                 | ^[boolean]                                                         | true     |
+| virtual-scroll ^(2.14.2)    | whether to enable virtual scrolling                                                                                                                                                                                                                                                | ^[boolean]                                                         | false    |
+| item-size ^(2.14.2)         | item height for virtual scrolling                                                                                                                                                                                                                                                  | ^[number]                                                          | 30       |
 
 ### Transfer Events
 

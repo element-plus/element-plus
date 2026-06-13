@@ -32,6 +32,8 @@ export interface TransferPanelProps<
   filterMethod?: (query: string, item: T) => boolean
   defaultChecked?: TransferKey[]
   props?: TransferPropsAlias
+  virtualScroll?: boolean
+  itemSize?: number
 }
 
 /**
@@ -51,6 +53,8 @@ export const transferPanelProps = buildProps({
   filterMethod: transferProps.filterMethod,
   defaultChecked: transferProps.leftDefaultChecked,
   props: transferProps.props,
+  virtualScroll: transferProps.virtualScroll,
+  itemSize: transferProps.itemSize,
 } as const)
 
 /**

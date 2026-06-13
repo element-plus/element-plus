@@ -6,9 +6,9 @@ import Transfer from '../src/transfer.vue'
 import type { TransferDataItem, renderContent } from '../src/transfer'
 
 describe('Transfer', () => {
-  const getTestData = () => {
+  const getTestData = (size = 15) => {
     const data = []
-    for (let i = 1; i <= 15; i++) {
+    for (let i = 1; i <= size; i++) {
       data.push({
         key: i,
         label: `备选项 ${i}`,
@@ -379,6 +379,77 @@ describe('Transfer', () => {
       const emptyContent = wrapper.find('.el-transfer-panel__empty')
       expect(emptyContent.exists()).toBe(true)
       expect(emptyContent.text()).toBe('No data')
+    })
+  })
+
+  describe('virtual scroll', () => {
+    it('create with item-size', () => {
+      const wrapper = mount(() => (
+        <Transfer virtualScroll itemSize={50} data={getTestData(2000)} />
+      ))
+      expect(wrapper.findComponent({ name: 'ElTransfer' })).toBeTruthy()
+    })
+
+    it('check', () => {
+      const value = ref([])
+      const wrapper = mount(() => (
+        <Transfer
+          virtualScroll
+          v-model={value.value}
+          data={getTestData(2000)}
+        />
+      ))
+
+      const leftList: any = wrapper.findComponent({ name: 'ElTransferPanel' })
+      leftList.vm.handleAllCheckedChange({ target: { checked: true } })
+      expect(leftList.vm.checked.length).toBe(1500)
+    })
+
+    it('transfer', async () => {
+      const value = ref([1, 4])
+      const wrapper = mount(() => (
+        <Transfer
+          v-model={value.value}
+          virtualScroll
+          leftDefaultChecked={[2, 3]}
+          rightDefaultChecked={[1]}
+          data={getTestData(2000)}
+        />
+      ))
+
+      const ElTransfer: any = wrapper.findComponent({ name: 'ElTransfer' })
+
+      ElTransfer.vm.addToLeft()
+      await nextTick()
+      expect(ElTransfer.vm.sourceData.length).toBe(1999)
+      ElTransfer.vm.addToRight()
+      await nextTick()
+      expect(ElTransfer.vm.sourceData.length).toBe(1997)
+    })
+
+    it('reset scroll offset after filtering', async () => {
+      const value = ref([])
+
+      const wrapper = mount(() => (
+        <Transfer
+          v-model={value.value}
+          virtualScroll
+          filterable
+          data={getTestData(2000)}
+        />
+      ))
+
+      const leftPanel: any = wrapper.findComponent({ name: 'ElTransferPanel' })
+      const leftVirtualList = leftPanel.findComponent({
+        name: 'ElFixedSizeList',
+      })
+      leftVirtualList.vm.scrollToItem(1900)
+      await nextTick()
+      expect(leftVirtualList.vm.states.scrollOffset).toBeGreaterThan(0)
+      leftPanel.vm.query = '10'
+      await leftPanel.find('input').setValue('10')
+      await nextTick()
+      expect(leftVirtualList.vm.states.scrollOffset).toBe(0)
     })
   })
 })
