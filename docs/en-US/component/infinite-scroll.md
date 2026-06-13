@@ -5,7 +5,7 @@ lang: en-US
 
 :::warning Deprecated directive
 
-We no longer maintain this directive. It will be **removed** in ^(3.0.0), please use the [el-scrollbar infinite scroll](./scrollbar#infinite-scroll) instead.
+We no longer maintain this directive. It will be **removed** in ^(3.0.0), please use the [el-scrollbar infinite scroll](./scrollbar.md#infinite-scroll) instead.
 
 :::
 
