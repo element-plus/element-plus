@@ -73,12 +73,7 @@
       >
         <div :class="ns.be('picker', 'trigger')" @click="handleTrigger">
           <span :class="[ns.be('picker', 'color'), ns.is('alpha', showAlpha)]">
-            <span
-              :class="ns.be('picker', 'color-inner')"
-              :style="{
-                backgroundColor: displayedColor,
-              }"
-            >
+            <span :class="ns.be('picker', 'color-inner')" :style="colorStyle">
               <el-icon
                 v-show="modelValue || showPanelColor"
                 :class="[ns.be('picker', 'icon'), ns.is('icon-arrow-down')]"
@@ -133,6 +128,7 @@ import {
   colorPickerPanelProps,
 } from '@element-plus/components/color-picker-panel'
 import Color from '@element-plus/components/color-picker-panel/src/utils/color'
+import { TinyColor } from '@ctrl/tinycolor'
 import { useCommonColor } from '@element-plus/components/color-picker-panel/src/composables/use-common-color'
 
 import type { ColorPickerPanelInstance } from '@element-plus/components/color-picker-panel'
@@ -191,11 +187,18 @@ const panelProps = computed(() =>
   pick(props, Object.keys(colorPickerPanelProps))
 )
 
-const displayedColor = computed(() => {
+const colorStyle = computed(() => {
   if (!props.modelValue && !showPanelColor.value) {
-    return 'transparent'
+    return { backgroundColor: 'transparent' }
   }
-  return displayedRgb(color, props.showAlpha)
+  // 渐变模式下使用 background 样式
+  if (color.isGradient) {
+    return {
+      background: color.toGradientValue(),
+      backgroundColor: undefined,
+    }
+  }
+  return { backgroundColor: displayedRgb(color, props.showAlpha) }
 })
 
 const currentColor = computed(() => {
@@ -263,7 +266,12 @@ function handleTrigger() {
 }
 
 function confirmValue() {
-  const value = isEmptyValue(color.value) ? valueOnClear.value : color.value
+  // 渐变模式下使用 toGradientValue()，否则使用 color.value
+  const value = isEmptyValue(color.value)
+    ? valueOnClear.value
+    : color.isGradient
+      ? color.toGradientValue()
+      : color.value
   emit(UPDATE_MODEL_EVENT, value)
   emit(CHANGE_EVENT, value)
   if (props.validateEvent) {
@@ -358,9 +366,38 @@ watch(
   (newVal) => {
     if (!newVal) {
       showPanelColor.value = false
-    } else if (newVal && newVal !== color.value) {
+      // 清除渐变状态（重置为纯色模式）
+      if (color.isGradient) {
+        color.isGradient = false
+        color.startValue = ''
+        color.endValue = ''
+      }
+    } else if (newVal !== color.value) {
       shouldActiveChange = false
-      color.fromString(newVal)
+      // 判断是否是渐变值
+      const isGradientValue = newVal.includes('gradient')
+      // 如果没有 showGradient 但传入了渐变值，不处理
+      if (!props.showGradient && isGradientValue) {
+        return
+      }
+      // 如果有 showGradient，处理渐变初始化
+      if (props.showGradient && isGradientValue) {
+        // 使用 color-picker-panel 的解析逻辑
+        const match = newVal.match(/rgba?\([^)]+\)|#[0-9a-fA-F]+/g)
+        if (match && match.length >= 2) {
+          const startColor = new TinyColor(match[0]).toHexString()
+          const endColor = new TinyColor(match[match.length - 1]).toHexString()
+          color.setGradient(startColor, endColor)
+          color.editingGradientPart = 'start'
+          color.fromString(startColor)
+        } else {
+          // 渐变格式不正确，当作纯色处理
+          color.fromString(newVal)
+        }
+      } else {
+        // 纯色模式或非渐变值
+        color.fromString(newVal)
+      }
     }
   }
 )

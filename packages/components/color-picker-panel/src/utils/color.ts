@@ -125,6 +125,7 @@ export default class Color {
       this._value = 100
       this._alpha = 100
     }
+    this.doOnChange()
   }
 
   clear() {
