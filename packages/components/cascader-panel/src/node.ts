@@ -163,15 +163,12 @@ class Node {
   setCheckState(checked: boolean) {
     const totalNum = this.children.length
     const checkedNum = this.children.reduce((c, p) => {
-      // Don't count unloaded lazy nodes as checked for indeterminate calculation
       if (!p.loaded && p.config.lazy) return c
       const num = p.checked ? 1 : p.indeterminate ? 0.5 : 0
       return c + num
     }, 0)
 
-    // In lazy mode, if the node hasn't loaded its children yet,
-    // preserve the checked state so that "select all" works correctly.
-    // When children are loaded later, they will inherit this state.
+    // preserve checked state for unloaded lazy nodes — select-all depends on it
     if (!this.loaded && this.config.lazy) {
       this.checked = checked
       this.indeterminate = false

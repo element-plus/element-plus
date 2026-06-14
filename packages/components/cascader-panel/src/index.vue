@@ -143,11 +143,15 @@ const lazyLoad: ElCascaderPanelContext['lazyLoad'] = (node, cb) => {
     dataList && store?.appendNodes(dataList, parent as Node)
     dataList && cb?.(dataList)
 
-    // If parent node was checked before children loaded (e.g. via select all),
-    // propagate the checked state to newly loaded children
-    if (parent && parent.checked && dataList?.length) {
-      parent.broadcast(true)
-      parent.onChildCheck()
+    if (
+      parent?.checked &&
+      config.value.multiple &&
+      !config.value.checkStrictly
+    ) {
+      if (dataList?.length) {
+        parent.broadcast(true)
+        parent.emit()
+      }
       calculateCheckedValue()
     }
 
@@ -217,6 +221,15 @@ const getCheckedNodes = (leafOnly: boolean) => {
 
 const clearCheckedNodes = () => {
   checkedNodes.value.forEach((node) => node.doCheck(false))
+  // clear hidden checked state on unloaded lazy nodes not tracked in checkedNodes
+  const allNodes = store?.getFlattedNodes(false) || []
+  const checkedSet = new Set(checkedNodes.value)
+  allNodes.forEach((node) => {
+    if (node.checked && !checkedSet.has(node)) {
+      node.checked = false
+      node.indeterminate = false
+    }
+  })
   calculateCheckedValue()
   menus.value = menus.value.slice(0, 1)
   expandingNode.value = undefined
