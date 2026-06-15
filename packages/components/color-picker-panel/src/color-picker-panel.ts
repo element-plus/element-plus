@@ -1,10 +1,5 @@
 import { isNil } from 'lodash-unified'
-import {
-  ClassValue,
-  buildProps,
-  definePropType,
-  isString,
-} from '@element-plus/utils'
+import { buildProps, definePropType, isString } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
 import type {
@@ -14,6 +9,7 @@ import type {
   StyleValue,
 } from 'vue'
 import type { ColorFormats } from '@ctrl/tinycolor'
+import type { ClassValue } from '@element-plus/utils'
 import type ColorPickerPanel from './color-picker-panel.vue'
 import type Color from './utils/color'
 
@@ -105,7 +101,7 @@ export const colorPickerPanelProps = buildProps({
    * @description class names will be passed to <hue-slider />
    */
   hueSliderClass: {
-    type: definePropType<ClassValue>([String, Array, Object]),
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
   },
   /**
    * @description styles will be passed to <hue-slider />

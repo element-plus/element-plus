@@ -204,7 +204,7 @@ export const timeSelectProps = buildProps({
    * @description custom class name for TimeSelect's dropdown
    */
   popperClass: {
-    type: definePropType<ClassValue>([String, Array, Object]),
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
     default: '',
   },
   /**

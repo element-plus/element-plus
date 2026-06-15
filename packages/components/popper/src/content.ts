@@ -1,8 +1,9 @@
 import { placements } from '@popperjs/core'
-import { ClassValue, buildProps, definePropType } from '@element-plus/utils'
+import { buildProps, definePropType } from '@element-plus/utils'
 import { useAriaProps } from '@element-plus/hooks'
 import { popperArrowProps, popperArrowPropsDefaults } from './arrow'
 
+import type { ClassValue } from '@element-plus/utils'
 import type { PopperEffect } from './popper'
 import type { ExtractPublicPropTypes, StyleValue } from 'vue'
 import type { Options, Placement } from '@popperjs/core'
@@ -123,7 +124,7 @@ export const popperContentProps = buildProps({
     default: undefined,
   },
   className: {
-    type: definePropType<ClassValue>([String, Array, Object]),
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
   },
   effect: {
     type: definePropType<PopperEffect>(String),
@@ -138,7 +139,7 @@ export const popperContentProps = buildProps({
   focusOnShow: Boolean,
   trapping: Boolean,
   popperClass: {
-    type: definePropType<ClassValue>([String, Array, Object]),
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
   },
   popperStyle: {
     type: definePropType<StyleValue>([String, Array, Object, Boolean]),

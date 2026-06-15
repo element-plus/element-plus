@@ -9,7 +9,6 @@ import {
 } from 'vue'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 import {
-  ClassValue,
   buildProps,
   debugWarn,
   definePropType,
@@ -33,6 +32,7 @@ import Jumper from './components/jumper.vue'
 import Total from './components/total.vue'
 import Pager from './components/pager.vue'
 
+import type { ClassValue } from '@element-plus/utils'
 import type {
   CSSProperties,
   ExtractPropTypes,
@@ -117,7 +117,7 @@ export const paginationProps = buildProps({
    * @description custom class name for the page size Select's dropdown
    */
   popperClass: {
-    type: definePropType<ClassValue>([String, Array, Object]),
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
     default: '',
   },
   /**

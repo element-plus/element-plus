@@ -1,11 +1,7 @@
-import {
-  ClassValue,
-  buildProps,
-  definePropType,
-  mutable,
-} from '@element-plus/utils'
+import { buildProps, definePropType, mutable } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
 
+import type { ClassValue } from '@element-plus/utils'
 import type {
   CSSProperties,
   ExtractPropTypes,
@@ -23,7 +19,7 @@ export const paginationSizesProps = buildProps({
     default: () => mutable([10, 20, 30, 40, 50, 100] as const),
   },
   popperClass: {
-    type: definePropType<ClassValue>([String, Array, Object]),
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
   },
   popperStyle: {
     type: definePropType<string | CSSProperties>([String, Object]),

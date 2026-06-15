@@ -17,7 +17,6 @@ import { isNil } from 'lodash-unified'
 import ElIcon from '@element-plus/components/icon'
 import { More } from '@element-plus/icons-vue'
 import {
-  ClassValue,
   buildProps,
   definePropType,
   flattedChildren,
@@ -36,6 +35,7 @@ import ElSubMenu from './sub-menu'
 import { useMenuCssVar } from './use-menu-css-var'
 import { MENU_INJECTION_KEY, SUB_MENU_INJECTION_KEY } from './tokens'
 
+import type { ClassValue } from '@element-plus/utils'
 import type { PopperEffect } from '@element-plus/components/popper'
 import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
@@ -150,7 +150,9 @@ export const menuProps = buildProps({
   /**
    * @description custom class name for all popup menus
    */
-  popperClass: { type: definePropType<ClassValue>([String, Array, Object]) },
+  popperClass: {
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
+  },
   /**
    * @description custom style for all popup menus
    */
