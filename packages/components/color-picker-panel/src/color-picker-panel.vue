@@ -10,6 +10,7 @@
           { label: t('el.colorpicker.solid'), value: 'solid' },
           { label: t('el.colorpicker.gradient'), value: 'gradient' },
         ]"
+        :disabled="disabled"
         @change="handleSegmentedChange"
       />
     </div>
