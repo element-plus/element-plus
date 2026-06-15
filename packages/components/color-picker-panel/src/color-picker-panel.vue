@@ -6,6 +6,7 @@
     <div v-if="showGradient" :class="ns.e('gradient-toggle')">
       <el-segmented
         v-model="colorState"
+        size="small"
         :options="[
           { label: t('el.colorpicker.solid'), value: 'solid' },
           { label: t('el.colorpicker.gradient'), value: 'gradient' },
