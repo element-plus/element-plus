@@ -76,7 +76,7 @@ export interface FormItemContext extends FormItemProps {
   addInputId: (id: string) => void
   removeInputId: (id: string) => void
   validate: (
-    trigger: 'change' | 'blur' | '',
+    trigger: 'change' | 'blur' | (string & NonNullable<unknown>),
     callback?: FormValidateCallback
   ) => FormValidationResult
   resetField(): void
