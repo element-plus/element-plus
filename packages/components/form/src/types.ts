@@ -17,7 +17,7 @@ import type { useFormLabelWidth } from './utils'
 
 export type FormLabelWidthContext = ReturnType<typeof useFormLabelWidth>
 export interface FormItemRule extends RuleItem {
-  trigger?: Arrayable<'change' | 'blur'>
+  trigger?: Arrayable<'change' | 'blur' | (string & NonNullable<unknown>)>
 }
 
 type FormRuleValue<V> = V extends any[]
