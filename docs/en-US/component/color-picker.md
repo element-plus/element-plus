@@ -23,6 +23,16 @@ color-picker/alpha
 
 :::
 
+## Gradient
+
+The `show-gradient` attribute determines if the color picker can show gradient function.
+
+:::demo
+
+color-picker/gradient
+
+:::
+
 ## Predefined colors
 
 :::demo ColorPicker supports predefined color options
