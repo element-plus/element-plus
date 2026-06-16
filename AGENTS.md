@@ -55,7 +55,7 @@ Element Plus is a Vue 3 UI component library written in TypeScript. This repo is
 ## Documentation And API
 
 - Public API changes should include matching docs updates under `docs`.
-- When documenting a new API, always add a version tag using the existing docs style, unless the user explicitly asks otherwise. Calculate the version tag from the current Element Plus version: increment the patch version for non-breaking changes; increment the minor version and reset the patch version to zero for breaking changes. For example, from `2.10.0`, use `2.10.1` for a non-breaking change and `2.11.0` for a breaking change.
+- When documenting a new API, always add a version tag using the existing docs style, unless the user explicitly asks otherwise. Fetch the latest Element Plus version from the newest GitHub Release tag, strip any leading `v`, then calculate the version tag from that version: increment the patch version for non-breaking changes; increment the minor version and reset the patch version to zero for breaking changes. For example, from `2.10.0`, use `2.10.1` for a non-breaking change and `2.11.0` for a breaking change.
 - Keep prop, event, slot, and expose typings in sync with implementation behavior.
 - Locale-facing text should go through the existing locale package patterns.
 
