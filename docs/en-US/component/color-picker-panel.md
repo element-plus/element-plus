@@ -51,6 +51,16 @@ color-picker-panel/disabled
 
 :::
 
+## Gradient
+
+The `show-gradient` attribute determines if the color picker can show gradient function.
+
+:::demo
+
+color-picker-panel/gradient
+
+:::
+
 ## API
 
 ### Attributes
