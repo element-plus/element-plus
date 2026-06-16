@@ -66,6 +66,7 @@ export const subMenuProps = buildProps({
    */
   popperClass: {
     type: definePropType<ClassValue>([String, Array, Object, Boolean]),
+    default: undefined,
   },
   /**
    * @description custom style for the popup menu
