@@ -18,6 +18,10 @@ export default {
       svDescription:
         'saturation {saturation}, luminosité {brightness}, couleur actuelle {color}',
       predefineDescription: 'Choisir {value} comme couleur actuelle',
+      solid: 'Solid', // to be translated
+      gradient: 'Gradient', // to be translated
+      startColor: 'Start Color', // to be translated
+      endColor: 'End Color', // to be translated
     },
     datepicker: {
       now: 'Maintenant',
