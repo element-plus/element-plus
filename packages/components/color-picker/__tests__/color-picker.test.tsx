@@ -783,7 +783,7 @@ describe('Color-picker', () => {
       expect(colorPickerWrapper.vm.color.isGradient).toBe(true)
 
       // Manually clear the color
-      color.value = null
+      color.value = ''
       await nextTick()
 
       // Check that gradient state is reset
