@@ -56,7 +56,7 @@ const hasVerticalGap = computed(
 )
 
 const barStyle = computed(() => {
-  if (!props.vertical) return undefined
+  if (!hasVerticalGap.value) return undefined
 
   return {
     top: `${GAP / 2 + (props.startGap ?? 0)}px`,

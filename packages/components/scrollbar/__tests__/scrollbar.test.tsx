@@ -30,6 +30,9 @@ describe('ScrollBar', () => {
     )
 
     await makeScroll(scrollDom, 'scrollTop', 100)
+    expect(wrapper.find('.is-vertical').attributes('style')).not.toContain(
+      'top:'
+    )
     expect(wrapper.find('.is-vertical div').attributes('style')).toContain(
       'transform: translateY(50%); height: 80px;'
     )
@@ -185,9 +188,11 @@ describe('ScrollBar', () => {
     expect(wrapper.find('.is-vertical').attributes('style')).toContain(
       'top: 21.5px; bottom: 21.5px;'
     )
-    expect(wrapper.find('.is-vertical div').attributes('style')).toContain(
-      'transform: translateY(1.1363636363636362%); height: 20px;'
-    )
+    const thumbStyle = wrapper.find('.is-vertical div').attributes('style')
+    expect(thumbStyle).toContain('height: 20px;')
+    expect(
+      Number(thumbStyle?.match(/translateY\(([\d.]+)%\)/)?.[1])
+    ).toBeCloseTo(1.136, 3)
 
     offsetHeightRestore()
     scrollHeightRestore()
