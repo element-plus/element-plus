@@ -2892,6 +2892,51 @@ describe('Table.vue', () => {
     expect(wrapper.find('.el-table__body tbody').exists()).toBeTruthy()
   })
 
+  it('should show fixed column shadow when table-layout is auto and content overflows', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+        <div style="width: 400px">
+          <el-table ref="tableRef" :data="testData" table-layout="auto">
+            <el-table-column prop="date" label="Date" fixed="left" />
+            <el-table-column prop="name" label="Name" />
+            <el-table-column prop="address" label="Address" />
+            <el-table-column prop="action" label="Action" fixed="right" />
+          </el-table>
+        </div>
+      `,
+      created() {
+        this.testData = [
+          {
+            date: '2016-05-03',
+            name: 'Tom',
+            address:
+              'No. 189, Grove St, Los Angeles No. 189, Grove St, Los Angeles No. 189, Grove St, Los Angeles',
+            action: 'test',
+          },
+        ]
+      },
+    })
+    await doubleWait()
+    const tableRef = wrapper.vm.$refs.tableRef as InstanceType<typeof ElTable>
+    const wrapRef = tableRef.scrollBarRef?.wrapRef as HTMLElement
+    Object.defineProperty(wrapRef, 'scrollWidth', {
+      configurable: true,
+      value: 1000,
+    })
+    Object.defineProperty(wrapRef, 'offsetWidth', {
+      configurable: true,
+      value: 400,
+    })
+    tableRef.doLayout()
+    await rAF()
+    expect(tableRef.$el.classList.contains('is-scrolling-left')).toBe(true)
+    expect(tableRef.$el.classList.contains('is-scrolling-none')).toBe(false)
+  })
+
   it('automatic minimum size of flex-items', async () => {
     const wrapper = mount({
       components: {

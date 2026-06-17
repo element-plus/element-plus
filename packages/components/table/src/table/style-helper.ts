@@ -159,12 +159,17 @@ function useStyle<T extends DefaultRow>(
     })
     table.$ready = true
   })
+  const hasHorizontalScroll = () => {
+    if (layout.scrollX.value) return true
+    const wrapRef = table.refs.scrollBarRef?.wrapRef
+    return wrapRef ? wrapRef.scrollWidth > wrapRef.offsetWidth : false
+  }
   const setScrollClassByEl = (el: HTMLElement, className: string) => {
     if (!el) return
     const classList = Array.from(el.classList).filter(
       (item) => !item.startsWith('is-scrolling-')
     )
-    classList.push(layout.scrollX.value ? className : 'is-scrolling-none')
+    classList.push(hasHorizontalScroll() ? className : 'is-scrolling-none')
     el.className = classList.join(' ')
   }
   const setScrollClass = (className: string) => {
@@ -177,7 +182,7 @@ function useStyle<T extends DefaultRow>(
   }
   const syncPosition = function () {
     if (!table.refs.scrollBarRef) return
-    if (!layout.scrollX.value) {
+    if (!hasHorizontalScroll()) {
       const scrollingNoneClass = 'is-scrolling-none'
       if (!hasScrollClass(scrollingNoneClass)) {
         setScrollClass(scrollingNoneClass)
