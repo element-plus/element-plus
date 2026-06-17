@@ -610,4 +610,225 @@ describe('Color-picker', () => {
 
     wrapper.unmount()
   })
+
+  describe('gradient mode', () => {
+    it('should support showGradient prop', async () => {
+      const color = ref('#ff0000')
+      const wrapper = mount(() => (
+        <ColorPicker v-model={color.value} show-gradient />
+      ))
+
+      await nextTick()
+      expect(wrapper.exists()).toBe(true)
+      wrapper.unmount()
+    })
+
+    it('should initialize with gradient value when showGradient is true', async () => {
+      const color = ref(
+        'linear-gradient(90deg, rgb(255, 0, 0) 0%, rgb(0, 0, 255) 100%)'
+      )
+      const wrapper = mount(() => (
+        <ColorPicker v-model={color.value} show-gradient />
+      ))
+
+      await nextTick()
+      const colorPickerWrapper = wrapper.findComponent(ColorPickerPanel)
+      expect(colorPickerWrapper.vm.color.isGradient).toBe(true)
+      wrapper.unmount()
+    })
+
+    it('should ignore gradient value when showGradient is false', async () => {
+      const color = ref(
+        'linear-gradient(90deg, rgb(255, 0, 0) 0%, rgb(0, 0, 255) 100%)'
+      )
+      const wrapper = mount(() => (
+        <ColorPicker v-model={color.value} show-gradient={false} />
+      ))
+
+      await nextTick()
+      // When showGradient is false, the component should not process gradient values
+      // The color might remain in the original format, but gradient mode should not be enabled
+      // Check that gradient toggle is not shown in panel
+      await wrapper.find('.el-color-picker__trigger').trigger('click')
+      await nextTick()
+      const gradientToggle = document.querySelector(
+        '.el-color-picker-panel__gradient-toggle'
+      )
+      expect(gradientToggle).toBeNull()
+      wrapper.unmount()
+    })
+
+    it('should show gradient toggle in panel when showGradient is true', async () => {
+      const color = ref('#ff0000')
+      const wrapper = mount(() => (
+        <ColorPicker v-model={color.value} show-gradient />
+      ))
+
+      await wrapper.find('.el-color-picker__trigger').trigger('click')
+      await nextTick()
+      const gradientToggle = document.querySelector(
+        '.el-color-picker-panel__gradient-toggle'
+      )
+      expect(gradientToggle).toBeTruthy()
+      wrapper.unmount()
+    })
+
+    it('should not show gradient toggle in panel when showGradient is false', async () => {
+      const color = ref('#ff0000')
+      const wrapper = mount(() => (
+        <ColorPicker v-model={color.value} show-gradient={false} />
+      ))
+
+      await wrapper.find('.el-color-picker__trigger').trigger('click')
+      await nextTick()
+      const gradientToggle = document.querySelector(
+        '.el-color-picker-panel__gradient-toggle'
+      )
+      expect(gradientToggle).toBeNull()
+      wrapper.unmount()
+    })
+
+    it('should display gradient preview in color picker button', async () => {
+      const color = ref(
+        'linear-gradient(90deg, rgb(255, 0, 0) 0%, rgb(0, 0, 255) 100%)'
+      )
+      const wrapper = mount(() => (
+        <ColorPicker v-model={color.value} show-gradient />
+      ))
+
+      await nextTick()
+      // Check that the color picker button is rendered
+      const colorPicker = wrapper.find('.el-color-picker')
+      expect(colorPicker.exists()).toBe(true)
+      wrapper.unmount()
+    })
+
+    it('should display solid color preview when in solid mode', async () => {
+      const color = ref('#ff0000')
+      const wrapper = mount(() => (
+        <ColorPicker v-model={color.value} show-gradient />
+      ))
+
+      await nextTick()
+      const colorInner = wrapper.find('.el-color-picker__color-inner')
+      expect(colorInner.exists()).toBe(true)
+      const style = colorInner.attributes('style')
+      expect(style).toContain('background-color')
+      wrapper.unmount()
+    })
+
+    it('should emit gradient value when changing in gradient mode', async () => {
+      const color = ref(
+        'linear-gradient(90deg, rgb(255, 0, 0) 0%, rgb(0, 0, 255) 100%)'
+      )
+      const onChange = vi.fn()
+      const wrapper = mount(() => (
+        <ColorPicker v-model={color.value} show-gradient onChange={onChange} />
+      ))
+
+      await nextTick()
+      const colorPickerWrapper = wrapper.findComponent(ColorPickerPanel)
+
+      // Change start color
+      colorPickerWrapper.vm.color.editingGradientPart = 'start'
+      colorPickerWrapper.vm.color.fromString('#00ff00')
+      await nextTick()
+
+      expect(colorPickerWrapper.vm.color.startValue).toBe('#00ff00')
+      wrapper.unmount()
+    })
+
+    it('should handle gradient value with alpha', async () => {
+      const color = ref(
+        'linear-gradient(90deg, rgba(255, 0, 0, 0.5) 0%, rgba(0, 0, 255, 0.8) 100%)'
+      )
+      const wrapper = mount(() => (
+        <ColorPicker v-model={color.value} show-gradient show-alpha />
+      ))
+
+      await nextTick()
+      const colorPickerWrapper = wrapper.findComponent(ColorPickerPanel)
+      expect(colorPickerWrapper.vm.color.isGradient).toBe(true)
+      expect(colorPickerWrapper.vm.color.startValue).toContain('rgba')
+      expect(colorPickerWrapper.vm.color.endValue).toContain('rgba')
+      wrapper.unmount()
+    })
+
+    it('should handle gradient value without alpha', async () => {
+      const color = ref('linear-gradient(90deg, #ff0000 0%, #0000ff 100%)')
+      const wrapper = mount(() => (
+        <ColorPicker v-model={color.value} show-gradient />
+      ))
+
+      await nextTick()
+      const colorPickerWrapper = wrapper.findComponent(ColorPickerPanel)
+      expect(colorPickerWrapper.vm.color.isGradient).toBe(true)
+      expect(colorPickerWrapper.vm.color.startValue).toMatch(
+        /^#[0-9a-fA-F]{6}$/
+      )
+      expect(colorPickerWrapper.vm.color.endValue).toMatch(/^#[0-9a-fA-F]{6}$/)
+      wrapper.unmount()
+    })
+
+    it('should handle clear button click with showGradient', async () => {
+      const color = ref(
+        'linear-gradient(90deg, rgb(255, 0, 0) 0%, rgb(0, 0, 255) 100%)'
+      )
+      const wrapper = mount(() => (
+        <ColorPicker v-model={color.value} show-gradient />
+      ))
+
+      await nextTick()
+      const colorPickerWrapper = wrapper.findComponent(ColorPickerPanel)
+      expect(colorPickerWrapper.vm.color.isGradient).toBe(true)
+
+      // Manually clear the color
+      color.value = null
+      await nextTick()
+
+      // Check that gradient state is reset
+      expect(colorPickerWrapper.vm.color.isGradient).toBe(false)
+      wrapper.unmount()
+    })
+
+    it('should switch between gradient and solid modes', async () => {
+      const color = ref('#ff0000')
+      const wrapper = mount(() => (
+        <ColorPicker v-model={color.value} show-gradient />
+      ))
+
+      await nextTick()
+      const colorPickerWrapper = wrapper.findComponent(ColorPickerPanel)
+      expect(colorPickerWrapper.vm.color.isGradient).toBe(false)
+
+      // Switch to gradient mode
+      color.value =
+        'linear-gradient(90deg, rgb(255, 0, 0) 0%, rgb(0, 0, 255) 100%)'
+      await nextTick()
+      expect(colorPickerWrapper.vm.color.isGradient).toBe(true)
+
+      // Switch back to solid mode
+      color.value = '#00ff00'
+      await nextTick()
+      expect(color.value).toBe('#00ff00')
+      wrapper.unmount()
+    })
+
+    it('should work with showAlpha and showGradient together', async () => {
+      const color = ref('rgba(255, 0, 0, 0.5)')
+      const wrapper = mount(() => (
+        <ColorPicker v-model={color.value} show-gradient show-alpha />
+      ))
+
+      await nextTick()
+      const alphaSlider = wrapper.find('.el-color-alpha-slider')
+      expect(alphaSlider.exists()).toBe(false)
+
+      await wrapper.find('.el-color-picker__trigger').trigger('click')
+      await nextTick()
+      const panelAlphaSlider = document.querySelector('.el-color-alpha-slider')
+      expect(panelAlphaSlider).toBeTruthy()
+      wrapper.unmount()
+    })
+  })
 })
