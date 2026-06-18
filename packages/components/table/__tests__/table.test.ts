@@ -2892,7 +2892,7 @@ describe('Table.vue', () => {
     expect(wrapper.find('.el-table__body tbody').exists()).toBeTruthy()
   })
 
-  it('should show fixed column shadow when table-layout is auto and content overflows', async () => {
+  it('should show fixed column shadow when scrollX is false but DOM overflows', async () => {
     const wrapper = mount({
       components: {
         ElTable,
@@ -2923,6 +2923,8 @@ describe('Table.vue', () => {
     await doubleWait()
     const tableRef = wrapper.vm.$refs.tableRef as InstanceType<typeof ElTable>
     const wrapRef = tableRef.scrollBarRef?.wrapRef as HTMLElement
+
+    tableRef.layout.scrollX.value = false
     Object.defineProperty(wrapRef, 'scrollWidth', {
       configurable: true,
       value: 1000,
@@ -2931,8 +2933,18 @@ describe('Table.vue', () => {
       configurable: true,
       value: 400,
     })
-    tableRef.doLayout()
-    await rAF()
+
+    expect(tableRef.layout.scrollX.value).toBe(false)
+    expect(wrapRef.scrollWidth).toBeGreaterThan(wrapRef.offsetWidth)
+
+    tableRef.$el.classList.remove(
+      'is-scrolling-left',
+      'is-scrolling-middle',
+      'is-scrolling-right'
+    )
+    tableRef.$el.classList.add('is-scrolling-none')
+
+    triggerEvent(wrapRef, 'scroll')
     expect(tableRef.$el.classList.contains('is-scrolling-left')).toBe(true)
     expect(tableRef.$el.classList.contains('is-scrolling-none')).toBe(false)
   })
