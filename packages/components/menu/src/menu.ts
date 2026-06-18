@@ -152,6 +152,7 @@ export const menuProps = buildProps({
    */
   popperClass: {
     type: definePropType<ClassValue>([String, Array, Object, Boolean]),
+    default: undefined,
   },
   /**
    * @description custom style for all popup menus
