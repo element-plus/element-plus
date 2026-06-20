@@ -100,7 +100,7 @@
     "rimraf": "^6.1.3",
     "tinyglobby": "^0.2.17",
     "tsx": "catalog:",
-    "typescript": "~6.0.3",
+    "typescript": "catalog:",
     "vitest": "^4.1.9",
     "vue": "catalog:",
     "vue-router": "^5.1.0",
