@@ -48,3 +48,6 @@ shellEmulator: true
 strictPeerDependencies: false
 
 minimumReleaseAge: 1440
+minimumReleaseAgeExclude:
+  - 'element-plus'
+  - '@element-plus/*'
