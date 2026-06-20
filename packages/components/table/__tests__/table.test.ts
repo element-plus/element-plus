@@ -3013,8 +3013,10 @@ describe('Table.vue', () => {
     tableRef.$el.classList.add('is-scrolling-none')
 
     triggerEvent(wrapRef, 'scroll')
-    // Once horizontal scrollability is detected, syncPosition must drop the
-    // is-scrolling-none class so fixed-column shadows become visible.
+    // Once horizontal scrollability is detected, syncPosition must use
+    // clientWidth so scrollLeft 0 is classified as is-scrolling-left rather
+    // than is-scrolling-right, keeping fixed-column shadows correct.
+    expect(tableRef.$el.classList.contains('is-scrolling-left')).toBe(true)
     expect(tableRef.$el.classList.contains('is-scrolling-none')).toBe(false)
   })
 
