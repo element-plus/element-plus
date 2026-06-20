@@ -2927,15 +2927,17 @@ describe('Table.vue', () => {
     tableRef.layout.scrollX.value = false
     Object.defineProperty(wrapRef, 'scrollWidth', {
       configurable: true,
-      value: 1000,
+      get: () => 1000,
     })
     Object.defineProperty(wrapRef, 'offsetWidth', {
       configurable: true,
-      value: 400,
+      get: () => 400,
     })
 
-    expect(tableRef.layout.scrollX.value).toBe(false)
     expect(wrapRef.scrollWidth).toBeGreaterThan(wrapRef.offsetWidth)
+
+    tableRef.layout.updateColumnsWidth()
+    expect(tableRef.layout.scrollX.value).toBe(true)
 
     tableRef.$el.classList.remove(
       'is-scrolling-left',
