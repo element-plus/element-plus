@@ -29,9 +29,32 @@ jobs:
           node-version: 24
           cache: 'pnpm'
 
-      - uses: preactjs/compressed-size-action@66325aad6443cb7cf89c4bfcd414aea2367cda94 # 2.9.1
+      - uses: preactjs/compressed-size-action@55bc26418aac9d1e7ee232255af3e3e9523ba23b
+        id: compressed-size
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           pattern: './dist/element-plus/dist/*.{js,mjs,css}'
         env:
           NODE_OPTIONS: --max-old-space-size=4096
+
+      - name: Save comment body
+        env:
+          COMMENT_BODY: ${{ steps.compressed-size.outputs.comment-body }}
+        run: printf '%s\n' "$COMMENT_BODY" > ./compressed-size-comment.md
+
+      - name: Save PR number
+        env:
+          PULL_REQUEST_NUMBER: ${{ github.event.number }}
+        run: echo "$PULL_REQUEST_NUMBER" > ./compressed-size-pr-number.txt
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: compressed-size-comment
+          path: ./compressed-size-comment.md
+          retention-days: 1
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: compressed-size-pr-number
+          path: ./compressed-size-pr-number.txt
+          retention-days: 1
