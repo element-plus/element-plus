@@ -13,11 +13,7 @@ import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { defaultProps } from '@element-plus/components/select-v2/src/useProps'
 
 import type { ClassValue, EmitFn } from '@element-plus/utils'
-import type {
-  CSSProperties,
-  ExtractPropTypes,
-  ExtractPublicPropTypes,
-} from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes, StyleValue } from 'vue'
 import type Select from './select.vue'
 import type {
   Options,
@@ -35,8 +31,8 @@ export interface TagTooltipProps {
   placement?: Placement
   fallbackPlacements?: Placement[]
   effect?: PopperEffect
-  popperClass?: string
-  popperStyle?: string | CSSProperties
+  popperClass?: ClassValue
+  popperStyle?: StyleValue
   transition?: string
   teleported?: boolean
   popperOptions?: Partial<Options>
@@ -124,7 +120,8 @@ export const selectProps = buildProps({
    * @description custom style for Select's dropdown
    */
   popperStyle: {
-    type: definePropType<string | CSSProperties>([String, Object]),
+    type: definePropType<StyleValue>([String, Array, Object, Boolean]),
+    default: undefined,
   },
   /**
    * @description [popper.js](https://popper.js.org/docs/v2/) parameters

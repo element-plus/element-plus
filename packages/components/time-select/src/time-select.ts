@@ -5,7 +5,7 @@ import { useEmptyValuesProps, useSizeProp } from '@element-plus/hooks'
 import type { UseEmptyValuesProps } from '@element-plus/hooks'
 import type { PopperEffect } from '@element-plus/components/popper'
 import type TimeSelect from './time-select.vue'
-import type { CSSProperties, Component, ExtractPublicPropTypes } from 'vue'
+import type { Component, ExtractPublicPropTypes, StyleValue } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type { ClassValue, IconPropType } from '@element-plus/utils'
 
@@ -85,7 +85,7 @@ export interface TimeSelectProps extends UseEmptyValuesProps {
   /**
    * @description custom style for TimeSelect's dropdown
    */
-  popperStyle?: string | CSSProperties
+  popperStyle?: StyleValue
 }
 
 export const DEFAULT_START = '09:00'
@@ -211,7 +211,8 @@ export const timeSelectProps = buildProps({
    * @description custom style for TimeSelect's dropdown
    */
   popperStyle: {
-    type: definePropType<string | CSSProperties>([String, Object]),
+    type: definePropType<StyleValue>([String, Array, Object, Boolean]),
+    default: undefined,
   },
   ...useEmptyValuesProps,
 } as const)

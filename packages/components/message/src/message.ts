@@ -7,14 +7,14 @@ import {
 } from '@element-plus/utils'
 
 import type { AppContext, ExtractPublicPropTypes, VNode } from 'vue'
-import type { IconPropType, Mutable } from '@element-plus/utils'
+import type { ClassValue, IconPropType, Mutable } from '@element-plus/utils'
 import type MessageConstructor from './message.vue'
 
 export interface MessageProps {
   /**
    * @description custom class name for Message
    */
-  customClass?: string
+  customClass?: ClassValue
   /**
    * @description whether `message` is treated as HTML string
    */
@@ -134,7 +134,7 @@ export const messageProps = buildProps({
    * @description custom class name for Message
    */
   customClass: {
-    type: String,
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
     default: messageDefaults.customClass,
   },
   /**

@@ -2,11 +2,7 @@ import { buildProps, definePropType, mutable } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
 
 import type { ClassValue } from '@element-plus/utils'
-import type {
-  CSSProperties,
-  ExtractPropTypes,
-  ExtractPublicPropTypes,
-} from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes, StyleValue } from 'vue'
 import type Sizes from './sizes.vue'
 
 export const paginationSizesProps = buildProps({
@@ -20,9 +16,11 @@ export const paginationSizesProps = buildProps({
   },
   popperClass: {
     type: definePropType<ClassValue>([String, Array, Object, Boolean]),
+    default: undefined,
   },
   popperStyle: {
-    type: definePropType<string | CSSProperties>([String, Object]),
+    type: definePropType<StyleValue>([String, Array, Object, Boolean]),
+    default: undefined,
   },
   disabled: Boolean,
   teleported: Boolean,

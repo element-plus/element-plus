@@ -140,6 +140,7 @@ export const popperContentProps = buildProps({
   trapping: Boolean,
   popperClass: {
     type: definePropType<ClassValue>([String, Array, Object, Boolean]),
+    default: undefined,
   },
   popperStyle: {
     type: definePropType<StyleValue>([String, Array, Object, Boolean]),
@@ -191,6 +192,7 @@ export const popperContentPropsDefaults = {
   loop: false,
   style: undefined,
   popperStyle: undefined,
+  popperClass: undefined,
 } as const
 
 export const popperContentEmits = {

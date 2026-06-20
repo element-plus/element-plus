@@ -33,7 +33,7 @@ export declare interface MessageBoxState {
   type: MessageType
   icon: string | Component
   closeIcon: string | Component
-  customClass: string
+  customClass: string // todo: use ClassValue, TS Error: ts-plugin(2589)
   customStyle: CSSProperties
   showInput: boolean
   inputValue: string
