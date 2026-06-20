@@ -29,7 +29,7 @@ jobs:
           node-version: 24
           cache: 'pnpm'
 
-      - uses: preactjs/compressed-size-action@55bc26418aac9d1e7ee232255af3e3e9523ba23b
+      - uses: preactjs/compressed-size-action@f322c295dde06a1cb7ccaef105732dd8a726d1d9 # 2.10.0
         id: compressed-size
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
