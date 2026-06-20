@@ -217,7 +217,7 @@ class TableLayout<T extends DefaultRow> {
     const wrapRef = this.table.refs.scrollBarRef?.wrapRef
     if (wrapRef) {
       this.scrollX.value =
-        this.scrollX.value || wrapRef.scrollWidth > wrapRef.offsetWidth
+        this.scrollX.value || wrapRef.scrollWidth > wrapRef.clientWidth
     }
 
     const fixedColumns = this.store.states.fixedColumns.value

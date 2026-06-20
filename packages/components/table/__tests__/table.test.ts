@@ -2951,6 +2951,73 @@ describe('Table.vue', () => {
     expect(tableRef.$el.classList.contains('is-scrolling-none')).toBe(false)
   })
 
+  it('should detect overflow against client width when scrollbar gutter is present', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+        <div style="width: 400px">
+          <el-table ref="tableRef" :data="testData" table-layout="auto">
+            <el-table-column prop="date" label="Date" fixed="left" />
+            <el-table-column prop="name" label="Name" />
+            <el-table-column prop="address" label="Address" />
+            <el-table-column prop="action" label="Action" fixed="right" />
+          </el-table>
+        </div>
+      `,
+      created() {
+        this.testData = [
+          {
+            date: '2016-05-03',
+            name: 'Tom',
+            address:
+              'No. 189, Grove St, Los Angeles No. 189, Grove St, Los Angeles No. 189, Grove St, Los Angeles',
+            action: 'test',
+          },
+        ]
+      },
+    })
+    await doubleWait()
+    const tableRef = wrapper.vm.$refs.tableRef as InstanceType<typeof ElTable>
+    const wrapRef = tableRef.scrollBarRef?.wrapRef as HTMLElement
+
+    tableRef.layout.scrollX.value = false
+    // Overflow is smaller than the native scrollbar gutter:
+    // scrollWidth > clientWidth but scrollWidth <= offsetWidth
+    Object.defineProperty(wrapRef, 'scrollWidth', {
+      configurable: true,
+      get: () => 415,
+    })
+    Object.defineProperty(wrapRef, 'clientWidth', {
+      configurable: true,
+      get: () => 400,
+    })
+    Object.defineProperty(wrapRef, 'offsetWidth', {
+      configurable: true,
+      get: () => 417,
+    })
+
+    expect(wrapRef.scrollWidth).toBeGreaterThan(wrapRef.clientWidth)
+    expect(wrapRef.scrollWidth).toBeLessThanOrEqual(wrapRef.offsetWidth)
+
+    tableRef.layout.updateColumnsWidth()
+    expect(tableRef.layout.scrollX.value).toBe(true)
+
+    tableRef.$el.classList.remove(
+      'is-scrolling-left',
+      'is-scrolling-middle',
+      'is-scrolling-right'
+    )
+    tableRef.$el.classList.add('is-scrolling-none')
+
+    triggerEvent(wrapRef, 'scroll')
+    // Once horizontal scrollability is detected, syncPosition must drop the
+    // is-scrolling-none class so fixed-column shadows become visible.
+    expect(tableRef.$el.classList.contains('is-scrolling-none')).toBe(false)
+  })
+
   it('automatic minimum size of flex-items', async () => {
     const wrapper = mount({
       components: {
