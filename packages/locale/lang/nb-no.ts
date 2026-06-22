@@ -2,22 +2,22 @@ export default {
   name: 'nb-no',
   el: {
     breadcrumb: {
-      label: 'Brødsmulesti',
+      label: 'Breadcrumb', // to be translated
     },
     colorpicker: {
       confirm: 'OK',
       clear: 'Tøm',
-      defaultLabel: 'fargevelger',
+      defaultLabel: 'color picker', // to be translated
       description:
-        'gjeldende farge er {color}. trykk enter for å velge en ny farge.',
-      alphaLabel: 'velg alfaverdi',
-      alphaDescription: 'alfa {alpha}, gjeldende farge er {color}',
-      hueLabel: 'velg fargetone',
-      hueDescription: 'fargetone {hue}, gjeldende farge er {color}',
-      svLabel: 'velg metning og lysstyrke',
+        'current color is {color}. press enter to select a new color.', // to be translated
+      alphaLabel: 'pick alpha value', // to be translated
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
+      svLabel: 'pick saturation and brightness value', // to be translated
       svDescription:
-        'metning {saturation}, lysstyrke {brightness}, gjeldende farge er {color}',
-      predefineDescription: 'velg {value} som farge',
+        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
+      predefineDescription: 'select {value} as the color', // to be translated
     },
     datepicker: {
       now: 'Nå',
@@ -25,10 +25,11 @@ export default {
       cancel: 'Avbryt',
       clear: 'Tøm',
       confirm: 'OK',
-      dateTablePrompt: 'Bruk piltastene og enter for å velge dag i måneden',
-      monthTablePrompt: 'Bruk piltastene og enter for å velge måned',
-      yearTablePrompt: 'Bruk piltastene og enter for å velge år',
-      selectedDate: 'Valgt dato',
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month', // to be translated
+      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
+      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
+      selectedDate: 'Selected date', // to be translated
       selectDate: 'Velg dato',
       selectTime: 'Velg tidspunkt',
       startDate: 'Startdato',
@@ -62,13 +63,13 @@ export default {
         sat: 'Lør',
       },
       weeksFull: {
-        sun: 'Søndag',
-        mon: 'Mandag',
-        tue: 'Tirsdag',
-        wed: 'Onsdag',
-        thu: 'Torsdag',
-        fri: 'Fredag',
-        sat: 'Lørdag',
+        sun: 'Sunday', // to be translated
+        mon: 'Monday', // to be translated
+        tue: 'Tuesday', // to be translated
+        wed: 'Wednesday', // to be translated
+        thu: 'Thursday', // to be translated
+        fri: 'Friday', // to be translated
+        sat: 'Saturday', // to be translated
       },
       months: {
         jan: 'Jan',
@@ -86,8 +87,8 @@ export default {
       },
     },
     inputNumber: {
-      decrease: 'reduser tall',
-      increase: 'øk tall',
+      decrease: 'decrease number', // to be translated
+      increase: 'increase number', // to be translated
     },
     select: {
       loading: 'Laster',
@@ -99,7 +100,7 @@ export default {
       loading: 'Laster',
     },
     dropdown: {
-      toggleDropdown: 'Veksle nedtrekksmeny',
+      toggleDropdown: 'Toggle Dropdown', // to be translated
     },
     cascader: {
       noMatch: 'Ingen samsvarende resultater',
@@ -112,27 +113,27 @@ export default {
       pagesize: '/side',
       total: 'Total {total}',
       pageClassifier: '',
-      page: 'Side',
-      prev: 'Gå til forrige side',
-      next: 'Gå til neste side',
-      currentPage: 'side {pager}',
-      prevPages: 'Forrige {pager} sider',
-      nextPages: 'Neste {pager} sider',
+      page: 'Page', // to be translated
+      prev: 'Go to previous page', // to be translated
+      next: 'Go to next page', // to be translated
+      currentPage: 'page {pager}', // to be translated
+      prevPages: 'Previous {pager} pages', // to be translated
+      nextPages: 'Next {pager} pages', // to be translated
       deprecationWarning:
-        'Utdatert bruk oppdaget, se el-pagination-dokumentasjonen for flere detaljer',
+        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
     },
     dialog: {
-      close: 'Lukk denne dialogen',
+      close: 'Close this dialog', // to be translated
     },
     drawer: {
-      close: 'Lukk denne dialogen',
+      close: 'Close this dialog', // to be translated
     },
     messagebox: {
-      title: 'Melding',
+      title: 'Message', // to be translated
       confirm: 'OK',
       cancel: 'Avbryt',
       error: 'Ugyldig input',
-      close: 'Lukk denne dialogen',
+      close: 'Close this dialog', // to be translated
     },
     upload: {
       deleteTip: 'trykk på x for å slette',
@@ -141,9 +142,9 @@ export default {
       continue: 'Fortsett',
     },
     slider: {
-      defaultLabel: 'glidebryter mellom {min} og {max}',
-      defaultRangeStartLabel: 'velg startverdi',
-      defaultRangeEndLabel: 'velg sluttverdi',
+      defaultLabel: 'slider between {min} and {max}', // to be translated
+      defaultRangeStartLabel: 'pick start value', // to be translated
+      defaultRangeEndLabel: 'pick end value', // to be translated
     },
     table: {
       emptyText: 'Ingen Data',
@@ -151,21 +152,21 @@ export default {
       resetFilter: 'Tilbakestill',
       clearFilter: 'Alle',
       sumText: 'Sum',
-      selectAllLabel: 'Velg alle rader',
-      selectRowLabel: 'Velg denne raden',
-      expandRowLabel: 'Utvid denne raden',
-      collapseRowLabel: 'Skjul denne raden',
-      sortLabel: 'Sorter etter {column}',
-      filterLabel: 'Filtrer etter {column}',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
+      sortLabel: 'Sort by {column}', // to be translated
+      filterLabel: 'Filter by {column}', // to be translated
     },
     tag: {
-      close: 'Lukk denne taggen',
+      close: 'Close this tag', // to be translated
     },
     tour: {
-      next: 'Neste',
-      previous: 'Forrige',
-      finish: 'Fullfør',
-      close: 'Lukk denne dialogen',
+      next: 'Next', // to be translated
+      previous: 'Previous', // to be translated
+      finish: 'Finish', // to be translated
+      close: 'Close this dialog', // to be translated
     },
     tree: {
       emptyText: 'Ingen Data',
@@ -189,13 +190,13 @@ export default {
       cancelButtonText: 'Nei',
     },
     carousel: {
-      leftArrow: 'Karusellpil venstre',
-      rightArrow: 'Karusellpil høyre',
-      indicator: 'Karusell bytt til indeks {index}',
+      leftArrow: 'Carousel arrow left', // to be translated
+      rightArrow: 'Carousel arrow right', // to be translated
+      indicator: 'Carousel switch to index {index}', // to be translated
     },
     inputOTP: {
-      groupLabel: 'OTP-inndata',
-      defaultLabel: 'Skriv inn OTP-tegn {index}',
+      groupLabel: 'OTP Input', // to be translated
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
     },
   },
 }
