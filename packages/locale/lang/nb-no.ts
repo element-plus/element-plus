@@ -25,8 +25,7 @@ export default {
       cancel: 'Avbryt',
       clear: 'Tøm',
       confirm: 'OK',
-      dateTablePrompt:
-        'Bruk piltastene og enter for å velge dag i måneden',
+      dateTablePrompt: 'Bruk piltastene og enter for å velge dag i måneden',
       monthTablePrompt: 'Bruk piltastene og enter for å velge måned',
       yearTablePrompt: 'Bruk piltastene og enter for å velge år',
       selectedDate: 'Valgt dato',
