@@ -455,7 +455,17 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       }
     }
     if (option) return option
-    const label = isObjectValue ? value.label : (value ?? '')
+
+    const existingSelected = states.selected.find((item) =>
+      isObjectValue
+        ? get(item.value, props.valueKey) === get(value, props.valueKey)
+        : item.value === value
+    )
+    const label = isObjectValue
+      ? value.label
+      : existingSelected
+        ? existingSelected.currentLabel
+        : (value ?? '')
     const newOption = {
       index: -1,
       value,

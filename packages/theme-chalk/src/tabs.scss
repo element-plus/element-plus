@@ -361,6 +361,14 @@
       }
     }
   }
+
+  @include m((card, border-card)) {
+    & > .#{$namespace}-tabs__header.is-left,
+    & > .#{$namespace}-tabs__header.is-right {
+      border-bottom: none;
+    }
+  }
+
   @include m((left, right)) {
     overflow: hidden;
 

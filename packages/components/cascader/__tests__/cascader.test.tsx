@@ -1410,4 +1410,40 @@ describe('Cascader.vue', () => {
     expect(firstNode.matches(':focus')).toBeTruthy()
     expect(value.value).toEqual([])
   })
+
+  test('should not reload lazy root nodes while initial load is pending', async () => {
+    vi.useFakeTimers()
+    try {
+      const lazyLoad = vi.fn((_, resolve) => {
+        setTimeout(() => {
+          resolve([
+            {
+              value: 'loaded',
+              label: 'Loaded',
+              leaf: true,
+            },
+          ])
+        }, 1000)
+      })
+      const props = {
+        lazy: true,
+        lazyLoad,
+      }
+      const wrapper = mount(() => <Cascader props={props} />)
+      const vm = wrapper.findComponent(Cascader).vm
+
+      await nextTick()
+      expect(lazyLoad).toHaveBeenCalledTimes(1)
+
+      vm.togglePopperVisible(true)
+      await nextTick()
+
+      expect(lazyLoad).toHaveBeenCalledTimes(1)
+      vi.runAllTimers()
+      await nextTick()
+      expect(lazyLoad).toHaveBeenCalledTimes(1)
+    } finally {
+      vi.useRealTimers()
+    }
+  })
 })

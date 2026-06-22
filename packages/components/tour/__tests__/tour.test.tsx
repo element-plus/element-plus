@@ -1,5 +1,5 @@
 import { defineComponent, nextTick, ref } from 'vue'
-import { mount } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import Tour from '../src/tour.vue'
 import TourStep from '../src/step.vue'
@@ -75,6 +75,124 @@ describe('Tour.vue', () => {
     expect(document.querySelector('.el-tour__title')?.innerHTML).toEqual(
       'second'
     )
+  })
+
+  test('uncontrolled current emits update and change with the new step', async () => {
+    const onChange = vi.fn()
+    const onUpdateCurrent = vi.fn()
+    const wrapper = mount(() => (
+      <Tour
+        modelValue={true}
+        onChange={onChange}
+        onUpdate:current={onUpdateCurrent}
+      >
+        <TourStep
+          title="first"
+          description="cover description."
+          nextButtonProps={{ class: 'next-btn' }}
+        />
+        <TourStep title="second" description="cover description." />
+      </Tour>
+    ))
+
+    expect(document.querySelector('.el-tour__title')?.innerHTML).toEqual(
+      'first'
+    )
+
+    const tourStepOneComponent = wrapper.getComponent(TourStep)
+    await tourStepOneComponent.find('.next-btn').trigger('click')
+    await nextTick()
+
+    expect(document.querySelector('.el-tour__title')?.innerHTML).toEqual(
+      'second'
+    )
+    expect(onUpdateCurrent).toHaveBeenCalledTimes(1)
+    expect(onUpdateCurrent).toHaveBeenCalledWith(1)
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith(1)
+  })
+
+  test('controlled current emits update before change after parent syncs', async () => {
+    const current = ref(0)
+    const events: string[] = []
+    const onChange = vi.fn((value: number) => {
+      events.push(`change:${value}`)
+    })
+    const onUpdateCurrent = vi.fn((value: number) => {
+      events.push(`update:${value}`)
+      current.value = value
+    })
+    const wrapper = mount(() => (
+      <Tour
+        modelValue={true}
+        current={current.value}
+        onChange={onChange}
+        onUpdate:current={onUpdateCurrent}
+      >
+        <TourStep
+          title="first"
+          description="cover description."
+          nextButtonProps={{ class: 'next-btn' }}
+        />
+        <TourStep title="second" description="cover description." />
+      </Tour>
+    ))
+
+    const tourStepOneComponent = wrapper.getComponent(TourStep)
+    await tourStepOneComponent.find('.next-btn').trigger('click')
+    await nextTick()
+
+    expect(document.querySelector('.el-tour__title')?.innerHTML).toEqual(
+      'second'
+    )
+    expect(events).toEqual(['update:1', 'change:1'])
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith(1)
+  })
+
+  test('controlled current (fixed value)', async () => {
+    const onChange = vi.fn()
+    const wrapper = mount({
+      setup() {
+        const current = ref(0)
+        const handleNext = () => {
+          Promise.resolve().then(() => {
+            current.value = 1
+          })
+        }
+        return () => (
+          <>
+            <Tour modelValue={true} current={current.value} onChange={onChange}>
+              <TourStep
+                title="first"
+                description="cover description."
+                nextButtonProps={{ onClick: handleNext, class: 'next-btn' }}
+              />
+              <TourStep title="second" description="cover description." />
+            </Tour>
+          </>
+        )
+      },
+    })
+
+    expect(document.querySelector('.el-tour__title')?.innerHTML).toEqual(
+      'first'
+    )
+    const tourStepOneComponent = wrapper.getComponent(TourStep)
+    const nextBtn = tourStepOneComponent.find('.next-btn')
+    nextBtn.trigger('click')
+    await nextTick()
+    // 'current' is set asynchronously, so it should still be in the first step at this point.
+    expect(document.querySelector('.el-tour__title')?.innerHTML).toEqual(
+      'first'
+    )
+    expect(onChange).not.toHaveBeenCalled()
+    await flushPromises()
+    expect(document.querySelector('.el-tour__title')?.innerHTML).toEqual(
+      'second'
+    )
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith(1)
   })
 
   test('no mask', () => {
@@ -227,5 +345,38 @@ describe('Tour.vue', () => {
 
     expect(modelValue.value).toBeFalsy()
     expect(onClose).toHaveBeenCalledTimes(1)
+  })
+
+  test('closing does not emit change when current resets', async () => {
+    const modelValue = ref(true)
+    const current = ref(1)
+    const onChange = vi.fn()
+
+    mount(() => (
+      <Tour
+        modelValue={modelValue.value}
+        current={current.value}
+        onChange={onChange}
+        onUpdate:modelValue={(value) => {
+          modelValue.value = value
+        }}
+        onUpdate:current={(value) => {
+          current.value = value
+        }}
+      >
+        <TourStep title="first" description="cover description." />
+        <TourStep title="second" description="cover description." />
+      </Tour>
+    ))
+
+    expect(document.querySelector('.el-tour__title')?.innerHTML).toEqual(
+      'second'
+    )
+
+    modelValue.value = false
+    await nextTick()
+
+    expect(current.value).toBe(0)
+    expect(onChange).not.toHaveBeenCalled()
   })
 })

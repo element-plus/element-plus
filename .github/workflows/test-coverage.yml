@@ -6,24 +6,29 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   build:
     name: Coverage
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Add dev branch
         run: git branch dev origin/dev
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v6
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
 
       - name: Setup node
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: 24
           cache: 'pnpm'
@@ -34,7 +39,7 @@ jobs:
       - name: 'Run Test Coverage'
         run: pnpm run test:coverage
 
-      - uses: davelosert/vitest-coverage-report-action@v2.11.2
+      - uses: davelosert/vitest-coverage-report-action@3c054a2d2e2ca45446417ad5d6d5eb33092af8f1 # v2.12.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           file-coverage-mode: changes

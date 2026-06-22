@@ -235,7 +235,7 @@ export default defineComponent({
                   subColumns,
                   column
                 ),
-                onClick: ($event: Event) => {
+                onClick: ($event: PointerEvent) => {
                   if (
                     ($event.currentTarget as Element)?.classList.contains(
                       'noclick'
@@ -245,7 +245,7 @@ export default defineComponent({
                   }
                   handleHeaderClick($event, column)
                 },
-                onContextmenu: ($event: MouseEvent) =>
+                onContextmenu: ($event: PointerEvent) =>
                   handleHeaderContextMenu($event, column),
                 onMousedown: ($event: MouseEvent) =>
                   handleMouseDown($event, column),

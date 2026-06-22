@@ -8,6 +8,12 @@
   box-shadow: 0 0 0 1px $color inset;
 }
 
+@mixin hover-available {
+  @media (hover: hover) {
+    @content;
+  }
+}
+
 @include b(input-otp) {
   @include set-component-css-var('input-otp', $input-otp);
   @include set-css-var-value(
@@ -95,8 +101,10 @@
     @include e(input-field) {
       @include mixed-input-border(#{getCssVar('border-color')});
 
-      &:hover {
-        @include mixed-input-border(#{getCssVar('color-primary-light-5')});
+      @include hover-available {
+        &:hover {
+          @include mixed-input-border(#{getCssVar('color-primary-light-5')});
+        }
       }
 
       &:focus-within {
@@ -108,8 +116,10 @@
       @include e(input-field) {
         background-color: getCssVar('fill-color', 'light');
 
-        &:hover {
-          @include mixed-input-border(#{getCssVar('border-color')});
+        @include hover-available {
+          &:hover {
+            @include mixed-input-border(#{getCssVar('border-color')});
+          }
         }
       }
     }
@@ -119,8 +129,10 @@
     @include e(input-field) {
       background-color: getCssVar('fill-color', '');
 
-      &:hover {
-        background-color: getCssVar('fill-color', 'dark');
+      @include hover-available {
+        &:hover {
+          background-color: getCssVar('fill-color', 'dark');
+        }
       }
 
       &:focus-within {
@@ -133,8 +145,10 @@
       @include e(input-field) {
         background-color: getCssVar('fill-color', 'light');
 
-        &:hover {
-          background-color: getCssVar('fill-color', 'light');
+        @include hover-available {
+          &:hover {
+            background-color: getCssVar('fill-color', 'light');
+          }
         }
       }
     }
@@ -153,8 +167,10 @@
         left: 0;
       }
 
-      &:hover::after {
-        background-color: getCssVar('color-primary-light-5');
+      @include hover-available {
+        &:hover::after {
+          background-color: getCssVar('color-primary-light-5');
+        }
       }
 
       &:focus-within::after {
@@ -164,8 +180,10 @@
 
     @include when(disabled) {
       @include e(input-field) {
-        &:hover::after {
-          background-color: getCssVar('border-color');
+        @include hover-available {
+          &:hover::after {
+            background-color: getCssVar('border-color');
+          }
         }
       }
     }
