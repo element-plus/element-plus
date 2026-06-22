@@ -39,7 +39,7 @@ jobs:
       - name: 'Run Test Coverage'
         run: pnpm run test:coverage
 
-      - uses: davelosert/vitest-coverage-report-action@02f3c2e641286b7fa308cd3e430783103ce6103b # v2.12.0
+      - uses: davelosert/vitest-coverage-report-action@3c054a2d2e2ca45446417ad5d6d5eb33092af8f1 # v2.12.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           file-coverage-mode: changes
