@@ -5,7 +5,7 @@ import {
   getPx,
   isPct,
   isPx,
-} from '@element-plus/components/splitter/src/hooks/useSize'
+} from '@element-plus/components/splitter/src/hooks'
 import { clamp, useEventListener, useWindowSize } from '@vueuse/core'
 
 import type { Ref, SetupContext } from 'vue'
@@ -27,16 +27,15 @@ export function useResizable(
   )
 
   /**
-   * Parse size string/number to pixels using splitter utilities
+   * Parse size string/number to pixels using splitter utilities.
    */
   const parseSizeToPixels = (
-    size: string | number | undefined,
+    size: string | number | null | undefined,
     fallback: number
   ): number => {
-    if (size === undefined) return fallback
+    if (size == null) return fallback
     if (typeof size === 'number') return size
 
-    // Use splitter utilities for % and px (same logic as getLimitSize)
     if (isPct(size)) {
       return getPct(size) * windowSize.value
     }
@@ -47,19 +46,20 @@ export function useResizable(
     return Number(size) || fallback
   }
 
+  const sizePixels = computed(() => parseSizeToPixels(props.size, 200))
+
   const minSizePixels = computed(() =>
-    parseSizeToPixels(props.minSize, parseSizeToPixels(props.size, 200))
+    parseSizeToPixels(props.minSize, sizePixels.value)
   )
   const maxSizePixels = computed(() =>
     parseSizeToPixels(props.maxSize, windowSize.value)
   )
 
   const getSize = computed(() => {
-    return clamp(
-      startSize.value + sign.value * offset.value,
-      minSizePixels.value,
-      maxSizePixels.value
-    )
+    const min = Math.min(minSizePixels.value, maxSizePixels.value)
+    const max = Math.max(minSizePixels.value, maxSizePixels.value)
+
+    return clamp(startSize.value + sign.value * offset.value, min, max)
   })
 
   const startSize = ref(0)
@@ -78,7 +78,7 @@ export function useResizable(
   }
 
   watch(
-    () => [props.size, props.resizable] as const,
+    () => [props.size, props.minSize, props.maxSize, props.resizable] as const,
     () => {
       hasStartedDragging.value = false
       startSize.value = 0

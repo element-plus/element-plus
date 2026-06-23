@@ -19,11 +19,11 @@ export interface DrawerProps extends DialogProps {
    */
   size?: string | number
   /**
-   * @description The minimum size of the Drawer form, when using the number type, is measured in pixels. When using the string type, please pass in 'x%'; otherwise, it will be interpreted as the number type
+   * @description The minimum size of the Drawer. When using the number type, it is measured in pixels. When using the string type, please pass in 'x%'; otherwise, it will be interpreted as the number type. If not set, defaults to the value of `size`, so the drawer cannot be resized smaller than its initial size.
    */
   minSize?: string | number
   /**
-   * @description The maximum size of the Drawer form, when using the number type, is measured in pixels. When using the string type, please pass in 'x%'; otherwise, it will be interpreted as the number type
+   * @description The maximum size of the Drawer. When using the number type, it is measured in pixels. When using the string type, please pass in 'x%'; otherwise, it will be interpreted as the number type. If not set, defaults to the full viewport size.
    */
   maxSize?: string | number
   /**

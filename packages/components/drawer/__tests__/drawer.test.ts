@@ -699,6 +699,11 @@ describe('Drawer', () => {
       await simulateDrag(dragger, 'horizontal', 300, 100)
       expect(drawerEl.style.width).toEqual('200px')
 
+      Object.defineProperty(drawerEl, 'offsetWidth', {
+        value: 200,
+        configurable: true,
+      })
+
       await simulateDrag(dragger, 'horizontal', 200, 900)
       expect(drawerEl.style.width).toEqual('800px')
 
@@ -730,13 +735,54 @@ describe('Drawer', () => {
       await simulateDrag(dragger, 'horizontal', 300, 50)
       expect(drawerEl.style.width).toEqual('100px')
 
+      Object.defineProperty(drawerEl, 'offsetWidth', {
+        value: 100,
+        configurable: true,
+      })
+
       await simulateDrag(dragger, 'horizontal', 100, 800)
       expect(drawerEl.style.width).toEqual('700px')
 
       cleanup()
     })
 
-    test('should use default values when minSize and maxSize are not provided', async () => {
+    test('should respect minSize and maxSize limits during vertical resize', async () => {
+      const cleanup = defineGetter(window, 'innerHeight', '1000')
+      const wrapper = _mount(
+        `
+        <el-drawer v-model='visible' direction='ttb' resizable size='30%' min-size='200px' max-size='800px'>
+          <span>${content}</span>
+        </el-drawer>
+        `,
+        () => ({
+          visible: true,
+        })
+      )
+
+      await nextTick()
+
+      const dragger = wrapper.find('.el-drawer__dragger')
+      const drawerEl = wrapper.find('.el-drawer').element as HTMLDivElement
+      Object.defineProperty(drawerEl, 'offsetHeight', {
+        value: 300,
+        configurable: true,
+      })
+
+      await simulateDrag(dragger, 'vertical', 300, 100)
+      expect(drawerEl.style.height).toEqual('200px')
+
+      Object.defineProperty(drawerEl, 'offsetHeight', {
+        value: 200,
+        configurable: true,
+      })
+
+      await simulateDrag(dragger, 'vertical', 200, 900)
+      expect(drawerEl.style.height).toEqual('800px')
+
+      cleanup()
+    })
+
+    test('should use size and viewport as default limits when minSize and maxSize are not provided', async () => {
       const cleanup = defineGetter(window, 'innerWidth', '1000')
       const wrapper = _mount(
         `
@@ -760,6 +806,11 @@ describe('Drawer', () => {
 
       await simulateDrag(dragger, 'horizontal', 300, 100)
       expect(drawerEl.style.width).toEqual('300px')
+
+      Object.defineProperty(drawerEl, 'offsetWidth', {
+        value: 300,
+        configurable: true,
+      })
 
       await simulateDrag(dragger, 'horizontal', 300, 1200)
       expect(drawerEl.style.width).toEqual('1000px')
