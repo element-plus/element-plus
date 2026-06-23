@@ -3,6 +3,7 @@ import { h, nextTick } from 'vue'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import ElCheckbox from '@element-plus/components/checkbox'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
+import defineGetter from '@element-plus/test-utils/define-getter'
 import { rAF } from '@element-plus/test-utils/tick'
 import { CaretBottom, CaretTop } from '@element-plus/icons-vue'
 import ElTable from '../src/table.vue'
@@ -2925,30 +2926,21 @@ describe('Table.vue', () => {
     const wrapRef = tableRef.scrollBarRef?.wrapRef as HTMLElement
 
     tableRef.layout.scrollX.value = false
-    Object.defineProperty(wrapRef, 'scrollWidth', {
-      configurable: true,
-      get: () => 1000,
-    })
-    Object.defineProperty(wrapRef, 'offsetWidth', {
-      configurable: true,
-      get: () => 400,
-    })
+    const cleanup = [
+      defineGetter(wrapRef, 'scrollWidth', 1000),
+      defineGetter(wrapRef, 'offsetWidth', 400),
+    ]
 
     expect(wrapRef.scrollWidth).toBeGreaterThan(wrapRef.offsetWidth)
 
     tableRef.layout.updateColumnsWidth()
     expect(tableRef.layout.scrollX.value).toBe(true)
 
-    tableRef.$el.classList.remove(
-      'is-scrolling-left',
-      'is-scrolling-middle',
-      'is-scrolling-right'
-    )
-    tableRef.$el.classList.add('is-scrolling-none')
-
     triggerEvent(wrapRef, 'scroll')
     expect(tableRef.$el.classList.contains('is-scrolling-left')).toBe(true)
     expect(tableRef.$el.classList.contains('is-scrolling-none')).toBe(false)
+
+    cleanup.forEach((fn) => fn())
   })
 
   it('should detect overflow against client width when scrollbar gutter is present', async () => {
@@ -2986,18 +2978,11 @@ describe('Table.vue', () => {
     tableRef.layout.scrollX.value = false
     // Overflow is smaller than the native scrollbar gutter:
     // scrollWidth > clientWidth but scrollWidth <= offsetWidth
-    Object.defineProperty(wrapRef, 'scrollWidth', {
-      configurable: true,
-      get: () => 415,
-    })
-    Object.defineProperty(wrapRef, 'clientWidth', {
-      configurable: true,
-      get: () => 400,
-    })
-    Object.defineProperty(wrapRef, 'offsetWidth', {
-      configurable: true,
-      get: () => 417,
-    })
+    const cleanup = [
+      defineGetter(wrapRef, 'scrollWidth', 415),
+      defineGetter(wrapRef, 'clientWidth', 400),
+      defineGetter(wrapRef, 'offsetWidth', 417),
+    ]
 
     expect(wrapRef.scrollWidth).toBeGreaterThan(wrapRef.clientWidth)
     expect(wrapRef.scrollWidth).toBeLessThanOrEqual(wrapRef.offsetWidth)
@@ -3005,19 +2990,14 @@ describe('Table.vue', () => {
     tableRef.layout.updateColumnsWidth()
     expect(tableRef.layout.scrollX.value).toBe(true)
 
-    tableRef.$el.classList.remove(
-      'is-scrolling-left',
-      'is-scrolling-middle',
-      'is-scrolling-right'
-    )
-    tableRef.$el.classList.add('is-scrolling-none')
-
     triggerEvent(wrapRef, 'scroll')
     // Once horizontal scrollability is detected, syncPosition must use
     // clientWidth so scrollLeft 0 is classified as is-scrolling-left rather
     // than is-scrolling-right, keeping fixed-column shadows correct.
     expect(tableRef.$el.classList.contains('is-scrolling-left')).toBe(true)
     expect(tableRef.$el.classList.contains('is-scrolling-none')).toBe(false)
+
+    cleanup.forEach((fn) => fn())
   })
 
   it('automatic minimum size of flex-items', async () => {
