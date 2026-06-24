@@ -15,28 +15,34 @@
         @change="handleSegmentedChange"
       />
     </div>
-    <div v-if="showGradient && color.isGradient" :class="ns.e('gradient-bar')">
+    <div
+      v-if="showGradient && color.isGradient"
+      ref="gradientBarRef"
+      :class="[ns.e('gradient-bar'), ns.is('disabled', disabled)]"
+    >
       <div
         :class="[
           ns.e('gradient-dot'),
-          ns.e('gradient-dot-start'),
           ns.is('active', editingGradientPart === 'start'),
+          ns.is('disabled', disabled),
         ]"
-        :style="{ backgroundColor: color.startValue }"
+        :style="getDotStyle('start')"
         @click="handleDotClick('start')"
+        @mousedown="(e) => handleDotMouseDown('start', e)"
       />
       <div
-        :class="[ns.e('gradient-track')]"
+        :class="[ns.e('gradient-track'), ns.is('disabled', disabled)]"
         :style="{ background: color.toGradientValue() }"
       />
       <div
         :class="[
           ns.e('gradient-dot'),
-          ns.e('gradient-dot-end'),
           ns.is('active', editingGradientPart === 'end'),
+          ns.is('disabled', disabled),
         ]"
-        :style="{ backgroundColor: color.endValue }"
+        :style="getDotStyle('end')"
         @click="handleDotClick('end')"
+        @mousedown="(e) => handleDotMouseDown('end', e)"
       />
     </div>
     <div :class="ns.e('wrapper')">
@@ -126,6 +132,32 @@ const gradientStartInput = ref('')
 const gradientEndInput = ref('')
 const colorState = ref<'solid' | 'gradient'>('solid')
 const editingGradientPart = ref<'start' | 'end'>('start')
+const gradientBarRef = ref<HTMLElement>()
+const draggingDot = ref<'start' | 'end' | null>(null)
+const animationFrameId = ref<number | null>(null)
+const isDragging = ref(false)
+
+// Get dot style with dynamic box-shadow based on color
+const getDotStyle = (part: 'start' | 'end') => {
+  const dotColor = part === 'start' ? color.startValue : color.endValue
+  const isActive = editingGradientPart.value === part
+  const baseStyle = {
+    backgroundColor: dotColor,
+    left: `${part === 'start' ? color.startPosition : color.endPosition}%`,
+  }
+  if (isActive) {
+    return {
+      ...baseStyle,
+      transform: 'translate(-50%, -50%) scale(1.15)',
+      boxShadow: `0 0 0 2px ${dotColor}, 0 0 3px rgba(0, 0, 0, 0.2)`,
+    }
+  }
+  return baseStyle
+}
+
+// Use stable function references
+let handleMouseMoveFunc: ((event: MouseEvent) => void) | null = null
+let handleMouseUpFunc: (() => void) | null = null
 
 const { color } = inject(
   ROOT_COMMON_COLOR_INJECTION_KEY,
@@ -181,6 +213,93 @@ function handleDotClick(part: 'start' | 'end') {
   }
 }
 
+// Drag-related functions
+handleMouseMoveFunc = (event: MouseEvent) => {
+  if (!draggingDot.value || !gradientBarRef.value) return
+
+  // Cancel previous animation frame to avoid jitter
+  if (animationFrameId.value !== null) {
+    cancelAnimationFrame(animationFrameId.value)
+  }
+
+  // Use requestAnimationFrame to optimize performance and avoid jitter
+  animationFrameId.value = requestAnimationFrame(() => {
+    const barRect = gradientBarRef.value!.getBoundingClientRect()
+    const barWidth = barRect.width
+    const offsetX = event.clientX - barRect.left
+
+    // Calculate position percentage (0-100), keep 2 decimal places
+    const newPosition = Math.max(
+      0,
+      Math.min(100, Math.round((offsetX / barWidth) * 100 * 100) / 100)
+    )
+
+    // Update corresponding dot position
+    if (draggingDot.value === 'start') {
+      // Left dot moving right and meets right dot -> switch to right dot
+      if (newPosition > color.endPosition) {
+        draggingDot.value = 'end'
+        editingGradientPart.value = 'end'
+        color.editingGradientPart = 'end'
+        color.fromString(color.endValue)
+      }
+      color.startPosition = Math.min(newPosition, color.endPosition)
+    } else {
+      // Right dot moving left and meets left dot -> switch to left dot
+      if (newPosition < color.startPosition) {
+        draggingDot.value = 'start'
+        editingGradientPart.value = 'start'
+        color.editingGradientPart = 'start'
+        color.fromString(color.startValue)
+      }
+      color.endPosition = Math.max(newPosition, color.startPosition)
+    }
+
+    // Trigger update
+    emit(UPDATE_MODEL_EVENT, color.toGradientValue())
+    animationFrameId.value = null
+  })
+}
+
+handleMouseUpFunc = () => {
+  // Clean up animation frame
+  if (animationFrameId.value !== null) {
+    cancelAnimationFrame(animationFrameId.value)
+    animationFrameId.value = null
+  }
+
+  isDragging.value = false
+  draggingDot.value = null
+  if (handleMouseMoveFunc) {
+    document.removeEventListener('mousemove', handleMouseMoveFunc)
+  }
+  if (handleMouseUpFunc) {
+    document.removeEventListener('mouseup', handleMouseUpFunc)
+  }
+}
+
+function handleDotMouseDown(part: 'start' | 'end', event: MouseEvent) {
+  if (disabled.value) return
+  event.preventDefault()
+  draggingDot.value = part
+  isDragging.value = true
+
+  // Switch editing state
+  editingGradientPart.value = part
+  color.editingGradientPart = part
+  const targetValue = part === 'start' ? color.startValue : color.endValue
+  if (targetValue) {
+    color.fromString(targetValue)
+  }
+
+  if (handleMouseMoveFunc) {
+    document.addEventListener('mousemove', handleMouseMoveFunc)
+  }
+  if (handleMouseUpFunc) {
+    document.addEventListener('mouseup', handleMouseUpFunc)
+  }
+}
+
 function switchToSolid() {
   colorState.value = 'solid'
   color.isGradient = false
@@ -195,6 +314,8 @@ function switchToGradient() {
   color.editingGradientPart = 'start'
   const startVal = color.startValue || color.value || '#ff0000'
   const endVal = color.endValue || '#0000ff'
+  color.startPosition = 0
+  color.endPosition = 100
   color.setGradient(startVal, endVal)
   gradientStartInput.value = startVal
   gradientEndInput.value = endVal
@@ -241,6 +362,8 @@ onMounted(() => {
       const { start, end } = parseGradientValue(props.modelValue)
       color.startValue = start
       color.endValue = end
+      color.startPosition = 0
+      color.endPosition = 100
       color.isGradient = true
       color.editingGradientPart = 'start'
       editingGradientPart.value = 'start'
@@ -264,10 +387,20 @@ watch(
       return
     }
 
+    // Don't reset positions during dragging
+    if (isDragging.value) {
+      return
+    }
+
     if (isGradientValue(newVal)) {
       const { start, end } = parseGradientValue(newVal)
       color.startValue = start
       color.endValue = end
+      // Only reset positions if they are not already set
+      if (color.startPosition === 0 && color.endPosition === 100) {
+        color.startPosition = 0
+        color.endPosition = 100
+      }
       color.isGradient = true
     } else if (newVal !== color.value) {
       if (!color.isGradient) {

@@ -10,6 +10,8 @@ interface ColorOptions {
   isGradient?: boolean
   startValue?: string | null
   endValue?: string | null
+  startPosition?: number
+  endPosition?: number
 }
 
 export default class Color {
@@ -26,6 +28,8 @@ export default class Color {
   public isGradient = false
   public startValue = ''
   public endValue = ''
+  public startPosition = 0 // 位置百分比 (0-100)
+  public endPosition = 100 // 位置百分比 (0-100)
   public editingGradientPart: 'start' | 'end' = 'start'
 
   constructor(options: Partial<ColorOptions> = {}) {
@@ -42,6 +46,12 @@ export default class Color {
       if (options.endValue) {
         this.endValue = options.endValue
       }
+      if (options.startPosition !== undefined) {
+        this.startPosition = options.startPosition
+      }
+      if (options.endPosition !== undefined) {
+        this.endPosition = options.endPosition
+      }
     } else {
       if (options.value) {
         this.fromString(options.value)
@@ -57,7 +67,14 @@ export default class Color {
     }
     const startColor = new TinyColor(this.startValue || this.value)
     const endColor = new TinyColor(this.endValue)
-    return `linear-gradient(90deg, ${startColor.toRgbString()} 0%, ${endColor.toRgbString()} 100%)`
+    // 根据位置生成渐变值，位置较小的作为起点
+    const startPos = Math.min(this.startPosition, this.endPosition)
+    const endPos = Math.max(this.startPosition, this.endPosition)
+    const startClr =
+      this.startPosition <= this.endPosition ? startColor : endColor
+    const endClr =
+      this.startPosition <= this.endPosition ? endColor : startColor
+    return `linear-gradient(90deg, ${startClr.toRgbString()} ${startPos}%, ${endClr.toRgbString()} ${endPos}%)`
   }
 
   setGradient(startValue: string, endValue: string) {

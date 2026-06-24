@@ -97,43 +97,51 @@
 
   @include e(gradient-bar) {
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 12px;
+    height: 24px;
     margin-top: 8px;
-    padding: 0 4px;
+    padding: 0 8px;
   }
 
   @include e(gradient-track) {
     position: absolute;
-    left: 10px;
-    right: 10px;
+    left: 4px;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
     height: 6px;
     border-radius: 3px;
     border: 1px solid getCssVar('border-color-lighter');
+
+    @include when(disabled) {
+      @include disable;
+    }
   }
 
   @include e(gradient-dot) {
-    position: relative;
-    z-index: 1;
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    transform: translate(-50%, -50%);
     width: 8px;
     height: 8px;
     border-radius: 50%;
     border: 2px solid #fff;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
+    cursor: grab;
     transition:
       transform 0.2s,
       box-shadow 0.2s;
 
     &:hover {
-      transform: scale(1.1);
+      transform: translate(-50%, -50%) scale(1.1);
     }
 
-    @include when(active) {
-      transform: scale(1.15);
-      box-shadow: 0 0 0 2px getCssVar('color-primary');
+    &:active {
+      cursor: grabbing;
+    }
+
+    @include when(disabled) {
+      @include disable;
     }
   }
 
