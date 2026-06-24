@@ -26,19 +26,27 @@ export default defineComponent({
     },
   },
   setup(props, context) {
-    const { slots, expose } = context
+    const { slots, expose, emit, attrs } = context
+    const childAttrs = {
+      ...attrs,
+      onChange: undefined,
+    }
 
     const select = ref<SelectInstance>()
     const tree = ref<TreeInstance>()
 
     const key = computed(() => props.nodeKey || props.valueKey || 'value')
 
-    const selectProps = useSelect(props, context, { select, tree, key })
-    const { cacheOptions, ...treeProps } = useTree(props, context, {
-      select,
-      tree,
-      key,
-    })
+    const selectProps = useSelect(props, { attrs, emit }, { select, tree, key })
+    const { cacheOptions, ...treeProps } = useTree(
+      props,
+      { attrs: childAttrs, slots, emit },
+      {
+        select,
+        tree,
+        key,
+      }
+    )
 
     // expose ElTree/ElSelect methods
     const methods = reactive({})

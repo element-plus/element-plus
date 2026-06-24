@@ -18,12 +18,19 @@ export const rightBigLogoSponsors: Sponsor[] = []
 
 export const rightLogoSmallSponsors: Sponsor[] = [
   {
-    name: 'frsimple',
-    img: '/images/frsimple.png',
-    imgL: '/images/frsimple-l.png',
-    url: 'https://el.frsimple.com',
-    slogan: 'A simple and efficient front-end framework',
-    slogan_cn: '信创开发平台',
+    name: 'Fantastic-admin',
+    img: '/images/fantastic-admin.png',
+    imgL: '/images/fantastic-admin-l2.png',
+    url: 'https://fantastic-admin.hurui.me/',
+    slogan: 'A management system framework for AI development',
+    slogan_cn: '面向AI开发的管理系统框架',
+  },
+  {
+    name: 'UnAIMyText',
+    img: '/images/unaimytext.png',
+    imgL: '/images/unaimytext-l.png',
+    url: 'https://unaimytext.com',
+    slogan: 'Humanize AI Text',
   },
   {
     name: 'bit',

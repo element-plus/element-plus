@@ -70,20 +70,16 @@ import NodeContent from './node-content'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
 
 import type { CascaderNode } from './types'
-import type { PropType } from 'vue'
 import type { CheckboxValueType } from '@element-plus/components/checkbox'
 
 defineOptions({
   name: 'ElCascaderNode',
 })
 
-const props = defineProps({
-  node: {
-    type: Object as PropType<CascaderNode>,
-    required: true,
-  },
-  menuId: String,
-})
+const props = defineProps<{
+  node: CascaderNode
+  menuId?: string
+}>()
 const emit = defineEmits(['expand'])
 
 const panel = inject(CASCADER_PANEL_INJECTION_KEY)!

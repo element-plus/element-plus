@@ -25,7 +25,29 @@ export interface CascaderCommonProps {
    * @description configuration options, see the following `CascaderProps` table.
    */
   props?: CascaderProps
+  /**
+   * @description whether to enable virtual scrolling
+   */
+  virtualScroll?: boolean
+  /**
+   * @description node height for virtual scrolling
+   */
+  itemSize?: number
+  /**
+   * @description menu height for virtual scrolling
+   */
+  height?: number
 }
+
+/**
+ * @description node height for virtual scrolling
+ */
+export const CASCADER_PANEL_ITEM_SIZE = 34
+
+/**
+ * @description menu height for virtual scrolling
+ */
+export const CASCADER_PANEL_HEIGHT = 204
 
 export const CommonProps = buildProps({
   /**
@@ -47,6 +69,24 @@ export const CommonProps = buildProps({
   props: {
     type: definePropType<CascaderProps>(Object),
     default: () => ({}) as CascaderProps,
+  },
+  /**
+   * @description whether to enable virtual scrolling
+   */
+  virtualScroll: Boolean,
+  /**
+   * @description node height for virtual scrolling
+   */
+  itemSize: {
+    type: Number,
+    default: CASCADER_PANEL_ITEM_SIZE,
+  },
+  /**
+   * @description menu height for virtual scrolling
+   */
+  height: {
+    type: Number,
+    default: CASCADER_PANEL_HEIGHT,
   },
 } as const)
 
@@ -71,7 +111,7 @@ export const DefaultProps: CascaderConfig = {
   /**
    * @description when checked nodes change, whether to emit an array of node's path, if false, only emit the value of node.
    */
-  emitPath: true, // wether to emit an array of all levels value in which node is located
+  emitPath: true, // whether to emit an array of all levels value in which node is located
   /**
    * @description whether to dynamic load child nodes, use with `lazyload` attribute
    */

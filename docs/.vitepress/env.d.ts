@@ -1,3 +1,6 @@
 /// <reference types="vite/client" />
 
-export {}
+declare module 'virtual:component-changelog-data' {
+  const data: import('./utils/changelog-parser').ComponentChangelogs
+  export default data
+}

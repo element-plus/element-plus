@@ -5,16 +5,16 @@ import {
   isNumber,
 } from '@element-plus/utils'
 import { CHANGE_EVENT } from '@element-plus/constants'
-import { teleportProps } from '@element-plus/components/teleport'
 
-import type { CSSProperties, ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 import type Affix from './affix.vue'
+import type { ZIndexType } from '@element-plus/utils'
 
 export interface AffixProps {
   /**
    * @description affix element zIndex value
    * */
-  zIndex?: CSSProperties['z-index']
+  zIndex?: ZIndexType
   /**
    * @description target container. (CSS selector)
    */
@@ -45,7 +45,7 @@ export const affixProps = buildProps({
    * @description affix element zIndex value
    * */
   zIndex: {
-    type: definePropType<CSSProperties['z-index']>([Number, String]),
+    type: definePropType<ZIndexType>([Number, String]),
     default: 100,
   },
   /**
@@ -78,7 +78,7 @@ export const affixProps = buildProps({
    * @description which element the affix element appends to
    * */
   appendTo: {
-    type: teleportProps.to.type,
+    type: definePropType<string | HTMLElement>([String, Object]),
     default: 'body',
   },
 } as const)

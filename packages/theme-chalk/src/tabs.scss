@@ -105,6 +105,11 @@
     color: getCssVar('text-color', 'secondary');
     width: 20px;
     text-align: center;
+
+    @include when(disabled) {
+      color: getCssVar('text-color', 'disabled');
+      cursor: not-allowed;
+    }
   }
   @include e(nav-next) {
     right: 0;
@@ -356,6 +361,14 @@
       }
     }
   }
+
+  @include m((card, border-card)) {
+    & > .#{$namespace}-tabs__header.is-left,
+    & > .#{$namespace}-tabs__header.is-right {
+      border-bottom: none;
+    }
+  }
+
   @include m((left, right)) {
     overflow: hidden;
 
@@ -389,6 +402,10 @@
 
         i {
           transform: rotateZ(90deg);
+        }
+
+        @include when(disabled) {
+          cursor: not-allowed;
         }
       }
 

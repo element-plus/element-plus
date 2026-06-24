@@ -785,6 +785,26 @@ describe('Tree.vue', () => {
     expect(tree.getCheckedKeys().length).toEqual(0)
   })
 
+  test('should respect deep option when calling setChecked in checkStrictly mode', async () => {
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" check-strictly show-checkbox node-key="id"`
+    )
+    const treeWrapper = wrapper.findComponent(Tree)
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
+
+    tree.setChecked(111, true)
+    expect(tree.getCheckedNodes()).toEqual(tree.data[0].children[0].children)
+    expect(tree.getCheckedKeys()).toEqual([111])
+
+    tree.setChecked(tree.data[0], true, true)
+    expect(tree.getCheckedNodes()).toEqual([
+      tree.data[0],
+      tree.data[0].children[0],
+      tree.data[0].children[0].children[0],
+    ])
+    expect(tree.getCheckedKeys()).toEqual([1, 11, 111])
+  })
+
   test('setCheckedKeys with leafOnly=false', async () => {
     const { wrapper } = getTreeVm(
       `:props="defaultProps" show-checkbox node-key="id"`
@@ -805,8 +825,22 @@ describe('Tree.vue', () => {
     const tree = treeWrapper.vm as InstanceType<typeof Tree>
 
     tree.setCheckedKeys([2], true)
-    expect(tree.getCheckedNodes().length).toEqual(2)
-    expect(tree.getCheckedKeys().length).toEqual(2)
+    expect(tree.getCheckedNodes().length).toEqual(3)
+    expect(tree.getCheckedKeys().length).toEqual(3)
+  })
+
+  test('setCheckedKeys with leafOnly=true produces consistent parent states', async () => {
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" show-checkbox node-key="id"`
+    )
+    const treeWrapper = wrapper.findComponent(Tree)
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
+
+    tree.setCheckedKeys([1], true)
+
+    expect(tree.getCheckedKeys().sort()).toEqual([1, 11, 111])
+    expect(tree.getHalfCheckedNodes()).toEqual([])
+    expect(tree.getHalfCheckedKeys()).toEqual([])
   })
 
   test('setCurrentKey', async () => {
@@ -1500,6 +1534,27 @@ describe('Tree.vue', () => {
       })
     )
     expect(flag).toBe(true)
+  })
+
+  test('navigate down with multiple trees', async () => {
+    const data = [{ label: 'one' }, { label: 'two' }]
+    const wrapper = mount({
+      template: `
+        <div>
+          <el-tree :data="data" default-expand-all />
+          <el-tree :data="data" default-expand-all />
+        </div>
+      `,
+      components: { 'el-tree': Tree },
+      data: () => ({ data }),
+    })
+    await nextTick()
+    let focused = false
+    const secondTree = wrapper.findAllComponents({ name: 'ElTree' })[1]
+    const treeNodes = secondTree.findAll('.is-focusable[role=treeitem]')
+    defineGetter(treeNodes[1].element, 'focus', () => () => (focused = true))
+    await treeNodes[0].trigger('keydown', { code: 'ArrowDown' })
+    expect(focused).toBe(true)
   })
 
   test('collapse and navigate down and up', async () => {
@@ -2381,5 +2436,49 @@ describe('Tree.vue', () => {
     nodes = wrapper.findAll(TREE_NODE_CHECKBOX_CLASS_NAME)
     await nodes[0].trigger('click')
     expect(treeRef.getCheckedKeys()).toEqual(keys)
+  })
+
+  test('lazy load with check-strictly should not auto-check children', async () => {
+    vi.useFakeTimers()
+
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" node-key="id" lazy :load="loadNode" show-checkbox check-strictly`,
+      {
+        methods: {
+          loadNode(node, resolve) {
+            if (node.level === 0) {
+              return resolve([
+                { label: 'region1', id: 1 },
+                { label: 'region2', id: 2 },
+              ])
+            }
+            if (node.level === 1) {
+              setTimeout(() => {
+                resolve([
+                  { label: 'zone1', id: 11 },
+                  { label: 'zone2', id: 12 },
+                ])
+              }, 50)
+            } else {
+              resolve([])
+            }
+          },
+        },
+      }
+    )
+
+    await nextTick()
+    const treeRef = wrapper.findComponent({ name: 'ElTree' }).vm as TreeInstance
+
+    await wrapper.find(TREE_NODE_CHECKBOX_CLASS_NAME).trigger('click')
+
+    expect(treeRef.getCheckedKeys()).toEqual([1])
+
+    await wrapper.find('.el-tree-node__content').trigger('click')
+    vi.runAllTimers()
+    await nextTick()
+
+    expect(treeRef.getCheckedKeys()).toEqual([1])
+    vi.useRealTimers()
   })
 })

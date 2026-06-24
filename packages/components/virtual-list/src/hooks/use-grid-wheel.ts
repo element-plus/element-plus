@@ -45,7 +45,15 @@ export const useGridWheel = (
       y = 0
     }
 
-    if (hasReachedEdge(x, y)) return
+    if (hasReachedEdge(x, y)) {
+      // #23524
+      // Prevent browser back navigation when the table can still scroll
+      // horizontally but the Y-axis normalization dropped the X delta and the Y edge was hit instead.
+      if (e.deltaX !== 0 && x === 0) {
+        e.preventDefault()
+      }
+      return
+    }
 
     xOffset += x
     yOffset += y

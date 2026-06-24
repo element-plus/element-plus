@@ -1,6 +1,11 @@
 import { h, inject, ref } from 'vue'
 import { debounce } from 'lodash-unified'
-import { addClass, hasClass, removeClass } from '@element-plus/utils'
+import {
+  addClass,
+  hasClass,
+  isGreaterThan,
+  removeClass,
+} from '@element-plus/utils'
 import {
   createTablePopper,
   getCell,
@@ -12,17 +17,18 @@ import { TABLE_INJECTION_KEY } from '../tokens'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type { TableBodyProps } from './defaults'
 import type { TableOverflowTooltipOptions } from '../util'
-import type { DefaultRow } from '../table/defaults'
+import type { DefaultRow, Table } from '../table/defaults'
 
-function isGreaterThan(a: number, b: number, epsilon = 0.03) {
-  return a - b > epsilon
+interface HandleEvent<T> {
+  (event: PointerEvent, row: T, name: 'click' | 'contextmenu'): void
+  (event: MouseEvent, row: T, name: 'dblclick'): void
 }
 
 function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
-  const parent = inject(TABLE_INJECTION_KEY)
+  const parent = inject(TABLE_INJECTION_KEY) as Table<T>
   const tooltipContent = ref('')
   const tooltipTrigger = ref(h('div'))
-  const handleEvent = (event: Event, row: T, name: string) => {
+  const handleEvent: HandleEvent<T> = (event, row, name) => {
     const table = parent
     const cell = getCell(event)
     let column: TableColumnCtx<T> | null = null
@@ -36,19 +42,21 @@ function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
         namespace
       )
       if (column) {
+        // @ts-expect-error
         table?.emit(`cell-${name}`, row, column, cell, event)
       }
     }
+    // @ts-expect-error
     table?.emit(`row-${name}`, row, column, event)
   }
-  const handleDoubleClick = (event: Event, row: T) => {
+  const handleDoubleClick = (event: MouseEvent, row: T) => {
     handleEvent(event, row, 'dblclick')
   }
-  const handleClick = (event: Event, row: T) => {
+  const handleClick = (event: PointerEvent, row: T) => {
     props.store?.commit('setCurrentRow', row)
     handleEvent(event, row, 'click')
   }
-  const handleContextMenu = (event: Event, row: T) => {
+  const handleContextMenu = (event: PointerEvent, row: T) => {
     handleEvent(event, row, 'contextmenu')
   }
   const handleMouseEnter = debounce((index: number) => {
@@ -188,12 +196,13 @@ function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     if (cell.rowSpan > 1) {
       toggleRowClassByCell(cell.rowSpan, event, removeClass)
     }
-    const oldHoverState = parent?.hoverState
+    // From the normal user interaction flow, it should never be empty. However, to avoid potential runtime errors, we still keep this defensive optional handling.
+    const oldHoverState = parent?.hoverState as NonNullable<Table['hoverState']>
     parent?.emit(
       'cell-mouse-leave',
       oldHoverState?.row,
       oldHoverState?.column,
-      oldHoverState?.cell,
+      oldHoverState?.cell as HTMLTableCellElement,
       event
     )
   }

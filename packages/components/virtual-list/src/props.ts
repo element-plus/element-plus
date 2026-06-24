@@ -82,12 +82,18 @@ export const virtualizedProps = buildProps({
   },
 
   style: {
-    type: definePropType<StyleValue>([Object, String, Array]),
+    type: definePropType<StyleValue>([Object, String, Array, Boolean]),
+    default: undefined,
   },
 
   useIsScrolling: Boolean,
 
   width: {
+    type: [Number, String],
+    required: false,
+  },
+
+  innerWidth: {
     type: [Number, String],
     required: false,
   },
