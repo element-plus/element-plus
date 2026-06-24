@@ -674,11 +674,11 @@ describe('Drawer', () => {
       cleanup()
     })
 
-    test('should respect minSize and maxSize limits during resize', async () => {
+    test('should respect resizable minSize and maxSize during resize', async () => {
       const cleanup = defineGetter(window, 'innerWidth', '1000')
       const wrapper = _mount(
         `
-        <el-drawer v-model='visible' direction='ltr' resizable size='30%' min-size='200px' max-size='800px'>
+        <el-drawer v-model='visible' direction='ltr' :resizable="{ minSize: 200, maxSize: 800 }" size='30%'>
           <span>${content}</span>
         </el-drawer>
         `,
@@ -710,11 +710,11 @@ describe('Drawer', () => {
       cleanup()
     })
 
-    test('should work with percentage-based minSize and maxSize', async () => {
+    test('should work with resizable minSize and maxSize options', async () => {
       const cleanup = defineGetter(window, 'innerWidth', '1000')
       const wrapper = _mount(
         `
-        <el-drawer v-model='visible' direction='ltr' resizable size='30%' min-size='10%' max-size='70%'>
+        <el-drawer v-model='visible' direction='ltr' :resizable="{ minSize: 100, maxSize: 700 }" size='30%'>
           <span>${content}</span>
         </el-drawer>
         `,
@@ -746,11 +746,11 @@ describe('Drawer', () => {
       cleanup()
     })
 
-    test('should respect minSize and maxSize limits during vertical resize', async () => {
+    test('should respect resizable minSize and maxSize during vertical resize', async () => {
       const cleanup = defineGetter(window, 'innerHeight', '1000')
       const wrapper = _mount(
         `
-        <el-drawer v-model='visible' direction='ttb' resizable size='30%' min-size='200px' max-size='800px'>
+        <el-drawer v-model='visible' direction='ttb' :resizable="{ minSize: 200, maxSize: 800 }" size='30%'>
           <span>${content}</span>
         </el-drawer>
         `,

@@ -9,9 +9,7 @@
   <el-drawer
     v-model="drawer"
     :direction="direction"
-    resizable
-    min-size="200px"
-    max-size="75%"
+    :resizable="{ minSize: 200, maxSize: 800 }"
   >
     This is drawer content.
   </el-drawer>

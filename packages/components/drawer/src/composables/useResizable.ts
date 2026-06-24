@@ -25,6 +25,9 @@ export function useResizable(
   const windowSize = computed(() =>
     isHorizontal.value ? width.value : height.value
   )
+  const resizableOptions = computed(() =>
+    typeof props.resizable === 'object' ? props.resizable : undefined
+  )
 
   /**
    * Parse size string/number to pixels using splitter utilities.
@@ -49,10 +52,10 @@ export function useResizable(
   const sizePixels = computed(() => parseSizeToPixels(props.size, 200))
 
   const minSizePixels = computed(() =>
-    parseSizeToPixels(props.minSize, sizePixels.value)
+    parseSizeToPixels(resizableOptions.value?.minSize, sizePixels.value)
   )
   const maxSizePixels = computed(() =>
-    parseSizeToPixels(props.maxSize, windowSize.value)
+    parseSizeToPixels(resizableOptions.value?.maxSize, windowSize.value)
   )
 
   const getSize = computed(() => {
@@ -78,7 +81,7 @@ export function useResizable(
   }
 
   watch(
-    () => [props.size, props.minSize, props.maxSize, props.resizable] as const,
+    () => [props.size, props.resizable] as const,
     () => {
       hasStartedDragging.value = false
       startSize.value = 0
