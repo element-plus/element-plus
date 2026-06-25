@@ -200,7 +200,7 @@ const displayInputValue = computed({
 })
 
 function handleConfirm() {
-  const val = displayInputValue.value
+  const val = customInput.value
   if (color.isGradient) {
     const tc = new TinyColor(val)
     const formattedVal = color.enableAlpha ? tc.toRgbString() : tc.toHexString()
@@ -448,7 +448,8 @@ watch(
       return
     }
 
-    if (isGradientValue(newVal)) {
+    // Only process gradient values when showGradient is enabled
+    if (props.showGradient && isGradientValue(newVal)) {
       const { start, end, startPos, endPos } = parseGradientValue(newVal)
       color.startValue = start
       color.endValue = end
