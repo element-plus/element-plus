@@ -49,6 +49,7 @@ import {
   useFormDisabled,
   useFormItem,
   useFormItemInputId,
+  useFormSize,
 } from '@element-plus/components/form'
 import {
   CHANGE_EVENT,
@@ -67,7 +68,6 @@ const props = withDefaults(defineProps<InputOtpProps>(), {
   length: 6,
   validator: () => true,
   type: 'outlined',
-  size: 'default',
   disabled: undefined,
   validateEvent: true,
 })
@@ -94,6 +94,7 @@ const { formItem } = useFormItem()
 const { inputId, isLabeledByFormItem } = useFormItemInputId(props, {
   formItemContext: formItem,
 })
+const size = useFormSize()
 const disabled = useFormDisabled()
 let modelValueOnFocus = props.modelValue
 
