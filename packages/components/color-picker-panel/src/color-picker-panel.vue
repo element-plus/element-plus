@@ -145,6 +145,8 @@ const gradientBarRef = ref<HTMLElement>()
 const draggingDot = ref<'start' | 'end' | null>(null)
 const animationFrameId = ref<number | null>(null)
 const isDragging = ref(false)
+// Flag to suppress watcher emission during initial hydration from props
+const isHydrating = ref(false)
 
 onBeforeUnmount(() => {
   if (handleMouseMoveFunc) {
@@ -400,6 +402,7 @@ function update() {
 }
 
 onMounted(() => {
+  isHydrating.value = true
   if (props.modelValue) {
     if (props.showGradient && isGradientValue(props.modelValue)) {
       const { start, end, startPos, endPos } = parseGradientValue(
@@ -421,7 +424,10 @@ onMounted(() => {
       customInput.value = color.value
     }
   }
-  nextTick(update)
+  nextTick(() => {
+    update()
+    isHydrating.value = false
+  })
 })
 
 watch(
@@ -469,6 +475,7 @@ watch(
 watch(
   () => [color.startValue, color.endValue],
   () => {
+    if (isHydrating.value) return
     if (color.isGradient) {
       gradientStartInput.value = color.startValue || ''
       gradientEndInput.value = color.endValue || ''
