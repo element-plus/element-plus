@@ -187,6 +187,10 @@ const { color } = inject(
 
 const displayInputValue = computed({
   get() {
+    // Return user input if available, otherwise return current color
+    if (customInput.value) {
+      return customInput.value
+    }
     if (color.isGradient) {
       return editingGradientPart.value === 'start'
         ? color.startValue
@@ -212,8 +216,9 @@ function handleConfirm() {
     color.fromString(val)
   } else {
     color.fromString(val)
-    customInput.value = color.value
   }
+  // Clear custom input after confirming, so getter returns updated color
+  customInput.value = ''
 }
 
 function handleSegmentedChange(value: 'solid' | 'gradient') {
@@ -472,6 +477,8 @@ watch(
   (val) => {
     if (!color.isGradient) {
       emit(UPDATE_MODEL_EVENT, val)
+      // Clear custom input when color changes from other sources (e.g. slider drag)
+      customInput.value = ''
     }
     if (props.validateEvent) {
       formItem?.validate('change').catch(NOOP)
@@ -487,6 +494,8 @@ watch(
       gradientStartInput.value = color.startValue || ''
       gradientEndInput.value = color.endValue || ''
       emit(UPDATE_MODEL_EVENT, color.toGradientValue())
+      // Clear custom input when gradient stop changes from other sources
+      customInput.value = ''
     }
   }
 )
