@@ -315,7 +315,7 @@ function confirmValue() {
   nextTick(() => {
     // 处理渐变值
     if (props.modelValue && props.modelValue.includes('gradient')) {
-      const match = props.modelValue.match(/rgba?$[^)]+$|#[0-9a-fA-F]+/g)
+      const match = props.modelValue.match(/rgba?\([^)]+\)|#[0-9a-fA-F]+/g)
       if (match && match.length >= 2) {
         const startColor = new TinyColor(match[0]).toHexString()
         const endColor = new TinyColor(match[match.length - 1]).toHexString()
