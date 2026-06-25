@@ -71,6 +71,7 @@
     height: 100%;
     position: relative;
     border-radius: getCssVar('border-radius-base');
+    line-height: 1;
   }
 
   @include e(input) {
