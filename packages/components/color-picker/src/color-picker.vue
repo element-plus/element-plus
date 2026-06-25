@@ -330,10 +330,11 @@ function handleTrigger() {
 
 function confirmValue() {
   // 渐变模式下使用 toGradientValue()，否则使用 color.value
-  const value = isEmptyValue(color.value)
-    ? valueOnClear.value
-    : color.isGradient
-      ? color.toGradientValue()
+  // 渐变模式优先检查，因为渐变编辑不写入 color.value
+  const value = color.isGradient
+    ? color.toGradientValue()
+    : isEmptyValue(color.value)
+      ? valueOnClear.value
       : color.value
   emit(UPDATE_MODEL_EVENT, value)
   emit(CHANGE_EVENT, value)
