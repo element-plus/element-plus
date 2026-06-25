@@ -200,11 +200,13 @@ const colorStyle = computed(() => {
   }
   // When persistent=false, panel is not rendered so color.isGradient is not set.
   // Parse gradient directly from modelValue to show preview.
-  const gradientPreview = parseGradientPreview(props.modelValue)
-  if (gradientPreview) {
-    return {
-      background: gradientPreview,
-      backgroundColor: undefined,
+  if (props.showGradient) {
+    const gradientPreview = parseGradientPreview(props.modelValue)
+    if (gradientPreview) {
+      return {
+        background: gradientPreview,
+        backgroundColor: undefined,
+      }
     }
   }
   return { backgroundColor: displayedRgb(color, props.showAlpha) }
