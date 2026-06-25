@@ -306,9 +306,17 @@ function resetColor() {
           color.editingGradientPart = 'start'
           color.fromString(startColor)
         } else {
+          // Clear gradient state before hydrating solid value
+          color.isGradient = false
+          color.startValue = ''
+          color.endValue = ''
           color.fromString(props.modelValue)
         }
       } else {
+        // Clear gradient state before hydrating solid value
+        color.isGradient = false
+        color.startValue = ''
+        color.endValue = ''
         color.fromString(props.modelValue)
       }
     } else {
