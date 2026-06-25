@@ -456,11 +456,13 @@ watch(
       color.startPosition = startPos
       color.endPosition = endPos
       color.isGradient = true
-    } else if (newVal !== color.value) {
+    } else if (newVal !== color.value || color.isGradient) {
+      // Switch to solid mode if value changed OR if still in gradient mode
+      // This handles the case where gradient's active stop equals the new solid value
       color.isGradient = false
-      if (!color.isGradient) {
-        color.fromString(newVal)
-      }
+      color.startValue = ''
+      color.endValue = ''
+      color.fromString(newVal)
     }
   }
 )
