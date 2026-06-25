@@ -344,10 +344,20 @@ function confirmValue() {
     // 处理渐变值
     if (props.modelValue && props.modelValue.includes('gradient')) {
       const match = props.modelValue.match(/rgba?\([^)]+\)|#[0-9a-fA-F]+/g)
+      const posMatch = props.modelValue.match(/(\d+(?:\.\d+)?)\s*%/g)
       if (match && match.length >= 2) {
         const startColor = new TinyColor(match[0]).toHexString()
         const endColor = new TinyColor(match[match.length - 1]).toHexString()
-        if (color.startValue !== startColor || color.endValue !== endColor) {
+        const startPos =
+          posMatch && posMatch[0] ? Number.parseFloat(posMatch[0]) : 0
+        const endPos =
+          posMatch && posMatch[1] ? Number.parseFloat(posMatch[1]) : 100
+        if (
+          color.startValue !== startColor ||
+          color.endValue !== endColor ||
+          color.startPosition !== startPos ||
+          color.endPosition !== endPos
+        ) {
           resetColor()
         }
       }
