@@ -348,22 +348,43 @@ function isGradientValue(value: string): boolean {
   return value.includes('gradient')
 }
 
-function parseGradientValue(value: string): { start: string; end: string } {
-  const match = value.match(/rgba?\([^)]+\)|#[0-9a-fA-F]+/g)
-  if (match && match.length >= 2) {
-    const startColor = new TinyColor(match[0])
-    const endColor = new TinyColor(match[match.length - 1])
+function parseGradientValue(value: string): {
+  start: string
+  end: string
+  startPos: number
+  endPos: number
+} {
+  // Extract colors and positions from gradient string
+  // e.g., "linear-gradient(90deg, #f00 25%, #00f 75%)"
+  const colorMatch = value.match(/rgba?\([^)]+\)|#[0-9a-fA-F]+/g)
+  const posMatch = value.match(/(\d+(?:\.\d+)?)\s*%/g)
+
+  let start = '#ff0000'
+  let end = '#0000ff'
+  let startPos = 0
+  let endPos = 100
+
+  if (colorMatch && colorMatch.length >= 2) {
+    const startColor = new TinyColor(colorMatch[0])
+    const endColor = new TinyColor(colorMatch[colorMatch.length - 1])
     const formatColor = (c: TinyColor) =>
       color.enableAlpha ? c.toRgbString() : c.toHexString()
-    return {
-      start: formatColor(startColor),
-      end: formatColor(endColor),
+    start = formatColor(startColor)
+    end = formatColor(endColor)
+
+    // Parse position percentages
+    if (posMatch && posMatch.length >= 2) {
+      startPos = Number.parseFloat(posMatch[0])
+      endPos = Number.parseFloat(posMatch[1])
+    } else if (posMatch && posMatch.length === 1) {
+      // If only one position is specified, infer the other
+      // Usually the first color is at start (0%) and second at end (100%)
+      startPos = 0
+      endPos = Number.parseFloat(posMatch[0])
     }
   }
-  return {
-    start: '#ff0000',
-    end: '#0000ff',
-  }
+
+  return { start, end, startPos, endPos }
 }
 
 function handleFocusout() {
@@ -381,11 +402,13 @@ function update() {
 onMounted(() => {
   if (props.modelValue) {
     if (props.showGradient && isGradientValue(props.modelValue)) {
-      const { start, end } = parseGradientValue(props.modelValue)
+      const { start, end, startPos, endPos } = parseGradientValue(
+        props.modelValue
+      )
       color.startValue = start
       color.endValue = end
-      color.startPosition = 0
-      color.endPosition = 100
+      color.startPosition = startPos
+      color.endPosition = endPos
       color.isGradient = true
       color.editingGradientPart = 'start'
       editingGradientPart.value = 'start'
@@ -416,14 +439,11 @@ watch(
     }
 
     if (isGradientValue(newVal)) {
-      const { start, end } = parseGradientValue(newVal)
+      const { start, end, startPos, endPos } = parseGradientValue(newVal)
       color.startValue = start
       color.endValue = end
-      // Only reset positions if they are not already set
-      if (color.startPosition === 0 && color.endPosition === 100) {
-        color.startPosition = 0
-        color.endPosition = 100
-      }
+      color.startPosition = startPos
+      color.endPosition = endPos
       color.isGradient = true
     } else if (newVal !== color.value) {
       color.isGradient = false
