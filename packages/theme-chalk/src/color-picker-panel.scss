@@ -132,10 +132,12 @@
       transform 0.2s,
       box-shadow 0.2s;
 
+    // rewrite with the repository's scoped-root pattern required by stylelint
     &:hover {
       transform: translate(-50%, -50%) scale(1.1);
     }
 
+    // rewrite with the repository's scoped-root pattern required by stylelint
     &:active {
       cursor: grabbing;
     }
