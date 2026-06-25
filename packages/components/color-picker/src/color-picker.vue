@@ -288,10 +288,12 @@ function resetColor() {
         )
         const posMatch = props.modelValue.match(/(\d+(?:\.\d+)?)\s*%/g)
         if (colorMatch && colorMatch.length >= 2) {
-          const startColor = new TinyColor(colorMatch[0]).toHexString()
-          const endColor = new TinyColor(
-            colorMatch[colorMatch.length - 1]
-          ).toHexString()
+          const startColor = props.showAlpha
+            ? new TinyColor(colorMatch[0]).toRgbString()
+            : new TinyColor(colorMatch[0]).toHexString()
+          const endColor = props.showAlpha
+            ? new TinyColor(colorMatch[colorMatch.length - 1]).toRgbString()
+            : new TinyColor(colorMatch[colorMatch.length - 1]).toHexString()
           const startPos =
             posMatch && posMatch[0] ? Number.parseFloat(posMatch[0]) : 0
           const endPos =
