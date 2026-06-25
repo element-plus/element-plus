@@ -196,6 +196,7 @@ export default class Color {
       } else {
         this.endValue = colorStr
       }
+      this.value = colorStr
     } else {
       this.value = colorStr
     }
