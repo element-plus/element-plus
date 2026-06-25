@@ -459,7 +459,7 @@ watch(
         color.startValue = ''
         color.endValue = ''
       }
-    } else if (newVal !== color.value) {
+    } else if (newVal !== color.value || color.isGradient) {
       shouldActiveChange = false
       // 判断是否是渐变值
       const isGradientValue = newVal.includes('gradient')
