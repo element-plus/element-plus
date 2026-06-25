@@ -154,6 +154,7 @@ export default class Color {
     this._saturation = 100
     this._value = 100
     this._alpha = 100
+    this.isGradient = false
   }
 
   compare(color: this) {

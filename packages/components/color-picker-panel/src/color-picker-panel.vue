@@ -85,7 +85,16 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, nextTick, onMounted, provide, ref, watch } from 'vue'
+import {
+  computed,
+  inject,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  provide,
+  ref,
+  watch,
+} from 'vue'
 import { ElInput } from '@element-plus/components/input'
 import { ElSegmented } from '@element-plus/components/segmented'
 import { useFormDisabled, useFormItem } from '@element-plus/components/form'
@@ -136,6 +145,15 @@ const gradientBarRef = ref<HTMLElement>()
 const draggingDot = ref<'start' | 'end' | null>(null)
 const animationFrameId = ref<number | null>(null)
 const isDragging = ref(false)
+
+onBeforeUnmount(() => {
+  if (handleMouseMoveFunc) {
+    document.removeEventListener('mousemove', handleMouseMoveFunc)
+  }
+  if (handleMouseUpFunc) {
+    document.removeEventListener('mouseup', handleMouseUpFunc)
+  }
+})
 
 // Get dot style with dynamic box-shadow based on color
 const getDotStyle = (part: 'start' | 'end') => {
@@ -205,6 +223,10 @@ function handleSegmentedChange(value: 'solid' | 'gradient') {
 }
 
 function handleDotClick(part: 'start' | 'end') {
+  if (disabled.value) {
+    return
+  }
+
   editingGradientPart.value = part
   color.editingGradientPart = part
   const targetValue = part === 'start' ? color.startValue : color.endValue
@@ -358,7 +380,7 @@ function update() {
 
 onMounted(() => {
   if (props.modelValue) {
-    if (isGradientValue(props.modelValue)) {
+    if (props.showGradient && isGradientValue(props.modelValue)) {
       const { start, end } = parseGradientValue(props.modelValue)
       color.startValue = start
       color.endValue = end
@@ -384,6 +406,7 @@ watch(
   (newVal) => {
     if (!newVal) {
       color.clear()
+      colorState.value = 'solid'
       return
     }
 
@@ -403,6 +426,7 @@ watch(
       }
       color.isGradient = true
     } else if (newVal !== color.value) {
+      color.isGradient = false
       if (!color.isGradient) {
         color.fromString(newVal)
       }
