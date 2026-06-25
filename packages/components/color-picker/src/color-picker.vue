@@ -198,6 +198,15 @@ const colorStyle = computed(() => {
       backgroundColor: undefined,
     }
   }
+  // When persistent=false, panel is not rendered so color.isGradient is not set.
+  // Parse gradient directly from modelValue to show preview.
+  const gradientPreview = parseGradientPreview(props.modelValue)
+  if (gradientPreview) {
+    return {
+      background: gradientPreview,
+      backgroundColor: undefined,
+    }
+  }
   return { backgroundColor: displayedRgb(color, props.showAlpha) }
 })
 
@@ -227,6 +236,30 @@ const btnKls = computed(() => {
 function displayedRgb(color: Color, showAlpha: boolean) {
   const { r, g, b, a } = color.toRgb()
   return showAlpha ? `rgba(${r}, ${g}, ${b}, ${a})` : `rgb(${r}, ${g}, ${b})`
+}
+
+function isGradientValue(value: string | undefined): boolean {
+  return !!(value && value.includes('gradient'))
+}
+
+function parseGradientPreview(value: string): string | null {
+  // Parse gradient value for preview when panel is not mounted
+  // e.g., "linear-gradient(90deg, #f00 25%, #00f 75%)"
+  if (!isGradientValue(value)) return null
+  const colorMatch = value.match(/rgba?\([^)]+\)|#[0-9a-fA-F]+/g)
+  if (colorMatch && colorMatch.length >= 2) {
+    const startColor = new TinyColor(colorMatch[0])
+    const endColor = new TinyColor(colorMatch[colorMatch.length - 1])
+    const posMatch = value.match(/(\d+(?:\.\d+)?)\s*%/g)
+    const startPos =
+      posMatch && posMatch[0] ? Number.parseFloat(posMatch[0]) : 0
+    const endPos =
+      posMatch && posMatch[1] ? Number.parseFloat(posMatch[1]) : 100
+    const formatColor = (c: TinyColor) =>
+      color.enableAlpha ? c.toRgbString() : c.toHexString()
+    return `linear-gradient(90deg, ${formatColor(startColor)} ${startPos}%, ${formatColor(endColor)} ${endPos}%)`
+  }
+  return null
 }
 
 function setShowPicker(value: boolean) {
