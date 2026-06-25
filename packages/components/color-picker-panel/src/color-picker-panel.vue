@@ -284,9 +284,8 @@ handleMouseMoveFunc = (event: MouseEvent) => {
       color.endPosition = Math.max(newPosition, color.startPosition)
     }
 
-    // Update color.value to trigger active-change watcher in parent
-    color.value =
-      color.editingGradientPart === 'start' ? color.startValue : color.endValue
+    // Update color.value to gradient string for active-change watcher in parent
+    color.value = color.toGradientValue()
 
     // Trigger update
     emit(UPDATE_MODEL_EVENT, color.toGradientValue())

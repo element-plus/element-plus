@@ -196,7 +196,8 @@ export default class Color {
       } else {
         this.endValue = colorStr
       }
-      this.value = colorStr
+      // Keep value as gradient string for active-change event
+      this.value = this.toGradientValue()
     } else {
       this.value = colorStr
     }
