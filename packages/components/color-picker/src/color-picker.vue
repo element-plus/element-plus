@@ -280,13 +280,26 @@ function confirmValue() {
   debounceSetShowPicker(false)
   // check if modelValue change, if not change, then reset color.
   nextTick(() => {
-    const newColor = new Color({
-      enableAlpha: props.showAlpha,
-      format: props.colorFormat || '',
-      value: props.modelValue,
-    })
-    if (!color.compare(newColor)) {
-      resetColor()
+    // 处理渐变值
+    if (props.modelValue && props.modelValue.includes('gradient')) {
+      const match = props.modelValue.match(/rgba?$[^)]+$|#[0-9a-fA-F]+/g)
+      if (match && match.length >= 2) {
+        const startColor = new TinyColor(match[0]).toHexString()
+        const endColor = new TinyColor(match[match.length - 1]).toHexString()
+        if (color.startValue !== startColor || color.endValue !== endColor) {
+          resetColor()
+        }
+      }
+    } else {
+      // 原有的纯色比较逻辑
+      const newColor = new Color({
+        enableAlpha: props.showAlpha,
+        format: props.colorFormat || '',
+        value: props.modelValue,
+      })
+      if (!color.compare(newColor)) {
+        resetColor()
+      }
     }
   })
 }
