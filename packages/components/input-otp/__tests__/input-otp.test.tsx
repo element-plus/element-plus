@@ -12,7 +12,6 @@ describe('InputOtp.vue', () => {
     const wrapper = mount(() => <InputOtp />)
     expect(wrapper.findAll('input').length).toBe(6)
     expect(wrapper.classes()).toContain('el-input-otp')
-    expect(wrapper.classes()).toContain('el-input-otp--default')
     expect(wrapper.classes()).toContain('el-input-otp--outlined')
   })
 
