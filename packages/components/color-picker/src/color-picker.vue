@@ -468,12 +468,23 @@ watch(
       }
       // 如果有 showGradient，处理渐变初始化
       if (props.showGradient && isGradientValue) {
-        // 使用 color-picker-panel 的解析逻辑
+        // 解析渐变值中的颜色和位置
         const match = newVal.match(/rgba?\([^)]+\)|#[0-9a-fA-F]+/g)
+        const posMatch = newVal.match(/(\d+(?:\.\d+)?)\s*%/g)
         if (match && match.length >= 2) {
-          const startColor = new TinyColor(match[0]).toHexString()
-          const endColor = new TinyColor(match[match.length - 1]).toHexString()
+          const startColor = props.showAlpha
+            ? new TinyColor(match[0]).toRgbString()
+            : new TinyColor(match[0]).toHexString()
+          const endColor = props.showAlpha
+            ? new TinyColor(match[match.length - 1]).toRgbString()
+            : new TinyColor(match[match.length - 1]).toHexString()
+          const startPos =
+            posMatch && posMatch[0] ? Number.parseFloat(posMatch[0]) : 0
+          const endPos =
+            posMatch && posMatch[1] ? Number.parseFloat(posMatch[1]) : 100
           color.setGradient(startColor, endColor)
+          color.startPosition = startPos
+          color.endPosition = endPos
           color.editingGradientPart = 'start'
           color.fromString(startColor)
         } else {
