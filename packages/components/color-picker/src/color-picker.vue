@@ -282,7 +282,33 @@ function hide() {
 function resetColor() {
   nextTick(() => {
     if (props.modelValue) {
-      color.fromString(props.modelValue)
+      if (props.showGradient && isGradientValue(props.modelValue)) {
+        const colorMatch = props.modelValue.match(
+          /rgba?\([^)]+\)|#[0-9a-fA-F]+/g
+        )
+        const posMatch = props.modelValue.match(/(\d+(?:\.\d+)?)\s*%/g)
+        if (colorMatch && colorMatch.length >= 2) {
+          const startColor = new TinyColor(colorMatch[0]).toHexString()
+          const endColor = new TinyColor(
+            colorMatch[colorMatch.length - 1]
+          ).toHexString()
+          const startPos =
+            posMatch && posMatch[0] ? Number.parseFloat(posMatch[0]) : 0
+          const endPos =
+            posMatch && posMatch[1] ? Number.parseFloat(posMatch[1]) : 100
+          color.startValue = startColor
+          color.endValue = endColor
+          color.startPosition = startPos
+          color.endPosition = endPos
+          color.isGradient = true
+          color.editingGradientPart = 'start'
+          color.fromString(startColor)
+        } else {
+          color.fromString(props.modelValue)
+        }
+      } else {
+        color.fromString(props.modelValue)
+      }
     } else {
       color.value = ''
       nextTick(() => {
