@@ -191,8 +191,8 @@ const colorStyle = computed(() => {
   if (!props.modelValue && !showPanelColor.value) {
     return { backgroundColor: 'transparent' }
   }
-  // Use background style in gradient mode
-  if (color.isGradient) {
+  // Use background style in gradient mode only if showGradient is enabled
+  if (props.showGradient && color.isGradient) {
     return {
       background: color.toGradientValue(),
       backgroundColor: undefined,
@@ -525,6 +525,18 @@ watch(
         color.endValue = ''
         color.fromString(newVal)
       }
+    }
+  }
+)
+
+watch(
+  () => props.showGradient,
+  (newVal) => {
+    // Clear gradient state when showGradient is disabled
+    if (!newVal && color.isGradient) {
+      color.isGradient = false
+      color.startValue = ''
+      color.endValue = ''
     }
   }
 )
