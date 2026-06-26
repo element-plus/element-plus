@@ -340,7 +340,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
           gapWidth -
           inputSlotWidth
         : states.selectionWidth - inputSlotWidth
-    return { maxWidth: `${maxWidth}px` }
+    return maxWidth > 0 ? { maxWidth: `${maxWidth}px` } : {}
   })
 
   const collapseTagStyle = computed(() => {
