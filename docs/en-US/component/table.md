@@ -239,6 +239,10 @@ table/custom-index
 
 The [table-layout](https://developer.mozilla.org/en-US/docs/Web/CSS/table-layout) property sets the algorithm used to lay out table cells, rows, and columns.
 
+:::warning
+When `max-height` is set, the layout is internally forced to `fixed`, regardless of the `table-layout` prop. In this case, columns without an explicit `width` or `min-width` will fall back to `80px` for overflow calculation. To ensure horizontal scrolling works correctly, specify `width` or `min-width` on all columns.
+:::
+
 :::demo
 
 table/table-layout
