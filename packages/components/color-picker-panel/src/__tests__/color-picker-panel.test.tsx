@@ -1058,5 +1058,67 @@ describe('Color-picker-panel', () => {
       expect(input.element.value).toBe('#0000ff')
       wrapper.unmount()
     })
+
+    it('should sync editingGradientPart when color.editingGradientPart changes externally', async () => {
+      const color = ref(
+        'linear-gradient(90deg, rgb(255, 0, 0) 0%, rgb(0, 0, 255) 100%)'
+      )
+      const wrapper = mount(() => (
+        <ColorPickerPanel v-model={color.value} showGradient />
+      ))
+
+      await nextTick()
+      const colorPickerWrapper = wrapper.findComponent(ColorPickerPanel)
+
+      // Change color.editingGradientPart externally (simulating resetColor behavior)
+      colorPickerWrapper.vm.color.editingGradientPart = 'end'
+      await nextTick()
+
+      // Panel-local editingGradientPart should sync with color.editingGradientPart
+      expect(colorPickerWrapper.vm.editingGradientPart).toBe('end')
+      wrapper.unmount()
+    })
+
+    it('should sync colorState when color.isGradient changes externally', async () => {
+      const color = ref(
+        'linear-gradient(90deg, rgb(255, 0, 0) 0%, rgb(0, 0, 255) 100%)'
+      )
+      const wrapper = mount(() => (
+        <ColorPickerPanel v-model={color.value} showGradient />
+      ))
+
+      await nextTick()
+      const colorPickerWrapper = wrapper.findComponent(ColorPickerPanel)
+      expect(colorPickerWrapper.vm.colorState).toBe('gradient')
+
+      // Change color.isGradient externally (simulating resetColor behavior)
+      colorPickerWrapper.vm.color.isGradient = false
+      await nextTick()
+
+      // Panel-local colorState should sync with color.isGradient
+      expect(colorPickerWrapper.vm.colorState).toBe('solid')
+      wrapper.unmount()
+    })
+
+    it('should cancel animation frame on unmount during drag', async () => {
+      const color = ref(
+        'linear-gradient(90deg, rgb(255, 0, 0) 0%, rgb(0, 0, 255) 100%)'
+      )
+      const wrapper = mount(() => (
+        <ColorPickerPanel v-model={color.value} showGradient />
+      ))
+
+      await nextTick()
+      const colorPickerWrapper = wrapper.findComponent(ColorPickerPanel)
+
+      // Simulate starting a drag
+      colorPickerWrapper.vm.color.editingGradientPart = 'start'
+      colorPickerWrapper.vm.color.startPosition = 0
+      colorPickerWrapper.vm.color.endPosition = 100
+      await nextTick()
+
+      // Unmount should not throw even if animation frame was scheduled
+      expect(() => wrapper.unmount()).not.toThrow()
+    })
   })
 })

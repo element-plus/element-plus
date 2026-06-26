@@ -970,5 +970,21 @@ describe('Color-picker', () => {
       }
       wrapper.unmount()
     })
+
+    it('should format gradient values according to color-format prop', async () => {
+      const color = ref('linear-gradient(90deg, #ff0000 0%, #0000ff 100%)')
+      const wrapper = mount(() => (
+        <ColorPicker v-model={color.value} show-gradient color-format="hex" />
+      ))
+
+      await nextTick()
+      const colorPickerWrapper = wrapper.findComponent(ColorPickerPanel)
+      const gradientValue = colorPickerWrapper.vm.color.toGradientValue()
+
+      // Gradient value should use hex format, not rgb
+      expect(gradientValue).toContain('#')
+      expect(gradientValue).not.toMatch(/rgb\(/)
+      wrapper.unmount()
+    })
   })
 })
