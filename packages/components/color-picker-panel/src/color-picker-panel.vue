@@ -529,6 +529,14 @@ watch(
   }
 )
 
+// Sync panel-local color mode with shared color object
+watch(
+  () => color.isGradient,
+  (newVal) => {
+    colorState.value = newVal ? 'gradient' : 'solid'
+  }
+)
+
 watch(
   () => props.showGradient,
   (newVal) => {
