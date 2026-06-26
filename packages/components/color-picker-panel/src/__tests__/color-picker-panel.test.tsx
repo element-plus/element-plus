@@ -976,5 +976,87 @@ describe('Color-picker-panel', () => {
 
       wrapper.unmount()
     })
+
+    it('should not process gradient value when showGradient is false', async () => {
+      const color = ref(
+        'linear-gradient(90deg, rgb(255, 0, 0) 0%, rgb(0, 0, 255) 100%)'
+      )
+      const wrapper = mount(() => (
+        <ColorPickerPanel v-model={color.value} showGradient={false} />
+      ))
+
+      await nextTick()
+      const colorPickerWrapper = wrapper.findComponent(ColorPickerPanel)
+      // When showGradient is false, gradient values should not be processed
+      expect(colorPickerWrapper.vm.color.isGradient).toBe(false)
+      wrapper.unmount()
+    })
+
+    it('should switch to solid mode and clear gradient state when modelValue changes to solid', async () => {
+      const color = ref(
+        'linear-gradient(90deg, rgb(255, 0, 0) 0%, rgb(0, 0, 255) 100%)'
+      )
+      const wrapper = mount(() => (
+        <ColorPickerPanel v-model={color.value} showGradient />
+      ))
+
+      await nextTick()
+      const colorPickerWrapper = wrapper.findComponent(ColorPickerPanel)
+      expect(colorPickerWrapper.vm.color.isGradient).toBe(true)
+
+      // Change to a solid color that matches the active stop
+      color.value = '#ff0000'
+      await nextTick()
+
+      // The component should switch to solid mode and clear gradient state
+      expect(colorPickerWrapper.vm.color.isGradient).toBe(false)
+      expect(colorPickerWrapper.vm.color.startValue).toBe('')
+      expect(colorPickerWrapper.vm.color.endValue).toBe('')
+      wrapper.unmount()
+    })
+
+    it('should handle manual color input correctly', async () => {
+      const color = ref('#ff0000')
+      const wrapper = mount(() => <ColorPickerPanel v-model={color.value} />)
+
+      await nextTick()
+      const input = wrapper.find<HTMLInputElement>('input')
+
+      // Type a new color value
+      await input.setValue('#00ff00')
+      await nextTick()
+
+      // The input should show the typed value, not the old color
+      expect(input.element.value).toBe('#00ff00')
+
+      // Trigger blur to confirm
+      await input.trigger('blur')
+      await nextTick()
+
+      // The color should be updated
+      expect(color.value).toBe('#00ff00')
+      wrapper.unmount()
+    })
+
+    it('should clear customInput when color changes from other sources', async () => {
+      const color = ref('#ff0000')
+      const wrapper = mount(() => <ColorPickerPanel v-model={color.value} />)
+
+      await nextTick()
+      const input = wrapper.find<HTMLInputElement>('input')
+
+      // Type a new color value
+      await input.setValue('#00ff00')
+      await nextTick()
+      expect(input.element.value).toBe('#00ff00')
+
+      // Change color externally
+      color.value = '#0000ff'
+      await nextTick()
+
+      // The input should show the new color, not the typed value
+      expect(input.element.value).toBe('#0000ff')
+      wrapper.unmount()
+    })
   })
 })
