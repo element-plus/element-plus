@@ -67,14 +67,20 @@ export default class Color {
     }
     const startColor = new TinyColor(this.startValue || this.value)
     const endColor = new TinyColor(this.endValue)
-    // 根据位置生成渐变值，位置较小的作为起点
     const startPos = Math.min(this.startPosition, this.endPosition)
     const endPos = Math.max(this.startPosition, this.endPosition)
     const startClr =
       this.startPosition <= this.endPosition ? startColor : endColor
     const endClr =
       this.startPosition <= this.endPosition ? endColor : startColor
-    return `linear-gradient(90deg, ${startClr.toRgbString()} ${startPos}%, ${endClr.toRgbString()} ${endPos}%)`
+
+    // Use the same format logic as doOnChange()
+    let _format = this.format || (this.enableAlpha ? 'rgb' : 'hex')
+    if (this.format === 'hex' && this.enableAlpha) {
+      _format = 'hex8'
+    }
+
+    return `linear-gradient(90deg, ${startClr.toString(_format as ColorFormats)} ${startPos}%, ${endClr.toString(_format as ColorFormats)} ${endPos}%)`
   }
 
   setGradient(startValue: string, endValue: string) {
