@@ -2927,11 +2927,12 @@ describe('Table.vue', () => {
 
     tableRef.layout.scrollX.value = false
     const cleanup = [
+      defineGetter(tableRef.$el as HTMLElement, 'clientWidth', 2000),
       defineGetter(wrapRef, 'scrollWidth', 1000),
-      defineGetter(wrapRef, 'offsetWidth', 400),
+      defineGetter(wrapRef, 'clientWidth', 400),
     ]
 
-    expect(wrapRef.scrollWidth).toBeGreaterThan(wrapRef.offsetWidth)
+    expect(wrapRef.scrollWidth).toBeGreaterThan(wrapRef.clientWidth)
 
     tableRef.layout.updateColumnsWidth()
     expect(tableRef.layout.scrollX.value).toBe(true)
