@@ -510,6 +510,19 @@ watch(
   }
 )
 
+watch(
+  () => props.showGradient,
+  (newVal) => {
+    // Clear gradient state when showGradient is disabled
+    if (!newVal && color.isGradient) {
+      color.isGradient = false
+      color.startValue = ''
+      color.endValue = ''
+      colorState.value = 'solid'
+    }
+  }
+)
+
 provide(colorPickerPanelContextKey, {
   currentColor: computed(() => color.value),
 })
