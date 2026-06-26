@@ -500,7 +500,7 @@ watch(
       customInput.value = ''
       isEditingInput.value = false
     }
-    if (props.validateEvent && isHydrating.value) {
+    if (props.validateEvent && !isHydrating.value) {
       formItem?.validate('change').catch(NOOP)
     }
   }
