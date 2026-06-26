@@ -150,6 +150,11 @@ const isDragging = ref(false)
 const isHydrating = ref(false)
 
 onBeforeUnmount(() => {
+  // Clean up animation frame to prevent errors after unmount
+  if (animationFrameId.value !== null) {
+    cancelAnimationFrame(animationFrameId.value)
+    animationFrameId.value = null
+  }
   if (handleMouseMoveFunc) {
     document.removeEventListener('mousemove', handleMouseMoveFunc)
   }
@@ -256,7 +261,13 @@ handleMouseMoveFunc = (event: MouseEvent) => {
 
   // Use requestAnimationFrame to optimize performance and avoid jitter
   animationFrameId.value = requestAnimationFrame(() => {
-    const barRect = gradientBarRef.value!.getBoundingClientRect()
+    // Guard against running after unmount
+    const bar = gradientBarRef.value
+    if (!bar) {
+      animationFrameId.value = null
+      return
+    }
+    const barRect = bar.getBoundingClientRect()
     const barWidth = barRect.width
     const offsetX = event.clientX - barRect.left
 
