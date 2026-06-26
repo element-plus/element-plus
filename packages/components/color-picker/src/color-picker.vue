@@ -320,7 +320,11 @@ function resetColor() {
         color.fromString(props.modelValue)
       }
     } else {
+      // Clear color and gradient state when modelValue is empty
       color.value = ''
+      color.isGradient = false
+      color.startValue = ''
+      color.endValue = ''
       nextTick(() => {
         showPanelColor.value = false
       })
