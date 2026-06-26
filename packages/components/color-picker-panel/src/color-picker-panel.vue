@@ -137,6 +137,7 @@ const svRef = ref<InstanceType<typeof SvPanel>>()
 const alphaRef = ref<InstanceType<typeof AlphaSlider>>()
 const inputRef = ref<InputInstance>()
 const customInput = ref('')
+const isEditingInput = ref(false)
 const gradientStartInput = ref('')
 const gradientEndInput = ref('')
 const colorState = ref<'solid' | 'gradient'>('solid')
@@ -187,8 +188,8 @@ const { color } = inject(
 
 const displayInputValue = computed({
   get() {
-    // Return user input if available, otherwise return current color
-    if (customInput.value) {
+    // Return user input if editing, otherwise return current color
+    if (isEditingInput.value) {
       return customInput.value
     }
     if (color.isGradient) {
@@ -200,6 +201,7 @@ const displayInputValue = computed({
   },
   set(val: string) {
     customInput.value = val
+    isEditingInput.value = true
   },
 })
 
@@ -219,6 +221,7 @@ function handleConfirm() {
   }
   // Clear custom input after confirming, so getter returns updated color
   customInput.value = ''
+  isEditingInput.value = false
 }
 
 function handleSegmentedChange(value: 'solid' | 'gradient') {
@@ -484,6 +487,7 @@ watch(
       emit(UPDATE_MODEL_EVENT, val)
       // Clear custom input when color changes from other sources (e.g. slider drag)
       customInput.value = ''
+      isEditingInput.value = false
     }
     if (props.validateEvent) {
       formItem?.validate('change').catch(NOOP)
@@ -501,6 +505,7 @@ watch(
       emit(UPDATE_MODEL_EVENT, color.toGradientValue())
       // Clear custom input when gradient stop changes from other sources
       customInput.value = ''
+      isEditingInput.value = false
     }
   }
 )
