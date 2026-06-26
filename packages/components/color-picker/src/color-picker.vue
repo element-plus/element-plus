@@ -544,6 +544,15 @@ watch(
   (newVal) => {
     // Clear gradient state when showGradient is disabled
     if (!newVal && color.isGradient) {
+      // Set color.value to the active stop before clearing gradient state
+      // This ensures confirmValue emits the solid color instead of stale gradient
+      const activeStop =
+        color.editingGradientPart === 'start'
+          ? color.startValue
+          : color.endValue
+      if (activeStop) {
+        color.value = activeStop
+      }
       color.isGradient = false
       color.startValue = ''
       color.endValue = ''
