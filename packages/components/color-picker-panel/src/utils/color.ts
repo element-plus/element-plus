@@ -28,8 +28,8 @@ export default class Color {
   public isGradient = false
   public startValue = ''
   public endValue = ''
-  public startPosition = 0 // 位置百分比 (0-100)
-  public endPosition = 100 // 位置百分比 (0-100)
+  public startPosition = 0 // position percentage (0-100)
+  public endPosition = 100 // position percentage (0-100)
   public editingGradientPart: 'start' | 'end' = 'start'
 
   constructor(options: Partial<ColorOptions> = {}) {

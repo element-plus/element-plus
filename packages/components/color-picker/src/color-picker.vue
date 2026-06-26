@@ -191,7 +191,7 @@ const colorStyle = computed(() => {
   if (!props.modelValue && !showPanelColor.value) {
     return { backgroundColor: 'transparent' }
   }
-  // 渐变模式下使用 background 样式
+  // Use background style in gradient mode
   if (color.isGradient) {
     return {
       background: color.toGradientValue(),
@@ -337,8 +337,8 @@ function handleTrigger() {
 }
 
 function confirmValue() {
-  // 渐变模式下使用 toGradientValue()，否则使用 color.value
-  // 渐变模式优先检查，因为渐变编辑不写入 color.value
+  // Use toGradientValue() in gradient mode, otherwise use color.value
+  // Check gradient mode first because gradient edits don't write to color.value
   const value = color.isGradient
     ? color.toGradientValue()
     : isEmptyValue(color.value)
@@ -352,7 +352,7 @@ function confirmValue() {
   debounceSetShowPicker(false)
   // check if modelValue change, if not change, then reset color.
   nextTick(() => {
-    // 处理渐变值
+    // Handle gradient value
     if (props.modelValue && props.modelValue.includes('gradient')) {
       const match = props.modelValue.match(/rgba?\([^)]+\)|#[0-9a-fA-F]+/g)
       const posMatch = props.modelValue.match(/(\d+(?:\.\d+)?)\s*%/g)
@@ -373,7 +373,7 @@ function confirmValue() {
         }
       }
     } else {
-      // 原有的纯色比较逻辑
+      // Original solid color comparison logic
       const newColor = new Color({
         enableAlpha: props.showAlpha,
         format: props.colorFormat || '',
@@ -461,7 +461,7 @@ watch(
   (newVal) => {
     if (!newVal) {
       showPanelColor.value = false
-      // 清除渐变状态（重置为纯色模式）
+      // Clear gradient state (reset to solid mode)
       if (color.isGradient) {
         color.isGradient = false
         color.startValue = ''
@@ -469,15 +469,15 @@ watch(
       }
     } else if (newVal !== color.value || color.isGradient) {
       shouldActiveChange = false
-      // 判断是否是渐变值
+      // Check if value is a gradient
       const isGradientValue = newVal.includes('gradient')
-      // 如果没有 showGradient 但传入了渐变值，不处理
+      // Ignore gradient value if showGradient is not enabled
       if (!props.showGradient && isGradientValue) {
         return
       }
-      // 如果有 showGradient，处理渐变初始化
+      // Handle gradient initialization if showGradient is enabled
       if (props.showGradient && isGradientValue) {
-        // 解析渐变值中的颜色和位置
+        // Parse colors and positions from gradient value
         const match = newVal.match(/rgba?\([^)]+\)|#[0-9a-fA-F]+/g)
         const posMatch = newVal.match(/(\d+(?:\.\d+)?)\s*%/g)
         if (match && match.length >= 2) {
@@ -491,17 +491,19 @@ watch(
             posMatch && posMatch[0] ? Number.parseFloat(posMatch[0]) : 0
           const endPos =
             posMatch && posMatch[1] ? Number.parseFloat(posMatch[1]) : 100
+          // Reset editingGradientPart before setGradient() to prevent
+          // doOnChange() from overwriting endValue with startColor
+          color.editingGradientPart = 'start'
           color.setGradient(startColor, endColor)
           color.startPosition = startPos
           color.endPosition = endPos
-          color.editingGradientPart = 'start'
           color.fromString(startColor)
         } else {
-          // 渐变格式不正确，当作纯色处理
+          // Invalid gradient format, treat as solid color
           color.fromString(newVal)
         }
       } else {
-        // 纯色模式或非渐变值
+        // Solid color mode or non-gradient value
         color.fromString(newVal)
       }
     }
