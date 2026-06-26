@@ -460,6 +460,12 @@ watch(
       color.startPosition = startPos
       color.endPosition = endPos
       color.isGradient = true
+      color.editingGradientPart = 'start'
+      editingGradientPart.value = 'start'
+      colorState.value = 'gradient'
+      gradientStartInput.value = start
+      gradientEndInput.value = end
+      color.fromString(start)
     } else if (newVal !== color.value || color.isGradient) {
       // Switch to solid mode if value changed OR if still in gradient mode
       // This handles the case where gradient's active stop equals the new solid value
