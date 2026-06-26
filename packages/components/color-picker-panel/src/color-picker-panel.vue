@@ -515,6 +515,15 @@ watch(
   (newVal) => {
     // Clear gradient state when showGradient is disabled
     if (!newVal && color.isGradient) {
+      // Set color.value to the active stop before clearing gradient state
+      // This ensures the input and exposed color contain a valid solid color
+      const activeStop =
+        color.editingGradientPart === 'start'
+          ? color.startValue
+          : color.endValue
+      if (activeStop) {
+        color.value = activeStop
+      }
       color.isGradient = false
       color.startValue = ''
       color.endValue = ''
