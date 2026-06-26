@@ -472,7 +472,14 @@ watch(
         color.endValue = ''
       }
     } else if (newVal !== color.value || color.isGradient) {
-      shouldActiveChange = false
+      // Only suppress activeChange when value actually changes
+      // For gradients, compare the full gradient string to avoid false positives
+      const currentGradientValue = color.isGradient
+        ? color.toGradientValue()
+        : color.value
+      if (newVal !== currentGradientValue) {
+        shouldActiveChange = false
+      }
       // Check if value is a gradient
       const isGradientValue = newVal.includes('gradient')
       // Ignore gradient value if showGradient is not enabled
