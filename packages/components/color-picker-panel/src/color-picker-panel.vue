@@ -521,6 +521,14 @@ watch(
   }
 )
 
+// Sync panel-local editing state with shared color object
+watch(
+  () => color.editingGradientPart,
+  (newVal) => {
+    editingGradientPart.value = newVal
+  }
+)
+
 watch(
   () => props.showGradient,
   (newVal) => {
