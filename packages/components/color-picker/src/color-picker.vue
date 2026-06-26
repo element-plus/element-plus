@@ -183,8 +183,8 @@ const color = reactiveComputed(
   () => pickerPanelRef.value?.color ?? commonColor.color
 ) as Color
 
-// Track initial currentColor to suppress active-change during gradient hydration
-let initialCurrentColor: string = ''
+// One-shot guard for initial hydration - suppress first active-change only
+let suppressNextActiveChange = true
 
 const panelProps = computed(() =>
   pick(props, Object.keys(colorPickerPanelProps))
@@ -449,14 +449,12 @@ function blur() {
 watch(
   () => currentColor.value,
   (val) => {
-    // Only emit active-change when value changes after initialization
-    if (initialCurrentColor !== '' && val !== initialCurrentColor) {
+    // Use one-shot guard to suppress initial hydration change only
+    if (!suppressNextActiveChange) {
       shouldActiveChange && emit('activeChange', val)
     }
-    // Mark initialization as complete after first value is set
-    if (initialCurrentColor === '' && val) {
-      initialCurrentColor = val
-    }
+    // Disable guard after first value change
+    suppressNextActiveChange = false
     shouldActiveChange = true
   }
 )
