@@ -386,7 +386,7 @@ function confirmValue() {
         format: props.colorFormat || '',
         value: props.modelValue,
       })
-      if (!color.compare(newColor)) {
+      if (!color.compare(newColor) || color.isGradient) {
         resetColor()
       }
     }
