@@ -500,10 +500,18 @@ watch(
           color.fromString(startColor)
         } else {
           // Invalid gradient format, treat as solid color
+          color.isGradient = false
+          color.startValue = ''
+          color.endValue = ''
           color.fromString(newVal)
         }
       } else {
         // Solid color mode or non-gradient value
+        // Reset gradient state before setting solid color to prevent
+        // doOnChange() from rebuilding color.value as a gradient
+        color.isGradient = false
+        color.startValue = ''
+        color.endValue = ''
         color.fromString(newVal)
       }
     }
