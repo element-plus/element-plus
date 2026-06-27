@@ -213,8 +213,8 @@ importers:
         specifier: 17.0.8
         version: 17.0.8
       prettier:
-        specifier: ^3.8.4
-        version: 3.8.4
+        specifier: ^3.8.5
+        version: 3.8.5
       puppeteer:
         specifier: ^25.2.1
         version: 25.2.1
@@ -302,7 +302,7 @@ importers:
         version: 3.0.2
       '@prettier/sync':
         specifier: ^0.6.1
-        version: 0.6.1(prettier@3.8.4)
+        version: 0.6.1(prettier@3.8.5)
       '@vitejs/plugin-vue-jsx':
         specifier: 'catalog:'
         version: 5.1.6(supports-color@10.2.2)(vite@8.1.0)(vue@3.5.25)
@@ -5879,8 +5879,8 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
 
-  prettier@3.8.4:
-    resolution: {integrity: sha512-N2MylSdi48+5N/6S5j+maeHbUSIzzZ5uOcX5Hm4QpV8Dkb1HFjfAKTKX6yNPJQD9AhcT3ifHNB66tWTTJDi11Q==}
+  prettier@3.8.5:
+    resolution: {integrity: sha512-zxcTTCedNGJM4R8sj/Cq/F0W/c4iE0afWBcBwMTRtw4WHYP9TWkYjdiH3npPRUYsXQCPR0hTU9yjovOu+E6EQA==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -8760,10 +8760,10 @@ snapshots:
 
   '@polka/url@1.0.0-next.29': {}
 
-  '@prettier/sync@0.6.1(prettier@3.8.4)':
+  '@prettier/sync@0.6.1(prettier@3.8.5)':
     dependencies:
       make-synchronized: 0.8.0
-      prettier: 3.8.4
+      prettier: 3.8.5
 
   '@puppeteer/browsers@3.0.5':
     dependencies:
@@ -12681,7 +12681,7 @@ snapshots:
 
   prettier@3.8.3: {}
 
-  prettier@3.8.4: {}
+  prettier@3.8.5: {}
 
   pretty-bytes@5.6.0: {}
 
