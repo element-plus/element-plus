@@ -183,6 +183,32 @@ export const getValidDateOfMonth = (
   return _value.locale(lang)
 }
 
+export const getValidDateOfQuarter = (
+  date: Dayjs,
+  year: number,
+  quarter: number,
+  lang: string,
+  disabledDate?: DisabledDateType
+) => {
+  const firstMonth = quarter * 3
+  for (let i = 0; i < 3; i++) {
+    const month = firstMonth + i
+    if (
+      !datesInMonth(date, year, month, lang).every((d) => disabledDate?.(d))
+    ) {
+      return getValidDateOfMonth(date, year, month, lang, disabledDate)
+    }
+  }
+  return dayjs()
+    .year(year)
+    .month(firstMonth)
+    .startOf('month')
+    .hour(date.hour())
+    .minute(date.minute())
+    .second(date.second())
+    .locale(lang)
+}
+
 export const getValidDateOfYear = (
   value: Dayjs,
   lang: string,

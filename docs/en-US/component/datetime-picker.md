@@ -136,15 +136,15 @@ datetime-picker/custom-icon
 
 ### Events
 
-| Name            | Description                                                           | Parameters                                                                                |
-| --------------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| change          | triggers when user confirms the value or click outside                | ^[Function]`(val: typeof v-model) => void`                                                |
-| blur            | triggers when Input blurs                                             | ^[Function]`(e: FocusEvent) => void`                                                      |
-| focus           | triggers when Input focuses                                           | ^[Function]`(e: FocusEvent) => void`                                                      |
-| clear ^(2.7.7)  | triggers when a clear button is clicked                               | ^[Function]`() => void`                                                                   |
-| calendar-change | triggers when the calendar selected date is changed. Only for `range` | ^[Function]`(val: [Date, null \| Date]) => void`                                          |
-| panel-change    | triggers when the navigation button click.                            | ^[Function]`(date: Date \| [Date, Date], mode: 'month' \| 'year', view?: string) => void` |
-| visible-change  | triggers when the DateTimePicker's dropdown appears/disappears        | ^[Function]`(visibility: boolean) => void`                                                |
+| Name            | Description                                                                                                                                                                           | Parameters                                                                                |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| change          | triggers when user confirms the value or click outside                                                                                                                                | ^[Function]`(val: typeof v-model) => void`                                                |
+| blur            | triggers when Input blurs                                                                                                                                                             | ^[Function]`(e: FocusEvent) => void`                                                      |
+| focus           | triggers when Input focuses                                                                                                                                                           | ^[Function]`(e: FocusEvent) => void`                                                      |
+| clear ^(2.7.7)  | triggers when a clear button is clicked                                                                                                                                               | ^[Function]`() => void`                                                                   |
+| calendar-change | triggers when the calendar selected date is changed. Only for `range`                                                                                                                 | ^[Function]`(val: [Date, null \| Date]) => void`                                          |
+| panel-change    | triggers when the panel anchor date changes by navigation or picking in the year/month/quarter table. `mode` indicates the granularity (`year` or sub-year); `view` can be `quarter`. | ^[Function]`(date: Date \| [Date, Date], mode: 'month' \| 'year', view?: string) => void` |
+| visible-change  | triggers when the DateTimePicker's dropdown appears/disappears                                                                                                                        | ^[Function]`(visibility: boolean) => void`                                                |
 
 ### Slots
 
