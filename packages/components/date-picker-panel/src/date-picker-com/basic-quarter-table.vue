@@ -35,7 +35,6 @@
 <script lang="ts" setup>
 import { computed, nextTick, ref, watch } from 'vue'
 import dayjs from 'dayjs'
-import 'dayjs/plugin/quarterOfYear.js'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { castArray, hasClass } from '@element-plus/utils'
 import { basicQuarterTableProps } from '../props/basic-quarter-table'

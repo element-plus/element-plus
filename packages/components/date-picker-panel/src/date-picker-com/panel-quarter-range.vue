@@ -132,7 +132,6 @@
 <script lang="ts" setup>
 import { computed, inject, ref, toRef, unref, watch } from 'vue'
 import dayjs from 'dayjs'
-import 'dayjs/plugin/quarterOfYear.js'
 import ElIcon from '@element-plus/components/icon'
 import { useLocale } from '@element-plus/hooks'
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'

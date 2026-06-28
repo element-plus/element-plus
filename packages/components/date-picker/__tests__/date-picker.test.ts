@@ -3215,8 +3215,26 @@ describe('QuarterPicker', () => {
     expect((wrapper.vm as any).value).toBe('2020-Q1')
   })
 
+  it('validate manual change with default quarter format', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        type="quarter"
+        v-model="value"
+      />`,
+      () => ({ value: '' })
+    )
+    const input = wrapper.find('input')
+    input.element.value = '2020-Q3'
+    await input.trigger('input')
+    await input.trigger('blur')
+    await nextTick()
+    const vm = wrapper.vm as any
+    expect(vm.value.getFullYear()).toBe(2020)
+    expect(vm.value.getMonth()).toBe(6)
+  })
+
   it('disabledDate', async () => {
-    _mount(
+    const wrapper = _mount(
       `<el-date-picker
         type="quarter"
         v-model="value"
@@ -3230,6 +3248,8 @@ describe('QuarterPicker', () => {
         },
       })
     )
+    await nextTick()
+    await wrapper.find('input').trigger('focus')
     await nextTick()
     const tds = Array.from(document.querySelectorAll('.el-quarter-table td'))
     // Q1, Q2 disabled; Q3, Q4 enabled
@@ -3458,7 +3478,7 @@ describe('Quarters', () => {
   })
 
   it('disabledDate', async () => {
-    _mount(
+    const wrapper = _mount(
       `<el-date-picker
         type="quarters"
         v-model="value"
@@ -3471,6 +3491,8 @@ describe('Quarters', () => {
         },
       })
     )
+    await nextTick()
+    await wrapper.find('input').trigger('focus')
     await nextTick()
     const tds = Array.from(document.querySelectorAll('.el-quarter-table td'))
     expect(tds[0].classList.contains('disabled')).toBeTruthy()

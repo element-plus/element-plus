@@ -242,9 +242,14 @@ export const correctlyParseUserInput = (
     )
   }
   if (isString(value)) {
-    const dayjsValue = defaultFormat?.value
-      ? dayjs(value)
-      : dayjs(value, format)
+    let dayjsValue = defaultFormat?.value ? dayjs(value) : dayjs(value, format)
+    if (
+      !dayjsValue.isValid() &&
+      defaultFormat?.value &&
+      format.includes('[Q]')
+    ) {
+      dayjsValue = dayjs(value, format)
+    }
     if (!dayjsValue.isValid()) {
       // return directly if not valid
       return dayjsValue

@@ -240,7 +240,6 @@ import {
   watch,
 } from 'vue'
 import dayjs from 'dayjs'
-import 'dayjs/plugin/quarterOfYear.js'
 import ElButton from '@element-plus/components/button'
 import { ClickOutside as vClickOutside } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
