@@ -28,6 +28,7 @@ export default {
       dateTablePrompt:
         'Use the arrow keys and enter to select the day of the month',
       monthTablePrompt: 'Use the arrow keys and enter to select the month',
+      quarterTablePrompt: 'Use the arrow keys and enter to select the quarter',
       yearTablePrompt: 'Use the arrow keys and enter to select the year',
       selectedDate: 'Selected date',
       selectDate: 'Select date',

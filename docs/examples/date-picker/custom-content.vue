@@ -28,6 +28,17 @@
         </div>
       </template>
     </el-date-picker>
+    <el-date-picker
+      v-model="quarter"
+      type="quarter"
+      placeholder="Pick a quarter"
+    >
+      <template #default="cell">
+        <div class="el-date-table-cell" :class="{ current: cell.isCurrent }">
+          <span class="el-date-table-cell__text">Q{{ cell.text + 1 }}</span>
+        </div>
+      </template>
+    </el-date-picker>
   </div>
 </template>
 
@@ -37,6 +48,7 @@ import { ref } from 'vue'
 const value = ref('2021-10-29')
 const month = ref('')
 const year = ref('')
+const quarter = ref('')
 const holidays = [
   '2021-10-01',
   '2021-10-02',

@@ -55,6 +55,24 @@
         />
       </div>
     </div>
+    <div class="container">
+      <div class="block">
+        <span class="demonstration">Quarter</span>
+        <el-date-picker
+          v-model="value7"
+          type="quarter"
+          placeholder="Pick a quarter"
+        />
+      </div>
+      <div class="block">
+        <span class="demonstration">Quarters</span>
+        <el-date-picker
+          v-model="value8"
+          type="quarters"
+          placeholder="Pick one or more quarters"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -67,6 +85,8 @@ const value3 = ref('')
 const value4 = ref('')
 const value5 = ref('')
 const value6 = ref('')
+const value7 = ref('')
+const value8 = ref([])
 </script>
 
 <style scoped>
