@@ -629,33 +629,6 @@
     }
   }
 
-  @include e(border-left-patch) {
-    top: 0;
-    left: 0;
-    width: 1px;
-    height: 100%;
-    z-index: calc(getCssVar('table-index') + 2);
-    position: absolute;
-    background-color: getCssVar('table-border-color');
-  }
-
-  @include e(border-bottom-patch) {
-    left: 0;
-    height: 1px;
-    z-index: calc(getCssVar('table-index') + 2);
-    position: absolute;
-    background-color: getCssVar('table-border-color');
-  }
-
-  @include e(border-right-patch) {
-    top: 0;
-    height: 100%;
-    width: 1px;
-    z-index: calc(getCssVar('table-index') + 2);
-    position: absolute;
-    background-color: getCssVar('table-border-color');
-  }
-
   @include m(enable-row-transition) {
     .#{$namespace}-table__body td.#{$namespace}-table__cell {
       transition: background-color 0.25s ease 1ms; // #23955

@@ -160,7 +160,6 @@
           />
         </table>
       </div>
-      <div v-if="border || isGroup" :class="ns.e('border-left-patch')" />
     </div>
     <div
       v-show="resizeProxyVisible"
