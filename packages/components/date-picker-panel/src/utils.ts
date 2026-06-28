@@ -1,6 +1,9 @@
 import dayjs from 'dayjs'
 import { isArray, isString } from '@element-plus/utils'
-import { rangeArr } from '@element-plus/components/time-picker'
+import {
+  isLooseDefaultParseFormat,
+  rangeArr,
+} from '@element-plus/components/time-picker'
 
 import type { ComputedRef } from 'vue'
 import type { Dayjs } from 'dayjs'
@@ -242,14 +245,11 @@ export const correctlyParseUserInput = (
     )
   }
   if (isString(value)) {
-    let dayjsValue = defaultFormat?.value ? dayjs(value) : dayjs(value, format)
-    if (
-      !dayjsValue.isValid() &&
-      defaultFormat?.value &&
-      format.includes('[Q]')
-    ) {
-      dayjsValue = dayjs(value, format)
-    }
+    const dayjsValue = defaultFormat?.value
+      ? isLooseDefaultParseFormat(format)
+        ? dayjs(value)
+        : dayjs(value, format)
+      : dayjs(value, format)
     if (!dayjsValue.isValid()) {
       // return directly if not valid
       return dayjsValue
