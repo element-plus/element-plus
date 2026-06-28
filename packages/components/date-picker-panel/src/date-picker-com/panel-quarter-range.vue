@@ -220,7 +220,7 @@ const enableYearArrow = computed(() => {
 
 type RangePickValue = {
   minDate: Dayjs
-  maxDate: Dayjs
+  maxDate?: Dayjs
 }
 
 const handleRangePick = (val: RangePickValue, close = true) => {

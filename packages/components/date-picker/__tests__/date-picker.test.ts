@@ -2132,9 +2132,7 @@ describe('DateRangePicker', () => {
     await nextTick()
     const panels = document.querySelectorAll('.el-date-range-picker__content')
     const left = panels[0].querySelector('.el-date-range-picker__header')
-    const right = panels[1].querySelector(
-      '.is-right .el-date-range-picker__header'
-    )
+    const right = panels[1].querySelector('.el-date-range-picker__header')
     expect(left.textContent).toBe('2000 October')
     expect(right.textContent).toBe('2000 December')
     ;(panels[1].querySelector('.d-arrow-right') as HTMLElement).click()
@@ -2599,9 +2597,7 @@ describe('MonthRange', () => {
     await nextTick()
     const panels = document.querySelectorAll('.el-date-range-picker__content')
     const left = panels[0].querySelector('.el-date-range-picker__header')
-    const right = panels[1].querySelector(
-      '.is-right .el-date-range-picker__header'
-    )
+    const right = panels[1].querySelector('.el-date-range-picker__header')
     expect(left.textContent).toContain(2000)
     expect(right.textContent).toContain(2002)
     ;(panels[1].querySelector('.d-arrow-right') as HTMLElement).click()
@@ -3404,6 +3400,63 @@ describe('Quarters', () => {
     expect(vm.value[1]).toMatch(/-Q3$/)
   })
 
+  it('display multiple quarters in input', async () => {
+    vi.useFakeTimers()
+    try {
+      vi.setSystemTime(new Date('2020-01-05'))
+      const wrapper = _mount(
+        `<el-date-picker
+          type="quarters"
+          v-model="value"
+        />`,
+        () => ({ value: [] })
+      )
+      const input = wrapper.find('input')
+      expect(input.attributes('readonly')).not.toBeUndefined()
+      input.trigger('blur')
+      input.trigger('focus')
+      await nextTick()
+      const td = document.querySelectorAll(
+        '.el-quarter-table tr td'
+      ) as NodeListOf<HTMLElement>
+      td[0].click()
+      await nextTick()
+      td[2].click()
+      await nextTick()
+      expect(input.element.value).toBe('2020-Q1, 2020-Q3')
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
+  it('year pick should not replace quarters array', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        type="quarters"
+        v-model="value"
+      />`,
+      () => ({
+        value: [new Date(2020, 0, 1), new Date(2020, 6, 1)],
+      })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const vm = wrapper.vm as any
+    expect(vm.value.length).toBe(2)
+    const yearLabel = document.querySelectorAll(
+      '.el-date-picker__header-label'
+    )[0]
+    ;(yearLabel as HTMLElement).click()
+    await nextTick()
+    const year2021Label = document.querySelectorAll('.el-year-table td')[2]
+    ;(year2021Label as HTMLElement).click()
+    await nextTick()
+    expect(Array.isArray(vm.value)).toBeTruthy()
+    expect(vm.value.length).toBe(2)
+  })
+
   it('disabledDate', async () => {
     _mount(
       `<el-date-picker
@@ -3458,36 +3511,40 @@ describe('Quarters', () => {
 
   it('remove same quarters from different years', async () => {
     vi.useFakeTimers()
-    vi.setSystemTime(new Date('2025-01-05'))
-    const wrapper = _mount(
-      `<el-date-picker
+    try {
+      vi.setSystemTime(new Date('2025-01-05'))
+      const wrapper = _mount(
+        `<el-date-picker
         type="quarters"
         v-model="value"
       />`,
-      () => ({
-        value: [new Date('2025-01-05'), new Date('2024-01-05')],
-      })
-    )
-    const input = wrapper.find('input')
-    input.trigger('blur')
-    input.trigger('focus')
-    await nextTick()
+        () => ({
+          value: [new Date('2025-01-05'), new Date('2024-01-05')],
+        })
+      )
+      const input = wrapper.find('input')
+      input.trigger('blur')
+      input.trigger('focus')
+      await nextTick()
 
-    const prevYearButton: HTMLElement = document.querySelector('.d-arrow-left')
-    prevYearButton.click()
-    await nextTick()
+      const prevYearButton: HTMLElement =
+        document.querySelector('.d-arrow-left')
+      prevYearButton.click()
+      await nextTick()
 
-    const currentQuarter: HTMLElement = document.querySelector(
-      '.el-quarter-table tr .current'
-    )
-    currentQuarter.click()
-    await nextTick()
+      const currentQuarter: HTMLElement = document.querySelector(
+        '.el-quarter-table tr .current'
+      )
+      currentQuarter.click()
+      await nextTick()
 
-    const vm = wrapper.vm as any
-    expect(vm.value.length).toBe(1)
-    expect(vm.value[0].getFullYear()).toBe(2025)
-    expect(vm.value[0].getMonth()).toBe(0)
-    vi.useRealTimers()
+      const vm = wrapper.vm as any
+      expect(vm.value.length).toBe(1)
+      expect(vm.value[0].getFullYear()).toBe(2025)
+      expect(vm.value[0].getMonth()).toBe(0)
+    } finally {
+      vi.useRealTimers()
+    }
   })
 })
 
@@ -3572,9 +3629,7 @@ describe('QuarterRange', () => {
     await nextTick()
     const panels = document.querySelectorAll('.el-date-range-picker__content')
     const left = panels[0].querySelector('.el-date-range-picker__header')
-    const right = panels[1].querySelector(
-      '.is-right .el-date-range-picker__header'
-    )
+    const right = panels[1].querySelector('.el-date-range-picker__header')
     expect(left.textContent).toContain('2000')
     expect(right.textContent).toContain('2002')
     ;(panels[1].querySelector('.d-arrow-right') as HTMLElement).click()
@@ -3622,5 +3677,44 @@ describe('QuarterRange', () => {
     expect(tds[1].classList.contains('disabled')).toBeTruthy()
     expect(tds[2].classList.contains('disabled')).toBeFalsy()
     expect(tds[3].classList.contains('disabled')).toBeFalsy()
+  })
+
+  it('partial disabledDate in quarter range should use first available date', async () => {
+    vi.useFakeTimers()
+    try {
+      vi.setSystemTime(new Date('2020-01-05'))
+      const wrapper = _mount(
+        `<el-date-picker
+        type="quarterrange"
+        v-model="value"
+        :disabledDate="disabledDate"
+      />`,
+        () => ({
+          value: '',
+          disabledDate(time: Date) {
+            const date = new Date(time)
+            if (date.getFullYear() !== 2020) return false
+            const month = date.getMonth()
+            return month === 0 || month > 2
+          },
+        })
+      )
+      const inputs = wrapper.findAll('input')
+      inputs[0].trigger('blur')
+      inputs[0].trigger('focus')
+      await nextTick()
+      const panels = document.querySelectorAll('.el-date-range-picker__content')
+      const q1 = panels[0].querySelector('.el-quarter-table td') as HTMLElement
+      q1.click()
+      await nextTick()
+      q1.click()
+      await nextTick()
+      const vm = wrapper.vm as any
+      expect(vm.value[0].getFullYear()).toBe(2020)
+      expect(vm.value[0].getMonth()).toBe(1)
+      expect(vm.value[1].getMonth()).toBe(1)
+    } finally {
+      vi.useRealTimers()
+    }
   })
 })

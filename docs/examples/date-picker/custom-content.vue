@@ -35,7 +35,7 @@
     >
       <template #default="cell">
         <div class="el-date-table-cell" :class="{ current: cell.isCurrent }">
-          <span class="el-date-table-cell__text">Q{{ cell.text + 1 }}</span>
+          <span class="el-date-table-cell__text">Q{{ +cell.text + 1 }}</span>
         </div>
       </template>
     </el-date-picker>

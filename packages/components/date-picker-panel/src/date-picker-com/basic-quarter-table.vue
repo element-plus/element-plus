@@ -252,8 +252,14 @@ const handleQuarterTableClick = (event: MouseEvent | KeyboardEvent) => {
   const column = target.cellIndex
   const row = (target.parentNode as HTMLTableRowElement).rowIndex
   const quarter = row * 2 + column
-  const newDate = props.date.startOf('year').add(quarter, 'quarter')
   if (props.selectionMode === 'range') {
+    const newDate = getValidDateOfQuarter(
+      props.date,
+      props.date.year(),
+      quarter,
+      lang.value,
+      props.disabledDate
+    )
     if (!props.rangeState.selecting) {
       emit('pick', { minDate: newDate, maxDate: null })
       emit('select', true)

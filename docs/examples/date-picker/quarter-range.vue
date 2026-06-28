@@ -34,14 +34,19 @@ const value2 = ref()
 const shortcuts = [
   {
     text: 'This quarter',
-    value: [new Date(), new Date()],
+    value: () => {
+      const now = new Date()
+      const quarter = Math.floor(now.getMonth() / 3)
+      const start = new Date(now.getFullYear(), quarter * 3, 1)
+      return [start, now]
+    },
   },
   {
     text: 'Last 4 quarters',
     value: () => {
       const end = new Date()
       const start = new Date()
-      start.setMonth(start.getMonth() - 9)
+      start.setMonth(start.getMonth() - 12)
       return [start, end]
     },
   },
@@ -50,7 +55,7 @@ const shortcuts = [
     value: () => {
       const start = new Date()
       const end = new Date()
-      end.setMonth(end.getMonth() + 21)
+      end.setMonth(end.getMonth() + 24)
       return [start, end]
     },
   },

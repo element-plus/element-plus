@@ -561,9 +561,7 @@ const handleYearPick = async (
       ? 'quarter'
       : 'month'
     if (
-      ['month', 'year', 'date', 'week', 'quarter', 'quarters'].includes(
-        selectionMode.value
-      )
+      ['month', 'year', 'date', 'week', 'quarter'].includes(selectionMode.value)
     ) {
       emit(innerDate.value, true)
       await nextTick()
