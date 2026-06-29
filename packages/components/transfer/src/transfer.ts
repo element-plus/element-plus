@@ -102,6 +102,14 @@ export interface TransferProps<T extends TransferDataItem = TransferDataItem> {
    * @description whether to trigger form validation
    */
   validateEvent?: boolean
+  /**
+   * @description whether to enable virtual scrolling
+   */
+  virtualScroll?: boolean
+  /**
+   * @description line height for virtual scrolling
+   */
+  itemSize?: number
 }
 
 /**
@@ -205,6 +213,17 @@ export const transferProps = buildProps({
   validateEvent: {
     type: Boolean,
     default: true,
+  },
+  /**
+   * @description whether to enable virtual scrolling
+   */
+  virtualScroll: Boolean,
+  /**
+   * @description line height for virtual scrolling
+   */
+  itemSize: {
+    type: Number,
+    default: 30,
   },
 } as const)
 

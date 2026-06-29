@@ -46,9 +46,15 @@ import ElIcon from '@element-plus/components/icon'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { CircleClose, Clock } from '@element-plus/icons-vue'
-import { compareTime, formatTime, nextTime, parseTime } from './utils'
+import {
+  compareTime,
+  formatTime,
+  isValidTime,
+  nextTime,
+  parseTime,
+} from './utils'
 import { debugWarn } from '@element-plus/utils'
-import { DEFAULT_STEP } from './time-select'
+import { DEFAULT_END, DEFAULT_START, DEFAULT_STEP } from './time-select'
 
 import type { TimeSelectProps } from './time-select'
 
@@ -68,8 +74,8 @@ const props = withDefaults(defineProps<TimeSelectProps>(), {
   editable: true,
   effect: 'light',
   clearable: true,
-  start: '09:00',
-  end: '18:00',
+  start: DEFAULT_START,
+  end: DEFAULT_END,
   step: DEFAULT_STEP,
   prefixIcon: () => Clock,
   clearIcon: () => CircleClose,
@@ -84,16 +90,32 @@ const select = ref<typeof ElSelect>()
 const _disabled = useFormDisabled()
 const { lang } = useLocale()
 
-const value = computed(() => props.modelValue)
-const start = computed(() => {
-  const time = parseTime(props.start)
-  return time ? formatTime(time) : null
-})
+const getValidTimeOrDefault = (
+  value: string,
+  propName: 'start' | 'end' | 'step',
+  defaultValue: string,
+  allowZero = true
+) => {
+  const time = parseTime(value)
+  if (
+    !isValidTime(time) ||
+    (!allowZero && time.hours === 0 && time.minutes === 0)
+  ) {
+    debugWarn(
+      'ElTimeSelect',
+      `invalid ${propName}, fallback to default ${propName} (${defaultValue}).`
+    )
+    return defaultValue
+  }
+  return formatTime(time)
+}
 
-const end = computed(() => {
-  const time = parseTime(props.end)
-  return time ? formatTime(time) : null
-})
+const value = computed(() => props.modelValue)
+const start = computed(() =>
+  getValidTimeOrDefault(props.start, 'start', DEFAULT_START)
+)
+
+const end = computed(() => getValidTimeOrDefault(props.end, 'end', DEFAULT_END))
 
 const minTime = computed(() => {
   const time = parseTime(props.minTime || '')
@@ -105,23 +127,9 @@ const maxTime = computed(() => {
   return time ? formatTime(time) : null
 })
 
-const step = computed(() => {
-  const time = parseTime(props.step)
-  const isInvalidStep =
-    !time ||
-    time.hours < 0 ||
-    time.minutes < 0 ||
-    Number.isNaN(time.hours) ||
-    Number.isNaN(time.minutes) ||
-    (time.hours === 0 && time.minutes === 0)
-  if (isInvalidStep) {
-    debugWarn(
-      'ElTimeSelect',
-      `invalid step, fallback to default step (${DEFAULT_STEP}).`
-    )
-  }
-  return !isInvalidStep ? formatTime(time) : DEFAULT_STEP
-})
+const step = computed(() =>
+  getValidTimeOrDefault(props.step, 'step', DEFAULT_STEP, false)
+)
 
 const items = computed(() => {
   const result: { value: string; rawValue: string; disabled: boolean }[] = []
@@ -135,26 +143,22 @@ const items = computed(() => {
     })
   }
 
-  if (props.start && props.end && props.step) {
-    let current = start.value
-    let currentTime: string
-    while (current && end.value && compareTime(current, end.value) <= 0) {
-      currentTime = dayjs(current, 'HH:mm')
-        .locale(lang.value)
-        .format(props.format)
-      push(currentTime, current)
-      current = nextTime(current, step.value!)
-    }
-    if (
-      props.includeEndTime &&
-      end.value &&
-      result[result.length - 1]?.rawValue !== end.value
-    ) {
-      const formattedValue = dayjs(end.value, 'HH:mm')
-        .locale(lang.value)
-        .format(props.format)
-      push(formattedValue, end.value)
-    }
+  let current = start.value
+  while (compareTime(current, end.value) <= 0) {
+    const currentTime = dayjs(current, 'HH:mm')
+      .locale(lang.value)
+      .format(props.format)
+    push(currentTime, current)
+    current = nextTime(current, step.value)
+  }
+  if (
+    props.includeEndTime &&
+    result[result.length - 1]?.rawValue !== end.value
+  ) {
+    const formattedValue = dayjs(end.value, 'HH:mm')
+      .locale(lang.value)
+      .format(props.format)
+    push(formattedValue, end.value)
   }
   return result
 })

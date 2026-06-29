@@ -1,6 +1,23 @@
 ## Changelog
 
 
+### 2.14.2
+
+_2026-06-12_
+
+#### Features
+
+- Components [table] add getHalfSelectionRows method (#24348 by @qeTM)
+
+#### Bug fixes
+
+- Components [tree-v2] allow falsy current keys (#24364 by @guozi9999)
+- Components [calendar] correctly validate date ranges that span across years (#24327 by @guozi9999)
+- Components [input-otp] avoid sticky hover on touch devices (#24374 by @ixyzorg)
+- Components [select/v2] hide empty input-wrapper only when multiple (#24177 by @Yeuvoir)
+- Components [tour] ensure `current` prop is controlled when passed (#19675 by @DDDDD12138)
+- Components [time-select] guard invalid time values (#24329 by @guozi9999)
+
 ### 2.14.1
 
 _2026-05-29_
