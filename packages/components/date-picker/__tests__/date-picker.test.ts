@@ -3739,4 +3739,36 @@ describe('QuarterRange', () => {
       vi.useRealTimers()
     }
   })
+
+  it('should reject manually typed disabled quarter ranges', async () => {
+    const initialValue = [new Date(2020, 6, 1), new Date(2020, 9, 1)]
+    const wrapper = _mount(
+      `<el-date-picker
+        type="quarterrange"
+        v-model="value"
+        :disabledDate="disabledDate"
+      />`,
+      () => ({
+        value: initialValue,
+        disabledDate(time: Date) {
+          const date = new Date(time)
+          if (date.getFullYear() !== 2020) return false
+          return date.getMonth() < 6
+        },
+      })
+    )
+
+    const inputs = wrapper.findAll('input')
+    inputs[0].element.value = '2020-Q1'
+    await inputs[0].trigger('input')
+    inputs[1].element.value = '2020-Q3'
+    await inputs[1].trigger('input')
+    await inputs[0].trigger('change')
+    await nextTick()
+
+    const vm = wrapper.vm as any
+    expect(vm.value).toHaveLength(2)
+    expect(vm.value[0].getTime()).toBe(initialValue[0].getTime())
+    expect(vm.value[1].getTime()).toBe(initialValue[1].getTime())
+  })
 })

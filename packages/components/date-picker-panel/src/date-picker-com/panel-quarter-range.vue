@@ -139,6 +139,7 @@ import { PICKER_BASE_INJECTION_KEY } from '@element-plus/components/time-picker'
 import {
   correctlyParseUserInput,
   getDefaultValue,
+  isQuarterFullyDisabled,
   isValidRange,
 } from '../utils'
 import {
@@ -259,6 +260,14 @@ const parseUserInput = (value: Dayjs | Dayjs[]) => {
   )
 }
 
+const isValidValue = (date: [Dayjs, Dayjs]) => {
+  return (
+    isValidRange(date) &&
+    !isQuarterFullyDisabled(date[0], lang.value, disabledDate) &&
+    !isQuarterFullyDisabled(date[1], lang.value, disabledDate)
+  )
+}
+
 function sortDates(minDate: Dayjs | undefined, maxDate: Dayjs | undefined) {
   if (props.unlinkPanels && maxDate) {
     const minDateYear = minDate?.year() || 0
@@ -282,7 +291,7 @@ watch(
   }
 )
 
-emit('set-picker-option', ['isValidValue', isValidRange])
+emit('set-picker-option', ['isValidValue', isValidValue])
 emit('set-picker-option', ['parseUserInput', parseUserInput])
 emit('set-picker-option', ['handleClear', handleClear])
 </script>

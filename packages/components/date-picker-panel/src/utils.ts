@@ -163,6 +163,31 @@ export const datesInMonth = (
   return rangeArr(numOfDays).map((n) => firstDay.add(n, 'day').toDate())
 }
 
+export const datesInQuarter = (
+  date: Dayjs,
+  year: number,
+  quarter: number,
+  lang: string
+) => {
+  const firstMonth = quarter * 3
+  return [0, 1, 2].reduce<Date[]>(
+    (acc, i) => acc.concat(datesInMonth(date, year, firstMonth + i, lang)),
+    []
+  )
+}
+
+export const isQuarterFullyDisabled = (
+  value: Dayjs,
+  lang: string,
+  disabledDate?: DisabledDateType
+) => {
+  if (!disabledDate) return false
+
+  return datesInQuarter(value, value.year(), value.quarter() - 1, lang).every(
+    disabledDate
+  )
+}
+
 export const getValidDateOfMonth = (
   date: Dayjs,
   year: number,

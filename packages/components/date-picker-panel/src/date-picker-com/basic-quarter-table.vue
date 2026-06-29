@@ -38,7 +38,7 @@ import dayjs from 'dayjs'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { castArray, hasClass } from '@element-plus/utils'
 import { basicQuarterTableProps } from '../props/basic-quarter-table'
-import { datesInMonth, getValidDateOfQuarter } from '../utils'
+import { datesInQuarter, getValidDateOfQuarter } from '../utils'
 import ElDatePickerCell from './basic-cell-render'
 
 import type { Dayjs } from 'dayjs'
@@ -75,15 +75,6 @@ const lastRow = ref<number>()
 const lastColumn = ref<number>()
 
 const quarterIndex = (date: Dayjs) => date.year() * 4 + (date.quarter() - 1)
-
-const datesInQuarter = (date: Dayjs, year: number, quarter: number) => {
-  const firstMonth = quarter * 3
-  return [0, 1, 2].reduce<Date[]>(
-    (acc, i) =>
-      acc.concat(datesInMonth(date, year, firstMonth + i, lang.value)),
-    []
-  )
-}
 
 const rows = computed<QuarterCell[][]>(() => {
   const rows = tableRows.value
@@ -155,9 +146,12 @@ const rows = computed<QuarterCell[][]>(() => {
       cell.disabled =
         props.disabled ||
         (props.disabledDate
-          ? datesInQuarter(props.date, props.date.year(), index).every(
-              props.disabledDate
-            )
+          ? datesInQuarter(
+              props.date,
+              props.date.year(),
+              index,
+              lang.value
+            ).every(props.disabledDate)
           : false)
       cell.date = cellDate
       cell.customClass = props.cellClassName?.(cellDate)
@@ -183,7 +177,9 @@ const getCellStyle = (cell: QuarterCell) => {
   style.disabled =
     props.disabled ||
     (disabledDate
-      ? datesInQuarter(props.date, year, quarter).every(disabledDate)
+      ? datesInQuarter(props.date, year, quarter, lang.value).every(
+          disabledDate
+        )
       : false)
   style.current = castArray(props.parsedValue).some(
     (date) =>
