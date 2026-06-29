@@ -198,8 +198,8 @@ importers:
         specifier: ^10.5.0
         version: 10.5.0(jiti@2.7.0)(supports-color@10.2.2)
       expect-type:
-        specifier: ^1.3.0
-        version: 1.3.0
+        specifier: ^1.4.0
+        version: 1.4.0
       happy-dom:
         specifier: ^20.10.6
         version: 20.10.6
@@ -213,11 +213,11 @@ importers:
         specifier: 17.0.8
         version: 17.0.8
       prettier:
-        specifier: ^3.8.4
-        version: 3.8.4
+        specifier: ^3.8.5
+        version: 3.8.5
       puppeteer:
-        specifier: ^25.2.0
-        version: 25.2.0
+        specifier: ^25.2.1
+        version: 25.2.1
       resize-observer-polyfill:
         specifier: ^1.5.1
         version: 1.5.1
@@ -302,7 +302,7 @@ importers:
         version: 3.0.2
       '@prettier/sync':
         specifier: ^0.6.1
-        version: 0.6.1(prettier@3.8.4)
+        version: 0.6.1(prettier@3.8.5)
       '@vitejs/plugin-vue-jsx':
         specifier: 'catalog:'
         version: 5.1.6(supports-color@10.2.2)(vite@8.1.0)(vue@3.5.25)
@@ -694,8 +694,8 @@ importers:
         specifier: 'catalog:'
         version: 2.4.6
       expect-type:
-        specifier: ^1.3.0
-        version: 1.3.0
+        specifier: ^1.4.0
+        version: 1.4.0
       vue:
         specifier: 'catalog:'
         version: 3.5.25(typescript@6.0.3)
@@ -4328,8 +4328,8 @@ packages:
     resolution: {integrity: sha512-8uSpZZocAZRBAPIEINJj3Lo9HyGitllczc27Eh5YYojjMFMn8yHMDMaUHE2Jqfq05D/wucwI4JGURyXt1vchyg==}
     engines: {node: '>=10'}
 
-  expect-type@1.3.0:
-    resolution: {integrity: sha512-knvyeauYhqjOYvQ66MznSMs83wmHrCycNEN6Ao+2AeYEfxUIkuiVxdEa1qlGEPK+We3n0THiDciYSsCcgW/DoA==}
+  expect-type@1.4.0:
+    resolution: {integrity: sha512-KfYbmpRm0VbLjEvVa9yGwCi9GI34xvi7A/HXYWQO65CSD2u3MczUJSuwXKFIxlGsgBQizV9q5J9NHj4VG0n+pA==}
     engines: {node: '>=12.0.0'}
 
   exsolve@1.0.8:
@@ -4500,6 +4500,7 @@ packages:
   git-raw-commits@5.0.1:
     resolution: {integrity: sha512-Y+csSm2GD/PCSh6Isd/WiMjNAydu0VBiG9J7EdQsNA5P9uXvLayqjmTsNlK5Gs9IhblFZqOU0yid5Il5JPoLiQ==}
     engines: {node: '>=18'}
+    deprecated: Deprecated and no longer maintained. Use @conventional-changelog/git-client instead.
     hasBin: true
 
   github-slugger@2.0.0:
@@ -5878,8 +5879,8 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
 
-  prettier@3.8.4:
-    resolution: {integrity: sha512-N2MylSdi48+5N/6S5j+maeHbUSIzzZ5uOcX5Hm4QpV8Dkb1HFjfAKTKX6yNPJQD9AhcT3ifHNB66tWTTJDi11Q==}
+  prettier@3.8.5:
+    resolution: {integrity: sha512-zxcTTCedNGJM4R8sj/Cq/F0W/c4iE0afWBcBwMTRtw4WHYP9TWkYjdiH3npPRUYsXQCPR0hTU9yjovOu+E6EQA==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -5915,12 +5916,12 @@ packages:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
 
-  puppeteer-core@25.2.0:
-    resolution: {integrity: sha512-jGhuGAlkgOcbyGRc0Cm9b/y4vvqoxhyAyl6a1diVe8F3sHsgTaQ60QQT5F3rGegTZV3prysgHVc+0LsvPZo3GA==}
+  puppeteer-core@25.2.1:
+    resolution: {integrity: sha512-MwEZ4FFGJ1ZLOmu/04eISxoEMKtCnHyJBRFfgpwPPSYNG6gT6Xw1laNziFSV7uwDcx3jK+ATYIo9SfOd8Uhc3w==}
     engines: {node: '>=22.12.0'}
 
-  puppeteer@25.2.0:
-    resolution: {integrity: sha512-JPMPd/2+lgdkLhEyPqH895oR3ccMt1wSra6oewgjjTuLmo2s9zPZpKXQTFEIiA/fMKpiL01kjU3+2zPEReRWNg==}
+  puppeteer@25.2.1:
+    resolution: {integrity: sha512-2D5RMkQH9FRhDU57a1/jV9xWoxqZvUjaZOYjAAPdRCEY8A01V5sxzyGOMs8XiKU9fPF91SOSwNYpHRu5SD958g==}
     engines: {node: '>=22.12.0'}
     hasBin: true
 
@@ -8759,10 +8760,10 @@ snapshots:
 
   '@polka/url@1.0.0-next.29': {}
 
-  '@prettier/sync@0.6.1(prettier@3.8.4)':
+  '@prettier/sync@0.6.1(prettier@3.8.5)':
     dependencies:
       make-synchronized: 0.8.0
-      prettier: 3.8.4
+      prettier: 3.8.5
 
   '@puppeteer/browsers@3.0.5':
     dependencies:
@@ -10903,7 +10904,7 @@ snapshots:
       signal-exit: 3.0.7
       strip-final-newline: 2.0.0
 
-  expect-type@1.3.0: {}
+  expect-type@1.4.0: {}
 
   exsolve@1.0.8: {}
 
@@ -12680,7 +12681,7 @@ snapshots:
 
   prettier@3.8.3: {}
 
-  prettier@3.8.4: {}
+  prettier@3.8.5: {}
 
   pretty-bytes@5.6.0: {}
 
@@ -12704,7 +12705,7 @@ snapshots:
 
   punycode@2.3.1: {}
 
-  puppeteer-core@25.2.0:
+  puppeteer-core@25.2.1:
     dependencies:
       '@puppeteer/browsers': 3.0.5
       chromium-bidi: 16.0.1(devtools-protocol@0.0.1638949)
@@ -12717,13 +12718,13 @@ snapshots:
       - proxy-agent
       - utf-8-validate
 
-  puppeteer@25.2.0:
+  puppeteer@25.2.1:
     dependencies:
       '@puppeteer/browsers': 3.0.5
       chromium-bidi: 16.0.1(devtools-protocol@0.0.1638949)
       devtools-protocol: 0.0.1638949
       lilconfig: 3.1.3
-      puppeteer-core: 25.2.0
+      puppeteer-core: 25.2.1
       typed-query-selector: 2.12.2
     transitivePeerDependencies:
       - bufferutil
@@ -13876,7 +13877,7 @@ snapshots:
       '@vitest/spy': 4.1.9
       '@vitest/utils': 4.1.9
       es-module-lexer: 2.1.0
-      expect-type: 1.3.0
+      expect-type: 1.4.0
       magic-string: 0.30.21
       obug: 2.1.1
       pathe: 2.0.3
