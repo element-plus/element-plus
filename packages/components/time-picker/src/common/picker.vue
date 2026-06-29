@@ -567,6 +567,10 @@ const handleKeydownInput = async (event: Event | KeyboardEvent) => {
 
   const code = getEventCode(event as KeyboardEvent)
   emitKeydown(event as KeyboardEvent)
+  // Skip internal key handling while an IME composition is active so that
+  // confirming/closing a candidate with Enter is not swallowed by
+  // preventDefault. Matches the guard in input-tag, select, mention, etc.
+  if ((event as KeyboardEvent).isComposing) return
   if (code === EVENT_CODE.esc) {
     if (pickerVisible.value === true) {
       pickerVisible.value = false
