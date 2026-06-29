@@ -1,7 +1,6 @@
 @use 'mixins/mixins' as *;
 @use 'mixins/var' as *;
 @use 'common/var' as *;
-@use 'common/popup' as *;
 
 $directions: rtl, ltr, ttb, btt;
 
