@@ -94,7 +94,7 @@ export const useLockscreen = (
     if (lockCount === 1 && needCompensation) {
       bodyPaddingRightBeforeLock = document.body.style.paddingRight
       const computedBodyPaddingRight =
-        Number.parseInt(getStyle(document.body, 'paddingRight'), 10) || 0
+        Number.parseFloat(getStyle(document.body, 'paddingRight')) || 0
       document.body.style.paddingRight = `${
         computedBodyPaddingRight + scrollBarWidth
       }px`

@@ -307,6 +307,11 @@ describe('useLockscreen', () => {
     expect(document.body.style.paddingRight).toBe('16px')
 
     childTrigger.value = false
+    await nextTick()
+    vi.advanceTimersByTime(250)
+    await nextTick()
+    expect(document.body.style.paddingRight).toBe('16px')
+
     parentTrigger.value = false
     await nextTick()
     vi.advanceTimersByTime(250)
@@ -389,6 +394,42 @@ describe('useLockscreen', () => {
     vi.advanceTimersByTime(250)
     await nextTick()
     expect(document.body.style.paddingRight).toBe('10px')
+
+    scrollHeightSpy.mockRestore()
+    clientHeightSpy.mockRestore()
+  })
+
+  it('should preserve fractional body padding-right when compensating', async () => {
+    const utilsModule = await import('@element-plus/utils')
+    vi.spyOn(utilsModule, 'getScrollBarWidth').mockReturnValue(16)
+    const scrollHeightSpy = vi
+      .spyOn(document.body, 'scrollHeight', 'get')
+      .mockReturnValue(200)
+    const clientHeightSpy = vi
+      .spyOn(document.documentElement, 'clientHeight', 'get')
+      .mockReturnValue(100)
+    document.body.style.paddingRight = '10.5px'
+
+    const trigger = ref(false)
+    const wrapper = mount({
+      setup() {
+        useLockscreen(trigger)
+        onMounted(() => {
+          trigger.value = true
+        })
+        return () => undefined
+      },
+    })
+
+    await nextTick()
+    expect(document.body.style.paddingRight).toBe('26.5px')
+
+    trigger.value = false
+    await nextTick()
+    wrapper.unmount()
+    vi.advanceTimersByTime(250)
+    await nextTick()
+    expect(document.body.style.paddingRight).toBe('10.5px')
 
     scrollHeightSpy.mockRestore()
     clientHeightSpy.mockRestore()
