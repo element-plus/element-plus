@@ -94,7 +94,7 @@
     "husky": "^9.1.7",
     "jsdom": "16.4.0",
     "lint-staged": "17.0.8",
-    "prettier": "^3.8.5",
+    "prettier": "^3.9.1",
     "puppeteer": "^25.2.1",
     "resize-observer-polyfill": "^1.5.1",
     "rimraf": "^6.1.3",
