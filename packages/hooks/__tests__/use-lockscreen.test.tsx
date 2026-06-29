@@ -142,6 +142,9 @@ describe('useLockscreen', () => {
     const clientHeightSpy = vi
       .spyOn(document.documentElement, 'clientHeight', 'get')
       .mockReturnValue(100)
+    const clientWidthSpy = vi
+      .spyOn(document.body, 'clientWidth', 'get')
+      .mockReturnValue(984)
 
     const parentTrigger = ref(false)
     const childTrigger = ref(false)
@@ -176,7 +179,7 @@ describe('useLockscreen', () => {
 
     vi.advanceTimersByTime(250)
     await nextTick()
-    expect(document.body.style.width).toBe('calc(100% - 16px)')
+    expect(document.body.style.width).toBe('984px')
 
     childTrigger.value = false
     await nextTick()
@@ -188,6 +191,38 @@ describe('useLockscreen', () => {
 
     scrollHeightSpy.mockRestore()
     clientHeightSpy.mockRestore()
+    clientWidthSpy.mockRestore()
     vi.useRealTimers()
+  })
+
+  it('should freeze body width using clientWidth before hiding scrollbar', async () => {
+    const scrollHeightSpy = vi
+      .spyOn(document.body, 'scrollHeight', 'get')
+      .mockReturnValue(200)
+    const clientHeightSpy = vi
+      .spyOn(document.documentElement, 'clientHeight', 'get')
+      .mockReturnValue(100)
+    const clientWidthSpy = vi
+      .spyOn(document.body, 'clientWidth', 'get')
+      .mockReturnValue(1023)
+
+    const trigger = ref(false)
+    mount({
+      setup() {
+        useLockscreen(trigger)
+        onMounted(() => {
+          trigger.value = true
+        })
+        return () => undefined
+      },
+    })
+
+    await nextTick()
+    expect(document.body.style.width).toBe('1023px')
+    expect(document.body.style.width).not.toBe('calc(100% - 16px)')
+
+    scrollHeightSpy.mockRestore()
+    clientHeightSpy.mockRestore()
+    clientWidthSpy.mockRestore()
   })
 })
