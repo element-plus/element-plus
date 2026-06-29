@@ -64,20 +64,24 @@ export const useLockscreen = (
 
     cleaned = false
     withoutHiddenClass = !hasClass(document.body, hiddenCls.value)
-    if (withoutHiddenClass) {
-      bodyWidth = document.body.style.width
-      addClass(document.body, hiddenCls.value)
-    }
     scrollBarWidth = getScrollBarWidth(ns.namespace.value)
     const bodyHasOverflow =
       document.documentElement.clientHeight < document.body.scrollHeight
     const bodyOverflowY = getStyle(document.body, 'overflowY')
-    if (
+    const needCompensation =
       scrollBarWidth > 0 &&
       (bodyHasOverflow || bodyOverflowY === 'scroll') &&
       withoutHiddenClass
-    ) {
-      document.body.style.width = `calc(100% - ${scrollBarWidth}px)`
+
+    if (withoutHiddenClass) {
+      bodyWidth = document.body.style.width
+      const frozenWidth = needCompensation
+        ? `${document.body.clientWidth}px`
+        : undefined
+      addClass(document.body, hiddenCls.value)
+      if (frozenWidth) {
+        document.body.style.width = frozenWidth
+      }
     }
   })
   onScopeDispose(() => cleanup())
