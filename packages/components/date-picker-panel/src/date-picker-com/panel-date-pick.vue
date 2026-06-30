@@ -909,10 +909,30 @@ const handleKeyControl = (code: string) => {
         ? (map[code] as unknown as KeyControlMappingCallableOffset)(newDate)
         : ((map[code] as number) ?? 0)
     )
-    if (disabledDate && disabledDate(newDate)) {
-      break
+
+    let result: Dayjs
+    if (keyboardMode.value === 'quarter') {
+      const candidate = dayjs(newDate).locale(lang.value)
+      if (isQuarterFullyDisabled(candidate, lang.value, disabledDate)) {
+        break
+      }
+      result = getValidDateOfQuarter(
+        candidate,
+        candidate.year(),
+        candidate.quarter() - 1,
+        lang.value,
+        disabledDate
+      )
+      if (disabledDate?.(result.toDate())) {
+        break
+      }
+    } else {
+      if (disabledDate && disabledDate(newDate)) {
+        break
+      }
+      result = dayjs(newDate).locale(lang.value)
     }
-    const result = dayjs(newDate).locale(lang.value)
+
     innerDate.value = result
     contextEmit('pick', result, true)
     break

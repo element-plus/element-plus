@@ -3317,6 +3317,37 @@ describe('QuarterPicker', () => {
     expect(disabledDate(vm.value)).toBe(false)
   })
 
+  it('partial disabledDate in quarter should normalize keyboard navigation', async () => {
+    const disabledDate = (time: Date) => {
+      const date = new Date(time)
+      if (date.getFullYear() !== 2020) return false
+      return date.getMonth() === 0
+    }
+    const wrapper = _mount(
+      `<el-date-picker
+        type="quarter"
+        v-model="value"
+        :disabledDate="disabledDate"
+      />`,
+      () => ({
+        value: new Date(2020, 3, 1),
+        disabledDate,
+      })
+    )
+    const input = wrapper.find('input')
+    input.trigger('focus')
+    await nextTick()
+    const panelContent = document.querySelector(
+      '.el-picker-panel__content'
+    ) as HTMLElement
+    triggerEvent(panelContent, 'keydown', EVENT_CODE.left)
+    await nextTick()
+    const vm = wrapper.vm as any
+    expect(vm.value.getFullYear()).toBe(2020)
+    expect(vm.value.getMonth()).toBe(1)
+    expect(disabledDate(vm.value)).toBe(false)
+  })
+
   it('panel change event', async () => {
     const onPanelChange = vi.fn()
     _mount(
