@@ -3289,6 +3289,34 @@ describe('QuarterPicker', () => {
     expect(vm.value.getMonth()).toBe(0)
   })
 
+  it('partial disabledDate in quarter should normalize typed input', async () => {
+    const disabledDate = (time: Date) => {
+      const date = new Date(time)
+      if (date.getFullYear() !== 2020) return false
+      return date.getMonth() === 0
+    }
+    const wrapper = _mount(
+      `<el-date-picker
+        type="quarter"
+        v-model="value"
+        :disabledDate="disabledDate"
+      />`,
+      () => ({
+        value: '',
+        disabledDate,
+      })
+    )
+    const input = wrapper.find('input')
+    input.element.value = '2020-Q1'
+    await input.trigger('input')
+    await input.trigger('blur')
+    await nextTick()
+    const vm = wrapper.vm as any
+    expect(vm.value.getFullYear()).toBe(2020)
+    expect(vm.value.getMonth()).toBe(1)
+    expect(disabledDate(vm.value)).toBe(false)
+  })
+
   it('panel change event', async () => {
     const onPanelChange = vi.fn()
     _mount(
