@@ -3740,6 +3740,47 @@ describe('QuarterRange', () => {
     }
   })
 
+  it('partial disabledDate in quarter range should normalize typed input', async () => {
+    vi.useFakeTimers()
+    try {
+      vi.setSystemTime(new Date('2020-01-05'))
+      const disabledDate = (time: Date) => {
+        const date = new Date(time)
+        if (date.getFullYear() !== 2020) return false
+        const month = date.getMonth()
+        return month === 0 || month > 2
+      }
+      const wrapper = _mount(
+        `<el-date-picker
+        type="quarterrange"
+        v-model="value"
+        :disabledDate="disabledDate"
+      />`,
+        () => ({
+          value: '',
+          disabledDate,
+        })
+      )
+
+      const inputs = wrapper.findAll('input')
+      inputs[0].element.value = '2020-Q1'
+      await inputs[0].trigger('input')
+      inputs[1].element.value = '2020-Q1'
+      await inputs[1].trigger('input')
+      await inputs[1].trigger('blur')
+      await nextTick()
+
+      const vm = wrapper.vm as any
+      expect(vm.value[0].getFullYear()).toBe(2020)
+      expect(vm.value[0].getMonth()).toBe(1)
+      expect(disabledDate(vm.value[0])).toBe(false)
+      expect(vm.value[1].getMonth()).toBe(1)
+      expect(disabledDate(vm.value[1])).toBe(false)
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
   it('should reject manually typed disabled quarter ranges', async () => {
     const initialValue = [new Date(2020, 6, 1), new Date(2020, 9, 1)]
     const wrapper = _mount(

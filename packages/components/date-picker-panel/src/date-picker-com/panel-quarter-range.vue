@@ -136,9 +136,11 @@ import ElIcon from '@element-plus/components/icon'
 import { useLocale } from '@element-plus/hooks'
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
 import { PICKER_BASE_INJECTION_KEY } from '@element-plus/components/time-picker'
+import { isArray } from '@element-plus/utils'
 import {
   correctlyParseUserInput,
   getDefaultValue,
+  getValidDateOfQuarter,
   isQuarterFullyDisabled,
   isValidRange,
 } from '../utils'
@@ -251,20 +253,43 @@ const handleClear = () => {
   emit('pick', valueOnClear)
 }
 
+const normalizeQuarterInput = (value: Dayjs) => {
+  if (!dayjs.isDayjs(value) || !value.isValid()) {
+    return value
+  }
+
+  return getValidDateOfQuarter(
+    value,
+    value.year(),
+    value.quarter() - 1,
+    lang.value,
+    disabledDate
+  )
+}
+
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
-  return correctlyParseUserInput(
+  const parsed = correctlyParseUserInput(
     value,
     format.value,
     lang.value,
     isDefaultFormat
   )
+
+  if (isArray(parsed)) {
+    return parsed.map((item) => normalizeQuarterInput(item))
+  }
+
+  return normalizeQuarterInput(parsed)
 }
 
 const isValidValue = (date: [Dayjs, Dayjs]) => {
   return (
     isValidRange(date) &&
     !isQuarterFullyDisabled(date[0], lang.value, disabledDate) &&
-    !isQuarterFullyDisabled(date[1], lang.value, disabledDate)
+    !isQuarterFullyDisabled(date[1], lang.value, disabledDate) &&
+    (disabledDate
+      ? !disabledDate(date[0].toDate()) && !disabledDate(date[1].toDate())
+      : true)
   )
 }
 
