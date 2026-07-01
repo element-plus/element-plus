@@ -3590,6 +3590,67 @@ describe('Quarters', () => {
     expect(document.querySelector('.el-picker-panel__footer')).toBeNull()
   })
 
+  it('confirm should stay enabled with partial disabled quarter and value-format', async () => {
+    vi.useFakeTimers()
+    try {
+      vi.setSystemTime(new Date('2026-03-15'))
+      const wrapper = _mount(
+        `<el-date-picker
+          type="quarters"
+          v-model="value"
+          show-confirm
+          value-format="YYYY-[Q]Q"
+          :disabled-date="disabledDate"
+        />`,
+        () => ({
+          value: [] as string[],
+          disabledDate(time: Date) {
+            return time.getFullYear() === 2026 && time.getMonth() === 0
+          },
+        })
+      )
+      const input = wrapper.find('input')
+      await input.trigger('blur')
+      await input.trigger('focus')
+      await nextTick()
+
+      const getConfirmBtn = () =>
+        document.querySelector(
+          '.el-picker-panel__footer .is-plain'
+        ) as HTMLButtonElement
+
+      const tds = document.querySelectorAll(
+        '.el-quarter-table tr td'
+      ) as NodeListOf<HTMLElement>
+
+      tds[0].click()
+      await nextTick()
+      expect(getConfirmBtn().disabled).toBe(false)
+
+      tds[1].click()
+      await nextTick()
+      expect(getConfirmBtn().disabled).toBe(false)
+
+      await wrapper.find('.clear-icon').trigger('click')
+      await nextTick()
+      await input.trigger('focus')
+      await nextTick()
+
+      tds[1].click()
+      await nextTick()
+      tds[0].click()
+      await nextTick()
+      expect(getConfirmBtn().disabled).toBe(false)
+
+      getConfirmBtn().click()
+      await nextTick()
+      const vm = wrapper.vm as any
+      expect(vm.value).toEqual(['2026-Q2', '2026-Q1'])
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
   it('remove same quarters from different years', async () => {
     vi.useFakeTimers()
     try {

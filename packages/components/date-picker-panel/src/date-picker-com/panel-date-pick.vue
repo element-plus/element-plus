@@ -609,6 +609,14 @@ const disabledConfirm = computed(() => {
   if (!disabledDate) return false
   if (!props.parsedValue) return true
   if (isArray(props.parsedValue)) {
+    if (!props.parsedValue.length) return true
+
+    if (selectionMode.value === 'quarters') {
+      return props.parsedValue.some((date) =>
+        isQuarterFullyDisabled(date, lang.value, disabledDate)
+      )
+    }
+
     return disabledDate(props.parsedValue[0].toDate())
   }
   return disabledDate(props.parsedValue.toDate())
