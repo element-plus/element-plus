@@ -14,7 +14,7 @@
     :effect="effect"
     pure
     persistent
-    @hide="hideSuggestionPanel"
+    @hide="handleTooltipHide"
     @before-show="handleTooltipBeforeShow"
   >
     <template #default>
@@ -610,6 +610,10 @@ const updatePopperPosition = () => {
 }
 const hideSuggestionPanel = () => {
   filtering.value = false
+}
+
+const handleTooltipHide = () => {
+  hideSuggestionPanel()
   tooltipContentShown.value = false
 }
 
