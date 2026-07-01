@@ -13,8 +13,9 @@
     :transition="`${nsCascader.namespace.value}-zoom-in-top`"
     :effect="effect"
     pure
-    :persistent="persistent"
+    persistent
     @hide="hideSuggestionPanel"
+    @before-show="handleTooltipBeforeShow"
   >
     <template #default>
       <div
@@ -156,7 +157,11 @@
     </template>
 
     <template #content>
-      <div v-if="$slots.header" :class="nsCascader.e('header')" @click.stop>
+      <div
+        v-if="$slots.header && shouldRenderContent"
+        :class="nsCascader.e('header')"
+        @click.stop
+      >
         <slot name="header" />
       </div>
       <el-cascader-panel
@@ -177,7 +182,7 @@
           <slot name="empty" />
         </template>
       </el-cascader-panel>
-      <template v-if="filterable">
+      <template v-if="filterable && shouldRenderContent">
         <el-scrollbar
           v-if="!virtualScroll"
           v-show="filtering"
@@ -262,7 +267,11 @@
           </slot>
         </div>
       </template>
-      <div v-if="$slots.footer" :class="nsCascader.e('footer')" @click.stop>
+      <div
+        v-if="$slots.footer && shouldRenderContent"
+        :class="nsCascader.e('footer')"
+        @click.stop
+      >
         <slot name="footer" />
       </div>
     </template>
@@ -275,6 +284,7 @@ import {
   markRaw,
   nextTick,
   onMounted,
+  provide,
   ref,
   useAttrs,
   useSlots,
@@ -294,6 +304,7 @@ import {
 import ElCascaderPanel, {
   CASCADER_PANEL_HEIGHT,
   CASCADER_PANEL_ITEM_SIZE,
+  CASCADER_PANEL_PARENT_INJECTION_KEY,
 } from '@element-plus/components/cascader-panel'
 import ElInput from '@element-plus/components/input'
 import ElTooltip from '@element-plus/components/tooltip'
@@ -434,6 +445,13 @@ const searchInputValue = ref('')
 const tags = ref<Tag[]>([])
 const suggestions = ref<CascaderNode[]>([])
 const suggestionListWidth = ref<string | number>('100%')
+const tooltipContentShown = ref(false)
+const shouldRenderContent = computed(
+  () => props.persistent || tooltipContentShown.value
+)
+
+provide(CASCADER_PANEL_PARENT_INJECTION_KEY, { shouldRenderContent })
+
 const hasCustomSuggestionItemSlot = computed(() => !!slots['suggestion-item'])
 const clampedSuggestionListHeight = computed(() =>
   clamp(suggestions.value.length * props.itemSize, props.itemSize, props.height)
@@ -592,6 +610,11 @@ const updatePopperPosition = () => {
 }
 const hideSuggestionPanel = () => {
   filtering.value = false
+  tooltipContentShown.value = false
+}
+
+const handleTooltipBeforeShow = () => {
+  tooltipContentShown.value = true
 }
 
 const genTag = (node: CascaderNode): Tag => {

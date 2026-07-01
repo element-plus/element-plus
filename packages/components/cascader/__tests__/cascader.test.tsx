@@ -142,6 +142,16 @@ describe('Cascader.vue', () => {
     expect(wrapper.find('input').element.value).toBe('Zhejiang / Ningbo')
   })
 
+  test('with default value and persistent=false', async () => {
+    const value = ref(['zhejiang', 'hangzhou'])
+    const wrapper = _mount(() => (
+      <Cascader v-model={value.value} options={OPTIONS} persistent={false} />
+    ))
+
+    await nextTick()
+    expect(wrapper.find('input').element.value).toBe('Zhejiang / Hangzhou')
+  })
+
   test('options change', async () => {
     const value = ref(['zhejiang', 'hangzhou'])
     const options = ref(OPTIONS)

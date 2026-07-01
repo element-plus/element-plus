@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="shouldRender"
     :class="[ns.b('panel'), ns.is('bordered', border)]"
     @keydown="handleKeyDown"
   >
@@ -23,6 +24,7 @@
 <script lang="ts" setup>
 import {
   computed,
+  inject,
   nextTick,
   onBeforeUpdate,
   onMounted,
@@ -59,7 +61,10 @@ import {
   useCascaderConfig,
 } from './config'
 import { checkNode, getMenuIndex, sortByOriginalOrder } from './utils'
-import { CASCADER_PANEL_INJECTION_KEY } from './types'
+import {
+  CASCADER_PANEL_INJECTION_KEY,
+  CASCADER_PANEL_PARENT_INJECTION_KEY,
+} from './types'
 
 import type {
   CascaderNode,
@@ -105,6 +110,12 @@ const renderLabelFn = computed(() => props.renderLabel || slots.default)
 const virtualScroll = computed(() => props.virtualScroll)
 const itemSize = computed(() => props.itemSize)
 const height = computed(() => props.height)
+
+const cascader = inject(CASCADER_PANEL_PARENT_INJECTION_KEY)
+
+const shouldRender = computed(() => {
+  return cascader?.shouldRenderContent.value ?? true
+})
 
 const initStore = () => {
   const { options } = props
