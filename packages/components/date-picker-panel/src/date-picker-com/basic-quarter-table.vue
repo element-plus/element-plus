@@ -76,88 +76,128 @@ const lastColumn = ref<number>()
 
 const quarterIndex = (date: Dayjs) => date.year() * 4 + (date.quarter() - 1)
 
+type QuarterRangeContext = {
+  minIdx: number | null
+  endIdx: number | null
+}
+
+const isSelectedCell = (cell: QuarterCell) => {
+  const year = props.date.year()
+  const quarter = cell.text
+  return castArray(props.date).some(
+    (date) => date.year() === year && date.quarter() - 1 === quarter
+  )
+}
+
+const createQuarterCell = (row: number, column: number): QuarterCell => ({
+  row,
+  column,
+  type: 'normal',
+  inRange: false,
+  start: false,
+  end: false,
+  text: -1,
+  disabled: false,
+  isSelected: false,
+  customClass: undefined,
+  date: undefined,
+  dayjs: undefined,
+  isCurrent: undefined,
+  selected: undefined,
+  renderText: undefined,
+  timestamp: undefined,
+})
+
+const resolveRangeEndDate = () =>
+  props.rangeState.endDate ||
+  props.maxDate ||
+  (props.rangeState.selecting && props.minDate) ||
+  null
+
+const getQuarterRangeFlags = (
+  calIdx: number,
+  minIdx: number | null,
+  endIdx: number | null
+) => {
+  const inRange =
+    (minIdx !== null &&
+      endIdx !== null &&
+      calIdx >= minIdx &&
+      calIdx <= endIdx) ||
+    (minIdx !== null && endIdx !== null && calIdx <= minIdx && calIdx >= endIdx)
+
+  if (minIdx !== null && endIdx !== null && minIdx >= endIdx) {
+    return {
+      inRange,
+      start: calIdx === endIdx,
+      end: calIdx === minIdx,
+    }
+  }
+
+  return {
+    inRange,
+    start: minIdx !== null && calIdx === minIdx,
+    end: endIdx !== null && calIdx === endIdx,
+  }
+}
+
+const isQuarterDisabled = (quarter: number) =>
+  props.disabled ||
+  (props.disabledDate
+    ? datesInQuarter(props.date, props.date.year(), quarter, lang.value).every(
+        props.disabledDate
+      )
+    : false)
+
+const updateQuarterCell = (
+  cell: QuarterCell,
+  row: number,
+  col: number,
+  now: Dayjs,
+  rangeContext: QuarterRangeContext
+) => {
+  cell.type = 'normal'
+
+  const index = row * 2 + col
+  const calTime = props.date.startOf('year').add(index, 'quarter')
+  const calIdx = quarterIndex(calTime)
+  const { inRange, start, end } = getQuarterRangeFlags(
+    calIdx,
+    rangeContext.minIdx,
+    rangeContext.endIdx
+  )
+
+  cell.inRange = inRange
+  cell.start = start
+  cell.end = end
+
+  if (now.isSame(calTime)) {
+    cell.type = 'today'
+  }
+
+  const cellDate = calTime.toDate()
+  cell.text = index
+  cell.disabled = isQuarterDisabled(index)
+  cell.date = cellDate
+  cell.customClass = props.cellClassName?.(cellDate)
+  cell.dayjs = calTime
+  cell.timestamp = calTime.valueOf()
+  cell.isSelected = isSelectedCell(cell)
+}
+
 const rows = computed<QuarterCell[][]>(() => {
   const rows = tableRows.value
-
   const now = dayjs().locale(lang.value).startOf('quarter')
+  const calEndDate = resolveRangeEndDate()
+  const minIdx = props.minDate ? quarterIndex(props.minDate) : null
+  const endIdx = calEndDate ? quarterIndex(calEndDate) : null
+  const rangeContext = { minIdx, endIdx }
 
   for (let i = 0; i < 2; i++) {
     const row = rows[i]
     for (let j = 0; j < 2; j++) {
-      const cell = (row[j] ||= {
-        row: i,
-        column: j,
-        type: 'normal',
-        inRange: false,
-        start: false,
-        end: false,
-        text: -1,
-        disabled: false,
-        isSelected: false,
-        customClass: undefined,
-        date: undefined,
-        dayjs: undefined,
-        isCurrent: undefined,
-        selected: undefined,
-        renderText: undefined,
-        timestamp: undefined,
-      })
-
-      cell.type = 'normal'
-
-      const index = i * 2 + j
-      const calTime = props.date.startOf('year').add(index, 'quarter')
-
-      const calEndDate =
-        props.rangeState.endDate ||
-        props.maxDate ||
-        (props.rangeState.selecting && props.minDate) ||
-        null
-
-      const calIdx = quarterIndex(calTime)
-      const minIdx = props.minDate ? quarterIndex(props.minDate) : null
-      const endIdx = calEndDate ? quarterIndex(calEndDate) : null
-
-      cell.inRange =
-        (minIdx !== null &&
-          endIdx !== null &&
-          calIdx >= minIdx &&
-          calIdx <= endIdx) ||
-        (minIdx !== null &&
-          endIdx !== null &&
-          calIdx <= minIdx &&
-          calIdx >= endIdx)
-
-      if (minIdx !== null && endIdx !== null && minIdx >= endIdx) {
-        cell.start = calIdx === endIdx
-        cell.end = calIdx === minIdx
-      } else {
-        cell.start = minIdx !== null && calIdx === minIdx
-        cell.end = endIdx !== null && calIdx === endIdx
-      }
-
-      const isToday = now.isSame(calTime)
-      if (isToday) {
-        cell.type = 'today'
-      }
-
-      const cellDate = calTime.toDate()
-      cell.text = index
-      cell.disabled =
-        props.disabled ||
-        (props.disabledDate
-          ? datesInQuarter(
-              props.date,
-              props.date.year(),
-              index,
-              lang.value
-            ).every(props.disabledDate)
-          : false)
-      cell.date = cellDate
-      cell.customClass = props.cellClassName?.(cellDate)
-      cell.dayjs = calTime
-      cell.timestamp = calTime.valueOf()
-      cell.isSelected = isSelectedCell(cell)
+      const cell = (row[j] ||= createQuarterCell(i, j))
+      updateQuarterCell(cell, i, j, now, rangeContext)
     }
   }
   return rows
@@ -173,14 +213,7 @@ const getCellStyle = (cell: QuarterCell) => {
   const today = dayjs().locale(lang.value)
   const quarter = cell.text
 
-  const disabledDate = props.disabledDate
-  style.disabled =
-    props.disabled ||
-    (disabledDate
-      ? datesInQuarter(props.date, year, quarter, lang.value).every(
-          disabledDate
-        )
-      : false)
+  style.disabled = isQuarterDisabled(quarter)
   style.current = castArray(props.parsedValue).some(
     (date) =>
       dayjs.isDayjs(date) &&
@@ -204,14 +237,6 @@ const getCellStyle = (cell: QuarterCell) => {
     }
   }
   return style
-}
-
-const isSelectedCell = (cell: QuarterCell) => {
-  const year = props.date.year()
-  const quarter = cell.text
-  return castArray(props.date).some(
-    (date) => date.year() === year && date.quarter() - 1 === quarter
-  )
 }
 
 const handleMouseMove = (event: MouseEvent) => {
