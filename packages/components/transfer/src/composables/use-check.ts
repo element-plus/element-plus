@@ -1,21 +1,29 @@
-import { computed, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { isFunction } from '@element-plus/utils'
+import { useElementSize } from '@vueuse/core'
 import { CHECKED_CHANGE_EVENT } from '../transfer-panel'
 import { usePropsAlias } from './use-props-alias'
 
 import type { SetupContext } from 'vue'
-import type { CheckboxValueType } from '@element-plus/components/checkbox'
-import type { TransferKey } from '../transfer'
+import type {
+  CheckboxGroupInstance,
+  CheckboxValueType,
+} from '@element-plus/components/checkbox'
+import type { TransferDataItem, TransferKey } from '../transfer'
 import type {
   TransferPanelEmits,
   TransferPanelProps,
   TransferPanelState,
 } from '../transfer-panel'
+import type { FixedSizeListInstance } from '@element-plus/components/virtual-list'
 
-export const useCheck = (
+export const useCheck = <T extends TransferDataItem = TransferDataItem>(
   props: Required<
-    Pick<TransferPanelProps, 'data' | 'format' | 'defaultChecked'>
-  > & { filterMethod: TransferPanelProps['filterMethod'] },
+    Pick<
+      TransferPanelProps<T>,
+      'data' | 'format' | 'defaultChecked' | 'props' | 'virtualScroll' // 'props' needed by usePropsAlias
+    >
+  > & { filterMethod: TransferPanelProps<T>['filterMethod'] },
   panelState: TransferPanelState,
   emit: SetupContext<TransferPanelEmits>['emit']
 ) => {
@@ -73,6 +81,13 @@ export const useCheck = (
       ? checkableData.value.map((item) => item[propsAlias.value.key])
       : []
   }
+
+  const checkboxGroupRef = ref<CheckboxGroupInstance>()
+  const { height: virtualListHeight } = useElementSize(
+    computed(() => checkboxGroupRef.value?.$el)
+  )
+
+  const virtualListRef = ref<FixedSizeListInstance>()
 
   watch(
     () => panelState.checked,
@@ -140,11 +155,25 @@ export const useCheck = (
     }
   )
 
+  watch(
+    () => panelState.query,
+    () => {
+      if (!props.virtualScroll) {
+        return
+      }
+      virtualListRef.value?.scrollToItem(0)
+    },
+    { flush: 'post' }
+  )
+
   return {
     filteredData,
     checkableData,
     checkedSummary,
+    virtualListRef,
     isIndeterminate,
+    checkboxGroupRef,
+    virtualListHeight,
     updateAllChecked,
     handleAllCheckedChange,
   }

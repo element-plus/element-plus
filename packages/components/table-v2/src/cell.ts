@@ -11,7 +11,8 @@ export const tableV2CellProps = buildProps({
   column,
   columnIndex: Number,
   style: {
-    type: definePropType<StyleValue>([String, Array, Object]),
+    type: definePropType<StyleValue>([String, Array, Object, Boolean]),
+    default: undefined,
   },
   rowData: {
     type: definePropType<any>(Object),

@@ -123,10 +123,10 @@ slider/restrict-value
 
 ### Events
 
-| Name   | Description                                                                                                       | Type                                               |
-| ------ | ----------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
-| change | triggers when the value changes (if the mouse is being dragged, this event only fires when the mouse is released) | ^[Function]`(value: Arrayable<number>) => boolean` |
-| input  | triggers when the data changes (It'll be emitted in real time during sliding)                                     | ^[Function]`(value: Arrayable<number>) => boolean` |
+| Name   | Description                                                                                                       | Type                                            |
+| ------ | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| change | triggers when the value changes (if the mouse is being dragged, this event only fires when the mouse is released) | ^[Function]`(value: Arrayable<number>) => void` |
+| input  | triggers when the data changes (It'll be emitted in real time during sliding)                                     | ^[Function]`(value: Arrayable<number>) => void` |
 
 ## Type Declarations
 

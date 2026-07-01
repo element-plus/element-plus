@@ -2,6 +2,7 @@
 name: PR Docs Deploy
 
 on:
+  # zizmor: ignore[dangerous-triggers] downstream workflow deploys the named docs artifact with scoped permissions and does not execute artifact contents
   workflow_run:
     workflows: ['PR Docs Build']
     types: [completed]
@@ -11,10 +12,13 @@ jobs:
   on-success:
     name: Build successfully
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      pull-requests: write
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Download pr number
-        uses: dawidd6/action-download-artifact@v16
+        uses: dawidd6/action-download-artifact@b6e2e70617bc3265edd6dab6c906732b2f1ae151 # v21
         with:
           workflow: ${{ github.event.workflow.id }}
           run_id: ${{ github.event.workflow_run.id }}
@@ -25,7 +29,7 @@ jobs:
         run: echo "id=$(<pr.txt)" >> $GITHUB_OUTPUT
 
       - name: Download artifact
-        uses: dawidd6/action-download-artifact@v16
+        uses: dawidd6/action-download-artifact@b6e2e70617bc3265edd6dab6c906732b2f1ae151 # v21
         with:
           workflow: ${{ github.event.workflow.id }}
           run_id: ${{ github.event.workflow_run.id }}
@@ -42,7 +46,7 @@ jobs:
 
       - name: Comment preview link
         if: ${{ success() }}
-        uses: actions-cool/maintain-one-comment@v3.1.1
+        uses: actions-cool/maintain-one-comment-backup@17f644ff1665b05890083f7c1091fef135bce5e4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           body: |
@@ -53,7 +57,7 @@ jobs:
 
       - name: Comment playground link
         if: ${{ success() }}
-        uses: actions-cool/maintain-one-comment@v3.1.1
+        uses: actions-cool/maintain-one-comment-backup@17f644ff1665b05890083f7c1091fef135bce5e4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           body: |
@@ -65,7 +69,7 @@ jobs:
 
       - name: Deploy has failed
         if: ${{ failure() }}
-        uses: actions-cool/maintain-one-comment@v3.1.1
+        uses: actions-cool/maintain-one-comment-backup@17f644ff1665b05890083f7c1091fef135bce5e4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           body: |
@@ -78,10 +82,13 @@ jobs:
   on-failure:
     name: Build failed
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      pull-requests: write
     if: ${{ github.event.workflow_run.conclusion == 'failure' }}
     steps:
       - name: Download pr number
-        uses: dawidd6/action-download-artifact@v16
+        uses: dawidd6/action-download-artifact@b6e2e70617bc3265edd6dab6c906732b2f1ae151 # v21
         with:
           workflow: ${{ github.event.workflow.id }}
           run_id: ${{ github.event.workflow_run.id }}
@@ -92,7 +99,7 @@ jobs:
         run: echo "id=$(<pr.txt)" >> $GITHUB_OUTPUT
 
       - name: Deploy has failed
-        uses: actions-cool/maintain-one-comment@v3.1.1
+        uses: actions-cool/maintain-one-comment-backup@17f644ff1665b05890083f7c1091fef135bce5e4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           body: |

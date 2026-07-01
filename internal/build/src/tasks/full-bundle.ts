@@ -12,17 +12,19 @@ import {
 } from '@element-plus/build-constants'
 import {
   epOutput,
+  epPackage,
   epRoot,
   execCommand,
+  getPackageManifest,
   localeRoot,
 } from '@element-plus/build-utils'
-import { version } from '../../../../packages/element-plus/version'
 import { ElementPlusAlias } from '../plugins/element-plus-alias'
 import { formatBundleFilename, generateExternal, writeBundles } from '../utils'
 import { SupplyValidator } from '../plugins/supply-validator'
 
 import type { Plugin } from 'rolldown'
 
+const { version } = getPackageManifest(epPackage)
 const banner = `/*! ${PKG_BRAND_NAME} v${version} */\n`
 
 async function buildFullEntry(minify: boolean) {
@@ -58,6 +60,9 @@ async function buildFullEntry(minify: boolean) {
       sourcemap: minify,
       banner,
       minify,
+      comments: {
+        jsdoc: false,
+      },
     },
     {
       format: 'esm',
@@ -69,6 +74,9 @@ async function buildFullEntry(minify: boolean) {
       sourcemap: minify,
       banner,
       minify,
+      comments: {
+        jsdoc: false,
+      },
     },
   ])
 }

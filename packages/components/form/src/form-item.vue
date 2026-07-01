@@ -370,6 +370,8 @@ const setInitialValue: FormItemContext['setInitialValue'] = (value: any) => {
   initialValue = cloneDeep(value)
 }
 
+const getInitialValue: FormItemContext['getInitialValue'] = () => initialValue
+
 watch(
   () => props.error,
   (val) => {
@@ -402,9 +404,19 @@ const context: FormItemContext = reactive({
   validate,
   propString,
   setInitialValue,
+  getInitialValue,
 })
 
 provide(formItemContextKey, context)
+
+watch(propString, (newPropString, oldPropString) => {
+  if (!formContext || !oldPropString) return
+  formContext.removeField(context, oldPropString)
+  if (newPropString) {
+    setInitialValue(fieldValue.value)
+    formContext.addField(context)
+  }
+})
 
 onMounted(() => {
   if (props.prop) {

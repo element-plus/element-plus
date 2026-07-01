@@ -1,4 +1,4 @@
-import type { SetupContext, UnwrapRef } from 'vue'
+import type { MaybeRef, SetupContext, UnwrapRef } from 'vue'
 import type {
   RuleItem,
   ValidateError,
@@ -6,7 +6,6 @@ import type {
 } from 'async-validator'
 import type { ComponentSize } from '@element-plus/constants'
 import type { Arrayable, FieldPath } from '@element-plus/utils'
-import type { MaybeRef } from '@vueuse/core'
 import type {
   FormItemProp,
   FormItemProps,
@@ -52,7 +51,7 @@ export type FormContext = FormProps &
     emit: SetupContext<FormEmits>['emit']
     getField: (prop: FormItemProp) => FormItemContext | undefined
     addField: (field: FormItemContext) => void
-    removeField: (field: FormItemContext) => void
+    removeField: (field: FormItemContext, oldPropString?: string) => void
     resetFields: (props?: Arrayable<FormItemProp>) => void
     setInitialValues: (initModel: Record<string, any>) => void
     clearValidate: (props?: Arrayable<FormItemProp>) => void
@@ -82,4 +81,5 @@ export interface FormItemContext extends FormItemProps {
   resetField(): void
   clearValidate(): void
   setInitialValue: (value: any) => void
+  getInitialValue: () => any
 }

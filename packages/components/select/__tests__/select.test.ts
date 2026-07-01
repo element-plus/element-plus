@@ -6,6 +6,8 @@ import { defineComponent, markRaw, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
 import { BORDER_HORIZONTAL_WIDTH, EVENT_CODE } from '@element-plus/constants'
+import defineGetter from '@element-plus/test-utils/define-getter'
+import makeScroll from '@element-plus/test-utils/make-scroll'
 import { ArrowDown, CaretTop, CircleClose } from '@element-plus/icons-vue'
 import { usePopperContainerId } from '@element-plus/hooks'
 import { hasClass } from '@element-plus/utils'
@@ -477,6 +479,39 @@ describe('Select', () => {
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('A2')
     delete process.env.RUN_TEST_WITH_PERSISTENT
   })
+
+  test('keeps empty string label after label update when closed and persistent=false', async () => {
+    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
+    wrapper = _mount(
+      `
+      <el-select v-model="value" :persistent="false">
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          {
+            value: 'value1',
+            label: '',
+          },
+          {
+            value: 'value2',
+            label: 'B',
+          },
+        ],
+        value: 'value1',
+      })
+    )
+    await nextTick()
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('')
+    delete process.env.RUN_TEST_WITH_PERSISTENT
+  })
+
   test('when there is a default value and persistent is false, render the label and dynamically modify options and modelValue', async () => {
     // This is convenient for testing the default value label rendering when persistent is false.
     process.env.RUN_TEST_WITH_PERSISTENT = 'true'
@@ -1410,6 +1445,21 @@ describe('Select', () => {
     const tagCloseIcons = wrapper.findAll('.el-tag__close')
     await tagCloseIcons[0].trigger('click')
     expect(vm.value.indexOf('选项1')).toBe(-1)
+  })
+
+  test('should prevent option mousedown from blurring multiple select', async () => {
+    wrapper = getSelectVm({ multiple: true })
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+    const option = getOptions()[0]
+    const event = new MouseEvent('mousedown', {
+      bubbles: true,
+      cancelable: true,
+      shiftKey: true,
+    })
+
+    option.dispatchEvent(event)
+
+    expect(event.defaultPrevented).toBeTruthy()
   })
 
   test('multiple select when content overflow', async () => {
@@ -4400,6 +4450,25 @@ describe('Select', () => {
       // When empty again, should be hidden
       expect(inputWrapper.classes()).toContain('is-hidden')
     })
+
+    // #24167: in single mode the empty/blur condition must NOT hide the
+    // input-wrapper, otherwise it falls out of flow and the selection
+    // collapses to zero width inside auto-sized form layouts.
+    test('should not hide input-wrapper in single mode when empty and not focused', async () => {
+      wrapper = getSelectVm({
+        filterable: true,
+      })
+      const inputWrapper = wrapper.find('.el-select__input-wrapper')
+      const input = wrapper.find('input')
+
+      expect(inputWrapper.classes()).not.toContain('is-hidden')
+
+      await input.trigger('focus')
+      expect(inputWrapper.classes()).not.toContain('is-hidden')
+
+      await input.trigger('blur')
+      expect(inputWrapper.classes()).not.toContain('is-hidden')
+    })
   })
 
   it('should not bubble native change event from filter input', async () => {
@@ -4426,4 +4495,216 @@ describe('Select', () => {
     await wrapper.find('input').trigger('change')
     expect(nativeChangeHandler).not.toHaveBeenCalled()
   })
+  // #23838
+  test('should keep dropdown visible during debouncing when options exist (remote)', async () => {
+    vi.useFakeTimers()
+
+    const options = ref([{ value: 'test', label: 'test' }])
+    const handleVisibleChange = vi.fn()
+    const remoteMethod = vi.fn((query: string) => {
+      if (query) {
+        options.value = [
+          { value: 'Alabama', label: 'Alabama' },
+          { value: 'Alaska', label: 'Alaska' },
+        ]
+      }
+    })
+
+    // Temporarily restore useDebounceFn to use real debounce with fake timers
+    const { useDebounceFn } = await vi.importActual('@vueuse/core')
+    const mockedUseDebounceFn = vi.mocked(
+      (await import('@vueuse/core')).useDebounceFn
+    )
+    const originalUseDebounceFnImpl =
+      mockedUseDebounceFn.getMockImplementation()
+    mockedUseDebounceFn.mockImplementation(useDebounceFn)
+
+    try {
+      wrapper = mount(
+        {
+          components: {
+            'el-select': Select,
+            'el-option': Option,
+          },
+          template: `
+            <el-select
+              v-model="value"
+              filterable
+              remote
+              :debounce="300"
+              :remote-method="remoteMethod"
+              @visible-change="handleVisibleChange"
+            >
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          `,
+          setup() {
+            return {
+              value: ref(''),
+              options,
+              remoteMethod,
+              handleVisibleChange,
+            }
+          },
+        },
+        {
+          attachTo: 'body',
+        }
+      )
+
+      const select = wrapper.findComponent(Select)
+      const vm = select.vm as any
+      const input = wrapper.find('input')
+
+      // Open dropdown first
+      await input.trigger('click')
+      await nextTick()
+      expect(vm.dropdownMenuVisible).toBe(true)
+      expect(vm.states.options.size).toBe(1) // initial option exists
+      expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+      expect(handleVisibleChange).toHaveBeenLastCalledWith(true)
+
+      // Start typing to trigger remote search and debouncing
+      await input.setValue('a')
+      await nextTick()
+      vi.advanceTimersByTime(50) // Advance time but don't complete debounce
+      await nextTick()
+
+      // During debouncing (before debounce completes), check dropdown and event count
+      expect(vm.dropdownMenuVisible).toBe(true)
+      expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+
+      // Complete the debounce
+      vi.advanceTimersByTime(300)
+      await nextTick()
+
+      expect(remoteMethod).toHaveBeenCalledWith('a')
+      expect(vm.dropdownMenuVisible).toBe(true)
+      // Should still only have been called once - dropdown never closed
+      expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+    } finally {
+      mockedUseDebounceFn.mockImplementation(
+        originalUseDebounceFnImpl ?? ((fn: any) => fn)
+      )
+      vi.useRealTimers()
+    }
+  })
+
+  test('should trigger end-reached when dropdown scroll reaches bottom', async () => {
+    const handleEndReached = vi.fn()
+    wrapper = mount(
+      {
+        template: `
+        <el-select
+          v-model="value"
+          :teleported="false"
+          @end-reached="handleEndReached"
+        >
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>`,
+        components: {
+          ElSelect: Select,
+          ElOption: Option,
+        },
+        data() {
+          return {
+            value: '',
+            options: Array.from({ length: 10 }).map((_, i) => ({
+              label: `label-${i}`,
+              value: i,
+            })),
+            handleEndReached,
+          }
+        },
+      },
+      {
+        attachTo: 'body',
+        global: {
+          provide: {
+            namespace: 'el',
+          },
+        },
+      }
+    )
+
+    await wrapper.find('input').trigger('click')
+    await nextTick()
+
+    const wrapEl = wrapper.find('.el-select-dropdown__wrap').element
+    const cleanup = [
+      defineGetter(wrapEl, 'clientHeight', 204),
+      defineGetter(wrapEl, 'scrollHeight', 500),
+    ]
+
+    try {
+      await makeScroll(wrapEl, 'scrollTop', 500)
+
+      expect(handleEndReached).toHaveBeenCalledWith('bottom')
+    } finally {
+      cleanup.forEach((fn) => {
+        fn()
+      })
+    }
+  })
+})
+
+test('should preserve selected label when remote options change', async () => {
+  vi.useFakeTimers()
+  const wrapper = mount(
+    {
+      template: `
+        <el-select
+          v-model="value"
+          :options="options"
+          value-key="value"
+          multiple
+          filterable
+          remote
+          :remote-method="remoteMethod"
+        />`,
+      components: { ElSelect: Select },
+      data() {
+        return { options: [] as any[], value: [] as string[], loading: false }
+      },
+      methods: {
+        remoteMethod(query: string) {
+          if (query) {
+            this.options = Array.from({ length: 5 }, (_, i) => ({
+              value: `${query}-${i}`,
+              label: `Label ${query}-${i}`,
+            }))
+          } else {
+            this.options = []
+          }
+        },
+      },
+    },
+    { attachTo: 'body' }
+  )
+
+  const select = wrapper.findComponent({ name: 'ElSelect' }).vm
+  select.onInput({ target: { value: 'foo' } })
+  vi.runAllTimers()
+  await nextTick()
+  getOptions()[0].click()
+  await nextTick()
+  expect(select.states.selected[0].currentLabel).toBe('Label foo-0')
+
+  select.onInput({ target: { value: 'bar' } })
+  vi.runAllTimers()
+  await nextTick()
+
+  expect(select.states.selected[0].currentLabel).toBe('Label foo-0')
+  expect(select.states.selected[0].value).toBe('foo-0')
+  vi.useRealTimers()
 })
