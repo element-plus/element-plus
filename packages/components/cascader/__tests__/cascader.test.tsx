@@ -142,15 +142,25 @@ describe('Cascader.vue', () => {
     expect(wrapper.find('input').element.value).toBe('Zhejiang / Ningbo')
   })
 
-  test('with default value and persistent=false', async () => {
+  test('should toggle panel visibility when persistent dynamically changes', async () => {
     process.env.RUN_TEST_WITH_PERSISTENT = 'true'
     const value = ref(['zhejiang', 'hangzhou'])
+    const persistent = ref(false)
     const wrapper = _mount(() => (
-      <Cascader v-model={value.value} options={OPTIONS} persistent={false} />
+      <Cascader
+        v-model={value.value}
+        options={OPTIONS}
+        persistent={persistent.value}
+      />
     ))
 
     await nextTick()
     expect(wrapper.find('input').element.value).toBe('Zhejiang / Hangzhou')
+    expect(document.body.querySelector('.el-cascader-panel')).toBeFalsy()
+
+    persistent.value = true
+    await nextTick()
+    expect(document.body.querySelector('.el-cascader-panel')).toBeTruthy()
     delete process.env.RUN_TEST_WITH_PERSISTENT
   })
 

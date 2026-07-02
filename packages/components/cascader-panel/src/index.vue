@@ -61,10 +61,7 @@ import {
   useCascaderConfig,
 } from './config'
 import { checkNode, getMenuIndex, sortByOriginalOrder } from './utils'
-import {
-  CASCADER_PANEL_INJECTION_KEY,
-  CASCADER_PANEL_PARENT_INJECTION_KEY,
-} from './types'
+import { CASCADER_INJECTION_KEY, CASCADER_PANEL_INJECTION_KEY } from './types'
 
 import type {
   CascaderNode,
@@ -111,10 +108,10 @@ const virtualScroll = computed(() => props.virtualScroll)
 const itemSize = computed(() => props.itemSize)
 const height = computed(() => props.height)
 
-const cascader = inject(CASCADER_PANEL_PARENT_INJECTION_KEY)
+const cascader = inject(CASCADER_INJECTION_KEY)
 
 const shouldRender = computed(() => {
-  return cascader?.shouldRenderContent.value ?? true
+  return cascader?.shouldRenderContent ?? true
 })
 
 const initStore = () => {

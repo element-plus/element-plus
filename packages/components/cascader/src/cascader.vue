@@ -285,6 +285,7 @@ import {
   nextTick,
   onMounted,
   provide,
+  reactive,
   ref,
   useAttrs,
   useSlots,
@@ -302,9 +303,9 @@ import {
   isPromise,
 } from '@element-plus/utils'
 import ElCascaderPanel, {
+  CASCADER_INJECTION_KEY,
   CASCADER_PANEL_HEIGHT,
   CASCADER_PANEL_ITEM_SIZE,
-  CASCADER_PANEL_PARENT_INJECTION_KEY,
 } from '@element-plus/components/cascader-panel'
 import ElInput from '@element-plus/components/input'
 import ElTooltip from '@element-plus/components/tooltip'
@@ -450,7 +451,12 @@ const shouldRenderContent = computed(
   () => props.persistent || tooltipContentShown.value
 )
 
-provide(CASCADER_PANEL_PARENT_INJECTION_KEY, { shouldRenderContent })
+provide(
+  CASCADER_INJECTION_KEY,
+  reactive({
+    shouldRenderContent,
+  })
+)
 
 const hasCustomSuggestionItemSlot = computed(() => !!slots['suggestion-item'])
 const clampedSuggestionListHeight = computed(() =>

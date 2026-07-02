@@ -1,4 +1,4 @@
-import type { InjectionKey, Ref, VNode } from 'vue'
+import type { InjectionKey, VNode } from 'vue'
 import type { Nullable } from '@element-plus/utils'
 import type { default as CascaderNode } from './node'
 
@@ -83,9 +83,8 @@ export interface ElCascaderPanelContext {
 export const CASCADER_PANEL_INJECTION_KEY: InjectionKey<ElCascaderPanelContext> =
   Symbol()
 
-export interface ElCascaderPanelParentContext {
-  shouldRenderContent: Ref<boolean>
+export interface ElCascaderContext {
+  shouldRenderContent: boolean
 }
 
-export const CASCADER_PANEL_PARENT_INJECTION_KEY: InjectionKey<ElCascaderPanelParentContext> =
-  Symbol()
+export const CASCADER_INJECTION_KEY: InjectionKey<ElCascaderContext> = Symbol()
