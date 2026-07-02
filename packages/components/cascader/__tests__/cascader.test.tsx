@@ -151,6 +151,7 @@ describe('Cascader.vue', () => {
 
     await nextTick()
     expect(wrapper.find('input').element.value).toBe('Zhejiang / Hangzhou')
+    delete process.env.RUN_TEST_WITH_PERSISTENT
   })
 
   test('options change', async () => {
