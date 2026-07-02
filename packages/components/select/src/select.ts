@@ -17,6 +17,7 @@ import type {
   CSSProperties,
   ExtractPropTypes,
   ExtractPublicPropTypes,
+  StyleValue,
 } from 'vue'
 import type Select from './select.vue'
 import type {
@@ -125,6 +126,20 @@ export const selectProps = buildProps({
    */
   popperStyle: {
     type: definePropType<string | CSSProperties>([String, Object]),
+  },
+  /**
+   * @description custom class name for Select's wrapper
+   */
+  wrapperClass: {
+    type: [String, Array, Object, Boolean],
+    default: false,
+  },
+  /**
+   * @description custom style for Select's wrapper
+   */
+  wrapperStyle: {
+    type: definePropType<StyleValue>([String, Object, Array, Boolean]),
+    default: false,
   },
   /**
    * @description [popper.js](https://popper.js.org/docs/v2/) parameters
