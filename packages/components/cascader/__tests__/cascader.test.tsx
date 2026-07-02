@@ -143,6 +143,7 @@ describe('Cascader.vue', () => {
   })
 
   test('with default value and persistent=false', async () => {
+    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
     const value = ref(['zhejiang', 'hangzhou'])
     const wrapper = _mount(() => (
       <Cascader v-model={value.value} options={OPTIONS} persistent={false} />
