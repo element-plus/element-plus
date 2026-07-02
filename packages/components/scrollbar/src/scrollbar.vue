@@ -80,6 +80,10 @@ const ns = useNamespace('scrollbar')
 let stopResizeObserver: (() => void) | undefined = undefined
 let stopWrapResizeObserver: (() => void) | undefined = undefined
 let stopResizeListener: (() => void) | undefined = undefined
+let stopTransitionListener: (() => void) | undefined = undefined
+let rafId = 0
+let lastScrollWidth = -1
+let lastScrollHeight = -1
 let wrapScrollTop = 0
 let wrapScrollLeft = 0
 let direction = '' as ScrollbarDirection
@@ -217,6 +221,27 @@ const update = () => {
   if (wrapRef.value) barRef.value?.handleScroll(wrapRef.value)
 }
 
+const updateBar = () => {
+  if (rafId) return
+  rafId = requestAnimationFrame(() => {
+    rafId = 0
+    if (!wrapRef.value) return
+
+    if (
+      wrapRef.value.scrollWidth === lastScrollWidth &&
+      wrapRef.value.scrollHeight === lastScrollHeight
+    ) {
+      return
+    }
+
+    lastScrollWidth = wrapRef.value.scrollWidth
+    lastScrollHeight = wrapRef.value.scrollHeight
+
+    barRef.value?.update()
+    barRef.value?.handleScroll(wrapRef.value)
+  })
+}
+
 watch(
   () => props.noresize,
   (noresize) => {
@@ -224,10 +249,20 @@ watch(
       stopResizeObserver?.()
       stopWrapResizeObserver?.()
       stopResizeListener?.()
+      stopTransitionListener?.()
+      if (rafId) {
+        cancelAnimationFrame(rafId)
+        rafId = 0
+      }
     } else {
       ;({ stop: stopResizeObserver } = useResizeObserver(resizeRef, update))
       ;({ stop: stopWrapResizeObserver } = useResizeObserver(wrapRef, update))
       stopResizeListener = useEventListener('resize', update)
+      stopTransitionListener = useEventListener(
+        wrapRef,
+        ['transitionend', 'animationend'],
+        updateBar
+      )
     }
   },
   { immediate: true }
