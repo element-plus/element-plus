@@ -884,8 +884,8 @@ const handleKeyControl = (code: string) => {
         date.setMonth(date.getMonth() + step),
     },
     quarter: {
-      [up]: -2,
-      [down]: 2,
+      [up]: -4,
+      [down]: 4,
       [left]: -1,
       [right]: 1,
       offset: (date: Date, step: number) =>

@@ -3157,7 +3157,8 @@ describe('QuarterPicker', () => {
     ).toBe('')
     expect(document.querySelector('.el-year-table')).toBeNull()
     expect(document.querySelector('.el-month-table')).toBeNull()
-    // four quarter cells are rendered
+    // four quarter cells are rendered in a single row
+    expect(document.querySelectorAll('.el-quarter-table tr').length).toBe(1)
     expect(document.querySelectorAll('.el-quarter-table td').length).toBe(4)
     // pick Q1
     ;(

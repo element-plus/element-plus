@@ -70,9 +70,13 @@ const ns = useNamespace('quarter-table')
 const { t, lang } = useLocale()
 const tbodyRef = ref<HTMLElement>()
 const currentCellRef = ref<HTMLElement>()
-const tableRows = ref<QuarterCell[][]>([[], []])
+const tableRows = ref<QuarterCell[][]>([[]])
 const lastRow = ref<number>()
 const lastColumn = ref<number>()
+
+const ROW_COUNT = 1
+const COL_COUNT = 4
+const toQuarterIndex = (row: number, col: number) => row * COL_COUNT + col
 
 const quarterIndex = (date: Dayjs) => date.year() * 4 + (date.quarter() - 1)
 
@@ -165,7 +169,7 @@ const updateQuarterCell = (
 ) => {
   cell.type = 'normal'
 
-  const index = row * 2 + col
+  const index = toQuarterIndex(row, col)
   const calTime = props.date.startOf('year').add(index, 'quarter')
   const calIdx = quarterIndex(calTime)
   const { inRange, start, end } = getQuarterRangeFlags(
@@ -200,9 +204,9 @@ const rows = computed<QuarterCell[][]>(() => {
   const endIdx = calEndDate ? quarterIndex(calEndDate) : null
   const rangeContext = { minIdx, endIdx }
 
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < ROW_COUNT; i++) {
     const row = rows[i]
-    for (let j = 0; j < 2; j++) {
+    for (let j = 0; j < COL_COUNT; j++) {
       const cell = (row[j] ||= createQuarterCell(i, j))
       updateQuarterCell(cell, i, j, now, rangeContext)
     }
@@ -264,7 +268,9 @@ const handleMouseMove = (event: MouseEvent) => {
     lastColumn.value = column
     emit('changerange', {
       selecting: true,
-      endDate: props.date.startOf('year').add(row * 2 + column, 'quarter'),
+      endDate: props.date
+        .startOf('year')
+        .add(toQuarterIndex(row, column), 'quarter'),
     })
   }
 }
@@ -278,7 +284,7 @@ const handleQuarterTableClick = (event: MouseEvent | KeyboardEvent) => {
   if (hasClass(target, 'disabled')) return
   const column = target.cellIndex
   const row = (target.parentNode as HTMLTableRowElement).rowIndex
-  const quarter = row * 2 + column
+  const quarter = toQuarterIndex(row, column)
   if (props.selectionMode === 'range') {
     const newDate = resolveQuarterDate(quarter)
     if (!props.rangeState.selecting) {
