@@ -26,6 +26,7 @@ export default {
       confirm: '確認',
       dateTablePrompt: '使用方向鍵與 Enter 鍵以選擇日期',
       monthTablePrompt: '使用方向鍵與 Enter 鍵以選擇月份',
+      quarterTablePrompt: '使用方向鍵與 Enter 鍵以選擇季度',
       yearTablePrompt: '使用方向鍵與 Enter 鍵以選擇年份',
       selectedDate: '已選日期',
       selectDate: '選擇日期',

@@ -27,6 +27,8 @@ export default {
       confirm: '확인',
       dateTablePrompt: '화살표 키를 사용하고 Enter를 눌러 날짜를 선택하십시오.',
       monthTablePrompt: '화살표 키를 사용하고 Enter를 눌러 월을 선택합니다.',
+      quarterTablePrompt:
+        '화살표 키를 사용하고 Enter를 눌러 분기를 선택합니다.',
       yearTablePrompt:
         '화살표 키를 사용하고 Enter 키를 눌러 연도를 선택합니다.',
       selectedDate: 'Selected date', // to be translated

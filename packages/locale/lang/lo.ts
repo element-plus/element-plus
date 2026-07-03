@@ -26,6 +26,7 @@ export default {
       confirm: 'ຕົກລົງ',
       dateTablePrompt: 'ໃຊ້ປຸ່ມລູກສອນ ແລະ ປຸ່ມ enter ເພື່ອເລືອກວັນທີຂອງເດືອນ',
       monthTablePrompt: 'ໃຊ້ປຸ່ມລູກສອນ ແລະ ປຸ່ມ enter ເພື່ອເລືອກເດືອນ',
+      quarterTablePrompt: 'ໃຊ້ປຸ່ມລູກສອນ ແລະ ປຸ່ມ enter ເພື່ອເລືອກຮອບໄຕມາດ',
       yearTablePrompt: 'ໃຊ້ປຸ່ມລູກສອນ ແລະ ປຸ່ມ enter ເພື່ອເລືອກປີ',
       selectedDate: 'ວັນທີທີ່ເລືອກ',
       selectDate: 'ເລືອກວັນທີ',
