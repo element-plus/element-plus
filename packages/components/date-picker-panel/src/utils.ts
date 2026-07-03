@@ -237,6 +237,24 @@ export const getValidDateOfQuarter = (
     .locale(lang)
 }
 
+export const normalizeQuarterDate = (
+  value: Dayjs,
+  lang: string,
+  disabledDate?: DisabledDateType
+) => {
+  if (!dayjs.isDayjs(value) || !value.isValid()) {
+    return value
+  }
+
+  return getValidDateOfQuarter(
+    value.startOf('day'),
+    value.year(),
+    value.quarter() - 1,
+    lang,
+    disabledDate
+  ).startOf('day')
+}
+
 export const getValidDateOfYear = (
   value: Dayjs,
   lang: string,

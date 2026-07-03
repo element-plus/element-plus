@@ -140,9 +140,9 @@ import { isArray } from '@element-plus/utils'
 import {
   correctlyParseUserInput,
   getDefaultValue,
-  getValidDateOfQuarter,
   isQuarterFullyDisabled,
   isValidRange,
+  normalizeQuarterDate,
 } from '../utils'
 import {
   panelQuarterRangeEmits,
@@ -226,8 +226,10 @@ type RangePickValue = {
 }
 
 const handleRangePick = (val: RangePickValue, close = true) => {
-  const minDate_ = val.minDate
+  const minDate_ = normalizeQuarterDate(val.minDate, lang.value, disabledDate)
   const maxDate_ = val.maxDate
+    ? normalizeQuarterDate(val.maxDate, lang.value, disabledDate)
+    : val.maxDate
   if (maxDate.value === maxDate_ && minDate.value === minDate_) {
     return
   }
@@ -253,19 +255,8 @@ const handleClear = () => {
   emit('pick', valueOnClear)
 }
 
-const normalizeQuarterInput = (value: Dayjs) => {
-  if (!dayjs.isDayjs(value) || !value.isValid()) {
-    return value
-  }
-
-  return getValidDateOfQuarter(
-    value,
-    value.year(),
-    value.quarter() - 1,
-    lang.value,
-    disabledDate
-  )
-}
+const normalizeQuarterInput = (value: Dayjs) =>
+  normalizeQuarterDate(value, lang.value, disabledDate)
 
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
   const parsed = correctlyParseUserInput(

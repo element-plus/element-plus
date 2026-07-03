@@ -38,7 +38,7 @@ import dayjs from 'dayjs'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { castArray, hasClass } from '@element-plus/utils'
 import { basicQuarterTableProps } from '../props/basic-quarter-table'
-import { datesInQuarter, getValidDateOfQuarter } from '../utils'
+import { datesInQuarter, normalizeQuarterDate } from '../utils'
 import ElDatePickerCell from './basic-cell-render'
 
 import type { Dayjs } from 'dayjs'
@@ -75,6 +75,13 @@ const lastRow = ref<number>()
 const lastColumn = ref<number>()
 
 const quarterIndex = (date: Dayjs) => date.year() * 4 + (date.quarter() - 1)
+
+const resolveQuarterDate = (quarter: number) =>
+  normalizeQuarterDate(
+    props.date.startOf('year').add(quarter, 'quarter'),
+    lang.value,
+    props.disabledDate
+  )
 
 type QuarterRangeContext = {
   minIdx: number | null
@@ -273,13 +280,7 @@ const handleQuarterTableClick = (event: MouseEvent | KeyboardEvent) => {
   const row = (target.parentNode as HTMLTableRowElement).rowIndex
   const quarter = row * 2 + column
   if (props.selectionMode === 'range') {
-    const newDate = getValidDateOfQuarter(
-      props.date,
-      props.date.year(),
-      quarter,
-      lang.value,
-      props.disabledDate
-    )
+    const newDate = resolveQuarterDate(quarter)
     if (!props.rangeState.selecting) {
       emit('pick', { minDate: newDate, maxDate: null })
       emit('select', true)
@@ -296,13 +297,7 @@ const handleQuarterTableClick = (event: MouseEvent | KeyboardEvent) => {
       emit('pick', castArray(props.parsedValue), false)
       return
     }
-    const newQuarter = getValidDateOfQuarter(
-      props.date,
-      props.date.year(),
-      quarter,
-      lang.value,
-      props.disabledDate
-    )
+    const newQuarter = resolveQuarterDate(quarter)
     const newValue = hasClass(target, 'current')
       ? castArray(props.parsedValue).filter(
           (d) => d?.year() !== newQuarter.year() || d.quarter() - 1 !== quarter

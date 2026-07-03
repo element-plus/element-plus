@@ -3436,6 +3436,35 @@ describe('Quarters', () => {
     expect(vm.value.length).toBe(0)
   })
 
+  it('should zero hours minutes seconds after panel pick', async () => {
+    vi.useFakeTimers()
+    try {
+      vi.setSystemTime(new Date('2026-03-15T14:30:45'))
+      const wrapper = _mount(
+        `<el-date-picker
+        type="quarters"
+        v-model="value"
+      />`,
+        () => ({ value: [] as Date[] })
+      )
+      const input = wrapper.find('input')
+      input.trigger('blur')
+      input.trigger('focus')
+      await nextTick()
+      const td = document.querySelectorAll(
+        '.el-quarter-table tr td'
+      ) as NodeListOf<HTMLElement>
+      td[0].click()
+      await nextTick()
+      const vm = wrapper.vm as any
+      expect(vm.value[0].getHours()).toBe(0)
+      expect(vm.value[0].getMinutes()).toBe(0)
+      expect(vm.value[0].getSeconds()).toBe(0)
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
   it('selected', async () => {
     const wrapper = _mount(
       `<el-date-picker
@@ -3735,6 +3764,42 @@ describe('QuarterRange', () => {
     p0.click()
     await nextTick()
     expect(vm.value[0].getTime() < vm.value[1].getTime()).toBeTruthy()
+  })
+
+  it('should zero hours minutes seconds after panel pick', async () => {
+    vi.useFakeTimers()
+    try {
+      vi.setSystemTime(new Date('2026-03-15T14:30:45'))
+      const wrapper = _mount(
+        `<el-date-picker
+        type="quarterrange"
+        v-model="value"
+      />`,
+        () => ({ value: '' })
+      )
+
+      const inputs = wrapper.findAll('input')
+      inputs[0].trigger('blur')
+      inputs[0].trigger('focus')
+      await nextTick()
+      const panels = document.querySelectorAll('.el-date-range-picker__content')
+      const p0 = <HTMLElement>panels[0].querySelector('td:not(.disabled)')
+      p0.click()
+      await nextTick()
+      const p1 = <HTMLElement>panels[1].querySelector('td:not(.disabled)')
+      p1.click()
+      await nextTick()
+
+      const vm = wrapper.vm as any
+      expect(vm.value[0].getHours()).toBe(0)
+      expect(vm.value[0].getMinutes()).toBe(0)
+      expect(vm.value[0].getSeconds()).toBe(0)
+      expect(vm.value[1].getHours()).toBe(0)
+      expect(vm.value[1].getMinutes()).toBe(0)
+      expect(vm.value[1].getSeconds()).toBe(0)
+    } finally {
+      vi.useRealTimers()
+    }
   })
 
   it('type:quarterrange', async () => {

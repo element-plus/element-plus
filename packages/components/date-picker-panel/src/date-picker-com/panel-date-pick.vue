@@ -273,6 +273,7 @@ import {
   getValidDateOfQuarter,
   getValidDateOfYear,
   isQuarterFullyDisabled,
+  normalizeQuarterDate,
 } from '../utils'
 import { ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY } from '../constants'
 import DateTable from './basic-date-table.vue'
@@ -761,29 +762,35 @@ const isValidValue = (date: unknown) => {
   return disabledDate ? !disabledDate(date.toDate()) : true
 }
 
-const parseUserInput = (value: Dayjs) => {
+const parseUserInput = (value: Dayjs | Dayjs[]) => {
   const parsed = correctlyParseUserInput(
     value,
     props.format,
     lang.value,
     isDefaultFormat
-  ) as Dayjs
+  ) as Dayjs | Dayjs[]
+
+  if (selectionMode.value === 'quarters') {
+    if (isArray(parsed)) {
+      return parsed.map((item) =>
+        normalizeQuarterDate(item, lang.value, disabledDate)
+      )
+    }
+    if (!dayjs.isDayjs(parsed) || !parsed.isValid()) {
+      return parsed
+    }
+    return normalizeQuarterDate(parsed, lang.value, disabledDate)
+  }
 
   if (selectionMode.value !== 'quarter') {
     return parsed
   }
 
-  if (!parsed.isValid()) {
+  if (!dayjs.isDayjs(parsed) || !parsed.isValid()) {
     return parsed
   }
 
-  return getValidDateOfQuarter(
-    parsed,
-    parsed.year(),
-    parsed.quarter() - 1,
-    lang.value,
-    disabledDate
-  )
+  return normalizeQuarterDate(parsed, lang.value, disabledDate)
 }
 
 const getDefaultValue = () => {
