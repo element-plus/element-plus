@@ -62,6 +62,11 @@ type QuarterCell = {
   type: 'normal' | 'today'
 }
 
+type QuarterRangeContext = {
+  minIdx: number | null
+  endIdx: number | null
+}
+
 const props = defineProps(basicQuarterTableProps)
 const emit = defineEmits(['changerange', 'pick', 'select'])
 
@@ -86,11 +91,6 @@ const resolveQuarterDate = (quarter: number) =>
     lang.value,
     props.disabledDate
   )
-
-type QuarterRangeContext = {
-  minIdx: number | null
-  endIdx: number | null
-}
 
 const isSelectedCell = (cell: QuarterCell) => {
   const year = props.date.year()

@@ -156,6 +156,11 @@ import { useFormDisabled } from '@element-plus/components/form'
 
 import type { Dayjs } from 'dayjs'
 
+type RangePickValue = {
+  minDate: Dayjs
+  maxDate?: Dayjs
+}
+
 defineOptions({
   name: 'DatePickerQuarterRange',
 })
@@ -219,11 +224,6 @@ const enableYearArrow = computed(() => {
     (props.unlinkPanels && rightYear.value > leftYear.value + 1)
   )
 })
-
-type RangePickValue = {
-  minDate: Dayjs
-  maxDate?: Dayjs
-}
 
 const handleRangePick = (val: RangePickValue, close = true) => {
   const minDate_ = normalizeQuarterDate(val.minDate, lang.value, disabledDate)
