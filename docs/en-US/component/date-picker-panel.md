@@ -82,11 +82,11 @@ Note, date time locale (month name, first day of the week ...) are also configur
 
 ### Events
 
-| Name            | Description                                                                                                                                                                           | Type                                                                                      |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| calendar-change | triggers when the calendar selected date is changed. Only for `range`                                                                                                                 | ^[Function]`(val: [Date, null \| Date]) => void`                                          |
-| panel-change    | triggers when the panel anchor date changes by navigation or picking in the year/month/quarter table. `mode` indicates the granularity (`year` or sub-year); `view` can be `quarter`. | ^[Function]`(date: Date \| [Date, Date], mode: 'month' \| 'year', view?: string) => void` |
-| clear ^(2.13.1) | triggers when a clear button is clicked                                                                                                                                               | ^[Function]`() => void`                                                                   |
+| Name            | Description                                                           | Type                                                                                      |
+| --------------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| calendar-change | triggers when the calendar selected date is changed. Only for `range` | ^[Function]`(val: [Date, null \| Date]) => void`                                          |
+| panel-change    | triggers when the navigation button click.                            | ^[Function]`(date: Date \| [Date, Date], mode: 'month' \| 'year', view?: string) => void` |
+| clear ^(2.13.1) | triggers when a clear button is clicked                               | ^[Function]`() => void`                                                                   |
 
 ### Slots
 
