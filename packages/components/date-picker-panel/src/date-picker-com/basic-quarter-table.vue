@@ -5,7 +5,6 @@
     :class="ns.b()"
     @click="handleQuarterTableClick"
     @mousemove="handleRangeHover"
-    @mouseover="handleRangeHover"
     @mouseleave="handleTableMouseLeave"
   >
     <tbody ref="tbodyRef">

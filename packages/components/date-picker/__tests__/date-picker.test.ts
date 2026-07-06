@@ -3767,7 +3767,7 @@ describe('QuarterRange', () => {
     expect(vm.value[0].getTime() < vm.value[1].getTime()).toBeTruthy()
   })
 
-  it('should highlight cross-panel range on mouseover without mousemove', async () => {
+  it('should highlight cross-panel range after table mouseleave resets hover dedup', async () => {
     const wrapper = _mount(
       `<el-date-picker
         type="quarterrange"
@@ -3791,8 +3791,11 @@ describe('QuarterRange', () => {
     ;(leftTds[0] as HTMLElement).click()
     await nextTick()
 
+    triggerEvent(rightTds[3] as HTMLElement, 'mousemove', true, true)
+    await nextTick()
     triggerEvent(rightTable, 'mouseleave')
-    triggerEvent(rightTds[3] as HTMLElement, 'mouseover', true, true)
+    await nextTick()
+    triggerEvent(rightTds[3] as HTMLElement, 'mousemove', true, true)
     await nextTick()
 
     expect(leftTds[0].classList.contains('start-date')).toBeTruthy()
