@@ -3767,6 +3767,40 @@ describe('QuarterRange', () => {
     expect(vm.value[0].getTime() < vm.value[1].getTime()).toBeTruthy()
   })
 
+  it('should highlight cross-panel range on mouseover without mousemove', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        type="quarterrange"
+        v-model="value"
+      />`,
+      () => ({ value: '' })
+    )
+
+    const inputs = wrapper.findAll('input')
+    inputs[0].trigger('blur')
+    inputs[0].trigger('focus')
+    await nextTick()
+
+    const panels = document.querySelectorAll('.el-date-range-picker__content')
+    const leftTds = panels[0].querySelectorAll('td:not(.disabled)')
+    const rightTable = panels[1].querySelector(
+      '.el-quarter-table'
+    ) as HTMLElement
+    const rightTds = panels[1].querySelectorAll('td:not(.disabled)')
+
+    ;(leftTds[0] as HTMLElement).click()
+    await nextTick()
+
+    triggerEvent(rightTable, 'mouseleave')
+    triggerEvent(rightTds[3] as HTMLElement, 'mouseover', true, true)
+    await nextTick()
+
+    expect(leftTds[0].classList.contains('start-date')).toBeTruthy()
+    expect(rightTds[3].classList.contains('in-range')).toBeTruthy()
+    expect(rightTds[3].classList.contains('end-date')).toBeTruthy()
+    expect(document.querySelectorAll('.in-range').length).toBeGreaterThan(1)
+  })
+
   it('should zero hours minutes seconds after panel pick', async () => {
     vi.useFakeTimers()
     try {

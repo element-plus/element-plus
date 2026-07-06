@@ -4,7 +4,9 @@
     :aria-label="t('el.datepicker.quarterTablePrompt')"
     :class="ns.b()"
     @click="handleQuarterTableClick"
-    @mousemove="handleMouseMove"
+    @mousemove="handleRangeHover"
+    @mouseover="handleRangeHover"
+    @mouseleave="handleTableMouseLeave"
   >
     <tbody ref="tbodyRef">
       <tr v-for="(row, key) in rows" :key="key">
@@ -250,7 +252,7 @@ const getCellStyle = (cell: QuarterCell) => {
   return style
 }
 
-const handleMouseMove = (event: MouseEvent) => {
+const handleRangeHover = (event: MouseEvent) => {
   if (!props.rangeState.selecting) return
 
   const target = (event.target as HTMLElement)?.closest(
@@ -273,6 +275,11 @@ const handleMouseMove = (event: MouseEvent) => {
         .add(toQuarterIndex(row, column), 'quarter'),
     })
   }
+}
+
+const handleTableMouseLeave = () => {
+  lastRow.value = undefined
+  lastColumn.value = undefined
 }
 
 const handleQuarterTableClick = (event: MouseEvent | KeyboardEvent) => {
