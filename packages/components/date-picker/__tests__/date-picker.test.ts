@@ -4035,4 +4035,72 @@ describe('QuarterRange', () => {
     expect(vm.value[0].getTime()).toBe(initialValue[0].getTime())
     expect(vm.value[1].getTime()).toBe(initialValue[1].getTime())
   })
+
+  it('should disable invalid shortcuts when disabledDate limits available quarters', async () => {
+    vi.useFakeTimers()
+    try {
+      vi.setSystemTime(new Date('2026-03-15'))
+      const wrapper = _mount(
+        `<el-date-picker
+          type="quarterrange"
+          v-model="value"
+          value-format="YYYY-[Q]Q"
+          :disabled-date="disabledDate"
+          :shortcuts="shortcuts"
+        />`,
+        () => ({
+          value: [] as string[],
+          disabledDate(time: Date) {
+            const date = new Date(time)
+            return !(
+              date.getFullYear() === 2026 &&
+              date.getMonth() >= 3 &&
+              date.getMonth() <= 5
+            )
+          },
+          shortcuts: [
+            {
+              text: '2026 Q1~Q2',
+              value: () => [new Date(2026, 0, 1), new Date(2026, 5, 30)],
+            },
+            {
+              text: '2026 Q3~Q4',
+              value: () => [new Date(2026, 6, 1), new Date(2026, 11, 31)],
+            },
+            {
+              text: '2026 Q2',
+              value: () => [new Date(2026, 3, 1), new Date(2026, 5, 30)],
+            },
+          ],
+        })
+      )
+
+      const inputs = wrapper.findAll('input')
+      inputs[0].trigger('blur')
+      inputs[0].trigger('focus')
+      await nextTick()
+
+      const getShortcut = (text: string) =>
+        Array.from(
+          document.querySelectorAll('.el-picker-panel__shortcut')
+        ).find((el) => el.textContent === text) as HTMLButtonElement
+
+      const q1q2Shortcut = getShortcut('2026 Q1~Q2')
+      const q3q4Shortcut = getShortcut('2026 Q3~Q4')
+      const q2Shortcut = getShortcut('2026 Q2')
+
+      expect(q1q2Shortcut.disabled).toBe(true)
+      expect(q3q4Shortcut.disabled).toBe(true)
+      expect(q2Shortcut.disabled).toBe(false)
+
+      const vm = wrapper.vm as any
+      expect(vm.value).toEqual([])
+
+      q2Shortcut.click()
+      await nextTick()
+      expect(vm.value).toEqual(['2026-Q2', '2026-Q2'])
+    } finally {
+      vi.useRealTimers()
+    }
+  })
 })

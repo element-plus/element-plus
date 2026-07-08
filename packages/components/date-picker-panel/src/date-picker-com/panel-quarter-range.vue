@@ -19,7 +19,7 @@
           :key="key"
           type="button"
           :class="ppNs.e('shortcut')"
-          :disabled="quarterRangeDisabled"
+          :disabled="quarterRangeDisabled || !isShortcutEnabled(shortcut)"
           @click="handleShortcutClick(shortcut)"
         >
           {{ shortcut.text }}
@@ -130,13 +130,22 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref, toRef, unref, watch } from 'vue'
+import {
+  computed,
+  inject,
+  ref,
+  toRef,
+  unref,
+  useAttrs,
+  useSlots,
+  watch,
+} from 'vue'
 import dayjs from 'dayjs'
 import ElIcon from '@element-plus/components/icon'
 import { useLocale } from '@element-plus/hooks'
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
 import { PICKER_BASE_INJECTION_KEY } from '@element-plus/components/time-picker'
-import { isArray } from '@element-plus/utils'
+import { isArray, isFunction } from '@element-plus/utils'
 import {
   correctlyParseUserInput,
   getDefaultValue,
@@ -155,6 +164,7 @@ import QuarterTable from './basic-quarter-table.vue'
 import { useFormDisabled } from '@element-plus/components/form'
 
 import type { Dayjs } from 'dayjs'
+import type { Shortcut } from '../composables/use-shortcut'
 
 type RangePickValue = {
   minDate: Dayjs
@@ -190,7 +200,6 @@ const {
 
   handleChangeRange,
   handleRangeConfirm,
-  handleShortcutClick,
   onSelect,
   parseValue,
 } = useRangePicker(props, {
@@ -282,6 +291,49 @@ const isValidValue = (date: [Dayjs, Dayjs]) => {
       ? !disabledDate(date[0].toDate()) && !disabledDate(date[1].toDate())
       : true)
   )
+}
+
+const attrs = useAttrs()
+const slots = useSlots()
+
+const resolveShortcutRange = (shortcut: Shortcut): [Dayjs, Dayjs] | null => {
+  const values = isFunction(shortcut.value) ? shortcut.value() : shortcut.value
+  if (!values) return null
+  return [
+    normalizeQuarterDate(
+      dayjs(values[0]).locale(lang.value),
+      lang.value,
+      disabledDate
+    ),
+    normalizeQuarterDate(
+      dayjs(values[1]).locale(lang.value),
+      lang.value,
+      disabledDate
+    ),
+  ]
+}
+
+const isShortcutEnabled = (shortcut: Shortcut) => {
+  const range = resolveShortcutRange(shortcut)
+  if (!range) return true
+  return isValidValue(range)
+}
+
+const handleShortcutClick = (shortcut: Shortcut) => {
+  const range = resolveShortcutRange(shortcut)
+  if (range) {
+    if (isValidValue(range)) {
+      emit('pick', range)
+    }
+    return
+  }
+  if (shortcut.onClick) {
+    shortcut.onClick({
+      attrs,
+      slots,
+      emit,
+    })
+  }
 }
 
 function sortDates(minDate: Dayjs | undefined, maxDate: Dayjs | undefined) {
