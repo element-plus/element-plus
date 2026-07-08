@@ -74,12 +74,9 @@ const { t, lang } = useLocale()
 const tbodyRef = ref<HTMLElement>()
 const currentCellRef = ref<HTMLElement>()
 const tableRows = ref<QuarterCell[][]>([[]])
-const lastRow = ref<number>()
 const lastColumn = ref<number>()
 
-const ROW_COUNT = 1
 const COL_COUNT = 4
-const toQuarterIndex = (row: number, col: number) => row * COL_COUNT + col
 
 const resolveQuarterDate = (quarter: number) =>
   normalizeQuarterDate(
@@ -131,15 +128,13 @@ const isQuarterDisabled = (quarter: number) =>
 
 const updateQuarterCell = (
   cell: QuarterCell,
-  row: number,
   col: number,
   now: Dayjs,
   calEndDate: Dayjs | null
 ) => {
   cell.type = 'normal'
 
-  const index = toQuarterIndex(row, col)
-  const calTime = props.date.startOf('year').add(index, 'quarter')
+  const calTime = props.date.startOf('year').add(col, 'quarter')
 
   cell.inRange =
     !!(
@@ -170,8 +165,8 @@ const updateQuarterCell = (
   }
 
   const cellDate = calTime.toDate()
-  cell.text = index
-  cell.disabled = isQuarterDisabled(index)
+  cell.text = col
+  cell.disabled = isQuarterDisabled(col)
   cell.date = cellDate
   cell.customClass = props.cellClassName?.(cellDate)
   cell.dayjs = calTime
@@ -183,13 +178,11 @@ const rows = computed<QuarterCell[][]>(() => {
   const rows = tableRows.value
   const now = dayjs().locale(lang.value).startOf('quarter')
   const calEndDate = resolveRangeEndDate()
+  const row = rows[0]
 
-  for (let i = 0; i < ROW_COUNT; i++) {
-    const row = rows[i]
-    for (let j = 0; j < COL_COUNT; j++) {
-      const cell = (row[j] ||= createQuarterCell(i, j))
-      updateQuarterCell(cell, i, j, now, calEndDate)
-    }
+  for (let col = 0; col < COL_COUNT; col++) {
+    const cell = (row[col] ||= createQuarterCell(0, col))
+    updateQuarterCell(cell, col, now, calEndDate)
   }
   return rows
 })
@@ -238,25 +231,20 @@ const handleRangeHover = (event: MouseEvent) => {
   ) as HTMLTableCellElement
   if (target?.tagName !== 'TD') return
 
-  const row = (target.parentNode as HTMLTableRowElement).rowIndex
   const column = target.cellIndex
   // can not select disabled date
-  if (rows.value[row][column].disabled) return
+  if (rows.value[0][column].disabled) return
 
-  if (row !== lastRow.value || column !== lastColumn.value) {
-    lastRow.value = row
+  if (column !== lastColumn.value) {
     lastColumn.value = column
     emit('changerange', {
       selecting: true,
-      endDate: props.date
-        .startOf('year')
-        .add(toQuarterIndex(row, column), 'quarter'),
+      endDate: props.date.startOf('year').add(column, 'quarter'),
     })
   }
 }
 
 const handleTableMouseLeave = () => {
-  lastRow.value = undefined
   lastColumn.value = undefined
 }
 
@@ -268,8 +256,7 @@ const handleQuarterTableClick = (event: MouseEvent | KeyboardEvent) => {
   if (target?.tagName !== 'TD') return
   if (hasClass(target, 'disabled')) return
   const column = target.cellIndex
-  const row = (target.parentNode as HTMLTableRowElement).rowIndex
-  const quarter = toQuarterIndex(row, column)
+  const quarter = column
   if (props.selectionMode === 'range') {
     const newDate = resolveQuarterDate(quarter)
     if (!props.rangeState.selecting) {
