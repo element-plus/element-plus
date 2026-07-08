@@ -25,7 +25,7 @@ catalog:
   normalize-wheel-es: ^1.2.0
   vue: 3.5.25
   vue-component-type-helpers: ^3.3.5
-  tsx: ^4.22.4
+  tsx: ^4.23.0
   typescript: ~6.0.3
   # vitest: ^2.0.5
 
