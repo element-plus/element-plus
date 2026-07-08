@@ -74,7 +74,7 @@ const { t, lang } = useLocale()
 const tbodyRef = ref<HTMLElement>()
 const currentCellRef = ref<HTMLElement>()
 const tableRows = ref<QuarterCell[][]>([[]])
-const lastColumn = ref<number>()
+let lastColumn: number | undefined
 
 const COL_COUNT = 4
 
@@ -235,8 +235,8 @@ const handleRangeHover = (event: MouseEvent) => {
   // can not select disabled date
   if (rows.value[0][column].disabled) return
 
-  if (column !== lastColumn.value) {
-    lastColumn.value = column
+  if (column !== lastColumn) {
+    lastColumn = column
     emit('changerange', {
       selecting: true,
       endDate: props.date.startOf('year').add(column, 'quarter'),
@@ -245,7 +245,7 @@ const handleRangeHover = (event: MouseEvent) => {
 }
 
 const handleTableMouseLeave = () => {
-  lastColumn.value = undefined
+  lastColumn = undefined
 }
 
 const handleQuarterTableClick = (event: MouseEvent | KeyboardEvent) => {
