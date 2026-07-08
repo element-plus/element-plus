@@ -42,7 +42,9 @@ import { basicQuarterTableProps } from '../props/basic-quarter-table'
 import { datesInQuarter, normalizeQuarterDate } from '../utils'
 import ElDatePickerCell from './basic-cell-render'
 
-import type { Dayjs } from 'dayjs'
+import type { Dayjs, OpUnitType } from 'dayjs'
+
+const QUARTER_UNIT = 'quarter' as OpUnitType
 
 type QuarterCell = {
   column: number
@@ -63,11 +65,6 @@ type QuarterCell = {
   type: 'normal' | 'today'
 }
 
-type QuarterRangeContext = {
-  minIdx: number | null
-  endIdx: number | null
-}
-
 const props = defineProps(basicQuarterTableProps)
 const emit = defineEmits(['changerange', 'pick', 'select'])
 
@@ -83,8 +80,6 @@ const lastColumn = ref<number>()
 const ROW_COUNT = 1
 const COL_COUNT = 4
 const toQuarterIndex = (row: number, col: number) => row * COL_COUNT + col
-
-const quarterIndex = (date: Dayjs) => date.year() * 4 + (date.quarter() - 1)
 
 const resolveQuarterDate = (quarter: number) =>
   normalizeQuarterDate(
@@ -126,33 +121,6 @@ const resolveRangeEndDate = () =>
   (props.rangeState.selecting && props.minDate) ||
   null
 
-const getQuarterRangeFlags = (
-  calIdx: number,
-  minIdx: number | null,
-  endIdx: number | null
-) => {
-  const inRange =
-    (minIdx !== null &&
-      endIdx !== null &&
-      calIdx >= minIdx &&
-      calIdx <= endIdx) ||
-    (minIdx !== null && endIdx !== null && calIdx <= minIdx && calIdx >= endIdx)
-
-  if (minIdx !== null && endIdx !== null && minIdx >= endIdx) {
-    return {
-      inRange,
-      start: calIdx === endIdx,
-      end: calIdx === minIdx,
-    }
-  }
-
-  return {
-    inRange,
-    start: minIdx !== null && calIdx === minIdx,
-    end: endIdx !== null && calIdx === endIdx,
-  }
-}
-
 const isQuarterDisabled = (quarter: number) =>
   props.disabled ||
   (props.disabledDate
@@ -166,22 +134,36 @@ const updateQuarterCell = (
   row: number,
   col: number,
   now: Dayjs,
-  rangeContext: QuarterRangeContext
+  calEndDate: Dayjs | null
 ) => {
   cell.type = 'normal'
 
   const index = toQuarterIndex(row, col)
   const calTime = props.date.startOf('year').add(index, 'quarter')
-  const calIdx = quarterIndex(calTime)
-  const { inRange, start, end } = getQuarterRangeFlags(
-    calIdx,
-    rangeContext.minIdx,
-    rangeContext.endIdx
-  )
 
-  cell.inRange = inRange
-  cell.start = start
-  cell.end = end
+  cell.inRange =
+    !!(
+      props.minDate &&
+      calTime.isSameOrAfter(props.minDate, QUARTER_UNIT) &&
+      calEndDate &&
+      calTime.isSameOrBefore(calEndDate, QUARTER_UNIT)
+    ) ||
+    !!(
+      props.minDate &&
+      calTime.isSameOrBefore(props.minDate, QUARTER_UNIT) &&
+      calEndDate &&
+      calTime.isSameOrAfter(calEndDate, QUARTER_UNIT)
+    )
+
+  if (props.minDate?.isSameOrAfter(calEndDate, QUARTER_UNIT)) {
+    cell.start = !!(calEndDate && calTime.isSame(calEndDate, QUARTER_UNIT))
+    cell.end = !!(props.minDate && calTime.isSame(props.minDate, QUARTER_UNIT))
+  } else {
+    cell.start = !!(
+      props.minDate && calTime.isSame(props.minDate, QUARTER_UNIT)
+    )
+    cell.end = !!(calEndDate && calTime.isSame(calEndDate, QUARTER_UNIT))
+  }
 
   if (now.isSame(calTime)) {
     cell.type = 'today'
@@ -201,15 +183,12 @@ const rows = computed<QuarterCell[][]>(() => {
   const rows = tableRows.value
   const now = dayjs().locale(lang.value).startOf('quarter')
   const calEndDate = resolveRangeEndDate()
-  const minIdx = props.minDate ? quarterIndex(props.minDate) : null
-  const endIdx = calEndDate ? quarterIndex(calEndDate) : null
-  const rangeContext = { minIdx, endIdx }
 
   for (let i = 0; i < ROW_COUNT; i++) {
     const row = rows[i]
     for (let j = 0; j < COL_COUNT; j++) {
       const cell = (row[j] ||= createQuarterCell(i, j))
-      updateQuarterCell(cell, i, j, now, rangeContext)
+      updateQuarterCell(cell, i, j, now, calEndDate)
     }
   }
   return rows
