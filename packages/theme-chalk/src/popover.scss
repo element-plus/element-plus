@@ -5,6 +5,11 @@
 @include b(popover) {
   @include set-component-css-var('popover', $popover);
 
+  @include set-css-var-value(
+    ('fill-color', 'blank'),
+    getCssVar('bg-color', 'overlay')
+  );
+
   &.#{$namespace}-popper {
     background: getCssVar('popover-bg-color');
     min-width: 150px;

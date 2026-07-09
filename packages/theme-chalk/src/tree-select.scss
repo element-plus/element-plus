@@ -8,6 +8,11 @@
 
 @include b(tree-select) {
   @include e(popper) {
+    @include set-css-var-value(
+      ('fill-color', 'blank'),
+      getCssVar('bg-color', 'overlay')
+    );
+
     // padding-left same with select option
     .#{$namespace}-tree-node__expand-icon {
       margin-left: 8px;
