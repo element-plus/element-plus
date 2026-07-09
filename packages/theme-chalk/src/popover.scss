@@ -10,6 +10,13 @@
     getCssVar('bg-color', 'overlay')
   );
 
+  @include when(dark) {
+    @include set-css-var-value(
+      ('fill-color', 'blank'),
+      getCssVar('popper', 'bg-color-dark')
+    );
+  }
+
   &.#{$namespace}-popper {
     background: getCssVar('popover-bg-color');
     min-width: 150px;
