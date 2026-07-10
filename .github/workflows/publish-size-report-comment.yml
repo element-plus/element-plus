@@ -1,0 +1,65 @@
+name: 📮 Package Size Report Comment
+
+on:
+  # zizmor: ignore[dangerous-triggers] downstream workflow only reads the generated size-report artifact and posts a scoped PR comment
+  workflow_run:
+    workflows: ['📦 Package Size Report']
+    types: [completed]
+
+jobs:
+  result:
+    if: |
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.head_repository.full_name != github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      pull-requests: read
+
+    outputs:
+      body: ${{ steps.comment.outputs.body }}
+      pr: ${{ steps.pr.outputs.pr }}
+
+    steps:
+      - name: Download comment body
+        uses: dawidd6/action-download-artifact@b6e2e70617bc3265edd6dab6c906732b2f1ae151 # v21
+        with:
+          workflow: ${{ github.event.workflow.id }}
+          run_id: ${{ github.event.workflow_run.id }}
+          name: compressed-size-comment
+
+      - name: Derive PR number
+        uses: dawidd6/action-download-artifact@b6e2e70617bc3265edd6dab6c906732b2f1ae151 # v21
+        with:
+          workflow: ${{ github.event.workflow.id }}
+          run_id: ${{ github.event.workflow_run.id }}
+          name: compressed-size-pr-number
+
+      - name: Get PR number
+        id: pr
+        run: echo "pr=$(<compressed-size-pr-number.txt)" >> "$GITHUB_OUTPUT"
+
+      - name: Get comment body
+        id: comment
+        run: |
+          delimiter="$(uuidgen)"
+          {
+            echo "body<<$delimiter"
+            cat compressed-size-comment.md
+            echo "$delimiter"
+          } >> "$GITHUB_OUTPUT"
+
+  on-success:
+    runs-on: ubuntu-latest
+    needs: result
+    name: Comment
+    if: ${{ needs.result.result == 'success' }}
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions-cool/maintain-one-comment-backup@17f644ff1665b05890083f7c1091fef135bce5e4
+        with:
+          body: ${{ needs.result.outputs.body }}
+          body-include: '<!-- compressed-size-action -->'
+          number: ${{ needs.result.outputs.pr }}
