@@ -29,6 +29,9 @@ export default defineConfig(async ({ mode }): Promise<UserConfig> => {
   })
 
   return {
+    experimental: {
+      bundledDev: true,
+    },
     css: {
       preprocessorOptions: {
         scss: {
