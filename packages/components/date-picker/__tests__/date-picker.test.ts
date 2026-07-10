@@ -3401,6 +3401,65 @@ describe('QuarterPicker', () => {
     await wrapper.find('.clear-icon').trigger('click')
     expect((wrapper.vm as any).value).toBeNull()
   })
+
+  it('should disable invalid shortcuts when disabledDate limits available quarters', async () => {
+    vi.useFakeTimers()
+    try {
+      vi.setSystemTime(new Date('2026-03-15'))
+      const wrapper = _mount(
+        `<el-date-picker
+          type="quarter"
+          v-model="value"
+          value-format="YYYY-[Q]Q"
+          :disabled-date="disabledDate"
+          :shortcuts="shortcuts"
+        />`,
+        () => ({
+          value: '',
+          disabledDate(time: Date) {
+            const date = new Date(time)
+            return !(
+              date.getFullYear() === 2026 &&
+              date.getMonth() >= 3 &&
+              date.getMonth() <= 5
+            )
+          },
+          shortcuts: [
+            {
+              text: '2026 Q3',
+              value: () => new Date(2026, 6, 1),
+            },
+            {
+              text: '2026 Q2',
+              value: () => new Date(2026, 3, 1),
+            },
+          ],
+        })
+      )
+
+      const input = wrapper.find('input')
+      input.trigger('blur')
+      input.trigger('focus')
+      await nextTick()
+
+      const getShortcut = (text: string) =>
+        Array.from(
+          document.querySelectorAll('.el-picker-panel__shortcut')
+        ).find((el) => el.textContent === text) as HTMLButtonElement
+
+      expect(getShortcut('2026 Q3').disabled).toBe(true)
+      expect(getShortcut('2026 Q2').disabled).toBe(false)
+
+      const vm = wrapper.vm as any
+      expect(vm.value).toBe('')
+
+      getShortcut('2026 Q2').click()
+      await nextTick()
+      expect(vm.value).toBe('2026-Q2')
+    } finally {
+      vi.useRealTimers()
+    }
+  })
 })
 
 describe('Quarters', () => {
@@ -3714,6 +3773,65 @@ describe('Quarters', () => {
       expect(vm.value.length).toBe(1)
       expect(vm.value[0].getFullYear()).toBe(2025)
       expect(vm.value[0].getMonth()).toBe(0)
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
+  it('should disable invalid shortcuts when disabledDate limits available quarters', async () => {
+    vi.useFakeTimers()
+    try {
+      vi.setSystemTime(new Date('2026-03-15'))
+      const wrapper = _mount(
+        `<el-date-picker
+          type="quarters"
+          v-model="value"
+          value-format="YYYY-[Q]Q"
+          :disabled-date="disabledDate"
+          :shortcuts="shortcuts"
+        />`,
+        () => ({
+          value: [] as string[],
+          disabledDate(time: Date) {
+            const date = new Date(time)
+            return !(
+              date.getFullYear() === 2026 &&
+              date.getMonth() >= 3 &&
+              date.getMonth() <= 5
+            )
+          },
+          shortcuts: [
+            {
+              text: '2026 Q3',
+              value: () => new Date(2026, 6, 1),
+            },
+            {
+              text: '2026 Q2',
+              value: () => new Date(2026, 3, 1),
+            },
+          ],
+        })
+      )
+
+      const input = wrapper.find('input')
+      input.trigger('blur')
+      input.trigger('focus')
+      await nextTick()
+
+      const getShortcut = (text: string) =>
+        Array.from(
+          document.querySelectorAll('.el-picker-panel__shortcut')
+        ).find((el) => el.textContent === text) as HTMLButtonElement
+
+      expect(getShortcut('2026 Q3').disabled).toBe(true)
+      expect(getShortcut('2026 Q2').disabled).toBe(false)
+
+      const vm = wrapper.vm as any
+      expect(vm.value).toEqual([])
+
+      getShortcut('2026 Q2').click()
+      await nextTick()
+      expect(vm.value).toEqual(['2026-Q2'])
     } finally {
       vi.useRealTimers()
     }
