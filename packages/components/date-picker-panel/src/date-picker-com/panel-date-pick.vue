@@ -273,6 +273,7 @@ import {
   getValidDateOfQuarter,
   getValidDateOfYear,
   isQuarterFullyDisabled,
+  isSelectableQuarterDate,
   normalizeQuarterDate,
 } from '../utils'
 import { ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY } from '../constants'
@@ -735,10 +736,7 @@ const isValidValue = (date: unknown) => {
   }
 
   if (selectionMode.value === 'quarter') {
-    return (
-      !isQuarterFullyDisabled(date, lang.value, disabledDate) &&
-      (disabledDate ? !disabledDate(date.toDate()) : true)
-    )
+    return isSelectableQuarterDate(date, lang.value, disabledDate)
   }
 
   return disabledDate ? !disabledDate(date.toDate()) : true
@@ -758,14 +756,8 @@ const isShortcutEnabled = (shortcut: Shortcut) => {
   const date = resolveShortcutDate(shortcut)
   if (!date) return true
 
-  if (selectionMode.value === 'quarter') {
-    return isValidValue(date)
-  }
-  if (selectionMode.value === 'quarters') {
-    return (
-      !isQuarterFullyDisabled(date, lang.value, disabledDate) &&
-      (disabledDate ? !disabledDate(date.toDate()) : true)
-    )
+  if (['quarter', 'quarters'].includes(selectionMode.value)) {
+    return isSelectableQuarterDate(date, lang.value, disabledDate)
   }
   return true
 }
@@ -773,7 +765,10 @@ const isShortcutEnabled = (shortcut: Shortcut) => {
 const handleShortcutClick = (shortcut: Shortcut) => {
   const date = resolveShortcutDate(shortcut)
   if (date) {
-    if (isShortcutEnabled(shortcut)) {
+    const enabled = ['quarter', 'quarters'].includes(selectionMode.value)
+      ? isSelectableQuarterDate(date, lang.value, disabledDate)
+      : true
+    if (enabled) {
       isShortcut = true
       emit(selectionMode.value === 'quarters' ? [date] : date)
     }

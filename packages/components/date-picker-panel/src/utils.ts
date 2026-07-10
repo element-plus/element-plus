@@ -188,6 +188,17 @@ export const isQuarterFullyDisabled = (
   )
 }
 
+export const isSelectableQuarterDate = (
+  value: Dayjs,
+  lang: string,
+  disabledDate?: DisabledDateType
+) => {
+  return (
+    !isQuarterFullyDisabled(value, lang, disabledDate) &&
+    (disabledDate ? !disabledDate(value.toDate()) : true)
+  )
+}
+
 export const getValidDateOfMonth = (
   date: Dayjs,
   year: number,
