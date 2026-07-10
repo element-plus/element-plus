@@ -283,16 +283,35 @@ const countStyle = ref<StyleValue>()
 const clearIconStyle = ref<StyleValue>()
 const textareaCalcStyle = shallowRef(props.inputStyle)
 const saveValue = ref('')
+let passwordFocusValue: string | undefined
 const textareaHeight = ref<string>()
 
 const _ref = computed(() => input.value || textarea.value)
 
-// wrapperRef for type="text", handleFocus and handleBlur for type="textarea"
-// @ts-ignore - used in template ref binding, TS cannot detect template usage
 const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
   _ref,
   {
     disabled: inputDisabled,
+    afterFocus() {
+      if (props.showPassword) {
+        passwordFocusValue = _ref.value?.value
+      }
+    },
+    beforeBlur() {
+      if (props.showPassword) {
+        const target = _ref.value
+        const value = _ref.value?.value
+        if (
+          !isNil(value) &&
+          !isNil(passwordFocusValue) &&
+          value !== passwordFocusValue
+        ) {
+          target?.dispatchEvent(new Event('change', { bubbles: true }))
+        }
+        passwordFocusValue = undefined
+      }
+      return undefined
+    },
     afterBlur() {
       if (props.validateEvent) {
         elFormItem?.validate?.('blur').catch(NOOP)
@@ -610,6 +629,10 @@ const handleInput = async (event: Event) => {
 const handleChange = async (event: Event) => {
   let { value } = event.target as TargetElement
 
+  if (props.showPassword) {
+    passwordFocusValue = value
+  }
+
   value = formatValue(value)
   if (props.modelModifiers.lazy) {
     emit(UPDATE_MODEL_EVENT, value)
@@ -655,6 +678,7 @@ const select = () => {
 
 const clear = (evt?: MouseEvent) => {
   emit(UPDATE_MODEL_EVENT, '')
+  passwordFocusValue = ''
   emit(CHANGE_EVENT, '')
   emit('clear', evt)
   emit(INPUT_EVENT, '')
