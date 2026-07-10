@@ -8,10 +8,10 @@
     @mouseleave="handleTableMouseLeave"
   >
     <tbody ref="tbodyRef">
-      <tr v-for="(row, key) in rows" :key="key">
+      <tr>
         <td
-          v-for="(cell, key_) in row"
-          :key="key_"
+          v-for="(cell, key) in rows"
+          :key="key"
           :ref="(el) => cell.isSelected && (currentCellRef = el as HTMLElement)"
           class="available"
           :class="getCellStyle(cell)"
@@ -73,8 +73,8 @@ const ns = useNamespace('quarter-table')
 const { t, lang } = useLocale()
 const tbodyRef = ref<HTMLElement>()
 const currentCellRef = ref<HTMLElement>()
-const tableRows = ref<QuarterCell[][]>([[]])
-let lastColumn: number | undefined
+const tableRows = ref<QuarterCell[]>([])
+let lastQuarter: number | undefined
 
 const COL_COUNT = 4
 
@@ -93,8 +93,8 @@ const isSelectedCell = (cell: QuarterCell) => {
   )
 }
 
-const createQuarterCell = (row: number, column: number): QuarterCell => ({
-  row,
+const createQuarterCell = (column: number): QuarterCell => ({
+  row: 0,
   column,
   type: 'normal',
   inRange: false,
@@ -174,17 +174,16 @@ const updateQuarterCell = (
   cell.isSelected = isSelectedCell(cell)
 }
 
-const rows = computed<QuarterCell[][]>(() => {
-  const rows = tableRows.value
+const rows = computed<QuarterCell[]>(() => {
+  const cells = tableRows.value
   const now = dayjs().locale(lang.value).startOf('quarter')
   const calEndDate = resolveRangeEndDate()
-  const row = rows[0]
 
   for (let col = 0; col < COL_COUNT; col++) {
-    const cell = (row[col] ||= createQuarterCell(0, col))
+    const cell = (cells[col] ||= createQuarterCell(col))
     updateQuarterCell(cell, col, now, calEndDate)
   }
-  return rows
+  return cells
 })
 
 const focus = () => {
@@ -231,21 +230,21 @@ const handleRangeHover = (event: MouseEvent) => {
   ) as HTMLTableCellElement
   if (target?.tagName !== 'TD') return
 
-  const column = target.cellIndex
+  const quarter = target.cellIndex
   // can not select disabled date
-  if (rows.value[0][column].disabled) return
+  if (rows.value[quarter].disabled) return
 
-  if (column !== lastColumn) {
-    lastColumn = column
+  if (quarter !== lastQuarter) {
+    lastQuarter = quarter
     emit('changerange', {
       selecting: true,
-      endDate: props.date.startOf('year').add(column, 'quarter'),
+      endDate: props.date.startOf('year').add(quarter, 'quarter'),
     })
   }
 }
 
 const handleTableMouseLeave = () => {
-  lastColumn = undefined
+  lastQuarter = undefined
 }
 
 const handleQuarterTableClick = (event: MouseEvent | KeyboardEvent) => {
@@ -255,8 +254,7 @@ const handleQuarterTableClick = (event: MouseEvent | KeyboardEvent) => {
   ) as HTMLTableCellElement
   if (target?.tagName !== 'TD') return
   if (hasClass(target, 'disabled')) return
-  const column = target.cellIndex
-  const quarter = column
+  const quarter = target.cellIndex
   if (props.selectionMode === 'range') {
     const newDate = resolveQuarterDate(quarter)
     if (!props.rangeState.selecting) {
