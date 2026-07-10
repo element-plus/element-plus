@@ -297,9 +297,15 @@ const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
         passwordFocusValue = _ref.value?.value
       }
     },
-    beforeBlur() {
+    beforeBlur(event) {
       if (props.showPassword) {
         const target = _ref.value
+        if (
+          event.relatedTarget &&
+          target?.parentElement?.contains(event.relatedTarget as Node)
+        ) {
+          return undefined
+        }
         const value = _ref.value?.value
         if (
           !isNil(value) &&
