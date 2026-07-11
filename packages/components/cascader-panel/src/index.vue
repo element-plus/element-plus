@@ -114,6 +114,10 @@ const shouldRender = computed(() => {
   return cascader?.shouldRenderContent ?? true
 })
 
+const shouldInitLazyNodes = computed(
+  () => !isEmpty(props.modelValue) || shouldRender.value
+)
+
 const initStore = () => {
   const { options } = props
   const cfg = config.value
@@ -121,20 +125,25 @@ const initStore = () => {
   manualChecked = false
   store = new Store(options, cfg)
   menus.value = [store.getNodes()]
-
-  if (cfg.lazy && isEmpty(props.options)) {
-    initialLoaded.value = false
-    lazyLoad(undefined, (list) => {
-      if (list) {
-        store = new Store(list, cfg)
-        menus.value = [store.getNodes()]
-      }
-      initialLoaded.value = true
-      syncCheckedValue(false, true)
-    })
-  } else {
+  if (!cfg.lazy || !isEmpty(props.options)) {
     syncCheckedValue(false, true)
   }
+}
+
+const initLazyRootNodes = () => {
+  const cfg = config.value
+
+  if (!cfg.lazy || !isEmpty(props.options)) return
+
+  initialLoaded.value = false
+  lazyLoad(undefined, (list) => {
+    if (list) {
+      store = new Store(list, cfg)
+      menus.value = [store.getNodes()]
+    }
+    initialLoaded.value = true
+    syncCheckedValue(false, true)
+  })
 }
 
 const lazyLoad: ElCascaderPanelContext['lazyLoad'] = (node, cb) => {
@@ -418,21 +427,37 @@ watch(
   (newVal, oldVal) => {
     if (isEqual(newVal, oldVal)) return
     initStore()
+    if (shouldInitLazyNodes.value) {
+      initLazyRootNodes()
+    }
   },
   {
     immediate: true,
   }
 )
 
-watch(() => props.options, initStore, {
-  deep: true,
-})
+watch(
+  () => props.options,
+  () => {
+    initStore()
+    if (shouldInitLazyNodes.value) {
+      initLazyRootNodes()
+    }
+  },
+  {
+    deep: true,
+  }
+)
 
 watch(
   () => props.modelValue,
   () => {
     manualChecked = false
-    syncCheckedValue()
+    if (shouldInitLazyNodes.value) {
+      initLazyRootNodes()
+    } else {
+      syncCheckedValue()
+    }
   },
   {
     deep: true,
@@ -451,7 +476,7 @@ watch(
 
 const loadLazyRootNodes = () => {
   if (initialLoadedOnce.value || !initialLoaded.value) return
-  initStore()
+  initLazyRootNodes()
 }
 
 onBeforeUpdate(() => (menuList.value = []))
