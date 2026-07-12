@@ -13,7 +13,7 @@ allowBuilds:
 catalog:
   '@ctrl/tinycolor': ^4.2.0
   '@element-plus/icons-vue': ^2.3.2
-  '@floating-ui/dom': ^1.7.6
+  '@floating-ui/dom': ^1.8.0
   '@popperjs/core': npm:@sxzz/popperjs-es@^2.11.8
   '@vitejs/plugin-vue': ^6.0.7
   '@vitejs/plugin-vue-jsx': ^5.1.6
