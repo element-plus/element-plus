@@ -77,7 +77,7 @@ Don't do:
 
 ```vue
 <template>
-  <!--  Object literal binging here is invalid syntax for cascader  -->
+  <!--  Object literal binding here is invalid syntax for cascader  -->
   <el-cascader :props="{ multiple: true }" />
 </template>
 ```
