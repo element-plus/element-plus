@@ -454,7 +454,7 @@ watch(
   () => {
     manualChecked = false
     if (shouldInitLazyNodes.value) {
-      initLazyRootNodes()
+      loadLazyRootNodes()
     }
     syncCheckedValue()
   },
