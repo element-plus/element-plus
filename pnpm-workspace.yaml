@@ -24,7 +24,7 @@ catalog:
   lodash-unified: ^1.0.3
   normalize-wheel-es: ^1.2.0
   vue: 3.5.25
-  vue-component-type-helpers: ^3.3.5
+  vue-component-type-helpers: ^3.3.7
   tsx: ^4.23.0
   typescript: ~6.0.3
   # vitest: ^2.0.5
@@ -51,3 +51,4 @@ minimumReleaseAge: 1440
 minimumReleaseAgeExclude:
   - 'element-plus'
   - '@element-plus/*'
+  - vite@8.1.4

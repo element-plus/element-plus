@@ -1,6 +1,21 @@
 ## Changelog
 
 
+### 2.14.3
+
+_2026-07-10_
+
+#### Features
+
+- Components [transfer] add virtual scroll support (#24367 by @liuyax0818)
+- Play enable bundledDev (#24542 by @btea)
+
+#### Bug fixes
+
+- Components [input-otp] fix field line-height (#24467 by @misakamayako)
+- Components [input-otp] inherit form size (#24466 by @rzzf)
+- Style [drawer] include popup lockscreen styles on import (#24494 by @LostElkByte)
+
 ### 2.14.2
 
 _2026-06-12_
