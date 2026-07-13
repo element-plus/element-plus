@@ -263,7 +263,7 @@ export const normalizeQuarterDate = (
     value.quarter() - 1,
     lang,
     disabledDate
-  ).startOf('day')
+  )
 }
 
 export const getValidDateOfYear = (
