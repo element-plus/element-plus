@@ -10,8 +10,8 @@
       :class="[ns.b(), customClass, horizontalClass]"
       :style="positionStyle"
       role="alert"
-      @mouseenter="clearTimer"
-      @mouseleave="startTimer"
+      @mouseenter="onMouseEnter"
+      @mouseleave="onMouseLeave"
       @click="onClick"
     >
       <el-icon v-if="iconComponent" :class="[ns.e('icon'), typeClass]">
@@ -34,6 +34,17 @@
           <component :is="closeIcon" />
         </el-icon>
       </div>
+      <div
+        v-if="showProgress && duration! > 0 && progressKey > 0"
+        :class="ns.e('progress')"
+      >
+        <el-progress
+          :percentage="percentage"
+          :status="progressStatus"
+          :stroke-width="3"
+          :show-text="false"
+        />
+      </div>
     </div>
   </transition>
 </template>
@@ -44,6 +55,7 @@ import { useEventListener, useTimeoutFn } from '@vueuse/core'
 import { TypeComponentsMap, getEventCode } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
+import { ElProgress } from '@element-plus/components/progress'
 import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
 import { notificationEmits } from './notification'
 import { Close } from '@element-plus/icons-vue'
@@ -67,6 +79,8 @@ const props = withDefaults(defineProps<NotificationProps>(), {
   title: '',
   type: '',
   closeIcon: markRaw(Close),
+  showProgress: false,
+  pauseOnHover: true,
 })
 defineEmits(notificationEmits)
 
@@ -75,10 +89,29 @@ const { nextZIndex, currentZIndex } = zIndex
 
 const visible = ref(false)
 let timer: (() => void) | undefined = undefined
+const percentage = ref(0)
+const progressKey = ref(0)
+let progressTimer: (() => void) | undefined
+let progressStartTime = 0
+let totalElapsed = 0
+let shouldResume = false
 
 const typeClass = computed(() => {
   const type = props.type
   return type && TypeComponentsMap[props.type] ? ns.m(type) : ''
+})
+
+const progressStatus = computed(() => {
+  switch (props.type) {
+    case 'success':
+      return 'success'
+    case 'warning':
+      return 'warning'
+    case 'error':
+      return 'exception'
+    default:
+      return undefined
+  }
 })
 
 const iconComponent = computed(() => {
@@ -94,23 +127,60 @@ const verticalProperty = computed(() =>
   props.position.startsWith('top') ? 'top' : 'bottom'
 )
 
-const positionStyle = computed<CSSProperties>(() => {
-  return {
-    [verticalProperty.value]: `${props.offset}px`,
-    zIndex: props.zIndex ?? currentZIndex.value,
-  }
-})
+const positionStyle = computed<CSSProperties>(() => ({
+  [verticalProperty.value]: `${props.offset}px`,
+  zIndex: props.zIndex ?? currentZIndex.value,
+}))
 
 function startTimer() {
-  if (props.duration > 0) {
-    ;({ stop: timer } = useTimeoutFn(() => {
-      if (visible.value) close()
-    }, props.duration))
+  if (props.duration <= 0) return
+
+  timer?.()
+  progressTimer?.()
+
+  if (!shouldResume) {
+    totalElapsed = 0
   }
+  shouldResume = false
+
+  const remaining = Math.max(0, props.duration - totalElapsed)
+
+  // close timer with remaining duration
+  ;({ stop: timer } = useTimeoutFn(() => {
+    if (visible.value) close()
+  }, remaining))
+
+  // progress bar resumes from current position
+  percentage.value = (remaining / props.duration) * 100
+  progressStartTime = Date.now()
+
+  function tick() {
+    const elapsed = totalElapsed + (Date.now() - progressStartTime)
+    percentage.value = Math.max(0, 100 - (elapsed / props.duration) * 100)
+    if (percentage.value > 0) {
+      ;({ stop: progressTimer } = useTimeoutFn(tick, 30))
+    }
+  }
+
+  ;({ stop: progressTimer } = useTimeoutFn(tick, 30))
+  progressKey.value++
 }
 
 function clearTimer() {
   timer?.()
+  progressTimer?.()
+  if (progressStartTime > 0) {
+    totalElapsed += Date.now() - progressStartTime
+    shouldResume = true
+  }
+}
+
+function onMouseEnter() {
+  if (props.pauseOnHover) clearTimer()
+}
+
+function onMouseLeave() {
+  if (props.pauseOnHover) startTimer()
 }
 
 function close() {

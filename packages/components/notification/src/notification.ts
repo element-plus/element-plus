@@ -16,10 +16,7 @@ export const notificationTypes = [
 export type NotificationType = (typeof notificationTypes)[number] | ''
 
 export type NotificationPosition =
-  | 'top-right'
-  | 'top-left'
-  | 'bottom-right'
-  | 'bottom-left'
+  'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
 
 export interface NotificationProps {
   /**
@@ -82,6 +79,14 @@ export interface NotificationProps {
    * @description custom close icon, default is Close
    */
   closeIcon?: IconPropType
+  /**
+   * @description whether to show a progress bar indicating auto-close countdown
+   */
+  showProgress?: boolean
+  /**
+   * @description whether to pause the timer when hovering over the notification
+   */
+  pauseOnHover?: boolean
 }
 
 /**
@@ -226,9 +231,7 @@ export interface NotificationHandle {
 
 export type NotificationParams = Partial<NotificationOptions> | string | VNode
 export type NotificationParamsTyped =
-  | Partial<NotificationOptionsTyped>
-  | string
-  | VNode
+  Partial<NotificationOptionsTyped> | string | VNode
 
 export interface NotifyFn {
   (

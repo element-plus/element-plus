@@ -107,3 +107,14 @@
 .#{$namespace}-notification-fade-leave-to {
   opacity: 0;
 }
+
+@include e(progress) {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  .#{$namespace}-progress-bar__inner {
+    transition: width 0.1s linear;
+  }
+}

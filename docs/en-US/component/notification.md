@@ -73,6 +73,16 @@ notification/use-vnode
 
 :::
 
+## With progress bar
+
+Display a progress bar indicating the remaining time before the notification auto-closes.
+
+:::demo Set `showProgress` to `true` to enable the progress bar. The progress bar will show a countdown matching the `duration`. When `pauseOnHover` is `true` (default), hovering over the notification will pause both the timer and the progress bar.
+
+notification/progress-bar
+
+:::
+
 ## Hide close button
 
 It is possible to hide the close button
@@ -144,6 +154,8 @@ ElNotification({}, appContext)
 | appendTo                 | set the root element for the notification, default to `document.body`                                              | ^[CSSSelector] / ^[HTMLElement]                                                  | —         |
 | zIndex                   | initial zIndex                                                                                                     | ^[number]                                                                        | 0         |
 | closeIcon ^(2.9.8)       | custom close icon                                                                                                  | ^[string] / ^[Component]                                                         | Close     |
+| showProgress             | whether to show a progress bar indicating auto-close countdown                                                     | ^[boolean]                                                                       | false     |
+| pauseOnHover             | whether to pause the timer when hovering over the notification                                                     | ^[boolean]                                                                       | true      |
 
 ### Method
 
