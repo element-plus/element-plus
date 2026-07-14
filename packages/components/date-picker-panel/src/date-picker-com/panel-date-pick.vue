@@ -18,7 +18,7 @@
           v-for="(shortcut, key) in shortcuts"
           :key="key"
           type="button"
-          :disabled="dateDisabled || !isShortcutEnabled(shortcut)"
+          :disabled="dateDisabled"
           :class="ppNs.e('shortcut')"
           @click="handleShortcutClick(shortcut)"
         >
@@ -441,6 +441,25 @@ type Shortcut = {
   onClick?: (ctx: Omit<SetupContext, 'expose'>) => void
 }
 
+const handleShortcutClick = (shortcut: Shortcut) => {
+  const shortcutValue = isFunction(shortcut.value)
+    ? shortcut.value()
+    : shortcut.value
+  if (shortcutValue) {
+    isShortcut = true
+    const date = dayjs(shortcutValue).locale(lang.value)
+    emit(selectionMode.value === 'quarters' ? [date] : date)
+    return
+  }
+  if (shortcut.onClick) {
+    shortcut.onClick({
+      attrs,
+      slots,
+      emit: contextEmit as SetupContext['emit'],
+    })
+  }
+}
+
 const selectionMode = computed<DatePickType>(() => {
   const { type } = props
   if (
@@ -740,47 +759,6 @@ const isValidValue = (date: unknown) => {
   }
 
   return disabledDate ? !disabledDate(date.toDate()) : true
-}
-
-const resolveShortcutDate = (shortcut: Shortcut): Dayjs | null => {
-  const value = isFunction(shortcut.value) ? shortcut.value() : shortcut.value
-  if (!value) return null
-  const date = dayjs(value).locale(lang.value)
-  if (['quarter', 'quarters'].includes(selectionMode.value)) {
-    return normalizeQuarterDate(date, lang.value, disabledDate)
-  }
-  return date
-}
-
-const isShortcutEnabled = (shortcut: Shortcut) => {
-  const date = resolveShortcutDate(shortcut)
-  if (!date) return true
-
-  if (['quarter', 'quarters'].includes(selectionMode.value)) {
-    return isSelectableQuarterDate(date, lang.value, disabledDate)
-  }
-  return true
-}
-
-const handleShortcutClick = (shortcut: Shortcut) => {
-  const date = resolveShortcutDate(shortcut)
-  if (date) {
-    const enabled = ['quarter', 'quarters'].includes(selectionMode.value)
-      ? isSelectableQuarterDate(date, lang.value, disabledDate)
-      : true
-    if (enabled) {
-      isShortcut = true
-      emit(selectionMode.value === 'quarters' ? [date] : date)
-    }
-    return
-  }
-  if (shortcut.onClick) {
-    shortcut.onClick({
-      attrs,
-      slots,
-      emit: contextEmit as SetupContext['emit'],
-    })
-  }
 }
 
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
