@@ -34,7 +34,7 @@
   @include e(wrap) {
     // Raise the priority
     &.#{$namespace}-scrollbar__wrap {
-      max-height: 204px;
+      height: 204px;
     }
   }
 
