@@ -34,11 +34,9 @@
           <component :is="closeIcon" />
         </el-icon>
       </div>
-      <div
-        v-if="showProgress && duration! > 0 && progressKey > 0"
-        :class="ns.e('progress')"
-      >
+      <div v-if="showProgress && duration! > 0" :class="ns.e('progress')">
         <el-progress
+          :key="progressKey"
           :percentage="percentage"
           :status="progressStatus"
           :stroke-width="3"
@@ -89,7 +87,7 @@ const { nextZIndex, currentZIndex } = zIndex
 
 const visible = ref(false)
 let timer: (() => void) | undefined = undefined
-const percentage = ref(0)
+const percentage = ref(100)
 const progressKey = ref(0)
 let progressTimer: (() => void) | undefined
 let progressStartTime = 0
@@ -140,6 +138,7 @@ function startTimer() {
 
   if (!shouldResume) {
     totalElapsed = 0
+    progressKey.value++
   }
   shouldResume = false
 
@@ -163,7 +162,6 @@ function startTimer() {
   }
 
   ;({ stop: progressTimer } = useTimeoutFn(tick, 30))
-  progressKey.value++
 }
 
 function clearTimer() {
@@ -171,6 +169,7 @@ function clearTimer() {
   progressTimer?.()
   if (progressStartTime > 0) {
     totalElapsed += Date.now() - progressStartTime
+    progressStartTime = 0
     shouldResume = true
   }
 }
@@ -202,6 +201,7 @@ function onKeydown(event: KeyboardEvent) {
       }
       break
     default: // resume timer
+      clearTimer()
       startTimer()
       break
   }
