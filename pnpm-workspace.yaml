@@ -15,7 +15,7 @@ catalog:
   '@element-plus/icons-vue': ^2.3.2
   '@floating-ui/dom': ^1.8.0
   '@popperjs/core': npm:@sxzz/popperjs-es@^2.11.8
-  '@vitejs/plugin-vue': ^6.0.7
+  '@vitejs/plugin-vue': ^6.0.8
   '@vitejs/plugin-vue-jsx': ^5.1.6
   '@vue/server-renderer': 3.5.25
   '@vue/shared': 3.5.25
