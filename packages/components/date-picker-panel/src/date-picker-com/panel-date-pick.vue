@@ -447,7 +447,10 @@ const handleShortcutClick = (shortcut: Shortcut) => {
     : shortcut.value
   if (shortcutValue) {
     isShortcut = true
-    const date = dayjs(shortcutValue).locale(lang.value)
+    let date = dayjs(shortcutValue).locale(lang.value)
+    if (['quarter', 'quarters'].includes(selectionMode.value)) {
+      date = normalizeQuarterDate(date, lang.value, disabledDate)
+    }
     emit(selectionMode.value === 'quarters' ? [date] : date)
     return
   }
