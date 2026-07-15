@@ -269,10 +269,6 @@ const handleQuarterTableClick = (event: MouseEvent | KeyboardEvent) => {
       emit('select', false)
     }
   } else if (props.selectionMode === 'quarters') {
-    if (event.type === 'keydown') {
-      emit('pick', castArray(props.parsedValue), false)
-      return
-    }
     const newQuarter = resolveQuarterDate(quarter)
     const newValue = hasClass(target, 'current')
       ? castArray(props.parsedValue).filter(

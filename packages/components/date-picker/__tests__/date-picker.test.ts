@@ -3798,6 +3798,53 @@ describe('Quarters', () => {
     expect(vm.value[0].getMonth()).toBe(1)
     expect(disabledDate(vm.value[0])).toBe(false)
   })
+
+  it('should toggle quarters on keyboard enter and space', async () => {
+    vi.useFakeTimers()
+    try {
+      vi.setSystemTime(new Date('2026-03-15'))
+      const wrapper = _mount(
+        `<el-date-picker
+          type="quarters"
+          v-model="value"
+        />`,
+        () => ({ value: [] as Date[] })
+      )
+      const input = wrapper.find('input')
+      input.trigger('blur')
+      input.trigger('focus')
+      await nextTick()
+
+      const q2 = document.querySelectorAll(
+        '.el-quarter-table td'
+      )[1] as HTMLElement
+      q2.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          key: 'Enter',
+          code: EVENT_CODE.enter,
+          bubbles: true,
+        })
+      )
+      await nextTick()
+
+      const vm = wrapper.vm as any
+      expect(vm.value).toHaveLength(1)
+      expect(vm.value[0].getFullYear()).toBe(2026)
+      expect(vm.value[0].getMonth()).toBe(3)
+
+      q2.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          key: ' ',
+          code: EVENT_CODE.space,
+          bubbles: true,
+        })
+      )
+      await nextTick()
+      expect(vm.value).toHaveLength(0)
+    } finally {
+      vi.useRealTimers()
+    }
+  })
 })
 
 describe('QuarterRange', () => {
