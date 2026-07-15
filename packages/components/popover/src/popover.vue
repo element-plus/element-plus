@@ -4,6 +4,8 @@
     v-bind="$attrs"
     :trigger="trigger"
     :trigger-keys="triggerKeys"
+    :virtual-ref="virtualRef"
+    :virtual-triggering="virtualTriggering"
     :placement="placement"
     :disabled="disabled"
     :visible="visible"
