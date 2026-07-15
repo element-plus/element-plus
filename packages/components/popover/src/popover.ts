@@ -25,6 +25,14 @@ export interface PopoverProps {
    */
   triggerKeys?: UseTooltipTriggerProps['triggerKeys']
   /**
+   * @description Indicates whether virtual triggering is enabled
+   */
+  virtualTriggering?: UseTooltipTriggerProps['virtualTriggering']
+  /**
+   * @description Indicates the reference element to which the popover is attached
+   */
+  virtualRef?: UseTooltipTriggerProps['virtualRef']
+  /**
    * @description popover placement
    */
   placement?: Placement
@@ -126,6 +134,14 @@ export const popoverProps = buildProps({
    * @description When you click the mouse to focus on the trigger element, you can define a set of keyboard codes to control the display of popover through the keyboard, not valid in controlled mode
    */
   triggerKeys: useTooltipTriggerProps.triggerKeys,
+  /**
+   * @description Indicates whether virtual triggering is enabled
+   */
+  virtualTriggering: useTooltipTriggerProps.virtualTriggering,
+  /**
+   * @description Indicates the reference element to which the popover is attached
+   */
+  virtualRef: useTooltipTriggerProps.virtualRef,
   /**
    * @description popover placement
    */
