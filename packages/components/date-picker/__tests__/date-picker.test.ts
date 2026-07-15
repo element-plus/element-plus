@@ -3392,7 +3392,7 @@ describe('QuarterPicker', () => {
 
   it('panel change event', async () => {
     const onPanelChange = vi.fn()
-    _mount(
+    const wrapper = _mount(
       `<el-date-picker
         type="quarter"
         v-model="value"
@@ -3414,17 +3414,14 @@ describe('QuarterPicker', () => {
       'quarter'
     )
     expect(onPanelChange.mock.calls.at(-1)[0].getFullYear()).toBe(2027)
+    const callCountAfterNav = onPanelChange.mock.calls.length
     const q2 = document.querySelectorAll('.el-quarter-table td')[1]
     ;(q2.querySelector('.el-date-table-cell__text') as HTMLElement).click()
     await nextTick()
-    expect(onPanelChange).toHaveBeenLastCalledWith(
-      expect.any(Date),
-      'month',
-      'quarter'
-    )
-    const pickedDate = onPanelChange.mock.calls.at(-1)[0] as Date
-    expect(pickedDate.getFullYear()).toBe(2027)
-    expect(pickedDate.getMonth()).toBe(3)
+    expect(onPanelChange.mock.calls.length).toBe(callCountAfterNav)
+    const vm = wrapper.vm as any
+    expect(vm.value.getFullYear()).toBe(2027)
+    expect(vm.value.getMonth()).toBe(3)
   })
 
   it('clear', async () => {

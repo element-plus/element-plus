@@ -547,7 +547,6 @@ const handleQuarterPick = async (
   } else if (selectionMode.value === 'quarters') {
     emit(quarter as QuartersPickerEmits, keepOpen ?? true)
   }
-  handlePanelChange('month')
 }
 
 const handleYearPick = async (
