@@ -3845,6 +3845,72 @@ describe('Quarters', () => {
       vi.useRealTimers()
     }
   })
+
+  it('should focus quarter table on ArrowDown from input', async () => {
+    vi.useFakeTimers()
+    try {
+      vi.setSystemTime(new Date('2026-03-15'))
+      _mount(
+        `<el-date-picker
+          type="quarters"
+          v-model="value"
+        />`,
+        () => ({ value: [] as Date[] })
+      )
+      await nextTick()
+      const input = document.querySelector<HTMLInputElement>('input')!
+      input.blur()
+      await nextTick()
+      input.focus()
+      await nextTick()
+      triggerEvent(input, 'keydown', EVENT_CODE.down)
+      await nextTick()
+      expect(document.activeElement?.closest('.el-quarter-table')).toBeTruthy()
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
+  it('should navigate quarters with arrow keys without changing value', async () => {
+    vi.useFakeTimers()
+    try {
+      vi.setSystemTime(new Date('2026-03-15'))
+      const wrapper = _mount(
+        `<el-date-picker
+          type="quarters"
+          v-model="value"
+        />`,
+        () => ({ value: [] as Date[] })
+      )
+      await nextTick()
+      const input = document.querySelector<HTMLInputElement>('input')!
+      input.focus()
+      await nextTick()
+      triggerEvent(input, 'keydown', EVENT_CODE.down)
+      await nextTick()
+
+      expect(
+        document
+          .querySelector('.el-quarter-table td[tabindex="0"]')
+          ?.getAttribute('aria-label')
+      ).toBe('Q1')
+
+      const panelContent = document.querySelector(
+        '.el-picker-panel__content'
+      ) as HTMLElement
+      triggerEvent(panelContent, 'keydown', EVENT_CODE.right)
+      await nextTick()
+
+      expect(
+        document
+          .querySelector('.el-quarter-table td[tabindex="0"]')
+          ?.getAttribute('aria-label')
+      ).toBe('Q2')
+      expect((wrapper.vm as any).value).toEqual([])
+    } finally {
+      vi.useRealTimers()
+    }
+  })
 })
 
 describe('QuarterRange', () => {

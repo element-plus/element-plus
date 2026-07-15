@@ -809,7 +809,9 @@ const getDefaultValue = () => {
 
 const handleFocusPicker = () => {
   if (
-    ['week', 'month', 'year', 'date', 'quarter'].includes(selectionMode.value)
+    ['week', 'month', 'year', 'date', 'quarter', 'quarters'].includes(
+      selectionMode.value
+    )
   ) {
     currentViewRef.value?.focus()
   }
@@ -917,7 +919,9 @@ const handleKeyControl = (code: string) => {
 
   const newDate = innerDate.value.toDate()
   while (Math.abs(innerDate.value.diff(newDate, 'year', true)) < 1) {
-    const map = mapping[keyboardMode.value]
+    const mode =
+      keyboardMode.value === 'quarters' ? 'quarter' : keyboardMode.value
+    const map = mapping[mode]
     if (!map) return
     map.offset(
       newDate,
@@ -927,7 +931,7 @@ const handleKeyControl = (code: string) => {
     )
 
     let result: Dayjs
-    if (keyboardMode.value === 'quarter') {
+    if (mode === 'quarter') {
       const candidate = dayjs(newDate).locale(lang.value)
       if (isQuarterFullyDisabled(candidate, lang.value, disabledDate)) {
         break
@@ -950,7 +954,9 @@ const handleKeyControl = (code: string) => {
     }
 
     innerDate.value = result
-    contextEmit('pick', result, true)
+    if (!isMultipleType.value) {
+      contextEmit('pick', result, true)
+    }
     break
   }
 }
