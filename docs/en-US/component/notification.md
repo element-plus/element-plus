@@ -155,7 +155,7 @@ ElNotification({}, appContext)
 | zIndex                   | initial zIndex                                                                                                     | ^[number]                                                                        | 0         |
 | closeIcon ^(2.9.8)       | custom close icon                                                                                                  | ^[string] / ^[Component]                                                         | Close     |
 | showProgress ^(2.14.4)             | whether to show a progress bar indicating auto-close countdown                                                     | ^[boolean]                                                                       | false     |
-| pauseOnHover             | whether to pause the timer when hovering over the notification                                                     | ^[boolean]                                                                       | true      |
+| pauseOnHover ^(2.14.4)             | whether to pause the timer when hovering over the notification                                                     | ^[boolean]                                                                       | true      |
 
 ### Method
 
