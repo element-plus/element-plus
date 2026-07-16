@@ -77,7 +77,6 @@ const props = withDefaults(defineProps<NotificationProps>(), {
   title: '',
   type: '',
   closeIcon: markRaw(Close),
-  showProgress: false,
   pauseOnHover: true,
 })
 defineEmits(notificationEmits)
