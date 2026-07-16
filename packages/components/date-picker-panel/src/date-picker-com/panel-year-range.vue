@@ -116,7 +116,6 @@ import {
   getDefaultValue,
   isValidRange,
 } from '../utils'
-import { ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY } from '../constants'
 import YearTable from './basic-year-table.vue'
 import { useFormDisabled } from '@element-plus/components/form'
 
@@ -134,10 +133,6 @@ const unit = 'year'
 const { lang } = useLocale()
 const leftDate = ref(dayjs().locale(lang.value))
 const rightDate = ref(dayjs().locale(lang.value).add(step, unit))
-const isDefaultFormat = inject(
-  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY,
-  undefined
-) as any
 const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
 const { shortcuts, disabledDate, cellClassName } = pickerBase.props
 const format = toRef(pickerBase.props, 'format')
@@ -248,12 +243,7 @@ const handleRangePick = (val: RangePickValue, close = true) => {
 }
 
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
-  return correctlyParseUserInput(
-    value,
-    format.value,
-    lang.value,
-    isDefaultFormat
-  )
+  return correctlyParseUserInput(value, format.value, lang.value)
 }
 
 const isValidValue = (date: [Dayjs, Dayjs]) => {
