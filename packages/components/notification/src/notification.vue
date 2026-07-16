@@ -153,7 +153,7 @@ function startTimer() {
     function tick() {
       const elapsed = totalElapsed + (Date.now() - progressStartTime)
       percentage.value = Math.max(0, 100 - (elapsed / props.duration) * 100)
-      if (percentage.value > 0) {
+      if (percentage.value > 0 && visible.value) {
         ;({ stop: progressTimer } = useTimeoutFn(tick, 30))
       }
     }
@@ -182,6 +182,7 @@ function onMouseLeave() {
 
 function close() {
   visible.value = false
+  clearTimer()
 }
 
 function onKeydown(event: KeyboardEvent) {

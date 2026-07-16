@@ -1,7 +1,7 @@
 import { Close } from '@element-plus/icons-vue'
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 
-import type { AppContext, ExtractPublicPropTypes, VNode } from 'vue'
+import type { AppContext, ExtractPublicPropTypes, Ref, VNode } from 'vue'
 import type { IconPropType } from '@element-plus/utils'
 import type Notification from './notification.vue'
 
@@ -16,10 +16,7 @@ export const notificationTypes = [
 export type NotificationType = (typeof notificationTypes)[number] | ''
 
 export type NotificationPosition =
-  | 'top-right'
-  | 'top-left'
-  | 'bottom-right'
-  | 'bottom-left'
+  'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
 
 export interface NotificationProps {
   /**
@@ -227,6 +224,12 @@ export type NotificationEmits = typeof notificationEmits
 
 export type NotificationInstance = InstanceType<typeof Notification> & unknown
 
+export interface NotificationExposed {
+  /** @description close notification */
+  close: () => void
+  visible: Ref<boolean>
+}
+
 export type NotificationOptions = Omit<NotificationProps, 'id' | 'onClose'> & {
   /**
    * @description set the root element for the notification, default to `document.body`
@@ -245,9 +248,7 @@ export interface NotificationHandle {
 
 export type NotificationParams = Partial<NotificationOptions> | string | VNode
 export type NotificationParamsTyped =
-  | Partial<NotificationOptionsTyped>
-  | string
-  | VNode
+  Partial<NotificationOptionsTyped> | string | VNode
 
 export interface NotifyFn {
   (
