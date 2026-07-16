@@ -51,4 +51,21 @@ describe('Directives.vue', () => {
     expect(handler).toHaveBeenCalledTimes(2)
     vi.useRealTimers()
   })
+
+  it('stops repeating when mouseup propagation is stopped', async () => {
+    const wrapper = _mount()
+    const block = wrapper.find('#block')
+
+    vi.useFakeTimers()
+    document.body.appendChild(block.element)
+    block.element.addEventListener('mouseup', (event) =>
+      event.stopPropagation()
+    )
+    await block.trigger('mousedown')
+    block.element.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }))
+    vi.advanceTimersByTime(PRESS_TIME)
+
+    expect(handler).toHaveBeenCalledTimes(1)
+    vi.useRealTimers()
+  })
 })
