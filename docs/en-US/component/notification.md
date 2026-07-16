@@ -73,7 +73,7 @@ notification/use-vnode
 
 :::
 
-## With progress bar
+## With progress bar ^(2.14.4)
 
 Display a progress bar indicating the remaining time before the notification auto-closes.
 
