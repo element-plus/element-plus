@@ -34,9 +34,8 @@
           <component :is="closeIcon" />
         </el-icon>
       </div>
-      <div v-if="showProgress && duration > 0" :class="ns.e('progress')">
+      <div v-if="showProgress && duration! > 0" :class="ns.e('progress')">
         <el-progress
-          :key="progressKey"
           :percentage="percentage"
           :status="progressStatus"
           :stroke-width="3"
@@ -87,7 +86,6 @@ const { nextZIndex, currentZIndex } = zIndex
 const visible = ref(false)
 let timer: (() => void) | undefined = undefined
 const percentage = ref(100)
-const progressKey = ref(0)
 let progressTimer: (() => void) | undefined
 let progressStartTime = 0
 let totalElapsed = 0
@@ -137,7 +135,6 @@ function startTimer() {
 
   if (!shouldResume) {
     totalElapsed = 0
-    progressKey.value++
   }
   shouldResume = false
 
@@ -149,18 +146,20 @@ function startTimer() {
   }, remaining))
 
   // progress bar resumes from current position
-  percentage.value = (remaining / props.duration) * 100
   progressStartTime = Date.now()
+  if (props.showProgress) {
+    percentage.value = (remaining / props.duration) * 100
 
-  function tick() {
-    const elapsed = totalElapsed + (Date.now() - progressStartTime)
-    percentage.value = Math.max(0, 100 - (elapsed / props.duration) * 100)
-    if (percentage.value > 0) {
-      ;({ stop: progressTimer } = useTimeoutFn(tick, 30))
+    function tick() {
+      const elapsed = totalElapsed + (Date.now() - progressStartTime)
+      percentage.value = Math.max(0, 100 - (elapsed / props.duration) * 100)
+      if (percentage.value > 0) {
+        ;({ stop: progressTimer } = useTimeoutFn(tick, 30))
+      }
     }
-  }
 
-  ;({ stop: progressTimer } = useTimeoutFn(tick, 30))
+    ;({ stop: progressTimer } = useTimeoutFn(tick, 30))
+  }
 }
 
 function clearTimer() {

@@ -16,10 +16,7 @@ export const notificationTypes = [
 export type NotificationType = (typeof notificationTypes)[number] | ''
 
 export type NotificationPosition =
-  | 'top-right'
-  | 'top-left'
-  | 'bottom-right'
-  | 'bottom-left'
+  'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
 
 export interface NotificationProps {
   /**
@@ -200,6 +197,17 @@ export const notificationProps = buildProps({
     type: iconPropType,
     default: Close,
   },
+  /**
+   * @description whether to show a progress bar indicating auto-close countdown
+   */
+  showProgress: Boolean,
+  /**
+   * @description whether to pause the timer when hovering over the notification
+   */
+  pauseOnHover: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 
 /**
@@ -234,9 +242,7 @@ export interface NotificationHandle {
 
 export type NotificationParams = Partial<NotificationOptions> | string | VNode
 export type NotificationParamsTyped =
-  | Partial<NotificationOptionsTyped>
-  | string
-  | VNode
+  Partial<NotificationOptionsTyped> | string | VNode
 
 export interface NotifyFn {
   (
