@@ -58,14 +58,18 @@ describe('Directives.vue', () => {
 
     vi.useFakeTimers()
     document.body.appendChild(block.element)
-    block.element.addEventListener('mouseup', (event) =>
-      event.stopPropagation()
-    )
-    await block.trigger('mousedown')
-    block.element.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }))
-    vi.advanceTimersByTime(PRESS_TIME)
+    try {
+      block.element.addEventListener('mouseup', (event) =>
+        event.stopPropagation()
+      )
+      await block.trigger('mousedown')
+      block.element.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }))
+      vi.advanceTimersByTime(PRESS_TIME)
 
-    expect(handler).toHaveBeenCalledTimes(1)
-    vi.useRealTimers()
+      expect(handler).toHaveBeenCalledTimes(1)
+    } finally {
+      block.element.remove()
+      vi.useRealTimers()
+    }
   })
 })
