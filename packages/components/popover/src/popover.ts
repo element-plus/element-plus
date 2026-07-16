@@ -40,6 +40,13 @@ export const popoverProps = buildProps({
    */
   tabindex: dropdownProps.tabindex,
   /**
+   * @description Tooltip theme, built-in theme: `dark` / `light`
+   */
+  effect: {
+    ...useTooltipProps.effect,
+    default: 'light',
+  },
+  /**
    * @description popover title
    */
   title: String,
@@ -49,6 +56,20 @@ export const popoverProps = buildProps({
   width: {
     type: [String, Number],
     default: 150,
+  },
+  /**
+   * @description popover offset
+   */
+  offset: {
+    ...useTooltipProps.offset,
+    default: undefined,
+  },
+  /**
+   * @description when popover inactive and `persistent` is `false` , popover will be destroyed
+   */
+  persistent: {
+    ...useTooltipProps.persistent,
+    default: true,
   },
 } as const)
 

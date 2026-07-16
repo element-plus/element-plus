@@ -6,7 +6,6 @@
     :popper-class="kls"
     :popper-style="style"
     :gpu-acceleration="gpuAcceleration"
-    @update:visible="onUpdateVisible"
     @before-show="beforeEnter"
     @before-hide="beforeLeave"
     @show="afterEnter"
@@ -48,12 +47,6 @@ const emit = defineEmits(popoverEmits)
 const passTooltipProps = computed(() => {
   const keys = Object.keys(useTooltipProps)
   return pick(props, keys)
-})
-
-const updateEventKeyRaw = `onUpdate:visible` as const
-
-const onUpdateVisible = computed(() => {
-  return props[updateEventKeyRaw]
 })
 
 const ns = useNamespace('popover')
