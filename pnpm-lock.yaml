@@ -20,8 +20,8 @@ catalogs:
       specifier: npm:@sxzz/popperjs-es@^2.11.8
       version: 2.11.8
     '@vitejs/plugin-vue':
-      specifier: ^6.0.7
-      version: 6.0.7
+      specifier: ^6.0.8
+      version: 6.0.8
     '@vitejs/plugin-vue-jsx':
       specifier: ^5.1.6
       version: 5.1.6
@@ -163,7 +163,7 @@ importers:
         version: 24.13.3
       '@vitejs/plugin-vue':
         specifier: 'catalog:'
-        version: 6.0.7(vite@8.1.4)(vue@3.5.25)
+        version: 6.0.8(vite@8.1.4)(vue@3.5.25)
       '@vitejs/plugin-vue-jsx':
         specifier: 'catalog:'
         version: 5.1.6(supports-color@10.2.2)(vite@8.1.4)(vue@3.5.25)
@@ -305,7 +305,7 @@ importers:
         version: 0.6.1(prettier@3.9.5)
       '@vitejs/plugin-vue-jsx':
         specifier: 'catalog:'
-        version: 5.1.6(supports-color@10.2.2)(vite@8.1.4)(vue@3.5.25)
+        version: 5.1.6(vite@5.4.21)(vue@3.5.25)
       consola:
         specifier: ^3.4.2
         version: 3.4.2
@@ -317,7 +317,7 @@ importers:
         version: 0.2.17
       unocss:
         specifier: ^66.5.6
-        version: 66.7.0(vite@8.1.4)
+        version: 66.7.0(vite@5.4.21)
       unplugin-icons:
         specifier: ^23.0.1
         version: 23.0.1(@vue/compiler-sfc@3.5.35)
@@ -326,16 +326,16 @@ importers:
         version: 32.1.0(vue@3.5.25)
       vite-plugin-inspect:
         specifier: ^0.8.7
-        version: 0.8.9(rollup@4.55.1)(supports-color@10.2.2)(vite@8.1.4)
+        version: 0.8.9(rollup@4.55.1)(supports-color@10.2.2)(vite@5.4.21)
       vite-plugin-mkcert:
         specifier: ^2.1.0
-        version: 2.1.0(vite@8.1.4)
+        version: 2.1.0(vite@5.4.21)
       vitepress:
         specifier: ^1.6.4
         version: 1.6.4(@algolia/client-search@5.46.0)(@types/node@24.13.3)(async-validator@4.2.5)(change-case@5.4.4)(lightningcss@1.32.0)(nprogress@0.2.0)(postcss@8.5.15)(sass-embedded@1.100.0)(sass@1.100.0)(search-insights@2.17.3)(typescript@6.0.3)
       vitepress-plugin-group-icons:
         specifier: ^1.7.5
-        version: 1.7.5(vite@8.1.4)
+        version: 1.7.5(vite@5.4.21)
       vue:
         specifier: 'catalog:'
         version: 3.5.25(typescript@6.0.3)
@@ -353,7 +353,7 @@ importers:
         version: 5.2.0
       '@vitejs/plugin-vue':
         specifier: 'catalog:'
-        version: 6.0.7(vite@8.1.4)(vue@3.5.25)
+        version: 6.0.8(vite@8.1.4)(vue@3.5.25)
       '@vitejs/plugin-vue-jsx':
         specifier: 'catalog:'
         version: 5.1.6(supports-color@10.2.2)(vite@8.1.4)(vue@3.5.25)
@@ -711,7 +711,7 @@ importers:
     devDependencies:
       '@vitejs/plugin-vue':
         specifier: 'catalog:'
-        version: 6.0.7(vite@8.1.4)(vue@3.5.25)
+        version: 6.0.8(vite@8.1.4)(vue@3.5.25)
       '@vitejs/plugin-vue-jsx':
         specifier: 'catalog:'
         version: 5.1.6(supports-color@10.2.2)(vite@8.1.4)(vue@3.5.25)
@@ -723,7 +723,7 @@ importers:
         version: 8.1.4(@types/node@24.13.3)(esbuild@0.28.0)(jiti@2.7.0)(sass-embedded@1.100.0)(sass@1.100.0)(tsx@4.23.0)(yaml@2.9.0)
       vite-plugin-inspect:
         specifier: ^0.8.7
-        version: 0.8.9(rollup@4.55.1)(supports-color@10.2.2)(vite@8.1.4)
+        version: 0.8.9(rollup@4.55.1)(vite@8.1.4)
       vite-plugin-mkcert:
         specifier: ^2.1.0
         version: 2.1.0(vite@8.1.4)
@@ -3091,8 +3091,8 @@ packages:
       vite: ^5.0.0 || ^6.0.0
       vue: ^3.2.25
 
-  '@vitejs/plugin-vue@6.0.7':
-    resolution: {integrity: sha512-km+p+XdSz9Sxm5rqUbqcSfZYaAniKxWBj1KURl+Jr7UaPvvX7BmaWMdP69I5rrFDeQGyxAG7NXdc57vz+snhWg==}
+  '@vitejs/plugin-vue@6.0.8':
+    resolution: {integrity: sha512-0ZjgOg7oO6farnNGup7yvoM/YXZV84OZxHAwtflItNa/6zzQyVb5LNxyea3FEKEX2XlagIKzrlH7wwxkKgtiew==}
     engines: {node: ^20.19.0 || >=22.12.0}
     peerDependencies:
       vite: ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
@@ -9369,7 +9369,7 @@ snapshots:
     dependencies:
       '@unocss/core': 66.7.0
 
-  '@unocss/vite@66.7.0(vite@8.1.4)':
+  '@unocss/vite@66.7.0(vite@5.4.21)':
     dependencies:
       '@jridgewell/remapping': 2.3.5
       '@unocss/config': 66.7.0
@@ -9380,7 +9380,7 @@ snapshots:
       pathe: 2.0.3
       tinyglobby: 0.2.17
       unplugin-utils: 0.3.1
-      vite: 8.1.4(@types/node@24.13.3)(esbuild@0.28.0)(jiti@2.7.0)(sass-embedded@1.100.0)(sass@1.100.0)(tsx@4.23.0)(yaml@2.9.0)
+      vite: 5.4.21(@types/node@24.13.3)(lightningcss@1.32.0)(sass-embedded@1.100.0)(sass@1.100.0)
 
   '@vitejs/plugin-vue-jsx@5.1.6(supports-color@10.2.2)(vite@8.1.4)(vue@3.5.25)':
     dependencies:
@@ -9394,12 +9394,24 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@vitejs/plugin-vue-jsx@5.1.6(vite@5.4.21)(vue@3.5.25)':
+    dependencies:
+      '@babel/core': 7.29.0(supports-color@10.2.2)
+      '@babel/plugin-syntax-typescript': 7.29.7(@babel/core@7.29.0)
+      '@babel/plugin-transform-typescript': 7.29.7(@babel/core@7.29.0)(supports-color@10.2.2)
+      '@rolldown/pluginutils': 1.0.1
+      '@vue/babel-plugin-jsx': 2.0.1(@babel/core@7.29.0)
+      vite: 5.4.21(@types/node@24.13.3)(lightningcss@1.32.0)(sass-embedded@1.100.0)(sass@1.100.0)
+      vue: 3.5.25(typescript@6.0.3)
+    transitivePeerDependencies:
+      - supports-color
+
   '@vitejs/plugin-vue@5.2.4(vite@5.4.21)(vue@3.5.35)':
     dependencies:
       vite: 5.4.21(@types/node@24.13.3)(lightningcss@1.32.0)(sass-embedded@1.100.0)(sass@1.100.0)
       vue: 3.5.35(typescript@6.0.3)
 
-  '@vitejs/plugin-vue@6.0.7(vite@8.1.4)(vue@3.5.25)':
+  '@vitejs/plugin-vue@6.0.8(vite@8.1.4)(vue@3.5.25)':
     dependencies:
       '@rolldown/pluginutils': 1.0.1
       vite: 8.1.4(@types/node@24.13.3)(esbuild@0.28.0)(jiti@2.7.0)(sass-embedded@1.100.0)(sass@1.100.0)(tsx@4.23.0)(yaml@2.9.0)
@@ -13655,7 +13667,7 @@ snapshots:
 
   universalify@2.0.1: {}
 
-  unocss@66.7.0(vite@8.1.4):
+  unocss@66.7.0(vite@5.4.21):
     dependencies:
       '@unocss/cli': 66.7.0
       '@unocss/core': 66.7.0
@@ -13673,7 +13685,7 @@ snapshots:
       '@unocss/transformer-compile-class': 66.7.0
       '@unocss/transformer-directives': 66.7.0
       '@unocss/transformer-variant-group': 66.7.0
-      '@unocss/vite': 66.7.0(vite@8.1.4)
+      '@unocss/vite': 66.7.0(vite@5.4.21)
     transitivePeerDependencies:
       - vite
 
@@ -13758,7 +13770,23 @@ snapshots:
       '@types/unist': 3.0.3
       vfile-message: 4.0.3
 
-  vite-plugin-inspect@0.8.9(rollup@4.55.1)(supports-color@10.2.2)(vite@8.1.4):
+  vite-plugin-inspect@0.8.9(rollup@4.55.1)(supports-color@10.2.2)(vite@5.4.21):
+    dependencies:
+      '@antfu/utils': 0.7.10
+      '@rollup/pluginutils': 5.3.0(rollup@4.55.1)
+      debug: 4.4.3(supports-color@10.2.2)
+      error-stack-parser-es: 0.1.5
+      fs-extra: 11.3.2
+      open: 10.2.0
+      perfect-debounce: 1.0.0
+      picocolors: 1.1.1
+      sirv: 3.0.2
+      vite: 5.4.21(@types/node@24.13.3)(lightningcss@1.32.0)(sass-embedded@1.100.0)(sass@1.100.0)
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
+
+  vite-plugin-inspect@0.8.9(rollup@4.55.1)(vite@8.1.4):
     dependencies:
       '@antfu/utils': 0.7.10
       '@rollup/pluginutils': 5.3.0(rollup@4.55.1)
@@ -13773,6 +13801,13 @@ snapshots:
     transitivePeerDependencies:
       - rollup
       - supports-color
+
+  vite-plugin-mkcert@2.1.0(vite@5.4.21):
+    dependencies:
+      debug: 4.4.3(supports-color@10.2.2)
+      supports-color: 10.2.2
+      undici: 8.3.0
+      vite: 5.4.21(@types/node@24.13.3)(lightningcss@1.32.0)(sass-embedded@1.100.0)(sass@1.100.0)
 
   vite-plugin-mkcert@2.1.0(vite@8.1.4):
     dependencies:
@@ -13810,13 +13845,13 @@ snapshots:
       tsx: 4.23.0
       yaml: 2.9.0
 
-  vitepress-plugin-group-icons@1.7.5(vite@8.1.4):
+  vitepress-plugin-group-icons@1.7.5(vite@5.4.21):
     dependencies:
       '@iconify-json/logos': 1.2.10
       '@iconify-json/vscode-icons': 1.2.46
       '@iconify/utils': 3.1.0
     optionalDependencies:
-      vite: 8.1.4(@types/node@24.13.3)(esbuild@0.28.0)(jiti@2.7.0)(sass-embedded@1.100.0)(sass@1.100.0)(tsx@4.23.0)(yaml@2.9.0)
+      vite: 5.4.21(@types/node@24.13.3)(lightningcss@1.32.0)(sass-embedded@1.100.0)(sass@1.100.0)
 
   vitepress@1.6.4(@algolia/client-search@5.46.0)(@types/node@24.13.3)(async-validator@4.2.5)(change-case@5.4.4)(lightningcss@1.32.0)(nprogress@0.2.0)(postcss@8.5.15)(sass-embedded@1.100.0)(sass@1.100.0)(search-insights@2.17.3)(typescript@6.0.3):
     dependencies:
