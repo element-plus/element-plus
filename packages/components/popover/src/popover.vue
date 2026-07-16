@@ -1,31 +1,10 @@
 <template>
   <el-tooltip
     ref="tooltipRef"
-    v-bind="$attrs"
-    :trigger="trigger"
-    :trigger-keys="triggerKeys"
-    :virtual-ref="virtualRef"
-    :virtual-triggering="virtualTriggering"
-    :placement="placement"
-    :disabled="disabled"
-    :visible="visible"
-    :transition="transition"
-    :popper-options="popperOptions"
-    :tabindex="tabindex"
-    :content="content"
-    :offset="offset"
-    :show-after="showAfter"
-    :hide-after="hideAfter"
-    :auto-close="autoClose"
-    :show-arrow="showArrow"
+    v-bind="passTooltipProps"
     :aria-label="title"
-    :effect="effect"
-    :enterable="enterable"
     :popper-class="kls"
     :popper-style="style"
-    :teleported="teleported"
-    :append-to="appendTo"
-    :persistent="persistent"
     :gpu-acceleration="gpuAcceleration"
     @update:visible="onUpdateVisible"
     @before-show="beforeEnter"
@@ -50,7 +29,8 @@
 
 <script lang="ts" setup>
 import { computed, ref, unref } from 'vue'
-import { ElTooltip } from '@element-plus/components/tooltip'
+import { pick } from 'lodash-unified'
+import { ElTooltip, useTooltipProps } from '@element-plus/components/tooltip'
 import { addUnit } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { popoverEmits, popoverPropsDefaults } from './popover'
@@ -64,6 +44,11 @@ defineOptions({
 
 const props = withDefaults(defineProps<PopoverProps>(), popoverPropsDefaults)
 const emit = defineEmits(popoverEmits)
+
+const passTooltipProps = computed(() => {
+  const keys = Object.keys(useTooltipProps)
+  return pick(props, keys)
+})
 
 const updateEventKeyRaw = `onUpdate:visible` as const
 
