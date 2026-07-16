@@ -34,7 +34,7 @@
           <component :is="closeIcon" />
         </el-icon>
       </div>
-      <div v-if="showProgress && duration! > 0" :class="ns.e('progress')">
+      <div v-if="showProgress && duration > 0" :class="ns.e('progress')">
         <el-progress
           :key="progressKey"
           :percentage="percentage"
