@@ -86,7 +86,7 @@
 
 <script lang="ts" setup>
 import { computed, getCurrentInstance, inject, nextTick, ref } from 'vue'
-import { clamp } from 'lodash-unified'
+import { clamp } from 'es-toolkit/compat'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import { FixedSizeList as ElFixedSizeList } from '@element-plus/components/virtual-list'
 import { useId, useLocale, useNamespace } from '@element-plus/hooks'

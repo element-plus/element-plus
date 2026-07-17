@@ -68,7 +68,7 @@ import {
   watch,
 } from 'vue'
 import { useIntersectionObserver, useThrottleFn } from '@vueuse/core'
-import { fromPairs } from 'lodash-unified'
+import { fromPairs } from 'es-toolkit/compat'
 import { useAttrs, useLocale, useNamespace } from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
 import {

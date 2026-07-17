@@ -40,7 +40,7 @@ import {
   radioGroupPropsDefaults,
 } from './radio-group'
 import { radioGroupKey } from './constants'
-import { isEqual, omit } from 'lodash-unified'
+import { isEqual, omit } from 'es-toolkit/compat'
 import ElRadio from './radio.vue'
 import ElRadioButton from './radio-button.vue'
 

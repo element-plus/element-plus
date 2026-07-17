@@ -1,5 +1,5 @@
 import { getCurrentInstance, nextTick, unref } from 'vue'
-import { isNull } from 'lodash-unified'
+import { isNull } from 'es-toolkit/compat'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import useWatcher from './watcher'
 

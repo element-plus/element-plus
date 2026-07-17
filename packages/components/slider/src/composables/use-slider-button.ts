@@ -1,5 +1,5 @@
 import { computed, inject, nextTick, ref, watch } from 'vue'
-import { clamp, debounce } from 'lodash-unified'
+import { clamp, debounce } from 'es-toolkit/compat'
 import { useEventListener } from '@vueuse/core'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { getEventCode, isNumber } from '@element-plus/utils'

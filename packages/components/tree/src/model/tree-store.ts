@@ -1,5 +1,5 @@
 import { nextTick } from 'vue'
-import { isNil } from 'lodash-unified'
+import { isNil } from 'es-toolkit/compat'
 import { NOOP, hasOwn, isObject, isPropAbsent } from '@element-plus/utils'
 import Node from './node'
 import { getNodeKey } from './util'

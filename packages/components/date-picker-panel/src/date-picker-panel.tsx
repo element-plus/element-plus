@@ -1,5 +1,5 @@
 import { defineComponent, inject, provide, reactive, toRefs } from 'vue'
-import { omit } from 'lodash-unified'
+import { omit } from 'es-toolkit/compat'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 import advancedFormat from 'dayjs/plugin/advancedFormat.js'

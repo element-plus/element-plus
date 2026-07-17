@@ -1,5 +1,5 @@
 import { isRef, nextTick, ref } from 'vue'
-import { isNull } from 'lodash-unified'
+import { isNull } from 'es-toolkit/compat'
 import { hasOwn, isClient, isNumber, isString } from '@element-plus/utils'
 import { parseHeight } from './util'
 

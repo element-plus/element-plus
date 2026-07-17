@@ -127,7 +127,7 @@ import {
   ref,
   useAttrs as useRawAttrs,
 } from 'vue'
-import { pick } from 'lodash-unified'
+import { pick } from 'es-toolkit/compat'
 import { onClickOutside, useDebounceFn } from '@vueuse/core'
 import { Loading } from '@element-plus/icons-vue'
 import { useId, useNamespace } from '@element-plus/hooks'

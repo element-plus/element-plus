@@ -13,7 +13,7 @@ import {
   withDirectives,
 } from 'vue'
 import { unrefElement, useResizeObserver } from '@vueuse/core'
-import { isNil } from 'lodash-unified'
+import { isNil } from 'es-toolkit/compat'
 import ElIcon from '@element-plus/components/icon'
 import { More } from '@element-plus/icons-vue'
 import {

@@ -6,7 +6,7 @@
   "main": "index.ts",
   "dependencies": {
     "@vue/test-utils": "catalog:",
-    "lodash-unified": "catalog:",
+    "es-toolkit": "catalog:",
     "vue": "catalog:"
   }
 }

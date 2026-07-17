@@ -8,7 +8,7 @@ import {
   watch,
 } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
-import { isUndefined } from 'lodash-unified'
+import { isUndefined } from 'es-toolkit/compat'
 import { usePopper } from '@element-plus/hooks'
 import { POPPER_INJECTION_KEY } from '../constants'
 import { buildPopperOptions, unwrapMeasurableEl } from '../utils'

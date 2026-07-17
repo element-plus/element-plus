@@ -280,7 +280,7 @@ import {
   useSlots,
   watch,
 } from 'vue'
-import { clamp, cloneDeep } from 'lodash-unified'
+import { clamp, cloneDeep } from 'es-toolkit/compat'
 import { useCssVar, useDebounceFn, useResizeObserver } from '@vueuse/core'
 import {
   NOOP,

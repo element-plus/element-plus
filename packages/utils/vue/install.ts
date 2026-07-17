@@ -1,5 +1,5 @@
 import { hasOwn, isArray } from '@vue/shared'
-import { fromPairs, isPlainObject } from 'lodash-unified'
+import { fromPairs, isPlainObject } from 'es-toolkit/compat'
 import { NOOP } from '../functions'
 
 import type { App, Directive } from 'vue'

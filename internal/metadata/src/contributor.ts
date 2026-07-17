@@ -4,7 +4,7 @@ import { styleText } from 'util'
 import { glob } from 'tinyglobby'
 import { Octokit } from 'octokit'
 import consola from 'consola'
-import { chunk, mapValues, uniqBy } from 'lodash-unified'
+import { chunk, mapValues, uniqBy } from 'es-toolkit/compat'
 import {
   ensureDir,
   errorAndExit,

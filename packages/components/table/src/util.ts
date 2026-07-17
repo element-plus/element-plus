@@ -1,5 +1,5 @@
 import { Comment, Fragment, createVNode, isVNode, render } from 'vue'
-import { flatMap, get, isNull, merge } from 'lodash-unified'
+import { flatMap, get, isNull, merge } from 'es-toolkit/compat'
 import {
   ensureArray,
   getProp,

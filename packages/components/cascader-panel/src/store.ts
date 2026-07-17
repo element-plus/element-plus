@@ -1,4 +1,4 @@
-import { isEqual } from 'lodash-unified'
+import { isEqual } from 'es-toolkit/compat'
 import { isPropAbsent } from '@element-plus/utils'
 import Node from './node'
 

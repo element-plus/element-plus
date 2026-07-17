@@ -172,7 +172,7 @@
 
 <script lang="ts" setup generic="T extends DefaultRow = DefaultRow">
 import { computed, getCurrentInstance, onBeforeUnmount, provide } from 'vue'
-import { debounce } from 'lodash-unified'
+import { debounce } from 'es-toolkit/compat'
 import { Mousewheel as vMousewheel } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { useGlobalConfig } from '@element-plus/components/config-provider'

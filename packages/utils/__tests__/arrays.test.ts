@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { castArray as lodashCastArray } from 'lodash-unified'
+import { castArray as lodashCastArray } from 'es-toolkit/compat'
 import { castArray, ensureArray, extractFirst, unique } from '..'
 
 describe('arrays', () => {

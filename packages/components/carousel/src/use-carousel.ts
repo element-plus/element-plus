@@ -11,7 +11,7 @@ import {
   useSlots,
   watch,
 } from 'vue'
-import { throttle } from 'lodash-unified'
+import { throttle } from 'es-toolkit/compat'
 import { useResizeObserver } from '@vueuse/core'
 import { debugWarn, flattedChildren, isString } from '@element-plus/utils'
 import { useOrderedChildren } from '@element-plus/hooks'
@@ -19,7 +19,7 @@ import { CHANGE_EVENT } from '@element-plus/constants'
 import { CAROUSEL_ITEM_NAME, carouselContextKey } from './constants'
 
 import type { SetupContext } from 'vue'
-import type { DebouncedFunc } from 'lodash-unified'
+import type { DebouncedFunc } from 'es-toolkit/compat'
 import type { CarouselItemContext } from './constants'
 import type { CarouselEmits, CarouselProps } from './carousel'
 

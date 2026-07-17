@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { computed, nextTick, onMounted, toRefs, watch } from 'vue'
 import { useEventListener } from '@vueuse/core'
-import { pick } from 'lodash-unified'
+import { pick } from 'es-toolkit/compat'
 import ElSelect from '@element-plus/components/select'
 import { useNamespace } from '@element-plus/hooks'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'

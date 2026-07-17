@@ -22,7 +22,7 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, provide, toRefs, watch } from 'vue'
-import { isEqual, omit, pick } from 'lodash-unified'
+import { isEqual, omit, pick } from 'es-toolkit/compat'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { NOOP } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'

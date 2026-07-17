@@ -32,7 +32,7 @@ import {
   useSlots,
   watch,
 } from 'vue'
-import { cloneDeep, flattenDeep, isEqual } from 'lodash-unified'
+import { cloneDeep, flattenDeep, isEqual } from 'es-toolkit/compat'
 import {
   castArray,
   focusNode,

@@ -9,7 +9,7 @@ import {
   renderSlot,
   watch,
 } from 'vue'
-import { omit } from 'lodash-unified'
+import { omit } from 'es-toolkit/compat'
 import {
   buildProps,
   definePropType,

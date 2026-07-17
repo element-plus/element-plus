@@ -14,9 +14,9 @@ import Select from '../src/select.vue'
 
 import type { Props } from '../useProps'
 
-vi.mock('lodash-unified', async () => {
+vi.mock('es-toolkit/compat', async () => {
   return {
-    ...((await vi.importActual('lodash-unified')) as Record<string, any>),
+    ...((await vi.importActual('es-toolkit/compat')) as Record<string, any>),
     debounce: vi.fn((fn) => {
       fn.cancel = vi.fn()
       fn.flush = vi.fn()

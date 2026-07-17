@@ -64,7 +64,7 @@ import { useId, useNamespace } from '@element-plus/hooks'
 import { useFormSize } from './hooks'
 import FormLabelWrap from './form-label-wrap'
 import { formContextKey, formItemContextKey } from './constants'
-import { cloneDeep } from 'lodash-unified'
+import { cloneDeep } from 'es-toolkit/compat'
 
 import type { CSSProperties } from 'vue'
 import type { RuleItem } from 'async-validator'

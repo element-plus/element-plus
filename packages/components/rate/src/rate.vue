@@ -67,7 +67,7 @@
 
 <script lang="ts" setup>
 import { computed, inject, markRaw, ref, watch } from 'vue'
-import { clamp } from 'lodash-unified'
+import { clamp } from 'es-toolkit/compat'
 import {
   CHANGE_EVENT,
   EVENT_CODE,
@@ -207,8 +207,7 @@ const decimalStyle = computed(() => {
 const componentMap = computed(() => {
   let icons = isArray(props.icons) ? [...props.icons] : { ...props.icons }
   icons = markRaw(icons) as
-    | Array<string | Component>
-    | Record<number, string | Component>
+    Array<string | Component> | Record<number, string | Component>
   return isArray(icons)
     ? {
         [props.lowThreshold]: icons[0],

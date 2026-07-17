@@ -1,5 +1,5 @@
 import { reactive } from 'vue'
-import { isNil } from 'lodash-unified'
+import { isNil } from 'es-toolkit/compat'
 import {
   hasOwn,
   isArray,

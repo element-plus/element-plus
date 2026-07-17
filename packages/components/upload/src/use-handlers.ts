@@ -1,5 +1,5 @@
 import { nextTick, watch } from 'vue'
-import { isNil } from 'lodash-unified'
+import { isNil } from 'es-toolkit/compat'
 import { useVModel } from '@vueuse/core'
 import { debugWarn, throwError } from '@element-plus/utils'
 import { genFileId } from './upload'

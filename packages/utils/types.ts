@@ -1,5 +1,5 @@
 import { isArray, isObject, isString } from '@vue/shared'
-import { isNil } from 'lodash-unified'
+import { isNil } from 'es-toolkit/compat'
 
 export {
   isArray,

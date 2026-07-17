@@ -11,7 +11,7 @@
     "@element-plus/constants": "workspace:^",
     "@element-plus/icons-vue": "catalog:",
     "@vueuse/core": "catalog:",
-    "lodash-unified": "catalog:",
+    "es-toolkit": "catalog:",
     "vue-component-type-helpers": "catalog:"
   },
   "devDependencies": {

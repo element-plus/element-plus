@@ -70,7 +70,7 @@
 <script lang="ts" setup>
 import { computed, inject, nextTick, ref, unref } from 'vue'
 import dayjs from 'dayjs'
-import { union } from 'lodash-unified'
+import { union } from 'es-toolkit/compat'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { getEventCode, isArray } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
