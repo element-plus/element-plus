@@ -628,7 +628,9 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
 
   const scrollToOption = (
     option:
-      OptionPublicInstance | OptionPublicInstance[] | SelectStates['selected']
+      | OptionPublicInstance
+      | OptionPublicInstance[]
+      | SelectStates['selected']
   ) => {
     const targetOption = isArray(option) ? option[option.length - 1] : option
     let target = null
