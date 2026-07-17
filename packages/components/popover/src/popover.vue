@@ -28,8 +28,8 @@
 
 <script lang="ts" setup>
 import { computed, ref, unref } from 'vue'
-import { pick } from 'lodash-unified'
-import { ElTooltip, useTooltipProps } from '@element-plus/components/tooltip'
+import { isArray, pick } from 'lodash-unified'
+import { ElTooltip } from '@element-plus/components/tooltip'
 import { addUnit } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { popoverEmits, popoverPropsDefaults } from './popover'
@@ -45,7 +45,8 @@ const props = withDefaults(defineProps<PopoverProps>(), popoverPropsDefaults)
 const emit = defineEmits(popoverEmits)
 
 const passTooltipProps = computed(() => {
-  const keys = Object.keys(useTooltipProps)
+  const tooltipProps = ElTooltip.props
+  const keys = isArray(tooltipProps) ? tooltipProps : Object.keys(tooltipProps)
   return pick(props, keys)
 })
 
