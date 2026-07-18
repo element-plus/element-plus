@@ -1,5 +1,5 @@
 import { hasOwn, isArray } from '@vue/shared'
-import { fromPairs, isPlainObject } from 'es-toolkit/compat'
+import { isPlainObject } from 'es-toolkit/compat'
 import { NOOP } from '../functions'
 
 import type { App, Directive } from 'vue'
@@ -7,7 +7,9 @@ import type { SFCInstallWithContext, SFCWithInstall } from './typescript'
 
 export const withPropsDefaultsSetter = (target: any) => {
   const _p = target.props
-  const props = isArray(_p) ? fromPairs(_p.map((key) => [key, {}])) : _p
+  const props = isArray(_p)
+    ? Object.fromEntries(_p.map((key) => [key, {}]))
+    : _p
 
   target.setPropsDefaults = (defaults: Record<string, any>) => {
     if (!props) {

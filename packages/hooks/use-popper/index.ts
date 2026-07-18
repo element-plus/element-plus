@@ -1,6 +1,5 @@
 import { computed, onBeforeUnmount, ref, shallowRef, unref, watch } from 'vue'
 import { createPopper } from '@popperjs/core'
-import { fromPairs } from 'es-toolkit/compat'
 
 import type { Ref } from 'vue'
 import type {
@@ -116,7 +115,7 @@ function deriveState(state: State) {
     keyof State['elements']
   >
 
-  const styles = fromPairs(
+  const styles = Object.fromEntries(
     elements.map(
       (element) =>
         [element, state.styles[element] || {}] as [
@@ -126,7 +125,7 @@ function deriveState(state: State) {
     )
   )
 
-  const attributes = fromPairs(
+  const attributes = Object.fromEntries(
     elements.map(
       (element) =>
         [element, state.attributes[element]] as [

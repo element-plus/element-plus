@@ -1,5 +1,4 @@
 import { warn } from 'vue'
-import { fromPairs } from 'es-toolkit/compat'
 import { isObject } from '../../types'
 import { hasOwn } from '../../objects'
 
@@ -114,7 +113,7 @@ export const buildProps = <
     IfNativePropType<Props[K], Props[K], EpPropConvert<Props[K]>>
   >
 } =>
-  fromPairs(
+  Object.fromEntries(
     Object.entries(props).map(([key, option]) => [
       key,
       buildProp(option as any, key),

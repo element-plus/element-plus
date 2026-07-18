@@ -1,5 +1,4 @@
 import { computed, getCurrentInstance } from 'vue'
-import { fromPairs } from 'es-toolkit/compat'
 import { debugWarn } from '@element-plus/utils'
 
 import type { ComputedRef } from 'vue'
@@ -30,7 +29,7 @@ export const useAttrs = (
   }
 
   return computed(() =>
-    fromPairs(
+    Object.fromEntries(
       Object.entries(instance.proxy?.$attrs!).filter(
         ([key]) =>
           !allExcludeKeys.value.includes(key) &&
