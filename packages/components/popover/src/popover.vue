@@ -28,9 +28,9 @@
 
 <script lang="ts" setup>
 import { computed, ref, unref } from 'vue'
-import { isArray, pick } from 'lodash-unified'
+import { pick } from 'lodash-unified'
 import { ElTooltip } from '@element-plus/components/tooltip'
-import { addUnit } from '@element-plus/utils'
+import { addUnit, isArray } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { popoverEmits, popoverPropsDefaults } from './popover'
 
