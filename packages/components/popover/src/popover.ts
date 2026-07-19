@@ -14,7 +14,7 @@ import type Popover from './popover.vue'
 
 export interface PopoverProps extends Omit<
   UseTooltipProps,
-  'ariaLabel' | 'rawContent'
+  'ariaLabel' | 'gpuAcceleration' | 'rawContent'
 > {
   /**
    * @description [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) of Popover
@@ -34,7 +34,7 @@ export interface PopoverProps extends Omit<
  * @deprecated Removed after 3.0.0, Use `PopoverProps` instead.
  */
 export const popoverProps = buildProps({
-  ...omit(useTooltipProps, ['ariaLabel', 'rawContent']),
+  ...omit(useTooltipProps, ['ariaLabel', 'gpuAcceleration', 'rawContent']),
   /**
    * @description popover placement
    */
