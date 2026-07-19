@@ -316,6 +316,44 @@ describe('ScrollBar', () => {
     expect(wrapper.find('.el-scrollbar__view').classes()).toContain(viewClass)
   })
 
+  test('should support object for view-class prop', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
+    try {
+      const wrapper = mount(() => (
+        <Scrollbar view-class={{ 'test-view-class': true }} />
+      ))
+      expect(wrapper.find('.el-scrollbar__view').classes()).toContain(
+        'test-view-class'
+      )
+      expect(warn).not.toHaveBeenCalled()
+    } finally {
+      warn.mockRestore()
+    }
+  })
+
+  test('should support nested array for view-class prop', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
+
+    try {
+      const wrapper = mount(() => (
+        <Scrollbar
+          view-class={[
+            'test-view-class',
+            ['nested-view-class', { 'object-view-class': true }],
+          ]}
+        />
+      ))
+
+      const view = wrapper.find('.el-scrollbar__view')
+      expect(view.classes()).toContain('test-view-class')
+      expect(view.classes()).toContain('nested-view-class')
+      expect(view.classes()).toContain('object-view-class')
+      expect(warn).not.toHaveBeenCalled()
+    } finally {
+      warn.mockRestore()
+    }
+  })
+
   test('should not bubble up click event on click scrollbar', async () => {
     const parentClick = vi.fn()
     const wrapper = mount(() => (

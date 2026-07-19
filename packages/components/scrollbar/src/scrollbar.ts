@@ -4,6 +4,9 @@ import { useAriaProps } from '@element-plus/hooks'
 import type { ExtractPublicPropTypes, StyleValue } from 'vue'
 import type Scrollbar from './scrollbar.vue'
 
+type ScrollbarClassObject = Record<string, boolean>
+type ScrollbarClass = string | ScrollbarClassObject | ScrollbarClass[]
+
 export interface ScrollbarProps {
   /**
    * @description trigger distance(px)
@@ -38,7 +41,7 @@ export interface ScrollbarProps {
    * @description class of view
    * @default ''
    */
-  viewClass?: string | string[]
+  viewClass?: ScrollbarClass
   /**
    * @description style of view
    * @default ''
@@ -132,7 +135,7 @@ export const scrollbarProps = buildProps({
    * @description class of view
    */
   viewClass: {
-    type: [String, Array],
+    type: [String, Array, Object],
     default: '',
   },
   /**
