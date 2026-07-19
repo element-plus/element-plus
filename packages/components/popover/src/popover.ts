@@ -6,12 +6,16 @@ import {
 } from '@element-plus/components/tooltip'
 import { dropdownProps } from '@element-plus/components/dropdown'
 import { popperArrowPropsDefaults } from '@element-plus/components/popper'
+import { omit } from 'lodash-unified'
 
 import type { UseTooltipProps } from '@element-plus/components/tooltip'
 import type { ExtractPublicPropTypes } from 'vue'
 import type Popover from './popover.vue'
 
-export interface PopoverProps extends UseTooltipProps {
+export interface PopoverProps extends Omit<
+  UseTooltipProps,
+  'ariaLabel' | 'rawContent'
+> {
   /**
    * @description [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) of Popover
    */
@@ -30,7 +34,7 @@ export interface PopoverProps extends UseTooltipProps {
  * @deprecated Removed after 3.0.0, Use `PopoverProps` instead.
  */
 export const popoverProps = buildProps({
-  ...useTooltipProps,
+  ...omit(useTooltipProps, ['ariaLabel', 'rawContent']),
   /**
    * @description popover placement
    */
