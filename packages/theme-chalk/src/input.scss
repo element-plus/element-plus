@@ -50,6 +50,7 @@
   font-size: getCssVar('font-size', 'base');
 
   @include e(inner) {
+    cursor: auto;
     position: relative;
     display: block;
     resize: vertical;
