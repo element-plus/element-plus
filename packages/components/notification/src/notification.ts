@@ -3,6 +3,10 @@ import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 
 import type { AppContext, ExtractPublicPropTypes, Ref, VNode } from 'vue'
 import type { IconPropType } from '@element-plus/utils'
+import type {
+  ProgressColor,
+  ProgressFn,
+} from '@element-plus/components/progress'
 import type Notification from './notification.vue'
 
 export const notificationTypes = [
@@ -16,10 +20,7 @@ export const notificationTypes = [
 export type NotificationType = (typeof notificationTypes)[number] | ''
 
 export type NotificationPosition =
-  | 'top-right'
-  | 'top-left'
-  | 'bottom-right'
-  | 'bottom-left'
+  'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
 
 export interface NotificationProps {
   /**
@@ -86,6 +87,10 @@ export interface NotificationProps {
    * @description whether to show a progress bar indicating auto-close countdown
    */
   showProgress?: boolean
+  /**
+   * @description background color of progress bar, overrides `type`-based progress status color
+   */
+  progressColor?: string | ProgressColor[] | ProgressFn
   /**
    * @description whether to pause the timer when hovering over the notification
    */
@@ -205,6 +210,16 @@ export const notificationProps = buildProps({
    */
   showProgress: Boolean,
   /**
+   * @description background color of progress bar, overrides `type`-based progress status color
+   */
+  progressColor: {
+    type: definePropType<string | ProgressColor[] | ProgressFn>([
+      String,
+      Array,
+      Function,
+    ]),
+  },
+  /**
    * @description whether to pause the timer when hovering over the notification
    */
   pauseOnHover: {
@@ -251,9 +266,7 @@ export interface NotificationHandle {
 
 export type NotificationParams = Partial<NotificationOptions> | string | VNode
 export type NotificationParamsTyped =
-  | Partial<NotificationOptionsTyped>
-  | string
-  | VNode
+  Partial<NotificationOptionsTyped> | string | VNode
 
 export interface NotifyFn {
   (

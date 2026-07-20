@@ -41,6 +41,7 @@
       >
         <el-progress
           :percentage="percentage"
+          :color="progressColor"
           :status="progressStatus"
           :stroke-width="3"
           :show-text="false"

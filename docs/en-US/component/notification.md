@@ -77,9 +77,19 @@ notification/use-vnode
 
 Display a progress bar indicating the remaining time before the notification auto-closes.
 
-:::demo Set `showProgress` to `true` to enable the progress bar. The progress bar will show a countdown matching the `duration`. When `pauseOnHover` is `true` (default), hovering over the notification will pause both the timer and the progress bar.
+:::demo Set `showProgress` to `true` to enable the progress bar. The progress bar will show a countdown matching the `duration`. Use `progressColor` to customize the progress bar color, which overrides the `type`-based status color. When `pauseOnHover` is `true` (default), hovering over the notification will pause both the timer and the progress bar.
 
 notification/progress-bar
+
+:::
+
+## Custom progress bar color ^(2.14.4)
+
+You can customize the progress bar color with `progressColor`, which supports a flat color string, a segmented color array, or a dynamic function.
+
+:::demo Use `progressColor` to set a flat color, a segmented array that maps colors to percentage thresholds, or a dynamic function that computes the color from the current percentage. When `progressColor` is set, it overrides the `type`-based progress status color.
+
+notification/progress-bar-color
 
 :::
 
@@ -137,25 +147,26 @@ ElNotification({}, appContext)
 
 ### Options
 
-| Name                     | Description                                                                                                        | Type                                                                             | Default   |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------- | --------- |
-| title                    | title                                                                                                              | ^[string]                                                                        | ''        |
-| message                  | description text                                                                                                   | ^[string] / ^[VNode] / ^[Function]`() => VNode`                                  | ''        |
-| dangerouslyUseHTMLString | whether `message` is treated as HTML string                                                                        | ^[boolean]                                                                       | false     |
-| type                     | notification type                                                                                                  | ^[enum]`'primary' (2.9.11) \| 'success' \| 'warning' \| 'info' \| 'error' \| ''` | ''        |
-| icon                     | custom icon component. It will be overridden by `type`                                                             | ^[string] / ^[Component]                                                         | —         |
-| customClass              | custom class name for Notification                                                                                 | ^[string]                                                                        | ''        |
-| duration                 | duration before close. It will not automatically close if set 0                                                    | ^[number]                                                                        | 4500      |
-| position                 | custom position                                                                                                    | ^[enum]`'top-right' \| 'top-left' \| 'bottom-right' \| 'bottom-left'`            | top-right |
-| showClose                | whether to show a close button                                                                                     | ^[boolean]                                                                       | true      |
-| onClose                  | callback function when closed                                                                                      | ^[Function]`() => void`                                                          | —         |
-| onClick                  | callback function when notification clicked                                                                        | ^[Function]`() => void`                                                          | —         |
-| offset                   | offset from the top edge of the screen. Every Notification instance of the same moment should have the same offset | ^[number]                                                                        | 0         |
-| appendTo                 | set the root element for the notification, default to `document.body`                                              | ^[CSSSelector] / ^[HTMLElement]                                                  | —         |
-| zIndex                   | initial zIndex                                                                                                     | ^[number]                                                                        | 0         |
-| closeIcon ^(2.9.8)       | custom close icon                                                                                                  | ^[string] / ^[Component]                                                         | Close     |
-| showProgress ^(2.14.4)             | whether to show a progress bar indicating auto-close countdown                                                     | ^[boolean]                                                                       | false     |
-| pauseOnHover ^(2.14.4)             | whether to pause the timer when hovering over the notification                                                     | ^[boolean]                                                                       | true      |
+| Name                     | Description                                                                                                        | Type                                                                                                        | Default   |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------- | --------- |
+| title                    | title                                                                                                              | ^[string]                                                                                                   | ''        |
+| message                  | description text                                                                                                   | ^[string] / ^[VNode] / ^[Function]`() => VNode`                                                             | ''        |
+| dangerouslyUseHTMLString | whether `message` is treated as HTML string                                                                        | ^[boolean]                                                                                                  | false     |
+| type                     | notification type                                                                                                  | ^[enum]`'primary' (2.9.11) \| 'success' \| 'warning' \| 'info' \| 'error' \| ''`                            | ''        |
+| icon                     | custom icon component. It will be overridden by `type`                                                             | ^[string] / ^[Component]                                                                                    | —         |
+| customClass              | custom class name for Notification                                                                                 | ^[string]                                                                                                   | ''        |
+| duration                 | duration before close. It will not automatically close if set 0                                                    | ^[number]                                                                                                   | 4500      |
+| position                 | custom position                                                                                                    | ^[enum]`'top-right' \| 'top-left' \| 'bottom-right' \| 'bottom-left'`                                       | top-right |
+| showClose                | whether to show a close button                                                                                     | ^[boolean]                                                                                                  | true      |
+| onClose                  | callback function when closed                                                                                      | ^[Function]`() => void`                                                                                     | —         |
+| onClick                  | callback function when notification clicked                                                                        | ^[Function]`() => void`                                                                                     | —         |
+| offset                   | offset from the top edge of the screen. Every Notification instance of the same moment should have the same offset | ^[number]                                                                                                   | 0         |
+| appendTo                 | set the root element for the notification, default to `document.body`                                              | ^[CSSSelector] / ^[HTMLElement]                                                                             | —         |
+| zIndex                   | initial zIndex                                                                                                     | ^[number]                                                                                                   | 0         |
+| closeIcon ^(2.9.8)       | custom close icon                                                                                                  | ^[string] / ^[Component]                                                                                    | Close     |
+| showProgress ^(2.14.4)   | whether to show a progress bar indicating auto-close countdown                                                     | ^[boolean]                                                                                                  | false     |
+| progressColor ^(2.14.4)  | background color of progress bar, overrides `type`-based progress status color                                     | ^[string] / ^[function]`(percentage: number) => string` / ^[Array]`{ color: string; percentage: number }[]` | —         |
+| pauseOnHover ^(2.14.4)   | whether to pause the timer when hovering over the notification                                                     | ^[boolean]                                                                                                  | true      |
 
 ### Method
 
