@@ -34,7 +34,11 @@
           <component :is="closeIcon" />
         </el-icon>
       </div>
-      <div v-if="showProgress && duration > 0" :class="ns.e('progress')">
+      <div
+        v-if="showProgress && duration > 0"
+        :class="ns.e('progress')"
+        aria-hidden="true"
+      >
         <el-progress
           :percentage="percentage"
           :status="progressStatus"
@@ -122,10 +126,12 @@ const verticalProperty = computed(() =>
   props.position.startsWith('top') ? 'top' : 'bottom'
 )
 
-const positionStyle = computed<CSSProperties>(() => ({
-  [verticalProperty.value]: `${props.offset}px`,
-  zIndex: props.zIndex ?? currentZIndex.value,
-}))
+const positionStyle = computed<CSSProperties>(() => {
+  return {
+    [verticalProperty.value]: `${props.offset}px`,
+    zIndex: props.zIndex ?? currentZIndex.value,
+  }
+})
 
 function startTimer() {
   if (props.duration <= 0) return
