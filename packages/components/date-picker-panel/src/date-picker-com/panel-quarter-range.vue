@@ -298,18 +298,16 @@ const slots = useSlots()
 const handleShortcutClick = (shortcut: Shortcut) => {
   const values = isFunction(shortcut.value) ? shortcut.value() : shortcut.value
   if (values) {
-    emit('pick', [
-      normalizeQuarterDate(
-        dayjs(values[0]).locale(lang.value),
-        lang.value,
-        disabledDate
-      ),
-      normalizeQuarterDate(
-        dayjs(values[1]).locale(lang.value),
-        lang.value,
-        disabledDate
-      ),
-    ])
+    emit(
+      'pick',
+      values.map((item) =>
+        normalizeQuarterDate(
+          dayjs(item).locale(lang.value),
+          lang.value,
+          disabledDate
+        )
+      )
+    )
     return
   }
   if (shortcut.onClick) {

@@ -771,27 +771,20 @@ const parseUserInput = (value: Dayjs | Dayjs[]) => {
     isDefaultFormat
   ) as Dayjs | Dayjs[]
 
-  if (selectionMode.value === 'quarters') {
-    if (isArray(parsed)) {
-      return parsed.map((item) =>
-        normalizeQuarterDate(item, lang.value, disabledDate)
-      )
-    }
-    if (!dayjs.isDayjs(parsed) || !parsed.isValid()) {
-      return parsed
-    }
-    return normalizeQuarterDate(parsed, lang.value, disabledDate)
-  }
-
-  if (selectionMode.value !== 'quarter') {
+  if (!['quarter', 'quarters'].includes(selectionMode.value)) {
     return parsed
   }
 
+  const normalize = (date: Dayjs) =>
+    normalizeQuarterDate(date, lang.value, disabledDate)
+
+  if (isArray(parsed)) {
+    return parsed.map(normalize)
+  }
   if (!dayjs.isDayjs(parsed) || !parsed.isValid()) {
     return parsed
   }
-
-  return normalizeQuarterDate(parsed, lang.value, disabledDate)
+  return normalize(parsed)
 }
 
 const getDefaultValue = () => {
