@@ -35,7 +35,7 @@ export interface InputOtpProps extends Pick<AriaProps, 'ariaLabel'> {
   type?: 'outlined' | 'filled' | 'underlined'
   /**
    * @description The size of the OTP fields
-   * @default 'default'
+   * @default undefined
    */
   size?: ComponentSize
   /**
