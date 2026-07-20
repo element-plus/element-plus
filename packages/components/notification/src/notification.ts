@@ -20,7 +20,10 @@ export const notificationTypes = [
 export type NotificationType = (typeof notificationTypes)[number] | ''
 
 export type NotificationPosition =
-  'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
+  | 'top-right'
+  | 'top-left'
+  | 'bottom-right'
+  | 'bottom-left'
 
 export interface NotificationProps {
   /**
@@ -266,7 +269,9 @@ export interface NotificationHandle {
 
 export type NotificationParams = Partial<NotificationOptions> | string | VNode
 export type NotificationParamsTyped =
-  Partial<NotificationOptionsTyped> | string | VNode
+  | Partial<NotificationOptionsTyped>
+  | string
+  | VNode
 
 export interface NotifyFn {
   (
