@@ -9,11 +9,7 @@ import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import type { ExtractPublicPropTypes } from 'vue'
 
 export type CalendarDateType =
-  | 'prev-month'
-  | 'next-month'
-  | 'prev-year'
-  | 'next-year'
-  | 'today'
+  'prev-month' | 'next-month' | 'prev-year' | 'next-year' | 'today'
 
 const isValidRange = (range: unknown): range is [Date, Date] =>
   isArray(range) && range.length === 2 && range.every((item) => isDate(item))

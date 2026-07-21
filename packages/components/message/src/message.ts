@@ -271,8 +271,7 @@ export type MessageParamsNormalized = Omit<MessageProps, 'id'> & {
 }
 export type MessageOptionsWithType = Omit<MessageOptions, 'type'>
 export type MessageParamsWithType =
-  | MessageOptionsWithType
-  | MessageOptions['message']
+  MessageOptionsWithType | MessageOptions['message']
 
 export interface MessageHandler {
   /**
