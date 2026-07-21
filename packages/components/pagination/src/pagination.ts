@@ -32,10 +32,11 @@ import Jumper from './components/jumper.vue'
 import Total from './components/total.vue'
 import Pager from './components/pager.vue'
 
+import type { ClassValue } from '@element-plus/utils'
 import type {
-  CSSProperties,
   ExtractPropTypes,
   ExtractPublicPropTypes,
+  StyleValue,
   VNode,
 } from 'vue'
 /**
@@ -109,14 +110,15 @@ export const paginationProps = buildProps({
    * @description custom class name for the page size Select's dropdown
    */
   popperClass: {
-    type: String,
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
     default: '',
   },
   /**
    * @description custom style for the page size Select's dropdown
    */
   popperStyle: {
-    type: definePropType<string | CSSProperties>([String, Object]),
+    type: definePropType<StyleValue>([String, Array, Object, Boolean]),
+    default: undefined,
   },
   /**
    * @description text for the prev button

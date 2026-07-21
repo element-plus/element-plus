@@ -2,7 +2,7 @@ import { Close } from '@element-plus/icons-vue'
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 
 import type { AppContext, ExtractPublicPropTypes, VNode } from 'vue'
-import type { IconPropType } from '@element-plus/utils'
+import type { ClassValue, IconPropType } from '@element-plus/utils'
 import type Notification from './notification.vue'
 
 export const notificationTypes = [
@@ -22,7 +22,7 @@ export interface NotificationProps {
   /**
    * @description custom class name for Notification
    */
-  customClass?: string
+  customClass?: ClassValue
   /**
    * @description whether `message` is treated as HTML string
    */
@@ -89,7 +89,7 @@ export const notificationProps = buildProps({
    * @description custom class name for Notification
    */
   customClass: {
-    type: String,
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
     default: '',
   },
   /**
