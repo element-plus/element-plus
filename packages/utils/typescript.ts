@@ -122,9 +122,4 @@ export type AlignItems = CSSProperties['alignItems']
 
 // todo: Use the `ClassValue` type exported by Vue, after we upgrades its peer dependency to ^3.6.29
 export type ClassValue =
-  | false
-  | null
-  | undefined
-  | string
-  | Record<string, any>
-  | Array<ClassValue>
+  false | null | undefined | string | Record<string, any> | Array<ClassValue>
