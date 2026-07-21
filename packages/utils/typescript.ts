@@ -62,8 +62,7 @@ type ArrayKey = number
  * 用于通过一个类型递归构建路径的辅助类型
  */
 type PathImpl<K extends string | number, V> = V extends
-  | Primitive
-  | BrowserNativeObject
+  Primitive | BrowserNativeObject
   ? `${K}`
   : `${K}` | `${K}.${Path<V>}`
 

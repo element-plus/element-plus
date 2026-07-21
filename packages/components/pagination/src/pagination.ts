@@ -46,14 +46,7 @@ import type {
 const isAbsent = (v: unknown): v is undefined => typeof v !== 'number'
 
 type LayoutKey =
-  | 'prev'
-  | 'pager'
-  | 'next'
-  | 'jumper'
-  | '->'
-  | 'total'
-  | 'sizes'
-  | 'slot'
+  'prev' | 'pager' | 'next' | 'jumper' | '->' | 'total' | 'sizes' | 'slot'
 
 export const paginationProps = buildProps({
   /**
