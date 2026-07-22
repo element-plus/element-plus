@@ -220,6 +220,36 @@ describe('Virtual Tree', () => {
     expect(treeVm.flattenTree.length).toBeGreaterThanOrEqual(NODE_NUMBER)
   })
 
+  test('getCurrentKey returns clicked node key in node-click event', async () => {
+    const currentKeys: TreeKey[] = []
+    const { wrapper } = createTree({
+      data() {
+        return {
+          data: [
+            {
+              id: '1',
+              label: 'node-1',
+            },
+            {
+              id: '2',
+              label: 'node-2',
+            },
+          ],
+        }
+      },
+      methods: {
+        onNodeClick() {
+          currentKeys.push(this.$refs.tree.getCurrentKey())
+        },
+      },
+    })
+    await nextTick()
+    const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+    await nodes[0].trigger('click')
+    await nodes[1].trigger('click')
+    expect(currentKeys).toEqual(['1', '2'])
+  })
+
   test('drop on node', async () => {
     const onNodeDrop = vi.fn()
     const { wrapper, treeVm } = createTree({
@@ -1152,6 +1182,54 @@ describe('Virtual Tree', () => {
     await nextTick()
     const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
     expect(nodes[1].classes()).toContain('is-current')
+  })
+
+  test('currentNodeKey with zero key', async () => {
+    const { wrapper, treeRef } = createTree({
+      data() {
+        return {
+          currentNodeKey: 0,
+          data: [
+            {
+              id: 0,
+              label: 'node-0',
+            },
+          ],
+        }
+      },
+    })
+    await nextTick()
+    const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+    expect(nodes[0].classes()).toContain('is-current')
+    expect(treeRef.getCurrentKey()).toBe(0)
+    expect(treeRef.getCurrentNode()).toMatchObject({
+      id: 0,
+      label: 'node-0',
+    })
+  })
+
+  test('currentNodeKey with empty string key', async () => {
+    const { wrapper, treeRef } = createTree({
+      data() {
+        return {
+          currentNodeKey: '',
+          data: [
+            {
+              id: '',
+              label: 'empty',
+            },
+          ],
+        }
+      },
+    })
+    await nextTick()
+    const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+    expect(nodes[0].classes()).toContain('is-current')
+    expect(treeRef.getCurrentKey()).toBe('')
+    expect(treeRef.getCurrentNode()).toMatchObject({
+      id: '',
+      label: 'empty',
+    })
   })
 
   test('customNodeClass', async () => {

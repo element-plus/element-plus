@@ -11,12 +11,13 @@
     "@element-plus/constants": "workspace:^",
     "@element-plus/icons-vue": "catalog:",
     "@vueuse/core": "catalog:",
-    "lodash-unified": "catalog:"
+    "lodash-unified": "catalog:",
+    "vue-component-type-helpers": "catalog:"
   },
   "devDependencies": {
     "@vue/shared": "catalog:",
     "@vue/test-utils": "catalog:",
-    "expect-type": "^1.3.0",
+    "expect-type": "^1.4.0",
     "vue": "catalog:"
   }
 }

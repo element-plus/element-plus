@@ -89,8 +89,10 @@ function useWatcher<T extends DefaultRow>() {
   const filteredData: Ref<T[] | null> = ref(null)
   const sortingColumn: Ref<TableColumnCtx<T> | null> = ref(null)
   const sortProp: Ref<string | null> = ref(null)
-  const sortOrder: Ref<string | number | null> = ref(null)
+  const sortOrder: Ref<TableSortOrder | null> = ref(null)
   const hoverRow: Ref<T | null> = ref(null)
+
+  let halfSelection: T[] = []
 
   const selectedMap = computed(() => {
     return rowKey.value ? getKeysMap(selection.value, rowKey.value) : undefined
@@ -232,6 +234,7 @@ function useWatcher<T extends DefaultRow>() {
     const { emitChange = true } = options
     if (treeStates.checkStrictly.value || !rowKey.value) {
       selectionIndeterminate.value = {}
+      halfSelection = []
       return
     }
     const rowKeyValue = rowKey.value
@@ -246,6 +249,7 @@ function useWatcher<T extends DefaultRow>() {
       return id
     }
     const indeterminateMap: Record<string, boolean> = {}
+    const nextHalfSelection: T[] = []
     const selectedIdSet = new Set(
       selection.value.map((row) => getCachedRowId(row))
     )
@@ -286,6 +290,7 @@ function useWatcher<T extends DefaultRow>() {
             const noneSelected = childSelectedCount === 0
             if (!allSelected && !noneSelected) {
               indeterminateMap[id] = true
+              nextHalfSelection.push(row)
             }
             _updateSelectionForRow(row, id, allSelected)
           }
@@ -313,6 +318,7 @@ function useWatcher<T extends DefaultRow>() {
       selection.value = nextSelection
     }
     selectionIndeterminate.value = indeterminateMap
+    halfSelection = nextHalfSelection
     if (selectionChanged && emitChange) {
       instance.emit(
         'selection-change',
@@ -326,6 +332,7 @@ function useWatcher<T extends DefaultRow>() {
     const oldSelection = selection.value
     selection.value = []
     selectionIndeterminate.value = {}
+    halfSelection = []
     if (oldSelection.length) {
       instance.emit('selection-change', [])
     }
@@ -373,6 +380,10 @@ function useWatcher<T extends DefaultRow>() {
 
   const getSelectionRows = () => {
     return (selection.value || []).slice()
+  }
+
+  const getHalfSelectionRows = () => {
+    return halfSelection.slice()
   }
 
   const cascadeToLazyChildren = (
@@ -755,6 +766,7 @@ function useWatcher<T extends DefaultRow>() {
     (value) => {
       if (value) {
         selectionIndeterminate.value = {}
+        halfSelection = []
       } else {
         // Internal sync when switching strict mode, avoid triggering selection-change
         updateSelectionByChildren({ emitChange: false })
@@ -804,6 +816,7 @@ function useWatcher<T extends DefaultRow>() {
     clearSelection,
     cleanSelection,
     getSelectionRows,
+    getHalfSelectionRows,
     toggleRowSelection,
     _toggleAllSelection,
     toggleAllSelection: null as (() => void) | null,

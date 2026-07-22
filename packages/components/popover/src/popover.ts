@@ -270,6 +270,7 @@ export const popoverPropsDefaults = {
   popperOptions: () => ({}),
   tabindex: 0,
   content: '',
+  popperClass: undefined,
   popperStyle: undefined,
   enterable: true,
   effect: 'light',

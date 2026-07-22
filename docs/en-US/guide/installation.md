@@ -66,6 +66,10 @@ $ yarn add element-plus
 $ pnpm install element-plus
 ```
 
+```shell [deno]
+$ deno add element-plus
+```
+
 :::
 
 If your network environment is not good, it is recommended to use a mirror registry [cnpm](https://github.com/cnpm/cnpm) or [npmmirror](https://npmmirror.com/).

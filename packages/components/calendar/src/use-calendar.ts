@@ -96,7 +96,7 @@ export const useCalendar = (
       return calculateValidatedDateRange(startDayjs, endDayjs)
     } else {
       // two months
-      if (startDayjs.add(1, 'month').month() !== endDayjs.month()) {
+      if (!startDayjs.add(1, 'month').isSame(endDayjs, 'month')) {
         debugWarn(
           componentName,
           'start time and end time interval must not exceed two months'

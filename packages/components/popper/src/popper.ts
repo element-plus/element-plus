@@ -25,8 +25,7 @@ export const roleTypes = [
 ] as const
 
 export type PopperEffect =
-  | (typeof effects)[number]
-  | (string & NonNullable<unknown>)
+  (typeof effects)[number] | (string & NonNullable<unknown>)
 export type PopperTrigger = (typeof triggers)[number]
 
 export interface PopperProps {

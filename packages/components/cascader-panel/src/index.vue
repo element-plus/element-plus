@@ -442,7 +442,7 @@ watch(
 )
 
 const loadLazyRootNodes = () => {
-  if (initialLoadedOnce.value) return
+  if (initialLoadedOnce.value || !initialLoaded.value) return
   initStore()
 }
 

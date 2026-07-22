@@ -1,11 +1,28 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:base", "schedule:weekly"],
+  "extends": [
+    "config:base",
+    "schedule:weekly",
+    ":semanticCommitTypeAll(chore)"
+  ],
+  "rebaseWhen": "conflicted",
   "labels": ["dependencies"],
   "rangeStrategy": "bump",
+  "vulnerabilityAlerts": {
+    "enabled": true
+  },
   "packageRules": [
     {
+      "matchDatasources": ["npm"],
+      "minimumReleaseAge": "1 day",
+      "internalChecksFilter": "strict"
+    },
+    {
       "matchDepTypes": ["peerDependencies"],
+      "enabled": false
+    },
+    {
+      "matchDepTypes": ["dependencies"],
       "enabled": false
     },
     {
@@ -17,18 +34,17 @@
   ],
   "ignoreDeps": [
     "node",
-
     // pure esm
     "chalk",
-
     // test
     "cypress",
     "jsdom",
-
-    // https://github.com/vitest-dev/vitest/pull/1340
-    "vitest",
-
     // can't work in v0.34.0
-    "unocss"
+    "unocss",
+    // locked due to test regressions in newer patch versions
+    "vue",
+    "@vue/server-renderer",
+    "@vue/shared",
+    "@vue/test-utils"
   ]
 }

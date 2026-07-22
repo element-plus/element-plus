@@ -1,7 +1,11 @@
 import { computed, defineComponent, nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { useLocale, useNamespace } from '@element-plus/hooks'
+import {
+  defaultInitialZIndex,
+  useLocale,
+  useNamespace,
+} from '@element-plus/hooks'
 import Chinese from '@element-plus/locale/lang/zh-cn'
 import English from '@element-plus/locale/lang/en'
 import {
@@ -505,6 +509,42 @@ describe('config-provider', () => {
       await nextTick()
 
       expect(vm.size).toBe('small')
+    })
+
+    it('should respect zero as global configured zIndex', () => {
+      const receiverRef = ref()
+      const ReceiverComponent = defineComponent({
+        setup() {
+          receiverRef.value = useGlobalComponentSettings('button')
+        },
+        template: '<div></div>',
+      })
+
+      mount(() => (
+        <ConfigProvider zIndex={0}>
+          <ReceiverComponent />
+        </ConfigProvider>
+      ))
+
+      expect(receiverRef.value.zIndex.initialZIndex).toBe(0)
+    })
+
+    it('should fall back to default zIndex for NaN global configuration', () => {
+      const receiverRef = ref()
+      const ReceiverComponent = defineComponent({
+        setup() {
+          receiverRef.value = useGlobalComponentSettings('button')
+        },
+        template: '<div></div>',
+      })
+
+      mount(() => (
+        <ConfigProvider zIndex={Number.NaN}>
+          <ReceiverComponent />
+        </ConfigProvider>
+      ))
+
+      expect(receiverRef.value.zIndex.initialZIndex).toBe(defaultInitialZIndex)
     })
 
     // #18004

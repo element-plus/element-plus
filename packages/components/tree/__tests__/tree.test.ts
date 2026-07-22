@@ -2437,4 +2437,48 @@ describe('Tree.vue', () => {
     await nodes[0].trigger('click')
     expect(treeRef.getCheckedKeys()).toEqual(keys)
   })
+
+  test('lazy load with check-strictly should not auto-check children', async () => {
+    vi.useFakeTimers()
+
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" node-key="id" lazy :load="loadNode" show-checkbox check-strictly`,
+      {
+        methods: {
+          loadNode(node, resolve) {
+            if (node.level === 0) {
+              return resolve([
+                { label: 'region1', id: 1 },
+                { label: 'region2', id: 2 },
+              ])
+            }
+            if (node.level === 1) {
+              setTimeout(() => {
+                resolve([
+                  { label: 'zone1', id: 11 },
+                  { label: 'zone2', id: 12 },
+                ])
+              }, 50)
+            } else {
+              resolve([])
+            }
+          },
+        },
+      }
+    )
+
+    await nextTick()
+    const treeRef = wrapper.findComponent({ name: 'ElTree' }).vm as TreeInstance
+
+    await wrapper.find(TREE_NODE_CHECKBOX_CLASS_NAME).trigger('click')
+
+    expect(treeRef.getCheckedKeys()).toEqual([1])
+
+    await wrapper.find('.el-tree-node__content').trigger('click')
+    vi.runAllTimers()
+    await nextTick()
+
+    expect(treeRef.getCheckedKeys()).toEqual([1])
+    vi.useRealTimers()
+  })
 })

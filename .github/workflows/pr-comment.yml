@@ -3,6 +3,7 @@ name: Thanks to the PR Contributor
 # DO NOT ADD ANY CHECKOUT/CACHING in this workflow
 
 on:
+  # zizmor: ignore[dangerous-triggers] target-context workflow only posts a PR comment and never checks out code
   pull_request_target:
     types: [closed]
 
@@ -18,7 +19,7 @@ jobs:
 
     steps:
       - name: Comment on PR
-        uses: actions-cool/maintain-one-comment@v3
+        uses: actions-cool/maintain-one-comment-backup@17f644ff1665b05890083f7c1091fef135bce5e4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           body: |

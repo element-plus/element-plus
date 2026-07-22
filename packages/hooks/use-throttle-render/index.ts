@@ -4,8 +4,7 @@ import { isNumber, isObject, isUndefined } from '@element-plus/utils'
 import type { Ref } from 'vue'
 
 export type ThrottleType =
-  | { leading?: number; trailing?: number; initVal?: boolean }
-  | number
+  { leading?: number; trailing?: number; initVal?: boolean } | number
 
 export const useThrottleRender = (
   loading: Ref<boolean>,

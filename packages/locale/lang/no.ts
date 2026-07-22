@@ -10,13 +10,13 @@ export default {
       defaultLabel: 'Fargevelger',
       description: 'Nåværende farge {color}, velg ny farge med Enter-tasten',
       alphaLabel: 'Velg verdi for gjennomsiktighet',
-      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
-      hueLabel: 'pick hue value', // to be translated
-      hueDescription: 'hue {hue}, current color is {color}', // to be translated
-      svLabel: 'pick saturation and brightness value', // to be translated
+      alphaDescription: 'gjennomsiktighet {alpha}, nåværende farge er {color}',
+      hueLabel: 'Velg fargetone-verdi',
+      hueDescription: 'fargetone {hue}, nåværende farge er {color}',
+      svLabel: 'Velg metnings- og lysstyrkeverdi',
       svDescription:
-        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
-      predefineDescription: 'select {value} as the color', // to be translated
+        'metning {saturation}, lysstyrke {brightness}, nåværende farge er {color}',
+      predefineDescription: 'velg {value} som farge',
     },
     datepicker: {
       now: 'Nå',
@@ -150,21 +150,21 @@ export default {
       resetFilter: 'Tilbakestill',
       clearFilter: 'Alle',
       sumText: 'Sum',
-      selectAllLabel: 'Select all rows', // to be translated
-      selectRowLabel: 'Select this row', // to be translated
-      expandRowLabel: 'Expand this row', // to be translated
-      collapseRowLabel: 'Collapse this row', // to be translated
-      sortLabel: 'Sort by {column}', // to be translated
-      filterLabel: 'Filter by {column}', // to be translated
+      selectAllLabel: 'Velg alle rader',
+      selectRowLabel: 'Velg denne raden',
+      expandRowLabel: 'Utvid denne raden',
+      collapseRowLabel: 'Skjul denne raden',
+      sortLabel: 'Sorter etter {column}',
+      filterLabel: 'Filtrer etter {column}',
     },
     tag: {
-      close: 'Close this tag', // to be translated
+      close: 'Lukk denne taggen',
     },
     tour: {
       next: 'Neste',
       previous: 'Forrige',
       finish: 'Avslutt omvisning',
-      close: 'Close this dialog', // to be translated
+      close: 'Lukk denne dialogboksen',
     },
     tree: {
       emptyText: 'Ingen data',
@@ -193,8 +193,8 @@ export default {
       indicator: 'Bytt bilde til indeks {index}',
     },
     inputOTP: {
-      groupLabel: 'OTP Input', // to be translated
-      defaultLabel: 'Please enter OTP character {index}', // to be translated
+      groupLabel: 'OTP-inndata',
+      defaultLabel: 'Skriv inn OTP-tegn {index}',
     },
   },
 }
