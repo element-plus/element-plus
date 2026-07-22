@@ -195,7 +195,10 @@ export default defineComponent({
       },
       set(value: string[]) {
         if (props.column) {
-          props.upDataColumn?.('filteredValue', value)
+          // Splice in place so the parent's `:filtered-value` ref sees the change.
+          const arr = props.column.filteredValue ?? []
+          arr.splice(0, arr.length, ...value)
+          props.upDataColumn?.('filteredValue', arr)
         }
       },
     })
