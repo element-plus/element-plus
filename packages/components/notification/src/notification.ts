@@ -2,7 +2,7 @@ import { Close } from '@element-plus/icons-vue'
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 
 import type { AppContext, ExtractPublicPropTypes, Ref, VNode } from 'vue'
-import type { IconPropType } from '@element-plus/utils'
+import type { ClassValue, IconPropType } from '@element-plus/utils'
 import type {
   ProgressColor,
   ProgressFn,
@@ -20,16 +20,13 @@ export const notificationTypes = [
 export type NotificationType = (typeof notificationTypes)[number] | ''
 
 export type NotificationPosition =
-  | 'top-right'
-  | 'top-left'
-  | 'bottom-right'
-  | 'bottom-left'
+  'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
 
 export interface NotificationProps {
   /**
    * @description custom class name for Notification
    */
-  customClass?: string
+  customClass?: ClassValue
   /**
    * @description whether `message` is treated as HTML string
    */
@@ -108,7 +105,7 @@ export const notificationProps = buildProps({
    * @description custom class name for Notification
    */
   customClass: {
-    type: String,
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
     default: '',
   },
   /**
@@ -269,9 +266,7 @@ export interface NotificationHandle {
 
 export type NotificationParams = Partial<NotificationOptions> | string | VNode
 export type NotificationParamsTyped =
-  | Partial<NotificationOptionsTyped>
-  | string
-  | VNode
+  Partial<NotificationOptionsTyped> | string | VNode
 
 export interface NotifyFn {
   (
