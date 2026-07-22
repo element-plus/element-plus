@@ -177,12 +177,14 @@ export default defineComponent({
     const filterValue = computed({
       get: () => (props.column?.filteredValue || [])[0],
       set: (value?: string | null) => {
-        if (filteredValue.value) {
+        if (props.column) {
+          const arr = [...(props.column.filteredValue ?? [])]
           if (!isPropAbsent(value)) {
-            filteredValue.value.splice(0, 1, value)
+            arr.splice(0, 1, value)
           } else {
-            filteredValue.value.splice(0, 1)
+            arr.splice(0, 1)
           }
+          props.upDataColumn?.('filteredValue', arr)
         }
       },
     })
@@ -195,10 +197,7 @@ export default defineComponent({
       },
       set(value: string[]) {
         if (props.column) {
-          // Splice in place so the parent's `:filtered-value` ref sees the change.
-          const arr = props.column.filteredValue ?? []
-          arr.splice(0, arr.length, ...value)
-          props.upDataColumn?.('filteredValue', arr)
+          props.upDataColumn?.('filteredValue', value)
         }
       },
     })
