@@ -268,7 +268,7 @@ export function useTree(
   }
 
   function getCurrentNode(): TreeNodeData | undefined {
-    if (!currentKey.value) return undefined
+    if (currentKey.value === undefined) return undefined
     return tree.value?.treeNodeMap.get(currentKey.value)?.data
   }
 

@@ -28,12 +28,12 @@
     "eslint-plugin-unicorn": "^64.0.0",
     "eslint-plugin-vue": "^10.9.0",
     "globals": "^17.5.0",
-    "prettier": "^3.8.3",
-    "typescript": "~6.0.3",
+    "prettier": "^3.9.5",
+    "typescript": "catalog:",
     "typescript-eslint": "^8.59.0",
     "vue-eslint-parser": "^10.4.0"
   },
   "devDependencies": {
-    "eslint": "^10.4.0"
+    "eslint": "^10.7.0"
   }
 }

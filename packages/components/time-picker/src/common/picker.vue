@@ -206,7 +206,7 @@ import {
 import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
-import { NOOP, getEventCode, isArray } from '@element-plus/utils'
+import { NOOP, debugWarn, getEventCode, isArray } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
   EVENT_CODE,
@@ -606,6 +606,15 @@ const handleKeydownInput = async (event: Event | KeyboardEvent) => {
     ) {
       handleChange()
       pickerVisible.value = false
+    } else {
+      if (
+        !isValidValue(parseUserInputToDayjs(displayValue.value) as DayOrDays)
+      ) {
+        debugWarn(
+          'Picker',
+          `Invalid user input: ${displayValue.value}. Please check the format of the input.`
+        )
+      }
     }
     event.preventDefault()
     event.stopPropagation()

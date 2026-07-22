@@ -1,6 +1,64 @@
 ## Changelog
 
 
+### 2.14.3
+
+_2026-07-10_
+
+#### Features
+
+- Components [transfer] add virtual scroll support (#24367 by @liuyax0818)
+- Play enable bundledDev (#24542 by @btea)
+
+#### Bug fixes
+
+- Components [input-otp] fix field line-height (#24467 by @misakamayako)
+- Components [input-otp] inherit form size (#24466 by @rzzf)
+- Style [drawer] include popup lockscreen styles on import (#24494 by @LostElkByte)
+
+### 2.14.2
+
+_2026-06-12_
+
+#### Features
+
+- Components [table] add getHalfSelectionRows method (#24348 by @qeTM)
+
+#### Bug fixes
+
+- Components [tree-v2] allow falsy current keys (#24364 by @guozi9999)
+- Components [calendar] correctly validate date ranges that span across years (#24327 by @guozi9999)
+- Components [input-otp] avoid sticky hover on touch devices (#24374 by @ixyzorg)
+- Components [select/v2] hide empty input-wrapper only when multiple (#24177 by @Yeuvoir)
+- Components [tour] ensure `current` prop is controlled when passed (#19675 by @DDDDD12138)
+- Components [time-select] guard invalid time values (#24329 by @guozi9999)
+
+### 2.14.1
+
+_2026-05-29_
+
+#### Features
+
+- Components [tabs] support scrolling via touch (#24292 by @rzzf)
+
+#### Bug fixes
+
+- Components [date-picker-panel] prevent early range fix (#24011 by @LostElkByte)
+- Components [tree-v2] get current key before node click (#24232 by @rzzf)
+- Components [text] refresh truncated title after layout changes (#24233 by @rzzf)
+- Components [date-picker-panel]honor disabledDate on adjusted range (#24085 by @LostElkByte)
+- Components [cascader] prevent duplicate root lazy-load calls (#24269 by @rzzf)
+- Components [tree] respect check-strictly on lazy load (#24267 by @ruguoba)
+- Components [message-box] hide btns container when both buttons are hidden (#24283 by @whcanic)
+- Components [select/v2] ios click listening (#24033 by @ixyzorg)
+- Components [config-provider] preserve zero zIndex (#24331 by @guozi9999)
+
+#### Refactors
+
+- Components [table] make component generic (#24201 by @rzzf)
+- Components [table] improve emits type (#24245 by @rzzf)
+- Components [table] use UseTooltipProps for overflow tooltip (#24278 by @xingyixiang)
+
 ### 2.14.0
 
 _2026-05-08_

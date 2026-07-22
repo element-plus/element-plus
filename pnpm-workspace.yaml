@@ -13,26 +13,27 @@ allowBuilds:
 catalog:
   '@ctrl/tinycolor': ^4.2.0
   '@element-plus/icons-vue': ^2.3.2
-  '@floating-ui/dom': ^1.7.6
+  '@floating-ui/dom': ^1.8.0
   '@popperjs/core': npm:@sxzz/popperjs-es@^2.11.8
-  '@vitejs/plugin-vue': ^6.0.7
-  '@vitejs/plugin-vue-jsx': ^5.1.5
-  '@vue/server-renderer': ^3.5.22
-  '@vue/shared': ^3.5.22
-  '@vue/test-utils': ^2.4.6
+  '@vitejs/plugin-vue': ^6.0.8
+  '@vitejs/plugin-vue-jsx': ^5.1.6
+  '@vue/server-renderer': 3.5.25
+  '@vue/shared': 3.5.25
+  '@vue/test-utils': 2.4.6
   '@vueuse/core': 14.3.0
   lodash-unified: ^1.0.3
   normalize-wheel-es: ^1.2.0
-  vue: ^3.5.22
-  vue-component-type-helpers: ^3.3.1
-  tsx: ^4.22.3
+  vue: 3.5.25
+  vue-component-type-helpers: ^3.3.7
+  tsx: ^4.23.1
+  typescript: ~6.0.3
   # vitest: ^2.0.5
 
 dedupePeers: true
 
 overrides:
   jwa: ^1.4.2 # 20697
-  typescript: $typescript
+  typescript: 'catalog:'
 
 patchedDependencies:
   async-validator@4.2.5: patches/async-validator@4.2.5.patch #16757
@@ -45,3 +46,9 @@ peerDependencyRules:
 
 shellEmulator: true
 strictPeerDependencies: false
+
+minimumReleaseAge: 1440
+minimumReleaseAgeExclude:
+  - 'element-plus'
+  - '@element-plus/*'
+  - vite@8.1.4
