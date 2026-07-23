@@ -3,10 +3,7 @@ import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 
 import type { AppContext, ExtractPublicPropTypes, Ref, VNode } from 'vue'
 import type { ClassValue, IconPropType } from '@element-plus/utils'
-import type {
-  ProgressColor,
-  ProgressFn,
-} from '@element-plus/components/progress'
+import type { ProgressProps } from '@element-plus/components/progress'
 import type Notification from './notification.vue'
 
 export const notificationTypes = [
@@ -21,6 +18,15 @@ export type NotificationType = (typeof notificationTypes)[number] | ''
 
 export type NotificationPosition =
   'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
+
+/**
+ * Progress bar configuration. `percentage`, `type`, `duration`, `indeterminate`
+ * and `width` are excluded: the bar is always a countdown-driven line.
+ */
+export type NotificationProgress = Omit<
+  Partial<ProgressProps>,
+  'percentage' | 'type' | 'duration' | 'indeterminate' | 'width'
+>
 
 export interface NotificationProps {
   /**
@@ -84,13 +90,9 @@ export interface NotificationProps {
    */
   closeIcon?: IconPropType
   /**
-   * @description whether to show a progress bar indicating auto-close countdown
+   * @description progress bar indicating auto-close countdown. Set `true` to show a default progress bar, or pass an object to customize it (options of `ElProgress`)
    */
-  showProgress?: boolean
-  /**
-   * @description background color of progress bar, overrides `type`-based progress status color
-   */
-  progressColor?: string | ProgressColor[] | ProgressFn
+  progress?: boolean | NotificationProgress
   /**
    * @description whether to pause the timer when hovering over the notification
    */
@@ -206,18 +208,11 @@ export const notificationProps = buildProps({
     default: Close,
   },
   /**
-   * @description whether to show a progress bar indicating auto-close countdown
+   * @description progress bar indicating auto-close countdown. Set `true` to show a default progress bar, or pass an object to customize it (options of `ElProgress`)
    */
-  showProgress: Boolean,
-  /**
-   * @description background color of progress bar, overrides `type`-based progress status color
-   */
-  progressColor: {
-    type: definePropType<string | ProgressColor[] | ProgressFn>([
-      String,
-      Array,
-      Function,
-    ]),
+  progress: {
+    type: definePropType<boolean | NotificationProgress>([Boolean, Object]),
+    default: false,
   },
   /**
    * @description whether to pause the timer when hovering over the notification

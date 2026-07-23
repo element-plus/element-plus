@@ -16,7 +16,7 @@ function open(type: string) {
     message: 'Hover to pause the timer and progress bar',
     type: type as any,
     duration: 6000,
-    showProgress: true,
+    progress: true,
   })
 }
 
@@ -25,7 +25,7 @@ function openWithoutPause() {
     title: 'No pause on hover',
     message: 'Timer and progress bar keep running even when hovering',
     duration: 6000,
-    showProgress: true,
+    progress: true,
     pauseOnHover: false,
   })
 }
