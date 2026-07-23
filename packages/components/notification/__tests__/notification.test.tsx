@@ -269,6 +269,29 @@ describe('Notification.vue', () => {
       expect(wrapper.vm.visible).toBe(false)
       vi.useRealTimers()
     })
+
+    test('should keep hover-paused notification paused on unrelated keydown', async () => {
+      vi.useFakeTimers()
+      const wrapper = _mount({
+        props: {
+          duration: 100,
+        },
+      })
+
+      await wrapper.find('[role=alert]').trigger('mouseenter')
+
+      // pressing an unrelated key should not resume the timer while hovered
+      document.dispatchEvent(
+        new KeyboardEvent('keydown', { code: 'KeyA', bubbles: true })
+      )
+      vi.advanceTimersByTime(5000)
+      expect(wrapper.vm.visible).toBe(true)
+
+      await wrapper.find('[role=alert]').trigger('mouseleave')
+      vi.runAllTimers()
+      expect(wrapper.vm.visible).toBe(false)
+      vi.useRealTimers()
+    })
   })
 
   describe('progress bar', () => {

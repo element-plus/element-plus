@@ -176,11 +176,15 @@ function clearTimer() {
   }
 }
 
+let isHovered = false
+
 function onMouseEnter() {
+  isHovered = true
   if (props.pauseOnHover) clearTimer()
 }
 
 function onMouseLeave() {
+  isHovered = false
   if (props.pauseOnHover) startTimer()
 }
 
@@ -204,6 +208,8 @@ function onKeydown(event: KeyboardEvent) {
       }
       break
     default: // resume timer
+      // keep the timer paused while the pointer is still over the notification
+      if (isHovered && props.pauseOnHover) break
       clearTimer()
       startTimer()
       break
