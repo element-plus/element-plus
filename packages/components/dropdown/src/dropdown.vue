@@ -213,6 +213,7 @@ export default defineComponent({
       handlePointerLeaveContent: _handlePointerLeaveContent,
     } = useDropdownHoverController({
       trigger,
+      opened,
       contentRef,
       disabled: toRef(props, 'disabled'),
       showTimeout: toRef(props, 'showTimeout'),

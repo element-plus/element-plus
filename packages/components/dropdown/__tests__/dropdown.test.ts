@@ -1521,6 +1521,118 @@ describe('Dropdown', () => {
       expect(wrapStyle).toHaveProperty('maxHeight', '100px')
       wrapper.unmount()
     })
+
+    test('moving from trigger to content via relatedTarget should keep open', async () => {
+      const wrapper = _mount(
+        `
+        <el-dropdown trigger="hover" menu-trigger="hover" :show-timeout="0" :hide-timeout="100">
+          <span class="el-dropdown-link">
+            Dropdown List
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>Item 1</el-dropdown-item>
+              <el-dropdown-item>Item 2</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+        `,
+        () => ({})
+      )
+      await nextTick()
+
+      const trigger = wrapper.find('.el-tooltip__trigger')
+      const content = wrapper.findComponent(ElTooltip)
+
+      vi.useFakeTimers()
+      await trigger.trigger(MOUSE_ENTER_EVENT, { pointerType: 'mouse' })
+      vi.runAllTimers()
+      await nextTick()
+      expect(content.vm.open).toBe(true)
+
+      const contentWrap = Array.from(
+        document.body.querySelectorAll('.el-scrollbar__wrap')
+      ).find((element) => element.textContent?.includes('Item 1')) as
+        HTMLElement | undefined
+
+      expect(contentWrap).toBeTruthy()
+
+      await trigger.trigger(MOUSE_LEAVE_EVENT, {
+        pointerType: 'mouse',
+        relatedTarget: contentWrap,
+      })
+
+      vi.advanceTimersByTime(100)
+      await nextTick()
+
+      expect(content.vm.open).toBe(true)
+      vi.useRealTimers()
+      wrapper.unmount()
+    })
+
+    test('submenu content keeps dropdown open while moving into subcontent', async () => {
+      const wrapper = _mount(
+        `
+        <el-dropdown trigger="hover" menu-trigger="hover" :show-timeout="0" :hide-timeout="100">
+          <span class="el-dropdown-link">
+            Dropdown List
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu ref="menu">
+              <el-dropdown-item class="item-1" disabled>Item</el-dropdown-item>
+              <el-dropdown-item class="item-2">Item</el-dropdown-item>
+              <el-dropdown-sub-menu ref="subMenu" label="item-3" class="item-3">
+                <el-dropdown-item>item-3-1</el-dropdown-item>
+                <el-dropdown-item>item-3-2</el-dropdown-item>
+              </el-dropdown-sub-menu>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+        `,
+        () => ({})
+      )
+      await nextTick()
+
+      const trigger = wrapper.find('.el-tooltip__trigger')
+      const content = wrapper.findComponent(ElTooltip)
+
+      vi.useFakeTimers()
+      await trigger.trigger(MOUSE_ENTER_EVENT, { pointerType: 'mouse' })
+      vi.runAllTimers()
+      await nextTick()
+      expect(content.vm.open).toBe(true)
+
+      const subMenu = wrapper.findComponent({ ref: 'subMenu' })
+      const subMenuTrigger = subMenu.find('.el-dropdown-menu__item')
+      const subMenuContent = subMenu.findComponent({ name: 'ElTooltip' })
+
+      await subMenuTrigger.trigger('pointerenter', { pointerType: 'mouse' })
+      vi.runAllTimers()
+      await nextTick()
+      expect(subMenuContent.vm.open).toBe(true)
+
+      await subMenuTrigger.trigger('pointerleave', { pointerType: 'mouse' })
+
+      const submenuWrap = Array.from(
+        document.body.querySelectorAll('.el-scrollbar__wrap')
+      ).find((element) => element.textContent?.includes('item-3-1')) as
+        HTMLElement | undefined
+
+      expect(submenuWrap).toBeTruthy()
+      submenuWrap?.dispatchEvent(
+        new Event('dropdown.pointer-enter-tooltip', {
+          bubbles: true,
+          cancelable: true,
+        })
+      )
+
+      vi.advanceTimersByTime(100)
+      await nextTick()
+
+      expect(content.vm.open).toBe(true)
+      vi.useRealTimers()
+      wrapper.unmount()
+    })
   })
 
   test('render icon slot content', async () => {

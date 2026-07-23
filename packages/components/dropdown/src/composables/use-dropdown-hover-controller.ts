@@ -1,5 +1,5 @@
-import { computed, nextTick, ref } from 'vue'
-import { useEventListener, useTimeoutFn } from '@vueuse/core'
+import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue'
+import { unrefElement, useEventListener, useTimeoutFn } from '@vueuse/core'
 import { whenMouse, whenTouch } from '@element-plus/utils'
 
 import type { Ref } from 'vue'
@@ -8,7 +8,7 @@ import type { UseDropdownVisibleReturn } from './use-dropdown-visible'
 
 interface UseDropdownHoverControllerOptions extends Pick<
   UseDropdownVisibleReturn,
-  'handleOpen' | 'handleClose'
+  'opened' | 'handleOpen' | 'handleClose'
 > {
   trigger: Ref<TooltipTriggerType[]>
   parentContentRef?: Ref<HTMLElement | undefined>
@@ -23,6 +23,7 @@ const POINTER_LEAVE_TOOLTIP = 'dropdown.pointer-leave-tooltip'
 
 export function useDropdownHoverController({
   trigger,
+  opened,
   parentContentRef,
   contentRef,
   disabled,
@@ -42,6 +43,18 @@ export function useDropdownHoverController({
       isHoverInContent.value ||
       isHoverInSubContent.value
     )
+  })
+
+  watch(opened, (value) => {
+    if (!value) {
+      stop?.()
+      stop = undefined
+    }
+  })
+
+  onBeforeUnmount(() => {
+    stop?.()
+    stop = undefined
   })
 
   useEventListener(contentRef, POINTER_ENTER_TOOLTIP, handleEnterSubContent)
@@ -70,20 +83,26 @@ export function useDropdownHoverController({
 
   const handlePointerEnterTrigger = whenMouse((event: PointerEvent) => {
     if (disabled.value) return
+    stop?.()
     isHoverInTrigger.value = true
     if (trigger.value.includes('hover')) {
-      event.preventDefault()
-      stop?.()
       ;({ stop } = useTimeoutFn(() => {
         handleOpen(event)
-      }, showTimeout.value))
+      }, showTimeout))
     }
   })
 
   const handlePointerLeaveTrigger = whenMouse((event: PointerEvent) => {
     if (disabled.value) return
-    isHoverInTrigger.value = false
     stop?.()
+    isHoverInTrigger.value = false
+
+    if (isPointerMovingToContent(event)) {
+      isHoverInContent.value = true
+      notifyParentPointerStatus('enter')
+      return
+    }
+
     notifyParentPointerStatus('enter')
     ;({ stop } = useTimeoutFn(() => {
       if (!isHover.value) {
@@ -92,7 +111,7 @@ export function useDropdownHoverController({
         }
         notifyParentPointerStatus('leave')
       }
-    }, hideTimeout.value))
+    }, hideTimeout))
   })
 
   const handlePointerDownTrigger = whenTouch((event: PointerEvent) => {
@@ -104,13 +123,13 @@ export function useDropdownHoverController({
   })
 
   const handlePointerEnterContent = whenMouse(() => {
-    isHoverInContent.value = true
     stop?.()
+    isHoverInContent.value = true
   })
 
   const handlePointerLeaveContent = whenMouse((event: PointerEvent) => {
-    isHoverInContent.value = false
     stop?.()
+    isHoverInContent.value = false
     ;({ stop } = useTimeoutFn(() => {
       if (!isHover.value) {
         if (trigger.value.includes('hover')) {
@@ -118,7 +137,7 @@ export function useDropdownHoverController({
         }
         notifyParentPointerStatus('leave')
       }
-    }, hideTimeout.value))
+    }, hideTimeout))
   })
 
   function notifyParentPointerStatus(type: 'enter' | 'leave') {
@@ -132,6 +151,20 @@ export function useDropdownHoverController({
     })
 
     parentContentRef.value.dispatchEvent(event)
+  }
+
+  function isPointerMovingToContent(event: PointerEvent) {
+    const relatedTarget = event.relatedTarget
+    const contentEl = unrefElement(contentRef)
+
+    if (!(relatedTarget instanceof Node) || !contentEl) return false
+
+    return (
+      contentEl === relatedTarget ||
+      contentEl.contains(relatedTarget) ||
+      (relatedTarget instanceof HTMLElement &&
+        relatedTarget.contains(contentEl))
+    )
   }
 
   return {

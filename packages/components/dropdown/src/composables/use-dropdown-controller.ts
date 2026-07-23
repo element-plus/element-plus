@@ -1,6 +1,6 @@
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { onClickOutside, unrefElement, useEventListener } from '@vueuse/core'
-import { getEventCode, isElement } from '@element-plus/utils'
+import { getEventCode, isElement, whenMouse } from '@element-plus/utils'
 
 import type { Ref } from 'vue'
 import type { TooltipTriggerType } from '@element-plus/components/tooltip'
@@ -73,12 +73,16 @@ export function useDropdownController({
       handleOpen(event)
     }
   })
-  useEventListener(triggerRef, 'pointerenter', (event) => {
-    if (trigger.value.includes('hover')) {
-      unrefElement(triggerRef)?.focus({ preventScroll: true })
-      handlePointerEnterTrigger(event)
-    }
-  })
+  useEventListener(
+    triggerRef,
+    'pointerenter',
+    whenMouse((event) => {
+      if (trigger.value.includes('hover')) {
+        unrefElement(triggerRef)?.focus({ preventScroll: true })
+        handlePointerEnterTrigger(event)
+      }
+    })
+  )
   useEventListener(triggerRef, 'pointerleave', handlePointerLeaveTrigger)
   useEventListener(triggerRef, 'pointerdown', handlePointerDownTrigger)
 

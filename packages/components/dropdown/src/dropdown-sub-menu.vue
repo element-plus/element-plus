@@ -192,6 +192,7 @@ const {
   handlePointerLeaveContent: _handlePointerLeaveContent,
 } = useDropdownHoverController({
   trigger,
+  opened,
   parentContentRef,
   contentRef,
   disabled: toRef(props, 'disabled'),
@@ -272,6 +273,12 @@ function handleKeydown(event: KeyboardEvent) {
     case EVENT_CODE.left:
       event.preventDefault()
       handleCloseParent(event)
+      break
+    case EVENT_CODE.enter:
+    case EVENT_CODE.numpadEnter:
+    case EVENT_CODE.space:
+      event.preventDefault()
+      event.stopImmediatePropagation()
       break
   }
 }
