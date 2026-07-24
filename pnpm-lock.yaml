@@ -286,8 +286,8 @@ importers:
         version: 0.2.0
     devDependencies:
       '@crowdin/cli':
-        specifier: ^4.14.4
-        version: 4.14.4
+        specifier: ^4.15.0
+        version: 4.15.0
       '@element-plus/build':
         specifier: workspace:*
         version: link:../internal/build
@@ -1107,8 +1107,8 @@ packages:
     resolution: {integrity: sha512-12qHxvlKjHmP0PQ+17EREgC7lWyLwbph1RKcZQZ7k7ZWGmrxfxC9gadHGfvzr0g0u8BhiBGg3tks93txodlyRQ==}
     engines: {node: '>=22'}
 
-  '@crowdin/cli@4.14.4':
-    resolution: {integrity: sha512-A6umxtJEF9W4D4ymSRTvFN6hrMu/LarRWlmjiVaNne9edaWaADBY8dxmJ1s02nFdwFw0ZMl9MoGkVYDySL13Ow==}
+  '@crowdin/cli@4.15.0':
+    resolution: {integrity: sha512-4hOWF2lUENe+TDYZIpBwCQO5aOe7O1Q7CmQ4Py1uwWtBlN855P3tWwnKpLxoAQ+wUx2jv9bJcZ3xgmeoD2qzkQ==}
     hasBin: true
 
   '@ctrl/tinycolor@4.2.0':
@@ -7679,7 +7679,7 @@ snapshots:
 
   '@conventional-changelog/template@1.2.0': {}
 
-  '@crowdin/cli@4.14.4':
+  '@crowdin/cli@4.15.0':
     dependencies:
       command-exists-promise: 2.0.2
       node-fetch: 2.7.0
