@@ -3,18 +3,11 @@
     <li
       v-for="(file, index) in files"
       :key="file.uid || file.name"
-      :class="[
-        nsUpload.be('list', 'item'),
-        nsUpload.is(file.status),
-        { focusing },
-      ]"
+      :class="[nsUpload.be('list', 'item'), nsUpload.is(file.status)]"
       :tabindex="disabled ? undefined : 0"
       :aria-disabled="disabled"
       role="button"
       @keydown.delete="!disabled && handleRemove(file)"
-      @focus="focusing = true"
-      @blur="focusing = false"
-      @click="focusing = false"
     >
       <slot :file="file" :index="index">
         <img
@@ -109,7 +102,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import {
   Check,
@@ -145,8 +138,6 @@ const nsUpload = useNamespace('upload')
 const nsIcon = useNamespace('icon')
 const nsList = useNamespace('list')
 const disabled = useFormDisabled()
-
-const focusing = ref(false)
 
 const containerKls = computed(() => [
   nsUpload.b('list'),

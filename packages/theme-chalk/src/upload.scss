@@ -271,14 +271,15 @@
         cursor: pointer;
       }
 
-      &:focus:not(:hover) {
+      &:focus-visible:not(:hover) {
         /* 键盘focus */
         .#{bem('icon', '', 'close-tip')} {
           display: inline-block;
+          color: getCssVar('color-primary');
         }
       }
 
-      &:not(.focusing):focus,
+      &:focus:not(:focus-visible),
       &:active {
         /* click时 */
         outline-width: 0;
