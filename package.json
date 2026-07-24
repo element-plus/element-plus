@@ -90,7 +90,7 @@
     "czg": "^1.13.1",
     "eslint": "^10.7.0",
     "expect-type": "^1.4.0",
-    "happy-dom": "^20.11.0",
+    "happy-dom": "^20.11.1",
     "husky": "^9.1.7",
     "jsdom": "16.4.0",
     "lint-staged": "17.1.1",
@@ -104,7 +104,7 @@
     "vitest": "^4.1.10",
     "vue": "catalog:",
     "vue-router": "^5.2.0",
-    "vue-tsc": "=3.1.5"
+    "vue-tsc": "=3.3.8"
   },
   "engines": {
     "node": ">= 22.13.0"
