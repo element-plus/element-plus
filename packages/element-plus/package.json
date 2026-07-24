@@ -23,7 +23,9 @@
     "global.d.ts",
     "attributes.json",
     "tags.json",
-    "web-types.json"
+    "web-types.json",
+    "LICENSE",
+    "README.md"
   ],
   "main": "lib/index.js",
   "module": "es/index.mjs",
