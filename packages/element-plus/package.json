@@ -15,6 +15,18 @@
     "url": "https://github.com/element-plus/element-plus/issues"
   },
   "license": "MIT",
+  "files": [
+    "dist",
+    "es",
+    "lib",
+    "theme-chalk",
+    "global.d.ts",
+    "attributes.json",
+    "tags.json",
+    "web-types.json",
+    "LICENSE",
+    "README.md"
+  ],
   "main": "lib/index.js",
   "module": "es/index.mjs",
   "types": "es/index.d.ts",

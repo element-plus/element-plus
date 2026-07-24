@@ -23,8 +23,9 @@ catalog:
   '@vueuse/core': 14.3.0
   lodash-unified: ^1.0.3
   normalize-wheel-es: ^1.2.0
+  prettier: ^3.9.6
   vue: 3.5.25
-  vue-component-type-helpers: ^3.3.7
+  vue-component-type-helpers: ^3.3.8
   tsx: ^4.23.1
   typescript: ~6.0.3
   # vitest: ^2.0.5

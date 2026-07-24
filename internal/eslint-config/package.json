@@ -28,7 +28,7 @@
     "eslint-plugin-unicorn": "^64.0.0",
     "eslint-plugin-vue": "^10.9.0",
     "globals": "^17.5.0",
-    "prettier": "^3.9.5",
+    "prettier": "catalog:",
     "typescript": "catalog:",
     "typescript-eslint": "^8.59.0",
     "vue-eslint-parser": "^10.4.0"
