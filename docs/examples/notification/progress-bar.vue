@@ -4,6 +4,7 @@
   <el-button plain type="warning" @click="open('warning')"> Warning </el-button>
   <el-button plain type="danger" @click="open('error')"> Error </el-button>
   <el-button plain type="info" @click="open('info')"> Info </el-button>
+  <el-button plain @click="openCustomColor"> Custom color </el-button>
   <el-button plain @click="openWithoutPause"> No pause on hover </el-button>
 </template>
 
@@ -27,6 +28,23 @@ function openWithoutPause() {
     duration: 6000,
     progress: true,
     pauseOnHover: false,
+  })
+}
+
+function openCustomColor() {
+  ElNotification({
+    title: 'Custom color',
+    message: 'Custom progress bar color overrides the default',
+    duration: 6000,
+    progress: {
+      color: [
+        { color: '#f56c6c', percentage: 20 },
+        { color: '#e6a23c', percentage: 40 },
+        { color: '#5cb87a', percentage: 60 },
+        { color: '#1989fa', percentage: 80 },
+        { color: '#6f7ad3', percentage: 100 },
+      ],
+    },
   })
 }
 </script>

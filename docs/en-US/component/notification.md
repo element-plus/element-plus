@@ -83,16 +83,6 @@ notification/progress-bar
 
 :::
 
-## Custom progress bar color ^(2.14.4)
-
-You can customize the progress bar by passing an object to `progress`, e.g. a `color` which supports a flat color string, a segmented color array, or a dynamic function.
-
-:::demo Use `progress.color` to set a flat color, a segmented array that maps colors to percentage thresholds, or a dynamic function that computes the color from the current percentage. When `color` is set, it overrides the `type`-based progress status color.
-
-notification/progress-bar-color
-
-:::
-
 ## Hide close button
 
 It is possible to hide the close button
