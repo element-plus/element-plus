@@ -61,6 +61,13 @@ describe('Progress.vue', () => {
     )
   })
 
+  test('circle stroke color uses css var by status', () => {
+    const wrapper = mount(() => <Progress type="circle" status="success" />)
+    expect(wrapper.find('.el-progress-circle__path').attributes('stroke')).toBe(
+      'var(--el-color-success, #13ce66)'
+    )
+  })
+
   test('color', () => {
     const wrapper = mount(() => <Progress color="rgb(255, 255, 255)" />)
 
