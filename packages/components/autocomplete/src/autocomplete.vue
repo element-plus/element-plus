@@ -171,6 +171,8 @@ const props = withDefaults(defineProps<AutocompleteProps<T>>(), {
   loopNavigation: true,
   teleported: true,
   showArrow: true,
+  popperClass: undefined,
+  popperStyle: undefined,
   popperOptions: () => ({}),
 })
 const emit = defineEmits(autocompleteEmits)

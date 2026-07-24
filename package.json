@@ -1,6 +1,6 @@
 {
   "private": true,
-  "packageManager": "pnpm@11.13.0",
+  "packageManager": "pnpm@11.16.0",
   "workspaces": [
     "packages/*",
     "play",
@@ -90,11 +90,11 @@
     "czg": "^1.13.1",
     "eslint": "^10.7.0",
     "expect-type": "^1.4.0",
-    "happy-dom": "^20.10.6",
+    "happy-dom": "^20.11.1",
     "husky": "^9.1.7",
     "jsdom": "16.4.0",
-    "lint-staged": "17.0.8",
-    "prettier": "^3.9.5",
+    "lint-staged": "17.1.1",
+    "prettier": "catalog:",
     "puppeteer": "^25.3.0",
     "resize-observer-polyfill": "^1.5.1",
     "rimraf": "^6.1.3",
@@ -103,7 +103,7 @@
     "typescript": "catalog:",
     "vitest": "^4.1.10",
     "vue": "catalog:",
-    "vue-router": "^5.1.0",
+    "vue-router": "^5.2.0",
     "vue-tsc": "=3.1.5"
   },
   "engines": {
