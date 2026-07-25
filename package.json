@@ -1,6 +1,6 @@
 {
   "private": true,
-  "packageManager": "pnpm@11.15.1",
+  "packageManager": "pnpm@11.17.0",
   "workspaces": [
     "packages/*",
     "play",
@@ -90,11 +90,11 @@
     "czg": "^1.13.1",
     "eslint": "^10.7.0",
     "expect-type": "^1.4.0",
-    "happy-dom": "^20.11.0",
+    "happy-dom": "^20.11.1",
     "husky": "^9.1.7",
     "jsdom": "16.4.0",
-    "lint-staged": "17.1.0",
-    "prettier": "^3.9.5",
+    "lint-staged": "17.2.0",
+    "prettier": "catalog:",
     "puppeteer": "^25.3.0",
     "resize-observer-polyfill": "^1.5.1",
     "rimraf": "^6.1.3",
