@@ -10,8 +10,8 @@
       :class="[ns.b(), customClass, horizontalClass]"
       :style="positionStyle"
       role="alert"
-      @mouseenter="clearTimer"
-      @mouseleave="startTimer"
+      @mouseenter="onMouseEnter"
+      @mouseleave="onMouseLeave"
       @click="onClick"
     >
       <el-icon v-if="iconComponent" :class="[ns.e('icon'), typeClass]">
@@ -34,16 +34,20 @@
           <component :is="closeIcon" />
         </el-icon>
       </div>
+      <div v-if="showProgressBar" :class="ns.e('progress')" aria-hidden="true">
+        <el-progress v-bind="progressProps" :percentage="percentage" />
+      </div>
     </div>
   </transition>
 </template>
 
 <script lang="ts" setup>
 import { computed, markRaw, onMounted, ref } from 'vue'
-import { useEventListener, useTimeoutFn } from '@vueuse/core'
+import { useEventListener, useIntervalFn, useTimeoutFn } from '@vueuse/core'
 import { TypeComponentsMap, getEventCode } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
+import { ElProgress } from '@element-plus/components/progress'
 import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
 import { notificationEmits } from './notification'
 import { Close } from '@element-plus/icons-vue'
@@ -67,6 +71,8 @@ const props = withDefaults(defineProps<NotificationProps>(), {
   title: '',
   type: '',
   closeIcon: markRaw(Close),
+  progress: false,
+  pauseOnHover: true,
 })
 defineEmits(notificationEmits)
 
@@ -75,11 +81,38 @@ const { nextZIndex, currentZIndex } = zIndex
 
 const visible = ref(false)
 let timer: (() => void) | undefined = undefined
+const percentage = ref(100)
+let elapsed = 0
+let startedAt = 0
 
 const typeClass = computed(() => {
   const type = props.type
   return type && TypeComponentsMap[props.type] ? ns.m(type) : ''
 })
+
+const showProgressBar = computed(() => !!props.progress && props.duration > 0)
+
+const progressStatus = computed<
+  'success' | 'warning' | 'exception' | undefined
+>(() => {
+  switch (props.type) {
+    case 'success':
+      return 'success'
+    case 'warning':
+      return 'warning'
+    case 'error':
+      return 'exception'
+    default:
+      return undefined
+  }
+})
+
+const progressProps = computed(() => ({
+  status: progressStatus.value,
+  strokeWidth: 3,
+  showText: false,
+  ...(typeof props.progress === 'object' ? props.progress : undefined),
+}))
 
 const iconComponent = computed(() => {
   if (!props.type) return props.icon
@@ -101,20 +134,63 @@ const positionStyle = computed<CSSProperties>(() => {
   }
 })
 
+// tick interval matches the 0.1s width transition in the style, keeping the bar smooth
+const { pause: pauseProgress, resume: resumeProgress } = useIntervalFn(
+  () => {
+    percentage.value = Math.max(
+      0,
+      100 - ((elapsed + Date.now() - startedAt) / props.duration) * 100
+    )
+  },
+  100,
+  { immediate: false }
+)
+
 function startTimer() {
-  if (props.duration > 0) {
-    ;({ stop: timer } = useTimeoutFn(() => {
-      if (visible.value) close()
-    }, props.duration))
+  if (props.duration <= 0) return
+
+  timer?.()
+  pauseProgress()
+  startedAt = Date.now()
+
+  const remaining = Math.max(0, props.duration - elapsed)
+
+  // close timer with remaining duration
+  ;({ stop: timer } = useTimeoutFn(() => {
+    if (visible.value) close()
+  }, remaining))
+
+  // progress bar resumes from current position
+  if (showProgressBar.value) {
+    percentage.value = (remaining / props.duration) * 100
+    resumeProgress()
   }
 }
 
 function clearTimer() {
   timer?.()
+  pauseProgress()
+  if (startedAt > 0) {
+    elapsed += Date.now() - startedAt
+    startedAt = 0
+  }
+}
+
+let isHovered = false
+
+function onMouseEnter() {
+  isHovered = true
+  if (props.pauseOnHover) clearTimer()
+}
+
+function onMouseLeave() {
+  isHovered = false
+  if (props.pauseOnHover) startTimer()
 }
 
 function close() {
   visible.value = false
+  clearTimer()
 }
 
 function onKeydown(event: KeyboardEvent) {
@@ -132,6 +208,9 @@ function onKeydown(event: KeyboardEvent) {
       }
       break
     default: // resume timer
+      // keep the timer paused while the pointer is still over the notification
+      if (isHovered && props.pauseOnHover) break
+      clearTimer()
       startTimer()
       break
   }

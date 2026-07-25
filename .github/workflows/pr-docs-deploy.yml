@@ -63,7 +63,8 @@ jobs:
           body: |
             🧪 Playground Preview: https://element-plus.run/?pr=${{ steps.pr.outputs.id }}
             Please comment the example via this playground if needed.
-            <!-- ELEMENT_PLUS_PLAYGROUND -->
+
+            🔖 Commit: [`${{ github.event.workflow_run.head_sha }}`](https://github.com/${{ github.repository }}/commit/${{ github.event.workflow_run.head_sha }})
           body-include: '<!-- ELEMENT_PLUS_PLAYGROUND -->'
           number: ${{ steps.pr.outputs.id }}
 
