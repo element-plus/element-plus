@@ -635,6 +635,106 @@ describe('Table.vue', () => {
     })
   })
 
+  describe('filter-multiple is false', () => {
+    let wrapper: VueWrapper<ComponentPublicInstance>
+    let filterChangeHandler: ReturnType<typeof vi.fn>
+
+    beforeEach(async () => {
+      filterChangeHandler = vi.fn()
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table ref="table" :data="testData" @filter-change="handleFilterChange">
+            <el-table-column prop="name" label="片名" />
+            <el-table-column prop="release" label="发行日期" />
+            <el-table-column
+              prop="director"
+              column-key="director"
+              :filters="[
+                { text: 'John Lasseter', value: 'John Lasseter' },
+                { text: 'Peter Docter', value: 'Peter Docter' },
+                { text: 'Andrew Stanton', value: 'Andrew Stanton' }
+              ]"
+              :filter-multiple="false"
+              :filter-method="filterMethod"
+              label="导演" />
+            <el-table-column prop="runtime" label="时长（分）" />
+          </el-table>
+        `,
+
+        created() {
+          this.testData = getTestData()
+        },
+
+        methods: {
+          filterMethod(value, row) {
+            return value === row.director
+          },
+          handleFilterChange(filters) {
+            filterChangeHandler(filters)
+          },
+        },
+      })
+      await doubleWait()
+    })
+
+    afterEach(() => wrapper.unmount())
+
+    it('should emit filter-change event with correct single value on selection', async () => {
+      const btn = wrapper.find('.el-table__column-filter-trigger')
+      await btn.trigger('click')
+      await doubleWait()
+
+      const filter = document.body.querySelector('.el-table-filter')
+      expect(filter).not.toBeUndefined()
+
+      // Click on a filter item (first filter item - John Lasseter)
+      const filterItems = filter.querySelectorAll('.el-table-filter__list-item')
+      triggerEvent(filterItems[1], 'click', true, false)
+      await doubleWait()
+
+      // filter-change event should have been emitted with single value in array
+      expect(filterChangeHandler).toHaveBeenCalledWith({
+        director: ['John Lasseter'],
+      })
+
+      filter.parentNode.removeChild(filter)
+    })
+
+    it('should emit filter-change event with empty array when clearing filter', async () => {
+      const btn = wrapper.find('.el-table__column-filter-trigger')
+      btn.trigger('click')
+      await doubleWait()
+
+      const filter = document.body.querySelector('.el-table-filter')
+
+      // Click on a filter item first to set a value
+      const filterItems = filter.querySelectorAll('.el-table-filter__list-item')
+      triggerEvent(filterItems[1], 'click', true, false)
+      await doubleWait()
+
+      // Reset mock to check only the clear action
+      filterChangeHandler.mockClear()
+
+      // Open dropdown again and click clear (first item which is "clear filter")
+      btn.trigger('click')
+      await doubleWait()
+
+      triggerEvent(filterItems[0], 'click', true, false)
+      await doubleWait()
+
+      // filter-change event should have been emitted with empty array
+      expect(filterChangeHandler).toHaveBeenCalledWith({
+        director: [],
+      })
+
+      filter.parentNode.removeChild(filter)
+    })
+  })
+
   describe('filter filter-icon slot', () => {
     let wrapper: VueWrapper<ComponentPublicInstance>
 
