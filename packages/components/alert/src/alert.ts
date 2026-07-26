@@ -1,15 +1,47 @@
-import { useDelayedToggleProps } from '@element-plus/hooks'
-import {
-  TypeComponentsMap,
-  buildProps,
-  isUndefined,
-  keysOf,
-} from '@element-plus/utils'
+import { TypeComponentsMap, buildProps, keysOf } from '@element-plus/utils'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 
 export const alertEffects = ['light', 'dark'] as const
 
+export interface AlertProps {
+  /**
+   * @description alert title.
+   */
+  title?: string
+  /**
+   * @description descriptive text.
+   */
+  description?: string
+  /**
+   * @description alert type.
+   */
+  type?: keyof typeof TypeComponentsMap
+  /**
+   * @description whether alert can be dismissed.
+   */
+  closable?: boolean
+  /**
+   * @description text for replacing x button
+   */
+  closeText?: string
+  /**
+   * @description whether show icon
+   */
+  showIcon?: boolean
+  /**
+   * @description should content be placed in center.
+   */
+  center?: boolean
+  /**
+   * @description theme style
+   */
+  effect?: 'light' | 'dark'
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `AlertProps` instead.
+ */
 export const alertProps = buildProps({
   /**
    * @description alert title.
@@ -57,17 +89,14 @@ export const alertProps = buildProps({
     values: alertEffects,
     default: 'light',
   },
-  ...useDelayedToggleProps,
-  /**
-   * @description delay of appearance, in millisecond
-   */
-  showAfter: Number,
 } as const)
-export type AlertProps = ExtractPropTypes<typeof alertProps>
-export type AlertPropsPublic = __ExtractPublicPropTypes<typeof alertProps>
+
+/**
+ * @deprecated Removed after 3.0.0, Use `AlertProps` instead.
+ */
+export type AlertPropsPublic = ExtractPublicPropTypes<typeof alertProps>
 
 export const alertEmits = {
-  open: () => true,
-  close: (evt?: Event) => isUndefined(evt) || evt instanceof Event,
+  close: (evt: MouseEvent) => evt instanceof MouseEvent,
 }
 export type AlertEmits = typeof alertEmits

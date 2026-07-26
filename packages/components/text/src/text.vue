@@ -10,17 +10,23 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, onUpdated, ref, useAttrs } from 'vue'
+import { computed, nextTick, onMounted, onUpdated, ref, useAttrs } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormSize } from '@element-plus/components/form'
 import { isUndefined } from '@element-plus/utils'
-import { textProps } from './text'
+
+import type { TextProps } from './text'
 
 defineOptions({
   name: 'ElText',
 })
 
-const props = defineProps(textProps)
+const props = withDefaults(defineProps<TextProps>(), {
+  type: '',
+  size: '',
+  tag: 'span',
+})
+const attrs = useAttrs()
 const textRef = ref<HTMLElement>()
 
 const textSize = useFormSize()
@@ -34,8 +40,9 @@ const textKls = computed(() => [
   ns.is('line-clamp', !isUndefined(props.lineClamp)),
 ])
 
-const bindTitle = () => {
-  const inheritTitle = useAttrs().title
+const bindTitle = async () => {
+  await nextTick()
+  const inheritTitle = attrs.title
 
   if (inheritTitle) return
   let shouldAddTitle = false

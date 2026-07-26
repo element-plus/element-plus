@@ -4,12 +4,14 @@ import {
   onMounted,
   reactive,
   ref,
+  useSlots,
   watch,
   watchEffect,
 } from 'vue'
 import { findLastIndex, get, isEqual } from 'lodash-unified'
 import { useDebounceFn, useResizeObserver } from '@vueuse/core'
 import {
+  NOOP,
   ValidateComponentsMap,
   debugWarn,
   escapeStringRegexp,
@@ -35,6 +37,7 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import {
+  useFormDisabled,
   useFormItem,
   useFormItemInputId,
   useFormSize,
@@ -45,12 +48,14 @@ import { useProps } from './useProps'
 import type { Option, OptionType, SelectStates } from './select.types'
 import type { SelectV2Props } from './token'
 import type { SelectV2EmitFn } from './defaults'
+import type { ScrollbarDirection } from '@element-plus/components/scrollbar'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { SelectDropdownInstance } from './select-dropdown'
 
 const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   // inject
   const { t } = useLocale()
+  const slots = useSlots()
   const nsSelect = useNamespace('select')
   const nsInput = useNamespace('input')
   const { form: elForm, formItem: elFormItem } = useFormItem()
@@ -101,7 +106,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     afterComposition: (e) => onInput(e),
   })
 
-  const selectDisabled = computed(() => props.disabled || !!elForm?.disabled)
+  const selectDisabled = useFormDisabled()
 
   const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
     disabled: selectDisabled,
@@ -121,7 +126,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
       expanded.value = false
       states.menuVisibleOnFocus = false
       if (props.validateEvent) {
-        elFormItem?.validate?.('blur').catch((err) => debugWarn(err))
+        elFormItem?.validate?.('blur').catch(NOOP)
       }
     },
   })
@@ -160,7 +165,9 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   })
 
   const iconComponent = computed(() =>
-    props.remote && props.filterable ? '' : props.suffixIcon
+    props.remote && props.filterable && !props.remoteShowSuffix
+      ? ''
+      : props.suffixIcon
   )
 
   const iconReverse = computed(
@@ -365,7 +372,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     if (props.multiple) {
       const len = (props.modelValue as []).length
       if (
-        (props.modelValue as Array<any>).length > 0 &&
+        len > 0 &&
         filteredOptionsValueMap.value.has(props.modelValue[len - 1])
       ) {
         const { index } = filteredOptionsValueMap.value.get(
@@ -389,8 +396,12 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     get() {
       return (
         expanded.value &&
-        (props.loading || !isRemoteSearchEmpty.value) &&
-        (!debouncing.value || !isEmpty(states.previousQuery))
+        (props.loading ||
+          !isRemoteSearchEmpty.value ||
+          (props.remote && !!slots.empty)) &&
+        (!debouncing.value ||
+          !isEmpty(states.previousQuery) ||
+          hasOptions.value)
       )
     },
     set(val: boolean) {
@@ -425,8 +436,15 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   } = useAllowCreate(props, states)
 
   // methods
-  const toggleMenu = () => {
-    if (selectDisabled.value) return
+  const toggleMenu = (event?: Event) => {
+    if (
+      selectDisabled.value ||
+      (props.filterable &&
+        expanded.value &&
+        event &&
+        !suffixRef.value?.contains(event.target as Node))
+    )
+      return
 
     if (states.menuVisibleOnFocus) {
       // controlled by automaticDropdown
@@ -549,6 +567,10 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     calculatePopperSize()
   }
 
+  const onEndReached = (direction: ScrollbarDirection) => {
+    emit('end-reached', direction)
+  }
+
   const resetSelectionWidth = () => {
     states.selectionWidth = Number.parseFloat(
       window.getComputedStyle(selectionRef.value!).width
@@ -594,7 +616,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
       if (option.created) {
         handleQueryChange('')
       }
-      if (props.filterable && !props.reserveKeyword) {
+      if (props.filterable && (option.created || !props.reserveKeyword)) {
         states.inputValue = ''
       }
     } else {
@@ -760,12 +782,15 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
         return getValueKey(getValue(item)) === getValueKey(props.modelValue)
       })
     } else {
-      states.hoveringIndex = filteredOptions.value.findIndex((item) =>
-        props.modelValue.some(
-          (modelValue: unknown) =>
-            getValueKey(modelValue) === getValueKey(getValue(item))
+      const length = props.modelValue.length
+      if (length > 0) {
+        const lastValue = props.modelValue[length - 1]
+        states.hoveringIndex = filteredOptions.value.findIndex(
+          (item) => getValueKey(lastValue) === getValueKey(getValue(item))
         )
-      )
+      } else {
+        states.hoveringIndex = -1
+      }
     }
   }
 
@@ -792,7 +817,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     states.isBeforeHide = false
     return nextTick(() => {
       if (~indexRef.value) {
-        scrollToItem(states.hoveringIndex)
+        scrollToItem(indexRef.value)
       }
     })
   }
@@ -888,9 +913,9 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
       states.inputValue = ''
       states.previousQuery = null
       states.isBeforeHide = true
+      states.menuVisibleOnFocus = false
       createNewOption('')
     }
-    emit('visible-change', val)
   })
 
   watch(
@@ -907,7 +932,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
         initStates(true)
       }
       if (!isEqual(val, oldVal) && props.validateEvent) {
-        elFormItem?.validate?.('change').catch((err) => debugWarn(err))
+        elFormItem?.validate?.('change').catch(NOOP)
       }
     },
     {
@@ -972,10 +997,24 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   })
   useResizeObserver(selectRef, handleResize)
   useResizeObserver(selectionRef, resetSelectionWidth)
-  useResizeObserver(menuRef, updateTooltip)
   useResizeObserver(wrapperRef, updateTooltip)
   useResizeObserver(tagMenuRef, updateTagTooltip)
   useResizeObserver(collapseItemRef, resetCollapseItemWidth)
+
+  // #21498
+  let stop: (() => void) | undefined
+  watch(
+    () => dropdownMenuVisible.value,
+    (newVal) => {
+      if (newVal) {
+        stop = useResizeObserver(menuRef, updateTooltip).stop
+      } else {
+        stop?.()
+        stop = undefined
+      }
+      emit('visible-change', newVal)
+    }
+  )
 
   return {
     // data exports
@@ -1051,6 +1090,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     onInput,
     onKeyboardNavigate,
     onKeyboardSelect,
+    onEndReached,
     onSelect,
     onHover: onHoverOption,
     handleCompositionStart,

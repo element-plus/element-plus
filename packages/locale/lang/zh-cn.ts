@@ -149,6 +149,15 @@ export default {
       resetFilter: '重置',
       clearFilter: '全部',
       sumText: '合计',
+      selectAllLabel: '选择所有行',
+      selectRowLabel: '选择当前行',
+      expandRowLabel: '展开当前行',
+      collapseRowLabel: '收起当前行',
+      sortLabel: '按 {column} 排序',
+      filterLabel: '按 {column} 过滤',
+    },
+    tag: {
+      close: '关闭此标签',
     },
     tour: {
       next: '下一步',
@@ -181,6 +190,10 @@ export default {
       leftArrow: '上一张幻灯片',
       rightArrow: '下一张幻灯片',
       indicator: '幻灯片切换至索引 {index}',
+    },
+    inputOTP: {
+      groupLabel: '一次性密码输入框',
+      defaultLabel: '请输入第 {index} 位 OTP 字符',
     },
   },
 }

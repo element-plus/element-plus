@@ -1,7 +1,9 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import Segmented from '../src/segmented.vue'
+import { ElForm } from '@element-plus/components/form'
+import { defineGetter } from '@element-plus/test-utils'
 
 describe('Segmented.vue', () => {
   test('render test', async () => {
@@ -208,5 +210,92 @@ describe('Segmented.vue', () => {
         .classes()
         .includes('is-disabled')
     ).toBeTruthy()
+  })
+
+  test('should fire the change event until it is equal to model-value', async () => {
+    const value = ref('Mon')
+    const options = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    const onChange = vi.fn()
+    const wrapper = mount(() => (
+      <Segmented
+        modelValue={value.value}
+        options={options}
+        onChange={onChange}
+      />
+    ))
+    expect(wrapper.find('.is-selected').text()).toEqual('Mon')
+    const secondOption = wrapper.findAll('.el-segmented__item')[1]
+    await secondOption.trigger('click')
+    expect(onChange).toHaveBeenCalledTimes(1)
+    await secondOption.trigger('click')
+    expect(onChange).toHaveBeenCalledTimes(2)
+    value.value = 'Tue'
+    await nextTick()
+    await secondOption.trigger('click')
+    expect(onChange).toHaveBeenCalledTimes(2)
+  })
+
+  test('should update indicator when options are reordered', async () => {
+    const ITEM_WIDTH = 30
+    const value = ref(1)
+    const options = ref([
+      { label: 'A', value: 1 },
+      { label: 'B', value: 2 },
+      { label: 'C', value: 3 },
+    ])
+    const wrapper = mount(() => (
+      <Segmented v-model={value.value} options={options.value} />
+    ))
+    await nextTick()
+
+    const mockLayout = () => {
+      const labels = wrapper.findAll('.el-segmented__item')
+      let cleanup: (() => void)[] = []
+      labels.forEach((label, index) => {
+        const el = label.element as HTMLElement
+        cleanup.push(
+          defineGetter(el, 'offsetWidth', ITEM_WIDTH),
+          defineGetter(el, 'offsetLeft', index * ITEM_WIDTH)
+        )
+      })
+      return () => {
+        cleanup.forEach((fn) => fn())
+        cleanup = []
+      }
+    }
+
+    const cleanup = mockLayout()
+    options.value.reverse()
+    await nextTick()
+
+    expect(
+      wrapper.findAll('.el-segmented__item').map((item) => item.text())
+    ).toEqual(['C', 'B', 'A'])
+    expect(
+      wrapper.find('.el-segmented__item-selected').attributes('style')
+    ).toMatchInlineSnapshot(
+      `"width: 30px; height: 100%; transform: translateX(60px); display: block;"`
+    )
+    cleanup()
+  })
+
+  test('The disabled state of a component has higher priority than that of a form', async () => {
+    const value = ref('Mon')
+    const options = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    const wrapper = mount(() => (
+      <ElForm disabled>
+        <Segmented
+          disabled={false}
+          modelValue={value.value}
+          options={options}
+        />
+      </ElForm>
+    ))
+    await nextTick()
+
+    const segmenteds = wrapper.findAll('.el-segmented__item')
+    segmenteds.forEach((s) => {
+      expect(s.classes()).not.toContain('is-disabled')
+    })
   })
 })

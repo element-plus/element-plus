@@ -79,6 +79,7 @@ export default defineConfig([
   markdown.configs.processor,
 
   ...pluginVue.configs['flat/recommended'],
+  eslintPluginPrettierRecommended,
 
   {
     rules: {
@@ -91,6 +92,8 @@ export default defineConfig([
       'no-return-await': 'error',
       'no-var': 'error',
       'no-empty': ['error', { allowEmptyCatch: true }],
+      'no-useless-assignment': 'off',
+      'preserve-caught-error': 'off',
       'prefer-const': [
         'warn',
         { destructuring: 'all', ignoreReadBeforeAssign: true },
@@ -552,5 +555,4 @@ export default defineConfig([
       '!.*',
     ],
   },
-  eslintPluginPrettierRecommended,
 ])

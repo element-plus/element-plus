@@ -3,6 +3,7 @@ import { isClient } from '../browser'
 import { camelize } from '../strings'
 import { entriesOf, keysOf } from '../objects'
 import { debugWarn } from '../error'
+import { isShadowRoot } from './aria'
 
 import type { CSSProperties } from 'vue'
 
@@ -31,7 +32,7 @@ export const getStyle = (
   element: HTMLElement,
   styleName: keyof CSSProperties
 ): string => {
-  if (!isClient || !element || !styleName) return ''
+  if (!isClient || !element || !styleName || isShadowRoot(element)) return ''
 
   let key = camelize(styleName)
   if (key === 'float') key = 'cssFloat'
@@ -76,7 +77,7 @@ export const removeStyle = (
 }
 
 export function addUnit(value?: string | number, defaultUnit = 'px') {
-  if (!value) return ''
+  if (!value && value !== 0) return ''
   if (isNumber(value) || isStringNumber(value)) {
     return `${value}${defaultUnit}`
   } else if (isString(value)) {

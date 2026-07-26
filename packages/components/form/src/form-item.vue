@@ -51,7 +51,6 @@ import {
   watch,
 } from 'vue'
 import AsyncValidator from 'async-validator'
-import { clone } from 'lodash-unified'
 import { refDebounced } from '@vueuse/core'
 import {
   addUnit,
@@ -63,9 +62,9 @@ import {
 } from '@element-plus/utils'
 import { useId, useNamespace } from '@element-plus/hooks'
 import { useFormSize } from './hooks'
-import { formItemProps } from './form-item'
 import FormLabelWrap from './form-label-wrap'
 import { formContextKey, formItemContextKey } from './constants'
+import { cloneDeep } from 'lodash-unified'
 
 import type { CSSProperties } from 'vue'
 import type { RuleItem } from 'async-validator'
@@ -75,12 +74,17 @@ import type {
   FormItemRule,
   FormValidateFailure,
 } from './types'
-import type { FormItemValidateState } from './form-item'
+import type { FormItemProps, FormItemValidateState } from './form-item'
 
 defineOptions({
   name: 'ElFormItem',
 })
-const props = defineProps(formItemProps)
+const props = withDefaults(defineProps<FormItemProps>(), {
+  labelPosition: '',
+  showMessage: true,
+  required: undefined,
+  inlineMessage: undefined,
+})
 const slots = useSlots()
 
 const formContext = inject(formContextKey, undefined)
@@ -109,9 +113,8 @@ const labelStyle = computed<CSSProperties>(() => {
     return {}
   }
 
-  const labelWidth = addUnit(props.labelWidth || formContext?.labelWidth || '')
-  if (labelWidth) return { width: labelWidth }
-  return {}
+  const labelWidth = addUnit(props.labelWidth ?? formContext?.labelWidth)
+  return { width: labelWidth }
 })
 
 const contentStyle = computed<CSSProperties>(() => {
@@ -121,7 +124,7 @@ const contentStyle = computed<CSSProperties>(() => {
   if (!props.label && !props.labelWidth && isNested) {
     return {}
   }
-  const labelWidth = addUnit(props.labelWidth || formContext?.labelWidth || '')
+  const labelWidth = addUnit(props.labelWidth ?? formContext?.labelWidth)
   if (!props.label && !slots.label) {
     return { marginLeft: labelWidth }
   }
@@ -345,7 +348,7 @@ const resetField: FormItemContext['resetField'] = async () => {
   // prevent validation from being triggered
   isResettingField = true
 
-  computedValue.value = clone(initialValue)
+  computedValue.value = cloneDeep(initialValue)
 
   await nextTick()
   clearValidate()
@@ -362,6 +365,12 @@ const addInputId: FormItemContext['addInputId'] = (id: string) => {
 const removeInputId: FormItemContext['removeInputId'] = (id: string) => {
   inputIds.value = inputIds.value.filter((listId) => listId !== id)
 }
+
+const setInitialValue: FormItemContext['setInitialValue'] = (value: any) => {
+  initialValue = cloneDeep(value)
+}
+
+const getInitialValue: FormItemContext['getInitialValue'] = () => initialValue
 
 watch(
   () => props.error,
@@ -394,14 +403,25 @@ const context: FormItemContext = reactive({
   clearValidate,
   validate,
   propString,
+  setInitialValue,
+  getInitialValue,
 })
 
 provide(formItemContextKey, context)
 
+watch(propString, (newPropString, oldPropString) => {
+  if (!formContext || !oldPropString) return
+  formContext.removeField(context, oldPropString)
+  if (newPropString) {
+    setInitialValue(fieldValue.value)
+    formContext.addField(context)
+  }
+})
+
 onMounted(() => {
   if (props.prop) {
+    setInitialValue(fieldValue.value)
     formContext?.addField(context)
-    initialValue = clone(fieldValue.value)
   }
 })
 
@@ -434,5 +454,9 @@ defineExpose({
    * @description Reset current field and remove validation result.
    */
   resetField,
+  /**
+   * @description Set initial value for this field. When `resetField` is called, the field will reset to this value.
+   */
+  setInitialValue,
 })
 </script>

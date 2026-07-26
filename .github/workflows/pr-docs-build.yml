@@ -2,6 +2,9 @@ name: PR Docs Build
 
 on: pull_request
 
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
   cancel-in-progress: true
@@ -13,10 +16,10 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20]
+        node-version: [24]
         os: [ubuntu-latest, windows-latest]
         include:
-          - node-version: 20
+          - node-version: 24
             node-name: LTS
 
       fail-fast: false
@@ -26,13 +29,15 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
 
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
@@ -48,7 +53,10 @@ jobs:
         env:
           FORCE_COLOR: 2
           NODE_OPTIONS: --max-old-space-size=4096
-
+      - name: Build Metadata
+        run: cd internal/metadata && pnpm build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Build website
         run: pnpm docs:build
         env:
@@ -62,7 +70,7 @@ jobs:
       # share website dist
       - name: Upload artifact
         if: matrix.os == 'ubuntu-latest'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: docs
           path: docs/.vitepress/dist/
@@ -76,7 +84,7 @@ jobs:
       # share pr number
       - name: Upload pr number
         if: matrix.os == 'ubuntu-latest'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: pr
           path: ./pr.txt

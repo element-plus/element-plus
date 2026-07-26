@@ -127,11 +127,10 @@ export const useSlider = (
   }
 }
 
-interface UseSliderDOMOptions
-  extends Pick<
-    ReturnType<typeof useSlider>,
-    'bar' | 'thumb' | 'currentValue' | 'handleDrag'
-  > {
+interface UseSliderDOMOptions extends Pick<
+  ReturnType<typeof useSlider>,
+  'bar' | 'thumb' | 'currentValue' | 'handleDrag'
+> {
   namespace: string
   maxValue: number
   getBackground?: () => string

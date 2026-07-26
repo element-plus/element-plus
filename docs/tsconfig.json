@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
-    "moduleResolution": "Node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
@@ -13,10 +13,12 @@
     "lib": ["ESNext", "DOM"],
     "paths": {
       "element-plus": ["../packages/element-plus"],
-      "~/*": ["./.vitepress/vitepress/*"]
+      "~/*": ["./.vitepress/vitepress/*"],
+      "vue": ["./node_modules/vue"]
     },
     "types": ["unplugin-icons/types/vue"],
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "jsxImportSource": "vue"
   },
   "include": ["**/*", ".vitepress/**/*", "../typings/global.d.ts"],
   "exclude": ["node_modules"]

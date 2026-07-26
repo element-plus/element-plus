@@ -372,13 +372,11 @@ describe('Drawer', () => {
       }
     )
     const vm = wrapper.vm as any
-    const drawer = wrapper.vm.$refs.drawer as any
-
     vm.visible = true
     await nextTick()
     await nextTick()
     expect(open).toHaveBeenCalled()
-    drawer.afterEnter()
+    await rAF()
     expect(opened).toHaveBeenCalled()
     expect(close).not.toHaveBeenCalled()
     expect(closed).not.toHaveBeenCalled()
@@ -386,7 +384,7 @@ describe('Drawer', () => {
     vm.visible = false
     await nextTick()
     expect(close).toHaveBeenCalled()
-    drawer.afterLeave()
+    await rAF()
     expect(closed).toHaveBeenCalled()
   })
 
@@ -579,6 +577,100 @@ describe('Drawer', () => {
       await simulateDrag(dragger, 'vertical', 50, 100)
       expect(drawerEl.style.height).toEqual('100px')
 
+      cleanup()
+    })
+
+    test('should emit resize-start, resize and resize-end events', async () => {
+      const cleanup = defineGetter(window, 'innerWidth', '100')
+      const onResizeStart = vi.fn()
+      const onResize = vi.fn()
+      const onResizeEnd = vi.fn()
+
+      const wrapper = _mount(
+        `
+        <el-drawer
+          v-model='visible'
+          direction='ltr'
+          resizable
+          size='50%'
+          @resize-start="onResizeStart"
+          @resize="onResize"
+          @resize-end="onResizeEnd">
+          <span>${content}</span>
+        </el-drawer>
+        `,
+        () => ({
+          visible: true,
+        }),
+        {
+          methods: {
+            onResizeStart,
+            onResize,
+            onResizeEnd,
+          },
+        }
+      )
+
+      await nextTick()
+
+      const dragger = wrapper.find('.el-drawer__dragger')
+      const drawerEl = wrapper.find('.el-drawer').element as HTMLDivElement
+      Object.defineProperty(drawerEl, 'offsetWidth', {
+        value: 50,
+        configurable: true,
+      })
+
+      const prop = 'pageX'
+
+      // Simulate mouse down - should trigger resize-start
+      const mousedown = new MouseEvent('mousedown', { bubbles: true })
+      const mousedownCleanup = defineGetter(mousedown, prop, 50)
+      dragger.element.dispatchEvent(mousedown)
+      await nextTick()
+
+      expect(onResizeStart).toHaveBeenCalledTimes(1)
+      expect(onResizeStart).toHaveBeenCalledWith(
+        expect.any(MouseEvent),
+        expect.any(Number)
+      )
+
+      // Simulate mouse move - should trigger resize
+      const mousemove = new MouseEvent('mousemove', { bubbles: true })
+      const mousemoveCleanup = defineGetter(mousemove, prop, 80)
+      window.dispatchEvent(mousemove)
+      await nextTick()
+
+      expect(onResize).toHaveBeenCalled()
+      expect(onResize).toHaveBeenCalledWith(
+        expect.any(MouseEvent),
+        expect.any(Number)
+      )
+      const resizeCallCount = onResize.mock.calls.length
+
+      // Simulate another mouse move
+      const mousemove2 = new MouseEvent('mousemove', { bubbles: true })
+      const mousemove2Cleanup = defineGetter(mousemove2, prop, 100)
+      window.dispatchEvent(mousemove2)
+      await nextTick()
+
+      expect(onResize).toHaveBeenCalledTimes(resizeCallCount + 1)
+
+      // Simulate mouse up - should trigger resize-end
+      const mouseup = new MouseEvent('mouseup', { bubbles: true })
+      const mouseupCleanup = defineGetter(mouseup, prop, 100)
+      window.dispatchEvent(mouseup)
+      await nextTick()
+
+      expect(onResizeEnd).toHaveBeenCalledTimes(1)
+      expect(onResizeEnd).toHaveBeenCalledWith(
+        expect.any(MouseEvent),
+        expect.any(Number)
+      )
+
+      mousedownCleanup()
+      mousemoveCleanup()
+      mousemove2Cleanup()
+      mouseupCleanup()
       cleanup()
     })
   })

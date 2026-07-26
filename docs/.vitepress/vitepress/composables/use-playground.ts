@@ -1,39 +1,46 @@
-import { onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, toValue, watch } from 'vue'
+import { isClient } from '@vueuse/core'
 import { utoa } from '../utils'
 import { isDark } from './dark'
 
 import type { Link } from '../types'
+import type { MaybeRefOrGetter } from 'vue'
 
 const MAIN_FILE_NAME = 'App.vue'
 
-export const usePreview = () => location.host.startsWith('preview')
+export const usePreview = () => isClient && location.host.startsWith('preview')
 
-export const usePreviewPR = () => location.host.split('-', 2)[1]
+export const usePreviewPR = () =>
+  isClient ? location.host.split('-', 2)[1] : ''
 
-export const usePlayground = (source: string) => {
-  const code = source ? decodeURIComponent(source) : source
-  const originCode = {
-    [MAIN_FILE_NAME]: code,
-  }
+export const usePlayground = (source: MaybeRefOrGetter<string>) => {
+  const code = computed<string>(() => toValue(source))
+  const originCode = computed(() => ({
+    [MAIN_FILE_NAME]: code.value,
+  }))
+  const encoded = computed(() =>
+    code.value ? utoa(JSON.stringify(originCode.value)) : ''
+  )
 
-  const encoded = code ? utoa(JSON.stringify(originCode)) : ''
+  const link = computed(() => {
+    const _link = new URL('https://element-plus.run/')
 
-  let link = `https://element-plus.run/`
-
-  if (usePreview()) {
-    link = `${link}?pr=${usePreviewPR()}`
-  }
-
-  if (isDark.value) {
-    link = `${link}${usePreview() ? '&' : '?'}theme=dark`
-  }
-
-  if (code) {
-    link += `#${encoded}`
-  }
+    if (usePreview()) {
+      _link.searchParams.append('pr', usePreviewPR())
+    }
+    if (isDark.value) {
+      _link.searchParams.append('theme', 'dark')
+    }
+    if (code.value.includes('@vueuse/core')) {
+      _link.searchParams.append('extra_packages', '@vueuse/core')
+    }
+    if (code.value) {
+      _link.hash = encoded.value
+    }
+    return _link.toString()
+  })
 
   return {
-    encoded,
     link,
   }
 }
@@ -49,7 +56,7 @@ export const usePlaygroundPreview = (
     if (props.item.text === 'Playground') {
       const { link } = usePlayground('')
 
-      targetLink.value = link
+      targetLink.value = link.value
     }
   }
 

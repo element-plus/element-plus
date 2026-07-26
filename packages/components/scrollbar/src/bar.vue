@@ -13,10 +13,13 @@
 import { inject, ref } from 'vue'
 import { GAP } from './util'
 import Thumb from './thumb.vue'
-import { barProps } from './bar'
 import { scrollbarContextKey } from './constants'
 
-const props = defineProps(barProps)
+import type { BarProps } from './bar'
+
+const props = withDefaults(defineProps<BarProps>(), {
+  always: true,
+})
 
 const scrollbar = inject(scrollbarContextKey)
 

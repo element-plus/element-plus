@@ -1,3 +1,4 @@
+import { defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import CheckTag from '../src/check-tag.vue'
@@ -18,19 +19,21 @@ describe('CheckTag.vue', () => {
   })
 
   test('functionality', async () => {
-    const wrapper = mount({
-      data: () => ({ checked: false }),
-      render() {
-        return (
-          <CheckTag
-            onChange={() => (this.checked = !this.checked)}
-            checked={this.checked}
-          >
-            {AXIOM}
-          </CheckTag>
-        )
-      },
-    })
+    const wrapper = mount(
+      defineComponent({
+        data: () => ({ checked: false }),
+        render() {
+          return (
+            <CheckTag
+              onChange={() => (this.checked = !this.checked)}
+              checked={this.checked}
+            >
+              {AXIOM}
+            </CheckTag>
+          )
+        },
+      })
+    )
     expect(wrapper.text()).toEqual(AXIOM)
 
     await wrapper.find('.el-check-tag').trigger('click')
@@ -43,20 +46,22 @@ describe('CheckTag.vue', () => {
   })
 
   test('disabled', async () => {
-    const wrapper = mount({
-      data: () => ({ checked: false }),
-      render() {
-        return (
-          <CheckTag
-            disabled={true}
-            onChange={() => (this.checked = !this.checked)}
-            checked={this.checked}
-          >
-            {AXIOM}
-          </CheckTag>
-        )
-      },
-    })
+    const wrapper = mount(
+      defineComponent({
+        data: () => ({ checked: false }),
+        render() {
+          return (
+            <CheckTag
+              disabled={true}
+              onChange={() => (this.checked = !this.checked)}
+              checked={this.checked}
+            >
+              {AXIOM}
+            </CheckTag>
+          )
+        },
+      })
+    )
     expect(wrapper.text()).toEqual(AXIOM)
     expect(wrapper.classes()).toContain('is-disabled')
 

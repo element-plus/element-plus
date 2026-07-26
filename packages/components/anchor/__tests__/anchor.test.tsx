@@ -1,4 +1,4 @@
-import { nextTick, ref } from 'vue'
+import { defineComponent, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import { CHANGE_EVENT } from '@element-plus/constants'
@@ -12,16 +12,19 @@ const getHash = () => `#anchor-link-${id++}`
 describe('Anchor.vue', () => {
   test('snapshot', async () => {
     const hash = getHash()
-    const wrapper = mount({
-      props: ['direction', 'type'],
-      render() {
-        return (
-          <Anchor direction={this.direction} type={this.type}>
-            <AnchorLink href={hash}>{hash}</AnchorLink>
-          </Anchor>
-        )
-      },
-    })
+    const wrapper = mount(
+      defineComponent({
+        // eslint-disable-next-line vue/require-prop-types
+        props: ['direction', 'type'],
+        render() {
+          return (
+            <Anchor direction={this.direction} type={this.type}>
+              <AnchorLink href={hash}>{hash}</AnchorLink>
+            </Anchor>
+          )
+        },
+      })
+    )
 
     wrapper.setProps({
       direction: 'vertical',

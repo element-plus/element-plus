@@ -3,22 +3,53 @@ packages:
   - docs
   - play
   - internal/*
-onlyBuiltDependencies:
-  - 'es5-ext'
-  - 'esbuild'
-  - 'fsevents'
-  - 'puppeteer'
-  - 'vue-demi'
+
+allowBuilds:
+  '@parcel/watcher': true
+  esbuild: true
+  puppeteer: true
+  vue-demi: true
+
 catalog:
-  '@ctrl/tinycolor': ^3.4.1
+  '@ctrl/tinycolor': ^4.2.0
   '@element-plus/icons-vue': ^2.3.2
-  '@vue/shared': ~3.2.37
-  '@vueuse/core': ^10.11.0
-  '@vue/test-utils': ^2.0.0
-  'lodash-unified': ^1.0.3
-  'type-fest': ^2.14.0
-  '@popperjs/core': npm:@sxzz/popperjs-es@^2.11.7
-  'normalize-wheel-es': ^1.2.0
-  csstype: ^2.6.20
-  '@floating-ui/dom': ^1.0.1
-  vue: ~3.2.37
+  '@floating-ui/dom': ^1.8.0
+  '@popperjs/core': npm:@sxzz/popperjs-es@^2.11.8
+  '@vitejs/plugin-vue': ^6.0.8
+  '@vitejs/plugin-vue-jsx': ^5.1.6
+  '@vue/server-renderer': 3.5.25
+  '@vue/shared': 3.5.25
+  '@vue/test-utils': 2.4.6
+  '@vueuse/core': 14.3.0
+  lodash-unified: ^1.0.3
+  normalize-wheel-es: ^1.2.0
+  prettier: ^3.9.6
+  vue: 3.5.25
+  vue-component-type-helpers: ^3.3.8
+  tsx: ^4.23.1
+  typescript: ~6.0.3
+  # vitest: ^2.0.5
+
+dedupePeers: true
+
+overrides:
+  jwa: ^1.4.2 # 20697
+  typescript: 'catalog:'
+
+patchedDependencies:
+  async-validator@4.2.5: patches/async-validator@4.2.5.patch #16757
+
+peerDependencyRules:
+  ignoreMissing:
+    - vite
+    - react
+    - react-dom
+
+shellEmulator: true
+strictPeerDependencies: false
+
+minimumReleaseAge: 1440
+minimumReleaseAgeExclude:
+  - 'element-plus'
+  - '@element-plus/*'
+  - vite@8.1.4

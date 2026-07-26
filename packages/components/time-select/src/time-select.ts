@@ -2,15 +2,99 @@ import { buildProps, definePropType } from '@element-plus/utils'
 import { CircleClose, Clock } from '@element-plus/icons-vue'
 import { useEmptyValuesProps, useSizeProp } from '@element-plus/hooks'
 
+import type { UseEmptyValuesProps } from '@element-plus/hooks'
 import type { PopperEffect } from '@element-plus/components/popper'
 import type TimeSelect from './time-select.vue'
-import type {
-  CSSProperties,
-  Component,
-  ExtractPropTypes,
-  __ExtractPublicPropTypes,
-} from 'vue'
+import type { Component, ExtractPublicPropTypes, StyleValue } from 'vue'
+import type { ComponentSize } from '@element-plus/constants'
+import type { ClassValue, IconPropType } from '@element-plus/utils'
 
+export interface TimeSelectProps extends UseEmptyValuesProps {
+  /**
+   * @description set format of time
+   */
+  format?: string
+  /**
+   * @description binding value
+   */
+  modelValue?: string | null
+  /**
+   * @description whether TimeSelect is disabled
+   */
+  disabled?: boolean
+  /**
+   * @description whether the input is editable
+   */
+  editable?: boolean
+  /**
+   * @description Tooltip theme, built-in theme: `dark` / `light`
+   */
+  effect?: PopperEffect
+  /**
+   * @description whether to show clear button
+   */
+  clearable?: boolean
+  /**
+   * @description size of Input
+   */
+  size?: ComponentSize
+  /**
+   * @description placeholder in non-range mode
+   */
+  placeholder?: string
+  /**
+   * @description start time
+   */
+  start?: string
+  /**
+   * @description end time
+   */
+  end?: string
+  /**
+   * @description time step
+   */
+  step?: string
+  /**
+   * @description minimum time, any time before this time will be disabled
+   */
+  minTime?: string | null
+  /**
+   * @description maximum time, any time after this time will be disabled
+   */
+  maxTime?: string | null
+  /**
+   * @description whether `end` is included in options
+   */
+  includeEndTime?: boolean
+  /**
+   * @description same as `name` in native input
+   */
+  name?: string
+  /**
+   * @description custom prefix icon component
+   */
+  prefixIcon?: IconPropType
+  /**
+   * @description custom clear icon component
+   */
+  clearIcon?: IconPropType
+  /**
+   * @description custom class name for TimeSelect's dropdown
+   */
+  popperClass?: ClassValue
+  /**
+   * @description custom style for TimeSelect's dropdown
+   */
+  popperStyle?: StyleValue
+}
+
+export const DEFAULT_START = '09:00'
+export const DEFAULT_END = '18:00'
+export const DEFAULT_STEP = '00:30'
+
+/**
+ * @deprecated Removed after 3.0.0, Use `TimeSelectProps` instead.
+ */
 export const timeSelectProps = buildProps({
   /**
    * @description set format of time
@@ -28,7 +112,10 @@ export const timeSelectProps = buildProps({
   /**
    * @description whether TimeSelect is disabled
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description whether the input is editable
    */
@@ -63,21 +150,21 @@ export const timeSelectProps = buildProps({
    */
   start: {
     type: String,
-    default: '09:00',
+    default: DEFAULT_START,
   },
   /**
    * @description end time
    */
   end: {
     type: String,
-    default: '18:00',
+    default: DEFAULT_END,
   },
   /**
    * @description time step
    */
   step: {
     type: String,
-    default: '00:30',
+    default: DEFAULT_STEP,
   },
   /**
    * @description minimum time, any time before this time will be disabled
@@ -117,20 +204,23 @@ export const timeSelectProps = buildProps({
    * @description custom class name for TimeSelect's dropdown
    */
   popperClass: {
-    type: String,
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
     default: '',
   },
   /**
    * @description custom style for TimeSelect's dropdown
    */
   popperStyle: {
-    type: definePropType<string | CSSProperties>([String, Object]),
+    type: definePropType<StyleValue>([String, Array, Object, Boolean]),
+    default: undefined,
   },
   ...useEmptyValuesProps,
 } as const)
 
-export type TimeSelectProps = ExtractPropTypes<typeof timeSelectProps>
-export type TimeSelectPropsPublic = __ExtractPublicPropTypes<
+/**
+ * @deprecated Removed after 3.0.0, Use `TimeSelectProps` instead.
+ */
+export type TimeSelectPropsPublic = ExtractPublicPropTypes<
   typeof timeSelectProps
 >
 

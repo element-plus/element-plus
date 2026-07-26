@@ -4,10 +4,11 @@
       ppNs.b(),
       drpNs.b(),
       ppNs.is('border', border),
-      ppNs.is('disabled', disabled),
+      ppNs.is('disabled', dateRangeDisabled),
       {
         'has-sidebar': $slots.sidebar || hasShortcuts,
         'has-time': showTime,
+        'single-panel': singlePanel,
       },
     ]"
   >
@@ -18,7 +19,7 @@
           v-for="(shortcut, key) in shortcuts"
           :key="key"
           type="button"
-          :disabled="disabled"
+          :disabled="dateRangeDisabled"
           :class="ppNs.e('shortcut')"
           @click="handleShortcutClick(shortcut)"
         >
@@ -31,11 +32,12 @@
             <span :class="drpNs.e('time-picker-wrap')">
               <el-input
                 size="small"
-                :disabled="rangeState.selecting || disabled"
+                :disabled="rangeState.selecting || dateRangeDisabled"
                 :placeholder="t('el.datepicker.startDate')"
                 :class="drpNs.e('editor')"
                 :model-value="minVisibleDate"
                 :validate-event="false"
+                :readonly="!editable"
                 @input="(val) => handleDateInput(val, 'min')"
                 @change="(val) => handleDateChange(val, 'min')"
               />
@@ -47,10 +49,11 @@
               <el-input
                 size="small"
                 :class="drpNs.e('editor')"
-                :disabled="rangeState.selecting || disabled"
+                :disabled="rangeState.selecting || dateRangeDisabled"
                 :placeholder="t('el.datepicker.startTime')"
                 :model-value="minVisibleTime"
                 :validate-event="false"
+                :readonly="!editable"
                 @focus="minTimePickerVisible = true"
                 @input="(val) => handleTimeInput(val, 'min')"
                 @change="(val) => handleTimeChange(val, 'min')"
@@ -59,7 +62,7 @@
                 :visible="minTimePickerVisible"
                 :format="timeFormat"
                 datetime-role="start"
-                :parsed-value="leftDate"
+                :parsed-value="minDate || leftDate"
                 @pick="handleMinTimePick"
               />
             </span>
@@ -72,10 +75,10 @@
               <el-input
                 size="small"
                 :class="drpNs.e('editor')"
-                :disabled="rangeState.selecting || disabled"
+                :disabled="rangeState.selecting || dateRangeDisabled"
                 :placeholder="t('el.datepicker.endDate')"
                 :model-value="maxVisibleDate"
-                :readonly="!minDate"
+                :readonly="!minDate || !editable"
                 :validate-event="false"
                 @input="(val) => handleDateInput(val, 'max')"
                 @change="(val) => handleDateChange(val, 'max')"
@@ -88,10 +91,10 @@
               <el-input
                 size="small"
                 :class="drpNs.e('editor')"
-                :disabled="rangeState.selecting || disabled"
+                :disabled="rangeState.selecting || dateRangeDisabled"
                 :placeholder="t('el.datepicker.endTime')"
                 :model-value="maxVisibleTime"
-                :readonly="!minDate"
+                :readonly="!minDate || !editable"
                 :validate-event="false"
                 @focus="minDate && (maxTimePickerVisible = true)"
                 @input="(val) => handleTimeInput(val, 'max')"
@@ -101,20 +104,26 @@
                 datetime-role="end"
                 :visible="maxTimePickerVisible"
                 :format="timeFormat"
-                :parsed-value="rightDate"
+                :parsed-value="maxDate || rightDate"
                 @pick="handleMaxTimePick"
               />
             </span>
           </span>
         </div>
-        <div :class="[ppNs.e('content'), drpNs.e('content')]" class="is-left">
+        <div
+          :class="[
+            ppNs.e('content'),
+            drpNs.e('content'),
+            drpNs.is('left', !singlePanel),
+          ]"
+        >
           <div :class="drpNs.e('header')">
             <button
               type="button"
               :class="ppNs.e('icon-btn')"
               :aria-label="t(`el.datepicker.prevYear`)"
               class="d-arrow-left"
-              :disabled="disabled"
+              :disabled="dateRangeDisabled"
               @click="leftPrevYear"
             >
               <slot name="prev-year">
@@ -129,7 +138,7 @@
               :class="ppNs.e('icon-btn')"
               :aria-label="t(`el.datepicker.prevMonth`)"
               class="arrow-left"
-              :disabled="disabled"
+              :disabled="dateRangeDisabled"
               @click="leftPrevMonth"
             >
               <slot name="prev-month">
@@ -139,12 +148,12 @@
               </slot>
             </button>
             <button
-              v-if="unlinkPanels"
+              v-if="unlinkPanels || singlePanel"
               type="button"
-              :disabled="!enableYearArrow || disabled"
+              :disabled="!enableYearArrow || dateRangeDisabled"
               :class="[
                 ppNs.e('icon-btn'),
-                ppNs.is('disabled', !enableYearArrow || disabled),
+                ppNs.is('disabled', !enableYearArrow || dateRangeDisabled),
               ]"
               :aria-label="t(`el.datepicker.nextYear`)"
               class="d-arrow-right"
@@ -157,12 +166,12 @@
               </slot>
             </button>
             <button
-              v-if="unlinkPanels && leftCurrentView === 'date'"
+              v-if="(unlinkPanels && leftCurrentView === 'date') || singlePanel"
               type="button"
-              :disabled="!enableMonthArrow || disabled"
+              :disabled="!enableMonthArrow || dateRangeDisabled"
               :class="[
                 ppNs.e('icon-btn'),
-                ppNs.is('disabled', !enableMonthArrow || disabled),
+                ppNs.is('disabled', !enableMonthArrow || dateRangeDisabled),
               ]"
               :aria-label="t(`el.datepicker.nextMonth`)"
               class="arrow-right"
@@ -179,7 +188,8 @@
                 role="button"
                 :class="drpNs.e('header-label')"
                 aria-live="polite"
-                tabindex="0"
+                :tabindex="disabled ? undefined : 0"
+                :aria-disabled="disabled"
                 @keydown.enter="showLeftPicker('year')"
                 @click="showLeftPicker('year')"
               >
@@ -189,7 +199,8 @@
                 v-show="leftCurrentView === 'date'"
                 role="button"
                 aria-live="polite"
-                tabindex="0"
+                :tabindex="disabled ? undefined : 0"
+                :aria-disabled="disabled"
                 :class="[
                   drpNs.e('header-label'),
                   { active: leftCurrentView === 'month' },
@@ -212,7 +223,7 @@
             :disabled-date="disabledDate"
             :cell-class-name="cellClassName"
             :show-week-number="showWeekNumber"
-            :disabled="disabled"
+            :disabled="dateRangeDisabled"
             @changerange="handleChangeRange"
             @pick="handleRangePick"
             @select="onSelect"
@@ -224,7 +235,7 @@
             :date="leftDate"
             :disabled-date="disabledDate"
             :parsed-value="parsedValue"
-            :disabled="disabled"
+            :disabled="dateRangeDisabled"
             @pick="handleLeftYearPick"
           />
           <month-table
@@ -234,22 +245,24 @@
             :date="leftDate"
             :parsed-value="parsedValue"
             :disabled-date="disabledDate"
-            :disabled="disabled"
+            :disabled="dateRangeDisabled"
             @pick="handleLeftMonthPick"
           />
         </div>
-        <div :class="[ppNs.e('content'), drpNs.e('content')]" class="is-right">
-          <div
-            :class="[
-              drpNs.e('header'),
-              ppNs.is('disabled', !enableYearArrow || disabled),
-            ]"
-          >
+        <div
+          v-if="!singlePanel"
+          :class="[ppNs.e('content'), drpNs.e('content')]"
+          class="is-right"
+        >
+          <div :class="drpNs.e('header')">
             <button
               v-if="unlinkPanels"
               type="button"
-              :disabled="!enableYearArrow || disabled"
-              :class="ppNs.e('icon-btn')"
+              :disabled="!enableYearArrow || dateRangeDisabled"
+              :class="[
+                ppNs.e('icon-btn'),
+                ppNs.is('disabled', !enableYearArrow || dateRangeDisabled),
+              ]"
               :aria-label="t(`el.datepicker.prevYear`)"
               class="d-arrow-left"
               @click="rightPrevYear"
@@ -263,8 +276,11 @@
             <button
               v-if="unlinkPanels && rightCurrentView === 'date'"
               type="button"
-              :disabled="!enableMonthArrow || disabled"
-              :class="ppNs.e('icon-btn')"
+              :disabled="!enableMonthArrow || dateRangeDisabled"
+              :class="[
+                ppNs.e('icon-btn'),
+                ppNs.is('disabled', !enableMonthArrow || dateRangeDisabled),
+              ]"
               :aria-label="t(`el.datepicker.prevMonth`)"
               class="arrow-left"
               @click="rightPrevMonth"
@@ -279,7 +295,7 @@
               type="button"
               :aria-label="t(`el.datepicker.nextYear`)"
               :class="ppNs.e('icon-btn')"
-              :disabled="disabled"
+              :disabled="dateRangeDisabled"
               class="d-arrow-right"
               @click="rightNextYear"
             >
@@ -293,7 +309,7 @@
               v-show="rightCurrentView === 'date'"
               type="button"
               :class="ppNs.e('icon-btn')"
-              :disabled="disabled"
+              :disabled="dateRangeDisabled"
               :aria-label="t(`el.datepicker.nextMonth`)"
               class="arrow-right"
               @click="rightNextMonth"
@@ -309,7 +325,8 @@
                 role="button"
                 :class="drpNs.e('header-label')"
                 aria-live="polite"
-                tabindex="0"
+                :tabindex="disabled ? undefined : 0"
+                :aria-disabled="disabled"
                 @keydown.enter="showRightPicker('year')"
                 @click="showRightPicker('year')"
               >
@@ -319,7 +336,8 @@
                 v-show="rightCurrentView === 'date'"
                 role="button"
                 aria-live="polite"
-                tabindex="0"
+                :tabindex="disabled ? undefined : 0"
+                :aria-disabled="disabled"
                 :class="[
                   drpNs.e('header-label'),
                   { active: rightCurrentView === 'month' },
@@ -342,7 +360,7 @@
             :disabled-date="disabledDate"
             :cell-class-name="cellClassName"
             :show-week-number="showWeekNumber"
-            :disabled="disabled"
+            :disabled="dateRangeDisabled"
             @changerange="handleChangeRange"
             @pick="handleRangePick"
             @select="onSelect"
@@ -354,7 +372,7 @@
             :date="rightDate"
             :disabled-date="disabledDate"
             :parsed-value="parsedValue"
-            :disabled="disabled"
+            :disabled="dateRangeDisabled"
             @pick="handleRightYearPick"
           />
           <month-table
@@ -364,7 +382,7 @@
             :date="rightDate"
             :parsed-value="parsedValue"
             :disabled-date="disabledDate"
-            :disabled="disabled"
+            :disabled="dateRangeDisabled"
             @pick="handleRightMonthPick"
           />
         </div>
@@ -379,7 +397,7 @@
         text
         size="small"
         :class="ppNs.e('link-btn')"
-        @click="handleClear"
+        @click="onClear"
       >
         {{ t('el.datepicker.clear') }}
       </el-button>
@@ -431,6 +449,7 @@ import { ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY } from '../constants'
 import YearTable from './basic-year-table.vue'
 import MonthTable from './basic-month-table.vue'
 import DateTable from './basic-date-table.vue'
+import { useFormDisabled } from '@element-plus/components/form'
 
 import type { Ref } from 'vue'
 import type { Dayjs } from 'dayjs'
@@ -447,6 +466,7 @@ const emit = defineEmits([
   'set-picker-option',
   'calendar-change',
   'panel-change',
+  'clear',
 ])
 
 const unit = 'month'
@@ -659,28 +679,33 @@ const enableMonthArrow = computed(() => {
   const nextMonth = (leftMonth.value + 1) % 12
   const yearOffset = leftMonth.value + 1 >= 12 ? 1 : 0
   return (
-    props.unlinkPanels &&
-    new Date(leftYear.value + yearOffset, nextMonth) <
-      new Date(rightYear.value, rightMonth.value)
+    props.singlePanel ||
+    (props.unlinkPanels &&
+      new Date(leftYear.value + yearOffset, nextMonth) <
+        new Date(rightYear.value, rightMonth.value))
   )
 })
 
 const enableYearArrow = computed(() => {
   return (
-    props.unlinkPanels &&
-    rightYear.value * 12 +
-      rightMonth.value -
-      (leftYear.value * 12 + leftMonth.value + 1) >=
-      12
+    props.singlePanel ||
+    (props.unlinkPanels &&
+      rightYear.value * 12 +
+        rightMonth.value -
+        (leftYear.value * 12 + leftMonth.value + 1) >=
+        12)
   )
 })
+
+const dateRangeDisabled = useFormDisabled()
 
 const btnDisabled = computed(() => {
   return !(
     minDate.value &&
     maxDate.value &&
     !rangeState.value.selecting &&
-    isValidRange([minDate.value, maxDate.value])
+    isValidRange([minDate.value, maxDate.value]) &&
+    !dateRangeDisabled.value
   )
 })
 
@@ -738,6 +763,17 @@ const handleMaxTimeClose = () => {
   maxTimePickerVisible.value = false
 }
 
+const findValidDateToward = (from: Dayjs, toward: Dayjs): Dayjs => {
+  if (!disabledDate || !disabledDate(from.toDate())) return from
+  const forward = from.isBefore(toward)
+  let cursor = from
+  while (forward ? cursor.isBefore(toward) : cursor.isAfter(toward)) {
+    cursor = forward ? cursor.add(1, 'day') : cursor.subtract(1, 'day')
+    if (!disabledDate(cursor.toDate())) return cursor
+  }
+  return from
+}
+
 const handleDateInput = (value: string | null, type: ChangeType) => {
   dateUserInput.value[type] = value
   const parsedValueD = dayjs(value, dateFormat.value).locale(lang.value)
@@ -751,12 +787,13 @@ const handleDateInput = (value: string | null, type: ChangeType) => {
         .year(parsedValueD.year())
         .month(parsedValueD.month())
         .date(parsedValueD.date())
-      if (
-        !props.unlinkPanels &&
-        (!maxDate.value || maxDate.value.isBefore(minDate.value))
-      ) {
-        rightDate.value = parsedValueD.add(1, 'month')
-        maxDate.value = minDate.value.add(1, 'month')
+      if (!props.unlinkPanels && !maxDate.value) {
+        const adjustedMax = findValidDateToward(
+          minDate.value.add(1, 'month'),
+          minDate.value
+        )
+        rightDate.value = adjustedMax
+        maxDate.value = adjustedMax
       }
     } else {
       rightDate.value = parsedValueD
@@ -764,12 +801,13 @@ const handleDateInput = (value: string | null, type: ChangeType) => {
         .year(parsedValueD.year())
         .month(parsedValueD.month())
         .date(parsedValueD.date())
-      if (
-        !props.unlinkPanels &&
-        (!minDate.value || minDate.value.isAfter(maxDate.value))
-      ) {
-        leftDate.value = parsedValueD.subtract(1, 'month')
-        minDate.value = maxDate.value.subtract(1, 'month')
+      if (!props.unlinkPanels && !minDate.value) {
+        const adjustedMin = findValidDateToward(
+          maxDate.value.subtract(1, 'month'),
+          maxDate.value
+        )
+        leftDate.value = adjustedMin
+        minDate.value = adjustedMin
       }
     }
     sortDates(minDate.value, maxDate.value)
@@ -779,6 +817,37 @@ const handleDateInput = (value: string | null, type: ChangeType) => {
 
 const handleDateChange = (_: unknown, type: ChangeType) => {
   dateUserInput.value[type] = null
+  if (type === 'min') {
+    if (
+      !props.unlinkPanels &&
+      maxDate.value &&
+      minDate.value &&
+      maxDate.value.isBefore(minDate.value)
+    ) {
+      const adjustedMax = findValidDateToward(
+        minDate.value.add(1, 'month'),
+        minDate.value
+      )
+      rightDate.value = adjustedMax
+      maxDate.value = adjustedMax
+    }
+  } else {
+    if (
+      !props.unlinkPanels &&
+      minDate.value &&
+      maxDate.value &&
+      minDate.value.isAfter(maxDate.value)
+    ) {
+      const adjustedMin = findValidDateToward(
+        maxDate.value.subtract(1, 'month'),
+        maxDate.value
+      )
+      leftDate.value = adjustedMin
+      minDate.value = adjustedMin
+    }
+  }
+  sortDates(minDate.value, maxDate.value)
+  handleRangeConfirm(true)
 }
 
 const handleTimeInput = (value: string | null, type: ChangeType) => {
@@ -825,7 +894,6 @@ const handleTimeChange = (_value: string | null, type: ChangeType) => {
 const handleMinTimePick = (value: Dayjs, visible: boolean, first: boolean) => {
   if (timeUserInput.value.min) return
   if (value) {
-    leftDate.value = value
     minDate.value = (minDate.value || leftDate.value)
       .hour(value.hour())
       .minute(value.minute())
@@ -853,7 +921,6 @@ const handleMaxTimePick = (
 ) => {
   if (timeUserInput.value.max) return
   if (value) {
-    rightDate.value = value
     maxDate.value = (maxDate.value || rightDate.value)
       .hour(value.hour())
       .minute(value.minute())
@@ -868,6 +935,11 @@ const handleMaxTimePick = (
     minDate.value = maxDate.value
   }
   handleRangeConfirm(true)
+}
+
+const onClear = () => {
+  handleClear()
+  emit('clear')
 }
 
 const handleClear = () => {
@@ -896,7 +968,6 @@ const parseUserInput = (value: Dayjs | Dayjs[]) => {
     isDefaultFormat
   )
 }
-
 function sortDates(minDate: Dayjs | undefined, maxDate: Dayjs | undefined) {
   if (props.unlinkPanels && maxDate) {
     const minDateYear = minDate?.year() || 0

@@ -4,14 +4,15 @@ import {
   onMounted,
   reactive,
   ref,
+  useSlots,
   watch,
   watchEffect,
 } from 'vue'
 import { clamp, findLastIndex, get, isEqual, isNil } from 'lodash-unified'
 import { useDebounceFn, useResizeObserver } from '@vueuse/core'
 import {
+  NOOP,
   ValidateComponentsMap,
-  debugWarn,
   ensureArray,
   getEventCode,
   isArray,
@@ -40,6 +41,7 @@ import {
   useNamespace,
 } from '@element-plus/hooks'
 import {
+  useFormDisabled,
   useFormItem,
   useFormItemInputId,
   useFormSize,
@@ -47,7 +49,10 @@ import {
 
 import type { Component } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
-import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
+import type {
+  ScrollbarDirection,
+  ScrollbarInstance,
+} from '@element-plus/components/scrollbar'
 import type { SelectEmits, SelectProps } from './select'
 import type {
   OptionBasic,
@@ -58,6 +63,7 @@ import type {
 
 export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const { t } = useLocale()
+  const slots = useSlots()
   const contentId = useId()
   const nsSelect = useNamespace('select')
   const nsInput = useNamespace('input')
@@ -110,7 +116,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     afterComposition: (e) => onInput(e),
   })
 
-  const selectDisabled = computed(() => props.disabled || !!form?.disabled)
+  const selectDisabled = useFormDisabled()
 
   const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
     disabled: selectDisabled,
@@ -130,7 +136,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       expanded.value = false
       states.menuVisibleOnFocus = false
       if (props.validateEvent) {
-        formItem?.validate?.('blur').catch((err) => debugWarn(err))
+        formItem?.validate?.('blur').catch(NOOP)
       }
     },
   })
@@ -247,8 +253,12 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     get() {
       return (
         expanded.value &&
-        (props.loading || !isRemoteSearchEmpty.value) &&
-        (!debouncing.value || !isEmpty(states.previousQuery))
+        (props.loading ||
+          !isRemoteSearchEmpty.value ||
+          (props.remote && !!slots.empty)) &&
+        (!debouncing.value ||
+          !isEmpty(states.previousQuery) ||
+          states.options.size > 0)
       )
     },
     set(val: boolean) {
@@ -277,7 +287,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   // We use a Vue custom event binding to only register the event on non-iOS devices
   // ref.: https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/HandlingEvents/HandlingEvents.html
   // Github Issue: https://github.com/vuejs/vue/issues/9859
-  const mouseEnterEventName = computed(() => (isIOS ? null : 'mouseenter'))
+  const mouseEnterEventName = isIOS ? null : 'mouseenter'
 
   watch(
     () => props.modelValue,
@@ -290,7 +300,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       }
       setSelected()
       if (!isEqual(val, oldVal) && props.validateEvent) {
-        formItem?.validate('change').catch((err) => debugWarn(err))
+        formItem?.validate('change').catch(NOOP)
       }
     },
     {
@@ -308,8 +318,8 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         states.inputValue = ''
         states.previousQuery = null
         states.isBeforeHide = true
+        states.menuVisibleOnFocus = false
       }
-      emit('visible-change', val)
     }
   )
 
@@ -445,7 +455,17 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       }
     }
     if (option) return option
-    const label = isObjectValue ? value.label : (value ?? '')
+
+    const existingSelected = states.selected.find((item) =>
+      isObjectValue
+        ? get(item.value, props.valueKey) === get(value, props.valueKey)
+        : item.value === value
+    )
+    const label = isObjectValue
+      ? value.label
+      : existingSelected
+        ? existingSelected.currentLabel
+        : (value ?? '')
     const newOption = {
       index: -1,
       value,
@@ -455,11 +475,15 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   }
 
   const updateHoveringIndex = () => {
-    states.hoveringIndex = optionsArray.value.findIndex((item) =>
-      states.selected.some(
-        (selected) => getValueKey(selected) === getValueKey(item)
+    const length = states.selected.length
+    if (length > 0) {
+      const lastOption = states.selected[length - 1]
+      states.hoveringIndex = optionsArray.value.findIndex(
+        (item) => getValueKey(lastOption) === getValueKey(item)
       )
-    )
+    } else {
+      states.hoveringIndex = -1
+    }
   }
 
   const resetSelectionWidth = () => {
@@ -512,7 +536,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const getLastNotDisabledIndex = (value: OptionValue[]) =>
     findLastIndex(value, (it) => {
       const option = states.cachedOptions.get(it)
-      return option && !option.disabled && !option.states.groupDisabled
+      return !option?.disabled && !option?.states.groupDisabled
     })
 
   const deletePrevTag = (e: KeyboardEvent) => {
@@ -577,7 +601,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       if (option.created) {
         handleQueryChange('')
       }
-      if (props.filterable && !props.reserveKeyword) {
+      if (props.filterable && (option.created || !props.reserveKeyword)) {
         states.inputValue = ''
       }
     } else {
@@ -604,11 +628,9 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
 
   const scrollToOption = (
     option:
-      | OptionPublicInstance
-      | OptionPublicInstance[]
-      | SelectStates['selected']
+      OptionPublicInstance | OptionPublicInstance[] | SelectStates['selected']
   ) => {
-    const targetOption = isArray(option) ? option[0] : option
+    const targetOption = isArray(option) ? option[option.length - 1] : option
     let target = null
 
     if (!isNil(targetOption?.value)) {
@@ -688,8 +710,15 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     }
   }
 
-  const toggleMenu = () => {
-    if (selectDisabled.value) return
+  const toggleMenu = (event?: Event) => {
+    if (
+      selectDisabled.value ||
+      (props.filterable &&
+        expanded.value &&
+        event &&
+        !suffixRef.value?.contains(event.target as Node))
+    )
+      return
 
     // We only set the inputHovering state to true on mouseenter event on iOS devices
     // To keep the state updated we set it here to true
@@ -818,7 +847,10 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         navigateOptions('next')
         break
       case EVENT_CODE.enter:
-        selectOption()
+      case EVENT_CODE.numpadEnter:
+        if (!isComposing.value) {
+          selectOption()
+        }
         break
       case EVENT_CODE.esc:
         handleEsc()
@@ -881,6 +913,10 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     emit('popup-scroll', data)
   }
 
+  const endReached = (direction: ScrollbarDirection) => {
+    emit('end-reached', direction)
+  }
+
   useResizeObserver(selectionRef, resetSelectionWidth)
   useResizeObserver(wrapperRef, updateTooltip)
   useResizeObserver(tagMenuRef, updateTagTooltip)
@@ -897,6 +933,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         stop?.()
         stop = undefined
       }
+      emit('visible-change', newVal)
     }
   )
 
@@ -962,6 +999,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     collapseTagList,
     popupScroll,
     getOption,
+    endReached,
 
     // computed style
     tagStyle,

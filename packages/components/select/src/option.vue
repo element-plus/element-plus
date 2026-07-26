@@ -6,7 +6,8 @@
     role="option"
     :aria-disabled="isDisabled || undefined"
     :aria-selected="itemSelected"
-    @mousemove="hoverItem"
+    @[mouseMoveEventName]="hoverItem"
+    @mousedown="handleMousedown"
     @click.stop="selectOptionClick"
   >
     <slot>
@@ -29,6 +30,7 @@ import {
 import { useId, useNamespace } from '@element-plus/hooks'
 import { useOption } from './useOption'
 import { COMPONENT_NAME, optionProps } from './option'
+import { isFocusable, isIOS } from '@element-plus/utils'
 
 import type {
   OptionExposed,
@@ -60,6 +62,7 @@ export default defineComponent({
       hover: false,
     })
 
+    const mouseMoveEventName = isIOS ? null : 'mousemove'
     const {
       currentLabel,
       itemSelected,
@@ -97,6 +100,20 @@ export default defineComponent({
       }
     }
 
+    const handleMousedown = (event: MouseEvent) => {
+      let target = event.target as HTMLElement | null
+      const currentTarget = event.currentTarget as HTMLElement
+
+      while (target && target !== currentTarget) {
+        if (isFocusable(target)) {
+          return
+        }
+        target = target.parentElement
+      }
+
+      event.preventDefault()
+    }
+
     return {
       ns,
       id,
@@ -108,8 +125,9 @@ export default defineComponent({
       visible,
       hover,
       states,
-
+      mouseMoveEventName,
       hoverItem,
+      handleMousedown,
       updateOption,
       selectOptionClick,
     } satisfies OptionExposed

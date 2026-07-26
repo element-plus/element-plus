@@ -10,9 +10,10 @@ import {
 import NotificationConstructor from './notification.vue'
 import { notificationTypes } from './notification'
 
-import type { Ref, VNode } from 'vue'
+import type { VNode } from 'vue'
 import type {
-  NotificationOptions,
+  NotificationExposed,
+  NotificationPosition,
   NotificationProps,
   NotificationQueue,
   Notify,
@@ -20,10 +21,7 @@ import type {
 } from './notification'
 
 // This should be a queue but considering there were `non-autoclosable` notifications.
-const notifications: Record<
-  NotificationOptions['position'],
-  NotificationQueue
-> = {
+const notifications: Record<NotificationPosition, NotificationQueue> = {
   'top-left': [],
   'top-right': [],
   'bottom-left': [],
@@ -102,9 +100,10 @@ const notify: NotifyFn & Partial<Notify> = function (options = {}, context) {
   return {
     // instead of calling the onClose function directly, setting this value so that we can have the full lifecycle
     // for out component, so that all closing steps will not be skipped.
+    // UPDATE: call the exposed close() here rather than setting visible.value = false,
+    // because close() also runs clearTimer() to stop the progress tick and close timeout.
     close: () => {
-      ;(vm.component!.exposed as { visible: Ref<boolean> }).visible.value =
-        false
+      ;(vm.component!.exposed as NotificationExposed).close()
     },
   }
 }
@@ -129,7 +128,7 @@ notificationTypes.forEach((type) => {
  */
 export function close(
   id: string,
-  position: NotificationOptions['position'],
+  position: NotificationPosition,
   userOnClose?: (vm: VNode) => void
 ): void {
   // maybe we can store the index when inserting the vm to notification list.
@@ -164,15 +163,13 @@ export function closeAll(): void {
   for (const orientedNotifications of Object.values(notifications)) {
     orientedNotifications.forEach(({ vm }) => {
       // same as the previous close method, we'd like to make sure lifecycle gets handle properly.
-      ;(vm.component!.exposed as { visible: Ref<boolean> }).visible.value =
-        false
+      // UPDATE: call exposed close() so that clearTimer() also runs.
+      ;(vm.component!.exposed as NotificationExposed).close()
     })
   }
 }
 
-export function updateOffsets(
-  position: NotificationOptions['position'] = 'top-right'
-) {
+export function updateOffsets(position: NotificationPosition = 'top-right') {
   let verticalOffset =
     notifications[position][0]?.vm.component?.props?.offset || 0
 

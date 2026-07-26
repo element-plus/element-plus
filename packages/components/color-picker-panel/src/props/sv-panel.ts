@@ -1,8 +1,16 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 import type Color from '../utils/color'
 
+export interface SvPanelProps {
+  color: Color
+  disabled?: boolean
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `SvPanelProps` instead.
+ */
 export const svPanelProps = buildProps({
   color: {
     type: definePropType<Color>(Object),
@@ -11,5 +19,7 @@ export const svPanelProps = buildProps({
   disabled: Boolean,
 } as const)
 
-export type SvPanelProps = ExtractPropTypes<typeof svPanelProps>
-export type SvPanelPropsPublic = __ExtractPublicPropTypes<typeof svPanelProps>
+/**
+ * @deprecated Removed after 3.0.0, Use `SvPanelProps` instead.
+ */
+export type SvPanelPropsPublic = ExtractPublicPropTypes<typeof svPanelProps>

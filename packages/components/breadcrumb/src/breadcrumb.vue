@@ -13,14 +13,17 @@
 import { onMounted, provide, ref } from 'vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { breadcrumbKey } from './constants'
-import { breadcrumbProps } from './breadcrumb'
+
+import type { BreadcrumbProps } from './breadcrumb'
 
 defineOptions({
   name: 'ElBreadcrumb',
 })
 
 const { t } = useLocale()
-const props = defineProps(breadcrumbProps)
+const props = withDefaults(defineProps<BreadcrumbProps>(), {
+  separator: '/',
+})
 
 const ns = useNamespace('breadcrumb')
 const breadcrumb = ref<HTMLDivElement>()

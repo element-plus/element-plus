@@ -36,7 +36,7 @@
       </el-collapse-item>
       <el-collapse-item title="Controllability" name="4">
         <div>
-          Decision making: giving advices about operations is acceptable, but do
+          Decision making: giving advice about operations is acceptable, but do
           not make decisions for the users;
         </div>
         <div>

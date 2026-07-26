@@ -1,4 +1,4 @@
-import { markRaw, nextTick } from 'vue'
+import { markRaw, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
@@ -203,6 +203,76 @@ describe('Dialog.vue', () => {
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 
+  test('dialog content should not be clickable during close animation', async () => {
+    const visible = ref(true)
+    const handleClick = vi.fn()
+    const onClose = vi.fn()
+    const onClosed = vi.fn()
+
+    const wrapper = mount({
+      setup() {
+        return () => (
+          <Dialog
+            modelValue={visible.value}
+            onUpdate:modelValue={(val: boolean) => (visible.value = val)}
+            onClose={onClose}
+            onClosed={onClosed}
+          >
+            <button class="test-button" onClick={handleClick}>
+              Click me
+            </button>
+          </Dialog>
+        )
+      },
+    })
+
+    await nextTick()
+    await rAF()
+    await nextTick()
+
+    expect(wrapper.find('.el-dialog').exists()).toBe(true)
+    const button = wrapper.find('.test-button')
+    await button.trigger('click')
+    expect(handleClick).toHaveBeenCalledTimes(1)
+
+    visible.value = false
+    await nextTick()
+
+    const overlayDialog = wrapper.find('.el-overlay-dialog')
+    expect(overlayDialog.classes()).toContain('is-closing')
+    expect(onClose).toHaveBeenCalled()
+
+    await rAF()
+    await rAF()
+    await nextTick()
+
+    expect(onClosed).toHaveBeenCalled()
+  })
+
+  // #23248
+  test('should clear `closing` state', async () => {
+    const visible = ref(true)
+
+    const wrapper = mount({
+      setup() {
+        return () => <Dialog v-model={visible.value} />
+      },
+    })
+
+    await nextTick()
+    await rAF()
+    await nextTick()
+
+    const overlayDialog = wrapper.find('.el-overlay-dialog')
+    visible.value = false
+    await nextTick()
+    expect(overlayDialog.classes()).toContain('is-closing')
+    visible.value = true
+    await rAF()
+    await nextTick()
+    expect(overlayDialog.classes()).not.toContain('is-closing')
+  })
+
   describe('mask related', () => {
     test('should not have overlay mask when mask is false', async () => {
       const wrapper = mount(
@@ -247,6 +317,34 @@ describe('Dialog.vue', () => {
       await wrapper.find('button').trigger('click')
       expect(dialog.vm.visible).toBe(true)
       expect(onClick).toHaveBeenCalled()
+    })
+
+    test('should bring the clicked penetrable dialog to front', async () => {
+      const wrapper = mount(() => (
+        <>
+          <Dialog modelValue={true} modal={false} modalPenetrable={true}>
+            first dialog
+          </Dialog>
+          <Dialog modelValue={true} modal={false} modalPenetrable={true}>
+            second dialog
+          </Dialog>
+        </>
+      ))
+      await nextTick()
+      await rAF()
+      await nextTick()
+
+      const overlays = wrapper.findAll('.el-modal-dialog')
+      const dialogs = wrapper.findAll('.el-dialog')
+      expect(overlays).toHaveLength(2)
+      expect(dialogs).toHaveLength(2)
+
+      const getZIndex = (index: number) =>
+        Number((overlays[index].element as HTMLElement).style.zIndex)
+      expect(getZIndex(1)).toBeGreaterThan(getZIndex(0))
+      await dialogs[0].trigger('mousedown')
+      await nextTick()
+      expect(getZIndex(0)).toBeGreaterThan(getZIndex(1))
     })
   })
 
@@ -453,7 +551,13 @@ describe('Dialog.vue', () => {
     })
 
     test('dialog supports transition as object config', async () => {
-      vi.useRealTimers()
+      vi.useFakeTimers()
+      const rAFSpy = vi
+        .spyOn(window, 'requestAnimationFrame')
+        .mockImplementation((cb) => {
+          cb(0)
+          return 0
+        })
       const afterEnter = vi.fn()
       const transitionConfig = {
         name: 'dialog-custom-object',
@@ -477,10 +581,11 @@ describe('Dialog.vue', () => {
         true
       )
 
-      await new Promise((resolve) => setTimeout(resolve, 500))
+      vi.advanceTimersByTime(500)
       await nextTick()
-      await rAF()
       expect(afterEnter).toHaveBeenCalled()
+      vi.useRealTimers()
+      rAFSpy.mockRestore()
     })
   })
 })

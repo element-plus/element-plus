@@ -18,10 +18,11 @@ import {
 } from '@vueuse/core'
 import {
   buildProps,
-  capitalize,
   definePropType,
   getEventCode,
+  isGreaterThan,
   mutable,
+  rAF,
   throwError,
 } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
@@ -32,20 +33,17 @@ import useWheel from '@element-plus/components/virtual-list/src/hooks/use-wheel'
 import { clamp } from 'lodash-unified'
 import TabBar from './tab-bar.vue'
 import { tabsRootContextKey } from './constants'
+import { useTabNavTouch } from './composables/use-tab-nav-touch'
 
 import type {
   CSSProperties,
   ComponentPublicInstance,
   ExtractPropTypes,
-  __ExtractPublicPropTypes,
+  ExtractPublicPropTypes,
 } from 'vue'
 import type { TabBarInstance } from './tab-bar'
 import type { TabPaneName, TabsPaneContext } from './constants'
-
-interface Scrollable {
-  next?: boolean
-  prev?: number
-}
+import type { Scrollable } from './composables/use-tab-nav-touch'
 
 export const tabNavProps = buildProps({
   panes: {
@@ -79,7 +77,7 @@ export const tabNavEmits = {
 }
 
 export type TabNavProps = ExtractPropTypes<typeof tabNavProps>
-export type TabNavPropsPublic = __ExtractPublicPropTypes<typeof tabNavProps>
+export type TabNavPropsPublic = ExtractPublicPropTypes<typeof tabNavProps>
 export type TabNavEmits = typeof tabNavEmits
 
 const COMPONENT_NAME = 'ElTabNav'
@@ -106,6 +104,7 @@ const TabNav = defineComponent({
     const navOffset = ref(0)
     const isFocus = ref(false)
     const focusable = ref(true)
+    const isWheelScrolling = ref(false)
     const tracker = shallowRef()
 
     const isHorizontal = computed(() =>
@@ -116,6 +115,8 @@ const TabNav = defineComponent({
     const navStyle = computed<CSSProperties>(() => {
       const dir = sizeName.value === 'width' ? 'X' : 'Y'
       return {
+        transition:
+          isWheelScrolling.value || isTouchScrolling.value ? 'none' : undefined,
         transform: `translate${dir}(-${navOffset.value}px)`,
       }
     })
@@ -154,11 +155,32 @@ const TabNav = defineComponent({
       }
     )
 
+    const handleWheel = (event: WheelEvent) => {
+      isWheelScrolling.value = true
+      onWheel(event)
+      rAF(() => {
+        isWheelScrolling.value = false
+      })
+    }
+
+    const {
+      isTouchScrolling,
+      handleTouchStart,
+      handleTouchMove,
+      handleTouchEnd,
+    } = useTabNavTouch({
+      scrollable,
+      navOffset,
+      navSize,
+      navContainerSize,
+      isHorizontal,
+    })
+
     const scrollPrev = () => {
       if (!navScroll$.value) return
 
       const containerSize =
-        navScroll$.value[`offset${capitalize(sizeName.value)}`]
+        navScroll$.value.getBoundingClientRect()[sizeName.value]
       const currentOffset = navOffset.value
 
       if (!currentOffset) return
@@ -172,12 +194,12 @@ const TabNav = defineComponent({
     const scrollNext = () => {
       if (!navScroll$.value || !nav$.value) return
 
-      const navSize = nav$.value[`offset${capitalize(sizeName.value)}`]
+      const navSize = nav$.value.getBoundingClientRect()[sizeName.value]
       const containerSize =
-        navScroll$.value[`offset${capitalize(sizeName.value)}`]
+        navScroll$.value.getBoundingClientRect()[sizeName.value]
       const currentOffset = navOffset.value
 
-      if (navSize - currentOffset <= containerSize) return
+      if (!isGreaterThan(navSize - currentOffset, containerSize)) return
 
       const newOffset =
         navSize - currentOffset > containerSize * 2
@@ -200,20 +222,22 @@ const TabNav = defineComponent({
 
       const activeTabBounding = activeTab.getBoundingClientRect()
       const navScrollBounding = navScroll.getBoundingClientRect()
+      // nav has a 1px border width
+      const navScrollLeft = navScrollBounding.left + 1
+      const navScrollRight = navScrollBounding.right - 1
+      const navBounding = nav.getBoundingClientRect()
       const maxOffset = isHorizontal.value
-        ? nav.offsetWidth - navScrollBounding.width
-        : nav.offsetHeight - navScrollBounding.height
+        ? navBounding.width - navScrollBounding.width
+        : navBounding.height - navScrollBounding.height
       const currentOffset = navOffset.value
       let newOffset = currentOffset
 
       if (isHorizontal.value) {
-        if (activeTabBounding.left < navScrollBounding.left) {
-          newOffset =
-            currentOffset - (navScrollBounding.left - activeTabBounding.left)
+        if (activeTabBounding.left < navScrollLeft) {
+          newOffset = currentOffset - (navScrollLeft - activeTabBounding.left)
         }
-        if (activeTabBounding.right > navScrollBounding.right) {
-          newOffset =
-            currentOffset + activeTabBounding.right - navScrollBounding.right
+        if (activeTabBounding.right > navScrollRight) {
+          newOffset = currentOffset + activeTabBounding.right - navScrollRight
         }
       } else {
         if (activeTabBounding.top < navScrollBounding.top) {
@@ -235,16 +259,19 @@ const TabNav = defineComponent({
 
       props.stretch && tabBarRef.value?.update()
 
-      const navSize = nav$.value[`offset${capitalize(sizeName.value)}`]
+      const navSize = nav$.value.getBoundingClientRect()[sizeName.value]
       const containerSize =
-        navScroll$.value[`offset${capitalize(sizeName.value)}`]
+        navScroll$.value.getBoundingClientRect()[sizeName.value]
       const currentOffset = navOffset.value
 
       if (containerSize < navSize) {
         scrollable.value = scrollable.value || {}
         scrollable.value.prev = currentOffset
-        scrollable.value.next = currentOffset + containerSize < navSize
-        if (navSize - currentOffset < containerSize) {
+        scrollable.value.next = isGreaterThan(
+          navSize,
+          currentOffset + containerSize
+        )
+        if (isGreaterThan(containerSize, navSize - currentOffset)) {
           navOffset.value = navSize - containerSize
         }
       } else {
@@ -325,7 +352,9 @@ const TabNav = defineComponent({
       }
     })
 
-    useResizeObserver(el$, update)
+    useResizeObserver(el$, () => {
+      rAF(update)
+    })
 
     onMounted(() => setTimeout(() => scrollToActiveTab(), 0))
     onUpdated(() => update())
@@ -462,7 +491,11 @@ const TabNav = defineComponent({
                 style={navStyle.value}
                 role="tablist"
                 onKeydown={changeTab}
-                onWheel={onWheel}
+                onWheel={handleWheel}
+                onTouchstart={handleTouchStart}
+                onTouchmove={handleTouchMove}
+                onTouchend={handleTouchEnd}
+                onTouchcancel={handleTouchEnd}
               >
                 {...[
                   !props.type ? (

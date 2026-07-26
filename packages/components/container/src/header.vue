@@ -10,18 +10,19 @@ import { useNamespace } from '@element-plus/hooks'
 
 import type { CSSProperties } from 'vue'
 
+interface HeaderProps {
+  /**
+   * @description height of the header
+   */
+  height?: string | null
+}
+
 defineOptions({
   name: 'ElHeader',
 })
 
-const props = defineProps({
-  /**
-   * @description height of the header
-   */
-  height: {
-    type: String,
-    default: null,
-  },
+const props = withDefaults(defineProps<HeaderProps>(), {
+  height: null,
 })
 
 const ns = useNamespace('header')

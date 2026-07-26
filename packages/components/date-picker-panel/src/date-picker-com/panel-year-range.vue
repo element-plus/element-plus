@@ -8,7 +8,7 @@
           :key="key"
           type="button"
           :class="ppNs.e('shortcut')"
-          :disabled="disabled"
+          :disabled="yearRangeDisabled"
           @click="handleShortcutClick(shortcut)"
         >
           {{ shortcut.text }}
@@ -20,7 +20,7 @@
             <button
               type="button"
               :class="leftPanelKls.arrowLeftBtn"
-              :disabled="disabled"
+              :disabled="yearRangeDisabled"
               @click="leftPrevYear"
             >
               <slot name="prev-year">
@@ -28,9 +28,9 @@
               </slot>
             </button>
             <button
-              v-if="unlinkPanels"
+              v-if="unlinkPanels || singlePanel"
               type="button"
-              :disabled="!enableYearArrow || disabled"
+              :disabled="!enableYearArrow || yearRangeDisabled"
               :class="leftPanelKls.arrowRightBtn"
               @click="leftNextYear"
             >
@@ -47,19 +47,19 @@
             :max-date="maxDate"
             :range-state="rangeState"
             :disabled-date="disabledDate"
-            :disabled="disabled"
+            :disabled="yearRangeDisabled"
             :cell-class-name="cellClassName"
             @changerange="handleChangeRange"
             @pick="handleRangePick"
             @select="onSelect"
           />
         </div>
-        <div :class="rightPanelKls.content">
+        <div v-if="!singlePanel" :class="rightPanelKls.content">
           <div :class="drpNs.e('header')">
             <button
               v-if="unlinkPanels"
               type="button"
-              :disabled="!enableYearArrow || disabled"
+              :disabled="!enableYearArrow || yearRangeDisabled"
               :class="rightPanelKls.arrowLeftBtn"
               @click="rightPrevYear"
             >
@@ -70,7 +70,7 @@
             <button
               type="button"
               :class="rightPanelKls.arrowRightBtn"
-              :disabled="disabled"
+              :disabled="yearRangeDisabled"
               @click="rightNextYear"
             >
               <slot name="next-year">
@@ -86,7 +86,7 @@
             :max-date="maxDate"
             :range-state="rangeState"
             :disabled-date="disabledDate"
-            :disabled="disabled"
+            :disabled="yearRangeDisabled"
             :cell-class-name="cellClassName"
             @changerange="handleChangeRange"
             @pick="handleRangePick"
@@ -118,6 +118,7 @@ import {
 } from '../utils'
 import { ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY } from '../constants'
 import YearTable from './basic-year-table.vue'
+import { useFormDisabled } from '@element-plus/components/form'
 
 import type { Dayjs } from 'dayjs'
 
@@ -178,25 +179,32 @@ const {
   rightDate,
 })
 
+const yearRangeDisabled = useFormDisabled()
+
 const hasShortcuts = computed(() => !!shortcuts.length)
 
 const panelKls = computed(() => [
   ppNs.b(),
   drpNs.b(),
   ppNs.is('border', props.border),
-  ppNs.is('disabled', props.disabled),
+  ppNs.is('disabled', yearRangeDisabled.value),
   {
     'has-sidebar': Boolean(useSlots().sidebar) || hasShortcuts.value,
+    'single-panel': props.singlePanel,
   },
 ])
 
 const leftPanelKls = computed(() => {
   return {
-    content: [ppNs.e('content'), drpNs.e('content'), 'is-left'],
+    content: [
+      ppNs.e('content'),
+      drpNs.e('content'),
+      drpNs.is('left', !props.singlePanel),
+    ],
     arrowLeftBtn: [ppNs.e('icon-btn'), 'd-arrow-left'],
     arrowRightBtn: [
       ppNs.e('icon-btn'),
-      ppNs.is('disabled', !enableYearArrow.value),
+      ppNs.is('disabled', !enableYearArrow.value || yearRangeDisabled.value),
       'd-arrow-right',
     ],
   }
@@ -207,7 +215,7 @@ const rightPanelKls = computed(() => {
     content: [ppNs.e('content'), drpNs.e('content'), 'is-right'],
     arrowLeftBtn: [
       ppNs.e('icon-btn'),
-      ppNs.is('disabled', !enableYearArrow.value),
+      ppNs.is('disabled', !enableYearArrow.value || yearRangeDisabled.value),
       'd-arrow-left',
     ],
     arrowRightBtn: [ppNs.e('icon-btn'), 'd-arrow-right'],
@@ -215,7 +223,10 @@ const rightPanelKls = computed(() => {
 })
 
 const enableYearArrow = computed(() => {
-  return props.unlinkPanels && rightYear.value > leftYear.value + 1
+  return (
+    props.singlePanel ||
+    (props.unlinkPanels && rightYear.value > leftYear.value + 1)
+  )
 })
 
 type RangePickValue = {

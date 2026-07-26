@@ -1,6 +1,7 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import dayjs from 'dayjs'
+import updateLocale from 'dayjs/plugin/updateLocale'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { describe, expect, it, vi } from 'vitest'
 import DatePickerPanel from '../src/date-picker-panel'
@@ -15,6 +16,14 @@ const makeRange = (start: number, end: number) => {
     result.push(i)
   }
   return result
+}
+
+const setDayjsWeekStart = (weekStart = 0) => {
+  dayjs.extend(updateLocale)
+  const dayjsLocale = dayjs.locale()
+  dayjs.updateLocale(dayjsLocale, {
+    weekStart,
+  })
 }
 
 describe('DatePickerPanel', () => {
@@ -101,6 +110,26 @@ describe('DatePickerPanel', () => {
         expect(onPanelChange).not.toHaveBeenCalled()
       }
     )
+  })
+
+  describe('should correctly select a date when weekStart change', () => {
+    const weekStarts = Array.from({ length: 7 }, (_, idx) => idx)
+
+    it.each(weekStarts)('dayjs "weekStart: %s" works', async (weekStart) => {
+      setDayjsWeekStart(weekStart)
+      const modelValue = ref<string>()
+      const wrapper = mount(() => (
+        <DatePickerPanel
+          v-model={modelValue.value}
+          defaultValue={new Date(2001, 0)}
+        />
+      ))
+      const cell = wrapper.find('.available')
+      await cell.trigger('mousemove')
+      await cell.trigger('click')
+
+      expect(wrapper.find('.available.current').text()).toBe(cell.text())
+    })
   })
 
   describe(':type="datetime" & :type="datetimerange"', () => {
@@ -627,6 +656,27 @@ describe('DatePickerPanel', () => {
         expect((right.timeInput as HTMLInputElement).value).toBe('AM 01:01:01')
       })
 
+      it('should get the display date in disabled-hours callback', async () => {
+        const modelValue = ['2025-05-12 00:00:00', '2025-05-24 00:00:00']
+        const disabledHours = (_role: string, date: dayjs.Dayjs) => {
+          expect(dayjs(date).isSame(modelValue[1])).toBe(true)
+        }
+        const wrapper = mount(() => (
+          <DatePickerPanel
+            model-value={modelValue}
+            type="datetimerange"
+            //@ts-expect-error
+            disabledHours={disabledHours}
+          />
+        ))
+
+        const timeInput = wrapper.findAll(
+          '.el-date-range-picker__editors-wrap input'
+        )[3]
+        await timeInput.trigger('blur')
+        await timeInput.trigger('focus')
+      })
+
       it('input date', async () => {
         const value = ref<string[]>([])
         const wrapper = mount(() => (
@@ -694,12 +744,14 @@ describe('DatePickerPanel', () => {
       })
 
       it('clear button should empty the input value', async () => {
-        const value = ref('')
+        const value = ref([])
+        const onClear = vi.fn()
         const wrapper = mount(() => (
           <DatePickerPanel
             v-model={value.value}
             type="datetimerange"
             showFooter
+            onClear={onClear}
           />
         ))
         const dateRow = wrapper.findAll('.el-date-table__row')
@@ -711,11 +763,14 @@ describe('DatePickerPanel', () => {
         )
         expect(headerValue[0].element.value).not.toBe('')
         expect(headerValue[1].element.value).not.toBe('')
+        expect(value.value).toHaveLength(2)
         const clearBtn = wrapper.findAll<HTMLButtonElement>(
           '.el-picker-panel__footer button'
         )[0].element
         clearBtn.click()
         await nextTick()
+        expect(onClear).toHaveBeenCalledOnce()
+        expect(value.value).toBe(null)
         expect(headerValue[0].element.value).toBe('')
         expect(headerValue[1].element.value).toBe('')
       })
@@ -963,6 +1018,253 @@ describe('DatePickerPanel', () => {
 
         expect(leftHeader.text()).toBe('January')
         expect(rightHeader.text()).toBe('February')
+      })
+
+      it('should not corrupt start date when typing intermediate end date values', async () => {
+        const value = ref([
+          new Date(2026, 3, 1, 1, 0, 0),
+          new Date(2026, 4, 1, 0, 0, 0),
+        ])
+        const wrapper = mount(() => (
+          <DatePickerPanel v-model={value.value} type="datetimerange" />
+        ))
+        await nextTick()
+
+        const pickerss = wrapper.findAll(
+          '.el-date-range-picker__time-header .el-date-range-picker__editors-wrap'
+        )
+        const leftDateInput = pickerss[0].find(
+          '.el-date-range-picker__time-picker-wrap:nth-child(1) input'
+        ).element as HTMLInputElement
+        const rightDateInput = pickerss[1].find(
+          '.el-date-range-picker__time-picker-wrap:nth-child(1) input'
+        ).element as HTMLInputElement
+
+        expect(leftDateInput.value).toBe('2026-04-01')
+        expect(rightDateInput.value).toBe('2026-05-01')
+
+        // Simulate the user to change the end date and month from 05 to 04 (intermediate state, the date has not been changed yet)
+        rightDateInput.value = '2026-04-01'
+        rightDateInput.dispatchEvent(new Event('input'))
+        await nextTick()
+
+        // Intermediate input should not trigger correction, start date should remain unchanged
+        expect(leftDateInput.value).toBe('2026-04-01')
+        expect(value.value[0]).toStrictEqual(new Date(2026, 3, 1, 1, 0, 0))
+
+        // User continues to input the complete target date
+        rightDateInput.value = '2026-04-20'
+        rightDateInput.dispatchEvent(new Event('input'))
+        rightDateInput.dispatchEvent(new Event('change'))
+        await nextTick()
+
+        // Final value is correct, start date is not corrupted
+        expect(leftDateInput.value).toBe('2026-04-01')
+        expect(value.value[0]).toStrictEqual(new Date(2026, 3, 1, 1, 0, 0))
+      })
+
+      it('should not duplicate panels after confirm left time input', async () => {
+        vi.useFakeTimers()
+        vi.setSystemTime(new Date(2000, 0))
+        const modelValue = ref([])
+        const wrapper = mount(() => (
+          <DatePickerPanel v-model={modelValue.value} type="datetimerange" />
+        ))
+        const input = wrapper.find('input')
+        await input.trigger('blur')
+        await input.trigger('focus')
+        const pickerss = wrapper.findAll('.el-picker-panel__content')
+        const cells = pickerss[1].findAll('.available .el-date-table-cell')
+        await cells[0].trigger('click')
+        await cells[1].trigger('click')
+        const leftTimeInput = wrapper.findAll<HTMLInputElement>(
+          '.el-date-range-picker__time-picker-wrap input'
+        )[1]
+        await leftTimeInput.trigger('focus')
+        await wrapper.find('.el-time-panel__btn.confirm').trigger('click')
+        const leftHeader = pickerss[0].findAll(
+          '.el-date-range-picker__header-label'
+        )[1]
+        const rightHeader = pickerss[1].findAll(
+          '.el-date-range-picker__header-label'
+        )[1]
+
+        expect(leftHeader.text()).toBe('January')
+        expect(rightHeader.text()).toBe('February')
+        vi.useRealTimers()
+      })
+
+      it('should not duplicate panels after confirm right time input', async () => {
+        vi.useFakeTimers()
+        vi.setSystemTime(new Date(2000, 0))
+        const modelValue = ref([])
+        const wrapper = mount(() => (
+          <DatePickerPanel v-model={modelValue.value} type="datetimerange" />
+        ))
+        const cells = wrapper.findAll('.available .el-date-table-cell')
+        await cells[0].trigger('click')
+        await cells[1].trigger('click')
+        const pickerss = wrapper.findAll('.el-date-range-picker__header')
+        const rightTimeInput = wrapper.findAll<HTMLInputElement>(
+          '.el-date-range-picker__time-picker-wrap input'
+        )[3]
+        await rightTimeInput.trigger('focus')
+        await wrapper.find('.el-time-panel__btn.confirm').trigger('click')
+        const leftHeader = pickerss[0].findAll(
+          '.el-date-range-picker__header-label'
+        )[1]
+        const rightHeader = pickerss[1].findAll(
+          '.el-date-range-picker__header-label'
+        )[1]
+
+        expect(leftHeader.text()).toBe('January')
+        expect(rightHeader.text()).toBe('February')
+        vi.useRealTimers()
+      })
+
+      it('should render buttons with correct disabled status when unlinkPanels is true', async () => {
+        const value = ref<string[]>([])
+        const wrapper = mount(() => (
+          <DatePickerPanel
+            v-model={value.value}
+            type="datetimerange"
+            showFooter
+            unlinkPanels={true}
+          />
+        ))
+
+        await nextTick()
+        const pickers = wrapper.findAll('.el-date-range-picker__content')
+        const leftBtns = pickers[0].findAll(
+          '.el-date-range-picker__header .el-picker-panel__icon-btn'
+        )!
+        expect(leftBtns[0].classes()).not.toContain('is-disabled')
+        expect(leftBtns[0].attributes('disabled')).toBeUndefined()
+        expect(leftBtns[1].classes()).not.toContain('is-disabled')
+        expect(leftBtns[1].attributes('disabled')).toBeUndefined()
+        expect(leftBtns[2].classes()).toContain('is-disabled')
+        expect(leftBtns[2].attributes('disabled')).toBe('')
+        expect(leftBtns[3].classes()).toContain('is-disabled')
+        expect(leftBtns[3].attributes('disabled')).toBe('')
+        const rightBtns = pickers[1].findAll(
+          '.el-date-range-picker__header .el-picker-panel__icon-btn'
+        )!
+        expect(rightBtns[0].classes()).toContain('is-disabled')
+        expect(rightBtns[0].attributes('disabled')).toBe('')
+        expect(rightBtns[1].classes()).toContain('is-disabled')
+        expect(rightBtns[1].attributes('disabled')).toBe('')
+        expect(rightBtns[2].classes()).not.toContain('is-disabled')
+        expect(rightBtns[2].attributes('disabled')).toBeUndefined()
+        expect(rightBtns[3].classes()).not.toContain('is-disabled')
+        expect(rightBtns[3].attributes('disabled')).toBeUndefined()
+      })
+
+      it('auto-adjusted maxDate should not be a disabled date when input start date', async () => {
+        // Disable dates after 2026-04-17
+        const disabledDate = (date: Date) =>
+          date.getTime() > new Date(2026, 3, 17).getTime()
+        const value = ref([
+          new Date(2026, 1, 20, 0, 0, 0),
+          new Date(2026, 2, 19, 0, 0, 0),
+        ])
+        const wrapper = mount(() => (
+          <DatePickerPanel
+            v-model={value.value}
+            type="datetimerange"
+            disabledDate={disabledDate}
+          />
+        ))
+        await nextTick()
+
+        const pickerss = wrapper.findAll(
+          '.el-date-range-picker__time-header .el-date-range-picker__editors-wrap'
+        )
+        const leftDateInput = pickerss[0].find(
+          '.el-date-range-picker__time-picker-wrap:nth-child(1) input'
+        ).element as HTMLInputElement
+
+        // Change start date to 2026-03-20, auto-adjusted maxDate should not exceed 2026-04-17
+        leftDateInput.value = '2026-03-20'
+        leftDateInput.dispatchEvent(new Event('input'))
+        leftDateInput.dispatchEvent(new Event('change'))
+        await nextTick()
+
+        const endDate = dayjs(value.value[1])
+        expect(disabledDate(endDate.toDate())).toBe(false)
+        expect(endDate.isSameOrBefore(dayjs(new Date(2026, 3, 17)))).toBe(true)
+      })
+
+      it('auto-adjusted minDate should not be a disabled date when input end date', async () => {
+        // Disable dates before 2026-01-05
+        const disabledDate = (date: Date) =>
+          date.getTime() < new Date(2026, 0, 5).getTime()
+        const value = ref([
+          new Date(2026, 1, 10, 0, 0, 0),
+          new Date(2026, 2, 15, 0, 0, 0),
+        ])
+        const wrapper = mount(() => (
+          <DatePickerPanel
+            v-model={value.value}
+            type="datetimerange"
+            disabledDate={disabledDate}
+          />
+        ))
+        await nextTick()
+
+        const pickerss = wrapper.findAll(
+          '.el-date-range-picker__time-header .el-date-range-picker__editors-wrap'
+        )
+        const rightDateInput = pickerss[1].find(
+          '.el-date-range-picker__time-picker-wrap:nth-child(1) input'
+        ).element as HTMLInputElement
+
+        // Change end date to 2026-01-08, auto-adjusted minDate should not be earlier than 2026-01-05
+        rightDateInput.value = '2026-01-08'
+        rightDateInput.dispatchEvent(new Event('input'))
+        rightDateInput.dispatchEvent(new Event('change'))
+        await nextTick()
+
+        const startDate = dayjs(value.value[0])
+        expect(disabledDate(startDate.toDate())).toBe(false)
+        expect(startDate.isSameOrAfter(dayjs(new Date(2026, 0, 5)))).toBe(true)
+      })
+
+      it('auto-adjusted maxDate should converge to minDate when all dates in between are disabled', async () => {
+        // Disable dates on and after 2026-03-21
+        const disabledDate = (date: Date) =>
+          date.getTime() > new Date(2026, 2, 20).getTime()
+        const value = ref([
+          new Date(2026, 1, 15, 0, 0, 0),
+          new Date(2026, 2, 10, 0, 0, 0),
+        ])
+        const wrapper = mount(() => (
+          <DatePickerPanel
+            v-model={value.value}
+            type="datetimerange"
+            disabledDate={disabledDate}
+          />
+        ))
+        await nextTick()
+
+        const pickerss = wrapper.findAll(
+          '.el-date-range-picker__time-header .el-date-range-picker__editors-wrap'
+        )
+        const leftDateInput = pickerss[0].find(
+          '.el-date-range-picker__time-picker-wrap:nth-child(1) input'
+        ).element as HTMLInputElement
+
+        // Change start date to 2026-03-20 (valid), all dates from 03-21 to 04-20 are disabled,
+        // backward search converges to minDate itself, maxDate = minDate (same-day range)
+        leftDateInput.value = '2026-03-20'
+        leftDateInput.dispatchEvent(new Event('input'))
+        leftDateInput.dispatchEvent(new Event('change'))
+        await nextTick()
+
+        const startDate = dayjs(value.value[0])
+        const endDate = dayjs(value.value[1])
+        expect(startDate.format('YYYY-MM-DD')).toBe('2026-03-20')
+        expect(endDate.format('YYYY-MM-DD')).toBe('2026-03-20')
+        expect(disabledDate(endDate.toDate())).toBe(false)
       })
     })
   })

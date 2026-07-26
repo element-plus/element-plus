@@ -152,6 +152,15 @@ export default {
       resetFilter: 'Reset',
       clearFilter: 'All',
       sumText: 'Sum',
+      selectAllLabel: 'Select all rows',
+      selectRowLabel: 'Select this row',
+      expandRowLabel: 'Expand this row',
+      collapseRowLabel: 'Collapse this row',
+      sortLabel: 'Sort by {column}',
+      filterLabel: 'Filter by {column}',
+    },
+    tag: {
+      close: 'Close this tag',
     },
     tour: {
       next: 'Next',
@@ -184,6 +193,10 @@ export default {
       leftArrow: 'Carousel arrow left',
       rightArrow: 'Carousel arrow right',
       indicator: 'Carousel switch to index {index}',
+    },
+    inputOTP: {
+      groupLabel: 'OTP Input',
+      defaultLabel: 'Please enter OTP character {index}',
     },
   },
 }

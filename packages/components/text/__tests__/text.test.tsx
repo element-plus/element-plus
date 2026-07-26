@@ -1,5 +1,6 @@
+import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import Text from '../src/text.vue'
 
 const AXIOM = 'Rem is the best girl'
@@ -27,6 +28,25 @@ describe('Text.vue', () => {
     const wrapper = mount(() => <Text truncated />)
 
     expect(wrapper.classes()).toContain('is-truncated')
+  })
+
+  test('truncated title updates after resize', async () => {
+    const wrapper = mount(() => <Text truncated>{AXIOM}</Text>)
+    const offsetWidthSpy = vi.spyOn(wrapper.element, 'offsetWidth', 'get')
+    const scrollWidthSpy = vi.spyOn(wrapper.element, 'scrollWidth', 'get')
+
+    offsetWidthSpy.mockReturnValue(0)
+    scrollWidthSpy.mockReturnValue(100)
+    expect(wrapper.attributes('title')).toBeUndefined()
+
+    offsetWidthSpy.mockReturnValue(50)
+    scrollWidthSpy.mockReturnValue(100)
+    await nextTick()
+
+    expect(wrapper.attributes('title')).toBe(AXIOM)
+
+    offsetWidthSpy.mockRestore()
+    scrollWidthSpy.mockRestore()
   })
 
   test('line-clamp', () => {

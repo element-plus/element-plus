@@ -232,4 +232,91 @@ describe('ElFormItem', () => {
     expect(labelSlot.exists()).toBe(true)
     expect(labelSlot.text()).toBe(AXIOM)
   })
+
+  describe('setInitialValue', () => {
+    it('should allow setting custom initial value for reset', async () => {
+      vi.useFakeTimers()
+      const form = reactive({
+        username: 'original',
+      })
+      const wrapper = mount({
+        setup() {
+          return { form }
+        },
+        render() {
+          return (
+            <Form model={form}>
+              <FormItem ref="usernameItem" label="Username" prop="username">
+                <Input v-model={form.username} />
+              </FormItem>
+            </Form>
+          )
+        },
+      })
+
+      await nextTick()
+
+      const formItemRef = wrapper.findComponent({ ref: 'usernameItem' })
+        .vm as FormItemInstance
+
+      // Set custom initial value
+      formItemRef.setInitialValue('customInitial')
+      await nextTick()
+
+      // Modify field value
+      form.username = 'modified'
+      await nextTick()
+
+      // Reset field
+      formItemRef.resetField()
+      await nextTick()
+      vi.runAllTimers()
+      await nextTick()
+
+      // Should reset to custom initial value
+      expect(form.username).toBe('customInitial')
+
+      vi.useRealTimers()
+    })
+
+    it('should handle undefined initial values', async () => {
+      vi.useFakeTimers()
+      const form = reactive({
+        value: 'original',
+      })
+      const wrapper = mount({
+        setup() {
+          return { form }
+        },
+        render() {
+          return (
+            <Form model={form}>
+              <FormItem ref="valueItem" label="Value" prop="value">
+                <Input v-model={form.value} />
+              </FormItem>
+            </Form>
+          )
+        },
+      })
+
+      await nextTick()
+
+      const formItemRef = wrapper.findComponent({ ref: 'valueItem' })
+        .vm as FormItemInstance
+
+      // Test undefined
+      formItemRef.setInitialValue(undefined)
+      form.value = 'changed'
+      await nextTick()
+
+      formItemRef.resetField()
+      await nextTick()
+      vi.runAllTimers()
+      await nextTick()
+
+      expect(form.value).toBe(undefined)
+
+      vi.useRealTimers()
+    })
+  })
 })

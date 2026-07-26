@@ -1,5 +1,6 @@
-import type { vShow } from 'vue'
 import type { INSTALLED_KEY } from '@element-plus/constants'
+import type { ClassValue } from '@element-plus/utils'
+import type { StyleValue } from 'vue'
 
 declare global {
   const process: {
@@ -11,8 +12,8 @@ declare global {
 
   namespace JSX {
     interface IntrinsicAttributes {
-      class?: unknown
-      style?: unknown
+      class?: ClassValue
+      style?: StyleValue
     }
   }
 }
@@ -24,10 +25,6 @@ declare module 'vue' {
 
   export interface GlobalComponents {
     Component: (props: { is: Component | string }) => void
-  }
-
-  export interface ComponentCustomProperties {
-    vShow: typeof vShow
   }
 }
 

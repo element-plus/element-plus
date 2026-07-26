@@ -1,4 +1,5 @@
 @use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
 @use 'common/var' as *;
 
 @mixin disable {
@@ -70,10 +71,18 @@
 }
 
 @include b(color-picker-panel) {
+  @include set-component-css-var('colorpicker', $colorpicker);
+  @include set-css-var-value(
+    ('fill-color', 'blank'),
+    getCssVar('colorpicker', 'bg-color')
+  );
+}
+
+@include b(color-picker-panel) {
   width: 300px;
   padding: 12px;
   box-sizing: content-box;
-  background: getCssVar('bg-color', 'overlay');
+  background: getCssVar('colorpicker', 'bg-color');
 
   @include when(border) {
     border: solid 1px getCssVar('border-color-lighter');

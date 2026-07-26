@@ -6,6 +6,8 @@ import Steps from '../src/steps.vue'
 import Step from '../src/item.vue'
 
 import type { VNode } from 'vue'
+import type { VueWrapper } from '@vue/test-utils'
+import type { StepsInstance } from '../src/steps'
 
 const _mount = (render: () => VNode) =>
   mount({
@@ -18,7 +20,7 @@ const _mount = (render: () => VNode) =>
         ElSteps: {},
       },
     },
-  })
+  }) as unknown as VueWrapper<StepsInstance>
 
 describe('Steps.vue', () => {
   test('render', () => {

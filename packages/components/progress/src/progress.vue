@@ -93,10 +93,9 @@ import {
 } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
 import { isFunction, isString } from '@element-plus/utils'
-import { progressProps } from './progress'
 
 import type { CSSProperties } from 'vue'
-import type { ProgressColor } from './progress'
+import type { ProgressColor, ProgressProps } from './progress'
 
 defineOptions({
   name: 'ElProgress',
@@ -109,7 +108,18 @@ const STATUS_COLOR_MAP: Record<string, string> = {
   default: '#20a0ff',
 }
 
-const props = defineProps(progressProps)
+const props = withDefaults(defineProps<ProgressProps>(), {
+  type: 'line',
+  percentage: 0,
+  status: '',
+  duration: 3,
+  strokeWidth: 6,
+  strokeLinecap: 'round',
+  width: 126,
+  showText: true,
+  color: '',
+  format: (percentage: number): string => `${percentage}%`,
+})
 
 const ns = useNamespace('progress')
 

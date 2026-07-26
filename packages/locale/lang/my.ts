@@ -154,6 +154,15 @@ export default {
       resetFilter: 'ပြန်လည်သတ်မှတ်မည်',
       clearFilter: 'အားလုံး',
       sumText: 'ပေါင်းလဒ်',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
+      sortLabel: 'Sort by {column}', // to be translated
+      filterLabel: 'Filter by {column}', // to be translated
+    },
+    tag: {
+      close: 'Close this tag', // to be translated
     },
     tour: {
       next: 'နောက်သို့',
@@ -186,6 +195,10 @@ export default {
       leftArrow: 'ကာရူဆယ် မြား ဘယ်ဘက်',
       rightArrow: 'ကာရူဆယ် မြား ညာဘက်',
       indicator: 'ကာရူဆယ် အညွှန်း {index} သို့ ပြောင်းရန်',
+    },
+    inputOTP: {
+      groupLabel: 'OTP Input', // to be translated
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
     },
   },
 }

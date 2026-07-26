@@ -8,6 +8,7 @@
 
 @include b(cascader-panel) {
   display: flex;
+  width: fit-content;
   border-radius: getCssVar('cascader-menu', 'radius');
   font-size: getCssVar('cascader-menu', 'font-size');
 
@@ -45,6 +46,16 @@
     padding: 6px 0;
     list-style: none;
     box-sizing: border-box;
+
+    &.#{$namespace}-vl__window {
+      // for virtual scroll
+      margin: 6px 0;
+      padding: 0;
+      ul {
+        margin: 0;
+        padding: 0;
+      }
+    }
   }
 
   @include e(hover-zone) {
@@ -79,6 +90,7 @@
   height: 34px;
   line-height: 34px;
   outline: none;
+  box-sizing: border-box;
 
   &.is-selectable.in-active-path {
     color: getCssVar('cascader-menu', 'text-color');

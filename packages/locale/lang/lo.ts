@@ -150,6 +150,15 @@ export default {
       resetFilter: 'ຄືນຄ່າໃໝ່',
       clearFilter: 'ທັງໝົດ',
       sumText: 'ຜົນລວມ',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
+      sortLabel: 'Sort by {column}', // to be translated
+      filterLabel: 'Filter by {column}', // to be translated
+    },
+    tag: {
+      close: 'Close this tag', // to be translated
     },
     tour: {
       next: 'ຖັດໄປ',
@@ -182,6 +191,10 @@ export default {
       leftArrow: 'ລູກສອນເບື້ອງຊ້າຍຂອງ Carousel',
       rightArrow: 'ລູກສອນເບື້ອງຂວາຂອງ Carousel',
       indicator: 'Carousel ສະຫຼັບໄປລຳດັບທີ {index}',
+    },
+    inputOTP: {
+      groupLabel: 'OTP Input', // to be translated
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
     },
   },
 }

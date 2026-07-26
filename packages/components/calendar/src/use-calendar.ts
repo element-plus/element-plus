@@ -96,7 +96,7 @@ export const useCalendar = (
       return calculateValidatedDateRange(startDayjs, endDayjs)
     } else {
       // two months
-      if (startDayjs.add(1, 'month').month() !== endDayjs.month()) {
+      if (!startDayjs.add(1, 'month').isSame(endDayjs, 'month')) {
         debugWarn(
           componentName,
           'start time and end time interval must not exceed two months'
@@ -133,7 +133,7 @@ export const useCalendar = (
     const firstMonth = firstDay.get('month')
     const lastMonth = lastDay.get('month')
 
-    // Current mouth
+    // Current month
     if (firstMonth === lastMonth) {
       return [[firstDay, lastDay]]
     }
@@ -178,6 +178,14 @@ export const useCalendar = (
     }
   }
 
+  const handleDateChange = (date: Dayjs | 'today') => {
+    if (date === 'today') {
+      selectDate('today')
+    } else {
+      pickDay(date)
+    }
+  }
+
   return {
     calculateValidatedDateRange,
     date,
@@ -185,5 +193,6 @@ export const useCalendar = (
     pickDay,
     selectDate,
     validatedRange,
+    handleDateChange,
   }
 }

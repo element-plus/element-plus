@@ -133,7 +133,7 @@ skeleton/leading-trailing-without-bouncing
 
 ### Skeleton Slots
 
-| Name     | Description                            | Scope                      |
+| Name     | Description                            | Type                       |
 | -------- | -------------------------------------- | -------------------------- |
 | default  | real rendering DOM                     | ^[object]`$attrs`          |
 | template | content as rendering skeleton template | ^[object]`{ key: number }` |

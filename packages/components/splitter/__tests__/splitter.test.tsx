@@ -316,6 +316,32 @@ describe('Splitter', () => {
     expect(panels[0].attributes('style')).toContain('flex-basis: 400px;')
   })
 
+  it('should expand a collapsible panel whose initial size is 0 to its min size', async () => {
+    const size = ref(0)
+    const wrapper = mount(() => (
+      <ElSplitter>
+        <ElSplitterPanel v-model:size={size.value} min={100} collapsible>
+          Left Panel
+        </ElSplitterPanel>
+        <ElSplitterPanel min={200}>Right Panel</ElSplitterPanel>
+      </ElSplitter>
+    ))
+    await nextTick()
+
+    const panels = wrapper.findAll('.el-splitter-panel')
+    const endCollapseButton = wrapper.find(
+      '.el-splitter-bar__horizontal-collapse-icon-end'
+    )
+
+    expect(panels[0].attributes('style')).toContain('flex-basis: 0px;')
+
+    await endCollapseButton.trigger('click')
+    await nextTick()
+
+    expect(panels[0].attributes('style')).toContain('flex-basis: 100px;')
+    expect(size.value).toBe(100)
+  })
+
   it('should not update panel size until drag ends when lazy is true', async () => {
     const wrapper = mount(() => (
       <div style={{ width: '400px', height: '400px' }}>
@@ -410,5 +436,27 @@ describe('Splitter', () => {
     const panels = wrapper.findAll('.el-splitter-panel')
     expect(panels[0].attributes('style')).toContain('flex-basis: 150px;')
     expect(panels[1].attributes('style')).toContain('flex-basis: 250px;')
+  })
+
+  it('should not still display the mask after the panel updates', async () => {
+    const show = ref(true)
+    const wrapper = mount(() => (
+      <ElSplitter onResizeStart={() => (show.value = false)}>
+        {show.value ? (
+          <ElSplitterPanel v-if={show.value}>Left Panel</ElSplitterPanel>
+        ) : null}
+        <ElSplitterPanel>Right Panel</ElSplitterPanel>
+      </ElSplitter>
+    ))
+    await nextTick()
+
+    expect(wrapper.find('.el-splitter__mask').exists()).toBeFalsy()
+
+    const splitBar = wrapper.find('.el-splitter-bar__dragger')
+    const mousedown = new MouseEvent('mousedown', { bubbles: true })
+    Object.defineProperty(mousedown, 'pageX', { value: 200 })
+    splitBar.element.dispatchEvent(mousedown)
+    await nextTick()
+    expect(wrapper.find('.el-splitter__mask').exists()).toBeFalsy()
   })
 })

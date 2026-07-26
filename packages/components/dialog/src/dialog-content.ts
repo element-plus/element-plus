@@ -1,5 +1,64 @@
-import { buildProps, iconPropType } from '@element-plus/utils'
+import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 
+import type { ClassValue, IconPropType } from '@element-plus/utils'
+
+/**
+ * @description dialog-content component props
+ */
+export interface DialogContentProps {
+  /**
+   * @description whether to align the header and footer in center
+   */
+  center?: boolean
+  /**
+   * @description whether to align the dialog both horizontally and vertically
+   */
+  alignCenter?: boolean
+  /**
+   * @description custom close icon, default is Close
+   */
+  closeIcon?: IconPropType
+  /**
+   * @description enable dragging feature for Dialog
+   */
+  draggable?: boolean
+  /**
+   * @description draggable Dialog can overflow the viewport
+   */
+  overflow?: boolean
+  /**
+   * @description whether the Dialog takes up full screen
+   */
+  fullscreen?: boolean
+  /**
+   * @description custom class names for header wrapper
+   */
+  headerClass?: ClassValue
+  /**
+   * @description custom class names for body wrapper
+   */
+  bodyClass?: ClassValue
+  /**
+   * @description custom class names for footer wrapper
+   */
+  footerClass?: ClassValue
+  /**
+   * @description whether to show a close button
+   */
+  showClose?: boolean
+  /**
+   * @description title of Dialog. Can also be passed with a named slot (see the following table)
+   */
+  title?: string
+  /**
+   * @description header's aria-level attribute
+   */
+  ariaLevel?: string
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `DialogContentProps` instead.
+ */
 export const dialogContentProps = buildProps({
   /**
    * @description whether to align the header and footer in center
@@ -39,15 +98,24 @@ export const dialogContentProps = buildProps({
   /**
    * @description custom class names for header wrapper
    */
-  headerClass: String,
+  headerClass: {
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
+    default: undefined,
+  },
   /**
    * @description custom class names for body wrapper
    */
-  bodyClass: String,
+  bodyClass: {
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
+    default: undefined,
+  },
   /**
    * @description custom class names for footer wrapper
    */
-  footerClass: String,
+  footerClass: {
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
+    default: undefined,
+  },
   /**
    * @description whether to show a close button
    */
@@ -74,3 +142,15 @@ export const dialogContentProps = buildProps({
 export const dialogContentEmits = {
   close: () => true,
 }
+
+export const dialogContentPropsDefaults = {
+  alignCenter: undefined,
+  draggable: undefined,
+  overflow: undefined,
+  showClose: true,
+  title: '',
+  ariaLevel: '2',
+  headerClass: undefined,
+  bodyClass: undefined,
+  footerClass: undefined,
+} as const

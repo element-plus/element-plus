@@ -1,6 +1,6 @@
 import { nextTick } from 'vue'
 import { flushPromises, mount } from '@vue/test-utils'
-import { describe, expect, test, vi } from 'vitest'
+import { afterEach, describe, expect, test, vi } from 'vitest'
 import {
   IMAGE_FAIL,
   IMAGE_SUCCESS,
@@ -12,11 +12,29 @@ import { EVENT_CODE } from '@element-plus/constants'
 import { stableLoad } from '@element-plus/test-utils/stable-load'
 
 import type { AnchorHTMLAttributes, ImgHTMLAttributes } from 'vue'
-import type { ImageProps } from '../src/image'
+import type { VueWrapper } from '@vue/test-utils'
+import type { ImageInstance, ImageProps } from '../src/image'
 
 type ElImageProps = ImgHTMLAttributes &
   AnchorHTMLAttributes &
   Partial<ImageProps>
+
+let intersectionCallback: IntersectionObserverCallback | undefined
+
+vi.mock('@vueuse/core', async () => {
+  return {
+    ...((await vi.importActual('@vueuse/core')) as Record<string, any>),
+    useIntersectionObserver: (
+      _target: any,
+      cb: IntersectionObserverCallback
+    ) => {
+      intersectionCallback = cb
+      return {
+        stop: vi.fn(),
+      }
+    },
+  }
+})
 
 // firstly wait for image event
 // secondly wait for vue render
@@ -35,6 +53,10 @@ const _mount = (template: string, data: Record<string, any>) =>
   })
 
 describe('Image.vue', () => {
+  afterEach(() => {
+    intersectionCallback = undefined
+  })
+
   test('render test', () => {
     const wrapper = mount(Image)
     expect(wrapper.find('.el-image').exists()).toBe(true)
@@ -165,13 +187,34 @@ describe('Image.vue', () => {
       })
     )
     await doubleWait()
-    wrapper.vm.$refs.imageRef.showPreview()
+    ;(wrapper.vm.$refs.imageRef as ImageInstance).showPreview()
     await doubleWait()
     expect(wrapper.find('.el-image-viewer__img').attributes('src')).toBe(
       IMAGE_FAIL + 1
     )
   })
-  //@todo lazy image test
+
+  test('lazy image loads when entering viewport', async () => {
+    const wrapper = mount(Image, {
+      props: {
+        src: IMAGE_SUCCESS,
+        lazy: true,
+      } as ElImageProps,
+    })
+    await doubleWait()
+    expect(wrapper.find('img').exists()).toBe(false)
+    expect(intersectionCallback).toBeDefined()
+    intersectionCallback?.(
+      [
+        {
+          isIntersecting: true,
+        } as IntersectionObserverEntry,
+      ],
+      {} as IntersectionObserver
+    )
+    await nextTick()
+    expect(wrapper.find('img').attributes('src')).toBe(IMAGE_SUCCESS)
+  })
 
   test('`show-progress` prop to control whether to display progress', async () => {
     const url = IMAGE_SUCCESS
@@ -188,9 +231,9 @@ describe('Image.vue', () => {
         url,
         srcList,
       })
-    )
+    ) as unknown as VueWrapper<ImageInstance>
     await doubleWait()
-    wrapper.vm.$refs.imageRef.showPreview()
+    ;(wrapper.vm.$refs.imageRef as ImageInstance).showPreview()
     await doubleWait()
     expect(wrapper.find('.el-image-viewer__progress').exists()).toBe(false)
 
@@ -217,9 +260,9 @@ describe('Image.vue', () => {
         url,
         srcList,
       })
-    )
+    ) as unknown as VueWrapper<ImageInstance>
     await doubleWait()
-    wrapper.vm.$refs.imageRef.showPreview()
+    ;(wrapper.vm.$refs.imageRef as ImageInstance).showPreview()
     await doubleWait()
     expect(wrapper.find('.el-image-viewer__progress').exists()).toBe(true)
     expect(wrapper.find('.el-image-viewer__progress').text()).toBe('1 - 3')
@@ -253,7 +296,7 @@ describe('Image.vue', () => {
     )
 
     await doubleWait()
-    wrapper.vm.$refs.imageRef.showPreview()
+    ;(wrapper.vm.$refs.imageRef as ImageInstance).showPreview()
     await doubleWait()
 
     const img = wrapper.find('.el-image-viewer__canvas img')
@@ -334,6 +377,11 @@ describe('Image.vue', () => {
       }
       const wrapper = mount(() => <Image {...props} />)
       await flushPromises()
+      // Manually trigger the load event if necessary
+      const img = wrapper.find('img')
+      if (img.exists()) {
+        await img.trigger('load')
+      }
       expect(wrapper.find('.el-image__inner').exists()).toBe(true)
       expect(handleLoad).toBeCalled()
     })

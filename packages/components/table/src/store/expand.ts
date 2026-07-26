@@ -9,28 +9,36 @@ function useExpand<T extends DefaultRow>(watcherData: WatcherPropsData<T>) {
   const instance = getCurrentInstance() as Table<T>
   const defaultExpandAll = ref(false)
   const expandRows: Ref<T[]> = ref([])
+
+  const canRowExpand = (row: T, index: number) => {
+    const expandableFn = instance.store.states.rowExpandable.value
+    return expandableFn?.(row, index) ?? true
+  }
+
   const updateExpandRows = () => {
     const data = watcherData.data.value || []
     const rowKey = watcherData.rowKey.value
     if (defaultExpandAll.value) {
-      expandRows.value = data.slice()
+      expandRows.value = instance.store.states.rowExpandable.value
+        ? data.filter(canRowExpand)
+        : data.slice()
     } else if (rowKey) {
       // TODO：这里的代码可以优化
       const expandRowsMap = getKeysMap(expandRows.value, rowKey)
-      expandRows.value = data.reduce((prev: T[], row: T) => {
+      expandRows.value = data.filter((row, index) => {
         const rowId = getRowIdentity(row, rowKey)
-        const rowInfo = expandRowsMap[rowId]
-        if (rowInfo) {
-          prev.push(row)
-        }
-        return prev
-      }, [])
+        return !!expandRowsMap[rowId] && canRowExpand(row, index)
+      })
     } else {
       expandRows.value = []
     }
   }
 
   const toggleRowExpansion = (row: T, expanded?: boolean) => {
+    const dataArr = watcherData.data.value || []
+    const rowIndex = dataArr.indexOf(row)
+    if (rowIndex > -1 && !canRowExpand(row, rowIndex)) return
+
     const changed = toggleRowStatus(
       expandRows.value,
       row,
@@ -53,7 +61,7 @@ function useExpand<T extends DefaultRow>(watcherData: WatcherPropsData<T>) {
     const keysMap = getKeysMap(data, rowKey)
     expandRows.value = rowKeys.reduce((prev: T[], cur) => {
       const info = keysMap[cur]
-      if (info) {
+      if (info && canRowExpand(info.row, info.index)) {
         prev.push(info.row)
       }
       return prev

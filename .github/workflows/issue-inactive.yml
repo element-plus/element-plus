@@ -8,17 +8,19 @@ on:
 jobs:
   close-issues:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     if: ${{ github.repository_owner == 'element-plus' }}
     steps:
       - name: need reproduction
-        uses: actions-cool/issues-helper@v3
+        uses: actions-cool/issues-helper-backup@d65454423c6fbbd20026b9b499d403f79422ac69
         with:
           actions: 'close-issues'
           labels: 'need reproduction'
           inactive-day: 3
 
       - name: needs more info
-        uses: actions-cool/issues-helper@v3
+        uses: actions-cool/issues-helper-backup@d65454423c6fbbd20026b9b499d403f79422ac69
         with:
           actions: 'close-issues'
           labels: 'needs more info'
@@ -29,27 +31,27 @@ jobs:
 
   lock-issues:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     if: ${{ github.repository_owner == 'element-plus' }}
     steps:
       - name: lock-issues
-        uses: actions-cool/issues-helper@v3
+        uses: actions-cool/issues-helper-backup@d65454423c6fbbd20026b9b499d403f79422ac69
         with:
           actions: 'lock-issues'
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-state: closed
           labels: 'inactive'
           inactive-day: 30
-          body: |
-            This issue has been automatically locked since there has not been any recent activity after it was closed. Please open a new issue for related bugs.
-
-            此 issue 已被自动锁定，因为关闭后没有任何近期活动。如果有相关 bug，请重新创建一个新 issue。
 
   check-inactive:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     if: ${{ github.repository_owner == 'element-plus' }}
     steps:
       - name: check-inactive
-        uses: actions-cool/issues-helper@v3
+        uses: actions-cool/issues-helper-backup@d65454423c6fbbd20026b9b499d403f79422ac69
         with:
           actions: 'check-inactive'
           inactive-day: 30

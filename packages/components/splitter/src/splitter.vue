@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import {
   computed,
   getCurrentInstance,
@@ -10,10 +10,11 @@ import {
 } from 'vue'
 import { useNamespace, useOrderedChildren } from '@element-plus/hooks'
 import { useContainer, useResize, useSize } from './hooks'
-import { splitterProps } from './splitter'
+import { splitterEmits } from './splitter'
 import { splitterRootContextKey } from './type'
 
 import type { PanelItemState } from './type'
+import type { SplitterProps } from './splitter'
 
 const ns = useNamespace('splitter')
 
@@ -21,14 +22,11 @@ defineOptions({
   name: 'ElSplitter',
 })
 
-const emits = defineEmits<{
-  (e: 'resizeStart', index: number, sizes: number[]): void
-  (e: 'resize', index: number, sizes: number[]): void
-  (e: 'resizeEnd', index: number, sizes: number[]): void
-  (e: 'collapse', index: number, type: 'start' | 'end', sizes: number[]): void
-}>()
+const emits = defineEmits(splitterEmits)
 
-const props = defineProps(splitterProps)
+const props = withDefaults(defineProps<SplitterProps>(), {
+  layout: 'horizontal',
+})
 const layout = toRef(props, 'layout')
 const lazy = toRef(props, 'lazy')
 
@@ -42,6 +40,7 @@ const {
 } = useOrderedChildren<PanelItemState>(getCurrentInstance()!, 'ElSplitterPanel')
 
 watch(panels, () => {
+  movingIndex.value = null
   panels.value.forEach((instance: PanelItemState, index: number) => {
     instance.setIndex(index)
   })

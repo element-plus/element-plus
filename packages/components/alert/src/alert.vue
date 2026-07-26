@@ -34,7 +34,7 @@
           >
             {{ closeText }}
           </div>
-          <el-icon v-else :class="ns.e('close-btn')" @click="onClose">
+          <el-icon v-else :class="ns.e('close-btn')" @click="close">
             <Close />
           </el-icon>
         </template>
@@ -44,16 +44,18 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, toRef, useSlots } from 'vue'
+import { computed, ref, useSlots } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import {
   TypeComponents,
   TypeComponentsMap,
-  isClient,
-  isUndefined,
+  flattedChildren,
+  isComment,
 } from '@element-plus/utils'
-import { useDelayedToggle, useNamespace } from '@element-plus/hooks'
-import { alertEmits, alertProps } from './alert'
+import { useNamespace } from '@element-plus/hooks'
+import { alertEmits } from './alert'
+
+import type { AlertProps } from './alert'
 
 const { Close } = TypeComponents
 
@@ -61,37 +63,34 @@ defineOptions({
   name: 'ElAlert',
 })
 
-const props = defineProps(alertProps)
+const props = withDefaults(defineProps<AlertProps>(), {
+  title: '',
+  description: '',
+  type: 'info',
+  closable: true,
+  closeText: '',
+  effect: 'light',
+})
 const emit = defineEmits(alertEmits)
 const slots = useSlots()
 
 const ns = useNamespace('alert')
 
-const visible = ref(isUndefined(props.showAfter))
+const visible = ref(true)
 
 const iconComponent = computed(() => TypeComponentsMap[props.type])
 
-const hasDesc = computed(() => !!(props.description || slots.default))
+const hasDesc = computed(() => {
+  if (props.description) return true
+  const slotContent = slots.default?.()
+  if (!slotContent) return false
 
-const open = () => {
-  visible.value = true
-  emit('open')
-}
-
-const close = (event?: Event) => {
-  visible.value = false
-  emit('close', event)
-}
-
-const { onOpen, onClose } = useDelayedToggle({
-  showAfter: toRef(props, 'showAfter', 0),
-  hideAfter: toRef(props, 'hideAfter'),
-  autoClose: toRef(props, 'autoClose'),
-  open,
-  close,
+  const children = flattedChildren(slotContent)
+  return children.some((child) => !isComment(child))
 })
 
-if (isClient) {
-  onOpen()
+const close = (evt: MouseEvent) => {
+  visible.value = false
+  emit('close', evt)
 }
 </script>

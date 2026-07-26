@@ -150,6 +150,15 @@ export default {
       resetFilter: '重置',
       clearFilter: '全部',
       sumText: '合計',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
+      sortLabel: 'Sort by {column}', // to be translated
+      filterLabel: 'Filter by {column}', // to be translated
+    },
+    tag: {
+      close: '關閉此標籤',
     },
     tour: {
       next: '下一步',
@@ -182,6 +191,10 @@ export default {
       leftArrow: '上一張幻燈片',
       rightArrow: '下一張幻燈片',
       indicator: '幻燈片切換至索引 {index}',
+    },
+    inputOTP: {
+      groupLabel: 'OTP Input', // to be translated
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
     },
   },
 }

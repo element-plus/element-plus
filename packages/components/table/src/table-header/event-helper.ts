@@ -25,7 +25,10 @@ function useEvent<T extends DefaultRow>(
     return
   }
 
-  const handleHeaderClick = (event: Event, column: TableColumnCtx<T>) => {
+  const handleHeaderClick = (
+    event: PointerEvent,
+    column: TableColumnCtx<T>
+  ) => {
     if (!column.filters && column.sortable) {
       handleSortClick(event, column, false)
     } else if (column.filterable && !column.sortable) {
@@ -34,7 +37,10 @@ function useEvent<T extends DefaultRow>(
     parent?.emit('header-click', column, event)
   }
 
-  const handleHeaderContextMenu = (event: Event, column: TableColumnCtx<T>) => {
+  const handleHeaderContextMenu = (
+    event: PointerEvent,
+    column: TableColumnCtx<T>
+  ) => {
     parent?.emit('header-contextmenu', column, event)
   }
   const draggingColumn = ref<TableColumnCtx<T> | null>(null)
@@ -49,7 +55,11 @@ function useEvent<T extends DefaultRow>(
     if (!isClient) return
     if (column.children && column.children.length > 0) return
     /* istanbul ignore if */
-    if (draggingColumn.value && props.border) {
+    if (
+      draggingColumn.value &&
+      props.border &&
+      draggingColumn.value.id === column.id
+    ) {
       dragging.value = true
 
       const table = parent
@@ -125,39 +135,46 @@ function useEvent<T extends DefaultRow>(
   }
 
   const handleMouseMove = (event: MouseEvent, column: TableColumnCtx<T>) => {
-    if (column.children && column.children.length > 0) return
+    if (!props.border || (column.children && column.children.length > 0)) return
     const el = event.target as HTMLElement
-    if (!isElement(el)) {
+    const target = isElement(el) ? el.closest('th') : null
+    if (!target) {
       return
     }
-    const target = el?.closest('th')
 
-    if (!column || !column.resizable || !target) return
+    const isSortable = hasClass(target, 'is-sortable')
 
-    if (!dragging.value && props.border) {
-      const rect = target.getBoundingClientRect()
+    if (isSortable) {
+      const cursor = dragging.value ? 'col-resize' : ''
+      target.style.cursor = cursor
 
-      const bodyStyle = document.body.style
-      const isLastTh = target.parentNode?.lastElementChild === target
-      const allowDarg = props.allowDragLastColumn || !isLastTh
-      if (rect.width > 12 && rect.right - event.clientX < 8 && allowDarg) {
-        bodyStyle.cursor = 'col-resize'
-        if (hasClass(target, 'is-sortable')) {
-          target.style.cursor = 'col-resize'
-        }
-        draggingColumn.value = column as any
-      } else if (!dragging.value) {
-        bodyStyle.cursor = ''
-        if (hasClass(target, 'is-sortable')) {
-          target.style.cursor = 'pointer'
-        }
-        draggingColumn.value = null
+      const caret = target.querySelector<HTMLElement>('.caret-wrapper')
+      if (caret) {
+        caret.style.cursor = cursor
       }
+    }
+
+    if (!column.resizable || dragging.value) {
+      draggingColumn.value = null
+      return
+    }
+
+    const rect = target.getBoundingClientRect()
+    const isLastTh = target.parentNode?.lastElementChild === target
+    const allowDrag = props.allowDragLastColumn || !isLastTh
+    const isResizeHandleActive =
+      rect.width > 12 && rect.right - event.clientX < 8 && allowDrag
+    const cursor = isResizeHandleActive ? 'col-resize' : ''
+
+    document.body.style.cursor = cursor
+    draggingColumn.value = isResizeHandleActive ? (column as any) : null
+    if (isSortable) {
+      target.style.cursor = cursor
     }
   }
 
   const handleMouseOut = () => {
-    if (!isClient) return
+    if (!isClient || dragging.value) return
     document.body.style.cursor = ''
   }
   const toggleOrder = ({ order, sortOrders }: TableColumnCtx<T>) => {
@@ -210,7 +227,7 @@ function useEvent<T extends DefaultRow>(
         sortingColumn.order = null
       }
       states.sortingColumn.value = column
-      sortProp = column.property
+      sortProp = column.property ?? null
     }
     if (!order) {
       sortOrder = column.order = null

@@ -2,7 +2,7 @@ import { computed, unref } from 'vue'
 import { useData } from 'vitepress'
 import { isClient, useBrowserLocation } from '@vueuse/core'
 
-import type { MaybeRef } from '@vueuse/core'
+import type { MaybeRef } from 'vue'
 
 const location = useBrowserLocation()
 

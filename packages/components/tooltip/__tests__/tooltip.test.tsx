@@ -7,6 +7,8 @@ import { ElInput } from '@element-plus/components/input'
 import Tooltip from '../src/tooltip.vue'
 
 import type { VNode } from 'vue'
+import type { VueWrapper } from '@vue/test-utils'
+import type { TooltipInstance } from '../src/tooltip'
 
 vi.mock('@element-plus/utils/error', () => ({
   debugWarn: vi.fn(),
@@ -27,7 +29,7 @@ describe('<ElTooltip />', () => {
       {
         attachTo: document.body,
       }
-    )
+    ) as unknown as VueWrapper<TooltipInstance>
   let wrapper: ReturnType<typeof createComponent>
   const findTrigger = () => wrapper.findComponent(ElPopperTrigger)
 
@@ -161,7 +163,7 @@ describe('<ElTooltip />', () => {
         {
           attachTo: document.body,
         }
-      )
+      ) as unknown as VueWrapper<TooltipInstance>
       await nextTick()
 
       const trigger$ = findTrigger()
@@ -233,6 +235,32 @@ describe('<ElTooltip />', () => {
 
       expect(document.activeElement).not.toBe(triggerEl.element)
       expect(wrapper.emitted()).toHaveProperty('show')
+    })
+
+    it('should resync visibility when disabled toggles in controlled mode', async () => {
+      wrapper = createComponent(
+        {
+          visible: true,
+          disabled: true,
+        },
+        content
+      )
+      await nextTick()
+      await rAF()
+
+      expect(wrapper.emitted()).not.toHaveProperty('show')
+
+      await wrapper.setProps({ disabled: false })
+      await nextTick()
+      await rAF()
+
+      expect(wrapper.emitted()).toHaveProperty('show')
+
+      await wrapper.setProps({ disabled: true })
+      await nextTick()
+      await rAF()
+
+      expect(wrapper.emitted()).toHaveProperty('hide')
     })
   })
 })

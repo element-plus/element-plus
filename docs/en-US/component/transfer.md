@@ -53,26 +53,38 @@ transfer/prop-alias
 
 :::
 
+## Virtual Scroll ^(2.14.3)
+
+When dealing with large amounts of data, you can enable virtual scrolling to improve performance.
+
+:::demo Set `virtual-scroll` to `true` to enable virtual scrolling. You can also customize the item height with `item-size`. Default item size is 30px.
+
+transfer/virtual-scroll
+
+:::
+
 ## Transfer API
 
 ### Transfer Attributes
 
 | Name                        | Description                                                                                                                                                                                                                                                                        | Type                                                               | Default  |
 | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | -------- |
-| model-value / v-model       | binding value                                                                                                                                                                                                                                                                      | ^[object]`Array<string \| number>`                                 | []       |
-| data                        | data source                                                                                                                                                                                                                                                                        | ^[object]`Record<string, any>[]`                                   | []       |
+| model-value / v-model       | binding value                                                                                                                                                                                                                                                                      | ^[array]`Array<string \| number>`                                  | []       |
+| data                        | data source                                                                                                                                                                                                                                                                        | ^[array]`Record<string, any>[]`                                    | []       |
 | filterable                  | whether Transfer is filterable                                                                                                                                                                                                                                                     | ^[boolean]                                                         | false    |
 | filter-placeholder          | placeholder for the filter input                                                                                                                                                                                                                                                   | ^[string]                                                          | —        |
 | filter-method               | custom filter method                                                                                                                                                                                                                                                               | ^[Function]`(query: string, item: Record<string, any>) => boolean` | —        |
 | target-order                | order strategy for elements in the target list. If set to `original`, the elements will keep the same order as the data source. If set to `push`, the newly added elements will be pushed to the bottom. If set to `unshift`, the newly added elements will be inserted on the top | ^[enum]`'original' \| 'push' \| 'unshift'`                         | original |
-| titles                      | custom list titles                                                                                                                                                                                                                                                                 | ^[object]`[string, string]`                                        | []       |
-| button-texts                | custom button texts                                                                                                                                                                                                                                                                | ^[object]`[string, string]`                                        | []       |
+| titles                      | custom list titles                                                                                                                                                                                                                                                                 | ^[array]`[string, string]`                                         | []       |
+| button-texts                | custom button texts                                                                                                                                                                                                                                                                | ^[array]`[string, string]`                                         | []       |
 | render-content              | custom render function for data items                                                                                                                                                                                                                                              | ^[object]`renderContent`                                           | —        |
 | format                      | texts for checking status in list header                                                                                                                                                                                                                                           | ^[object]`TransferFormat`                                          | {}       |
 | [props](#type-declarations) | prop aliases for data source                                                                                                                                                                                                                                                       | ^[object]`TransferPropsAlias`                                      | —        |
-| left-default-checked        | key array of initially checked data items of the left list                                                                                                                                                                                                                         | ^[object]`Array<string \| number>`                                 | []       |
-| right-default-checked       | key array of initially checked data items of the right list                                                                                                                                                                                                                        | ^[object]`Array<string \| number>`                                 | []       |
+| left-default-checked        | key array of initially checked data items of the left list                                                                                                                                                                                                                         | ^[array]`Array<string \| number>`                                  | []       |
+| right-default-checked       | key array of initially checked data items of the right list                                                                                                                                                                                                                        | ^[array]`Array<string \| number>`                                  | []       |
 | validate-event              | whether to trigger form validation                                                                                                                                                                                                                                                 | ^[boolean]                                                         | true     |
+| virtual-scroll ^(2.14.3)    | whether to enable virtual scrolling                                                                                                                                                                                                                                                | ^[boolean]                                                         | false    |
+| item-size ^(2.14.3)         | item height for virtual scrolling                                                                                                                                                                                                                                                  | ^[number]                                                          | 30       |
 
 ### Transfer Events
 
@@ -84,13 +96,13 @@ transfer/prop-alias
 
 ### Transfer Slots
 
-| Name                 | Description                                                          |
-| -------------------- | -------------------------------------------------------------------- |
-| default              | Custom content for data items. The scope parameter is `{ option }`   |
-| left-footer          | content of left list footer                                          |
-| right-footer         | content of right list footer                                         |
-| left-empty ^(2.9.0)  | content when left panel is empty or when no data matches the filter  |
-| right-empty ^(2.9.0) | content when right panel is empty or when no data matches the filter |
+| Name                 | Description                                                          | Type                                    |
+| -------------------- | -------------------------------------------------------------------- | --------------------------------------- |
+| default              | Custom content for data items.                                       | ^[object]`{ option: TransferDataItem }` |
+| left-footer          | content of left list footer                                          | —                                       |
+| right-footer         | content of right list footer                                         | —                                       |
+| left-empty ^(2.9.0)  | content when left panel is empty or when no data matches the filter  | —                                       |
+| right-empty ^(2.9.0) | content when right panel is empty or when no data matches the filter | —                                       |
 
 ### Transfer Exposes
 
@@ -122,7 +134,10 @@ type TransferDirection = 'left' | 'right'
 
 type TransferDataItem = Record<string, any>
 
-type renderContent = (h: typeof H, option: TransferDataItem) => VNode | VNode[]
+type renderContent<T extends TransferDataItem = TransferDataItem> = (
+  h: typeof H,
+  option: T
+) => VNode | VNode[]
 
 interface TransferFormat {
   noChecked?: string

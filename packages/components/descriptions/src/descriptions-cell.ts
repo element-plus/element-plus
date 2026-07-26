@@ -54,7 +54,7 @@ export default defineComponent({
     const labelClassName = item.labelClassName
     const width =
       this.type === 'label'
-        ? item.labelWidth || this.descriptions.labelWidth || item.width
+        ? (item.labelWidth ?? this.descriptions.labelWidth ?? item.width)
         : item.width
 
     const style = {
@@ -109,7 +109,7 @@ export default defineComponent({
       default: {
         const label = renderLabel()
         const labelStyle: Record<string, any> = {}
-        const width = addUnit(item.labelWidth || this.descriptions.labelWidth)
+        const width = addUnit(item.labelWidth ?? this.descriptions.labelWidth)
         if (width) {
           labelStyle.width = width
           labelStyle.display = 'inline-block'

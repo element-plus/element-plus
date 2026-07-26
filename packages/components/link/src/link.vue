@@ -20,12 +20,19 @@ import { ElIcon } from '@element-plus/components/icon'
 import { useGlobalConfig } from '@element-plus/components/config-provider'
 import { useDeprecated, useNamespace } from '@element-plus/hooks'
 import { isBoolean } from '@element-plus/utils'
-import { linkEmits, linkProps } from './link'
+import { linkEmits } from './link'
+
+import type { LinkProps } from './link'
 
 defineOptions({
   name: 'ElLink',
 })
-const props = defineProps(linkProps)
+const props = withDefaults(defineProps<LinkProps>(), {
+  type: undefined,
+  underline: undefined,
+  href: '',
+  target: '_self',
+})
 const emit = defineEmits(linkEmits)
 const globalConfig = useGlobalConfig('link')
 

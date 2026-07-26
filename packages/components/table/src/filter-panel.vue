@@ -1,20 +1,28 @@
 <template>
   <el-tooltip
-    ref="tooltip"
-    :visible="tooltipVisible"
+    ref="tooltipRef"
     :offset="0"
     :placement="placement"
     :show-arrow="false"
-    :stop-popper-mouse-event="false"
+    trigger="click"
+    role="dialog"
     teleported
     effect="light"
     pure
+    loop
     :popper-class="filterClassName"
     persistent
     :append-to="appendTo"
+    @show="handleShowTooltip"
+    @hide="handleHideTooltip"
   >
     <template #content>
-      <div v-if="multiple">
+      <div
+        v-if="multiple"
+        ref="rootRef"
+        tabindex="-1"
+        :class="ns.e('multiple')"
+      >
         <div :class="ns.e('content')">
           <el-scrollbar :wrap-class="ns.e('wrap')">
             <el-checkbox-group
@@ -45,35 +53,44 @@
           </button>
         </div>
       </div>
-      <ul v-else :class="ns.e('list')">
+      <ul
+        v-else
+        ref="rootRef"
+        tabindex="-1"
+        role="radiogroup"
+        :class="ns.e('list')"
+        @keydown="handleKeydown"
+      >
         <li
+          role="radio"
           :class="[
             ns.e('list-item'),
             ns.is('active', isPropAbsent(filterValue)),
           ]"
-          @click="handleSelect(null)"
+          :tabindex="checkedIndex === 0 ? 0 : -1"
+          :aria-checked="isPropAbsent(filterValue)"
+          @click="handleSelect(null, 0)"
         >
           {{ t('el.table.clearFilter') }}
         </li>
         <li
-          v-for="filter in filters"
+          v-for="(filter, idx) in filters"
           :key="filter.value"
+          role="radio"
           :class="[ns.e('list-item'), ns.is('active', isActive(filter))]"
-          :label="filter.value"
-          @click="handleSelect(filter.value)"
+          :tabindex="checkedIndex === idx + 1 ? 0 : -1"
+          :aria-checked="isActive(filter)"
+          @click="handleSelect(filter.value, idx + 1)"
         >
           {{ filter.text }}
         </li>
       </ul>
     </template>
     <template #default>
-      <span
-        v-click-outside:[popperPaneRef]="hideFilterPanel"
-        :class="[
-          `${ns.namespace.value}-table__column-filter-trigger`,
-          `${ns.namespace.value}-none-outline`,
-        ]"
-        @click="showFilterPanel"
+      <button
+        type="button"
+        :class="`${ns.namespace.value}-table__column-filter-trigger`"
+        :aria-label="t('el.table.filterLabel', { column: column?.label || '' })"
       >
         <el-icon>
           <slot name="filter-icon">
@@ -81,23 +98,24 @@
             <arrow-down v-else />
           </slot>
         </el-icon>
-      </span>
+      </button>
     </template>
   </el-tooltip>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, getCurrentInstance, ref, watch } from 'vue'
-import ElCheckbox from '@element-plus/components/checkbox'
+import { computed, defineComponent, getCurrentInstance, ref } from 'vue'
+import { ElCheckbox, ElCheckboxGroup } from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
-import { ClickOutside } from '@element-plus/directives'
+import { EVENT_CODE } from '@element-plus/constants'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import ElTooltip, {
+import {
+  ElTooltip,
   useTooltipContentProps,
 } from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
-import { isPropAbsent } from '@element-plus/utils'
+import { getEventCode, isPropAbsent } from '@element-plus/utils'
 
 import type { DefaultRow } from './table/defaults'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
@@ -106,8 +124,6 @@ import type { PropType, WritableComputedRef } from 'vue'
 import type { TableColumnCtx } from './table-column/defaults'
 import type { TableHeader } from './table-header'
 import type { Store } from './store'
-
-const { CheckboxGroup: ElCheckboxGroup } = ElCheckbox
 
 export default defineComponent({
   name: 'ElTableFilterPanel',
@@ -120,7 +136,6 @@ export default defineComponent({
     ArrowDown,
     ArrowUp,
   },
-  directives: { ClickOutside },
   props: {
     placement: {
       type: String as PropType<Placement>,
@@ -145,8 +160,11 @@ export default defineComponent({
     if (props.column && !parent.filterPanels.value[props.column.id]) {
       parent.filterPanels.value[props.column.id] = instance
     }
-    const tooltipVisible = ref(false)
-    const tooltip = ref<TooltipInstance | null>(null)
+
+    const tooltipRef = ref<TooltipInstance | null>(null)
+    const rootRef = ref<HTMLElement | null>(null)
+    const checkedIndex = ref(0)
+
     const filters = computed(() => {
       return props.column && props.column.filters
     })
@@ -191,14 +209,7 @@ export default defineComponent({
       return filter.value === filterValue.value
     }
     const hidden = () => {
-      tooltipVisible.value = false
-    }
-    const showFilterPanel = (e: MouseEvent) => {
-      e.stopPropagation()
-      tooltipVisible.value = !tooltipVisible.value
-    }
-    const hideFilterPanel = () => {
-      tooltipVisible.value = false
+      tooltipRef.value?.onClose()
     }
     const handleConfirm = () => {
       confirmFilter(filteredValue.value)
@@ -209,8 +220,9 @@ export default defineComponent({
       confirmFilter(filteredValue.value)
       hidden()
     }
-    const handleSelect = (_filterValue?: string | null) => {
+    const handleSelect = (_filterValue: string | null, index: number) => {
       filterValue.value = _filterValue!
+      checkedIndex.value = index
       if (!isPropAbsent(_filterValue)) {
         confirmFilter(filteredValue.value)
       } else {
@@ -225,24 +237,73 @@ export default defineComponent({
       })
       props.store?.updateAllSelected()
     }
-    watch(
-      tooltipVisible,
-      (value) => {
-        if (props.column) {
-          props.upDataColumn?.('filterOpened', value)
-        }
-      },
-      {
-        immediate: true,
+    const handleShowTooltip = () => {
+      rootRef.value?.focus()
+      !multiple.value && initCheckedIndex()
+      if (props.column) {
+        props.upDataColumn?.('filterOpened', true)
       }
-    )
+    }
+    const handleHideTooltip = () => {
+      if (props.column) {
+        props.upDataColumn?.('filterOpened', false)
+      }
+    }
 
-    const popperPaneRef = computed(() => {
-      return tooltip.value?.popperRef?.contentRef
-    })
+    const initCheckedIndex = () => {
+      if (isPropAbsent(filterValue)) {
+        checkedIndex.value = 0
+        return
+      }
+      const idx = (filters.value || []).findIndex((item) => {
+        return item.value === filterValue.value
+      })
+      checkedIndex.value = idx >= 0 ? idx + 1 : 0
+    }
+
+    const handleKeydown = (event: KeyboardEvent) => {
+      const code = getEventCode(event)
+      const len = (filters.value ? filters.value.length : 0) + 1
+      let index = checkedIndex.value
+      let isPreventDefault = true
+
+      switch (code) {
+        case EVENT_CODE.down:
+        case EVENT_CODE.right:
+          index = (index + 1) % len
+          break
+        case EVENT_CODE.up:
+        case EVENT_CODE.left:
+          index = (index - 1 + len) % len
+          break
+        case EVENT_CODE.tab:
+          hidden()
+          isPreventDefault = false
+          break
+        case EVENT_CODE.enter:
+        case EVENT_CODE.space:
+          if (index === 0) {
+            handleSelect(null, 0)
+          } else {
+            const item = (filters.value || [])[index - 1]
+            item.value && handleSelect(item.value, index)
+          }
+          break
+        default:
+          isPreventDefault = false
+          break
+      }
+
+      isPreventDefault && event.preventDefault()
+      checkedIndex.value = index
+      rootRef.value
+        ?.querySelector<HTMLElement>(
+          `.${ns.e('list-item')}:nth-child(${index + 1})`
+        )
+        ?.focus()
+    }
 
     return {
-      tooltipVisible,
       multiple,
       filterClassName,
       filteredValue,
@@ -255,10 +316,12 @@ export default defineComponent({
       isActive,
       t,
       ns,
-      showFilterPanel,
-      hideFilterPanel,
-      popperPaneRef,
-      tooltip,
+      tooltipRef,
+      rootRef,
+      checkedIndex,
+      handleShowTooltip,
+      handleHideTooltip,
+      handleKeydown,
     }
   },
 })

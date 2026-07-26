@@ -12,8 +12,8 @@ import {
 } from '@element-plus/constants'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 
-import type { Arrayable } from '@element-plus/utils'
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { Arrayable, ClassValue } from '@element-plus/utils'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type { SliderMarkerProps } from './marker'
 import type Slider from './slider.vue'
 
@@ -54,14 +54,14 @@ export const sliderProps = buildProps({
     default: 100,
   },
   /**
-   * @description step size
+   * @description step size, can be a number or `'mark'` to restrict values to marks. When set to `'mark'`, the `marks` attribute must be set
    */
   step: {
-    type: Number,
+    type: definePropType<number | 'mark'>([Number, String]),
     default: 1,
   },
   /**
-   * @description whether to display an input box, works when `range` is false
+   * @description whether to display an input box, works when `range` is false and `step` is not `'mark'`
    */
   showInput: Boolean,
   /**
@@ -100,7 +100,10 @@ export const sliderProps = buildProps({
   /**
    * @description whether Slider is disabled
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description whether to select a range
    */
@@ -138,7 +141,7 @@ export const sliderProps = buildProps({
    * @description custom class name for the tooltip
    */
   tooltipClass: {
-    type: String,
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
     default: undefined,
   },
   /**
@@ -172,7 +175,7 @@ export const sliderProps = buildProps({
   ...useAriaProps(['ariaLabel']),
 } as const)
 export type SliderProps = ExtractPropTypes<typeof sliderProps>
-export type SliderPropsPublic = __ExtractPublicPropTypes<typeof sliderProps>
+export type SliderPropsPublic = ExtractPublicPropTypes<typeof sliderProps>
 
 const isValidValue = (value: Arrayable<number>) =>
   isNumber(value) || (isArray(value) && value.every(isNumber))

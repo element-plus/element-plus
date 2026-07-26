@@ -152,6 +152,15 @@ export default {
       resetFilter: 'Сбросить',
       clearFilter: 'Все',
       sumText: 'Сумма',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
+      sortLabel: 'Sort by {column}', // to be translated
+      filterLabel: 'Filter by {column}', // to be translated
+    },
+    tag: {
+      close: 'Close this tag', // to be translated
     },
     tour: {
       next: 'Далее',
@@ -184,6 +193,10 @@ export default {
       leftArrow: 'Слайдер стрелка влево',
       rightArrow: 'Слайдер стрелка вправо',
       indicator: 'Слайдер перейти на страницу под номером {index}',
+    },
+    inputOTP: {
+      groupLabel: 'OTP Input', // to be translated
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
     },
   },
 }

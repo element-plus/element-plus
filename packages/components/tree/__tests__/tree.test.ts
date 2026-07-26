@@ -8,9 +8,11 @@ import ElIcon from '@element-plus/components/icon'
 import Tree from '../src/tree.vue'
 import Button from '../../button/src/button.vue'
 
+import type { TreeInstance } from '../index'
 import type Node from '../src/model/node'
 
 const ALL_NODE_COUNT = 9
+const TREE_NODE_CHECKBOX_CLASS_NAME = '.el-checkbox__original'
 
 const getTreeVm = (props = '', options = {}) => {
   const wrapper = mount(
@@ -80,6 +82,7 @@ const getTreeVm = (props = '', options = {}) => {
             defaultProps: {
               children: 'children',
               label: 'label',
+              isLeaf: 'isLeaf',
             },
           }
         },
@@ -782,6 +785,26 @@ describe('Tree.vue', () => {
     expect(tree.getCheckedKeys().length).toEqual(0)
   })
 
+  test('should respect deep option when calling setChecked in checkStrictly mode', async () => {
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" check-strictly show-checkbox node-key="id"`
+    )
+    const treeWrapper = wrapper.findComponent(Tree)
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
+
+    tree.setChecked(111, true)
+    expect(tree.getCheckedNodes()).toEqual(tree.data[0].children[0].children)
+    expect(tree.getCheckedKeys()).toEqual([111])
+
+    tree.setChecked(tree.data[0], true, true)
+    expect(tree.getCheckedNodes()).toEqual([
+      tree.data[0],
+      tree.data[0].children[0],
+      tree.data[0].children[0].children[0],
+    ])
+    expect(tree.getCheckedKeys()).toEqual([1, 11, 111])
+  })
+
   test('setCheckedKeys with leafOnly=false', async () => {
     const { wrapper } = getTreeVm(
       `:props="defaultProps" show-checkbox node-key="id"`
@@ -802,8 +825,22 @@ describe('Tree.vue', () => {
     const tree = treeWrapper.vm as InstanceType<typeof Tree>
 
     tree.setCheckedKeys([2], true)
-    expect(tree.getCheckedNodes().length).toEqual(2)
-    expect(tree.getCheckedKeys().length).toEqual(2)
+    expect(tree.getCheckedNodes().length).toEqual(3)
+    expect(tree.getCheckedKeys().length).toEqual(3)
+  })
+
+  test('setCheckedKeys with leafOnly=true produces consistent parent states', async () => {
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" show-checkbox node-key="id"`
+    )
+    const treeWrapper = wrapper.findComponent(Tree)
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
+
+    tree.setCheckedKeys([1], true)
+
+    expect(tree.getCheckedKeys().sort()).toEqual([1, 11, 111])
+    expect(tree.getHalfCheckedNodes()).toEqual([])
+    expect(tree.getHalfCheckedKeys()).toEqual([])
   })
 
   test('setCurrentKey', async () => {
@@ -863,6 +900,24 @@ describe('Tree.vue', () => {
     await nextTick()
     expect(wrapper.text()).toBe('一级 1二级 1-1三级 1-1一级 2一级 3')
     expect(wrapper.findAll('.is-expanded')).toHaveLength(2)
+  })
+
+  test('setCurrentKey should not have multiple nodes with highlighted states at the same time', async () => {
+    const { wrapper, vm } = getTreeVm(`:props="defaultProps" node-key="id"`)
+
+    const treeWrapper = wrapper.findComponent(Tree)
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
+
+    tree.setCurrentKey(1)
+    await nextTick()
+    expect(treeWrapper.findAll('.is-current').length).toEqual(1)
+
+    const nodeData = { label: '一级 4', id: 4, children: [] }
+    vm.data.push(nodeData)
+
+    tree.setCurrentKey(4)
+    await nextTick()
+    expect(treeWrapper.findAll('.is-current').length).toEqual(1)
   })
 
   test('setCurrentNode', async () => {
@@ -1481,6 +1536,27 @@ describe('Tree.vue', () => {
     expect(flag).toBe(true)
   })
 
+  test('navigate down with multiple trees', async () => {
+    const data = [{ label: 'one' }, { label: 'two' }]
+    const wrapper = mount({
+      template: `
+        <div>
+          <el-tree :data="data" default-expand-all />
+          <el-tree :data="data" default-expand-all />
+        </div>
+      `,
+      components: { 'el-tree': Tree },
+      data: () => ({ data }),
+    })
+    await nextTick()
+    let focused = false
+    const secondTree = wrapper.findAllComponents({ name: 'ElTree' })[1]
+    const treeNodes = secondTree.findAll('.is-focusable[role=treeitem]')
+    defineGetter(treeNodes[1].element, 'focus', () => () => (focused = true))
+    await treeNodes[0].trigger('keydown', { code: 'ArrowDown' })
+    expect(focused).toBe(true)
+  })
+
   test('collapse and navigate down and up', async () => {
     const { wrapper } = getTreeVm(``, {
       template: `
@@ -2059,5 +2135,350 @@ describe('Tree.vue', () => {
     })
     await nextTick()
     expect(wrapper.find('.el-tree__empty-block').text()).toBe('EmptySlot')
+  })
+
+  test('should correctly handle checkbox state when disabled nodes exist', async () => {
+    const wrapper = mount({
+      template: `
+        <el-tree
+          :data="data"
+          node-key="id"
+          show-checkbox
+          default-expand-all
+        />
+      `,
+      components: { 'el-tree': Tree },
+      data() {
+        return {
+          data: [
+            {
+              id: '1',
+              label: 'node-1',
+              children: [
+                {
+                  id: '1-1',
+                  label: 'node-1-1',
+                  children: [
+                    {
+                      id: '1-1-1',
+                      label: 'node-1-1-1',
+                    },
+                    {
+                      id: '1-1-2',
+                      label: 'node-1-1-2',
+                      disabled: true,
+                    },
+                  ],
+                },
+                {
+                  id: '1-2',
+                  label: 'node-1-2',
+                  children: [
+                    {
+                      id: '1-2-1',
+                      label: 'node-1-2-1',
+                    },
+                  ],
+                },
+                {
+                  id: '1-3',
+                  label: 'node-1-3',
+                  disabled: true,
+                  children: [
+                    {
+                      id: '1-3-1',
+                      label: 'node-1-3-1',
+                    },
+                    {
+                      id: '1-3-2',
+                      label: 'node-1-3-2',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        }
+      },
+    })
+
+    await nextTick()
+    const treeRef = wrapper.findComponent({ name: 'ElTree' }).vm as TreeInstance
+
+    expect(treeRef.getCheckedKeys()).toHaveLength(0)
+
+    let nodes = wrapper.findAll(TREE_NODE_CHECKBOX_CLASS_NAME)
+    await nodes[0].trigger('click')
+    expect(treeRef.getCheckedKeys()).toEqual([
+      '1-1-1',
+      '1-2',
+      '1-2-1',
+      '1-3',
+      '1-3-1',
+      '1-3-2',
+    ])
+    nodes = wrapper.findAll(TREE_NODE_CHECKBOX_CLASS_NAME)
+    await nodes[1].trigger('click')
+    expect(treeRef.getCheckedKeys()).toEqual([
+      '1-2',
+      '1-2-1',
+      '1-3',
+      '1-3-1',
+      '1-3-2',
+    ])
+
+    nodes = wrapper.findAll(TREE_NODE_CHECKBOX_CLASS_NAME)
+    await nodes[0].trigger('click')
+    expect(treeRef.getCheckedKeys()).toEqual([
+      '1-1-1',
+      '1-2',
+      '1-2-1',
+      '1-3',
+      '1-3-1',
+      '1-3-2',
+    ])
+
+    treeRef.setCheckedKeys([])
+    expect(treeRef.getCheckedKeys()).toHaveLength(0)
+    const allKeys = [
+      '1',
+      '1-1',
+      '1-1-1',
+      '1-1-2',
+      '1-2',
+      '1-2-1',
+      '1-3',
+      '1-3-1',
+      '1-3-2',
+    ]
+    treeRef.setCheckedKeys(allKeys)
+    expect(treeRef.getCheckedKeys()).toEqual(allKeys)
+    nodes = wrapper.findAll(TREE_NODE_CHECKBOX_CLASS_NAME)
+    await nodes[0].trigger('click')
+    expect(treeRef.getCheckedKeys()).toEqual(['1-1-2'])
+  })
+
+  test('should not block descendant updates when a disabled non-leaf node exists', async () => {
+    const wrapper = mount({
+      template: `
+        <el-tree
+          :data="data"
+          node-key="id"
+          show-checkbox
+          default-expand-all
+        />
+      `,
+      components: { 'el-tree': Tree },
+      data() {
+        return {
+          data: [
+            {
+              id: '1',
+              label: 'node-1',
+              children: [
+                {
+                  id: '1-1',
+                  label: 'node-1-1',
+                },
+                {
+                  id: '1-2',
+                  label: 'node-1-2',
+                  disabled: true,
+                  children: [
+                    {
+                      id: '1-2-1',
+                      label: 'node-1-2-1',
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              id: '2',
+              label: 'node-2',
+              children: [
+                {
+                  id: '2-1',
+                  label: 'node-2-1',
+                  disabled: true,
+                  children: [
+                    {
+                      id: '2-1-1',
+                      label: 'node-2-1-1',
+                    },
+                    {
+                      id: '2-1-2',
+                      label: 'node-2-1-2',
+                      disabled: true,
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        }
+      },
+    })
+
+    await nextTick()
+    const treeRef = wrapper.findComponent({ name: 'ElTree' }).vm as TreeInstance
+    const keys = ['1', '1-1', '1-2', '1-2-1']
+
+    expect(treeRef.getCheckedKeys()).toHaveLength(0)
+
+    treeRef.setCheckedKeys(keys)
+    expect(treeRef.getCheckedKeys()).toEqual(keys)
+
+    let nodes = wrapper.findAll(TREE_NODE_CHECKBOX_CLASS_NAME)
+    await nodes[0].trigger('click')
+    expect(treeRef.getCheckedKeys()).toHaveLength(0)
+    nodes = wrapper.findAll(TREE_NODE_CHECKBOX_CLASS_NAME)
+    await nodes[4].trigger('click')
+    expect(treeRef.getCheckedKeys()).toEqual(['2-1-1'])
+  })
+
+  test('should correctly handle checkbox state in lazy mode when disabled nodes exist', async () => {
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" :load="loadNode" node-key="id" show-checkbox lazy`,
+      {
+        methods: {
+          loadNode(node, resolve) {
+            if (node.level === 0) {
+              return resolve([{ label: 'a', id: 'a' }])
+            }
+            if (node.level > 1) return resolve([])
+
+            const data = [
+              {
+                label: 'leaf',
+                id: 'b',
+                isLeaf: true,
+                disabled: true,
+              },
+              {
+                label: 'zone',
+                id: 'c',
+              },
+            ]
+            resolve(data)
+          },
+        },
+      }
+    )
+
+    await nextTick()
+    const nodeWrappers = wrapper.findAll('.el-tree-node__content')
+    const treeRef = wrapper.findComponent({ name: 'ElTree' }).vm as TreeInstance
+
+    expect(treeRef.getCheckedKeys()).toHaveLength(0)
+
+    let nodes = wrapper.findAll(TREE_NODE_CHECKBOX_CLASS_NAME)
+    await nodes[0].trigger('click')
+    expect(treeRef.getCheckedKeys()).toEqual(['a'])
+    await nodeWrappers[0].trigger('click')
+    expect(treeRef.getCheckedKeys()).toEqual(['c'])
+    nodes = wrapper.findAll(TREE_NODE_CHECKBOX_CLASS_NAME)
+    await nodes[0].trigger('click')
+    expect(treeRef.getCheckedKeys()).toEqual([])
+    nodes = wrapper.findAll(TREE_NODE_CHECKBOX_CLASS_NAME)
+    await nodes[0].trigger('click')
+    expect(treeRef.getCheckedKeys()).toEqual(['c'])
+  })
+
+  test('should correctly handle checkbox state under default-checked-keys when disabled nodes exist', async () => {
+    const wrapper = mount({
+      template: `
+        <el-tree
+          :data="data"
+          node-key="id"
+          show-checkbox
+          default-expand-all
+          :default-checked-keys="['1-1', '1-2']"
+        />
+      `,
+      components: { 'el-tree': Tree },
+      data() {
+        return {
+          data: [
+            {
+              id: '1',
+              label: 'node-1',
+              children: [
+                {
+                  id: '1-1',
+                  label: 'node-1-1',
+                },
+                {
+                  id: '1-2',
+                  label: 'node-1-2',
+                },
+                {
+                  id: '1-3',
+                  label: 'node-1-3',
+                  disabled: true,
+                },
+              ],
+            },
+          ],
+        }
+      },
+    })
+
+    await nextTick()
+    const treeRef = wrapper.findComponent({ name: 'ElTree' }).vm as TreeInstance
+    const keys = ['1-1', '1-2']
+
+    expect(treeRef.getCheckedKeys()).toEqual(keys)
+
+    let nodes = wrapper.findAll(TREE_NODE_CHECKBOX_CLASS_NAME)
+    await nodes[0].trigger('click')
+    expect(treeRef.getCheckedKeys()).toEqual([])
+    nodes = wrapper.findAll(TREE_NODE_CHECKBOX_CLASS_NAME)
+    await nodes[0].trigger('click')
+    expect(treeRef.getCheckedKeys()).toEqual(keys)
+  })
+
+  test('lazy load with check-strictly should not auto-check children', async () => {
+    vi.useFakeTimers()
+
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" node-key="id" lazy :load="loadNode" show-checkbox check-strictly`,
+      {
+        methods: {
+          loadNode(node, resolve) {
+            if (node.level === 0) {
+              return resolve([
+                { label: 'region1', id: 1 },
+                { label: 'region2', id: 2 },
+              ])
+            }
+            if (node.level === 1) {
+              setTimeout(() => {
+                resolve([
+                  { label: 'zone1', id: 11 },
+                  { label: 'zone2', id: 12 },
+                ])
+              }, 50)
+            } else {
+              resolve([])
+            }
+          },
+        },
+      }
+    )
+
+    await nextTick()
+    const treeRef = wrapper.findComponent({ name: 'ElTree' }).vm as TreeInstance
+
+    await wrapper.find(TREE_NODE_CHECKBOX_CLASS_NAME).trigger('click')
+
+    expect(treeRef.getCheckedKeys()).toEqual([1])
+
+    await wrapper.find('.el-tree-node__content').trigger('click')
+    vi.runAllTimers()
+    await nextTick()
+
+    expect(treeRef.getCheckedKeys()).toEqual([1])
+    vi.useRealTimers()
   })
 })

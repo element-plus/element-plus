@@ -1,6 +1,6 @@
 import { getCurrentInstance, nextTick, unref } from 'vue'
 import { isNull } from 'lodash-unified'
-import { useNamespace } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import useWatcher from './watcher'
 
 import type { Ref } from 'vue'
@@ -40,6 +40,8 @@ function useStore<T extends DefaultRow>() {
   const instance = getCurrentInstance() as Table<T>
   const watcher = useWatcher<T>()
   const ns = useNamespace('table')
+  const { t } = useLocale()
+
   type StoreStates = typeof watcher.states
   const mutations = {
     setData(states: StoreStates, data: T[]) {
@@ -63,6 +65,7 @@ function useStore<T extends DefaultRow>() {
           instance.store.cleanSelection()
         }
       }
+      instance.store.updateSelectionByChildren({ emitChange: false })
       instance.store.updateAllSelected()
       if (instance.$ready) {
         instance.store.scheduleLayout()
@@ -177,7 +180,7 @@ function useStore<T extends DefaultRow>() {
 
       if (!options || !(options.silent || options.init)) {
         instance.emit('sort-change', {
-          column: columnValue,
+          column: columnValue!,
           prop: propValue,
           order: orderValue,
         })
@@ -230,6 +233,7 @@ function useStore<T extends DefaultRow>() {
   }
   return {
     ns,
+    t,
     ...watcher,
     mutations,
     commit,

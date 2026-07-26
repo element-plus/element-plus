@@ -95,10 +95,10 @@ tour-step component configuration with the same name has higher priority
 
 ### Tour slots
 
-| Name       | Description                                                   |
-| ---------- | ------------------------------------------------------------- |
-| default    | tourStep component list                                       |
-| indicators | custom indicator, The scope parameter is `{ current, total }` |
+| Name       | Description             | Type                                          |
+| ---------- | ----------------------- | --------------------------------------------- |
+| default    | tourStep component list | —                                             |
+| indicators | custom indicator        | ^[object]`{ current: number, total: number }` |
 
 ### Tour events
 
@@ -130,10 +130,10 @@ tour-step component configuration with the same name has higher priority
 
 ### TourStep slots
 
-| Name    | Description |
-| ------- | ----------- |
-| default | description |
-| header  | header      |
+| Name    | Description           |
+| ------- | --------------------- |
+| default | custom description    |
+| header  | custom header content |
 
 ### TourStep events
 

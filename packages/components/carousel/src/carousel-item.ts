@@ -1,7 +1,21 @@
 import { buildProps } from '@element-plus/utils'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 
+export interface CarouselItemProps {
+  /**
+   * @description name of the item, can be used in `setActiveItem`
+   */
+  name?: string
+  /**
+   * @description text content for the corresponding indicator
+   */
+  label?: string | number
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `CarouselItemProps` instead.
+ */
 export const carouselItemProps = buildProps({
   /**
    * @description name of the item, can be used in `setActiveItem`
@@ -16,7 +30,9 @@ export const carouselItemProps = buildProps({
   },
 } as const)
 
-export type CarouselItemProps = ExtractPropTypes<typeof carouselItemProps>
-export type CarouselItemPropsPublic = __ExtractPublicPropTypes<
+/**
+ * @deprecated Removed after 3.0.0, Use `CarouselItemProps` instead.
+ */
+export type CarouselItemPropsPublic = ExtractPublicPropTypes<
   typeof carouselItemProps
 >

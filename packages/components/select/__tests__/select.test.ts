@@ -6,6 +6,8 @@ import { defineComponent, markRaw, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
 import { BORDER_HORIZONTAL_WIDTH, EVENT_CODE } from '@element-plus/constants'
+import defineGetter from '@element-plus/test-utils/define-getter'
+import makeScroll from '@element-plus/test-utils/make-scroll'
 import { ArrowDown, CaretTop, CircleClose } from '@element-plus/icons-vue'
 import { usePopperContainerId } from '@element-plus/hooks'
 import { hasClass } from '@element-plus/utils'
@@ -435,6 +437,78 @@ describe('Select', () => {
     await nextTick()
 
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('双皮奶')
+    delete process.env.RUN_TEST_WITH_PERSISTENT
+  })
+
+  test('updates selected label after label change when closed and persistent=false', async () => {
+    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
+    wrapper = _mount(
+      `
+      <el-select v-model="value" :persistent="false">
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          {
+            value: '1',
+            label: 'A',
+          },
+          {
+            value: '2',
+            label: 'B',
+          },
+        ],
+        value: '1',
+      })
+    )
+    await nextTick()
+    // initial label
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('A')
+    // update label while dropdown remains closed
+    ;(wrapper.vm as any).options = [
+      { value: '1', label: 'A2' },
+      { value: '2', label: 'B' },
+    ]
+    await nextTick()
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('A2')
+    delete process.env.RUN_TEST_WITH_PERSISTENT
+  })
+
+  test('keeps empty string label after label update when closed and persistent=false', async () => {
+    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
+    wrapper = _mount(
+      `
+      <el-select v-model="value" :persistent="false">
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          {
+            value: 'value1',
+            label: '',
+          },
+          {
+            value: 'value2',
+            label: 'B',
+          },
+        ],
+        value: 'value1',
+      })
+    )
+    await nextTick()
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('')
     delete process.env.RUN_TEST_WITH_PERSISTENT
   })
 
@@ -1130,11 +1204,11 @@ describe('Select', () => {
     const selectVm = select.vm as any
     const input = select.find('input')
     await input.trigger('click')
-    expect(selectVm.states.hoveringIndex).toBe(0)
-    selectVm.navigateOptions('next')
     expect(selectVm.states.hoveringIndex).toBe(1)
     selectVm.navigateOptions('next')
     expect(selectVm.states.hoveringIndex).toBe(0)
+    selectVm.navigateOptions('next')
+    expect(selectVm.states.hoveringIndex).toBe(1)
   })
 
   test('clearable', async () => {
@@ -1262,6 +1336,25 @@ describe('Select', () => {
     expect((wrapper.vm as any).value).toBe('new')
   })
 
+  test('allow create should clear input after creating a tag with reserveKeyword', async () => {
+    wrapper = getSelectVm({
+      filterable: true,
+      allowCreate: true,
+      multiple: true,
+    })
+    const selectVm = wrapper.findComponent({ name: 'ElSelect' }).vm as any
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    await input.setValue('new tag')
+    selectVm.debouncedOnInputChange()
+    await nextTick()
+    getOptions()
+      .find((o) => o.textContent === 'new tag')!
+      .click()
+    await nextTick()
+    expect(selectVm.states.inputValue).toBe('')
+  })
+
   test('allow create with default first option', async () => {
     wrapper = getSelectVm(
       {
@@ -1352,6 +1445,21 @@ describe('Select', () => {
     const tagCloseIcons = wrapper.findAll('.el-tag__close')
     await tagCloseIcons[0].trigger('click')
     expect(vm.value.indexOf('选项1')).toBe(-1)
+  })
+
+  test('should prevent option mousedown from blurring multiple select', async () => {
+    wrapper = getSelectVm({ multiple: true })
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+    const option = getOptions()[0]
+    const event = new MouseEvent('mousedown', {
+      bubbles: true,
+      cancelable: true,
+      shiftKey: true,
+    })
+
+    option.dispatchEvent(event)
+
+    expect(event.defaultPrevented).toBeTruthy()
   })
 
   test('multiple select when content overflow', async () => {
@@ -1466,10 +1574,19 @@ describe('Select', () => {
 
     wrapper = _mount(
       `
-      <el-select v-model="selectedList" multiple collapseTags collapse-tags-tooltip placeholder="请选择">
-        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-        </el-option>
-      </el-select>
+      <div>
+        <div class="append-target"></div>
+        <el-select
+          v-model="selectedList"
+          multiple
+          collapseTags
+          collapse-tags-tooltip
+          :tag-tooltip="{ appendTo: '.append-target' }"
+          placeholder="请选择"
+        >
+          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+        </el-select>
+      </div>
     `,
       () => ({
         options: [
@@ -1506,6 +1623,11 @@ describe('Select', () => {
     await nextTick()
     options[2].click()
     await nextTick()
+
+    const select = wrapper.findComponent(Select)
+    const tagTooltip = select.findComponent({ ref: 'tagTooltipRef' })
+    expect(tagTooltip.props('appendTo')).toBe('.append-target')
+
     const triggerWrappers = wrapper.findAll('.el-tooltip__trigger')
     expect(triggerWrappers[0]).toBeDefined()
     const tags = document.querySelectorAll('.el-select__tags-text')
@@ -1618,6 +1740,39 @@ describe('Select', () => {
     input.trigger('keydown', { code: EVENT_CODE.backspace })
     expect(vm.value.length).toBe(0)
     expect(handleRemoveTag).toHaveBeenLastCalledWith('选项1')
+  })
+
+  test('allow remove non existant option', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value" multiple filterable>
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [],
+        value: ['选项1'],
+      })
+    )
+
+    await nextTick()
+    const vm = wrapper.vm as any
+    expect(vm.value.length).toBe(1)
+    expect(wrapper.findAll('.el-tag').length).toBe(1)
+
+    const input = wrapper.find('input')
+    await input.trigger('keydown', {
+      code: EVENT_CODE.backspace,
+      key: EVENT_CODE.backspace,
+    })
+
+    expect(wrapper.findAll('.el-tag').length).toBe(0)
+    expect(vm.value.length).toBe(0)
   })
 
   test('multiple limit', async () => {
@@ -1871,6 +2026,19 @@ describe('Select', () => {
     const select = wrapper.findComponent({ name: 'ElSelect' })
     const input = select.find('input')
     await input.trigger('focus')
+    expect((select.vm as any).expanded).toBe(true)
+  })
+
+  test('automatic dropdown should cooperate with click to open the dropdown', async () => {
+    wrapper = getSelectVm({ automaticDropdown: true })
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const input = select.find('input')
+    await input.trigger('focus')
+    expect((select.vm as any).expanded).toBe(true)
+    await input.trigger('keydown', { key: EVENT_CODE.down })
+    await input.trigger('keydown', { key: EVENT_CODE.enter })
+    expect((select.vm as any).expanded).toBe(false)
+    await input.trigger('click')
     expect((select.vm as any).expanded).toBe(true)
   })
 
@@ -2196,7 +2364,7 @@ describe('Select', () => {
     const vm = wrapper.vm as any
     wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
     await nextTick()
-    vm.options[1].disabled = true
+    vm._.data.options[1].disabled = true
     await nextTick()
     const options = getOptions()
     expect(options[0].className).not.toContain('is-disabled')
@@ -2488,7 +2656,7 @@ describe('Select', () => {
     await nextTick()
     expect(wrapper.findAll('.el-tag').length).toBe(1)
 
-    vm.modelValue.splice(0, 1)
+    vm._.data.modelValue.splice(0, 1)
 
     await nextTick()
     expect(wrapper.findAll('.el-tag').length).toBe(0)
@@ -2528,7 +2696,7 @@ describe('Select', () => {
       clearable: true,
     })
     const select = wrapper.findComponent({ name: 'ElSelect' })
-    const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+    const trigger = wrapper.find('.el-select__suffix')
     await trigger.trigger('click')
     expect((select.vm as any).expanded).toBe(true)
     await trigger.trigger('click')
@@ -2536,6 +2704,20 @@ describe('Select', () => {
   })
 
   test('mouseenter click', async () => {
+    wrapper = getSelectVm({
+      filterable: false,
+      clearable: true,
+    })
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const trigger = wrapper.find(`.${WRAPPER_CLASS_NAME}`)
+    await trigger.trigger('click')
+    expect((select.vm as any).expanded).toBe(true)
+
+    await trigger.trigger('click')
+    expect((select.vm as any).expanded).toBe(false)
+  })
+
+  test('should keep the select dropdown open when using the filterable', async () => {
     wrapper = getSelectVm({
       filterable: true,
       clearable: true,
@@ -2546,7 +2728,7 @@ describe('Select', () => {
     expect((select.vm as any).expanded).toBe(true)
 
     await trigger.trigger('click')
-    expect((select.vm as any).expanded).toBe(false)
+    expect((select.vm as any).expanded).toBe(true)
   })
 
   describe('should show all options when open select dropdown', () => {
@@ -2811,6 +2993,23 @@ describe('Select', () => {
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
+    })
+
+    it('The disabled state of a component has higher priority than that of a form', async () => {
+      const wrapper = _mount(
+        `<el-form disabled>
+          <el-select :disabled="false" v-model="modelValue">
+            <el-option label="1" value="1" />
+          </el-select>
+        </el-form>`,
+        () => ({
+          modelValue: 1,
+        })
+      )
+
+      await nextTick()
+      const innerInput = wrapper.find('.el-select__input')
+      expect(innerInput.attributes('disabled')).toBeUndefined()
     })
   })
 
@@ -3843,4 +4042,669 @@ describe('Select', () => {
     await input.trigger('keydown', { code: EVENT_CODE.pageUp })
     expect(target.states.hoveringIndex).toBe(1)
   })
+
+  test('should support selecting options with both Enter and Numpad Enter', async () => {
+    const wrapper = _mount(
+      `
+    <el-select
+      ref="select"
+      v-model="value"
+      filterable
+    >
+      <el-option
+        v-for="item in options"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value"
+        :disabled="item.disabled"
+      />
+    </el-select>
+    `,
+      () => ({
+        options: Array.from({ length: 2 }).map((_, i) => ({
+          label: `label-${i}`,
+          value: i,
+        })),
+        value: '',
+      })
+    )
+
+    await nextTick()
+    const vm = wrapper.vm as any
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    await input.trigger('keydown', { code: EVENT_CODE.down })
+    await input.trigger('keydown', { code: EVENT_CODE.enter })
+    expect(vm.value).toBe(0)
+    await input.trigger('click')
+    await input.trigger('keydown', { code: EVENT_CODE.down })
+    await input.trigger('keydown', { code: EVENT_CODE.numpadEnter })
+    expect(vm.value).toBe(1)
+  })
+
+  test('hoveringIndex should stay on the most recently selected option when using multiple', async () => {
+    wrapper = _mount(
+      `<el-select
+        v-model="value"
+        clearable
+        multiple
+      >
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value"
+        />
+      </el-select>`,
+      () => ({
+        options: [
+          {
+            value: 1,
+            label: 'Option 1',
+          },
+          {
+            value: 2,
+            label: 'Option 2',
+          },
+          {
+            value: 3,
+            label: 'Option 3',
+          },
+          {
+            value: 4,
+            label: 'Option 4',
+          },
+          {
+            value: 5,
+            label: 'Option 5',
+          },
+        ],
+        value: [1, 2],
+      })
+    )
+
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const selectVm = select.vm as any
+    const input = wrapper.find('input')
+
+    await input.trigger('click')
+    expect(selectVm.states.hoveringIndex).toBe(1)
+  })
+
+  test('should locate the most recently selected option when using multiple', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value" :teleported="false" multiple>
+        <el-option
+          v-for="{ label, value } in options"
+          :key="value"
+          :label="label"
+          :value="value"
+        />
+      </el-select>`,
+      () => ({
+        options: Array.from({ length: 10 }).map((_, i) => ({
+          label: `label-${i}`,
+          value: i,
+        })),
+        value: [1, 9],
+      })
+    )
+
+    const wrapEl = wrapper.find('.el-select-dropdown__wrap').element
+    const optionEls = wrapper.findAll('.el-select-dropdown__item')
+    const cleanup = optionEls.map((item, i) =>
+      vi.spyOn(item.element, 'offsetTop', 'get').mockReturnValue(i * 30)
+    )
+    cleanup.push(
+      vi.spyOn(wrapEl, 'clientHeight', 'get').mockReturnValue(5 * 30)
+    )
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    expect(wrapEl.scrollTop).toBe(4 * 30)
+    cleanup.forEach((fn) => fn())
+  })
+
+  test('should restore warn handler after the last select unmounts', async () => {
+    const warnHandler = vi.fn()
+    const Parent = defineComponent({
+      components: {
+        'el-select': Select,
+        'el-option': Option,
+      },
+      setup() {
+        const showFirst = ref(true)
+        const showSecond = ref(true)
+        const value = ref('')
+        const options = [
+          { label: 'label-1', value: 1 },
+          { label: 'label-2', value: 2 },
+        ]
+        const hideFirst = () => {
+          showFirst.value = false
+        }
+        const hideSecond = () => {
+          showSecond.value = false
+        }
+        return {
+          showFirst,
+          showSecond,
+          value,
+          options,
+          hideFirst,
+          hideSecond,
+        }
+      },
+      template: `
+        <div>
+          <el-select v-if="showFirst" v-model="value">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+          <el-select v-if="showSecond" v-model="value">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </div>
+      `,
+    })
+
+    const wrapper = mount(Parent, {
+      attachTo: 'body',
+      global: {
+        config: {
+          warnHandler,
+        },
+        provide: {
+          namespace: 'el',
+        },
+      },
+    })
+
+    const appContext = (wrapper.vm.$ as any).appContext
+
+    expect(appContext.config.warnHandler).not.toBe(warnHandler)
+
+    wrapper.vm.hideFirst()
+    await nextTick()
+    expect(appContext.config.warnHandler).not.toBe(warnHandler)
+
+    wrapper.vm.hideSecond()
+    await nextTick()
+    expect(appContext.config.warnHandler).toBe(warnHandler)
+
+    wrapper.unmount()
+  })
+
+  test('limitReached: hovering via DOM event should not update index nor add class', async () => {
+    wrapper = _mount(
+      `
+    <el-select v-model="value" multiple :multiple-limit="1">
+      <el-option v-for="o in options" :key="o.value" :label="o.label" :value="o.value" />
+    </el-select>
+    `,
+      () => ({
+        value: [],
+        options: [
+          { value: '选项1', label: '黄金糕' },
+          { value: '选项2', label: '双皮奶' },
+          { value: '选项3', label: '蚵仔煎' },
+        ],
+      })
+    )
+
+    const selectVm = wrapper.findComponent({ name: 'ElSelect' }).vm as any
+    await wrapper.find('.el-select__wrapper').trigger('click')
+    await nextTick()
+    const optionCmps = wrapper.findAllComponents({ name: 'ElOption' })
+    await optionCmps[0].trigger('click')
+    await nextTick()
+    selectVm.states.hoveringIndex = 0
+    const optionEls = getOptions()
+    await optionCmps[1].trigger('mousemove')
+    await nextTick()
+    expect(selectVm.states.hoveringIndex).toBe(0)
+    expect(Array.from(optionEls[1].classList)).not.toContain('is-hovering')
+  })
+
+  test('should trigger visible-change when dropdownMenuVisible changes', async () => {
+    const handleVisibleChange = vi.fn()
+    wrapper = mount({
+      template: `
+      <el-select
+        v-model="value"
+        remote
+        :remote-method="remoteMethod"
+        :loading="loading"
+        @visible-change="handleVisibleChange"
+      >
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item"
+        />
+      </el-select>`,
+      components: { ElSelect: Select, ElOption: Option },
+      data() {
+        return {
+          options: [],
+          value: [],
+          list: [],
+          loading: false,
+          states: ['Alabama', 'Alaska'],
+          handleVisibleChange,
+        }
+      },
+      mounted() {
+        this.list = this.states.map((item) => {
+          return { value: `value:${item}`, label: `label:${item}` }
+        })
+      },
+      methods: {
+        remoteMethod(query) {
+          if (query !== '') {
+            this.loading = true
+            setTimeout(() => {
+              this.loading = false
+              this.options = this.list.filter((item) => {
+                return item.label.toLowerCase().includes(query.toLowerCase())
+              })
+            }, 200)
+          } else {
+            this.options = []
+          }
+        },
+      },
+    })
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    expect(handleVisibleChange).not.toHaveBeenCalled()
+    await input.setValue('label:Alabama')
+    expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+    await input.trigger('blur')
+    expect(handleVisibleChange).toHaveBeenCalledTimes(2)
+  })
+
+  test('should show empty slot correctly in remote search scenarios', async () => {
+    vi.useFakeTimers()
+    const wrapper = mount({
+      components: {
+        'el-select': Select,
+        'el-option': Option,
+      },
+      template: `
+        <el-select
+          v-model="value"
+          filterable
+          remote
+          :remote-method="remoteMethod"
+        >
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+          <template #empty>
+            <div class="custom-empty">NO DATA</div>
+          </template>
+        </el-select>
+      `,
+      setup() {
+        const value = ref('')
+        const options = ref<any[]>([])
+
+        const remoteMethod = (query: string) => {
+          if (!query || query === 'empty') {
+            options.value = []
+          } else {
+            options.value = [{ value: '1', label: 'Option 1' }]
+          }
+        }
+        return { value, options, remoteMethod }
+      },
+    })
+
+    const select = wrapper.findComponent(Select)
+    const input = wrapper.find('input')
+    const vm = select.vm as any
+
+    await input.trigger('click')
+    expect(vm.states.options.size).toBe(0)
+    expect(vm.dropdownMenuVisible).toBe(true)
+    expect(document.querySelector('.custom-empty')).not.toBeNull()
+
+    await input.setValue('a')
+    vi.runAllTimers()
+    await nextTick()
+    expect(vm.states.options.size).toBe(1)
+    expect(vm.dropdownMenuVisible).toBe(true)
+    expect(document.querySelector('.custom-empty')).toBeNull()
+
+    await input.setValue('empty')
+    vi.runAllTimers()
+    await nextTick()
+    expect(vm.states.options.size).toBe(0)
+    expect(vm.dropdownMenuVisible).toBe(true)
+    expect(document.querySelector('.custom-empty')).not.toBeNull()
+
+    vi.useRealTimers()
+  })
+
+  describe('input-wrapper in multiple mode', () => {
+    test('should hide input-wrapper when empty and not focused', async () => {
+      wrapper = getSelectVm({
+        multiple: true,
+        filterable: true,
+      })
+      const inputWrapper = wrapper.find('.el-select__input-wrapper')
+      const input = wrapper.find('input')
+
+      // When input is empty and not focused, input-wrapper should have hidden class
+      expect(inputWrapper.classes()).toContain('is-hidden')
+
+      // Focus the input
+      await input.trigger('focus')
+
+      // When focused, input-wrapper should not have hidden class
+      expect(inputWrapper.classes()).not.toContain('is-hidden')
+
+      // Blur the input
+      await input.trigger('blur')
+
+      // When blurred and empty, input-wrapper should have hidden class again
+      expect(inputWrapper.classes()).toContain('is-hidden')
+    })
+
+    test('should show input-wrapper when input has value', async () => {
+      wrapper = getSelectVm({
+        multiple: true,
+        filterable: true,
+      })
+      const inputWrapper = wrapper.find('.el-select__input-wrapper')
+      const input = wrapper.find('input')
+
+      // Initially empty, should be hidden
+      expect(inputWrapper.classes()).toContain('is-hidden')
+
+      // Set input value
+      await input.setValue('test')
+
+      // When input has value, input-wrapper should not have hidden class
+      expect(inputWrapper.classes()).not.toContain('is-hidden')
+
+      // Clear input
+      await input.setValue('')
+
+      // When empty again, should be hidden
+      expect(inputWrapper.classes()).toContain('is-hidden')
+    })
+
+    // #24167: in single mode the empty/blur condition must NOT hide the
+    // input-wrapper, otherwise it falls out of flow and the selection
+    // collapses to zero width inside auto-sized form layouts.
+    test('should not hide input-wrapper in single mode when empty and not focused', async () => {
+      wrapper = getSelectVm({
+        filterable: true,
+      })
+      const inputWrapper = wrapper.find('.el-select__input-wrapper')
+      const input = wrapper.find('input')
+
+      expect(inputWrapper.classes()).not.toContain('is-hidden')
+
+      await input.trigger('focus')
+      expect(inputWrapper.classes()).not.toContain('is-hidden')
+
+      await input.trigger('blur')
+      expect(inputWrapper.classes()).not.toContain('is-hidden')
+    })
+  })
+
+  it('should not bubble native change event from filter input', async () => {
+    const wrapper = mount({
+      template: `
+        <div>
+          <el-select filterable v-model="value">
+            <el-option label="a" value="a" />
+          </el-select>
+        </div>
+      `,
+      components: { 'el-select': Select, 'el-option': Option },
+      setup() {
+        return {
+          value: ref(''),
+        }
+      },
+    })
+
+    const nativeChangeHandler = vi.fn()
+    const parent = wrapper.element as HTMLElement
+    parent.addEventListener('change', nativeChangeHandler)
+
+    await wrapper.find('input').trigger('change')
+    expect(nativeChangeHandler).not.toHaveBeenCalled()
+  })
+  // #23838
+  test('should keep dropdown visible during debouncing when options exist (remote)', async () => {
+    vi.useFakeTimers()
+
+    const options = ref([{ value: 'test', label: 'test' }])
+    const handleVisibleChange = vi.fn()
+    const remoteMethod = vi.fn((query: string) => {
+      if (query) {
+        options.value = [
+          { value: 'Alabama', label: 'Alabama' },
+          { value: 'Alaska', label: 'Alaska' },
+        ]
+      }
+    })
+
+    // Temporarily restore useDebounceFn to use real debounce with fake timers
+    const { useDebounceFn } = await vi.importActual('@vueuse/core')
+    const mockedUseDebounceFn = vi.mocked(
+      (await import('@vueuse/core')).useDebounceFn
+    )
+    const originalUseDebounceFnImpl =
+      mockedUseDebounceFn.getMockImplementation()
+    mockedUseDebounceFn.mockImplementation(useDebounceFn)
+
+    try {
+      wrapper = mount(
+        {
+          components: {
+            'el-select': Select,
+            'el-option': Option,
+          },
+          template: `
+            <el-select
+              v-model="value"
+              filterable
+              remote
+              :debounce="300"
+              :remote-method="remoteMethod"
+              @visible-change="handleVisibleChange"
+            >
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          `,
+          setup() {
+            return {
+              value: ref(''),
+              options,
+              remoteMethod,
+              handleVisibleChange,
+            }
+          },
+        },
+        {
+          attachTo: 'body',
+        }
+      )
+
+      const select = wrapper.findComponent(Select)
+      const vm = select.vm as any
+      const input = wrapper.find('input')
+
+      // Open dropdown first
+      await input.trigger('click')
+      await nextTick()
+      expect(vm.dropdownMenuVisible).toBe(true)
+      expect(vm.states.options.size).toBe(1) // initial option exists
+      expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+      expect(handleVisibleChange).toHaveBeenLastCalledWith(true)
+
+      // Start typing to trigger remote search and debouncing
+      await input.setValue('a')
+      await nextTick()
+      vi.advanceTimersByTime(50) // Advance time but don't complete debounce
+      await nextTick()
+
+      // During debouncing (before debounce completes), check dropdown and event count
+      expect(vm.dropdownMenuVisible).toBe(true)
+      expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+
+      // Complete the debounce
+      vi.advanceTimersByTime(300)
+      await nextTick()
+
+      expect(remoteMethod).toHaveBeenCalledWith('a')
+      expect(vm.dropdownMenuVisible).toBe(true)
+      // Should still only have been called once - dropdown never closed
+      expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+    } finally {
+      mockedUseDebounceFn.mockImplementation(
+        originalUseDebounceFnImpl ?? ((fn: any) => fn)
+      )
+      vi.useRealTimers()
+    }
+  })
+
+  test('should trigger end-reached when dropdown scroll reaches bottom', async () => {
+    const handleEndReached = vi.fn()
+    wrapper = mount(
+      {
+        template: `
+        <el-select
+          v-model="value"
+          :teleported="false"
+          @end-reached="handleEndReached"
+        >
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>`,
+        components: {
+          ElSelect: Select,
+          ElOption: Option,
+        },
+        data() {
+          return {
+            value: '',
+            options: Array.from({ length: 10 }).map((_, i) => ({
+              label: `label-${i}`,
+              value: i,
+            })),
+            handleEndReached,
+          }
+        },
+      },
+      {
+        attachTo: 'body',
+        global: {
+          provide: {
+            namespace: 'el',
+          },
+        },
+      }
+    )
+
+    await wrapper.find('input').trigger('click')
+    await nextTick()
+
+    const wrapEl = wrapper.find('.el-select-dropdown__wrap').element
+    const cleanup = [
+      defineGetter(wrapEl, 'clientHeight', 204),
+      defineGetter(wrapEl, 'scrollHeight', 500),
+    ]
+
+    try {
+      await makeScroll(wrapEl, 'scrollTop', 500)
+
+      expect(handleEndReached).toHaveBeenCalledWith('bottom')
+    } finally {
+      cleanup.forEach((fn) => {
+        fn()
+      })
+    }
+  })
+})
+
+test('should preserve selected label when remote options change', async () => {
+  vi.useFakeTimers()
+  const wrapper = mount(
+    {
+      template: `
+        <el-select
+          v-model="value"
+          :options="options"
+          value-key="value"
+          multiple
+          filterable
+          remote
+          :remote-method="remoteMethod"
+        />`,
+      components: { ElSelect: Select },
+      data() {
+        return { options: [] as any[], value: [] as string[], loading: false }
+      },
+      methods: {
+        remoteMethod(query: string) {
+          if (query) {
+            this.options = Array.from({ length: 5 }, (_, i) => ({
+              value: `${query}-${i}`,
+              label: `Label ${query}-${i}`,
+            }))
+          } else {
+            this.options = []
+          }
+        },
+      },
+    },
+    { attachTo: 'body' }
+  )
+
+  const select = wrapper.findComponent({ name: 'ElSelect' }).vm
+  select.onInput({ target: { value: 'foo' } })
+  vi.runAllTimers()
+  await nextTick()
+  getOptions()[0].click()
+  await nextTick()
+  expect(select.states.selected[0].currentLabel).toBe('Label foo-0')
+
+  select.onInput({ target: { value: 'bar' } })
+  vi.runAllTimers()
+  await nextTick()
+
+  expect(select.states.selected[0].currentLabel).toBe('Label foo-0')
+  expect(select.states.selected[0].value).toBe('foo-0')
+  vi.useRealTimers()
 })

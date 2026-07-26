@@ -1,20 +1,84 @@
 name: Comment on PR with conflict Label
+# Note that this `pull_request_target` is vulnerable, it grants write access to a fork repo
+# DO NOT ADD ANY CHECKOUT/CACHING in this workflow
 
 on:
-  pull_request:
+  # zizmor: ignore[dangerous-triggers] target-context workflow only comments, reads PR metadata, and updates labels without checking out code
+  pull_request_target:
     types: [labeled, synchronize]
 
 jobs:
   comment:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       - name: Check for specific label
-        if: contains(github.event.pull_request.labels.*.name, 'conflict pending')
-        uses: actions-cool/maintain-one-comment@v3.1.1
+        if: |
+          contains(github.event.pull_request.labels.*.name, 'conflict pending') &&
+          github.repository_owner == 'element-plus'
+        uses: actions-cool/maintain-one-comment-backup@17f644ff1665b05890083f7c1091fef135bce5e4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           body: |
             @${{ github.event.pull_request.user.login }} This PR has conflicts, please resolve them.
             <!-- ELEMENT_PLUS_CONFLICT_COMMENT -->
           body-include: '<!-- ELEMENT_PLUS_CONFLICT_COMMENT -->'
           number: ${{ github.event.pull_request.number }}
+
+  remove-label:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: read
+    steps:
+      - name: Poll mergeable until ready
+        id: poll
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+
+        # Polling for 15 seconds
+        run: |
+          echo "Polling mergeable for PR #$PR_NUMBER ..."
+
+          for i in {1..3}; do
+            resp=$(gh api "repos/$REPO/pulls/$PR_NUMBER" --jq '{mergeable}')
+            mergeable=$(echo "$resp" | jq -r '.mergeable')
+
+            echo "Check $i: mergeable=$mergeable"
+
+            # mergeable is ready
+            if [ "$mergeable" != "null" ]; then
+              echo "mergeable=$mergeable" >> $GITHUB_OUTPUT
+              exit 0
+            fi
+
+            sleep 5
+          done
+
+          echo "mergeable=null" >> $GITHUB_OUTPUT
+          echo "Timeout: mergeable never resolved."
+          exit 0
+
+      # Log final values (debug)
+      - name: Log mergeable results
+        env:
+          MERGEABLE: ${{ steps.poll.outputs.mergeable }}
+          PR_MERGEABLE: ${{ github.event.pull_request.mergeable }}
+          PR_MERGEABLE_STATE: ${{ github.event.pull_request.mergeable_state }}
+        run: |
+          echo "mergeable: $MERGEABLE"
+          echo "pull_request.mergeable: $PR_MERGEABLE"
+          echo "pull_request.mergeable_state: $PR_MERGEABLE_STATE"
+
+      - name: Remove conflict pending label
+        if: |
+          github.repository_owner == 'element-plus' &&
+          contains(github.event.pull_request.labels.*.name, 'conflict pending') &&
+          steps.poll.outputs.mergeable == 'true'
+        uses: actions-cool/issues-helper-backup@d65454423c6fbbd20026b9b499d403f79422ac69
+        with:
+          actions: 'remove-labels'
+          labels: 'conflict pending'
+          issue-number: ${{ github.event.pull_request.number }}

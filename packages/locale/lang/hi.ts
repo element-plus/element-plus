@@ -154,6 +154,15 @@ export default {
       resetFilter: 'रीसेट करें',
       clearFilter: 'सभी',
       sumText: 'जोड़े',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
+      sortLabel: 'Sort by {column}', // to be translated
+      filterLabel: 'Filter by {column}', // to be translated
+    },
+    tag: {
+      close: 'Close this tag', // to be translated
     },
     tour: {
       next: 'अगला',
@@ -186,6 +195,10 @@ export default {
       leftArrow: 'कैरोसेल तीर बाएँ',
       rightArrow: 'कैरोसेल तीर दाएँ',
       indicator: 'कैरोसेल इंडेक्स {index} पर स्विच करें',
+    },
+    inputOTP: {
+      groupLabel: 'OTP Input', // to be translated
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
     },
   },
 }

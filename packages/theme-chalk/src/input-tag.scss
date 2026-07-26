@@ -101,6 +101,10 @@
     );
   }
 
+  @include e(collapse-tag) {
+    line-height: 1;
+  }
+
   @include e(input-tag-list) {
     position: relative;
     display: flex;

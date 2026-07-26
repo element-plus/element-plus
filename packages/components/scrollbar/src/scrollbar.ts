@@ -1,13 +1,94 @@
 import { buildProps, definePropType, isNumber } from '@element-plus/utils'
 import { useAriaProps } from '@element-plus/hooks'
 
-import type {
-  ExtractPropTypes,
-  StyleValue,
-  __ExtractPublicPropTypes,
-} from 'vue'
+import type { ClassValue } from '@element-plus/utils'
+import type { ExtractPublicPropTypes, StyleValue } from 'vue'
 import type Scrollbar from './scrollbar.vue'
 
+export interface ScrollbarProps {
+  /**
+   * @description trigger distance(px)
+   * @default 0
+   */
+  distance?: number
+  /**
+   * @description height of scrollbar
+   * @default ''
+   */
+  height?: number | string
+  /**
+   * @description max height of scrollbar
+   * @default ''
+   */
+  maxHeight?: number | string
+  /**
+   * @description whether to use the native scrollbar
+   */
+  native?: boolean
+  /**
+   * @description style of wrap
+   * @default ''
+   */
+  wrapStyle?: StyleValue
+  /**
+   * @description class of wrap
+   * @default ''
+   */
+  wrapClass?: ClassValue
+  /**
+   * @description class of view
+   * @default ''
+   */
+  viewClass?: ClassValue
+  /**
+   * @description style of view
+   * @default ''
+   */
+  viewStyle?: StyleValue
+  /**
+   * @description do not respond to container size changes, if the container size does not change, it is better to set it to optimize performance
+   */
+  noresize?: boolean
+  /**
+   * @description element tag of the view
+   * @default 'div'
+   */
+  tag?: keyof HTMLElementTagNameMap | (string & {})
+  /**
+   * @description always show
+   */
+  always?: boolean
+  /**
+   * @description minimum size of scrollbar
+   * @default 20
+   */
+  minSize?: number
+  /**
+   * @description Wrap tabindex
+   * @default undefined
+   */
+  tabindex?: number | string
+  /**
+   * @description id of view
+   */
+  id?: string
+  /**
+   * @description role of view
+   */
+  role?: string
+  /**
+   * @description native `aria-label` attribute
+   */
+  ariaLabel?: string
+  /**
+   * @description native `aria-orientation` attribute
+   */
+  ariaOrientation?: 'horizontal' | 'vertical' | 'undefined'
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `ScrollbarProps` instead.
+ */
 export const scrollbarProps = buildProps({
   /**
    * @description trigger distance(px)
@@ -38,28 +119,28 @@ export const scrollbarProps = buildProps({
    * @description style of wrap
    */
   wrapStyle: {
-    type: definePropType<StyleValue>([String, Object, Array]),
+    type: definePropType<StyleValue>([String, Object, Array, Boolean]),
     default: '',
   },
   /**
    * @description class of wrap
    */
   wrapClass: {
-    type: [String, Array],
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
     default: '',
   },
   /**
    * @description class of view
    */
   viewClass: {
-    type: [String, Array],
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
     default: '',
   },
   /**
    * @description style of view
    */
   viewStyle: {
-    type: [String, Array, Object],
+    type: definePropType<StyleValue>([String, Object, Array, Boolean]),
     default: '',
   },
   /**
@@ -101,10 +182,11 @@ export const scrollbarProps = buildProps({
   role: String,
   ...useAriaProps(['ariaLabel', 'ariaOrientation']),
 } as const)
-export type ScrollbarProps = ExtractPropTypes<typeof scrollbarProps>
-export type ScrollbarPropsPublic = __ExtractPublicPropTypes<
-  typeof scrollbarProps
->
+
+/**
+ * @deprecated Removed after 3.0.0, Use `ScrollbarProps` instead.
+ */
+export type ScrollbarPropsPublic = ExtractPublicPropTypes<typeof scrollbarProps>
 
 export const scrollbarEmits = {
   'end-reached': (direction: ScrollbarDirection) =>

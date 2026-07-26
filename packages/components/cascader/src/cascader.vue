@@ -144,7 +144,7 @@
             type="text"
             :class="nsCascader.e('search-input')"
             :placeholder="presentText ? '' : inputPlaceholder"
-            @input="(e) => handleInput(searchInputValue, e as KeyboardEvent)"
+            @input="(e) => handleInput(searchInputValue, e as InputEvent)"
             @click.stop="togglePopperVisible(true)"
             @keydown.delete="handleDelete"
             @compositionstart="handleComposition"
@@ -167,6 +167,9 @@
         :props="props.props"
         :border="false"
         :render-label="$slots.default"
+        :virtual-scroll="virtualScroll"
+        :item-size="itemSize"
+        :height="height"
         @expand-change="handleExpandChange"
         @close="$nextTick(() => togglePopperVisible(false))"
       >
@@ -174,40 +177,91 @@
           <slot name="empty" />
         </template>
       </el-cascader-panel>
-      <el-scrollbar
-        v-if="filterable"
-        v-show="filtering"
-        ref="suggestionPanel"
-        tag="ul"
-        :class="nsCascader.e('suggestion-panel')"
-        :view-class="nsCascader.e('suggestion-list')"
-        @keydown="handleSuggestionKeyDown"
-      >
-        <template v-if="suggestions.length">
-          <li
-            v-for="item in suggestions"
-            :key="item.uid"
-            :class="[
-              nsCascader.e('suggestion-item'),
-              nsCascader.is('checked', item.checked),
-            ]"
-            :tabindex="-1"
-            @click="handleSuggestionClick(item)"
+      <template v-if="filterable">
+        <el-scrollbar
+          v-if="!virtualScroll"
+          v-show="filtering"
+          :ref="(ref) => (suggestionPanel = (ref as ScrollbarInstance)?.$el)"
+          tag="ul"
+          :class="nsCascader.e('suggestion-panel')"
+          :wrap-class="nsCascader.e('suggestion-wrap')"
+          :view-class="nsCascader.e('suggestion-list')"
+          @keydown="handleSuggestionKeyDown"
+        >
+          <template v-if="suggestions.length">
+            <li
+              v-for="item in suggestions"
+              :key="item.uid"
+              :class="[
+                nsCascader.e('suggestion-item'),
+                nsCascader.is('checked', item.checked),
+              ]"
+              :tabindex="-1"
+              @click="handleSuggestionClick(item)"
+            >
+              <slot name="suggestion-item" :item="item">
+                <span>{{ item.text }}</span>
+                <el-icon v-if="item.checked">
+                  <check />
+                </el-icon>
+              </slot>
+            </li>
+          </template>
+          <slot v-else name="empty">
+            <li :class="nsCascader.e('empty-text')">
+              {{ t('el.cascader.noMatch') }}
+            </li>
+          </slot>
+        </el-scrollbar>
+        <div
+          v-else
+          v-show="filtering"
+          ref="suggestionPanel"
+          :class="nsCascader.e('suggestion-panel')"
+          @keydown="handleSuggestionKeyDown"
+        >
+          <el-fixed-size-list
+            v-show="suggestions.length"
+            ref="suggestionVirtualListRef"
+            :height="clampedSuggestionListHeight"
+            :item-size="itemSize"
+            :data="suggestions"
+            :total="suggestions.length"
+            :class-name="nsCascader.e('suggestion-list')"
+            inner-element="ul"
+            :inner-width="suggestionListWidth"
           >
-            <slot name="suggestion-item" :item="item">
-              <span>{{ item.text }}</span>
-              <el-icon v-if="item.checked">
-                <check />
-              </el-icon>
-            </slot>
-          </li>
-        </template>
-        <slot v-else name="empty">
-          <li :class="nsCascader.e('empty-text')">
-            {{ t('el.cascader.noMatch') }}
-          </li>
-        </slot>
-      </el-scrollbar>
+            <template #default="{ data, index, style }">
+              <li
+                :id="`suggestion-${data[index].uid}`"
+                :key="data[index].uid"
+                :data-suggestion-index="index"
+                :class="[
+                  nsCascader.e('suggestion-item'),
+                  nsCascader.is('checked', data[index].checked),
+                ]"
+                :tabindex="-1"
+                :style="style"
+                @click="handleSuggestionClick(data[index])"
+              >
+                <slot name="suggestion-item" :item="data[index]">
+                  <span>{{ data[index].text }}</span>
+                  <el-icon v-if="data[index].checked">
+                    <check />
+                  </el-icon>
+                </slot>
+              </li>
+            </template>
+          </el-fixed-size-list>
+          <slot v-if="!suggestions.length" name="empty">
+            <ul :class="nsCascader.e('suggestion-list')">
+              <li :class="nsCascader.e('empty-text')">
+                {{ t('el.cascader.noMatch') }}
+              </li>
+            </ul>
+          </slot>
+        </div>
+      </template>
       <div v-if="$slots.footer" :class="nsCascader.e('footer')" @click.stop>
         <slot name="footer" />
       </div>
@@ -216,21 +270,35 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, onMounted, ref, useAttrs, watch } from 'vue'
-import { cloneDeep } from 'lodash-unified'
+import {
+  computed,
+  markRaw,
+  nextTick,
+  onMounted,
+  ref,
+  useAttrs,
+  useSlots,
+  watch,
+} from 'vue'
+import { clamp, cloneDeep } from 'lodash-unified'
 import { useCssVar, useDebounceFn, useResizeObserver } from '@vueuse/core'
 import {
-  debugWarn,
+  NOOP,
   focusNode,
   getEventCode,
   getSibling,
   isClient,
+  isNumber,
   isPromise,
 } from '@element-plus/utils'
-import ElCascaderPanel from '@element-plus/components/cascader-panel'
+import ElCascaderPanel, {
+  CASCADER_PANEL_HEIGHT,
+  CASCADER_PANEL_ITEM_SIZE,
+} from '@element-plus/components/cascader-panel'
 import ElInput from '@element-plus/components/input'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
+import { FixedSizeList as ElFixedSizeList } from '@element-plus/components/virtual-list'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 import {
@@ -251,20 +319,24 @@ import {
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { ArrowDown, Check } from '@element-plus/icons-vue'
-import { cascaderEmits, cascaderProps } from './cascader'
+import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
+import { cascaderEmits } from './cascader'
 
 import type { Options } from '@element-plus/components/popper'
 import type { ComputedRef, StyleValue } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { InputInstance } from '@element-plus/components/input'
 import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
+import type { FixedSizeListInstance } from '@element-plus/components/virtual-list'
 import type {
   CascaderNode,
   CascaderPanelInstance,
   CascaderValue,
   Tag,
 } from '@element-plus/components/cascader-panel'
+import type { CascaderComponentProps } from './cascader'
+
+const SUGGESTION_ITEM_EXTRA_WIDTH = 34 // span margin-right (10px) + check icon width (24px)
 
 const popperOptions: Partial<Options> = {
   modifiers: [
@@ -288,15 +360,54 @@ defineOptions({
   name: 'ElCascader',
 })
 
-const props = defineProps(cascaderProps)
+const props = withDefaults(defineProps<CascaderComponentProps>(), {
+  options: () => [],
+  props: () => ({}),
+  disabled: undefined,
+  clearIcon: markRaw(CircleClose),
+  filterMethod: (node, keyword) => node.text.includes(keyword),
+  separator: ' / ',
+  showAllLevels: true,
+  maxCollapseTags: 1,
+  debounce: 300,
+  beforeFilter: () => true,
+  placement: 'bottom-start',
+  fallbackPlacements: () => [
+    'bottom-start',
+    'bottom',
+    'top-start',
+    'top',
+    'right',
+    'left',
+  ],
+  teleported: true,
+  effect: 'light',
+  tagType: 'info',
+  tagEffect: 'light',
+  validateEvent: true,
+  persistent: true,
+  showCheckedStrategy: 'child',
+  showPrefix: true,
+  popperClass: undefined,
+  popperStyle: undefined,
+  valueOnClear: undefined,
+  itemSize: CASCADER_PANEL_ITEM_SIZE,
+  height: CASCADER_PANEL_HEIGHT,
+})
 const emit = defineEmits(cascaderEmits)
 const attrs = useAttrs()
+const slots = useSlots()
 
 let inputInitialHeight = 0
 let pressDeleteCount = 0
 
 const nsCascader = useNamespace('cascader')
 const nsInput = useNamespace('input')
+const sizeMapPadding = {
+  small: 7,
+  default: 11,
+  large: 15,
+}
 
 const { t } = useLocale()
 const { formItem } = useFormItem()
@@ -314,7 +425,8 @@ const tagTooltipRef = ref<TooltipInstance>()
 const inputRef = ref<InputInstance>()
 const tagWrapper = ref<HTMLDivElement>()
 const cascaderPanelRef = ref<CascaderPanelInstance>()
-const suggestionPanel = ref<ScrollbarInstance>()
+const suggestionPanel = ref<HTMLElement>()
+const suggestionVirtualListRef = ref<FixedSizeListInstance>()
 const popperVisible = ref(false)
 const inputHover = ref(false)
 const filtering = ref(false)
@@ -322,6 +434,11 @@ const inputValue = ref('')
 const searchInputValue = ref('')
 const tags = ref<Tag[]>([])
 const suggestions = ref<CascaderNode[]>([])
+const suggestionListWidth = ref<string | number>('100%')
+const hasCustomSuggestionItemSlot = computed(() => !!slots['suggestion-item'])
+const clampedSuggestionListHeight = computed(() =>
+  clamp(suggestions.value.length * props.itemSize, props.itemSize, props.height)
+)
 
 const showTagList = computed(() => {
   if (!props.props.multiple) {
@@ -374,7 +491,7 @@ const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
   },
   afterBlur() {
     if (props.validateEvent) {
-      formItem?.validate?.('blur').catch((err) => debugWarn(err))
+      formItem?.validate?.('blur').catch(NOOP)
     }
   },
 })
@@ -412,7 +529,7 @@ const checkedValue = computed<CascaderValue>({
     emit(UPDATE_MODEL_EVENT, value)
     emit(CHANGE_EVENT, value)
     if (props.validateEvent) {
-      formItem?.validate('change').catch((err) => debugWarn(err))
+      formItem?.validate('change').catch(NOOP)
     }
   },
 })
@@ -459,7 +576,8 @@ const togglePopperVisible = (visible?: boolean) => {
 
     if (visible) {
       updatePopperPosition()
-      nextTick(cascaderPanelRef.value?.scrollToExpandingNode)
+      cascaderPanelRef.value &&
+        nextTick(cascaderPanelRef.value.scrollToExpandingNode)
     } else if (props.filterable) {
       syncPresentTextValue()
     }
@@ -540,16 +658,25 @@ const calculateSuggestions = () => {
 
   filtering.value = true
   suggestions.value = res!
+  nextTick(() => {
+    if (props.virtualScroll && suggestions.value.length > 0) {
+      suggestionVirtualListRef.value?.scrollToItem(0)
+    }
+    updateStyle()
+  })
   updatePopperPosition()
 }
 
+const getSuggestionPanelEl = (selector?: string): HTMLElement | undefined => {
+  const el = suggestionPanel.value
+  return selector ? (el?.querySelector(selector) ?? undefined) : el
+}
+
 const focusFirstNode = () => {
-  let firstNode!: HTMLElement
+  let firstNode: HTMLElement | undefined
 
   if (filtering.value && suggestionPanel.value) {
-    firstNode = suggestionPanel.value.$el.querySelector(
-      `.${nsCascader.e('suggestion-item')}`
-    )
+    firstNode = getSuggestionPanelEl(`.${nsCascader.e('suggestion-item')}`)
   } else {
     firstNode = cascaderPanelRef.value?.$el.querySelector(
       `.${nsCascader.b('node')}[tabindex="-1"]`
@@ -558,34 +685,117 @@ const focusFirstNode = () => {
 
   if (firstNode) {
     firstNode.focus()
-    !filtering.value && firstNode.click()
+    if (
+      !filtering.value &&
+      firstNode.getAttribute('aria-haspopup') === 'true'
+    ) {
+      firstNode.click()
+    }
   }
+}
+
+const updateSuggestionPanelWidth = (inputWidth: number) => {
+  const suggestionPanelEl = getSuggestionPanelEl()
+  if (!suggestionPanelEl) return
+
+  const panelWidth = isNumber(props.fitInputWidth)
+    ? `${props.fitInputWidth}px`
+    : `${inputWidth}px`
+
+  const setPanelStyle = (el: HTMLElement) => {
+    if (props.fitInputWidth !== false) {
+      el.style.width = panelWidth
+      el.style.minWidth = ''
+    } else {
+      el.style.width = ''
+      el.style.minWidth = panelWidth
+    }
+  }
+
+  setPanelStyle(suggestionPanelEl)
+
+  if (props.virtualScroll) {
+    suggestionListWidth.value =
+      props.fitInputWidth !== false
+        ? panelWidth
+        : hasCustomSuggestionItemSlot.value
+          ? `${inputWidth}px`
+          : `${Math.max(inputWidth, calculateSuggestionMaxWidth())}px`
+    return
+  }
+
+  const suggestionList = getSuggestionPanelEl(
+    `.${nsCascader.e('suggestion-list')}`
+  )
+  if (suggestionList) {
+    setPanelStyle(suggestionList)
+  }
+}
+
+const getTagWrapperLeft = () => {
+  if (!slots.prefix) return 0
+
+  const prefix = inputRef.value?.$el.querySelector(
+    `.${nsInput.e('prefix')}`
+  ) as HTMLElement | null
+  if (!prefix) return 0
+
+  const prefixWidth = prefix.getBoundingClientRect().width
+  if (prefixWidth <= 0) return 0
+  return prefixWidth + sizeMapPadding[realSize.value || 'default']
 }
 
 const updateStyle = () => {
   const inputInner = inputRef.value?.input
-  const tagWrapperEl = tagWrapper.value
-  const suggestionPanelEl = suggestionPanel.value?.$el
+  const inputWrapper = inputRef.value?.$el
+  if (!isClient || !inputInner || !inputWrapper) return
 
-  if (!isClient || !inputInner) return
-
-  if (suggestionPanelEl) {
-    const suggestionList = suggestionPanelEl.querySelector(
-      `.${nsCascader.e('suggestion-list')}`
-    )
-    suggestionList.style.minWidth = `${inputInner.offsetWidth}px`
+  if (suggestionPanel.value) {
+    updateSuggestionPanelWidth(inputWrapper.getBoundingClientRect().width)
   }
 
+  const tagWrapperEl = tagWrapper.value
   if (tagWrapperEl) {
-    const { offsetHeight } = tagWrapperEl
-    // 2 is el-input__wrapper padding
     const height =
       tags.value.length > 0
-        ? `${Math.max(offsetHeight, inputInitialHeight) - 2}px`
+        ? `${Math.max(tagWrapperEl.offsetHeight, inputInitialHeight) - 2}px`
         : `${inputInitialHeight}px`
     inputInner.style.height = height
+    tagWrapperEl.style.left = `${getTagWrapperLeft()}px`
     updatePopperPosition()
   }
+}
+
+const calculateSuggestionMaxWidth = () => {
+  if (hasCustomSuggestionItemSlot.value) return 0
+  if (!suggestions.value.length) return 0
+
+  const canvas = document.createElement('canvas')
+  const ctx = canvas.getContext('2d')
+  if (!ctx) return 0
+
+  const renderedSuggestion = getSuggestionPanelEl(
+    `.${nsCascader.e('suggestion-item')}`
+  )
+  if (!renderedSuggestion || !isClient) return 0
+
+  const style = getComputedStyle(renderedSuggestion)
+  const padding =
+    Number.parseFloat(style.paddingLeft) + Number.parseFloat(style.paddingRight)
+  // Use bold font for all items to ensure width is sufficient
+  ctx.font = `bold ${style.fontSize} ${style.fontFamily}`
+
+  let maxWidth = 0
+  let hasChecked = false
+
+  for (const suggestion of suggestions.value) {
+    const text = suggestion.text || ''
+    const metrics = ctx.measureText(text)
+    maxWidth = Math.max(maxWidth, metrics.width)
+    if (suggestion.checked && !hasChecked) hasChecked = true
+  }
+
+  return maxWidth + padding + (hasChecked ? SUGGESTION_ITEM_EXTRA_WIDTH : 0)
 }
 
 const getCheckedNodes = (leafOnly: boolean) => {
@@ -650,6 +860,20 @@ const handleSuggestionClick = (node: CascaderNode) => {
   }
 }
 
+const getSuggestionIndexFromTarget = (target: HTMLElement) => {
+  const suggestionItem = target.closest<HTMLElement>('[data-suggestion-index]')
+  const indexStr = suggestionItem?.dataset.suggestionIndex
+
+  if (!indexStr) return -1
+
+  const index = Number.parseInt(indexStr, 10)
+  if (Number.isNaN(index) || index < 0 || index >= suggestions.value.length) {
+    return -1
+  }
+
+  return index
+}
+
 const handleSuggestionKeyDown = (e: KeyboardEvent) => {
   const target = e.target as HTMLElement
   const code = getEventCode(e)
@@ -659,6 +883,26 @@ const handleSuggestionKeyDown = (e: KeyboardEvent) => {
     case EVENT_CODE.down: {
       e.preventDefault()
       const distance = code === EVENT_CODE.up ? -1 : 1
+
+      if (props.virtualScroll && suggestionVirtualListRef.value) {
+        const currentIndex = getSuggestionIndexFromTarget(target)
+        if (currentIndex >= 0) {
+          const length = suggestions.value.length
+          const targetIndex = (currentIndex + distance + length) % length
+
+          suggestionVirtualListRef.value.scrollToItem(targetIndex)
+
+          nextTick(() => {
+            const targetItem = getSuggestionPanelEl(
+              `#suggestion-${suggestions.value[targetIndex].uid}`
+            )
+            targetItem && focusNode(targetItem)
+          })
+          return
+        }
+      }
+
+      // use DOM-based navigation
       focusNode(
         getSibling(
           target,
@@ -712,18 +956,36 @@ const handleFilter = useDebounceFn(() => {
   }
 }, debounce)
 
-const handleInput = (val: string, e?: KeyboardEvent) => {
+const handleInput = (val: string, e?: InputEvent) => {
   !popperVisible.value && togglePopperVisible(true)
 
   if (e?.isComposing) return
 
-  val ? handleFilter() : hideSuggestionPanel()
+  if (val) {
+    handleFilter()
+  } else {
+    const passed = props.beforeFilter('')
+    if (isPromise(passed)) {
+      passed.catch(() => {
+        /* prevent log error */
+      })
+    }
+    hideSuggestionPanel()
+  }
 }
 
 const getInputInnerHeight = (inputInner: HTMLElement): number =>
   Number.parseFloat(
-    useCssVar(nsInput.cssVarName('input-height'), inputInner).value
+    useCssVar(nsInput.cssVarName('input-height'), inputInner).value!
   ) - 2
+
+const focus = () => {
+  inputRef.value?.focus()
+}
+
+const blur = () => {
+  inputRef.value?.blur()
+}
 
 watch(filtering, updatePopperPosition)
 
@@ -761,11 +1023,12 @@ watch(
 
 onMounted(() => {
   const inputInner = inputRef.value!.input!
+  const inputWrapper = inputRef.value!.$el!
 
   const inputInnerHeight = getInputInnerHeight(inputInner)
 
   inputInitialHeight = inputInner.offsetHeight || inputInnerHeight
-  useResizeObserver(inputInner, updateStyle)
+  useResizeObserver(inputWrapper, updateStyle)
 })
 
 defineExpose({
@@ -789,5 +1052,9 @@ defineExpose({
    * @description selected content text
    */
   presentText,
+  /** @description focus the input element */
+  focus,
+  /** @description blur the input element */
+  blur,
 })
 </script>

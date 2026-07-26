@@ -153,6 +153,15 @@ export default {
       resetFilter: 'రీసెట్',
       clearFilter: 'తొలగించు',
       sumText: 'మొత్తం',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
+      sortLabel: 'Sort by {column}', // to be translated
+      filterLabel: 'Filter by {column}', // to be translated
+    },
+    tag: {
+      close: 'Close this tag', // to be translated
     },
     tour: {
       next: 'తదుపరి',
@@ -185,6 +194,10 @@ export default {
       leftArrow: 'క్యారసెల్ ఎడమ బాణం',
       rightArrow: 'క్యారసెల్ కుడి బాణం',
       indicator: 'క్యారసెల్ సూచిక {index} కి మార్చు',
+    },
+    inputOTP: {
+      groupLabel: 'OTP Input', // to be translated
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
     },
   },
 }

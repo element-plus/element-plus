@@ -1,20 +1,15 @@
 import { placements } from '@popperjs/core'
 import { buildProps, definePropType } from '@element-plus/utils'
 import { useAriaProps } from '@element-plus/hooks'
-import { popperArrowProps } from './arrow'
+import { popperArrowProps, popperArrowPropsDefaults } from './arrow'
 
+import type { ClassValue } from '@element-plus/utils'
 import type { PopperEffect } from './popper'
-import type {
-  ExtractPropTypes,
-  StyleValue,
-  __ExtractPublicPropTypes,
-} from 'vue'
+import type { ExtractPublicPropTypes, StyleValue } from 'vue'
 import type { Options, Placement } from '@popperjs/core'
 import type { Measurable } from './constants'
 import type Content from './content.vue'
-
-type ClassObjectType = Record<string, boolean>
-type ClassType = string | ClassObjectType | ClassType[]
+import type { PopperArrowProps } from './arrow'
 
 const POSITIONING_STRATEGIES = ['fixed', 'absolute'] as const
 
@@ -24,6 +19,28 @@ export interface CreatePopperInstanceParams {
   arrowEl: HTMLElement | undefined
 }
 
+export interface PopperCoreConfigProps {
+  boundariesPadding?: number
+  fallbackPlacements?: Placement[]
+  gpuAcceleration?: boolean
+  /**
+   * @description offset of the Tooltip
+   */
+  offset?: number
+  /**
+   * @description position of Tooltip
+   */
+  placement?: Placement
+  /**
+   * @description [popper.js](https://popper.js.org/docs/v2/) parameters
+   */
+  popperOptions?: Partial<Options>
+  strategy?: (typeof POSITIONING_STRATEGIES)[number]
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `PopperCoreConfigProps` instead.
+ */
 export const popperCoreConfigProps = buildProps({
   boundariesPadding: {
     type: Number,
@@ -65,22 +82,49 @@ export const popperCoreConfigProps = buildProps({
     default: 'absolute',
   },
 } as const)
-export type PopperCoreConfigProps = ExtractPropTypes<
-  typeof popperCoreConfigProps
->
-export type PopperCoreConfigPropsPublic = __ExtractPublicPropTypes<
+
+/**
+ * @deprecated Removed after 3.0.0, Use `PopperCoreConfigProps` instead.
+ */
+export type PopperCoreConfigPropsPublic = ExtractPublicPropTypes<
   typeof popperCoreConfigProps
 >
 
+export interface PopperContentProps
+  extends PopperCoreConfigProps, PopperArrowProps {
+  id?: string
+  style?: StyleValue
+  className?: ClassValue
+  effect?: PopperEffect
+  visible?: boolean
+  enterable?: boolean
+  pure?: boolean
+  focusOnShow?: boolean
+  trapping?: boolean
+  popperClass?: ClassValue
+  popperStyle?: StyleValue
+  referenceEl?: HTMLElement
+  triggerTargetEl?: HTMLElement
+  stopPopperMouseEvent?: boolean
+  virtualTriggering?: boolean
+  zIndex?: number
+  ariaLabel?: string
+  loop?: boolean
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `PopperContentProps` instead.
+ */
 export const popperContentProps = buildProps({
   ...popperCoreConfigProps,
   ...popperArrowProps,
   id: String,
   style: {
-    type: definePropType<StyleValue>([String, Array, Object]),
+    type: definePropType<StyleValue>([String, Array, Object, Boolean]),
+    default: undefined,
   },
   className: {
-    type: definePropType<ClassType>([String, Array, Object]),
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
   },
   effect: {
     type: definePropType<PopperEffect>(String),
@@ -95,10 +139,12 @@ export const popperContentProps = buildProps({
   focusOnShow: Boolean,
   trapping: Boolean,
   popperClass: {
-    type: definePropType<ClassType>([String, Array, Object]),
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
+    default: undefined,
   },
   popperStyle: {
-    type: definePropType<StyleValue>([String, Array, Object]),
+    type: definePropType<StyleValue>([String, Array, Object, Boolean]),
+    default: undefined,
   },
   referenceEl: {
     type: definePropType<HTMLElement>(Object),
@@ -115,10 +161,39 @@ export const popperContentProps = buildProps({
   ...useAriaProps(['ariaLabel']),
   loop: Boolean,
 } as const)
-export type PopperContentProps = ExtractPropTypes<typeof popperContentProps>
-export type PopperContentPropsPublic = __ExtractPublicPropTypes<
+
+/**
+ * @deprecated Removed after 3.0.0, Use `PopperContentProps` instead.
+ */
+export type PopperContentPropsPublic = ExtractPublicPropTypes<
   typeof popperContentProps
 >
+
+export const popperCoreConfigPropsDefaults = {
+  boundariesPadding: 0,
+  gpuAcceleration: true,
+  offset: 12,
+  placement: 'bottom',
+  popperOptions: () => ({}),
+  strategy: 'absolute',
+} as const
+
+export const popperContentPropsDefaults = {
+  ...popperCoreConfigPropsDefaults,
+  ...popperArrowPropsDefaults,
+  effect: 'dark',
+  enterable: true,
+  stopPopperMouseEvent: true,
+  visible: false,
+  pure: false,
+  focusOnShow: false,
+  trapping: false,
+  virtualTriggering: false,
+  loop: false,
+  style: undefined,
+  popperStyle: undefined,
+  popperClass: undefined,
+} as const
 
 export const popperContentEmits = {
   mouseenter: (evt: MouseEvent) => evt instanceof MouseEvent,

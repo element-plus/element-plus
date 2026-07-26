@@ -165,6 +165,7 @@
     }
 
     @include e('sort-icon') {
+      @include reset-button();
       transition:
         opacity,
         display getCssVar('transition-duration', '');
@@ -172,7 +173,7 @@
       display: none;
 
       @include when(sorting) {
-        display: block;
+        display: flex;
         opacity: 1;
       }
     }
@@ -201,8 +202,8 @@
     }
 
     @include e('expand-icon') {
+      @include reset-button();
       margin: 0 4px;
-      cursor: pointer;
       user-select: none;
 
       svg {

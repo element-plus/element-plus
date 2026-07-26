@@ -123,7 +123,12 @@ const endContainerKls = computed(() => [
 
 const startTime = computed(() => props.parsedValue![0])
 const endTime = computed(() => props.parsedValue![1])
-const oldValue = useOldValue(props)
+const oldValue = useOldValue(props, {
+  modelValue: computed(() => pickerBase.props.modelValue),
+  valueOnClear: computed(() =>
+    pickerBase?.emptyValues ? pickerBase.emptyValues.valueOnClear.value : null
+  ),
+})
 const handleCancel = () => {
   const old = oldValue.value
   emit('pick', old, false)
@@ -131,6 +136,7 @@ const handleCancel = () => {
     oldValue.value = old
   })
 }
+
 const showSeconds = computed(() => {
   return props.format.includes('ss')
 })
@@ -310,4 +316,5 @@ emit('set-picker-option', ['isValidValue', isValidValue])
 emit('set-picker-option', ['handleKeydownInput', handleKeydown])
 emit('set-picker-option', ['getDefaultValue', getDefaultValue])
 emit('set-picker-option', ['getRangeAvailableTime', getRangeAvailableTime])
+emit('set-picker-option', ['handleCancel', handleCancel])
 </script>

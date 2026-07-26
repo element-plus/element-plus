@@ -3,13 +3,16 @@ import { createCollectionWithScope } from '@element-plus/components/collection'
 
 import type {
   ExtractPropTypes,
+  ExtractPublicPropTypes,
   HTMLAttributes,
   StyleValue,
-  __ExtractPublicPropTypes,
 } from 'vue'
 
 export const rovingFocusGroupProps = buildProps({
-  style: { type: definePropType<StyleValue>([String, Array, Object]) },
+  style: {
+    type: definePropType<StyleValue>([String, Array, Object, Boolean]),
+    default: undefined,
+  },
   currentTabId: {
     type: definePropType<string | null>(String),
   },
@@ -34,7 +37,7 @@ export type ElRovingFocusGroupProps = ExtractPropTypes<
   typeof rovingFocusGroupProps
 >
 
-export type ElRovingFocusGroupPropsPublic = __ExtractPublicPropTypes<
+export type ElRovingFocusGroupPropsPublic = ExtractPublicPropTypes<
   typeof rovingFocusGroupProps
 >
 

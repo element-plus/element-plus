@@ -94,7 +94,7 @@ image/custom-progress
 | alt                    | native attribute `alt`.                                                                                                                           | ^[string]                                                               | —       |
 | referrerpolicy         | native attribute [referrerPolicy](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/referrerPolicy).                              | ^[string]                                                               | —       |
 | crossorigin            | native attribute [crossorigin](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/crossorigin).                                         | ^[enum]`'' \| 'anonymous' \| 'use-credentials'`                         | —       |
-| preview-src-list       | allow big image preview.                                                                                                                          | ^[object]`string[]`                                                     | []      |
+| preview-src-list       | allow big image preview.                                                                                                                          | ^[array]`string[]`                                                      | []      |
 | z-index                | set image preview z-index.                                                                                                                        | ^[number]                                                               | —       |
 | initial-index          | initial preview image index, less than the length of `url-list`.                                                                                  | ^[number]                                                               | 0       |
 | close-on-press-escape  | whether the image-viewer can be closed by pressing ESC.                                                                                           | ^[boolean]                                                              | true    |
@@ -136,7 +136,7 @@ image/custom-progress
 
 | Name                   | Description                                                                                                                   | Type                  | Default |
 | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------- | --------------------- | ------- |
-| url-list               | preview link list.                                                                                                            | ^[object]`string[]`   | []      |
+| url-list               | preview link list.                                                                                                            | ^[array]`string[]`    | []      |
 | z-index                | preview backdrop z-index.                                                                                                     | ^[number] / ^[string] | —       |
 | initial-index          | the initial preview image index, less than or equal to the length of `url-list`.                                              | ^[number]             | 0       |
 | infinite               | whether preview is infinite.                                                                                                  | ^[boolean]            | true    |
@@ -160,12 +160,12 @@ image/custom-progress
 
 ### Image Viewer Slots
 
-| Name                   | Description                                                            | Type                                                                                                                                                                                                              |
-| ---------------------- | ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| viewer                 | custom content                                                         | -                                                                                                                                                                                                                 |
-| progress ^(2.9.4)      | custom progress content (Priority is higher than `show-progress` prop) | ^[object]`{ activeIndex: number, total: number }`                                                                                                                                                                 |
-| toolbar ^(2.9.4)       | custom toolbar content                                                 | ^[object]`{actions: (action: ImageViewerAction, options?: ImageViewerActionOptions ) => void, prev: ()=> void, next: () => void,reset: () => void, activeIndex: number }, setActiveItem: (index: number) => void` |
-| viewer-error ^(2.11.3) | custom image load failed content.                                      | ^[object]`{ activeIndex: number, src: string }`                                                                                                                                                                   |
+| Name                   | Description                                                            | Type                                                                                                                                                                                                                |
+| ---------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| viewer                 | custom content                                                         | -                                                                                                                                                                                                                   |
+| progress ^(2.9.4)      | custom progress content (Priority is higher than `show-progress` prop) | ^[object]`{ activeIndex: number, total: number }`                                                                                                                                                                   |
+| toolbar ^(2.9.4)       | custom toolbar content                                                 | ^[object]`{ actions: (action: ImageViewerAction, options?: ImageViewerActionOptions) => void, prev: () => void, next: () => void, reset: () => void, activeIndex: number, setActiveItem: (index: number) => void }` |
+| viewer-error ^(2.11.3) | custom image load failed content.                                      | ^[object]`{ activeIndex: number, src: string }`                                                                                                                                                                     |
 
 ### Image Viewer Exposes
 

@@ -1,7 +1,7 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
-import { ElFormItem } from '@element-plus/components/form'
+import { ElForm, ElFormItem } from '@element-plus/components/form'
 import { EVENT_CODE } from '@element-plus/constants'
 import { rAF } from '@element-plus/test-utils/tick'
 import ColorPicker from '../src/color-picker.vue'
@@ -140,7 +140,10 @@ describe('Color-picker', () => {
 
   it('should clear a color when clear button click', async () => {
     const color = ref('#0f0')
-    const wrapper = mount(() => <ColorPicker v-model={color.value} />)
+    const onClear = vi.fn()
+    const wrapper = mount(() => (
+      <ColorPicker v-model={color.value} onClear={onClear} />
+    ))
 
     await wrapper.find('.el-color-picker__trigger').trigger('click')
     const clearBtn = document.querySelector<HTMLElement>(
@@ -148,6 +151,21 @@ describe('Color-picker', () => {
     )
     clearBtn!.click()
     expect(color.value).toBeNull()
+    expect(onClear).toHaveBeenCalledOnce()
+    wrapper.unmount()
+  })
+
+  it('should not display the clear button when clearable is false', async () => {
+    const color = ref('#0f0')
+    const wrapper = mount(() => (
+      <ColorPicker v-model={color.value} clearable={false} />
+    ))
+
+    await wrapper.find('.el-color-picker__trigger').trigger('click')
+    const clearBtn = document.querySelector<HTMLElement>(
+      '.el-color-footer__link-btn'
+    )
+    expect(clearBtn).toBeNull()
     wrapper.unmount()
   })
 
@@ -525,6 +543,20 @@ describe('Color-picker', () => {
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
+    })
+
+    it('The disabled state of a component has higher priority than that of a form', async () => {
+      const wrapper = mount(() => (
+        <ElForm disabled>
+          <ElFormItem label="Foobar" data-test-ref="item">
+            <ColorPicker disabled={false} />
+          </ElFormItem>
+        </ElForm>
+      ))
+
+      await nextTick()
+      const colorPickerButton = wrapper.find('.el-color-picker')
+      expect(colorPickerButton.classes()).not.toContain('is-disabled')
     })
   })
 

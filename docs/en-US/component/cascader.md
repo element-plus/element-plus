@@ -77,7 +77,7 @@ Don't do:
 
 ```vue
 <template>
-  <!--  Object literal binging here is invalid syntax for cascader  -->
+  <!--  Object literal binding here is invalid syntax for cascader  -->
   <el-cascader :props="{ multiple: true }" />
 </template>
 ```
@@ -193,14 +193,40 @@ cascader/custom-header-footer
 
 :::
 
+## Virtual Scroll ^(2.14.0)
+
+When dealing with large amounts of data, you can enable virtual scrolling to improve performance.
+
+:::demo Set `virtual-scroll` to `true` to enable virtual scrolling. You can also customize the menu height with `height` and node height with `item-size`. Default height is 204px and default item size is 34px.
+
+cascader/virtual-scroll
+
+:::
+
+## Custom Suggestion Width ^(2.14.0)
+
+The width of the suggestion panel (when filtering) is calculated by default based on the maximum width of the matched options. If you customize the suggestion options through the `suggestion-item` slot, it is likely that the text displayed in the options is not equal to the value of `label`, resulting in calculation errors. In this case, you can use the `fit-input-width` attribute to fix its width. When the value is `number`, the width is a specific fixed pixel value.
+
+:::tip
+
+The `fit-input-width` attribute only controls the width of the suggestion panel during searching, it does not affect the default cascader panel.
+
+:::
+
+:::demo
+
+cascader/fit-input-width
+
+:::
+
 ## Cascader API
 
 ### Cascader Attributes
 
 | Name                                       | Description                                                                                                                                                                      | Type                                                                                                                                                                        | Default      |
 | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| model-value / v-model                      | binding value                                                                                                                                                                    | ^[string] / ^[number] /^[object]`string[] \| number[] \| any`                                                                                                               | —            |
-| options                                    | data of the options, the key of `value` and `label` can be customize by `CascaderProps`.                                                                                         | ^[object]`CascaderOption[]`                                                                                                                                                 | —            |
+| model-value / v-model                      | binding value                                                                                                                                                                    | ^[string] / ^[number] /^[array]`string[] \| number[] \| any`                                                                                                                | —            |
+| options                                    | data of the options, the key of `value` and `label` can be customize by `CascaderProps`.                                                                                         | ^[array]`CascaderOption[]`                                                                                                                                                  | —            |
 | [props](#cascaderprops)                    | configuration options, see the following `CascaderProps` table.                                                                                                                  | ^[object]`CascaderProps`                                                                                                                                                    | —            |
 | size                                       | size of input                                                                                                                                                                    | ^[enum]`'large' \| 'default' \| 'small'`                                                                                                                                    | —            |
 | placeholder                                | placeholder of input                                                                                                                                                             | ^[string]                                                                                                                                                                   | —            |
@@ -224,13 +250,17 @@ cascader/custom-header-footer
 | tag-effect ^(2.7.8)                        | tag effect                                                                                                                                                                       | ^[enum]`'light' \| 'dark' \| 'plain'`                                                                                                                                       | light        |
 | validate-event                             | whether to trigger form validation                                                                                                                                               | ^[boolean]                                                                                                                                                                  | true         |
 | max-collapse-tags ^(2.3.10)                | The max tags number to be shown. To use this, `collapse-tags` must be true                                                                                                       | ^[number]                                                                                                                                                                   | 1            |
-| empty-values ^(2.7.0)                      | empty values of component, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                                                                   | ^[array]                                                                                                                                                                    | —            |
-| value-on-clear ^(2.7.0)                    | clear return value, [see config-provider](/en-US/component/config-provider#empty-values-configurations)                                                                          | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                                                                                            | —            |
+| empty-values ^(2.7.0)                      | empty values of component, [see config-provider](./config-provider.md#empty-values-configurations)                                                                               | ^[array]                                                                                                                                                                    | —            |
+| value-on-clear ^(2.7.0)                    | clear return value, [see config-provider](./config-provider.md#empty-values-configurations)                                                                                      | ^[string] / ^[number] / ^[boolean] / ^[Function]                                                                                                                            | —            |
 | persistent ^(2.7.8)                        | when dropdown is inactive and `persistent` is `false`, dropdown will be destroyed                                                                                                | ^[boolean]                                                                                                                                                                  | true         |
 | fallback-placements ^(2.8.1)               | list of possible positions for Tooltip [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements)                                                             | ^[array]`Placement[]`                                                                                                                                                       | —            |
 | placement ^(2.8.1)                         | position of dropdown                                                                                                                                                             | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | bottom-start |
 | popper-append-to-body ^(deprecated)        | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false                                                      | ^[boolean]                                                                                                                                                                  | true         |
 | show-checked-strategy ^(2.10.5)            | strategy for displaying checked nodes in multiple selection mode. Use `parent` when you want things tidy. Use `child` when every single item matters                             | ^[enum]`'parent' \| 'child'`                                                                                                                                                | child        |
+| virtual-scroll ^(2.14.0)                   | whether to enable virtual scrolling for large data                                                                                                                               | ^[boolean]                                                                                                                                                                  | false        |
+| fit-input-width ^(2.14.0)                  | whether the width of the suggestion panel is the same as the input, if the value is `number`, then the width is fixed                                                            | ^[boolean] / ^[number]                                                                                                                                                      | false        |
+| item-size ^(2.14.0)                        | node height for virtual scrolling (px)                                                                                                                                           | ^[number]                                                                                                                                                                   | 34           |
+| height ^(2.14.0)                           | menu height for virtual scrolling (px)                                                                                                                                           | ^[number]                                                                                                                                                                   | 204          |
 
 ### Cascader Events
 
@@ -246,7 +276,7 @@ cascader/custom-header-footer
 
 ### Cascader Slots
 
-| Name                     | Description                                                                                    | Scope                                                     |
+| Name                     | Description                                                                                    | Type                                                      |
 | ------------------------ | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
 | default                  | the custom content of cascader node, which are current Node object and node data respectively. | ^[object]`{ node: any, data: any }`                       |
 | empty                    | content when there is no matched options.                                                      | —                                                         |
@@ -265,16 +295,21 @@ cascader/custom-header-footer
 | togglePopperVisible ^(2.2.31) | toggle the visible type of popper                                                                                 | ^[Function]`(visible?: boolean) => void`                        |
 | contentRef                    | cascader content ref                                                                                              | ^[object]`ComputedRef<any>`                                     |
 | presentText ^(2.8.4)          | selected content text                                                                                             | ^[object]`ComputedRef<string>`                                  |
+| focus ^(2.11.8)               | focus the input element                                                                                           | ^[Function]`() => void`                                         |
+| blur ^(2.11.8)                | blur the input element                                                                                            | ^[Function]`() => void`                                         |
 
 ## CascaderPanel API
 
 ### CascaderPanel Attributes
 
-| Name                    | Description                                                                              | Type                                                       | Default |
-| ----------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ------- |
-| model-value / v-model   | binding value                                                                            | ^[string]/^[number]/^[object]`string[] \| number[] \| any` | —       |
-| options                 | data of the options, the key of `value` and `label` can be customize by `CascaderProps`. | ^[object]`CascaderOption[]`                                | —       |
-| [props](#cascaderprops) | configuration options, see the following `CascaderProps` table.                          | ^[object]`CascaderProps`                                   | —       |
+| Name                     | Description                                                                              | Type                                                      | Default |
+| ------------------------ | ---------------------------------------------------------------------------------------- | --------------------------------------------------------- | ------- |
+| model-value / v-model    | binding value                                                                            | ^[string]/^[number]/^[array]`string[] \| number[] \| any` | —       |
+| options                  | data of the options, the key of `value` and `label` can be customize by `CascaderProps`. | ^[array]`CascaderOption[]`                                | —       |
+| [props](#cascaderprops)  | configuration options, see the following `CascaderProps` table.                          | ^[object]`CascaderProps`                                  | —       |
+| virtual-scroll ^(2.14.0) | whether to enable virtual scrolling for large data                                       | ^[boolean]                                                | false   |
+| item-size ^(2.14.0)      | node height for virtual scrolling (px)                                                   | ^[number]                                                 | 34      |
+| height ^(2.14.0)         | menu height for virtual scrolling (px)                                                   | ^[number]                                                 | 204     |
 
 ### CascaderPanel Events
 
@@ -287,7 +322,7 @@ cascader/custom-header-footer
 
 ### CascaderPanel Slots
 
-| Name           | Description                                                                                    | Scope                               |
+| Name           | Description                                                                                    | Type                                |
 | -------------- | ---------------------------------------------------------------------------------------------- | ----------------------------------- |
 | default        | the custom content of cascader node, which are current Node object and node data respectively. | ^[object]`{ node: any, data: any }` |
 | empty ^(2.8.3) | the content of the panel when there is no data.                                                | —                                   |

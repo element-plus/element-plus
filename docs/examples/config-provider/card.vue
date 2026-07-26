@@ -1,7 +1,9 @@
 <script lang="ts" setup>
 import { reactive } from 'vue'
 
-const config = reactive({
+import type { CardConfigContext } from 'element-plus'
+
+const config = reactive<CardConfigContext>({
   shadow: 'always',
 })
 </script>

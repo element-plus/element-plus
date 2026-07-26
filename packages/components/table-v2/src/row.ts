@@ -5,7 +5,7 @@ import { columns, expandColumnKey, rowKey } from './common'
 import type {
   CSSProperties,
   ExtractPropTypes,
-  __ExtractPublicPropTypes,
+  ExtractPublicPropTypes,
 } from 'vue'
 import type { FixedDirection, KeyType, RowCommonParams } from './types'
 
@@ -91,6 +91,6 @@ export const tableV2RowProps = buildProps({
 } as const)
 
 export type TableV2RowProps = ExtractPropTypes<typeof tableV2RowProps>
-export type TableV2RowPropsPublic = __ExtractPublicPropTypes<
+export type TableV2RowPropsPublic = ExtractPublicPropTypes<
   typeof tableV2RowProps
 >

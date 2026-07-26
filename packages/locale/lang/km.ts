@@ -154,6 +154,15 @@ export default {
       resetFilter: 'កំណត់ឡើងវិញ',
       clearFilter: 'ទាំងអស់',
       sumText: 'សរុប',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
+      sortLabel: 'Sort by {column}', // to be translated
+      filterLabel: 'Filter by {column}', // to be translated
+    },
+    tag: {
+      close: 'Close this tag', // to be translated
     },
     tour: {
       next: 'បន្ទាប់',
@@ -186,6 +195,10 @@ export default {
       leftArrow: 'ស្លាយមុន',
       rightArrow: 'ស្លាយបន្ទាប់',
       indicator: 'ប្តូរទៅស្លាយទី {index}',
+    },
+    inputOTP: {
+      groupLabel: 'OTP Input', // to be translated
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
     },
   },
 }

@@ -1,5 +1,5 @@
 <template>
-  <el-radio-group v-model="treeProps.checkStrictly">
+  <el-radio-group v-model="treeProps.checkStrictly" class="mb-2">
     <el-radio-button :value="true" label="true" />
     <el-radio-button :value="false" label="false" />
   </el-radio-group>
@@ -61,6 +61,12 @@ const tableData: User[] = [
       },
       {
         id: 32,
+        date: '2016-05-01',
+        name: 'wangxiaohu',
+        address: 'No. 189, Grove St, Los Angeles',
+      },
+      {
+        id: 33,
         date: '2016-05-01',
         name: 'wangxiaohu',
         address: 'No. 189, Grove St, Los Angeles',

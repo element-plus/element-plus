@@ -114,8 +114,8 @@
 }
 
 @include b(upload-dragger) {
-  padding: getCssVar('upload-dragger-padding-horizontal')
-    getCssVar('upload-dragger-padding-vertical');
+  padding: getCssVar('upload-dragger-padding-vertical')
+    getCssVar('upload-dragger-padding-horizontal');
   background-color: getCssVar('fill-color', 'blank');
   border: 1px dashed getCssVar('border-color');
   border-radius: 6px;
@@ -158,8 +158,8 @@
   }
 
   @include when(dragover) {
-    padding: calc(#{getCssVar('upload-dragger-padding-horizontal')} - 1px)
-      calc(#{getCssVar('upload-dragger-padding-vertical')} - 1px);
+    padding: calc(#{getCssVar('upload-dragger-padding-vertical')} - 1px)
+      calc(#{getCssVar('upload-dragger-padding-horizontal')} - 1px);
     background-color: getCssVar('color', 'primary', 'light-9');
     border: 2px dashed getCssVar('color-primary');
   }
@@ -235,11 +235,16 @@
       font-style: normal;
     }
 
-    &:hover {
+    &:hover,
+    &:focus-within {
       background-color: getCssVar('fill-color', 'light');
 
       .#{bem('icon', '', 'close')} {
         display: inline-flex;
+      }
+
+      .#{bem('icon', '', 'close-tip')} {
+        right: 24px;
       }
 
       .#{bem('progress', 'text')} {
@@ -284,7 +289,8 @@
       }
 
       &:hover,
-      &:focus {
+      &:focus,
+      &:focus-within {
         .#{bem('upload-list', 'item-status-label')} {
           display: none;
           opacity: 0;

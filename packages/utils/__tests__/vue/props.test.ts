@@ -20,7 +20,7 @@ import type {
   WritableArray,
   epPropKey,
 } from '../..'
-import type { ExtractPropTypes, PropType, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes, PropType } from 'vue'
 
 describe('Types', () => {
   it('Writable', () => {
@@ -83,7 +83,7 @@ describe('Types', () => {
   })
 
   it('EpProp', () => {
-    expectTypeOf<EpProp<'1', '2', false>>().toEqualTypeOf<{
+    expectTypeOf<EpProp<'1', '2', false>>().branded.toEqualTypeOf<{
       readonly type: PropType<'1'>
       readonly required: false
       readonly validator: ((val: unknown) => boolean) | undefined
@@ -91,7 +91,7 @@ describe('Types', () => {
       [epPropKey]: true
     }>()
 
-    expectTypeOf<EpProp<'1', '2', true>>().toEqualTypeOf<{
+    expectTypeOf<EpProp<'1', '2', true>>().branded.toEqualTypeOf<{
       readonly type: PropType<'1'>
       readonly required: true
       readonly validator: ((val: unknown) => boolean) | undefined
@@ -107,7 +107,7 @@ describe('buildProp', () => {
       buildProp({
         type: definePropType<'a' | 'b'>(String),
       } as const)
-    ).toEqualTypeOf<{
+    ).branded.toEqualTypeOf<{
       readonly type: PropType<'a' | 'b'>
       readonly required: false
       readonly validator: ((val: unknown) => boolean) | undefined
@@ -120,7 +120,7 @@ describe('buildProp', () => {
       buildProp({
         values: [1, 2, 3, 4],
       } as const)
-    ).toEqualTypeOf<{
+    ).branded.toEqualTypeOf<{
       readonly type: PropType<1 | 2 | 3 | 4>
       readonly required: false
       readonly validator: ((val: unknown) => boolean) | undefined
@@ -134,7 +134,7 @@ describe('buildProp', () => {
         type: Number,
         values: [1, 2, 3, 4],
       } as const)
-    ).toEqualTypeOf<{
+    ).branded.toEqualTypeOf<{
       readonly type: PropType<1 | 2 | 3 | 4>
       readonly required: false
       readonly validator: ((val: unknown) => boolean) | undefined
@@ -148,7 +148,7 @@ describe('buildProp', () => {
         values: ['a', 'b', 'c'],
         validator: (val: unknown): val is number => typeof val === 'number',
       } as const)
-    ).toEqualTypeOf<{
+    ).branded.toEqualTypeOf<{
       readonly type: PropType<number | 'a' | 'b' | 'c'>
       readonly required: false
       readonly validator: ((val: unknown) => boolean) | undefined
@@ -162,7 +162,7 @@ describe('buildProp', () => {
         values: ['a', 'b', 'c'],
         required: true,
       } as const)
-    ).toEqualTypeOf<{
+    ).branded.toEqualTypeOf<{
       readonly type: PropType<'a' | 'b' | 'c'>
       readonly required: true
       readonly validator: ((val: unknown) => boolean) | undefined
@@ -177,7 +177,7 @@ describe('buildProp', () => {
         required: false,
         default: 'b',
       } as const)
-    ).toEqualTypeOf<{
+    ).branded.toEqualTypeOf<{
       readonly type: PropType<'a' | 'b' | 'c'>
       readonly required: false
       readonly default: 'b'
@@ -192,7 +192,7 @@ describe('buildProp', () => {
         type: definePropType<string[]>(Array),
         default: () => mutable(['a', 'b'] as const),
       } as const)
-    ).toEqualTypeOf<{
+    ).branded.toEqualTypeOf<{
       readonly type: PropType<string[]>
       readonly required: false
       readonly default: ['a', 'b']
@@ -211,7 +211,7 @@ describe('buildProp', () => {
         type: definePropType<Options>(Object),
         default: () => mutable({ key: 'value' } as const),
       } as const)
-    ).toEqualTypeOf<{
+    ).branded.toEqualTypeOf<{
       readonly type: PropType<Options>
       readonly required: false
       readonly default: { key: 'value' }
@@ -230,7 +230,7 @@ describe('buildProp', () => {
         default: () => ({ key: 'value' }),
         validator: (val: unknown): val is string => true,
       } as const)
-    ).toEqualTypeOf<{
+    ).branded.toEqualTypeOf<{
       readonly type: PropType<string | Options>
       readonly required: false
       readonly default: { key: string }
@@ -246,7 +246,7 @@ describe('buildProp', () => {
         required: true,
         validator: (val: unknown): val is number => true,
       } as const)
-    ).toEqualTypeOf<{
+    ).branded.toEqualTypeOf<{
       readonly type: PropType<number | 'a' | 'b' | 'c'>
       readonly required: true
       readonly validator: ((val: unknown) => boolean) | undefined
@@ -259,7 +259,7 @@ describe('buildProp', () => {
       buildProp({
         type: String,
       })
-    ).toEqualTypeOf<{
+    ).branded.toEqualTypeOf<{
       readonly type: PropType<string>
       readonly required: false
       readonly validator: ((val: unknown) => boolean) | undefined
@@ -282,7 +282,7 @@ describe('buildProp', () => {
         type: String,
         values: ['1', '2', '3'],
       } as const)
-    ).toEqualTypeOf<{
+    ).branded.toEqualTypeOf<{
       readonly type: PropType<'1' | '2' | '3'>
       readonly required: false
       readonly validator: ((val: unknown) => boolean) | undefined
@@ -296,7 +296,7 @@ describe('buildProp', () => {
         required: true,
         validator: (val: unknown): val is string => true,
       } as const)
-    ).toEqualTypeOf<{
+    ).branded.toEqualTypeOf<{
       readonly type: PropType<string>
       readonly required: true
       readonly validator: ((val: unknown) => boolean) | undefined
@@ -310,7 +310,7 @@ describe('buildProp', () => {
         values: keysOf({ a: 'a', b: 'b' }),
         default: 'a',
       } as const)
-    ).toEqualTypeOf<{
+    ).branded.toEqualTypeOf<{
       readonly type: PropType<'a' | 'b'>
       readonly required: false
       readonly default: 'a'
@@ -325,7 +325,7 @@ describe('buildProp', () => {
         type: definePropType<{ key: 'a' | 'b' | 'c' } | undefined>(Object),
         default: () => mutable({ key: 'a' } as const),
       } as const)
-    ).toEqualTypeOf<{
+    ).branded.toEqualTypeOf<{
       readonly type: PropType<{ key: 'a' | 'b' | 'c' } | undefined>
       readonly required: false
       readonly default: { key: 'a' }
@@ -340,7 +340,7 @@ describe('buildProp', () => {
         type: [String, Number],
         default: '',
       } as const)
-    ).toEqualTypeOf<{
+    ).branded.toEqualTypeOf<{
       readonly type: PropType<string | number>
       readonly required: false
       readonly default: ''
@@ -355,7 +355,7 @@ describe('buildProp', () => {
         type: Object,
         default: () => mutable({} as const),
       } as const)
-    ).toEqualTypeOf<{
+    ).branded.toEqualTypeOf<{
       readonly type: PropType<Record<string, any>>
       readonly required: false
       readonly default: {}
@@ -377,7 +377,7 @@ describe('buildProp', () => {
     } as const
     type Extracted = ExtractPropTypes<typeof props>
 
-    expectTypeOf<Extracted>().toEqualTypeOf<{
+    expectTypeOf<Extracted>().branded.toEqualTypeOf<{
       readonly key1: string
       readonly key2: string | number
     }>()
@@ -391,9 +391,9 @@ describe('buildProp', () => {
       }),
     } as const
 
-    type ExtractedPublic = __ExtractPublicPropTypes<typeof props>
+    type ExtractedPublic = ExtractPublicPropTypes<typeof props>
 
-    expectTypeOf<ExtractedPublic>().toEqualTypeOf<{
+    expectTypeOf<ExtractedPublic>().branded.toEqualTypeOf<{
       readonly key1?: string | undefined
     }>()
   })
@@ -455,7 +455,7 @@ describe('buildProps', () => {
       } as const,
     } as const)
 
-    expectTypeOf(props.type).toEqualTypeOf<{
+    expectTypeOf(props.type).branded.toEqualTypeOf<{
       readonly type: PropType<string>
       readonly required: false
       readonly default: 'hello'
@@ -477,7 +477,7 @@ describe('buildProps', () => {
       [epPropKey]: true
     }>()
 
-    expectTypeOf(props.key3).toEqualTypeOf<{
+    expectTypeOf(props.key3).branded.toEqualTypeOf<{
       readonly type: PropType<1 | 2 | 3 | 4>
       readonly required: false
       readonly default: 2
@@ -485,7 +485,7 @@ describe('buildProps', () => {
       [epPropKey]: true
     }>()
 
-    expectTypeOf(props.key4).toEqualTypeOf<{
+    expectTypeOf(props.key4).branded.toEqualTypeOf<{
       readonly type: PropType<'a' | 'b'>
       readonly required: false
       readonly default: 'a'
@@ -508,7 +508,7 @@ describe('buildProps', () => {
       [epPropKey]: true
     }>()
 
-    expectTypeOf(props.key13).toEqualTypeOf<{
+    expectTypeOf(props.key13).branded.toEqualTypeOf<{
       readonly type: PropType<string | number | Function>
       readonly required: false
       // TODO
@@ -517,7 +517,7 @@ describe('buildProps', () => {
       [epPropKey]: true
     }>()
 
-    expectTypeOf(props.key14).toEqualTypeOf<{
+    expectTypeOf(props.key14).branded.toEqualTypeOf<{
       readonly type: PropType<Function>
       readonly required: false
       readonly default: () => '123'
@@ -525,7 +525,7 @@ describe('buildProps', () => {
       [epPropKey]: true
     }>()
 
-    expectTypeOf(props.key15).toEqualTypeOf<{
+    expectTypeOf(props.key15).branded.toEqualTypeOf<{
       readonly type: PropType<Function>
       readonly required: false
       readonly default: () => () => '123'
@@ -533,7 +533,7 @@ describe('buildProps', () => {
       [epPropKey]: true
     }>()
 
-    expectTypeOf(props.key16).toEqualTypeOf<{
+    expectTypeOf(props.key16).branded.toEqualTypeOf<{
       readonly type: PropType<string>
       readonly required: false
       // TODO
@@ -557,9 +557,10 @@ describe('runtime', () => {
       } as const),
       template: `{{ $props }}`,
     })
-    const props = mount(Foo as any, {
+    const props = mount(Foo, {
       props: {
         baz: undefined,
+        // @ts-expect-error
         qux2: undefined,
       },
       global: {

@@ -368,3 +368,9 @@
   transition: getCssVar('transition-duration-fast');
   opacity: 0;
 }
+
+.#{$namespace}-popper,
+.#{$namespace}-menu--popup-container,
+.#{$namespace}-menu {
+  outline: none;
+}

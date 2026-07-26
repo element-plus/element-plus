@@ -155,6 +155,15 @@ export default {
       resetFilter: 'Reset',
       clearFilter: 'Semua',
       sumText: 'Jumlah',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
+      sortLabel: 'Sort by {column}', // to be translated
+      filterLabel: 'Filter by {column}', // to be translated
+    },
+    tag: {
+      close: 'Close this tag', // to be translated
     },
     tour: {
       next: 'Seterusnya',
@@ -188,6 +197,10 @@ export default {
       leftArrow: 'Anak panah karusel ke kiri',
       rightArrow: 'Anak panah karusel ke kanan',
       indicator: 'Tukar karusel kepada indeks {index}',
+    },
+    inputOTP: {
+      groupLabel: 'OTP Input', // to be translated
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
     },
   },
 }

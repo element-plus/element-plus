@@ -32,11 +32,12 @@ import Jumper from './components/jumper.vue'
 import Total from './components/total.vue'
 import Pager from './components/pager.vue'
 
+import type { ClassValue } from '@element-plus/utils'
 import type {
-  CSSProperties,
   ExtractPropTypes,
+  ExtractPublicPropTypes,
+  StyleValue,
   VNode,
-  __ExtractPublicPropTypes,
 } from 'vue'
 /**
  * It it user's responsibility to guarantee that the value of props.total... is number
@@ -46,14 +47,7 @@ import type {
 const isAbsent = (v: unknown): v is undefined => typeof v !== 'number'
 
 type LayoutKey =
-  | 'prev'
-  | 'pager'
-  | 'next'
-  | 'jumper'
-  | '->'
-  | 'total'
-  | 'sizes'
-  | 'slot'
+  'prev' | 'pager' | 'next' | 'jumper' | '->' | 'total' | 'sizes' | 'slot'
 
 export const paginationProps = buildProps({
   /**
@@ -116,14 +110,15 @@ export const paginationProps = buildProps({
    * @description custom class name for the page size Select's dropdown
    */
   popperClass: {
-    type: String,
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
     default: '',
   },
   /**
    * @description custom style for the page size Select's dropdown
    */
   popperStyle: {
-    type: definePropType<string | CSSProperties>([String, Object]),
+    type: definePropType<StyleValue>([String, Array, Object, Boolean]),
+    default: undefined,
   },
   /**
    * @description text for the prev button
@@ -186,7 +181,7 @@ export const paginationProps = buildProps({
   appendSizeTo: String,
 } as const)
 export type PaginationProps = ExtractPropTypes<typeof paginationProps>
-export type PaginationPropsPublic = __ExtractPublicPropTypes<
+export type PaginationPropsPublic = ExtractPublicPropTypes<
   typeof paginationProps
 >
 
