@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { useLang } from '../../composables/lang'
+import demoBlockLocale from '../../../i18n/component/demo-block.json'
 import { computeFoldRegions } from './code-fold'
 
 const props = defineProps({
@@ -18,6 +20,9 @@ const decoded = computed(() => {
 })
 
 const sourceRef = ref<HTMLElement>()
+
+const lang = useLang()
+const locale = computed(() => demoBlockLocale[lang.value])
 
 const CHEVRON_SVG =
   '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
@@ -65,7 +70,7 @@ const setupFolding = () => {
     btn.type = 'button'
     btn.className = 'code-fold-btn'
     btn.setAttribute('aria-expanded', 'true')
-    btn.setAttribute('aria-label', 'Fold code region')
+    btn.setAttribute('aria-label', locale.value['fold-code-region'])
     btn.innerHTML = CHEVRON_SVG
     startEl.appendChild(btn)
 
@@ -74,14 +79,19 @@ const setupFolding = () => {
       btn.setAttribute('aria-expanded', String(!folded))
       btn.setAttribute(
         'aria-label',
-        folded ? 'Unfold code region' : 'Fold code region'
+        folded
+          ? locale.value['unfold-code-region']
+          : locale.value['fold-code-region']
       )
       setCovered(hiddenEls, folded)
       if (folded) {
+        const count = hiddenEls.length
+        const template =
+          locale.value[count === 1 ? 'folded-line' : 'folded-lines']
         const placeholder = document.createElement('span')
         placeholder.className = 'code-fold-placeholder'
         placeholder.textContent = '⋯'
-        placeholder.title = `${hiddenEls.length} lines`
+        placeholder.title = template.replace('{lines}', String(count))
         placeholder.addEventListener('click', toggle)
         startEl.appendChild(placeholder)
       } else {
@@ -114,6 +124,11 @@ watch(decoded, async () => {
 :deep(.code-line) {
   display: block;
   position: relative;
+
+  /* empty rows have no line boxes; keep blank source lines visible */
+  &:empty {
+    min-height: 1lh;
+  }
 }
 
 .has-fold {

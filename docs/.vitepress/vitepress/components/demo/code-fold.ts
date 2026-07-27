@@ -13,11 +13,20 @@ export interface FoldRegion {
   end: number
 }
 
+/**
+ * Width of a rendered tab in columns. Must match the `tab-size: 4` rule for
+ * code blocks in `docs/.vitepress/vitepress/styles/code.scss`.
+ */
+const TAB_SIZE = 4
+
 export const getIndent = (line: string): number => {
   let indent = 0
   for (const ch of line) {
     if (ch === ' ') indent += 1
-    else if (ch === '\t') indent += 2
+    // a tab advances to the next tab stop, so mixed tab/space prefixes
+    // compute the same column width they render with
+    else if (ch === '\t')
+      indent = Math.floor(indent / TAB_SIZE) * TAB_SIZE + TAB_SIZE
     else break
   }
   return indent
