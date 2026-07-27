@@ -37,7 +37,9 @@
     border-radius: getCssVar('border-radius-base');
     background-color: getCssVar('fill-color', 'blank');
     transition: getCssVar('transition', 'duration');
-    transform: translate3d(0, 0, 0);
+    // Keep the 3D transform to avoid Chromium inset box-shadow noise.
+    // The CSS variable prevents Lightning CSS from reducing it to 2D.
+    transform: translateZ(var(--el-select-composite-z, 0px));
     @include mixed-input-border(#{getCssVar('border-color')});
 
     @include when(filterable) {
