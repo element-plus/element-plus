@@ -147,7 +147,6 @@ const nsList = useNamespace('list')
 const disabled = useFormDisabled()
 
 const focusing = ref(false)
-const itemKls = nsUpload.be('list', 'item')
 
 const containerKls = computed(() => [
   nsUpload.b('list'),
@@ -160,7 +159,7 @@ const handleBlur = async (event: FocusEvent) => {
 
   await nextTick()
 
-  if (!nextTarget?.classList.contains(itemKls)) {
+  if (!nextTarget?.classList.contains(nsUpload.be('list', 'item'))) {
     focusing.value = false
   }
 }
