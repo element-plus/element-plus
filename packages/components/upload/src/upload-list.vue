@@ -8,6 +8,9 @@
       :aria-disabled="disabled"
       role="button"
       @keydown.delete="!disabled && handleRemove(file)"
+      @focus="focusing = true"
+      @blur="handleBlur"
+      @click="focusing = false"
     >
       <slot :file="file" :index="index">
         <img
@@ -102,7 +105,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, nextTick, ref } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import {
   Check,
@@ -139,11 +142,24 @@ const nsIcon = useNamespace('icon')
 const nsList = useNamespace('list')
 const disabled = useFormDisabled()
 
+const focusing = ref(false)
+const itemKls = nsUpload.be('list', 'item')
+
 const containerKls = computed(() => [
   nsUpload.b('list'),
   nsUpload.bm('list', props.listType),
   nsUpload.is('disabled', disabled.value),
 ])
+
+const handleBlur = async (event: FocusEvent) => {
+  const nextTarget = event.relatedTarget as HTMLElement | null
+
+  await nextTick()
+
+  if (!nextTarget?.classList.contains(itemKls)) {
+    focusing.value = false
+  }
+}
 
 const handleRemove = (file: UploadFile) => {
   emit('remove', file)
