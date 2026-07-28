@@ -32,7 +32,4 @@ export type WeekPickerEmits = {
 }
 
 export type DateTableEmits =
-  | RangePickerEmits
-  | DatePickerEmits
-  | DatesPickerEmits
-  | WeekPickerEmits
+  RangePickerEmits | DatePickerEmits | DatesPickerEmits | WeekPickerEmits

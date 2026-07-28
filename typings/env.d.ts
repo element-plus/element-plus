@@ -1,4 +1,6 @@
 import type { INSTALLED_KEY } from '@element-plus/constants'
+import type { ClassValue } from '@element-plus/utils'
+import type { StyleValue } from 'vue'
 
 declare global {
   const process: {
@@ -10,8 +12,8 @@ declare global {
 
   namespace JSX {
     interface IntrinsicAttributes {
-      class?: unknown
-      style?: unknown
+      class?: ClassValue
+      style?: StyleValue
     }
   }
 }
