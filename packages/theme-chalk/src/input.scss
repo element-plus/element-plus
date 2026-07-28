@@ -239,8 +239,7 @@
     transition: getCssVar('transition-box-shadow');
 
     // Keep the 3D transform to avoid Chromium inset box-shadow noise.
-    // The CSS variable prevents Lightning CSS from reducing it to 2D.
-    transform: translateZ(var(--el-input-composite-z, 0px));
+    transform: translateZ(0);
     @include inset-input-border(
       var(
         #{getCssVarName('input-border-color')},
