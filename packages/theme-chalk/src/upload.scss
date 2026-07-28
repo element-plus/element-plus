@@ -271,14 +271,14 @@
         cursor: pointer;
       }
 
-      &:focus-visible:not(:hover) {
+      &:focus:not(:hover) {
         /* 键盘focus */
         .#{bem('icon', '', 'close-tip')} {
           display: inline-block;
         }
       }
 
-      &:focus:not(:focus-visible),
+      &:not(.focusing):focus,
       &:active {
         /* click时 */
         outline-width: 0;

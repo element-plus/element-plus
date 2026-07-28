@@ -3,7 +3,11 @@
     <li
       v-for="(file, index) in files"
       :key="file.uid || file.name"
-      :class="[nsUpload.be('list', 'item'), nsUpload.is(file.status)]"
+      :class="[
+        nsUpload.be('list', 'item'),
+        nsUpload.is(file.status),
+        { focusing },
+      ]"
       :tabindex="disabled ? undefined : 0"
       :aria-disabled="disabled"
       role="button"
