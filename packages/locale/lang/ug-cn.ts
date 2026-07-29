@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: 'كىيىنكى بەت',
       pagesize: 'تال/بەت',
+      pageSize: 'Items per page', // to be translated
       total: 'جەمئىي {total} تال',
       pageClassifier: 'بەت',
       page: 'Page', // to be translated

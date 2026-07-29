@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: 'Μετάβαση σε',
       pagesize: '/σελίδα',
+      pageSize: 'Items per page', // to be translated
       total: 'Σύνολο {total}',
       pageClassifier: '',
       page: 'Page', // to be translated

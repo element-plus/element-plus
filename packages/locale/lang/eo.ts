@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: 'Iru al',
       pagesize: '/ paĝo',
+      pageSize: 'Items per page', // to be translated
       total: 'Entute {total}',
       pageClassifier: '',
       page: 'Page', // to be translated

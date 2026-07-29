@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: 'Gaan na',
       pagesize: '/page',
+      pageSize: 'Items per page', // to be translated
       total: 'Totaal {total}',
       pageClassifier: '',
       page: 'Page', // to be translated

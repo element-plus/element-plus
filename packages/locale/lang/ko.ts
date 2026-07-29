@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: '이동',
       pagesize: '건/페이지',
+      pageSize: 'Items per page', // to be translated
       total: '총 {total} 건',
       pageClassifier: '페이지로',
       page: '페이지',

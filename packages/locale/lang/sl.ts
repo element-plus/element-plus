@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: 'Pojdi na',
       pagesize: '/stran',
+      pageSize: 'Items per page', // to be translated
       total: 'Skupno {total}',
       pageClassifier: '',
       page: 'Page', // to be translated

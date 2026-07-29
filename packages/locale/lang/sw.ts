@@ -112,6 +112,7 @@ export default {
     pagination: {
       goto: 'enda kwenye',
       pagesize: '/kurasa',
+      pageSize: 'Items per page', // to be translated
       total: 'jumla {total}',
       pageClassifier: '',
       page: 'kurasa',

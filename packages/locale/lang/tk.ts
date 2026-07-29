@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: 'Git',
       pagesize: '/sahypa',
+      pageSize: 'Items per page', // to be translated
       total: 'Umumy {total}',
       pageClassifier: '',
       page: 'Page', // to be translated

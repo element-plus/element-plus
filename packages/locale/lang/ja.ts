@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: '',
       pagesize: '件/ページ',
+      pageSize: 'Items per page', // to be translated
       total: '総計 {total} 件',
       pageClassifier: 'ページ目へ',
       page: 'Page', // to be translated

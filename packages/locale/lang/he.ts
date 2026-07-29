@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: 'עבור ל',
       pagesize: '/עמוד',
+      pageSize: 'Items per page', // to be translated
       total: 'כולל {total}',
       pageClassifier: '',
       page: 'Page', // to be translated

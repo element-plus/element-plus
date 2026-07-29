@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: 'Iet uz',
       pagesize: '/lapa',
+      pageSize: 'Items per page', // to be translated
       total: 'Kopā {total}',
       pageClassifier: '',
       page: 'Page', // to be translated

@@ -113,6 +113,7 @@ export default {
     pagination: {
       goto: 'برو به',
       pagesize: '/صفحه',
+      pageSize: 'Items per page', // to be translated
       total: 'مجموع {total}',
       pageClassifier: '',
       page: 'صفحه',

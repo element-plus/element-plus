@@ -110,6 +110,7 @@ export default {
     pagination: {
       goto: 'أذهب إلى',
       pagesize: '/صفحة',
+      pageSize: 'Items per page', // to be translated
       total: 'الكل {total}',
       pageClassifier: '',
       page: 'صفحة',

@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: 'Oʻtish',
       pagesize: '/sahifa',
+      pageSize: 'Items per page', // to be translated
       total: 'Barchasi {total} ta',
       pageClassifier: '',
       page: 'Page', // to be translated

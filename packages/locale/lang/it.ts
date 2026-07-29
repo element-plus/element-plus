@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: 'Vai a',
       pagesize: '/page',
+      pageSize: 'Items per page', // to be translated
       total: 'Totale {total}',
       pageClassifier: '',
       page: 'Page', // to be translated

@@ -109,6 +109,7 @@ export default {
     pagination: {
       goto: 'Đến trang',
       pagesize: '/trang',
+      pageSize: 'Items per page', // to be translated
       total: 'Tổng {total}',
       pageClassifier: '',
       page: 'Trang',

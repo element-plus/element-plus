@@ -113,6 +113,7 @@ export default {
     pagination: {
       goto: 'Pergi ke',
       pagesize: '/halaman',
+      pageSize: 'Items per page', // to be translated
       total: 'Jumlah {total}',
       pageClassifier: '',
       page: 'Halaman',

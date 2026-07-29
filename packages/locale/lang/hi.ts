@@ -113,6 +113,7 @@ export default {
     pagination: {
       goto: 'पर जाएँ',
       pagesize: '/पेज',
+      pageSize: 'Items per page', // to be translated
       total: 'कुल {total}',
       pageClassifier: '',
       page: 'पेज',

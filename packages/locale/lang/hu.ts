@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: 'Ugrás',
       pagesize: '/oldal',
+      pageSize: 'Items per page', // to be translated
       total: 'Össz {total}',
       pageClassifier: '',
       page: 'Page', // to be translated

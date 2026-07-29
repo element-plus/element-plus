@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: 'Idi na',
       pagesize: '/stranica',
+      pageSize: 'Items per page', // to be translated
       total: 'Ukupno {total}',
       pageClassifier: '',
       page: 'Page', // to be translated

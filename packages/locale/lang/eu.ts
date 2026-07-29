@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: 'Joan',
       pagesize: '/orria',
+      pageSize: 'Items per page', // to be translated
       total: 'Guztira {total}',
       pageClassifier: '',
       page: 'Page', // to be translated

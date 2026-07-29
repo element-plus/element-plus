@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: 'যান',
       pagesize: '/পেজ',
+      pageSize: 'Items per page', // to be translated
       total: 'মোট {total}',
       pageClassifier: '',
       page: 'Page', // to be translated

@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: 'Biçe',
       pagesize: '/rupel',
+      pageSize: 'Items per page', // to be translated
       total: 'Tevahî {total}',
       pageClassifier: '',
       page: 'Page', // to be translated

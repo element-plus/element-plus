@@ -108,6 +108,7 @@ export default {
     pagination: {
       goto: '前往',
       pagesize: '条/页',
+      pageSize: 'Items per page', // to be translated
       total: '共 {total} 条',
       pageClassifier: '页',
       page: '页',

@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: 'Get',
       pagesize: '/səhifə',
+      pageSize: 'Items per page', // to be translated
       total: 'Toplam {total}',
       pageClassifier: '',
       page: 'Page', // to be translated

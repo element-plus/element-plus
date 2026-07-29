@@ -105,6 +105,26 @@
     color: getCssVar('text-color', 'regular');
   }
 
+  @include e(size-input) {
+    display: flex;
+    align-items: center;
+    margin-left: getCssVar('pagination-item-gap');
+    font-weight: normal;
+    color: getCssVar('text-color', 'regular');
+
+    &[disabled='true'] {
+      color: getCssVar('text-color', 'placeholder');
+    }
+
+    @include e(size-select) {
+      width: 72px;
+    }
+
+    @include e(size-classifier) {
+      margin-left: 8px;
+    }
+  }
+
   @include e(total) {
     margin-left: getCssVar('pagination-item-gap');
     font-weight: normal;
@@ -204,6 +224,10 @@
     .#{$namespace}-select {
       width: 100px;
     }
+
+    .#{$namespace}-pagination__size-select {
+      width: 64px;
+    }
   }
   @include m(large) {
     .btn-prev,
@@ -216,6 +240,10 @@
 
     .#{$namespace}-select .#{$namespace}-input {
       width: 160px;
+    }
+
+    .#{$namespace}-pagination__size-select {
+      width: 80px;
     }
   }
 }

@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: 'தேவையான் பகுதிக்கு செல்',
       pagesize: '/page',
+      pageSize: 'Items per page', // to be translated
       total: 'மொத்தம் {total}',
       pageClassifier: '',
       page: 'Page', // to be translated

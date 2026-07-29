@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: 'ورتګ',
       pagesize: '/د پاڼې اندازه',
+      pageSize: 'Items per page', // to be translated
       total: 'مجموعه {total}',
       pageClassifier: '',
       page: 'Page', // to be translated

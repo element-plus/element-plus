@@ -113,6 +113,7 @@ export default {
     pagination: {
       goto: 'သွားမယ်',
       pagesize: '/စာမျက်နှာ',
+      pageSize: 'Items per page', // to be translated
       total: 'စုစုပေါင်း {total}',
       pageClassifier: '',
       page: 'စာမျက်နှာ',

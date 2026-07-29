@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: 'Мурунку',
       pagesize: 'бир',
+      pageSize: 'Items per page', // to be translated
       total: 'бүтүндөй {total} сан ',
       pageClassifier: 'бет',
       page: 'Page', // to be translated

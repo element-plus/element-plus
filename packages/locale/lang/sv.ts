@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: 'Gå till',
       pagesize: '/sida',
+      pageSize: 'Items per page', // to be translated
       total: 'Totalt {total}',
       pageClassifier: '',
       page: 'Page', // to be translated

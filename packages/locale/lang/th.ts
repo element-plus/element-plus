@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: 'ไปที่',
       pagesize: '/หน้า',
+      pageSize: 'Items per page', // to be translated
       total: 'ทั้งหมด {total}',
       pageClassifier: '',
       page: 'Page', // to be translated

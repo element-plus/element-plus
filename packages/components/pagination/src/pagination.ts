@@ -28,6 +28,7 @@ import { elPaginationKey } from './constants'
 import Prev from './components/prev.vue'
 import Next from './components/next.vue'
 import Sizes from './components/sizes.vue'
+import SizeInput from './components/size-input.vue'
 import Jumper from './components/jumper.vue'
 import Total from './components/total.vue'
 import Pager from './components/pager.vue'
@@ -47,7 +48,18 @@ import type {
 const isAbsent = (v: unknown): v is undefined => typeof v !== 'number'
 
 type LayoutKey =
-  'prev' | 'pager' | 'next' | 'jumper' | '->' | 'total' | 'sizes' | 'slot'
+  | 'prev'
+  | 'pager'
+  | 'next'
+  | 'jumper'
+  | '->'
+  | 'total'
+  | 'sizes'
+  | 'size-input'
+  | 'slot'
+
+const isPositiveInteger = (value: unknown) =>
+  isNumber(value) && Number.isInteger(value) && value > 0
 
 export const paginationProps = buildProps({
   /**
@@ -105,6 +117,21 @@ export const paginationProps = buildProps({
   pageSizes: {
     type: definePropType<number[]>(Array),
     default: () => mutable([10, 20, 30, 40, 50, 100] as const),
+  },
+  /**
+   * @description minimum item count accepted by the custom page size input
+   */
+  pageSizeInputMin: {
+    type: Number,
+    default: 1,
+    validator: isPositiveInteger,
+  },
+  /**
+   * @description maximum item count accepted by the custom page size input
+   */
+  pageSizeInputMax: {
+    type: Number,
+    validator: isPositiveInteger,
   },
   /**
    * @description custom class name for the page size Select's dropdown
@@ -243,7 +270,11 @@ export default defineComponent({
       // either directly from props.pageCount
       // or calculated from props.total
       // we will take props.pageCount precedence over props.total
-      if (props.layout.includes('sizes')) {
+      if (
+        props.layout
+          .split(',')
+          .some((item) => ['sizes', 'size-input'].includes(item.trim()))
+      ) {
         if (!isAbsent(props.pageCount)) {
           // if props.pageCount is assign by user, then user have to watch pageSize change
           // and recalculate pageCount
@@ -420,6 +451,18 @@ export default defineComponent({
         sizes: h(Sizes, {
           pageSize: pageSizeBridge.value,
           pageSizes: props.pageSizes,
+          popperClass: props.popperClass,
+          popperStyle: props.popperStyle,
+          disabled: props.disabled,
+          teleported: props.teleported,
+          size: _size.value,
+          appendSizeTo: props.appendSizeTo,
+        }),
+        'size-input': h(SizeInput, {
+          pageSize: pageSizeBridge.value,
+          pageSizes: props.pageSizes,
+          min: props.pageSizeInputMin,
+          max: props.pageSizeInputMax,
           popperClass: props.popperClass,
           popperStyle: props.popperStyle,
           disabled: props.disabled,

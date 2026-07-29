@@ -109,6 +109,7 @@ export default {
     pagination: {
       goto: 'ໄປທີ່',
       pagesize: '/ໜ້າ',
+      pageSize: 'Items per page', // to be translated
       total: 'ທັງໝົດ {total}',
       pageClassifier: '',
       page: 'ໜ້າ',

@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: 'Անցնել',
       pagesize: ' էջում',
+      pageSize: 'Items per page', // to be translated
       total: 'Ընդամենը {total}',
       pageClassifier: '',
       page: 'Page', // to be translated

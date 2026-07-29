@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: 'Очих',
       pagesize: '/хуудас',
+      pageSize: 'Items per page', // to be translated
       total: 'Нийт {total}',
       pageClassifier: '',
       page: 'Page', // to be translated

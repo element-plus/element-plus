@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: 'Eiti į',
       pagesize: '/p',
+      pageSize: 'Items per page', // to be translated
       total: 'Viso {total}',
       pageClassifier: '',
       page: 'Page', // to be translated

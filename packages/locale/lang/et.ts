@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: 'Mine lehele',
       pagesize: '/page',
+      pageSize: 'Items per page', // to be translated
       total: 'Kokku {total}',
       pageClassifier: '',
       page: 'Page', // to be translated

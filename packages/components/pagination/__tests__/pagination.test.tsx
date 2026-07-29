@@ -7,7 +7,9 @@ import {
   DArrowLeft,
   DArrowRight,
 } from '@element-plus/icons-vue'
+import { rAF } from '@element-plus/test-utils/tick'
 import Pagination from '../src/pagination'
+import { ElSelect } from '../../select'
 import selectDropdownVue from '../../select/src/select-dropdown.vue'
 
 import type { VueWrapper } from '@vue/test-utils'
@@ -79,6 +81,24 @@ describe('Pagination', () => {
       expect(wrapper.find('.el-pagination').exists()).toBe(false)
       expect(console.warn).toHaveBeenCalled()
     })
+    test('layout with `size-input` restrictions(page-count)', () => {
+      expect(console.warn).not.toHaveBeenCalled()
+      const wrapper = mount(() => (
+        <Pagination layout="size-input, pager" pageCount={10}></Pagination>
+      ))
+
+      expect(wrapper.find('.el-pagination').exists()).toBe(false)
+      expect(console.warn).toHaveBeenCalled()
+    })
+    test('layout with `size-input` restrictions(page-size)', () => {
+      expect(console.warn).not.toHaveBeenCalled()
+      const wrapper = mount(() => (
+        <Pagination layout="size-input, pager" pageSize={10}></Pagination>
+      ))
+
+      expect(wrapper.find('.el-pagination').exists()).toBe(false)
+      expect(console.warn).toHaveBeenCalled()
+    })
   })
 
   describe('test layout & layout reactive change', () => {
@@ -93,6 +113,7 @@ describe('Pagination', () => {
     })
     const layoutSelectorPairs = [
       ['sizes', '.el-pagination__sizes'],
+      ['size-input', '.el-pagination__size-input'],
       ['prev', 'button.btn-prev'],
       ['pager', 'ul.el-pager'],
       ['next', 'button.btn-next'],
@@ -203,6 +224,174 @@ describe('Pagination', () => {
   })
 
   describe('test pageSize & currentPage reactive change', () => {
+    afterEach(async () => {
+      await rAF()
+    })
+
+    test('custom page size input updates page size', async () => {
+      const pageSize = ref(10)
+      const currentPage = ref(10)
+      const pageSizeWatcher = vi.fn((value: number) => {
+        pageSize.value = value
+      })
+      const currentPageWatcher = vi.fn((value: number) => {
+        currentPage.value = value
+      })
+      const wrapper = mount(() => (
+        <Pagination
+          currentPage={currentPage.value}
+          pageSize={pageSize.value}
+          total={100}
+          layout="size-input, pager"
+          onUpdate:current-page={currentPageWatcher}
+          onUpdate:page-size={pageSizeWatcher}
+        />
+      ))
+      const select = wrapper.getComponent(ElSelect)
+      const input = select.get('input')
+
+      await input.setValue('20')
+      select.vm.$emit('blur', new FocusEvent('blur'))
+      await nextTick()
+
+      expect(pageSizeWatcher).toHaveBeenCalledWith(20)
+      expect(currentPageWatcher).toHaveBeenCalledWith(5)
+      assertPages(wrapper, 5)
+      assertCurrent(wrapper, 5)
+    })
+
+    test('custom page size input commits the value on Enter', async () => {
+      const pageSize = ref(10)
+      const wrapper = mount(() => (
+        <Pagination
+          total={1000}
+          layout="size-input"
+          pageSize={pageSize.value}
+          teleported={false}
+          onUpdate:page-size={(value) => (pageSize.value = value)}
+        />
+      ))
+      const select = wrapper.getComponent(ElSelect)
+      const input = select.get('input')
+
+      await input.setValue('25')
+      await nextTick()
+      await input.trigger('keydown', { key: 'Enter', code: 'Enter' })
+      await nextTick()
+
+      expect(pageSize.value).toBe(25)
+    })
+
+    test('custom page size input normalizes and limits values', async () => {
+      const pageSize = ref(10)
+      const pageSizeWatcher = vi.fn((value: number) => {
+        pageSize.value = value
+      })
+      const wrapper = mount(() => (
+        <Pagination
+          total={1000}
+          layout="size-input"
+          pageSize={pageSize.value}
+          pageSizeInputMin={5}
+          pageSizeInputMax={50}
+          onUpdate:page-size={pageSizeWatcher}
+        />
+      ))
+      const select = wrapper.getComponent(ElSelect)
+
+      select.vm.$emit('change', '20.8')
+      await nextTick()
+      expect(pageSize.value).toBe(20)
+
+      select.vm.$emit('change', '100')
+      await nextTick()
+      expect(pageSize.value).toBe(50)
+
+      select.vm.$emit('change', '0')
+      await nextTick()
+      expect(pageSize.value).toBe(5)
+
+      select.vm.$emit('change', '')
+      await nextTick()
+      expect(pageSize.value).toBe(5)
+      expect(pageSizeWatcher).toHaveBeenCalledTimes(3)
+
+      select.vm.$emit('change', '5')
+      await nextTick()
+      expect(pageSizeWatcher).toHaveBeenCalledTimes(3)
+    })
+
+    test('custom page size input respects disabled state', () => {
+      const wrapper = mount(() => (
+        <Pagination total={100} layout="size-input" disabled />
+      ))
+
+      expect(wrapper.getComponent(ElSelect).props('disabled')).toBe(true)
+    })
+
+    test('custom page size input has an accessible label', () => {
+      const wrapper = mount(() => (
+        <Pagination total={100} layout="size-input" />
+      ))
+
+      expect(
+        wrapper.get('.el-pagination__size-input input').attributes('aria-label')
+      ).toBe('Items per page')
+    })
+
+    test('custom page size input only accepts digits', async () => {
+      const pageSize = ref(10)
+      const wrapper = mount(() => (
+        <Pagination
+          total={1000}
+          layout="size-input"
+          pageSize={pageSize.value}
+          onUpdate:page-size={(value) => (pageSize.value = value)}
+        />
+      ))
+      const select = wrapper.getComponent(ElSelect)
+      const input = select.get('input')
+
+      await input.setValue('12abc中文.3')
+      expect(input.element.value).toBe('123')
+
+      await input.trigger('blur')
+      await nextTick()
+      expect(pageSize.value).toBe(123)
+    })
+
+    test('custom page size input does not commit canceled text', async () => {
+      const pageSize = ref(10)
+      const pageSizeWatcher = vi.fn()
+      const wrapper = mount(() => (
+        <Pagination
+          total={1000}
+          layout="size-input"
+          pageSize={pageSize.value}
+          onUpdate:page-size={pageSizeWatcher}
+        />
+      ))
+      const select = wrapper.getComponent(ElSelect)
+      const input = select.get('input')
+
+      await input.setValue('25')
+      await input.trigger('keydown', { key: 'Escape', code: 'Escape' })
+      await nextTick()
+      await input.trigger('blur')
+
+      expect(pageSizeWatcher).not.toHaveBeenCalled()
+      expect(pageSize.value).toBe(10)
+
+      await input.setValue('30')
+      await wrapper.get('.el-select__caret').trigger('click')
+      await nextTick()
+      select.vm.$emit('blur', new FocusEvent('blur'))
+      await nextTick()
+
+      expect(pageSizeWatcher).not.toHaveBeenCalled()
+      expect(pageSize.value).toBe(10)
+    })
+
     test(`test pageSize change`, async () => {
       const pageSize = ref(10)
       const wrapper = mount(() => (

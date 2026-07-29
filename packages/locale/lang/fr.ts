@@ -113,6 +113,7 @@ export default {
     pagination: {
       goto: 'Aller à',
       pagesize: '/page',
+      pageSize: 'Items per page', // to be translated
       total: 'Total {total}',
       pageClassifier: '',
       page: 'Page',

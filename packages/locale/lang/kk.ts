@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: 'Бару',
       pagesize: '/page',
+      pageSize: 'Items per page', // to be translated
       total: 'Барлығы {total}',
       pageClassifier: '',
       page: 'Page', // to be translated

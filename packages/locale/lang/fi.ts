@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: 'Mene',
       pagesize: '/sivu',
+      pageSize: 'Items per page', // to be translated
       total: 'Yhteensä {total}',
       pageClassifier: '',
       page: 'Page', // to be translated

@@ -112,6 +112,7 @@ export default {
     pagination: {
       goto: 'వెళ్ళండి',
       pagesize: '/పేజీ',
+      pageSize: 'Items per page', // to be translated
       total: 'మొత్తం {total}',
       pageClassifier: '',
       page: 'పేజీ',

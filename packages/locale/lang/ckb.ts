@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: 'بڕۆ بۆ',
       pagesize: '/لاپەڕە',
+      pageSize: 'Items per page', // to be translated
       total: 'کۆی گشتیی {total}',
       pageClassifier: '',
       page: 'Page', // to be translated

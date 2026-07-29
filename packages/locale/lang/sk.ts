@@ -113,6 +113,7 @@ export default {
     pagination: {
       goto: 'Choď na',
       pagesize: 'na stranu',
+      pageSize: 'Items per page', // to be translated
       total: 'Všetko {total}',
       pageClassifier: '',
       page: 'Page', // to be translated

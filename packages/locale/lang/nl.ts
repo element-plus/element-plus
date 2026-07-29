@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: 'Ga naar',
       pagesize: '/pagina',
+      pageSize: 'Items per page', // to be translated
       total: 'Totaal {total}',
       pageClassifier: '',
       page: 'Pagina',

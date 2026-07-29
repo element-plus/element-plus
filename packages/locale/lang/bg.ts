@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: 'Иди на',
       pagesize: '/страница',
+      pageSize: 'Items per page', // to be translated
       total: 'Общо {total}',
       pageClassifier: '',
       page: 'Page', // to be translated

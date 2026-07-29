@@ -9,7 +9,7 @@ If you have too much data to display in one page, use pagination.
 
 ## Basic usage
 
-:::demo Set `layout` with different pagination elements you wish to display separated with a comma. Pagination elements are: `prev` (a button navigating to the previous page), `next` (a button navigating to the next page), `pager` (page list), `jumper` (a jump-to input), `total` (total item count), `sizes` (a select to determine page size) and `->`(every element after this symbol will be pulled to the right).
+:::demo Set `layout` with different pagination elements you wish to display separated with a comma. Pagination elements are: `prev` (a button navigating to the previous page), `next` (a button navigating to the next page), `pager` (page list), `jumper` (a jump-to input), `total` (total item count), `sizes` (a select to determine page size), `size-input` (an input to enter a custom page size) and `->`(every element after this symbol will be pulled to the right).
 
 pagination/basic-usage
 
@@ -51,6 +51,16 @@ pagination/auto-hide-pagination
 
 :::
 
+## Custom page size ^(2.14.4)
+
+Add `size-input` to `layout` to display an editable page size select. Users can choose a value from `page-sizes` or enter a custom item count using digits only. The value is committed on Enter or when the select loses focus. Use `page-size-input-min` and `page-size-input-max` to limit the accepted range.
+
+:::demo
+
+pagination/custom-page-size
+
+:::
+
 ## More elements
 
 Add more modules based on your scenario.
@@ -65,30 +75,32 @@ pagination/more-elements
 
 ### Attributes
 
-| Name                                | Description                                                                                                                     | Type                                                                              | Default                              |
-| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ------------------------------------ |
-| size ^(2.7.6)                       | pagination size                                                                                                                 | ^[enum]`'large' \| 'default' \| 'small'`                                          | 'default'                            |
-| background                          | whether the buttons have a background color                                                                                     | ^[boolean]                                                                        | false                                |
-| page-size / v-model:page-size       | item count of each page                                                                                                         | ^[number]                                                                         | —                                    |
-| default-page-size                   | default initial value of page size, not setting is the same as setting 10                                                       | ^[number]                                                                         | —                                    |
-| total                               | total item count                                                                                                                | ^[number]                                                                         | —                                    |
-| page-count                          | total page count. Set either `total` or `page-count` and pages will be displayed; if you need `page-sizes`, `total` is required | ^[number]                                                                         | —                                    |
-| pager-count                         | number of pagers. Pagination collapses when the total page count exceeds this value                                             | ^[number]`5 \| 7 \| 9 \| 11 \| 13 \| 15 \| 17 \| 19 \| 21`                        | 7                                    |
-| current-page / v-model:current-page | current page number                                                                                                             | ^[number]                                                                         | —                                    |
-| default-current-page                | default initial value of current-page, not setting is the same as setting 1                                                     | ^[number]                                                                         | —                                    |
-| layout                              | layout of Pagination, elements separated with a comma                                                                           | ^[string]`string (consists of sizes, prev, pager, next, jumper, ->, total, slot)` | prev, pager, next, jumper, ->, total |
-| page-sizes                          | options of item count per page                                                                                                  | ^[array]`number[]`                                                                | [10, 20, 30, 40, 50, 100]            |
-| append-size-to ^(2.8.4)             | which element the size dropdown appends to                                                                                      | ^[string]                                                                         | —                                    |
-| popper-class                        | custom class name for the page size Select's dropdown                                                                           | ^[string]                                                                         | ''                                   |
-| popper-style ^(2.11.5)              | custom style for the page size Select's dropdown                                                                                | ^[string] / ^[object]                                                             | —                                    |
-| prev-text                           | text for the prev button                                                                                                        | ^[string]                                                                         | ''                                   |
-| prev-icon                           | icon for the prev button, has a lower priority than `prev-text`                                                                 | ^[string] / ^[Component]                                                          | ArrowLeft                            |
-| next-text                           | text for the next button                                                                                                        | ^[string]                                                                         | ''                                   |
-| next-icon                           | icon for the next button, has a lower priority than `next-text`                                                                 | ^[string] / ^[Component]                                                          | ArrowRight                           |
-| disabled                            | whether Pagination is disabled                                                                                                  | ^[boolean]                                                                        | false                                |
-| teleported ^(2.3.13)                | whether Pagination select dropdown is teleported to the body                                                                    | ^[boolean]                                                                        | true                                 |
-| hide-on-single-page                 | whether to hide when there's only one page                                                                                      | ^[boolean]                                                                        | false                                |
-| small ^(deprecated)                 | whether to use small pagination                                                                                                 | ^[boolean]                                                                        | false                                |
+| Name                                | Description                                                                                                                     | Type                                                                                          | Default                              |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | ------------------------------------ |
+| size ^(2.7.6)                       | pagination size                                                                                                                 | ^[enum]`'large' \| 'default' \| 'small'`                                                      | 'default'                            |
+| background                          | whether the buttons have a background color                                                                                     | ^[boolean]                                                                                    | false                                |
+| page-size / v-model:page-size       | item count of each page                                                                                                         | ^[number]                                                                                     | —                                    |
+| default-page-size                   | default initial value of page size, not setting is the same as setting 10                                                       | ^[number]                                                                                     | —                                    |
+| total                               | total item count                                                                                                                | ^[number]                                                                                     | —                                    |
+| page-count                          | total page count. Set either `total` or `page-count` and pages will be displayed; if you need `page-sizes`, `total` is required | ^[number]                                                                                     | —                                    |
+| pager-count                         | number of pagers. Pagination collapses when the total page count exceeds this value                                             | ^[number]`5 \| 7 \| 9 \| 11 \| 13 \| 15 \| 17 \| 19 \| 21`                                    | 7                                    |
+| current-page / v-model:current-page | current page number                                                                                                             | ^[number]                                                                                     | —                                    |
+| default-current-page                | default initial value of current-page, not setting is the same as setting 1                                                     | ^[number]                                                                                     | —                                    |
+| layout ^(2.14.4)                    | layout of Pagination, elements separated with a comma                                                                           | ^[string]`string (consists of sizes, size-input, prev, pager, next, jumper, ->, total, slot)` | prev, pager, next, jumper, ->, total |
+| page-sizes                          | options of item count per page                                                                                                  | ^[array]`number[]`                                                                            | [10, 20, 30, 40, 50, 100]            |
+| page-size-input-min ^(2.14.4)       | minimum item count accepted by the custom page size input                                                                       | ^[number]                                                                                     | 1                                    |
+| page-size-input-max ^(2.14.4)       | maximum item count accepted by the custom page size input                                                                       | ^[number]                                                                                     | —                                    |
+| append-size-to ^(2.8.4)             | which element the size dropdown appends to                                                                                      | ^[string]                                                                                     | —                                    |
+| popper-class                        | custom class name for the page size Select's dropdown                                                                           | ^[string]                                                                                     | ''                                   |
+| popper-style ^(2.11.5)              | custom style for the page size Select's dropdown                                                                                | ^[string] / ^[object]                                                                         | —                                    |
+| prev-text                           | text for the prev button                                                                                                        | ^[string]                                                                                     | ''                                   |
+| prev-icon                           | icon for the prev button, has a lower priority than `prev-text`                                                                 | ^[string] / ^[Component]                                                                      | ArrowLeft                            |
+| next-text                           | text for the next button                                                                                                        | ^[string]                                                                                     | ''                                   |
+| next-icon                           | icon for the next button, has a lower priority than `next-text`                                                                 | ^[string] / ^[Component]                                                                      | ArrowRight                           |
+| disabled                            | whether Pagination is disabled                                                                                                  | ^[boolean]                                                                                    | false                                |
+| teleported ^(2.3.13)                | whether Pagination select dropdown is teleported to the body                                                                    | ^[boolean]                                                                                    | true                                 |
+| hide-on-single-page                 | whether to hide when there's only one page                                                                                      | ^[boolean]                                                                                    | false                                |
+| small ^(deprecated)                 | whether to use small pagination                                                                                                 | ^[boolean]                                                                                    | false                                |
 
 :::warning
 
@@ -96,7 +108,7 @@ We'll detect some deprecated usages, if your pagination don't appeared or worked
 
 - You have to define one of `total` and `page-count`, otherwise we can't determine count of total pages.When both defined, `page-count` taken as priority.
 - If `current-page` is defined, you have to listen `current-page` change, by also define `@update:current-page`, otherwise pagination didn't work.
-- If `page-size` is defined while page size selector displayed(`sizes` included in `layout`), you have to listen `page-size` change as well, by define `@update:page-size`, otherwise change of page size didn't work.
+- If `page-size` is defined while a page size control is displayed (`sizes` or `size-input` included in `layout`), you have to listen `page-size` change as well, by define `@update:page-size`, otherwise change of page size didn't work.
 
 :::
 

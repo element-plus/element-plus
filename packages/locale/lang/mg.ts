@@ -111,6 +111,7 @@ export default {
     pagination: {
       goto: 'Mandeha any',
       pagesize: '/page',
+      pageSize: 'Items per page', // to be translated
       total: 'Totaly {total}',
       pageClassifier: '',
       page: 'Page', // to be translated

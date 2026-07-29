@@ -113,6 +113,7 @@ export default {
     pagination: {
       goto: 'ទៅកាន់',
       pagesize: '/ទំព័រ',
+      pageSize: 'Items per page', // to be translated
       total: 'សរុប {total}',
       pageClassifier: 'ទំព័រ',
       page: 'ទំព័រ',
