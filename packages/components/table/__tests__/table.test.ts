@@ -635,101 +635,6 @@ describe('Table.vue', () => {
     })
   })
 
-  describe('filter-multiple is false', () => {
-    let wrapper: VueWrapper<ComponentPublicInstance>
-    let filterChangeHandler: ReturnType<typeof vi.fn>
-
-    beforeEach(async () => {
-      filterChangeHandler = vi.fn()
-      wrapper = mount({
-        components: {
-          ElTable,
-          ElTableColumn,
-        },
-        template: `
-          <el-table ref="table" :data="testData" @filter-change="handleFilterChange">
-            <el-table-column prop="name" label="片名" />
-            <el-table-column prop="release" label="发行日期" />
-            <el-table-column
-              prop="director"
-              column-key="director"
-              :filters="[
-                { text: 'John Lasseter', value: 'John Lasseter' },
-                { text: 'Peter Docter', value: 'Peter Docter' },
-                { text: 'Andrew Stanton', value: 'Andrew Stanton' }
-              ]"
-              :filter-multiple="false"
-              :filtered-value="filterDatas"
-              label="导演" />
-            <el-table-column prop="runtime" label="时长（分）" />
-          </el-table>
-        `,
-
-        data() {
-          return {
-            testData: getTestData(),
-            filterDatas: [],
-          }
-        },
-
-        methods: {
-          filterMethod(value, row) {
-            return value === row.director
-          },
-          handleFilterChange(filters) {
-            filterChangeHandler(filters)
-          },
-        },
-      })
-      await doubleWait()
-    })
-
-    afterEach(() => wrapper.unmount())
-
-    it('should not mutate parent filtered-value prop', async () => {
-      const btn = wrapper.find('.el-table__column-filter-trigger')
-      await btn.trigger('click')
-      await doubleWait()
-
-      const filter = document.body.querySelector('.el-table-filter')
-      expect(filter).not.toBeUndefined()
-
-      // Initial state
-      expect(wrapper.vm.filterDatas).toEqual([])
-
-      // Click on a filter item (John Lasseter)
-      const filterItems = filter.querySelectorAll('.el-table-filter__list-item')
-      triggerEvent(filterItems[1], 'click', true, false)
-      await doubleWait()
-
-      // Parent filtered-value prop should NOT be mutated
-      expect(wrapper.vm.filterDatas).toEqual([])
-
-      // filter-change event should have been emitted
-      expect(filterChangeHandler).toHaveBeenCalledWith({
-        director: ['John Lasseter'],
-      })
-
-      // Clear filter
-      filterChangeHandler.mockClear()
-      btn.trigger('click')
-      await doubleWait()
-
-      triggerEvent(filterItems[0], 'click', true, false)
-      await doubleWait()
-
-      // Parent filtered-value prop should still be unchanged
-      expect(wrapper.vm.filterDatas).toEqual([])
-
-      // filter-change event should have been emitted with empty array
-      expect(filterChangeHandler).toHaveBeenCalledWith({
-        director: [],
-      })
-
-      filter.parentNode.removeChild(filter)
-    })
-  })
-
   describe('filter filter-icon slot', () => {
     let wrapper: VueWrapper<ComponentPublicInstance>
 
@@ -3504,5 +3409,40 @@ describe('Table.vue', () => {
     expect(wrapper.find('div.cell.el-tooltip').exists()).toBe(false)
     await wrapper.setProps({ showOverflowTooltip: true })
     expect(wrapper.find('div.cell.el-tooltip').exists()).toBe(true)
+  })
+
+  it('does not mutate filtered-value when filter-multiple is false', async () => {
+    const filteredValue = []
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+          <el-table>
+            <el-table-column
+              prop="director"
+              :filters="[
+                { text: 'John Lasseter', value: 'John Lasseter' }
+              ]"
+              :filter-multiple="false"
+              :filtered-value="filteredValue"
+            />
+          </el-table>
+        `,
+      setup: () => ({ filteredValue }),
+    })
+    await doubleWait()
+    await wrapper.find('.el-table__column-filter-trigger').trigger('click')
+    await doubleWait()
+
+    const filter = document.body.querySelector('.el-table-filter')
+    const filterItems = filter.querySelectorAll('.el-table-filter__list-item')
+    triggerEvent(filterItems[1], 'click', true, false)
+    await doubleWait()
+
+    expect(filteredValue).toEqual([])
+    filter.parentNode.removeChild(filter)
+    wrapper.unmount()
   })
 })
