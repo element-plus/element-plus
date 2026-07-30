@@ -194,8 +194,8 @@ export const isSelectableQuarterDate = (
   disabledDate?: DisabledDateType
 ) => {
   return (
-    !isQuarterFullyDisabled(value, lang, disabledDate) &&
-    (disabledDate ? !disabledDate(value.toDate()) : true)
+    (disabledDate ? !disabledDate(value.toDate()) : true) &&
+    !isQuarterFullyDisabled(value, lang, disabledDate)
   )
 }
 

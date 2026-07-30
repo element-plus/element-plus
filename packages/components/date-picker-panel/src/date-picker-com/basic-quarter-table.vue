@@ -10,7 +10,7 @@
     <tbody ref="tbodyRef">
       <tr>
         <td
-          v-for="(cell, key) in rows"
+          v-for="(cell, key) in columns"
           :key="key"
           :ref="(el) => cell.isSelected && (currentCellRef = el as HTMLElement)"
           class="available"
@@ -73,7 +73,7 @@ const ns = useNamespace('quarter-table')
 const { t, lang } = useLocale()
 const tbodyRef = ref<HTMLElement>()
 const currentCellRef = ref<HTMLElement>()
-const tableRows = ref<QuarterCell[]>([])
+const tableColumns = ref<QuarterCell[]>([])
 let lastQuarter: number | undefined
 
 const COL_COUNT = 4
@@ -174,8 +174,8 @@ const updateQuarterCell = (
   cell.isSelected = isSelectedCell(cell)
 }
 
-const rows = computed<QuarterCell[]>(() => {
-  const cells = tableRows.value
+const columns = computed<QuarterCell[]>(() => {
+  const cells = tableColumns.value
   const now = dayjs().locale(lang.value).startOf('quarter')
   const calEndDate = resolveRangeEndDate()
 
@@ -232,7 +232,7 @@ const handleRangeHover = (event: MouseEvent) => {
 
   const quarter = target.cellIndex
   // can not select disabled date
-  if (rows.value[quarter].disabled) return
+  if (columns.value[quarter].disabled) return
 
   if (quarter !== lastQuarter) {
     lastQuarter = quarter

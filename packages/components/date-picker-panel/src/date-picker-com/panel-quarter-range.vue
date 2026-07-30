@@ -130,22 +130,13 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  computed,
-  inject,
-  ref,
-  toRef,
-  unref,
-  useAttrs,
-  useSlots,
-  watch,
-} from 'vue'
+import { computed, inject, ref, toRef, unref, watch } from 'vue'
 import dayjs from 'dayjs'
 import ElIcon from '@element-plus/components/icon'
 import { useLocale } from '@element-plus/hooks'
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
 import { PICKER_BASE_INJECTION_KEY } from '@element-plus/components/time-picker'
-import { isArray, isFunction } from '@element-plus/utils'
+import { isArray } from '@element-plus/utils'
 import {
   correctlyParseUserInput,
   getDefaultValue,
@@ -164,7 +155,6 @@ import QuarterTable from './basic-quarter-table.vue'
 import { useFormDisabled } from '@element-plus/components/form'
 
 import type { Dayjs } from 'dayjs'
-import type { Shortcut } from '../composables/use-shortcut'
 
 type RangePickValue = {
   minDate: Dayjs
@@ -199,6 +189,7 @@ const {
   drpNs,
   handleChangeRange,
   handleRangeConfirm,
+  handleShortcutClick,
   onSelect,
   parseValue,
 } = useRangePicker(props, {
@@ -234,10 +225,8 @@ const enableYearArrow = computed(() => {
 })
 
 const handleRangePick = (val: RangePickValue, close = true) => {
-  const minDate_ = normalizeQuarterDate(val.minDate, lang.value, disabledDate)
+  const minDate_ = val.minDate
   const maxDate_ = val.maxDate
-    ? normalizeQuarterDate(val.maxDate, lang.value, disabledDate)
-    : val.maxDate
   if (maxDate.value === maxDate_ && minDate.value === minDate_) {
     return
   }
@@ -284,39 +273,12 @@ const parseUserInput = (value: Dayjs | Dayjs[]) => {
 const isValidValue = (date: [Dayjs, Dayjs]) => {
   return (
     isValidRange(date) &&
-    !isQuarterFullyDisabled(date[0], lang.value, disabledDate) &&
-    !isQuarterFullyDisabled(date[1], lang.value, disabledDate) &&
     (disabledDate
       ? !disabledDate(date[0].toDate()) && !disabledDate(date[1].toDate())
-      : true)
+      : true) &&
+    !isQuarterFullyDisabled(date[0], lang.value, disabledDate) &&
+    !isQuarterFullyDisabled(date[1], lang.value, disabledDate)
   )
-}
-
-const attrs = useAttrs()
-const slots = useSlots()
-
-const handleShortcutClick = (shortcut: Shortcut) => {
-  const values = isFunction(shortcut.value) ? shortcut.value() : shortcut.value
-  if (values) {
-    emit(
-      'pick',
-      values.map((item) =>
-        normalizeQuarterDate(
-          dayjs(item).locale(lang.value),
-          lang.value,
-          disabledDate
-        )
-      )
-    )
-    return
-  }
-  if (shortcut.onClick) {
-    shortcut.onClick({
-      attrs,
-      slots,
-      emit,
-    })
-  }
 }
 
 function sortDates(minDate: Dayjs | undefined, maxDate: Dayjs | undefined) {

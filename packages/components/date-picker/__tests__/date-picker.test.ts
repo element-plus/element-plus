@@ -3318,47 +3318,6 @@ describe('QuarterPicker', () => {
     expect(disabledDate(vm.value)).toBe(false)
   })
 
-  it('partial disabledDate in quarter should normalize shortcuts', async () => {
-    const disabledDate = (time: Date) => {
-      const date = new Date(time)
-      if (date.getFullYear() !== 2020) return false
-      return date.getMonth() === 0
-    }
-    const wrapper = _mount(
-      `<el-date-picker
-        type="quarter"
-        v-model="value"
-        :disabledDate="disabledDate"
-        :shortcuts="shortcuts"
-      />`,
-      () => ({
-        value: '',
-        disabledDate,
-        shortcuts: [
-          {
-            text: '2020 Q1',
-            value: () => new Date(2020, 0, 1),
-          },
-        ],
-      })
-    )
-    const input = wrapper.find('input')
-    input.trigger('blur')
-    input.trigger('focus')
-    await nextTick()
-
-    const shortcut = Array.from(
-      document.querySelectorAll('.el-picker-panel__shortcut')
-    ).find((el) => el.textContent === '2020 Q1') as HTMLButtonElement
-    shortcut.click()
-    await nextTick()
-
-    const vm = wrapper.vm as any
-    expect(vm.value.getFullYear()).toBe(2020)
-    expect(vm.value.getMonth()).toBe(1)
-    expect(disabledDate(vm.value)).toBe(false)
-  })
-
   it('partial disabledDate in quarter should normalize keyboard navigation', async () => {
     const disabledDate = (time: Date) => {
       const date = new Date(time)
@@ -3757,48 +3716,6 @@ describe('Quarters', () => {
     }
   })
 
-  it('partial disabledDate in quarters should normalize shortcuts', async () => {
-    const disabledDate = (time: Date) => {
-      const date = new Date(time)
-      if (date.getFullYear() !== 2020) return false
-      return date.getMonth() === 0
-    }
-    const wrapper = _mount(
-      `<el-date-picker
-        type="quarters"
-        v-model="value"
-        :disabledDate="disabledDate"
-        :shortcuts="shortcuts"
-      />`,
-      () => ({
-        value: [] as Date[],
-        disabledDate,
-        shortcuts: [
-          {
-            text: '2020 Q1',
-            value: () => new Date(2020, 0, 1),
-          },
-        ],
-      })
-    )
-    const input = wrapper.find('input')
-    input.trigger('blur')
-    input.trigger('focus')
-    await nextTick()
-
-    const shortcut = Array.from(
-      document.querySelectorAll('.el-picker-panel__shortcut')
-    ).find((el) => el.textContent === '2020 Q1') as HTMLButtonElement
-    shortcut.click()
-    await nextTick()
-
-    const vm = wrapper.vm as any
-    expect(vm.value).toHaveLength(1)
-    expect(vm.value[0].getFullYear()).toBe(2020)
-    expect(vm.value[0].getMonth()).toBe(1)
-    expect(disabledDate(vm.value[0])).toBe(false)
-  })
-
   it('should toggle quarters on keyboard enter and space', async () => {
     vi.useFakeTimers()
     try {
@@ -4184,57 +4101,6 @@ describe('QuarterRange', () => {
       inputs[1].element.value = '2020-Q1'
       await inputs[1].trigger('input')
       await inputs[1].trigger('blur')
-      await nextTick()
-
-      const vm = wrapper.vm as any
-      expect(vm.value[0].getFullYear()).toBe(2020)
-      expect(vm.value[0].getMonth()).toBe(1)
-      expect(disabledDate(vm.value[0])).toBe(false)
-      expect(vm.value[1].getMonth()).toBe(1)
-      expect(disabledDate(vm.value[1])).toBe(false)
-    } finally {
-      vi.useRealTimers()
-    }
-  })
-
-  it('partial disabledDate in quarter range should normalize shortcuts', async () => {
-    vi.useFakeTimers()
-    try {
-      vi.setSystemTime(new Date('2020-01-05'))
-      const disabledDate = (time: Date) => {
-        const date = new Date(time)
-        if (date.getFullYear() !== 2020) return false
-        const month = date.getMonth()
-        return month === 0 || month > 2
-      }
-      const wrapper = _mount(
-        `<el-date-picker
-          type="quarterrange"
-          v-model="value"
-          :disabledDate="disabledDate"
-          :shortcuts="shortcuts"
-        />`,
-        () => ({
-          value: '',
-          disabledDate,
-          shortcuts: [
-            {
-              text: '2020 Q1',
-              value: () => [new Date(2020, 0, 1), new Date(2020, 0, 1)],
-            },
-          ],
-        })
-      )
-
-      const inputs = wrapper.findAll('input')
-      inputs[0].trigger('blur')
-      inputs[0].trigger('focus')
-      await nextTick()
-
-      const shortcut = Array.from(
-        document.querySelectorAll('.el-picker-panel__shortcut')
-      ).find((el) => el.textContent === '2020 Q1') as HTMLButtonElement
-      shortcut.click()
       await nextTick()
 
       const vm = wrapper.vm as any
