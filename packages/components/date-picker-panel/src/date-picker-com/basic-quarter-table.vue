@@ -252,23 +252,26 @@ const handleQuarterTableClick = (event: MouseEvent | KeyboardEvent) => {
   const target = (event.target as HTMLElement)?.closest(
     'td'
   ) as HTMLTableCellElement
-  if (target?.tagName !== 'TD') return
-  if (hasClass(target, 'disabled')) return
+  if (target?.tagName !== 'TD' || hasClass(target, 'disabled')) return
+
   const quarter = target.cellIndex
   if (props.selectionMode === 'range') {
     const newDate = resolveQuarterDate(quarter)
     if (!props.rangeState.selecting) {
       emit('pick', { minDate: newDate, maxDate: null })
       emit('select', true)
-    } else {
-      if (props.minDate && newDate >= props.minDate) {
-        emit('pick', { minDate: props.minDate, maxDate: newDate })
-      } else {
-        emit('pick', { minDate: newDate, maxDate: props.minDate })
-      }
-      emit('select', false)
+      return
     }
-  } else if (props.selectionMode === 'quarters') {
+    if (props.minDate && newDate >= props.minDate) {
+      emit('pick', { minDate: props.minDate, maxDate: newDate })
+    } else {
+      emit('pick', { minDate: newDate, maxDate: props.minDate })
+    }
+    emit('select', false)
+    return
+  }
+
+  if (props.selectionMode === 'quarters') {
     const newQuarter = resolveQuarterDate(quarter)
     const newValue = hasClass(target, 'current')
       ? castArray(props.parsedValue).filter(
@@ -276,9 +279,10 @@ const handleQuarterTableClick = (event: MouseEvent | KeyboardEvent) => {
         )
       : castArray(props.parsedValue).concat([newQuarter])
     emit('pick', newValue)
-  } else {
-    emit('pick', quarter)
+    return
   }
+
+  emit('pick', quarter)
 }
 
 watch(
