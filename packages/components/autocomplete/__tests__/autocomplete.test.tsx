@@ -716,5 +716,25 @@ describe('Autocomplete.vue', () => {
       await input.trigger('keydown', { code: EVENT_CODE.numpadEnter })
       expect(target.modelValue).toBe('Java')
     })
+
+    test('clears stale suggestions on refocus before debounce completes', async () => {
+      const wrapper = _mount({ debounce: 300 })
+      const input = wrapper.find('input')
+      const target = getAutocompleteVm(wrapper)
+
+      await input.trigger('focus')
+      vi.runAllTimers()
+      await nextTick()
+      await input.trigger('keydown', { code: EVENT_CODE.down })
+
+      expect(target.suggestions).toHaveLength(4)
+      expect(target.highlightedIndex).toBe(0)
+
+      await input.trigger('blur')
+      await input.trigger('focus')
+
+      expect(target.suggestions).toHaveLength(0)
+      expect(target.highlightedIndex).toBe(-1)
+    })
   })
 })
