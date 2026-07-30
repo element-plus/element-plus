@@ -97,7 +97,7 @@ export type PopoverInstance = InstanceType<typeof Popover> & unknown
  * @description default values for PopoverProps
  */
 export const popoverPropsDefaults = {
-  ...useTooltipContentPropsDefaults,
+  ...omit(useTooltipContentPropsDefaults, ['gpuAcceleration']),
   ...useTooltipTriggerPropsDefaults,
   ...popperArrowPropsDefaults,
   title: undefined,
