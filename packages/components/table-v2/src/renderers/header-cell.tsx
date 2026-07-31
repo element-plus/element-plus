@@ -10,11 +10,16 @@ import type { Translator, UseNamespaceReturn } from '@element-plus/hooks'
 import type { TableV2HeaderRowCellRendererParams } from '../components'
 import type { UseTableReturn } from '../use-table'
 import type { TableV2Props } from '../table'
+import type { KeyType } from '../types'
 
 export type HeaderCellRendererProps = TableV2HeaderRowCellRendererParams &
   UnwrapNestedRefs<Pick<UseTableReturn, 'onColumnSorted'>> &
-  Pick<TableV2Props, 'sortBy' | 'sortState' | 'headerCellProps'> & {
+  Pick<
+    TableV2Props,
+    'sortBy' | 'sortState' | 'headerCellProps' | 'headerHeight'
+  > & {
     ns: UseNamespaceReturn
+    primarySortKey?: KeyType
     t: Translator
   }
 
@@ -55,15 +60,31 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
   /**
    * Render cell container and sort indicator
    */
-  const { sortBy, sortState, headerCellProps } = props
+  const {
+    sortBy,
+    sortState,
+    primarySortKey,
+    headerCellProps,
+    headerHeight,
+    headerIndex,
+  } = props
+  const isLeafHeader =
+    !Array.isArray(headerHeight) || headerIndex === headerHeight.length - 1
 
-  let sorting: boolean, sortOrder: SortOrder, ariaSort: string | undefined
+  let sorting: boolean,
+    ariaSorting: boolean,
+    sortOrder: SortOrder,
+    ariaSort: string | undefined
   if (sortState) {
     const order = sortState[column.key!]
     sorting = Boolean(oppositeOrderMap[order])
+    // ARIA cannot express multi-sort precedence, so only expose the first
+    // renderable active key while preserving every visual indicator.
+    ariaSorting = column.key === primarySortKey
     sortOrder = sorting ? order : SortOrder.ASC
   } else {
     sorting = column.key === sortBy.key
+    ariaSorting = sorting
     sortOrder = sorting ? sortBy.order : SortOrder.ASC
   }
   if (sortOrder === SortOrder.ASC) {
@@ -85,7 +106,8 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
   const cellWrapperProps = {
     ...tryCall(headerCellProps, props),
     onClick: column.sortable ? onColumnSorted : undefined,
-    ariaSort: sortable ? ariaSort : undefined,
+    ['aria-sort']:
+      sortable && ariaSorting && isLeafHeader ? ariaSort : undefined,
     class: cellKls,
     style: cellStyle,
     ['data-key']: column.key,

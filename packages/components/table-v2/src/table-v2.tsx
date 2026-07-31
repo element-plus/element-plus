@@ -51,6 +51,7 @@ const TableV2 = defineComponent({
       fixedColumnsOnLeft,
       fixedColumnsOnRight,
       mainColumns,
+      primarySortKey,
       mainTableHeight,
       fixedTableHeight,
       leftTableWidth,
@@ -267,6 +268,8 @@ const TableV2 = defineComponent({
 
         sortBy,
         sortState,
+        primarySortKey: unref(primarySortKey),
+        headerHeight,
         headerCellProps,
         onColumnSorted,
       }

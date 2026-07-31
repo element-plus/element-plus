@@ -32,6 +32,7 @@ function useTable(props: TableV2Props) {
     fixedColumnsOnRight,
     hasFixedColumns,
     mainColumns,
+    primarySortKey,
 
     onColumnSorted,
   } = useColumns(props, toRef(props, 'columns'), toRef(props, 'fixed'))
@@ -198,6 +199,7 @@ function useTable(props: TableV2Props) {
     fixedColumnsOnLeft,
     fixedColumnsOnRight,
     mainColumns,
+    primarySortKey,
     // metadata
     bodyWidth,
     emptyStyle,

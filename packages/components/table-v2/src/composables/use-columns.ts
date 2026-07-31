@@ -24,6 +24,29 @@ function useColumns(
     return unref(_columns).filter((column) => !column.hidden)
   })
 
+  const primarySortKey = computed(() => {
+    const { sortState } = props
+    if (!sortState) return undefined
+
+    const renderableColumns = unref(visibleColumns).filter(
+      (column) => column.sortable
+    )
+    const isSameKey = (columnKey: KeyType, stateKey: PropertyKey) =>
+      typeof columnKey === 'symbol'
+        ? columnKey === stateKey
+        : String(columnKey) === String(stateKey)
+    const primaryStateKey = Reflect.ownKeys(sortState).find(
+      (stateKey) =>
+        Boolean(oppositeOrderMap[sortState[stateKey]]) &&
+        renderableColumns.some((column) => isSameKey(column.key, stateKey))
+    )
+    if (primaryStateKey === undefined) return undefined
+
+    return renderableColumns.find((column) =>
+      isSameKey(column.key, primaryStateKey)
+    )?.key
+  })
+
   const fixedColumnsOnLeft = computed(() =>
     unref(visibleColumns).filter(
       (column) => column.fixed === 'left' || column.fixed === true
@@ -120,6 +143,7 @@ function useColumns(
     hasFixedColumns,
     mainColumns,
     normalColumns,
+    primarySortKey,
     visibleColumns,
 
     getColumn,

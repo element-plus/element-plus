@@ -130,6 +130,14 @@ describe('Carousel', () => {
     expect(wrapper.find('.el-carousel__button span').text()).toBe('1')
   })
 
+  it('indicator buttons should not submit a parent form', () => {
+    wrapper = createComponent({ autoplay: false })
+
+    wrapper.findAll('.el-carousel__button').forEach((button) => {
+      expect(button.attributes('type')).toBe('button')
+    })
+  })
+
   describe('manual control', () => {
     it('hover', async () => {
       vi.useFakeTimers()

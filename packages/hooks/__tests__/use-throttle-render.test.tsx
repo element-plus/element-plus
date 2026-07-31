@@ -3,6 +3,25 @@ import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { useThrottleRender } from '../use-throttle-render'
 
+import type { Ref } from 'vue'
+import type { ThrottleType } from '../use-throttle-render'
+
+const mountThrottleRender = (loading: Ref<boolean>, throttle: ThrottleType) => {
+  let throttled!: Ref<boolean>
+  let initialValue!: boolean
+  const wrapper = mount(
+    defineComponent({
+      setup() {
+        throttled = useThrottleRender(loading, throttle)
+        initialValue = throttled.value
+        return () => null
+      },
+    })
+  )
+
+  return { initialValue, throttled, wrapper }
+}
+
 const Comp = defineComponent({
   setup() {
     const loading = ref(false)
@@ -14,7 +33,7 @@ const Comp = defineComponent({
   },
 })
 
-describe.concurrent('useThrottleRender', () => {
+describe('useThrottleRender', () => {
   beforeEach(() => {
     vi.useFakeTimers()
   })
@@ -37,19 +56,21 @@ describe.concurrent('useThrottleRender', () => {
 
   it('should return false immediately when loading is false', () => {
     const loading = ref(false)
-    const throttled = useThrottleRender(loading, 1000)
+    const { throttled, wrapper } = mountThrottleRender(loading, 1000)
     expect(throttled.value).toBe(false)
+    wrapper.unmount()
   })
 
   it('should return the same value immediately when throttle is 0', () => {
     const loading = ref(true)
-    const throttled = useThrottleRender(loading, 0)
+    const { throttled, wrapper } = mountThrottleRender(loading, 0)
     expect(throttled.value).toBe(true) // should be same as loading
+    wrapper.unmount()
   })
 
   it('should throttle rendering and update when loading changes', async () => {
     const loading = ref(true)
-    const throttled = useThrottleRender(loading, 1000)
+    const { throttled, wrapper } = mountThrottleRender(loading, 1000)
     expect(throttled.value).toBe(false) // initially false
     loading.value = false
     expect(throttled.value).toBe(false) // should remain false immediately
@@ -59,19 +80,25 @@ describe.concurrent('useThrottleRender', () => {
 
     loading.value = true
     expect(throttled.value).toBe(false) // should still be false after throttle time
+    wrapper.unmount()
   })
 
-  it('should use `initVal` as initial value when pass `{ initVal: true/false }`', async () => {
+  it('should use `initVal` as initial value when pass `{ initVal: true/false }`', () => {
     const loading = ref(false)
-    const throttled = useThrottleRender(loading, { initVal: true })
-    expect(throttled.value).toBe(true)
-    const throttled2 = useThrottleRender(loading, { initVal: false })
-    expect(throttled2.value).toBe(false)
+    const { initialValue, wrapper } = mountThrottleRender(loading, {
+      initVal: true,
+    })
+    expect(initialValue).toBe(true)
+    const { initialValue: initialValue2, wrapper: wrapper2 } =
+      mountThrottleRender(loading, { initVal: false })
+    expect(initialValue2).toBe(false)
+    wrapper.unmount()
+    wrapper2.unmount()
   })
 
   it('should throttle on display and disappear when pass `{ leading: xxx, trailing: xxx }`', async () => {
     const loading = ref(false)
-    const throttled = useThrottleRender(loading, {
+    const { throttled, wrapper } = mountThrottleRender(loading, {
       leading: 200,
       trailing: 200,
     })
@@ -92,5 +119,6 @@ describe.concurrent('useThrottleRender', () => {
     await nextTick()
 
     expect(throttled.value).toBe(false) // should be false after trailing time
+    wrapper.unmount()
   })
 })

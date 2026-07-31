@@ -18,8 +18,8 @@ const ExpandIcon = (
 
   const expandIconProps = {
     onClick: expandable ? () => onExpand(!expanded) : undefined,
-    ariaLabel,
-    ariaExpanded: expanded,
+    'aria-label': ariaLabel,
+    'aria-expanded': expanded,
     class: props.class,
   } as any
 

@@ -1,3 +1,4 @@
+import { defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import Tag from '../src/tag.vue'
@@ -50,10 +51,23 @@ describe('Tag.vue', () => {
   })
 
   test('disableTransitions', () => {
-    const wrapper = mount(() => <Tag disableTransitions={true} />)
-    const vm = wrapper.vm
-    // FIXME: This check actually is useless as there is no the class `md-fade-center` in the code.
-    expect(vm.$el.classList.contains('md-fade-center')).toEqual(false)
+    const TransitionStub = defineComponent({
+      setup(_, { slots }) {
+        return () => <div class="transition-stub">{slots.default?.()}</div>
+      },
+    })
+    const wrapper = mount(Tag, {
+      props: {
+        disableTransitions: true,
+      },
+      global: {
+        stubs: {
+          transition: TransitionStub,
+        },
+      },
+    })
+
+    expect(wrapper.find('.transition-stub').exists()).toBe(false)
   })
 
   test('color', () => {

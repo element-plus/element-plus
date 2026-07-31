@@ -62,6 +62,7 @@
           @click.stop="handleIndicatorClick(index)"
         >
           <button
+            type="button"
             :class="ns.e('button')"
             :aria-label="t('el.carousel.indicator', { index: index + 1 })"
           >

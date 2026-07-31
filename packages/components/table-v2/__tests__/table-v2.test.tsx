@@ -9,7 +9,7 @@ import type {
   TableV2HeaderRowCellRendererParams,
   TableV2RowCellRenderParam,
 } from '../src/components'
-import type { SortBy } from '../src/types'
+import type { SortBy, SortState } from '../src/types'
 
 const generateColumns = (length = 10, prefix = 'column-', props?: any) =>
   Array.from({ length }).map((_, columnIndex) => ({
@@ -315,22 +315,23 @@ describe('TableV2.vue', () => {
       ))
 
       const expandButton = wrapper.find('.el-table-v2__expand-icon')
-      expect(expandButton.attributes('arialabel')).toBe('Expand this row')
-      expect(expandButton.attributes('ariaexpanded')).toBe('false')
+      expect(expandButton.attributes('aria-label')).toBe('Expand this row')
+      expect(expandButton.attributes('aria-expanded')).toBe('false')
 
       await expandButton.trigger('click')
       await nextTick()
-      expect(expandButton.attributes('ariaexpanded')).toBe('true')
+      expect(expandButton.attributes('aria-expanded')).toBe('true')
     })
 
-    test('sort button', async () => {
-      const sortState = ref<SortBy>({
+    test('sort button', () => {
+      const sortBy: SortBy = {
         key: 'column-0',
         order: TableV2SortOrder.ASC,
-      })
+      }
       const columns = generateColumns(10)
       const data = generateData(columns, 20)
       columns[0].sortable = true
+      columns[1].sortable = true
 
       const wrapper = mount(() => (
         <TableV2
@@ -338,17 +339,109 @@ describe('TableV2.vue', () => {
           data={data}
           width={700}
           height={400}
-          sortBy={sortState.value}
+          sortBy={sortBy}
         />
       ))
 
       const sortButton = wrapper.find('.el-table-v2__sort-icon')
-      const header = wrapper.find('.el-table-v2__header-cell.is-sortable')
-      console.log(header.attributes())
+      const headers = wrapper.findAll('.el-table-v2__header-cell.is-sortable')
 
       expect(sortButton.attributes('aria-label')).toBe('Sort by Column 0')
-      expect(header.attributes('ariasort')).toBe('ascending')
-      expect(header.attributes('role')).toBe('columnheader')
+      expect(headers[0].attributes('aria-sort')).toBe('ascending')
+      expect(headers[0].attributes('role')).toBe('columnheader')
+      expect(headers[1].attributes('aria-sort')).toBeUndefined()
+
+      const unsortedWrapper = mount(() => (
+        <TableV2 columns={columns} data={data} width={700} height={400} />
+      ))
+      const unsortedHeaders = unsortedWrapper.findAll(
+        '.el-table-v2__header-cell.is-sortable'
+      )
+      expect(unsortedHeaders[0].attributes('aria-sort')).toBeUndefined()
+      expect(unsortedHeaders[1].attributes('aria-sort')).toBeUndefined()
+    })
+
+    test('reports aria-sort only for the primary multi-sort column', () => {
+      const sortState: SortState = {
+        'column-1': TableV2SortOrder.DESC,
+        'column-0': TableV2SortOrder.ASC,
+      }
+      const columns = generateColumns(10)
+      const data = generateData(columns, 20)
+      columns[0].sortable = true
+      columns[1].sortable = true
+
+      const wrapper = mount(() => (
+        <TableV2
+          columns={columns}
+          data={data}
+          width={700}
+          height={400}
+          sortState={sortState}
+        />
+      ))
+      const headers = wrapper.findAll('.el-table-v2__header-cell.is-sortable')
+
+      expect(headers[0].attributes('aria-sort')).toBeUndefined()
+      expect(headers[1].attributes('aria-sort')).toBe('descending')
+    })
+
+    test('selects the primary sort from renderable sortable columns', () => {
+      const sortState: SortState = {
+        removed: TableV2SortOrder.DESC,
+        'column-0': TableV2SortOrder.DESC,
+        'column-2': TableV2SortOrder.DESC,
+        'column-1': TableV2SortOrder.ASC,
+      }
+      const columns = generateColumns(3)
+      const data = generateData(columns, 20)
+      columns[0].sortable = false
+      columns[1].sortable = true
+      columns[2].sortable = true
+      columns[2].hidden = true
+
+      const wrapper = mount(() => (
+        <TableV2
+          columns={columns}
+          data={data}
+          width={700}
+          height={400}
+          sortState={sortState}
+        />
+      ))
+      const sortedHeaders = wrapper.findAll('[aria-sort]')
+
+      expect(sortedHeaders).toHaveLength(1)
+      expect(sortedHeaders[0].attributes('data-key')).toBe('column-1')
+      expect(sortedHeaders[0].attributes('aria-sort')).toBe('ascending')
+    })
+
+    test('reports aria-sort only on the leaf header row', () => {
+      const sortBy: SortBy = {
+        key: 'column-0',
+        order: TableV2SortOrder.ASC,
+      }
+      const columns = generateColumns(2, 'column-', { sortable: true })
+      const data = generateData(columns, 20)
+
+      const wrapper = mount(() => (
+        <TableV2
+          columns={columns}
+          data={data}
+          width={700}
+          height={400}
+          headerHeight={[40, 50]}
+          sortBy={sortBy}
+        />
+      ))
+      const headerRows = wrapper.findAll('.el-table-v2__header-row')
+
+      expect(headerRows).toHaveLength(2)
+      expect(headerRows[0].find('[aria-sort]').exists()).toBe(false)
+      expect(headerRows[1].findAll('[aria-sort]')).toHaveLength(1)
+      expect(
+        headerRows[1].find('[data-key="column-0"]').attributes('aria-sort')
+      ).toBe('ascending')
     })
   })
 
