@@ -93,7 +93,7 @@
     "happy-dom": "^20.11.1",
     "husky": "^9.1.7",
     "jsdom": "16.4.0",
-    "lint-staged": "17.2.0",
+    "lint-staged": "17.3.0",
     "prettier": "catalog:",
     "puppeteer": "^25.3.0",
     "resize-observer-polyfill": "^1.5.1",
