@@ -3410,4 +3410,39 @@ describe('Table.vue', () => {
     await wrapper.setProps({ showOverflowTooltip: true })
     expect(wrapper.find('div.cell.el-tooltip').exists()).toBe(true)
   })
+
+  it('does not mutate filtered-value when filter-multiple is false', async () => {
+    const filteredValue = []
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+          <el-table>
+            <el-table-column
+              prop="director"
+              :filters="[
+                { text: 'John Lasseter', value: 'John Lasseter' }
+              ]"
+              :filter-multiple="false"
+              :filtered-value="filteredValue"
+            />
+          </el-table>
+        `,
+      setup: () => ({ filteredValue }),
+    })
+    await doubleWait()
+    await wrapper.find('.el-table__column-filter-trigger').trigger('click')
+    await doubleWait()
+
+    const filter = document.body.querySelector('.el-table-filter')
+    const filterItems = filter.querySelectorAll('.el-table-filter__list-item')
+    triggerEvent(filterItems[1], 'click', true, false)
+    await doubleWait()
+
+    expect(filteredValue).toEqual([])
+    filter.parentNode.removeChild(filter)
+    wrapper.unmount()
+  })
 })

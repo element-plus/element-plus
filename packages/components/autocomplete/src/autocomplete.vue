@@ -294,6 +294,8 @@ const handleFocus = (evt: FocusEvent) => {
     emit('focus', evt)
     const queryString = props.modelValue ?? ''
     if (props.triggerOnFocus && !readonly) {
+      suggestions.value = []
+      highlightedIndex.value = -1
       debouncedGetData(String(queryString))
     }
   } else {
