@@ -64,7 +64,7 @@ export default defineConfig(async ({ mode }): Promise<UserConfig> => {
       vue(),
       vueJsx(),
       Components({
-        include: `${__dirname}/**`,
+        include: `${import.meta.dirname}/**`,
         resolvers: ElementPlusResolver({
           version: '2.0.0-dev.1',
           importStyle: 'sass',

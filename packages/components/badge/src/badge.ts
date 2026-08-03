@@ -1,6 +1,7 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
 import type { ExtractPublicPropTypes, StyleValue } from 'vue'
+import type { ClassValue } from '@element-plus/utils'
 
 export interface BadgeProps {
   /**
@@ -42,7 +43,7 @@ export interface BadgeProps {
   /**
    * @description custom class name of badge
    */
-  badgeClass?: string
+  badgeClass?: ClassValue
 }
 
 /**
@@ -108,7 +109,8 @@ export const badgeProps = buildProps({
    * @description custom class name of badge
    */
   badgeClass: {
-    type: String,
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
+    default: undefined,
   },
 } as const)
 
