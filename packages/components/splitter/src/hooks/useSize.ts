@@ -24,6 +24,32 @@ export function isPx(
   return isString(itemSize) && itemSize.endsWith('px')
 }
 
+// Mirrors the itemSize parsing below: a '%' string or empty/undefined value is
+// proportional (auto-fill or ratio-based), everything else that resolves to a
+// number (a literal number, an "Npx" string, or a bare numeric string such as
+// the Vue template `size="150"`) is pinned to that literal pixel value.
+export function isFixedSize(itemSize: string | number | undefined): boolean {
+  if (itemSize === undefined || itemSize === '' || isPct(itemSize)) {
+    return false
+  }
+  return (
+    isPx(itemSize) ||
+    typeof itemSize === 'number' ||
+    !Number.isNaN(Number(itemSize))
+  )
+}
+
+// Whether a *declared* size prop always resolves to exactly 0 (e.g. "0%",
+// "0px", or 0), regardless of container size - unlike undefined/'' (auto-fill),
+// which depends on siblings and isn't deterministically zero.
+export function isZeroSize(itemSize: string | number | undefined): boolean {
+  if (itemSize === undefined || itemSize === '') return false
+  if (isPct(itemSize)) return getPct(itemSize) === 0
+  if (isPx(itemSize)) return getPx(itemSize) === 0
+  const num = Number(itemSize)
+  return !Number.isNaN(num) && num === 0
+}
+
 export function useSize(
   panels: Ref<PanelItemState[]>,
   containerSize: ComputedRef<number>

@@ -15,7 +15,7 @@ import { throwError } from '@element-plus/utils'
 import { getCollapsible, isCollapsible } from './hooks/usePanel'
 import SplitBar from './split-bar.vue'
 import { splitterPanelEmits } from './split-panel'
-import { getPct, getPx, isPct, isPx } from './hooks'
+import { getPct, getPx, isFixedSize, isPct, isPx, isZeroSize } from './hooks'
 import { splitterRootContextKey } from './type'
 
 import type { SplitterPanelProps } from './split-panel'
@@ -112,11 +112,24 @@ function sizeToPx(str: string | number | undefined) {
   return str ?? 0
 }
 
+// `v-model:size` writes the internal pixel snapshots emitted below straight
+// back into `props.size`, which would make an authored "50%" look like an
+// authored `500`. Track what was actually declared by ignoring the values we
+// emitted ourselves, so the panel's size mode survives a collapse cycle.
+let lastEmittedSize: number | undefined
+const declaredSize = ref<string | number | undefined>(props.size)
+
 // Two-way binding for size
 let isSizeUpdating = false
 watch(
   () => props.size,
   () => {
+    if (props.size === lastEmittedSize) {
+      lastEmittedSize = undefined
+    } else {
+      declaredSize.value = props.size
+    }
+
     if (!isSizeUpdating && panel.value) {
       if (!containerSize.value) {
         panel.value.size = props.size
@@ -131,6 +144,7 @@ watch(
       const finalSize = Math.min(Math.max(size, minSize || 0), maxSize || size)
 
       if (finalSize !== size) {
+        lastEmittedSize = finalSize
         emits('update:size', finalSize)
       }
 
@@ -144,6 +158,7 @@ watch(
   (val) => {
     if (val !== props.size) {
       isSizeUpdating = true
+      lastEmittedSize = val as number
       emits('update:size', val as number)
       nextTick(() => (isSizeUpdating = false))
     }
@@ -165,6 +180,11 @@ const _panel = reactive({
   setIndex,
   ...props,
   collapsible: computed(() => getCollapsible(props.collapsible)),
+  // Tied to the declared size (not the internal `size` below, which useResize
+  // overwrites with a live raw px number while dragging/collapsing) so a
+  // panel's declared size mode survives those internal mutations.
+  isFixedSize: computed(() => isFixedSize(declaredSize.value)),
+  isZeroSize: computed(() => isZeroSize(declaredSize.value)),
 })
 
 registerPanel(_panel)
