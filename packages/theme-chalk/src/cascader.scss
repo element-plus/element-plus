@@ -148,6 +148,11 @@
     font-size: getCssVar('cascader-menu-font-size');
     border-radius: getCssVar('cascader-menu-radius');
 
+    > .#{$namespace}-cascader-panel {
+      max-width: calc(100vw - 32px);
+      overflow-x: auto;
+    }
+
     @include picker-popper(
       getCssVar('cascader-menu-fill'),
       getCssVar('cascader-menu-border'),
