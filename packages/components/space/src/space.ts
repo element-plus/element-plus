@@ -1,5 +1,6 @@
 import {
   Comment,
+  cloneVNode,
   createTextVNode,
   createVNode,
   defineComponent,
@@ -217,7 +218,7 @@ const Space = defineComponent({
                       // span element.
                       // otherwise, treat it as string.
                       isVNode(spacer)
-                        ? spacer
+                        ? cloneVNode(spacer)
                         : createTextVNode(spacer as string, PatchFlags.TEXT),
                     ],
                     PatchFlags.STYLE
