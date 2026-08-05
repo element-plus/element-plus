@@ -80,7 +80,6 @@ const ns = useNamespace('scrollbar')
 let stopResizeObserver: (() => void) | undefined = undefined
 let stopWrapResizeObserver: (() => void) | undefined = undefined
 let stopResizeListener: (() => void) | undefined = undefined
-let stopTransitionListener: (() => void) | undefined = undefined
 let rafId = 0
 let wrapScrollTop = 0
 let wrapScrollLeft = 0
@@ -240,24 +239,19 @@ watch(
       stopResizeObserver?.()
       stopWrapResizeObserver?.()
       stopResizeListener?.()
-      stopTransitionListener?.()
-      if (rafId) {
-        cancelAnimationFrame(rafId)
-        rafId = 0
-      }
     } else {
       ;({ stop: stopResizeObserver } = useResizeObserver(resizeRef, update))
       ;({ stop: stopWrapResizeObserver } = useResizeObserver(wrapRef, update))
       stopResizeListener = useEventListener('resize', update)
-      stopTransitionListener = useEventListener(
-        wrapRef,
-        ['transitionend', 'animationend'],
-        updateBar
-      )
     }
   },
   { immediate: true }
 )
+
+// Transform-driven overflow (e.g. slide transitions) is not observable via
+// resize observers, so refresh the bar when transitions/animations end —
+// this applies even when `noresize` is set.
+useEventListener(wrapRef, ['transitionend', 'animationend'], updateBar)
 
 watch(
   () => [props.maxHeight, props.height],
