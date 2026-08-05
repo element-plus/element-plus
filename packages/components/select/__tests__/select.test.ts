@@ -1752,6 +1752,17 @@ describe('Select', () => {
     await nextTick()
     expect(select.vm.tagTextTooltipVisible).toBe(false)
 
+    // pending `showAfter` should be cancelled when the tag list changes
+    scrollWidthSpy.mockReturnValue(200)
+    await tagItem.trigger('mouseenter')
+    expect(select.vm.tagTextTooltipVisible).toBe(false)
+    await wrapper.find('.el-tag__close').trigger('click')
+    await nextTick()
+    expect(select.vm.tagTextTooltipVisible).toBe(false)
+    vi.advanceTimersByTime(100)
+    await nextTick()
+    expect(select.vm.tagTextTooltipVisible).toBe(false)
+
     clientWidthSpy.mockRestore()
     scrollWidthSpy.mockRestore()
     vi.useRealTimers()

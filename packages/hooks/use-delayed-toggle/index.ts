@@ -64,7 +64,7 @@ export const useDelayedToggle = ({
   open,
   close,
 }: DelayedToggle) => {
-  const { registerTimeout } = useTimeout()
+  const { registerTimeout, cancelTimeout } = useTimeout()
   const {
     registerTimeout: registerTimeoutForAutoClose,
     cancelTimeout: cancelTimeoutForAutoClose,
@@ -90,8 +90,14 @@ export const useDelayedToggle = ({
     }, delay)
   }
 
+  const cancel = () => {
+    cancelTimeout()
+    cancelTimeoutForAutoClose()
+  }
+
   return {
     onOpen,
     onClose,
+    cancel,
   }
 }

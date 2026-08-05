@@ -783,23 +783,26 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
 
   // the tag text tooltip is controlled, so the delayed toggle of
   // `tagTooltip` has to be applied here instead of the tooltip itself
-  const { onOpen: openTagTextTooltip, onClose: closeTagTextTooltip } =
-    useDelayedToggle({
-      showAfter: computed(
-        () =>
-          props.tagTooltip?.showAfter ?? useDelayedTogglePropsDefaults.showAfter
-      ),
-      hideAfter: computed(
-        () =>
-          props.tagTooltip?.hideAfter ?? useDelayedTogglePropsDefaults.hideAfter
-      ),
-      autoClose: computed(
-        () =>
-          props.tagTooltip?.autoClose ?? useDelayedTogglePropsDefaults.autoClose
-      ),
-      open: () => (tagTextTooltipVisible.value = true),
-      close: () => (tagTextTooltipVisible.value = false),
-    })
+  const {
+    onOpen: openTagTextTooltip,
+    onClose: closeTagTextTooltip,
+    cancel: cancelTagTextTooltip,
+  } = useDelayedToggle({
+    showAfter: computed(
+      () =>
+        props.tagTooltip?.showAfter ?? useDelayedTogglePropsDefaults.showAfter
+    ),
+    hideAfter: computed(
+      () =>
+        props.tagTooltip?.hideAfter ?? useDelayedTogglePropsDefaults.hideAfter
+    ),
+    autoClose: computed(
+      () =>
+        props.tagTooltip?.autoClose ?? useDelayedTogglePropsDefaults.autoClose
+    ),
+    open: () => (tagTextTooltipVisible.value = true),
+    close: () => (tagTextTooltipVisible.value = false),
+  })
 
   const handleTagMouseEnter = (event: MouseEvent, item: OptionBasic) => {
     const tagEl = event.currentTarget as HTMLElement
@@ -819,6 +822,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
 
   // the hovered tag may be removed or collapsed, destroy the tooltip at once
   watch(showTagList, () => {
+    cancelTagTextTooltip()
     tagTextTooltipVisible.value = false
     hoveringTag.value = undefined
   })

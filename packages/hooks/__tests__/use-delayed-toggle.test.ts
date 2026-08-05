@@ -180,4 +180,37 @@ describe('use-delayed-toggle', () => {
     expect(cbOpen).toHaveBeenCalledTimes(1)
     expect(cbClose).toHaveBeenCalledTimes(1)
   })
+
+  it('should cancel pending timers', () => {
+    const cbOpen = vi.fn()
+    const cbClose = vi.fn()
+    const { onOpen, onClose, cancel } = useDelayedToggle({
+      open: cbOpen,
+      close: cbClose,
+      showAfter: ref(100),
+      hideAfter: ref(100),
+      autoClose: ref(100),
+    })
+
+    onOpen()
+    cancel()
+    vi.runAllTimers()
+    expect(cbOpen).not.toHaveBeenCalled()
+    expect(cbClose).not.toHaveBeenCalled()
+
+    onOpen()
+    vi.advanceTimersByTime(100)
+    expect(cbOpen).toHaveBeenCalledTimes(1)
+    expect(cbClose).not.toHaveBeenCalled()
+
+    cancel()
+    vi.runAllTimers()
+    expect(cbOpen).toHaveBeenCalledTimes(1)
+    expect(cbClose).not.toHaveBeenCalled()
+
+    onClose()
+    cancel()
+    vi.runAllTimers()
+    expect(cbClose).not.toHaveBeenCalled()
+  })
 })
