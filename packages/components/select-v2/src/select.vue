@@ -68,6 +68,8 @@
                 v-for="item in showTagList"
                 :key="getValueKey(getValue(item))"
                 :class="nsSelect.e('selected-item')"
+                @mouseenter="handleTagMouseEnter($event, item)"
+                @mouseleave="handleTagMouseLeave"
               >
                 <el-tag
                   :closable="!selectDisabled && !getDisabled(item)"
@@ -90,6 +92,43 @@
                   </span>
                 </el-tag>
               </div>
+
+              <el-tooltip
+                v-if="hoveringTag"
+                virtual-triggering
+                :virtual-ref="hoveringTagRef"
+                :visible="tagTextTooltipVisible"
+                :fallback-placements="
+                  tagTooltip?.fallbackPlacements ?? [
+                    'top',
+                    'bottom',
+                    'right',
+                    'left',
+                  ]
+                "
+                :effect="tagTooltip?.effect ?? effect"
+                :placement="tagTooltip?.placement ?? 'top'"
+                :popper-class="tagTooltip?.popperClass ?? popperClass"
+                :popper-style="tagTooltip?.popperStyle ?? popperStyle"
+                :teleported="tagTooltip?.teleported ?? teleported"
+                :append-to="tagTooltip?.appendTo ?? appendTo"
+                :popper-options="tagTooltip?.popperOptions ?? popperOptions"
+                :transition="tagTooltip?.transition"
+                :offset="tagTooltip?.offset"
+                :persistent="false"
+              >
+                <template #content>
+                  <slot
+                    v-if="hoveringTag"
+                    name="label"
+                    :index="getIndex(hoveringTag)"
+                    :label="getLabel(hoveringTag)"
+                    :value="getValue(hoveringTag)"
+                  >
+                    {{ getLabel(hoveringTag) }}
+                  </slot>
+                </template>
+              </el-tooltip>
 
               <el-tooltip
                 v-if="

@@ -1686,6 +1686,77 @@ describe('Select', () => {
     expect(tags.length).toBe(3)
   })
 
+  test('multiple select with truncated tag text', async () => {
+    vi.useFakeTimers()
+    const longLabel = '一个比较长文本的标签一个比较长文本的标签'
+    wrapper = _mount(
+      `
+      <el-select v-model="selectedList" multiple placeholder="请选择" :tag-tooltip="tagTooltip">
+        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          {
+            value: '选项1',
+            label: longLabel,
+          },
+          {
+            value: '选项2',
+            label: '双皮奶',
+          },
+        ],
+        selectedList: [],
+        tagTooltip: {
+          popperClass: 'custom-tag-tooltip',
+          showAfter: 100,
+          hideAfter: 300,
+        },
+      })
+    )
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+    const options = getOptions()
+    options[0].click()
+    await nextTick()
+
+    const select = wrapper.findComponent(Select)
+    const tagItem = wrapper.find('.el-select__selected-item')
+    const textEl = tagItem.find('.el-select__tags-text').element
+    const clientWidthSpy = vi.spyOn(textEl, 'clientWidth', 'get')
+    const scrollWidthSpy = vi.spyOn(textEl, 'scrollWidth', 'get')
+
+    // the tag text is not truncated, no tooltip at all
+    clientWidthSpy.mockReturnValue(100)
+    scrollWidthSpy.mockReturnValue(100)
+    await tagItem.trigger('mouseenter')
+    vi.runAllTimers()
+    await nextTick()
+    expect(select.vm.tagTextTooltipVisible).toBe(false)
+
+    scrollWidthSpy.mockReturnValue(200)
+    await tagItem.trigger('mouseenter')
+    // `showAfter` of `tag-tooltip` should be respected
+    expect(select.vm.tagTextTooltipVisible).toBe(false)
+    vi.advanceTimersByTime(100)
+    await nextTick()
+    expect(select.vm.tagTextTooltipVisible).toBe(true)
+
+    const tooltip = document.querySelector('.custom-tag-tooltip')
+    expect(tooltip?.textContent?.trim()).toBe(longLabel)
+
+    await tagItem.trigger('mouseleave')
+    // `hideAfter` of `tag-tooltip` should be respected
+    expect(select.vm.tagTextTooltipVisible).toBe(true)
+    vi.advanceTimersByTime(300)
+    await nextTick()
+    expect(select.vm.tagTextTooltipVisible).toBe(false)
+
+    clientWidthSpy.mockRestore()
+    scrollWidthSpy.mockRestore()
+    vi.useRealTimers()
+  })
+
   test('multiple remove-tag', async () => {
     const handleRemoveTag = vi.fn()
 

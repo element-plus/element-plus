@@ -285,7 +285,7 @@ select-v2/custom-width
 | placement                             | position of dropdown                                                                                                                                                                             | ^[enum]`'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | bottom-start                                   |
 | fallback-placements ^(2.5.6)          | list of possible positions for dropdown [popper.js](https://popper.js.org/docs/v2/modifiers/flip/#fallbackplacements)                                                                            | ^[array]`Placement[]`                                                                                                                                                       | ['bottom-start', 'top-start', 'right', 'left'] |
 | collapse-tags-tooltip ^(2.3.0)        | whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true                                                                                 | ^[boolean]                                                                                                                                                                  | false                                          |
-| [tag-tooltip](#tag-tooltip) ^(2.13.3) | configuration object for the collapse-tags tooltip. To use this, `collapse-tags` and `collapse-tags-tooltip` must be true                                                                        | ^[object]`TagTooltipProps`                                                                                                                                                  | {}                                             |
+| [tag-tooltip](#tag-tooltip) ^(2.13.3) | configuration object for the tag tooltips, see [tag-tooltip](#tag-tooltip)                                                                                                                       | ^[object]`TagTooltipProps`                                                                                                                                                  | {}                                             |
 | max-collapse-tags ^(2.3.0)            | The max tags number to be shown. To use this, `collapse-tags` must be true                                                                                                                       | ^[number]                                                                                                                                                                   | 1                                              |
 | tag-type ^(2.5.0)                     | tag type                                                                                                                                                                                         | ^[enum]`'' \| 'success' \| 'info' \| 'warning' \| 'danger'`                                                                                                                 | info                                           |
 | tag-effect ^(2.7.7)                   | tag effect                                                                                                                                                                                       | ^[enum]`'' \| 'light' \| 'dark' \| 'plain'`                                                                                                                                 | light                                          |
@@ -305,6 +305,15 @@ select-v2/custom-width
 | disabled  | specify which key of node object is used as the node's disabled | ^[string] | disabled |
 
 ### tag-tooltip ^(2.13.3)
+
+:::tip Which Tooltips Are Affected
+
+This configuration applies to both tag tooltips:
+
+1. The collapse-tags tooltip which shows the hidden tags, it requires `collapse-tags` and `collapse-tags-tooltip` to be true.
+2. The tooltip which shows the complete text of a tag whose text is truncated ^(2.14.4), it appears when hovering that tag and is enabled by default. Its default `placement` is `top` and its default `fallback-placements` is `['top', 'bottom', 'right', 'left']`.
+
+:::
 
 :::tip Fallback Mechanism
 

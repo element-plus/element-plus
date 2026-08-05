@@ -213,7 +213,7 @@ select/custom-label
 | clearable                             | whether select can be cleared                                                                                                            | ^[boolean]                                                                                                                                                                  | false                                          |
 | collapse-tags                         | whether to collapse tags to a text when multiple selecting                                                                               | ^[boolean]                                                                                                                                                                  | false                                          |
 | collapse-tags-tooltip ^(2.3.0)        | whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true                         | ^[boolean]                                                                                                                                                                  | false                                          |
-| [tag-tooltip](#tag-tooltip) ^(2.13.3) | configuration object for the collapse-tags tooltip. To use this, `collapse-tags` and `collapse-tags-tooltip` must be true                | ^[object]`TagTooltipProps`                                                                                                                                                  | {}                                             |
+| [tag-tooltip](#tag-tooltip) ^(2.13.3) | configuration object for the tag tooltips, see [tag-tooltip](#tag-tooltip)                                                               | ^[object]`TagTooltipProps`                                                                                                                                                  | {}                                             |
 | multiple-limit                        | maximum number of options user can select when `multiple` is `true`. No limit when set to 0                                              | ^[number]                                                                                                                                                                   | 0                                              |
 | id                                    | native input id input                                                                                                                    | ^[string]                                                                                                                                                                   | —                                              |
 | name                                  | the name attribute of select input                                                                                                       | ^[string]                                                                                                                                                                   | —                                              |
@@ -273,6 +273,15 @@ select/custom-label
 | disabled          | specify which key of node object is used as the node's disabled | ^[string] | disabled |
 
 ### tag-tooltip ^(2.13.3)
+
+:::tip Which Tooltips Are Affected
+
+This configuration applies to both tag tooltips:
+
+1. The collapse-tags tooltip which shows the hidden tags, it requires `collapse-tags` and `collapse-tags-tooltip` to be true.
+2. The tooltip which shows the complete text of a tag whose text is truncated ^(2.14.4), it appears when hovering that tag and is enabled by default. Its default `placement` is `top` and its default `fallback-placements` is `['top', 'bottom', 'right', 'left']`.
+
+:::
 
 :::tip Fallback Mechanism
 

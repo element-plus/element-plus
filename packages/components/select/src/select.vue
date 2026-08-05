@@ -68,6 +68,8 @@
                 v-for="item in showTagList"
                 :key="getValueKey(item)"
                 :class="nsSelect.e('selected-item')"
+                @mouseenter="handleTagMouseEnter($event, item)"
+                @mouseleave="handleTagMouseLeave"
               >
                 <el-tag
                   :closable="!selectDisabled && !item.isDisabled"
@@ -90,6 +92,43 @@
                   </span>
                 </el-tag>
               </div>
+
+              <el-tooltip
+                v-if="hoveringTag"
+                virtual-triggering
+                :virtual-ref="hoveringTagRef"
+                :visible="tagTextTooltipVisible"
+                :fallback-placements="
+                  tagTooltip?.fallbackPlacements ?? [
+                    'top',
+                    'bottom',
+                    'right',
+                    'left',
+                  ]
+                "
+                :effect="tagTooltip?.effect ?? effect"
+                :placement="tagTooltip?.placement ?? 'top'"
+                :popper-class="tagTooltip?.popperClass ?? popperClass"
+                :popper-style="tagTooltip?.popperStyle ?? popperStyle"
+                :teleported="tagTooltip?.teleported ?? teleported"
+                :append-to="tagTooltip?.appendTo ?? appendTo"
+                :popper-options="tagTooltip?.popperOptions ?? popperOptions"
+                :transition="tagTooltip?.transition"
+                :offset="tagTooltip?.offset"
+                :persistent="false"
+              >
+                <template #content>
+                  <slot
+                    v-if="hoveringTag"
+                    name="label"
+                    :index="hoveringTag.index"
+                    :label="hoveringTag.currentLabel"
+                    :value="hoveringTag.value"
+                  >
+                    {{ hoveringTag.currentLabel }}
+                  </slot>
+                </template>
+              </el-tooltip>
 
               <el-tooltip
                 v-if="collapseTags && states.selected.length > maxCollapseTags"

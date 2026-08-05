@@ -209,7 +209,7 @@ export const selectProps = buildProps({
    */
   collapseTagsTooltip: Boolean,
   /**
-   * @description configuration object for the collapse-tags tooltip. To use this, `collapse-tags` and `collapse-tags-tooltip` must be true
+   * @description configuration object for the tag tooltips, including the collapse-tags tooltip (to use that, `collapse-tags` and `collapse-tags-tooltip` must be true) and the tooltip which shows the complete text of a truncated tag
    */
   tagTooltip: {
     type: definePropType<TagTooltipProps>(Object),
