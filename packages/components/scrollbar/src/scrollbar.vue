@@ -6,6 +6,7 @@
       :style="wrapStyle"
       :tabindex="tabindex"
       @scroll="handleScroll"
+      @transitionend="update"
     >
       <component
         :is="tag"

@@ -75,6 +75,47 @@ describe('ScrollBar', () => {
     scrollWidthRestore()
   })
 
+  test('updates after a descendant transition changes scrollable overflow', async () => {
+    const outerWidth = 204
+    let innerWidth = 500
+    const wrapper = mount({
+      setup() {
+        return () => (
+          <Scrollbar ref="scrollbar" always>
+            <div class="slide-track" />
+          </Scrollbar>
+        )
+      },
+    })
+    const scrollbar = wrapper.findComponent({ ref: 'scrollbar' }).vm
+    const scrollDom = wrapper.find('.el-scrollbar__wrap').element
+    const offsetWidthRestore = defineGetter(
+      scrollDom,
+      'offsetWidth',
+      outerWidth
+    )
+    const scrollWidthRestore = defineGetter(
+      scrollDom,
+      'scrollWidth',
+      () => innerWidth
+    )
+
+    scrollbar.update()
+    await nextTick()
+    expect(wrapper.find('.is-horizontal div').attributes('style')).toContain(
+      'width: 80px;'
+    )
+
+    innerWidth = outerWidth - 4
+    await wrapper.find('.slide-track').trigger('transitionend')
+    expect(
+      wrapper.find('.is-horizontal div').attributes('style')
+    ).not.toContain('width:')
+
+    offsetWidthRestore()
+    scrollWidthRestore()
+  })
+
   test('both vertical and horizontal', async () => {
     const outerHeight = 204
     const innerHeight = 500
