@@ -52,4 +52,3 @@ minimumReleaseAge: 1440
 minimumReleaseAgeExclude:
   - 'element-plus'
   - '@element-plus/*'
-  - vite@8.1.4
