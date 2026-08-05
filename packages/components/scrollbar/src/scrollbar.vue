@@ -82,8 +82,6 @@ let stopWrapResizeObserver: (() => void) | undefined = undefined
 let stopResizeListener: (() => void) | undefined = undefined
 let stopTransitionListener: (() => void) | undefined = undefined
 let rafId = 0
-let lastScrollWidth = -1
-let lastScrollHeight = -1
 let wrapScrollTop = 0
 let wrapScrollLeft = 0
 let direction = '' as ScrollbarDirection
@@ -227,16 +225,9 @@ const updateBar = () => {
     rafId = 0
     if (!wrapRef.value) return
 
-    if (
-      wrapRef.value.scrollWidth === lastScrollWidth &&
-      wrapRef.value.scrollHeight === lastScrollHeight
-    ) {
-      return
-    }
-
-    lastScrollWidth = wrapRef.value.scrollWidth
-    lastScrollHeight = wrapRef.value.scrollHeight
-
+    // Bar state may be stale even when the final scroll dimensions match a
+    // previously seen value (e.g. `onUpdated` measured the transient
+    // overflow mid-transition), so always refresh the bar here.
     barRef.value?.update()
     barRef.value?.handleScroll(wrapRef.value)
   })
