@@ -556,6 +556,91 @@ describe('DatePicker', () => {
     expect(dayjs(wrapper.vm.value).format('YYYY-MM-DD')).toBe('2023-10-01')
   })
 
+  it('should accept and normalize flexible date input formats', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        />`,
+      () => ({
+        value: '',
+      })
+    )
+    const input = wrapper.find('input')
+
+    // ISO 8601 datetime string
+    input.element.value = '2026-07-18T11:19:23'
+    await input.trigger('input')
+    await input.trigger('blur')
+    expect(input.element.value).toBe('2026-07-18')
+
+    // compact format without separators
+    input.element.value = '20260718'
+    await input.trigger('input')
+    await input.trigger('blur')
+    expect(input.element.value).toBe('2026-07-18')
+
+    // slash-separated format
+    input.element.value = '2026/7/8'
+    await input.trigger('input')
+    await input.trigger('blur')
+    expect(input.element.value).toBe('2026-07-08')
+
+    // US-style MM/DD/YYYY
+    input.element.value = '07/18/2026'
+    await input.trigger('input')
+    await input.trigger('blur')
+    expect(input.element.value).toBe('2026-07-18')
+  })
+
+  it('should reject unparseable text input', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        />`,
+      () => ({
+        value: '2023-10-01',
+      })
+    )
+    const input = wrapper.find('input')
+
+    input.element.value = 'abc123'
+    await input.trigger('input')
+    await input.trigger('blur')
+    expect(dayjs(wrapper.vm.value).format('YYYY-MM-DD')).toBe('2023-10-01')
+
+    input.element.value = '2026年7月18日'
+    await input.trigger('input')
+    await input.trigger('blur')
+    expect(dayjs(wrapper.vm.value).format('YYYY-MM-DD')).toBe('2023-10-01')
+  })
+
+  // Documents the current lenient fallback of correctlyParseUserInput:
+  // input that fails strict format parsing is retried with dayjs(value),
+  // which accepts overflowing days/months and clamps over-long years.
+  it('should keep lenient parsing for overflowing and long-year input', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        />`,
+      () => ({
+        value: '',
+      })
+    )
+    const input = wrapper.find('input')
+
+    // six-digit year is clamped to 9999 instead of being rejected
+    input.element.value = '999999-10-01'
+    await input.trigger('input')
+    await input.trigger('blur')
+    expect(dayjs(wrapper.vm.value).format('YYYY-MM-DD')).toBe('9999-10-01')
+
+    // overflowing month/day rolls over instead of being rejected
+    input.element.value = '2023-13-45'
+    await input.trigger('input')
+    await input.trigger('blur')
+    expect(dayjs(wrapper.vm.value).format('YYYY-MM-DD')).toBe('2024-02-14')
+  })
+
   it('validate manual change value with format', async () => {
     const wrapper = _mount(
       `<el-date-picker
@@ -1850,6 +1935,33 @@ describe('DatePicker keyboard events', () => {
 })
 
 describe('DateRangePicker', () => {
+  it('should accept and normalize flexible date input formats', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        type='daterange'
+        v-model="value"
+      />`,
+      () => ({ value: ['2022-01-01', '2022-12-31'] })
+    )
+
+    const [startInput, endInput] = wrapper.findAll('input')
+    await startInput.setValue('2022/7/8')
+    await startInput.trigger('change')
+    await endInput.setValue('2022-07-18T11:19:23')
+    await endInput.trigger('change')
+    await nextTick()
+
+    const vm = wrapper.vm as any
+    expect(dayjs(vm.value[0]).format('YYYY-MM-DD')).toBe('2022-07-08')
+    expect(dayjs(vm.value[1]).format('YYYY-MM-DD')).toBe('2022-07-18')
+
+    // unparseable user input not work
+    await startInput.setValue('abc123')
+    await startInput.trigger('change')
+    await nextTick()
+    expect(dayjs(vm.value[0]).format('YYYY-MM-DD')).toBe('2022-07-08')
+  })
+
   it('create & custom class & style', async () => {
     let calendarChangeValue = null
     const changeHandler = vi.fn()
