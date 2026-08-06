@@ -445,7 +445,6 @@ import {
   isValidRange,
 } from '../utils'
 import { usePanelDateRange } from '../composables/use-panel-date-range'
-import { ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY } from '../constants'
 import YearTable from './basic-year-table.vue'
 import MonthTable from './basic-month-table.vue'
 import DateTable from './basic-date-table.vue'
@@ -472,10 +471,6 @@ const emit = defineEmits([
 const unit = 'month'
 // FIXME: fix the type for ep picker
 const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
-const isDefaultFormat = inject(
-  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY,
-  undefined
-) as any
 const { disabledDate, cellClassName, defaultTime, clearable } = pickerBase.props
 const format: Ref<string | undefined> = toRef(pickerBase.props, 'format')
 const shortcuts = toRef(pickerBase.props, 'shortcuts')
@@ -961,12 +956,7 @@ const handleClear = () => {
 }
 
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
-  return correctlyParseUserInput(
-    value,
-    format.value || '',
-    lang.value,
-    isDefaultFormat
-  )
+  return correctlyParseUserInput(value, format.value || '', lang.value)
 }
 function sortDates(minDate: Dayjs | undefined, maxDate: Dayjs | undefined) {
   if (props.unlinkPanels && maxDate) {
