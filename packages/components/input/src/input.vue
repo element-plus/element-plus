@@ -288,6 +288,8 @@ const textareaHeight = ref<string>()
 
 const _ref = computed(() => input.value || textarea.value)
 
+// wrapperRef for type="text", handleFocus and handleBlur for type="textarea"
+// @ts-ignore - used in template ref binding, TS cannot detect template usage
 const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
   _ref,
   {
