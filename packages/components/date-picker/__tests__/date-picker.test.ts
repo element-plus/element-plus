@@ -539,7 +539,7 @@ describe('DatePicker', () => {
       })
     )
     const input = wrapper.find('input')
-    input.element.value = '999999-10-01'
+    input.element.value = '9999999-10-01'
     await input.trigger('input')
     await input.trigger('blur')
     expect(wrapper.vm.value).toBe('')
@@ -550,7 +550,7 @@ describe('DatePicker', () => {
     expect(dayjs(wrapper.vm.value).format('YYYY-MM-DD')).toBe('2023-10-01')
 
     // invalid user input not work
-    input.element.value = '999999-10-01'
+    input.element.value = '9999999-10-01'
     await input.trigger('input')
     await input.trigger('blur')
     expect(dayjs(wrapper.vm.value).format('YYYY-MM-DD')).toBe('2023-10-01')
@@ -3108,5 +3108,32 @@ describe('YearRange', () => {
     const selectedRow = document.querySelectorAll('.el-date-table__row.current')
     expect(rows[3].classList.contains('current')).toBeTruthy()
     expect(selectedRow.length).toBe(1)
+  })
+
+  it('should normalize flexible date input to the configured format', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        format="MM DD.YYYY"
+        />`,
+      () => ({
+        value: '',
+      })
+    )
+    const input = wrapper.find('input')
+    input.element.value = '10 01.2023'
+    await input.trigger('input')
+    await input.trigger('blur')
+    expect(input.element.value).toBe('10 01.2023')
+
+    input.element.value = '2023-4-5'
+    await input.trigger('input')
+    await input.trigger('blur')
+    expect(input.element.value).toBe('04 05.2023')
+
+    input.element.value = '2023/7/8'
+    await input.trigger('input')
+    await input.trigger('blur')
+    expect(input.element.value).toBe('07 08.2023')
   })
 })
