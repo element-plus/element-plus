@@ -259,7 +259,6 @@ import {
   getValidDateOfMonth,
   getValidDateOfYear,
 } from '../utils'
-import { ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY } from '../constants'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
@@ -289,10 +288,6 @@ const slots = useSlots()
 
 const { t, lang } = useLocale()
 const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
-const isDefaultFormat = inject(
-  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY,
-  undefined
-) as any
 const { shortcuts, disabledDate, cellClassName, defaultTime } = pickerBase.props
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 
@@ -669,8 +664,7 @@ const handleVisibleDateChange = (value: string) => {
   const newDate = correctlyParseUserInput(
     value,
     dateFormat.value,
-    lang.value,
-    isDefaultFormat
+    lang.value
   ) as Dayjs
   if (newDate.isValid()) {
     if (disabledDate && disabledDate(newDate.toDate())) {
@@ -692,12 +686,7 @@ const isValidValue = (date: unknown) => {
 }
 
 const parseUserInput = (value: Dayjs) => {
-  return correctlyParseUserInput(
-    value,
-    props.format,
-    lang.value,
-    isDefaultFormat
-  )
+  return correctlyParseUserInput(value, props.format, lang.value)
 }
 
 const getDefaultValue = () => {
