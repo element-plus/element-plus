@@ -831,6 +831,228 @@ describe('Input.vue', () => {
     expect(input.element.selectionEnd).toBe(4)
   })
 
+  test('show password emits change on blur when value changed', async () => {
+    const password = ref('123456')
+    const onChange = vi.fn()
+    const wrapper = mount(() => (
+      <Input
+        type="password"
+        modelValue={password.value}
+        show-password
+        onChange={onChange}
+        onUpdate:modelValue={(value) => (password.value = value)}
+      />
+    ))
+
+    const input = wrapper.find('input')
+    const icon = wrapper.find('.el-input__icon.el-input__password')
+
+    await input.trigger('focus')
+    input.element.value = '1234567'
+    input.element.dispatchEvent(new Event('input'))
+    await nextTick()
+
+    // clicking icon should NOT emit change (change fires at blur)
+    await icon.trigger('click')
+    expect(onChange).not.toHaveBeenCalled()
+
+    // blur triggers change because value changed since focus
+    await input.trigger('blur')
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith('1234567', expect.any(Event))
+    expect(onChange.mock.calls[0][1].target).toBe(input.element)
+    expect(onChange.mock.calls[0][1].bubbles).toBe(true)
+  })
+
+  test('show password does not emit change after value reverts', async () => {
+    const password = ref('123456')
+    const onChange = vi.fn()
+    const wrapper = mount(() => (
+      <Input
+        type="password"
+        modelValue={password.value}
+        show-password
+        onChange={onChange}
+        onUpdate:modelValue={(value) => (password.value = value)}
+      />
+    ))
+
+    const input = wrapper.find('input')
+    const icon = wrapper.find('.el-input__icon.el-input__password')
+
+    await input.trigger('focus')
+    input.element.value = '1234567'
+    input.element.dispatchEvent(new Event('input'))
+    await nextTick()
+    input.element.value = '123456'
+    input.element.dispatchEvent(new Event('input'))
+    await nextTick()
+    await icon.trigger('click')
+    await input.trigger('blur')
+
+    expect(onChange).not.toHaveBeenCalled()
+  })
+
+  test('show password emits change on blur with lazy modifier', async () => {
+    const password = ref('123456')
+    const onChange = vi.fn()
+    const wrapper = mount(() => (
+      <Input
+        type="password"
+        modelValue={password.value}
+        show-password
+        modelModifiers={{ lazy: true }}
+        onChange={onChange}
+        onUpdate:modelValue={(value) => (password.value = value)}
+      />
+    ))
+
+    const input = wrapper.find('input')
+    const icon = wrapper.find('.el-input__icon.el-input__password')
+
+    await input.trigger('focus')
+    input.element.value = '1234567'
+    input.element.dispatchEvent(new Event('input'))
+    await nextTick()
+
+    // lazy: modelValue not yet updated
+    expect(password.value).toBe('123456')
+
+    // clicking icon should NOT emit change
+    await icon.trigger('click')
+    expect(onChange).not.toHaveBeenCalled()
+    expect(password.value).toBe('123456')
+
+    // blur triggers change + modelValue update (lazy)
+    await input.trigger('blur')
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith('1234567', expect.any(Event))
+    expect(password.value).toBe('1234567')
+  })
+
+  test('show password restores a rejected lazy value after blur', async () => {
+    const onChange = vi.fn()
+    const onUpdate = vi.fn()
+    const wrapper = mount(() => (
+      <Input
+        type="password"
+        modelValue="123456"
+        show-password
+        modelModifiers={{ lazy: true }}
+        onChange={onChange}
+        onUpdate:modelValue={onUpdate}
+      />
+    ))
+
+    const input = wrapper.find('input')
+    const icon = wrapper.find('.el-input__icon.el-input__password')
+
+    await input.trigger('focus')
+    input.element.value = '1234567'
+    input.element.dispatchEvent(new Event('input'))
+    await nextTick()
+    await icon.trigger('click')
+    await input.trigger('blur')
+    await nextTick()
+
+    expect(onUpdate).toHaveBeenCalledWith('1234567')
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(input.element.value).toBe('123456')
+  })
+
+  test('show password does not emit change when focus stays in the wrapper', async () => {
+    const onChange = vi.fn()
+    const onBlur = vi.fn()
+    const wrapper = mount(() => (
+      <Input
+        type="password"
+        modelValue="123456"
+        show-password
+        onChange={onChange}
+        onBlur={onBlur}
+        v-slots={{ suffix: () => <button type="button">suffix</button> }}
+      />
+    ))
+
+    const input = wrapper.find('input')
+    const suffix = wrapper.find('button')
+
+    await input.trigger('focus')
+    input.element.value = '1234567'
+    input.element.dispatchEvent(new Event('input'))
+    await nextTick()
+    input.element.dispatchEvent(
+      new FocusEvent('blur', { relatedTarget: suffix.element })
+    )
+    await nextTick()
+
+    expect(onChange).not.toHaveBeenCalled()
+    expect(onBlur).not.toHaveBeenCalled()
+  })
+
+  test('show password emits change and model update before blur event with lazy modifier', async () => {
+    const password = ref('123456')
+    const events: string[] = []
+
+    const wrapper = mount(() => (
+      <Input
+        type="password"
+        modelValue={password.value}
+        show-password
+        modelModifiers={{ lazy: true }}
+        onChange={() => events.push('change')}
+        onBlur={() => events.push('blur')}
+        onUpdate:modelValue={(value) => {
+          password.value = value
+          events.push('update')
+        }}
+      />
+    ))
+
+    const input = wrapper.find('input')
+    const icon = wrapper.find('.el-input__icon.el-input__password')
+
+    await input.trigger('focus')
+    input.element.value = '1234567'
+    input.element.dispatchEvent(new Event('input'))
+    await nextTick()
+
+    await icon.trigger('click')
+    await input.trigger('blur')
+
+    expect(events[0]).toBe('update')
+    expect(events[1]).toBe('change')
+    expect(events.includes('blur')).toBe(true)
+    expect(password.value).toBe('1234567')
+  })
+
+  test('show password clear button does not emit duplicate change on blur', async () => {
+    const password = ref('123456')
+    const onChange = vi.fn()
+    const wrapper = mount(() => (
+      <Input
+        type="password"
+        modelValue={password.value}
+        show-password
+        clearable
+        onChange={onChange}
+        onUpdate:modelValue={(value) => (password.value = value)}
+      />
+    ))
+
+    const input = wrapper.find('input')
+    await input.trigger('focus')
+    await nextTick()
+
+    const clearBtn = wrapper.find('.el-input__clear')
+    await clearBtn.trigger('click')
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith('')
+
+    await input.trigger('blur')
+    expect(onChange).toHaveBeenCalledTimes(1)
+  })
+
   test('passwordVisible expose', async () => {
     const inputRef = ref<InputInstance>()
     const wrapper = mount(() => (
