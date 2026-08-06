@@ -131,9 +131,9 @@ message-box/draggable
 
 ## Modal
 
-Setting `modal` to `false` will hide modal (overlay) of MessageBox.
+Setting `modal` to `false` hides the MessageBox overlay.
 
-Starting from version ^(2.14.4), `modalPenetrable` option is added, which can be penetrable.
+Starting from version ^(2.14.4), set `modalPenetrable` to `true` with `modal: false` to allow clicks to pass through to underlying page content while the MessageBox remains open.
 
 :::demo
 
