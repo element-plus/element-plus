@@ -98,6 +98,9 @@ export interface ElMessageBoxOptions {
   /** Whether a mask is displayed */
   modal?: boolean
 
+  /** Whether the mask is penetrable. The modal attribute must be `false`. */
+  modalPenetrable?: boolean
+
   /** modal class name for MessageBox */
   modalClass?: string
 

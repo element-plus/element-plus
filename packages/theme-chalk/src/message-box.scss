@@ -195,6 +195,16 @@
   }
 }
 
+.#{$namespace}-modal-message-box {
+  &.is-penetrable {
+    pointer-events: none;
+
+    .#{$namespace}-message-box {
+      pointer-events: auto;
+    }
+  }
+}
+
 .fade-in-linear-enter-active {
   .#{$namespace}-overlay-message-box {
     animation: msgbox-fade-in getCssVar('transition-duration');

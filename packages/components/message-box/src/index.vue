@@ -3,7 +3,12 @@
     <el-overlay
       v-show="visible"
       :z-index="zIndex"
-      :overlay-class="[ns.is('message-box'), modalClass]"
+      :overlay-class="[
+        ns.is('message-box'),
+        `${ns.namespace.value}-modal-message-box`,
+        ns.is('penetrable', penetrable),
+        modalClass,
+      ]"
       :mask="modal"
     >
       <div
@@ -35,6 +40,7 @@
             :style="customStyle"
             tabindex="-1"
             @click.stop=""
+            @mousedown="bringToFront"
           >
             <div
               v-if="title !== null && title !== undefined"
@@ -222,6 +228,10 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    modalPenetrable: {
+      type: Boolean,
+      default: false,
+    },
     lockScroll: {
       type: Boolean,
       default: true,
@@ -385,6 +395,14 @@ export default defineComponent({
     const overflow = computed(() => props.overflow)
     const { isDragging } = useDraggable(rootRef, headerRef, draggable, overflow)
 
+    const penetrable = computed(() => props.modalPenetrable && !props.modal)
+
+    function bringToFront() {
+      if (!visible.value || !penetrable.value) return
+
+      state.zIndex = nextZIndex()
+    }
+
     onMounted(async () => {
       await nextTick()
       if (props.closeOnHashChange) {
@@ -515,6 +533,8 @@ export default defineComponent({
       handleWrapperClick,
       handleInputEnter,
       handleAction,
+      bringToFront,
+      penetrable,
       t,
     }
   },

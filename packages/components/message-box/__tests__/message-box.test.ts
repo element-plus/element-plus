@@ -532,4 +532,58 @@ describe('MessageBox', () => {
     expect(cancelBtn).not.toBeNull()
     expect(confirmBtn).not.toBeNull()
   })
+
+  describe('modal penetrable', () => {
+    test('should not close message box when mask is penetrable', async () => {
+      const onClick = vi.fn()
+      const button = document.createElement('button')
+      button.addEventListener('click', onClick)
+      document.body.appendChild(button)
+
+      MessageBox({
+        title: '消息',
+        message: '这是一段内容',
+        modal: false,
+        modalPenetrable: true,
+      })
+      await rAF()
+
+      const overlay = document.querySelector('.el-modal-message-box')!
+      expect(overlay.classList.contains('is-penetrable')).toBe(true)
+
+      // clicking the mask should not close the message box
+      ;(overlay as HTMLElement).click()
+      await rAF()
+      expect(document.querySelector('.el-message-box')).not.toBeNull()
+
+      // the element behind the mask should still be clickable
+      button.click()
+      expect(onClick).toHaveBeenCalled()
+
+      button.remove()
+    })
+
+    test('should bring the clicked penetrable message box to front', async () => {
+      MessageBox({ message: 'first', modal: false, modalPenetrable: true })
+      MessageBox({ message: 'second', modal: false, modalPenetrable: true })
+      await rAF()
+
+      const overlays = document.querySelectorAll('.el-modal-message-box')
+      const msgboxes = document.querySelectorAll('.el-message-box')
+      expect(overlays).toHaveLength(2)
+      expect(msgboxes).toHaveLength(2)
+
+      const getZIndex = (index: number) =>
+        Number((overlays[index] as HTMLElement).style.zIndex)
+      // the second one should have a higher z-index initially
+      expect(getZIndex(1)).toBeGreaterThan(getZIndex(0))
+
+      // mousedown on the first message box should bring it to front
+      ;(msgboxes[0] as HTMLElement).dispatchEvent(
+        new MouseEvent('mousedown', { bubbles: true })
+      )
+      await rAF()
+      expect(getZIndex(0)).toBeGreaterThan(getZIndex(1))
+    })
+  })
 })
