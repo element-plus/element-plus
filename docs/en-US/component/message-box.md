@@ -129,6 +129,18 @@ message-box/draggable
 
 :::
 
+## Modal
+
+Setting `modal` to `false` will hide modal (overlay) of MessageBox.
+
+Starting from version ^(2.14.4), `modalPenetrable` option is added, which can be penetrable.
+
+:::demo
+
+message-box/modal
+
+:::
+
 ## Global method
 
 If Element Plus is fully imported, it will add the following global methods for `app.config.globalProperties`: `$msgbox`, `$alert`, `$confirm` and `$prompt`. So in a Vue instance you can call `MessageBox` like what we did in this page. The parameters are:
@@ -180,6 +192,7 @@ The corresponding methods are: `ElMessageBox`, `ElMessageBox.alert`, `ElMessageB
 | customClass                       | custom class name for MessageBox                                                                                                         | ^[string]                                                                                                                | ''                                               |
 | customStyle                       | custom inline style for MessageBox                                                                                                       | ^[CSSProperties]                                                                                                         | {}                                               |
 | modal                             | whether a mask is displayed                                                                                                              | ^[boolean]                                                                                                               | true                                             |
+| modal-penetrable ^(2.14.4)        | whether the mask is penetrable. The modal attribute must be `false`.                                                                     | ^[boolean]                                                                                                               | false                                            |
 | modalClass                        | custom class names for mask                                                                                                              | string                                                                                                                   | —                                                |
 | callback                          | MessageBox closing callback if you don't prefer Promise                                                                                  | ^[Function]`(value: string, action: Action) => any \| (action: Action) => any`                                           | null                                             |
 | showClose                         | whether to show close icon of MessageBox                                                                                                 | ^[boolean]                                                                                                               | true                                             |
