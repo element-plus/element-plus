@@ -6,6 +6,8 @@
       :style="wrapStyle"
       :tabindex="tabindex"
       @scroll="handleScroll"
+      @transitionend="updateBar"
+      @animationend="updateBar"
     >
       <component
         :is="tag"
@@ -218,6 +220,9 @@ const update = () => {
   if (wrapRef.value) barRef.value?.handleScroll(wrapRef.value)
 }
 
+// Transform-driven overflow (e.g. slide transitions) is not observable via
+// resize observers, so refresh the bar when transitions/animations end —
+// this applies even when `noresize` is set.
 const updateBar = () => {
   if (rafId) return
   rafId = requestAnimationFrame(() => {
@@ -247,11 +252,6 @@ watch(
   },
   { immediate: true }
 )
-
-// Transform-driven overflow (e.g. slide transitions) is not observable via
-// resize observers, so refresh the bar when transitions/animations end —
-// this applies even when `noresize` is set.
-useEventListener(wrapRef, ['transitionend', 'animationend'], updateBar)
 
 watch(
   () => [props.maxHeight, props.height],
