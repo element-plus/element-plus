@@ -308,7 +308,7 @@ const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
         ) {
           return undefined
         }
-        const value = _ref.value?.value
+        const value = target?.value
         if (
           !isNil(value) &&
           !isNil(passwordFocusValue) &&
