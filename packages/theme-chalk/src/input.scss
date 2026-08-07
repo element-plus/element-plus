@@ -237,7 +237,9 @@
     );
     cursor: text;
     transition: getCssVar('transition-box-shadow');
-    transform: translate3d(0, 0, 0);
+
+    // Keep the 3D transform to avoid Chromium inset box-shadow noise.
+    transform: translateZ(0);
     @include inset-input-border(
       var(
         #{getCssVarName('input-border-color')},

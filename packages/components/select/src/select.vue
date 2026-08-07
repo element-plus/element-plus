@@ -555,7 +555,7 @@ export default defineComponent({
         handleOptionSelect: API.handleOptionSelect,
         onOptionCreate: API.onOptionCreate,
         onOptionDestroy: API.onOptionDestroy,
-      }) satisfies SelectContext
+      }) as unknown as SelectContext // Avoid TS2589
     )
 
     const selectedLabel = computed(() => {
