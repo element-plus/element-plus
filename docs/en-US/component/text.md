@@ -64,3 +64,9 @@ text/mixed
 | Name    | Description     |
 | ------- | --------------- |
 | default | default content |
+
+### Exposes
+
+| Name                  | Description                   | Type                    |
+| --------------------- | ----------------------------- | ----------------------- |
+| isTruncated ^(2.14.4) | whether the text is truncated | ^[object]`Ref<boolean>` |
