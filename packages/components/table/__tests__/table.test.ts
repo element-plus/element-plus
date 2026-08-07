@@ -3445,4 +3445,38 @@ describe('Table.vue', () => {
     filter.parentNode.removeChild(filter)
     wrapper.unmount()
   })
+
+  it('should not throw when unmounted with a pending fixed column style update', async () => {
+    // https://github.com/element-plus/element-plus/issues/24540
+    vi.useFakeTimers()
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+        <el-table :data="testData" table-layout="auto">
+          <el-table-column prop="name" label="片名" />
+          <el-table-column v-if="showExtra" prop="director" label="导演" />
+          <el-table-column prop="release" label="发行日期" fixed="right" />
+        </el-table>
+      `,
+      data() {
+        return {
+          testData: getTestData(),
+          showExtra: false,
+        }
+      },
+    })
+    await doubleWait()
+    // trigger a header re-render so another fixed column style update is
+    // scheduled while the previous one is still pending
+    await wrapper.setData({ showExtra: true })
+    await doubleWait()
+    wrapper.unmount()
+    // pending timers must be cleared on unmount and never touch the
+    // destroyed thead
+    expect(() => vi.runAllTimers()).not.toThrow()
+    vi.useRealTimers()
+  })
 })
