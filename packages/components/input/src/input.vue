@@ -94,6 +94,7 @@
                 nsInput.e('count'),
                 nsInput.is('outside', wordLimitPosition === 'outside'),
               ]"
+              role="status"
             >
               <span :class="nsInput.e('count-inner')">
                 {{ textLength }} / {{ maxlength }}
@@ -170,6 +171,7 @@
           nsInput.e('count'),
           nsInput.is('outside', wordLimitPosition === 'outside'),
         ]"
+        role="status"
       >
         {{ textLength }} / {{ maxlength }}
       </span>

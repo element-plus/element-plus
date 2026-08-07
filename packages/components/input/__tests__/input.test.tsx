@@ -478,6 +478,18 @@ describe('Input.vue', () => {
     `)
   })
 
+  test('word count is a live region', () => {
+    const wrapper = mount(() => (
+      <>
+        <Input maxlength="10" showWordLimit />
+        <Input type="textarea" maxlength="10" showWordLimit />
+      </>
+    ))
+    const counts = wrapper.findAll('.el-input__count')
+    expect(counts[0].attributes('role')).toBe('status')
+    expect(counts[1].attributes('role')).toBe('status')
+  })
+
   test('use formatter and parser', async () => {
     const val = ref('10000')
     const formatter = (val: string) => {
