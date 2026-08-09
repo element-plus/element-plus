@@ -30,6 +30,10 @@
       "matchDepTypes": ["devDependencies"],
       "groupName": "all patch devDependencies",
       "groupSlug": "all-patch-dev-dependencies"
+    },
+    {
+      "matchPackageNames": ["typescript"],
+      "allowedVersions": "<7"
     }
   ],
   "ignoreDeps": [
