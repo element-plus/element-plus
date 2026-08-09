@@ -23,7 +23,6 @@ for lang_dir in "$DOCS_DIR"/*/; do
   # only language directories like zh-CN / es-ES, skip en-US and non-lang dirs
   [[ "$lang" =~ ^[a-z]{2}(-[A-Z]{2})?$ ]] || continue
   [ "$lang" = "en-US" ] && continue
-  find "$lang_dir" -name '*.md' -type f -print -quit | grep -q . || continue
 
   mkdir -p "$TARGET_REPO_DIR/$lang"
   rsync -a \

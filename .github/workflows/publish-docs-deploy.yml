@@ -3,11 +3,14 @@ name: Publish Docs Deploy
 on:
   # zizmor: ignore[dangerous-triggers] release-only downstream deploy uses the published release workflow result with scoped permissions
   workflow_run:
-    workflows: ['Publish to NPM registry']
+    workflows: ["Publish to NPM registry"]
     types: [completed]
 
 jobs:
   deploy-docs:
+    concurrency:
+      group: docs-i18n-sync
+      cancel-in-progress: false
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -27,7 +30,7 @@ jobs:
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
-          cache: 'pnpm'
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
