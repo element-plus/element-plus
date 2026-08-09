@@ -46,6 +46,23 @@ jobs:
           LATEST_VERSION=$(curl -s https://api.github.com/repos/element-plus/element-plus/releases/latest | jq -r '.tag_name')
           echo "latest_version=${LATEST_VERSION}" >> $GITHUB_OUTPUT
 
+      - name: Sync translations to docs-i18n
+        env:
+          RELEASE_VERSION: ${{ steps.get_release.outputs.latest_version }}
+          EP_BOT_TOKEN: ${{ secrets.EP_BOT_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          TARGET_REPO="$(mktemp -d)"
+
+          git clone \
+            --depth=1 \
+            "https://x-access-token:${EP_BOT_TOKEN}@github.com/element-plus/docs-i18n.git" \
+            "$TARGET_REPO"
+
+          COMMIT_MESSAGE="docs-i18n: sync translations for ${RELEASE_VERSION}" \
+            bash scripts/sync-docs-i18n.sh "$GITHUB_WORKSPACE/docs" "$TARGET_REPO" --push
+
       - name: Build Metadata
         run: cd internal/metadata && pnpm build
         env:
