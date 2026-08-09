@@ -33,7 +33,7 @@
     },
     {
       "matchPackageNames": ["typescript"],
-      "allowedVersions": "<7"
+      "allowedVersions": ">=6.0.0 <7.0.0"
     }
   ],
   "ignoreDeps": [
