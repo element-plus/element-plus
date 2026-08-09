@@ -86,6 +86,9 @@ export default {
         dec: 'Жел',
       },
     },
+    input: {
+      characters: 'таңба',
+    },
     inputNumber: {
       decrease: 'decrease number', // to be translated
       increase: 'increase number', // to be translated

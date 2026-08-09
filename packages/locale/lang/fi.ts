@@ -86,6 +86,9 @@ export default {
         dec: 'joulu',
       },
     },
+    input: {
+      characters: 'merkkiä',
+    },
     inputNumber: {
       decrease: 'decrease number', // to be translated
       increase: 'increase number', // to be translated

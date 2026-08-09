@@ -86,6 +86,9 @@ export default {
         dec: 'دسمبر',
       },
     },
+    input: {
+      characters: 'توري',
+    },
     inputNumber: {
       decrease: 'decrease number', // to be translated
       increase: 'increase number', // to be translated

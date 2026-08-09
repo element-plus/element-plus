@@ -85,6 +85,9 @@ export default {
         dec: 'Des',
       },
     },
+    input: {
+      characters: 'tegn',
+    },
     inputNumber: {
       decrease: 'reduser tall',
       increase: 'øk tall',

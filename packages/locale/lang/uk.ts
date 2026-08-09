@@ -86,6 +86,9 @@ export default {
         dec: 'Гру',
       },
     },
+    input: {
+      characters: 'символів',
+    },
     inputNumber: {
       decrease: 'decrease number', // to be translated
       increase: 'increase number', // to be translated

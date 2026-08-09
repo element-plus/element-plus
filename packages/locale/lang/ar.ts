@@ -85,6 +85,9 @@ export default {
         dec: 'كانون الاول',
       },
     },
+    input: {
+      characters: 'حرف',
+    },
     inputNumber: {
       decrease: 'طرح رقم',
       increase: 'زيادة رقم',

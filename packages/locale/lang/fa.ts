@@ -88,6 +88,9 @@ export default {
         dec: 'دسامبر',
       },
     },
+    input: {
+      characters: 'کاراکتر',
+    },
     inputNumber: {
       decrease: 'کاهش عدد',
       increase: 'افزایش عدد',

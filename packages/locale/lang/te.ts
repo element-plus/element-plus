@@ -87,6 +87,9 @@ export default {
         dec: 'డిసెం',
       },
     },
+    input: {
+      characters: 'అక్షరాలు',
+    },
     inputNumber: {
       decrease: 'సంఖ్య తగ్గించు',
       increase: 'సంఖ్య పెంచు',

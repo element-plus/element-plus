@@ -88,6 +88,9 @@ export default {
         dec: 'Dis',
       },
     },
+    input: {
+      characters: 'aksara',
+    },
     inputNumber: {
       decrease: 'mengurangkan',
       increase: 'meningkatkan',

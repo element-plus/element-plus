@@ -86,6 +86,9 @@ export default {
         dec: 'он экинчи айда',
       },
     },
+    input: {
+      characters: 'белги',
+    },
     inputNumber: {
       decrease: 'decrease number', // to be translated
       increase: 'increase number', // to be translated

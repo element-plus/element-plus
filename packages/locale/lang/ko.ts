@@ -86,6 +86,9 @@ export default {
         dec: '12월',
       },
     },
+    input: {
+      characters: '자',
+    },
     inputNumber: {
       decrease: '값 증가',
       increase: '값 감소',

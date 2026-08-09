@@ -155,12 +155,12 @@ describe('Input.vue', () => {
 
       const elCount = wrapper.find('.el-input__count')
       expect(elCount.exists()).toBe(true)
-      expect(elCount.text()).toMatchInlineSnapshot(`"4 / 4"`)
+      expect(elCount.text()).toMatchInlineSnapshot(`"4 / 4 characters"`)
 
       inputVal.value = '哈哈1👌3😄'
       await nextTick()
       expect(nativeInput.value).toMatchInlineSnapshot(`"哈哈1👌3😄"`)
-      expect(elCount.text()).toMatchInlineSnapshot(`"8 / 4"`)
+      expect(elCount.text()).toMatchInlineSnapshot(`"8 / 4 characters"`)
       expect(Array.from(vm.$el.classList)).toMatchInlineSnapshot(`
         [
           "el-textarea",
@@ -190,12 +190,12 @@ describe('Input.vue', () => {
 
       const elCount = wrapper.find('.el-input__count')
       expect(elCount.exists()).toBe(true)
-      expect(elCount.text()).toMatchInlineSnapshot(`"3 / 4"`)
+      expect(elCount.text()).toMatchInlineSnapshot(`"3 / 4 characters"`)
 
       inputVal.value = '哈哈1👌3😄'
       await nextTick()
       expect(nativeInput.value).toMatchInlineSnapshot(`"哈哈1👌3😄"`)
-      expect(elCount.text()).toMatchInlineSnapshot(`"6 / 4"`)
+      expect(elCount.text()).toMatchInlineSnapshot(`"6 / 4 characters"`)
       expect(Array.from(vm.$el.classList)).toMatchInlineSnapshot(`
         [
           "el-textarea",
@@ -488,6 +488,8 @@ describe('Input.vue', () => {
     const counts = wrapper.findAll('.el-input__count')
     expect(counts[0].attributes('role')).toBe('status')
     expect(counts[1].attributes('role')).toBe('status')
+    expect(counts[0].text()).toContain('characters')
+    expect(counts[1].text()).toContain('characters')
   })
 
   test('use formatter and parser', async () => {

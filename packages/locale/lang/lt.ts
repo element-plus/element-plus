@@ -86,6 +86,9 @@ export default {
         dec: 'Gruo',
       },
     },
+    input: {
+      characters: 'simbolių',
+    },
     inputNumber: {
       decrease: 'decrease number', // to be translated
       increase: 'increase number', // to be translated

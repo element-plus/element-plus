@@ -86,6 +86,9 @@ export default {
         dec: 'டிசம்பர்',
       },
     },
+    input: {
+      characters: 'எழுத்துகள்',
+    },
     inputNumber: {
       decrease: 'decrease number', // to be translated
       increase: 'increase number', // to be translated

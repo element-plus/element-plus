@@ -86,6 +86,9 @@ export default {
         dec: 'Dek',
       },
     },
+    input: {
+      characters: 'simvol',
+    },
     inputNumber: {
       decrease: 'decrease number', // to be translated
       increase: 'increase number', // to be translated

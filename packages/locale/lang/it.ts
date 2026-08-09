@@ -86,6 +86,9 @@ export default {
         dec: 'Dic',
       },
     },
+    input: {
+      characters: 'caratteri',
+    },
     inputNumber: {
       decrease: 'decrease number', // to be translated
       increase: 'increase number', // to be translated

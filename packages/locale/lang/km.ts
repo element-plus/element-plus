@@ -88,6 +88,9 @@ export default {
         dec: 'ធ្នូ',
       },
     },
+    input: {
+      characters: 'តួអក្សរ',
+    },
     inputNumber: {
       decrease: 'បន្ថយតម្លៃ',
       increase: 'បង្កើនតម្លៃ',

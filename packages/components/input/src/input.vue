@@ -99,6 +99,9 @@
               <span :class="nsInput.e('count-inner')">
                 {{ textLength }} / {{ maxlength }}
               </span>
+              <span :class="nsInput.e('count-unit')">
+                {{ t('el.input.characters') }}
+              </span>
             </span>
             <el-icon
               v-if="validateState && validateIcon && needStatusIcon"
@@ -174,6 +177,9 @@
         role="status"
       >
         {{ textLength }} / {{ maxlength }}
+        <span :class="nsInput.e('count-unit')">
+          {{ t('el.input.characters') }}
+        </span>
       </span>
     </template>
   </div>
@@ -216,6 +222,7 @@ import {
   useComposition,
   useCursor,
   useFocusController,
+  useLocale,
   useNamespace,
 } from '@element-plus/hooks'
 import {
@@ -275,6 +282,7 @@ const inputSize = useFormSize()
 const inputDisabled = useFormDisabled()
 const nsInput = useNamespace('input')
 const nsTextarea = useNamespace('textarea')
+const { t } = useLocale()
 
 const input = shallowRef<HTMLInputElement>()
 const textarea = shallowRef<HTMLTextAreaElement>()

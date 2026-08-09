@@ -86,6 +86,9 @@ export default {
         dec: 'Δεκ',
       },
     },
+    input: {
+      characters: 'χαρακτήρες',
+    },
     inputNumber: {
       decrease: 'decrease number', // to be translated
       increase: 'increase number', // to be translated
