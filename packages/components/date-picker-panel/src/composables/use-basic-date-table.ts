@@ -204,7 +204,13 @@ export const useBasicDateTable = (
     }
   )
 
-  const focus = async () => unref(currentCellRef)?.focus()
+  let suppressNextAutoFocus = false
+
+  const focus = async () => {
+    suppressNextAutoFocus = true
+    unref(currentCellRef)?.focus()
+    suppressNextAutoFocus = false
+  }
 
   const isCurrent = (cell: DateCell): boolean => {
     return (
@@ -268,12 +274,18 @@ export const useBasicDateTable = (
 
   const isSelectedCell = (cell: DateCell) => {
     return (
-      (!unref(hasCurrent) && cell?.text === 1 && isNormalDay(cell.type)) ||
-      cell.isCurrent
+      cell.isCurrent ||
+      (!unref(hasCurrent) &&
+        isNormalDay(cell.type) &&
+        cellMatchesDate(cell, props.date))
     )
   }
 
   const handleFocus = (event: FocusEvent) => {
+    if (suppressNextAutoFocus) {
+      suppressNextAutoFocus = false
+      return
+    }
     if (focusWithClick || unref(hasCurrent) || props.selectionMode !== 'date')
       return
     handlePickDate(event, true)
