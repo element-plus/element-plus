@@ -87,7 +87,7 @@ export default {
       },
     },
     input: {
-      characters: 'նիշ',
+      characters: '{count} / {max} նիշ',
     },
     inputNumber: {
       decrease: 'decrease number', // to be translated

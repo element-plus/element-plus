@@ -87,7 +87,7 @@ export default {
       },
     },
     input: {
-      characters: 'תווים',
+      characters: '{count} / {max} תווים',
     },
     inputNumber: {
       decrease: 'decrease number', // to be translated

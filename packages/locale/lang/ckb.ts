@@ -87,7 +87,7 @@ export default {
       },
     },
     input: {
-      characters: 'پیت',
+      characters: '{count} / {max} پیت',
     },
     inputNumber: {
       decrease: 'کەمکردنەوەی ژمارە',

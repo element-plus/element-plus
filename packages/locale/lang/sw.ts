@@ -88,7 +88,7 @@ export default {
       },
     },
     input: {
-      characters: 'herufi',
+      characters: '{count} / {max} herufi',
     },
     inputNumber: {
       decrease: 'kupunguza idadi',

@@ -94,13 +94,11 @@
                 nsInput.e('count'),
                 nsInput.is('outside', wordLimitPosition === 'outside'),
               ]"
+              :aria-label="wordLimitLabel"
               role="status"
             >
               <span :class="nsInput.e('count-inner')">
                 {{ textLength }} / {{ maxlength }}
-              </span>
-              <span :class="nsInput.e('count-unit')">
-                {{ t('el.input.characters') }}
               </span>
             </span>
             <el-icon
@@ -174,12 +172,10 @@
           nsInput.e('count'),
           nsInput.is('outside', wordLimitPosition === 'outside'),
         ]"
+        :aria-label="wordLimitLabel"
         role="status"
       >
         {{ textLength }} / {{ maxlength }}
-        <span :class="nsInput.e('count-unit')">
-          {{ t('el.input.characters') }}
-        </span>
       </span>
     </template>
   </div>
@@ -383,6 +379,12 @@ const textLength = computed(() => {
   }
   return nativeInputValue.value.length
 })
+const wordLimitLabel = computed(() =>
+  t('el.input.characters', {
+    count: textLength.value,
+    max: maxlength.value ?? '',
+  })
+)
 const inputExceed = computed(
   () =>
     // show exceed style if length of initial value greater then maxlength

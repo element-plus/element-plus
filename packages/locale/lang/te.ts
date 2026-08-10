@@ -88,7 +88,7 @@ export default {
       },
     },
     input: {
-      characters: 'అక్షరాలు',
+      characters: '{count} / {max} అక్షరాలు',
     },
     inputNumber: {
       decrease: 'సంఖ్య తగ్గించు',

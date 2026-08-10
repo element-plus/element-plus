@@ -87,7 +87,7 @@ export default {
       },
     },
     input: {
-      characters: 'тэмдэгт',
+      characters: '{count} / {max} тэмдэгт',
     },
     inputNumber: {
       decrease: 'decrease number', // to be translated

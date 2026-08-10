@@ -89,7 +89,7 @@ export default {
       month: 'Monat',
     },
     input: {
-      characters: 'Zeichen',
+      characters: '{count} / {max} Zeichen',
     },
     inputNumber: {
       decrease: 'decrease number', // to be translated

@@ -87,7 +87,7 @@ export default {
       },
     },
     input: {
-      characters: 'rakstzīmes',
+      characters: '{count} / {max} rakstzīmes',
     },
     inputNumber: {
       decrease: 'decrease number', // to be translated

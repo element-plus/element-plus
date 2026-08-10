@@ -87,7 +87,7 @@ export default {
       },
     },
     input: {
-      characters: '자',
+      characters: '{count} / {max} 자',
     },
     inputNumber: {
       decrease: '값 증가',

@@ -86,7 +86,7 @@ export default {
       },
     },
     input: {
-      characters: 'حرف',
+      characters: '{count} / {max} حرف',
     },
     inputNumber: {
       decrease: 'طرح رقم',

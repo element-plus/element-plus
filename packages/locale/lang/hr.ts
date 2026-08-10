@@ -87,7 +87,7 @@ export default {
       },
     },
     input: {
-      characters: 'znakova',
+      characters: '{count} / {max} znakova',
     },
     inputNumber: {
       decrease: 'decrease number', // to be translated

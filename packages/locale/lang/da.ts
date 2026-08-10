@@ -87,7 +87,7 @@ export default {
       },
     },
     input: {
-      characters: 'tegn',
+      characters: '{count} / {max} tegn',
     },
     inputNumber: {
       decrease: 'decrease number', // to be translated

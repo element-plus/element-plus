@@ -89,7 +89,7 @@ export default {
       },
     },
     input: {
-      characters: 'aksara',
+      characters: '{count} / {max} aksara',
     },
     inputNumber: {
       decrease: 'mengurangkan',

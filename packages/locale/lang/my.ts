@@ -89,7 +89,7 @@ export default {
       },
     },
     input: {
-      characters: 'စာလုံး',
+      characters: '{count} / {max} စာလုံး',
     },
     inputNumber: {
       decrease: 'အရေအတွက်လျှော့ချ',

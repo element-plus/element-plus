@@ -87,7 +87,7 @@ export default {
       },
     },
     input: {
-      characters: 'merkkiä',
+      characters: '{count} / {max} merkkiä',
     },
     inputNumber: {
       decrease: 'decrease number', // to be translated

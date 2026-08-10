@@ -87,7 +87,7 @@ export default {
       },
     },
     input: {
-      characters: 'märki',
+      characters: '{count} / {max} märki',
     },
     inputNumber: {
       decrease: 'decrease number', // to be translated

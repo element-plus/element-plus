@@ -87,7 +87,7 @@ export default {
       },
     },
     input: {
-      characters: 'simbolių',
+      characters: '{count} / {max} simbolių',
     },
     inputNumber: {
       decrease: 'decrease number', // to be translated

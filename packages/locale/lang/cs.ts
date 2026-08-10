@@ -89,7 +89,7 @@ export default {
       month: 'Měsíc',
     },
     input: {
-      characters: 'znaků',
+      characters: '{count} / {max} znaků',
     },
     inputNumber: {
       decrease: 'decrease number', // to be translated

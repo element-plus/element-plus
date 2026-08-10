@@ -89,7 +89,7 @@ export default {
       },
     },
     input: {
-      characters: 'کاراکتر',
+      characters: '{count} / {max} کاراکتر',
     },
     inputNumber: {
       decrease: 'کاهش عدد',

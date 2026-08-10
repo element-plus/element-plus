@@ -87,7 +87,7 @@ export default {
       },
     },
     input: {
-      characters: 'ھەرپ',
+      characters: '{count} / {max} ھەرپ',
     },
     inputNumber: {
       decrease: 'decrease number', // to be translated

@@ -1,7 +1,6 @@
 @use 'sass:map';
 
 @use 'mixins/mixins' as *;
-@use 'mixins/utils' as *;
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 
@@ -220,10 +219,6 @@
     }
   }
 
-  @include e(count-unit) {
-    @include utils-visually-hidden;
-  }
-
   @include e(wrapper) {
     display: inline-flex;
     flex-grow: 1;
@@ -336,7 +331,7 @@
       align-items: center;
       justify-content: center;
 
-      @if $slot == prefix {
+      @if $slot ==prefix {
         > :last-child {
           margin-right: 8px;
         }

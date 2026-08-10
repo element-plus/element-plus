@@ -85,7 +85,7 @@ export default {
       },
     },
     input: {
-      characters: 'ຕົວອັກສອນ',
+      characters: '{count} / {max} ຕົວອັກສອນ',
     },
     inputNumber: {
       decrease: 'ຫຼຸດຈຳນວນ',

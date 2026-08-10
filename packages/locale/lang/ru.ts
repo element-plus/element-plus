@@ -87,7 +87,7 @@ export default {
       },
     },
     input: {
-      characters: 'символов',
+      characters: '{count} / {max} символов',
     },
     inputNumber: {
       decrease: 'decrease number', // to be translated

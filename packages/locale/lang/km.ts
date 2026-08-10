@@ -89,7 +89,7 @@ export default {
       },
     },
     input: {
-      characters: 'តួអក្សរ',
+      characters: '{count} / {max} តួអក្សរ',
     },
     inputNumber: {
       decrease: 'បន្ថយតម្លៃ',

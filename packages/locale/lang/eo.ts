@@ -87,7 +87,7 @@ export default {
       },
     },
     input: {
-      characters: 'signoj',
+      characters: '{count} / {max} signoj',
     },
     inputNumber: {
       decrease: 'decrease number', // to be translated

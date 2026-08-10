@@ -89,7 +89,7 @@ export default {
       },
     },
     input: {
-      characters: 'वर्ण',
+      characters: '{count} / {max} वर्ण',
     },
     inputNumber: {
       decrease: 'संख्या घटाएँ',

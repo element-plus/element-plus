@@ -85,7 +85,7 @@ export default {
       },
     },
     input: {
-      characters: '個字元',
+      characters: '{count} / {max} 個字元',
     },
     inputNumber: {
       decrease: '減少數值',

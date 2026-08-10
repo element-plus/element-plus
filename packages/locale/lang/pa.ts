@@ -87,7 +87,7 @@ export default {
       },
     },
     input: {
-      characters: 'توري',
+      characters: '{count} / {max} توري',
     },
     inputNumber: {
       decrease: 'decrease number', // to be translated

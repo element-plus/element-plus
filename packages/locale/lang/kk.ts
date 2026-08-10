@@ -87,7 +87,7 @@ export default {
       },
     },
     input: {
-      characters: 'таңба',
+      characters: '{count} / {max} таңба',
     },
     inputNumber: {
       decrease: 'decrease number', // to be translated

@@ -87,7 +87,7 @@ export default {
       },
     },
     input: {
-      characters: 'simvol',
+      characters: '{count} / {max} simvol',
     },
     inputNumber: {
       decrease: 'decrease number', // to be translated

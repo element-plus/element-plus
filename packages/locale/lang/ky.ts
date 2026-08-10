@@ -87,7 +87,7 @@ export default {
       },
     },
     input: {
-      characters: 'белги',
+      characters: '{count} / {max} белги',
     },
     inputNumber: {
       decrease: 'decrease number', // to be translated

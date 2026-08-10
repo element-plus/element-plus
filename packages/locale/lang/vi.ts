@@ -85,7 +85,7 @@ export default {
       },
     },
     input: {
-      characters: 'ký tự',
+      characters: '{count} / {max} ký tự',
     },
     inputNumber: {
       decrease: 'giảm số',

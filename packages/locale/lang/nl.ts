@@ -87,7 +87,7 @@ export default {
       },
     },
     input: {
-      characters: 'tekens',
+      characters: '{count} / {max} tekens',
     },
     inputNumber: {
       decrease: 'getal verlagen',
