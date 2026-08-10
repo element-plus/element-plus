@@ -57,7 +57,7 @@ date-picker/year-range
 
 :::
 
-## Quarter Range ^(2.14.4)
+## Quarter Range ^(2.14.5)
 
 Picking a quarter range is supported.
 
@@ -191,7 +191,7 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | placeholder                  | placeholder in non-range mode                                                                                                         | ^[string]                                                                                                                                                                                                   | ''                                 |
 | start-placeholder            | placeholder for the start date in range mode                                                                                          | ^[string]                                                                                                                                                                                                   | —                                  |
 | end-placeholder              | placeholder for the end date in range mode                                                                                            | ^[string]                                                                                                                                                                                                   | —                                  |
-| type                         | type of the picker. `quarter`, `quarters`, and `quarterrange` are supported since ^(2.14.4)                                           | ^[enum]`'year' \| 'years' \|'month' \| 'months' \| 'date' \| 'dates' \| 'datetime' \| 'week' \| 'quarter' \| 'quarters' \| 'datetimerange' \| 'daterange' \| 'monthrange' \| 'yearrange' \| 'quarterrange'` | date                               |
+| type                         | type of the picker. `quarter`, `quarters`, and `quarterrange` are supported since ^(2.14.5)                                           | ^[enum]`'year' \| 'years' \|'month' \| 'months' \| 'date' \| 'dates' \| 'datetime' \| 'week' \| 'quarter' \| 'quarters' \| 'datetimerange' \| 'daterange' \| 'monthrange' \| 'yearrange' \| 'quarterrange'` | date                               |
 | format                       | format of the displayed value in the input box                                                                                        | ^[string] see [date formats](#date-formats)                                                                                                                                                                 | YYYY-MM-DD                         |
 | popper-class                 | custom class name for DatePicker's dropdown                                                                                           | ^[string]                                                                                                                                                                                                   | —                                  |
 | popper-style                 | custom style for DatePicker's dropdown                                                                                                | ^[string] / ^[object]                                                                                                                                                                                       | —                                  |
