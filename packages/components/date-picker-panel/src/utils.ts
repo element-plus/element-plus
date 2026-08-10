@@ -1,11 +1,7 @@
 import dayjs from 'dayjs'
 import { isArray, isString } from '@element-plus/utils'
-import {
-  isLooseDefaultParseFormat,
-  rangeArr,
-} from '@element-plus/components/time-picker'
+import { rangeArr } from '@element-plus/components/time-picker'
 
-import type { ComputedRef } from 'vue'
 import type { Dayjs } from 'dayjs'
 import type { DateCell } from './types'
 import type { DisabledDateType } from './props/shared'
@@ -290,24 +286,26 @@ export const getValidDateOfYear = (
 export const correctlyParseUserInput = (
   value: string | Dayjs | Dayjs[],
   format: string,
-  lang: string,
-  defaultFormat: ComputedRef<boolean> | undefined
+  lang: string
 ): Dayjs | Dayjs[] => {
   if (isArray(value)) {
-    return value.map(
-      (v) => correctlyParseUserInput(v, format, lang, defaultFormat) as Dayjs
-    )
+    return value.map((v) => correctlyParseUserInput(v, format, lang) as Dayjs)
   }
   if (isString(value)) {
-    const dayjsValue = defaultFormat?.value
-      ? isLooseDefaultParseFormat(format)
-        ? dayjs(value)
-        : dayjs(value, format)
-      : dayjs(value, format)
+    let dayjsValue = dayjs(value, format)
+    if (!dayjsValue.isValid()) {
+      dayjsValue = dayjs(value)
+    }
     if (!dayjsValue.isValid()) {
       // return directly if not valid
       return dayjsValue
     }
+    const formatValue = dayjsValue.format(format)
+    // Strictly validate date validity
+    if (!dayjs(formatValue, format, true).isValid()) {
+      return dayjs('')
+    }
+    return dayjs(formatValue, format).locale(lang)
   }
   return dayjs(value, format).locale(lang)
 }

@@ -150,7 +150,6 @@ import {
 } from '../props/panel-quarter-range'
 import { useMonthRangeHeader } from '../composables/use-month-range-header'
 import { useRangePicker } from '../composables/use-range-picker'
-import { ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY } from '../constants'
 import QuarterTable from './basic-quarter-table.vue'
 import { useFormDisabled } from '@element-plus/components/form'
 
@@ -171,10 +170,6 @@ const unit = 'year'
 
 const { lang } = useLocale()
 const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
-const isDefaultFormat = inject(
-  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY,
-  undefined
-) as any
 const { shortcuts, disabledDate, cellClassName } = pickerBase.props
 const format = toRef(pickerBase.props, 'format')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
@@ -256,12 +251,7 @@ const normalizeQuarterInput = (value: Dayjs) =>
   normalizeQuarterDate(value, lang.value, disabledDate)
 
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
-  const parsed = correctlyParseUserInput(
-    value,
-    format.value,
-    lang.value,
-    isDefaultFormat
-  )
+  const parsed = correctlyParseUserInput(value, format.value, lang.value)
 
   if (isArray(parsed)) {
     return parsed.map((item) => normalizeQuarterInput(item))

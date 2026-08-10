@@ -25,8 +25,8 @@ catalog:
   normalize-wheel-es: ^1.2.0
   prettier: ^3.9.6
   vue: 3.5.25
-  vue-component-type-helpers: ^3.3.8
-  tsx: ^4.23.1
+  vue-component-type-helpers: ^3.3.9
+  tsx: ^4.23.11
   typescript: ~6.0.3
   # vitest: ^2.0.5
 
@@ -52,4 +52,3 @@ minimumReleaseAge: 1440
 minimumReleaseAgeExclude:
   - 'element-plus'
   - '@element-plus/*'
-  - vite@8.1.4

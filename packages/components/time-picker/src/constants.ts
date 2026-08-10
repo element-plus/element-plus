@@ -32,14 +32,4 @@ export const DEFAULT_FORMATS_DATEPICKER = {
   datetimerange: `${DEFAULT_FORMATS_DATE} ${DEFAULT_FORMATS_TIME}`,
 }
 
-export const LOOSE_DEFAULT_PARSE_FORMATS = new Set([
-  DEFAULT_FORMATS_DATE,
-  'YYYY-MM',
-  'YYYY',
-  `${DEFAULT_FORMATS_DATE} ${DEFAULT_FORMATS_TIME}`,
-])
-
-export const isLooseDefaultParseFormat = (format: string) =>
-  LOOSE_DEFAULT_PARSE_FORMATS.has(format)
-
 export type TimeUnit = (typeof timeUnits)[number]

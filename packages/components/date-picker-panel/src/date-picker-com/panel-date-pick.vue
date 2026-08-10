@@ -276,7 +276,6 @@ import {
   isSelectableQuarterDate,
   normalizeQuarterDate,
 } from '../utils'
-import { ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY } from '../constants'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import QuarterTable from './basic-quarter-table.vue'
@@ -308,10 +307,6 @@ const slots = useSlots()
 
 const { t, lang } = useLocale()
 const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
-const isDefaultFormat = inject(
-  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY,
-  undefined
-) as any
 const { shortcuts, disabledDate, cellClassName, defaultTime } = pickerBase.props
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 
@@ -734,8 +729,7 @@ const handleVisibleDateChange = (value: string) => {
   const newDate = correctlyParseUserInput(
     value,
     dateFormat.value,
-    lang.value,
-    isDefaultFormat
+    lang.value
   ) as Dayjs
   if (newDate.isValid()) {
     if (disabledDate && disabledDate(newDate.toDate())) {
@@ -761,12 +755,8 @@ const isValidValue = (date: unknown) => {
 }
 
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
-  const parsed = correctlyParseUserInput(
-    value,
-    props.format,
-    lang.value,
-    isDefaultFormat
-  ) as Dayjs | Dayjs[]
+  const parsed = correctlyParseUserInput(value, props.format, lang.value) as
+    Dayjs | Dayjs[]
 
   if (!['quarter', 'quarters'].includes(selectionMode.value)) {
     return parsed
