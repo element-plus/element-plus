@@ -53,18 +53,13 @@
     outline: none;
     cursor: pointer;
 
-    &:hover:not(:disabled) {
+    &:hover {
       color: getCssVar('datepicker-hover-text-color');
     }
 
     &.active {
       background-color: #e6f1fe;
       color: getCssVar('datepicker-active-color');
-    }
-
-    &:disabled {
-      @include disable;
-      cursor: not-allowed;
     }
   }
 

@@ -78,21 +78,21 @@
     }
 
     &.start-date .#{$namespace}-date-table-cell {
-      margin-left: 3px;
+      margin-left: 6px;
       border-top-left-radius: 24px;
       border-bottom-left-radius: 24px;
     }
 
     &.end-date .#{$namespace}-date-table-cell {
-      margin-right: 3px;
+      margin-right: 6px;
       border-top-right-radius: 24px;
       border-bottom-right-radius: 24px;
     }
 
     &.current:not(.disabled) .#{$namespace}-date-table-cell {
       border-radius: 24px;
-      margin-left: 3px;
-      margin-right: 3px;
+      margin-left: 6px;
+      margin-right: 6px;
     }
 
     &.current:not(.disabled) .#{$namespace}-date-table-cell__text {

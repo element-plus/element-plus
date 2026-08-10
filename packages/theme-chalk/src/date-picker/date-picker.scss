@@ -29,10 +29,6 @@
 
   .#{$namespace}-picker-panel__content {
     width: 292px;
-
-    &:has(.#{$namespace}-quarter-table) {
-      margin-bottom: 0;
-    }
   }
 
   table {
