@@ -331,7 +331,7 @@
       align-items: center;
       justify-content: center;
 
-      @if $slot ==prefix {
+      @if $slot == prefix {
         > :last-child {
           margin-right: 8px;
         }
