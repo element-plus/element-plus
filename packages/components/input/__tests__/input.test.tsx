@@ -155,12 +155,12 @@ describe('Input.vue', () => {
 
       const elCount = wrapper.find('.el-input__count')
       expect(elCount.exists()).toBe(true)
-      expect(elCount.text()).toMatchInlineSnapshot(`"4 / 4 characters"`)
+      expect(elCount.text()).toMatchInlineSnapshot(`"4 / 4"`)
 
       inputVal.value = '哈哈1👌3😄'
       await nextTick()
       expect(nativeInput.value).toMatchInlineSnapshot(`"哈哈1👌3😄"`)
-      expect(elCount.text()).toMatchInlineSnapshot(`"8 / 4 characters"`)
+      expect(elCount.text()).toMatchInlineSnapshot(`"8 / 4"`)
       expect(Array.from(vm.$el.classList)).toMatchInlineSnapshot(`
         [
           "el-textarea",
@@ -190,12 +190,12 @@ describe('Input.vue', () => {
 
       const elCount = wrapper.find('.el-input__count')
       expect(elCount.exists()).toBe(true)
-      expect(elCount.text()).toMatchInlineSnapshot(`"3 / 4 characters"`)
+      expect(elCount.text()).toMatchInlineSnapshot(`"3 / 4"`)
 
       inputVal.value = '哈哈1👌3😄'
       await nextTick()
       expect(nativeInput.value).toMatchInlineSnapshot(`"哈哈1👌3😄"`)
-      expect(elCount.text()).toMatchInlineSnapshot(`"6 / 4 characters"`)
+      expect(elCount.text()).toMatchInlineSnapshot(`"6 / 4"`)
       expect(Array.from(vm.$el.classList)).toMatchInlineSnapshot(`
         [
           "el-textarea",
