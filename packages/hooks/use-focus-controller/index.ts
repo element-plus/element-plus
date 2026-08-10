@@ -9,8 +9,7 @@ import {
 import { useEventListener } from '@vueuse/core'
 import { isElement, isFocusable, isFunction } from '@element-plus/utils'
 
-import type { ShallowRef } from 'vue'
-import type { MaybeRef } from '@vueuse/core'
+import type { MaybeRef, ShallowRef } from 'vue'
 
 interface UseFocusControllerOptions {
   disabled?: MaybeRef<boolean>

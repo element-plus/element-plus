@@ -72,7 +72,10 @@ type SummaryMethod<T extends DefaultRow> = (data: {
   data: T[]
 }) => (string | VNode)[]
 
-interface Table<T extends DefaultRow = any> extends ComponentInternalInstance {
+interface Table<T extends DefaultRow = any> extends Omit<
+  ComponentInternalInstance,
+  'emit'
+> {
   $ready: boolean
   hoverState?: HoverState<T> | null
   renderExpanded: RenderExpanded<T>
@@ -81,12 +84,12 @@ interface Table<T extends DefaultRow = any> extends ComponentInternalInstance {
   refs: TableRefs
   tableId: string
   state: TableState
+  emit: TableEmits<T>
 }
 
 type ColumnCls<T> = string | ((data: { row: T; rowIndex: number }) => string)
 type ColumnStyle<T> =
-  | CSSProperties
-  | ((data: { row: T; rowIndex: number }) => CSSProperties)
+  CSSProperties | ((data: { row: T; rowIndex: number }) => CSSProperties)
 type CellCls<T extends DefaultRow> =
   | string
   | ((data: {
@@ -104,38 +107,128 @@ type CellStyle<T extends DefaultRow> =
       columnIndex: number
     }) => CSSProperties)
 type Layout = 'fixed' | 'auto'
-interface TableProps<T extends DefaultRow> {
-  data: T[]
+interface TableProps<T extends DefaultRow = DefaultRow> {
+  /**
+   * @description table data
+   */
+  data?: T[]
+  /**
+   * @description size of Table
+   */
   size?: ComponentSize
   width?: string | number
+  /**
+   * @description table's height. By default it has an `auto` height. If its value is a number, the height is measured in pixels; if its value is a string, the value will be assigned to element's style.height, the height is affected by external styles
+   */
   height?: string | number
+  /**
+   * @description table's max-height. The legal value is a number or the height in px
+   */
   maxHeight?: string | number
+  /**
+   * @description whether width of column automatically fits its container
+   */
   fit?: boolean
+  /**
+   * @description whether Table is striped
+   */
   stripe?: boolean
+  /**
+   * @description whether Table has vertical border
+   */
   border?: boolean
+  /**
+   * @description key of row data, used for optimizing rendering. Required if `reserve-selection` is on or display tree data. When its type is String, multi-level access is supported, e.g. `user.info.id`, but `user.info[0].id` is not supported, in which case `Function` should be used
+   */
   rowKey?: string | ((row: T) => string)
   context?: Table<T>
+  /**
+   * @description whether Table header is visible
+   */
   showHeader?: boolean
+  /**
+   * @description whether to display a summary row
+   */
   showSummary?: boolean
+  /**
+   * @description displayed text for the first column of summary row
+   */
   sumText?: string
+  /**
+   * @description custom summary method
+   */
   summaryMethod?: SummaryMethod<T>
+  /**
+   * @description function that returns custom class names for a row, or a string assigning class names for every row
+   */
   rowClassName?: ColumnCls<T>
+  /**
+   * @description function that returns custom style for a row, or an object assigning custom style for every row
+   */
   rowStyle?: ColumnStyle<T>
+  /**
+   * @description function that returns custom class names for a cell, or a string assigning class names for every cell
+   */
   cellClassName?: CellCls<T>
+  /**
+   * @description function that returns custom style for a cell, or an object assigning custom style for every cell
+   */
   cellStyle?: CellStyle<T>
+  /**
+   * @description function that returns custom class names for a row in table header, or a string assigning class names for every row in table header
+   */
   headerRowClassName?: ColumnCls<T>
+  /**
+   * @description function that returns custom style for a row in table header, or an object assigning custom style for every row in table header
+   */
   headerRowStyle?: ColumnStyle<T>
+  /**
+   * @description function that returns custom class names for a cell in table header, or a string assigning class names for every cell in table header
+   */
   headerCellClassName?: CellCls<T>
+  /**
+   * @description function that returns custom style for a cell in table header, or an object assigning custom style for every cell in table header
+   */
   headerCellStyle?: CellStyle<T>
+  /**
+   * @description whether current row is highlighted
+   */
   highlightCurrentRow?: boolean
+  /**
+   * @description key of current row, a set only prop
+   */
   currentRowKey?: string | number
+  /**
+   * @description displayed text when data is empty. You can customize this area with `#empty`
+   */
   emptyText?: string
+  /**
+   * @description set expanded rows by this prop, prop's value is the keys of expand rows, you should set row-key before using this prop
+   */
   expandRowKeys?: Array<string>
+  /**
+   * @description whether expand all rows by default, works when the table has a column type="expand" or contains tree structure data
+   */
   defaultExpandAll?: boolean
+  /**
+   * @description enable expandable rows, works when the table has a column type="expand"
+   */
   rowExpandable?: (row: T, index: number) => boolean
+  /**
+   * @description set the default sort column and order. property `prop` is used to set default sort column, property `order` is used to set default sort order
+   */
   defaultSort?: Sort
+  /**
+   * @description the `effect` of the overflow tooltip
+   */
   tooltipEffect?: string
+  /**
+   * @description the options for the overflow tooltip, [see the following tooltip component](tooltip.html#attributes)
+   */
   tooltipOptions?: TableOverflowTooltipOptions
+  /**
+   * @description method that returns rowspan and colspan
+   */
   spanMethod?: (data: {
     row: T
     rowIndex: number
@@ -148,20 +241,61 @@ interface TableProps<T extends DefaultRow> {
         colspan: number
       }
     | undefined
+  /**
+   * @description controls the behavior of master checkbox in multi-select tables when only some rows are selected (but not all). If true, all rows will be selected, else deselected
+   */
   selectOnIndeterminate?: boolean
+  /**
+   * @description horizontal indentation of tree data
+   */
   indent?: number
+  /**
+   * @description configuration for rendering nested data
+   */
   treeProps?: TreeProps
+  /**
+   * @description whether to lazy loading data
+   */
   lazy?: boolean
+  /**
+   * @description method for loading child row data, only works when `lazy` is true
+   */
   load?: (row: T, treeNode: TreeNode, resolve: (data: T[]) => void) => void
   className?: string
   style?: StyleValue
+  /**
+   * @description sets the algorithm used to lay out table cells, rows, and columns
+   */
   tableLayout?: Layout
+  /**
+   * @description always show scrollbar
+   */
   scrollbarAlwaysOn?: boolean
+  /**
+   * @description ensure main axis minimum-size doesn't follow the content
+   */
   flexible?: boolean
+  /**
+   * @description whether to hide extra content and show them in a tooltip when hovering on the cell.It will affect all the table columns
+   */
   showOverflowTooltip?: boolean | TableOverflowTooltipOptions
+  /**
+   * @description function that formats cell tooltip content, works when `show-overflow-tooltip` is `true`
+   */
   tooltipFormatter?: TableOverflowTooltipFormatter<T>
   appendFilterPanelTo?: string
   scrollbarTabindex?: number | string
+  /**
+   * @description whether to allow drag the last column
+   */
+  allowDragLastColumn?: boolean
+  /**
+   * @description whether to preserve expanded row content in DOM when collapsed
+   */
+  preserveExpandedContent?: boolean
+  /**
+   * @description whether to use native scrollbars
+   */
   nativeScrollbar?: boolean
 }
 
@@ -210,7 +344,73 @@ interface TableConfigContext {
   tooltipFormatter?: TableOverflowTooltipFormatter<any>
 }
 
-export default {
+interface TableEmits<T extends DefaultRow = DefaultRow> {
+  (e: 'select', selection: T[], row: T): void
+  (e: 'select-all', selection: T[]): void
+  (e: 'selection-change', newSelection: T[]): void
+  (
+    e: 'cell-mouse-enter' | 'cell-mouse-leave' | 'cell-dblclick',
+    row: T,
+    column: TableColumnCtx<T>,
+    cell: HTMLTableCellElement,
+    event: MouseEvent
+  ): void
+  (
+    e: 'cell-contextmenu' | 'cell-click',
+    row: T,
+    column: TableColumnCtx<T>,
+    cell: HTMLTableCellElement,
+    event: PointerEvent
+  ): void
+  (
+    e: 'row-dblclick',
+    row: T,
+    column: TableColumnCtx<T> | null,
+    event: MouseEvent
+  ): void
+  (
+    e: 'row-click' | 'row-contextmenu',
+    row: T,
+    column: TableColumnCtx<T> | null,
+    event: PointerEvent
+  ): void
+  (
+    e: 'header-click' | 'header-contextmenu',
+    column: TableColumnCtx<T>,
+    event: PointerEvent
+  ): void
+  (
+    e: 'sort-change',
+    data: {
+      column: TableColumnCtx<T>
+      prop: string | null
+      order: TableSortOrder | null
+    }
+  ): void
+  (e: 'filter-change', newFilters: Record<string, string[]>): void
+  (e: 'current-change', currentRow: T | null, oldCurrentRow: T | null): void
+  (
+    e: 'header-dragend',
+    newWidth: number,
+    oldWidth: number,
+    column: TableColumnCtx<T>,
+    event: MouseEvent
+  ): void
+  (e: 'expand-change', row: T, expandedRows: T[]): void
+  (e: 'expand-change', row: T, expanded: boolean): void
+  (
+    e: 'scroll',
+    data: {
+      scrollLeft: number
+      scrollTop: number
+    }
+  ): void
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `TableProps` instead.
+ */
+export const tableProps = {
   /**
    * @description table data
    */
@@ -389,7 +589,9 @@ export default {
    */
   load: Function as PropType<TableProps<any>['load']>,
   style: {
-    type: [String, Object, Array] as PropType<TableProps<any>['style']>,
+    type: [String, Object, Array, Boolean] as PropType<
+      TableProps<any>['style']
+    >,
     default: () => ({}),
   },
   className: {
@@ -463,4 +665,7 @@ export type {
   TableSortOrder,
   RenderExpanded,
   TableConfigContext,
+  TableEmits,
 }
+
+export default tableProps

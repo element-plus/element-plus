@@ -4,6 +4,9 @@ on:
   pull_request:
     types: [opened, edited, reopened]
 
+permissions:
+  contents: read
+
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -17,15 +20,17 @@ jobs:
       PULL_REQUEST_AUTHOR: ${{ github.event.pull_request.user.login }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
 
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: 20
+          node-version: 24
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -33,7 +38,10 @@ jobs:
 
       - name: Lint commit
         id: lint_commit
-        run: echo "${{ github.event.pull_request.title }}" | pnpm run lint:commit || echo "failed=true" >> $GITHUB_OUTPUT
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          printf '%s\n' "$PR_TITLE" | pnpm run lint:commit || echo "failed=true" >> "$GITHUB_OUTPUT"
 
       - name: Set success result
         if: ${{ steps.lint_commit.outputs.failed != 'true' }}
@@ -49,17 +57,17 @@ jobs:
       - name: Set PR author
         run: echo "$PULL_REQUEST_AUTHOR" > ./author.txt
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: commit-lint-result
           path: ./lint-result.txt
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: pr-number
           path: ./pr.txt
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: pr-author
           path: ./author.txt

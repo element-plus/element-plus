@@ -1,12 +1,12 @@
 import { buildProps, definePropType, isBoolean } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { teleportProps } from '@element-plus/components/teleport'
 import {
   dialogContentProps,
   dialogContentPropsDefaults,
 } from './dialog-content'
 
 import type { ExtractPublicPropTypes, InjectionKey, TransitionProps } from 'vue'
+import type { ClassValue } from '@element-plus/utils'
 import type { DialogContentProps } from './dialog-content'
 import type Dialog from './dialog.vue'
 
@@ -75,7 +75,7 @@ export interface DialogProps extends DialogContentProps {
   /**
    * @description custom class names for mask
    */
-  modalClass?: string
+  modalClass?: ClassValue
   /**
    * @description width of Dialog, default is 50%
    */
@@ -111,7 +111,7 @@ export const dialogProps = buildProps({
    * @description which element the Dialog appends to
    */
   appendTo: {
-    type: teleportProps.to.type,
+    type: definePropType<string | HTMLElement>([String, Object]),
     default: 'body',
   },
   /**
@@ -183,19 +183,10 @@ export const dialogProps = buildProps({
   /**
    * @description custom class names for mask
    */
-  modalClass: String,
-  /**
-   * @description custom class names for header wrapper
-   */
-  headerClass: String,
-  /**
-   * @description custom class names for body wrapper
-   */
-  bodyClass: String,
-  /**
-   * @description custom class names for footer wrapper
-   */
-  footerClass: String,
+  modalClass: {
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
+    default: undefined,
+  },
   /**
    * @description width of Dialog, default is 50%
    */
@@ -262,4 +253,5 @@ export const dialogPropsDefaults = {
   closeDelay: 0,
   headerAriaLevel: '2',
   transition: undefined,
+  modalClass: undefined,
 } as const

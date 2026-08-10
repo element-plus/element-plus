@@ -280,6 +280,50 @@ describe('TimeSelect', () => {
     expect([...items].at(-1)?.textContent).toBe('10:00')
   })
 
+  it('should fallback to default start time when start time is invalid', async () => {
+    const wrapper = mount(() => <TimeSelect start="abc:00" end="18:00" />)
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    const items = document.querySelectorAll('.el-select-dropdown__item>span')
+    expect(items).toHaveLength(19)
+    expect([...items].at(0)?.textContent).toBe('09:00')
+    expect([...items].at(-1)?.textContent).toBe('18:00')
+  })
+
+  it('should fallback to default start time when start time is negative', async () => {
+    const wrapper = mount(() => <TimeSelect start="-12:00" end="18:00" />)
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    const items = document.querySelectorAll('.el-select-dropdown__item>span')
+    expect(items).toHaveLength(19)
+    expect([...items].at(0)?.textContent).toBe('09:00')
+    expect([...items].at(-1)?.textContent).toBe('18:00')
+  })
+
+  it('should fallback to default end time when end time is invalid', async () => {
+    const wrapper = mount(() => <TimeSelect start="17:00" end="abc:00" />)
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    const items = document.querySelectorAll('.el-select-dropdown__item>span')
+    expect(items).toHaveLength(3)
+    expect([...items].at(0)?.textContent).toBe('17:00')
+    expect([...items].at(-1)?.textContent).toBe('18:00')
+  })
+
+  it('should fallback to default end time when end time is negative', async () => {
+    const wrapper = mount(() => <TimeSelect start="17:00" end="-12:00" />)
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    const items = document.querySelectorAll('.el-select-dropdown__item>span')
+    expect(items).toHaveLength(3)
+    expect([...items].at(0)?.textContent).toBe('17:00')
+    expect([...items].at(-1)?.textContent).toBe('18:00')
+  })
+
   describe('form item accessibility integration', () => {
     it('automatic id attachment', async () => {
       const wrapper = mount(() => (

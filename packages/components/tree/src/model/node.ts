@@ -396,10 +396,12 @@ class Node {
     if (this.shouldLoadData()) {
       this.loadData((data) => {
         if (isArray(data)) {
-          if (this.checked) {
-            this.setChecked(true, true)
-          } else if (!this.store.checkStrictly) {
-            reInitChecked(this)
+          if (!this.store.checkStrictly) {
+            if (this.checked) {
+              this.setChecked(true, true)
+            } else {
+              reInitChecked(this)
+            }
           }
           done()
         }
@@ -464,7 +466,7 @@ class Node {
     this.isEffectivelyChecked =
       !this.childNodes.length && (this.disabled || this.checked)
 
-    if (this.store.checkStrictly) return
+    if (this.store.checkStrictly && !deep) return
 
     if (!(this.shouldLoadData() && !this.store.checkDescendants)) {
       const handleDescendants = (): void => {
@@ -508,7 +510,7 @@ class Node {
     const parent = this.parent
     if (!parent || parent.level === 0) return
 
-    if (!recursion) {
+    if (!recursion && !this.store.checkStrictly) {
       reInitChecked(parent)
     }
   }

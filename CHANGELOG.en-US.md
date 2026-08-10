@@ -1,6 +1,249 @@
 ## Changelog
 
 
+### 2.14.4
+
+_2026-08-07_
+
+#### Features
+
+- Components [notification] add `progress` and `pauseOnHover` options (#24565 by @misakamayako)
+
+#### Bug fixes
+
+- Directives stop repeat-click after mouseup (#24573 by @qp666)
+- Components [input/select] prevent box-shadow noise (#24619 by @thlovey)
+- Components [autocomplete] clear stale suggestions on refocus (#24621 by @ixyzorg)
+- Components [popover] omit `gpuAcceleration` default value (#24636 by @btea)
+- Components [table] stop mutating parent's filtered-value (#24594 by @SpanManX)
+- Components [upload] stabilize file list reorder transitions (#24609 by @rzzf)
+- Components [space] clone spacer vnode (#24647 by @rzzf)
+- Components [date-picker] correct the input time format (#24574 by @xingyixiang)
+- Components [scrollbar] update component on transition and animation end (#24508 by @prd-y-nguyen)
+- Components [input] emit change event when toggling password visibility (#24342 by @guozi9999)
+- Components [table] avoid null theadRef access after header unmount (#24668 by @btea)
+- Components [loading] avoid innerHTML and children conflict (#24675 by @rzzf)
+
+#### Refactors
+
+- Components normalize `*-class` and `*-style` props (#24418 by @ZacharyBear)
+- Components [popover] replace attrs with props for better type inference (#24571 by @Jungzl)
+
+### 2.14.3
+
+_2026-07-10_
+
+#### Features
+
+- Components [transfer] add virtual scroll support (#24367 by @liuyax0818)
+- Play enable bundledDev (#24542 by @btea)
+
+#### Bug fixes
+
+- Components [input-otp] fix field line-height (#24467 by @misakamayako)
+- Components [input-otp] inherit form size (#24466 by @rzzf)
+- Style [drawer] include popup lockscreen styles on import (#24494 by @LostElkByte)
+
+### 2.14.2
+
+_2026-06-12_
+
+#### Features
+
+- Components [table] add getHalfSelectionRows method (#24348 by @qeTM)
+
+#### Bug fixes
+
+- Components [tree-v2] allow falsy current keys (#24364 by @guozi9999)
+- Components [calendar] correctly validate date ranges that span across years (#24327 by @guozi9999)
+- Components [input-otp] avoid sticky hover on touch devices (#24374 by @ixyzorg)
+- Components [select/v2] hide empty input-wrapper only when multiple (#24177 by @Yeuvoir)
+- Components [tour] ensure `current` prop is controlled when passed (#19675 by @DDDDD12138)
+- Components [time-select] guard invalid time values (#24329 by @guozi9999)
+
+### 2.14.1
+
+_2026-05-29_
+
+#### Features
+
+- Components [tabs] support scrolling via touch (#24292 by @rzzf)
+
+#### Bug fixes
+
+- Components [date-picker-panel] prevent early range fix (#24011 by @LostElkByte)
+- Components [tree-v2] get current key before node click (#24232 by @rzzf)
+- Components [text] refresh truncated title after layout changes (#24233 by @rzzf)
+- Components [date-picker-panel]honor disabledDate on adjusted range (#24085 by @LostElkByte)
+- Components [cascader] prevent duplicate root lazy-load calls (#24269 by @rzzf)
+- Components [tree] respect check-strictly on lazy load (#24267 by @ruguoba)
+- Components [message-box] hide btns container when both buttons are hidden (#24283 by @whcanic)
+- Components [select/v2] ios click listening (#24033 by @ixyzorg)
+- Components [config-provider] preserve zero zIndex (#24331 by @guozi9999)
+
+#### Refactors
+
+- Components [table] make component generic (#24201 by @rzzf)
+- Components [table] improve emits type (#24245 by @rzzf)
+- Components [table] use UseTooltipProps for overflow tooltip (#24278 by @xingyixiang)
+
+### 2.14.0
+
+_2026-05-08_
+
+#### Features
+
+- Components [date-picker] add `singlePanel` for range-picker (#19498 by @Dsaquel)
+- Components [input-number] add `tabindex` prop (#23582 by @rzzf)
+- Components [tree/tree-v2/tree-select] setChecked supports deep check (#23591 by @l246804)
+- Components [input-otp] new component (#23634 by @rzzf)
+- Components [input-number] add formatter and parser props (#23271 by @rzzf)
+- Components [select/select-v2] add `end-reached` event (#23806 by @ALypovskyi)
+- Components [autocomplete] add `popper-options` and `show-arrow` props (#24109 by @rzzf)
+- Components [cascader] support `virtual-scroll` & `fitInputWidth` & `height` & `item-size` (#23877 by @zhixiaotong)
+- Components [message-box] pass action-handlers to vnode (#23901 by @micaiguai)
+- Components style properties support Boolean values (#24165 by @rzzf)
+
+#### Bug fixes
+
+- Deps update dependency @docsearch/css to v4 (#24000 by @renovate[bot])
+- Deps update dependency @docsearch/js to v4 (#24001 by @renovate[bot])
+- Deps update dependency typescript to v6 (#24026 by @renovate[bot])
+- Components [message] missing content wrapper in VNode message (#23352 by @romankaravia)
+- Style [form-item] remove trailing inline margin (#23671 by @Dsaquel)
+- Components [virtual-list] `scrollbar-always-on` loses reactivity (#24064 by @rzzf)
+- Components [input] prevent layout shift when toggling clear icon (#23661 by @Dsaquel)
+- Components [input] avoid border flicker while resizing (#24078 by @rzzf)
+- Components [segmented] incorrect bg position after update options (#24101 by @rzzf)
+- Dts some type declarations in tree-v2 are missing (#24116 by @rzzf)
+- Components [table] prevent stale height callbacks (#24118 by @xingyixiang)
+- Deps update dependency typescript to ~6.0.3 (#24125 by @renovate[bot])
+- Deps update dependency globals to ^17.5.0 (#24133 by @renovate[bot])
+- Deps update dependency components-helper to ^2.2.0 (#24127 by @renovate[bot])
+- Deps update dependency @types/lodash to ^4.17.24 (#24126 by @renovate[bot])
+- Deps update dependency eslint-plugin-prettier to ^5.5.5 (#24124 by @renovate[bot])
+- Deps update dependency prettier to ^3.8.3 (#24129 by @renovate[bot])
+- Deps update dependency typescript-eslint to ^8.59.0 (#24130 by @renovate[bot])
+- Components [select] correctly display selected labels after `options` change (#24036 by @LostElkByte)
+- Deps update dependency markdown-it to ^14.1.1 (#24138 by @renovate[bot])
+- Deps update dependency tinyglobby to ^0.2.16 (#24139 by @renovate[bot])
+- Deps update dependency eslint-plugin-vue to ^10.9.0 (#24128 by @renovate[bot])
+- Components [table] parent-child selection mismatch in tree data (#23596 by @zhixiaotong)
+- Components [input] incorrect positioning of icon and count when resizing `textarea` (#24115 by @rzzf)
+- Components [dialog] incorrect boundary when resizing the window (#24172 by @rzzf)
+- Components [splitter] expand panel with initial zero size (#24200 by @rzzf)
+- Build generate correct DTS for all non-entry files (#24179 by @rzzf)
+
+#### Refactors
+
+- Components remove console noises from failed form validation (#23663 by @Dsaquel)
+- Components [select/v2] remove the unnecessary `computed` (#24058 by @ixyzorg)
+- Types import MaybeRef from vue instead of @vueuse/core (#24068 by @btea)
+- Element-plus remove `el-teleport` (#23219 by @micaiguai)
+- Components [menu-item] set index attribute to required (#20453 by @zzjiaxiang)
+- Components [cascader] replace `defineSlots` with `useSlots` (#24114 by @rzzf)
+
+### 2.13.7
+
+_2026-04-10_
+
+#### Features
+
+- Components [input] add count-graphemes (#12041 by @btea)
+- Components [dialog] bring clicked dialog to front (#23863 by @snowbitx)
+- Components [input] expose passwordVisible (#23921 by @snowbitx)
+- Components [button] support custom color with link/text (#24005 by @LostElkByte)
+
+#### Bug fixes
+
+- Using csstype type ts error (#23887 by @btea)
+- Components [checkbox] reset selection state when model is null (#23856 by @zuwenyin)
+- Hooks [use-timeout] avoid window usage in SSR (#23907 by @iml885203)
+- Components [time-picker] allow clearing time via keyboard when using `is-range` (#23878 by @IceMooncake)
+- Components [cascader] trigger before-filter on empty query (#23898 by @snowbitx)
+- Components [form] reset stale props on dynamic fields (#23706 by @l246804)
+- Components [scrollbar] sync offsets while resize (#23853 by @ZacharyBear)
+- Components [table-v2] add slot typings (#23948 by @DDDDD12138)
+- Components [table] lingering row background when layout changes (#23961 by @rzzf)
+- Build compatible with generic components (#23968 by @btea)
+- Components [cascader] prevent selecting first leaf node on ArrowDown (#23954 by @lw56777)
+- Components [scrollbar] incorrect boundary detection float number (#23971 by @btea)
+- Deps update dependency @eslint/markdown to v8 (#23985 by @renovate[bot])
+- Components [select/v2] prevent blur close on modified mousedown (#23969 by @rzzf)
+- Components [message] fix offset position anomaly (#23988 by @qeTM)
+- Deps update dependency globals to v17 (#23992 by @renovate[bot])
+- Deps update dependency eslint-plugin-jsonc to v3 (#23991 by @renovate[bot])
+- Deps update dependency consola to v3 (#23997 by @renovate[bot])
+- Deps update dependency eslint-plugin-unicorn to v64 (#23998 by @renovate[bot])
+- Deps update dependency @pnpm/logger to v5 (#23987 by @renovate[bot])
+- Deps update eslint monorepo to v10 (major) (#24002 by @renovate[bot])
+
+#### Refactors
+
+- Components [calendar,data-picker] unify using constants (#23868 by @micaiguai)
+- Components [mention] make component generic (#23926 by @rzzf)
+- Components [transfer] make component generic (#23666 by @Dsaquel)
+- Components cleanup defineProps types (#23934 by @rzzf)
+- Components [autocomplete] make component generic (#23927 by @snowbitx)
+- Components [mention/autocomplete] remove references marked as deprecated (#23970 by @rzzf)
+
+### 2.13.6
+
+_2026-03-20_
+
+#### Features
+
+- Components [slider] allow `step` to be set to "mark" (#23685 by @zhixiaotong)
+- Components [input] add `password-icon` slot (#23772 by @zhixiaotong)
+- Components [color-picker-panel] add hue-slider-class and hue-slider-style props (#23499 by @ZacharyBear)
+- Components [input] support inputmode for textarea (#23813 by @snowbitx)
+
+#### Bug fixes
+
+- Components [tooltip] sync visible after disabled toggle (#23738 by @snowbitx)
+- Components [mention] remove the whole input containing a split (#23753 by @rzzf)
+- Components [tab] incorrect boundary detection when container size is a float number (#23774 by @rzzf)
+- Components [table] expanded rows cannot be updated using array methods (#23761 by @rzzf)
+- Components [tree-v2] update expanded state when defaultExpandedKeys change (#23557 by @hellomrbigshot)
+- Components [select] using the options prop can cause list data loss when quickly switching between dropdowns (#23780 by @lw56777)
+- Components [select] allow empty labels when persistent is false (#23809 by @snowbitx)
+- Components [popper] update popover style when content size changes (#23802 by @rzzf)
+- Components [tabs] incorrect boundary detection when container size is a float number (#23776 by @rzzf)
+- Hooks [use-composition] abnormal state in Korean input composition (#23831 by @rzzf)
+- Components [select/select-v2] avoid hiding the dropdown when there is data in `options` (#23838 by @keeplearning66)
+- Improvement(components): [tabs] navigation wheel scrolling experience (#23775 by @rzzf)
+- Style(components): [tag] fix icon in slot causing text wrap (#23725 by @zmyjs)
+
+#### Refactors
+
+- Components [segmented] make component generic (#23678 by @rzzf)
+- Docs avoid duplicate create regexp (#23848 by @btea)
+
+### 2.13.5
+
+_2026-03-07_
+
+#### Bug fixes
+
+- Chore: fix build (#23737 by @btea)
+- Chore: fix locale/lang/*.ts dts default export (#23741 by @rzzf)
+
+### 2.13.4
+
+_2026-03-06_
+
+#### Features
+
+- Components [input] emit clear event pass event parameter (#23696 by @btea)
+- Components [input] textarea supports clearing effects (#23723 by @btea)
+- Components [time-picker] add `save-on-blur` prop (#23531 by @snowbitx)
+- Components [popover] expose hide() through slot (#23694 by @ZacharyBear)
+
+#### Bug fixes
+
+- Components [tree] reconcile parent states in setCheckedKeys (#23697 by @Dsaquel)
+- Components [color-picker-panel] set showAlpha default to false (#23709 by @snowbitx)
+
 ### 2.13.3
 
 _2026-02-28_

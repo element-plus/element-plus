@@ -11,7 +11,7 @@ export type {
   TableV2HeaderRowRendererParams,
 } from './header-row'
 
-export type { TableV2RowCellRenderParam } from './row'
+export type { TableV2RowCellRenderParam, TableV2RowSlotProps } from './row'
 export type {
   TableV2HeaderRendererParams,
   TableV2HeaderInstance,

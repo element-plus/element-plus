@@ -1,8 +1,9 @@
 import { buttonTypes } from '@element-plus/components/button'
 
-import type { AppContext, CSSProperties, Component, VNode } from 'vue'
+import type { AppContext, Component, VNode } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type { InputType } from '@element-plus/components/input/src/input'
+import type { CSSProperties } from '@element-plus/utils'
 
 type MessageType = '' | 'primary' | 'success' | 'warning' | 'info' | 'error'
 type MessageBoxButtonType = (typeof buttonTypes)[number]
@@ -16,8 +17,13 @@ export interface MessageBoxInputData {
 }
 
 export type MessageBoxInputValidator =
-  | ((value: string) => boolean | string)
-  | undefined
+  ((value: string) => boolean | string) | undefined
+export type CloseFn = () => void
+export interface MessageBoxActionHandlers {
+  confirm: CloseFn
+  cancel: CloseFn
+  close: CloseFn
+}
 
 export declare interface MessageBoxState {
   autofocus: boolean
@@ -26,7 +32,7 @@ export declare interface MessageBoxState {
   type: MessageType
   icon: string | Component
   closeIcon: string | Component
-  customClass: string
+  customClass: string // todo: use ClassValue, TS Error: ts-plugin(2589)
   customStyle: CSSProperties
   showInput: boolean
   inputValue: string
@@ -67,8 +73,7 @@ export declare interface MessageBoxState {
 }
 
 export type Callback =
-  | ((value: string, action: Action) => any)
-  | ((action: Action) => any)
+  ((value: string, action: Action) => any) | ((action: Action) => any)
 
 /** Options used in MessageBox */
 export interface ElMessageBoxOptions {
@@ -133,7 +138,7 @@ export interface ElMessageBoxOptions {
   overflow?: boolean
 
   /** Content of the MessageBox */
-  message?: string | VNode | (() => VNode)
+  message?: string | VNode | ((params: MessageBoxActionHandlers) => VNode)
 
   /** Title of the MessageBox */
   title?: string | ElMessageBoxOptions
@@ -221,7 +226,7 @@ export type ElMessageBoxShortcutMethod = ((
   ) => Promise<MessageBoxData>)
 
 export interface IElMessageBox {
-  _context: AppContext | null;
+  _context: AppContext | null
 
   /** Show a message box */
   // (message: string, title?: string, type?: string): Promise<MessageBoxData>
@@ -242,5 +247,5 @@ export interface IElMessageBox {
   prompt: ElMessageBoxShortcutMethod
 
   /** Close current message box */
-  close(): void
+  close: CloseFn
 }

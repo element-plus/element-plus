@@ -252,8 +252,7 @@ type ArrayMethodKey = keyof any[]
 type TupleKey<T extends ReadonlyArray<any>> = Exclude<keyof T, ArrayMethodKey>
 type ArrayKey = number
 type PathImpl<K extends string | number, V> = V extends
-  | Primitive
-  | BrowserNativeObject
+  Primitive | BrowserNativeObject
   ? `${K}`
   : `${K}` | `${K}.${Path<V>}`
 type Path<T> =

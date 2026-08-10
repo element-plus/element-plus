@@ -6,6 +6,8 @@
     :fallback-placements="['bottom-start', 'top-start']"
     :popper-class="[ns.e('popper'), popperClass!]"
     :popper-style="popperStyle"
+    :popper-options="popperOptions"
+    :show-arrow="showArrow"
     :teleported="teleported"
     :append-to="appendTo"
     :gpu-acceleration="false"
@@ -112,7 +114,11 @@
   </el-tooltip>
 </template>
 
-<script lang="ts" setup>
+<script
+  lang="ts"
+  setup
+  generic="T extends AutocompleteDataItem = AutocompleteDataItem"
+>
 import {
   computed,
   mergeProps,
@@ -132,18 +138,19 @@ import {
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import ElInput, {
-  inputProps,
-  inputPropsDefaults,
-} from '@element-plus/components/input'
+import ElInput, { inputPropsDefaults } from '@element-plus/components/input'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElIcon from '@element-plus/components/icon'
 import { useFormDisabled } from '@element-plus/components/form'
 import { autocompleteEmits } from './autocomplete'
 
-import type { AutocompleteData, AutocompleteProps } from './autocomplete'
-import type { StyleValue } from 'vue'
+import type {
+  AutocompleteData,
+  AutocompleteDataItem,
+  AutocompleteProps,
+} from './autocomplete'
+import type { Ref, StyleValue } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { InputInstance } from '@element-plus/components/input'
 
@@ -153,7 +160,7 @@ defineOptions({
   inheritAttrs: false,
 })
 
-const props = withDefaults(defineProps<AutocompleteProps>(), {
+const props = withDefaults(defineProps<AutocompleteProps<T>>(), {
   ...inputPropsDefaults,
   valueKey: 'value',
   modelValue: '',
@@ -163,10 +170,17 @@ const props = withDefaults(defineProps<AutocompleteProps>(), {
   triggerOnFocus: true,
   loopNavigation: true,
   teleported: true,
+  showArrow: true,
+  popperClass: undefined,
+  popperStyle: undefined,
+  popperOptions: () => ({}),
 })
 const emit = defineEmits(autocompleteEmits)
-
-const passInputProps = computed(() => pick(props, Object.keys(inputProps)))
+const passInputProps = computed(() => {
+  const inputProps = ElInput.props ?? []
+  const keys = isArray(inputProps) ? inputProps : Object.keys(inputProps)
+  return pick(props, keys)
+})
 
 const rawAttrs = useRawAttrs()
 const disabled = useFormDisabled()
@@ -179,7 +193,7 @@ const listboxRef = ref<HTMLElement>()
 
 let readonly = false
 let ignoreFocusEvent = false
-const suggestions = ref<AutocompleteData>([])
+const suggestions = ref([]) as Ref<AutocompleteData<T>>
 const highlightedIndex = ref(-1)
 const dropdownWidth = ref('')
 const activated = ref(false)
@@ -218,7 +232,7 @@ const onHide = () => {
 const getData = async (queryString: string) => {
   if (suggestionDisabled.value) return
 
-  const cb = (suggestionList: AutocompleteData) => {
+  const cb = (suggestionList: AutocompleteData<T>) => {
     loading.value = false
     if (suggestionDisabled.value) return
 
@@ -280,6 +294,8 @@ const handleFocus = (evt: FocusEvent) => {
     emit('focus', evt)
     const queryString = props.modelValue ?? ''
     if (props.triggerOnFocus && !readonly) {
+      suggestions.value = []
+      highlightedIndex.value = -1
       debouncedGetData(String(queryString))
     }
   } else {
@@ -348,7 +364,7 @@ const blur = () => {
   inputRef.value?.blur()
 }
 
-const handleSelect = async (item: any) => {
+const handleSelect = async (item: T) => {
   emit(INPUT_EVENT, item[props.valueKey])
   emit(UPDATE_MODEL_EVENT, item[props.valueKey])
   emit('select', item)

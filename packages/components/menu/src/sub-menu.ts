@@ -34,12 +34,13 @@ import useMenu from './use-menu'
 import { useMenuCssVar } from './use-menu-css-var'
 import { MENU_INJECTION_KEY, SUB_MENU_INJECTION_KEY } from './tokens'
 
+import type { ClassValue } from '@element-plus/utils'
 import type { Placement } from '@element-plus/components/popper'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type {
-  CSSProperties,
   ExtractPropTypes,
   ExtractPublicPropTypes,
+  StyleValue,
   VNodeArrayChildren,
 } from 'vue'
 import type { MenuProvider, SubMenuProvider } from './types'
@@ -63,12 +64,16 @@ export const subMenuProps = buildProps({
   /**
    * @description custom class name for the popup menu
    */
-  popperClass: String,
+  popperClass: {
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
+    default: undefined,
+  },
   /**
    * @description custom style for the popup menu
    */
   popperStyle: {
-    type: definePropType<string | CSSProperties>([String, Object]),
+    type: definePropType<StyleValue>([String, Array, Object, Boolean]),
+    default: undefined,
   },
   /**
    * @description whether the sub-menu is disabled

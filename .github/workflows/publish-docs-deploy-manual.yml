@@ -4,19 +4,26 @@ on: workflow_dispatch
 
 jobs:
   deploy-docs:
+    concurrency:
+      group: docs-i18n-sync
+      cancel-in-progress: false
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
 
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: 20
+          node-version: 24
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -42,6 +49,23 @@ jobs:
           LATEST_VERSION=$(curl -s https://api.github.com/repos/element-plus/element-plus/releases/latest | jq -r '.tag_name')
           echo "latest_version=${LATEST_VERSION}" >> $GITHUB_OUTPUT
 
+      - name: Sync translations to docs-i18n
+        env:
+          RELEASE_VERSION: ${{ steps.get_release.outputs.latest_version }}
+          EP_BOT_TOKEN: ${{ secrets.EP_BOT_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          TARGET_REPO="$(mktemp -d)"
+
+          git clone \
+            --depth=1 \
+            "https://x-access-token:${EP_BOT_TOKEN}@github.com/element-plus/docs-i18n.git" \
+            "$TARGET_REPO"
+
+          COMMIT_MESSAGE="docs-i18n: sync translations for ${RELEASE_VERSION}" \
+            bash scripts/sync-docs-i18n.sh "$GITHUB_WORKSPACE/docs" "$TARGET_REPO" --push
+
       - name: Build Metadata
         run: cd internal/metadata && pnpm build
         env:
@@ -51,10 +75,10 @@ jobs:
         run: pnpm docs:build
         env:
           DOC_ENV: production
-          NODE_OPTIONS: --max-old-space-size=6144
+          NODE_OPTIONS: --max-old-space-size=8192
 
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        uses: JamesIves/github-pages-deploy-action@fa24774553152dd7873cd16ebd8d959b010c5445 # v4.9.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
@@ -64,21 +88,73 @@ jobs:
           commit-message: website deploy ${{ steps.get_release.outputs.latest_version }}
 
       - name: Deploy to Vercel
-        uses: JamesIves/github-pages-deploy-action@v4.4.1
-        with:
-          token: ${{ secrets.EP_BOT_TOKEN }}
-          branch: main
-          folder: docs/.vitepress/dist
-          repository-name: element-plus/vercel-publish
-          git-config-name: ElementPlusBot
-          git-config-email: element-plus@outlook.com
+        env:
+          RELEASE_VERSION: ${{ steps.get_release.outputs.latest_version }}
+        run: |
+          set -euo pipefail
+
+          REPO_DIR="$(mktemp -d)"
+
+          git clone \
+            --depth=1 \
+            https://x-access-token:${{ secrets.EP_BOT_TOKEN }}@github.com/element-plus/vercel-publish.git \
+            "$REPO_DIR"
+
+          rsync -a \
+            --delete \
+            --exclude .git \
+            --exclude CNAME \
+            docs/.vitepress/dist/ \
+            "$REPO_DIR/"
+
+          cd "$REPO_DIR"
+
+          git config user.name "ElementPlusBot"
+          git config user.email "element-plus@outlook.com"
+
+          git add -A
+
+          if git diff --cached --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+
+          git commit -m "website deploy ${RELEASE_VERSION}"
+
+          git push origin main --force-with-lease
 
       - name: Deploy to Vercel Main
-        uses: JamesIves/github-pages-deploy-action@v4.4.1
-        with:
-          token: ${{ secrets.EP_BOT_TOKEN }}
-          branch: main
-          folder: docs/.vitepress/dist
-          repository-name: element-plus/vercel-publish-main
-          git-config-name: ElementPlusBot
-          git-config-email: element-plus@outlook.com
+        env:
+          RELEASE_VERSION: ${{ steps.get_release.outputs.latest_version }}
+        run: |
+          set -euo pipefail
+
+          REPO_DIR="$(mktemp -d)"
+
+          git clone \
+            --depth=1 \
+            https://x-access-token:${{ secrets.EP_BOT_TOKEN }}@github.com/element-plus/vercel-publish-main.git \
+            "$REPO_DIR"
+
+          rsync -a \
+            --delete \
+            --exclude .git \
+            --exclude CNAME \
+            docs/.vitepress/dist/ \
+            "$REPO_DIR/"
+
+          cd "$REPO_DIR"
+
+          git config user.name "ElementPlusBot"
+          git config user.email "element-plus@outlook.com"
+
+          git add -A
+
+          if git diff --cached --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+
+          git commit -m "website deploy ${RELEASE_VERSION}"
+
+          git push origin main --force-with-lease

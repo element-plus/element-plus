@@ -1,6 +1,7 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
 import type { ExtractPublicPropTypes, InjectionKey, StyleValue } from 'vue'
+import type { ClassValue } from '@element-plus/utils'
 
 export interface CardProps {
   /**
@@ -18,15 +19,15 @@ export interface CardProps {
   /**
    * @description custom class name of card header
    */
-  headerClass?: string
+  headerClass?: ClassValue
   /**
    * @description custom class name of card body
    */
-  bodyClass?: string
+  bodyClass?: ClassValue
   /**
    * @description custom class name of card footer
    */
-  footerClass?: string
+  footerClass?: ClassValue
   /**
    * @description when to show card shadows
    */
@@ -55,21 +56,30 @@ export const cardProps = buildProps({
    * @description CSS style of card body
    */
   bodyStyle: {
-    type: definePropType<StyleValue>([String, Object, Array]),
+    type: definePropType<StyleValue>([String, Object, Array, Boolean]),
     default: '',
   },
   /**
    * @description custom class name of card footer
    */
-  headerClass: String,
+  headerClass: {
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
+    default: undefined,
+  },
   /**
    * @description custom class name of card body
    */
-  bodyClass: String,
+  bodyClass: {
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
+    default: undefined,
+  },
   /**
    * @description custom class name of card footer
    */
-  footerClass: String,
+  footerClass: {
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
+    default: undefined,
+  },
   /**
    * @description when to show card shadows
    */

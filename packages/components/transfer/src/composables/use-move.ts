@@ -11,9 +11,12 @@ import type {
   TransferProps,
 } from '../transfer'
 
-export const useMove = (
+export const useMove = <T extends TransferDataItem = TransferDataItem>(
   props: Required<
-    Omit<TransferProps, 'filterPlaceholder' | 'filterMethod' | 'renderContent'>
+    Omit<
+      TransferProps<T>,
+      'filterPlaceholder' | 'filterMethod' | 'renderContent'
+    >
   >,
   checkedState: TransferCheckedState,
   emit: SetupContext<TransferEmits>['emit']
@@ -45,7 +48,7 @@ export const useMove = (
     let currentValue = props.modelValue.slice()
 
     const itemsToBeMoved = props.data
-      .filter((item: TransferDataItem) => {
+      .filter((item) => {
         const itemKey = item[propsAlias.value.key]
         return (
           checkedState.leftChecked.includes(itemKey) &&

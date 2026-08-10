@@ -5,6 +5,9 @@ on:
     branches:
       - 'dev'
 
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
   cancel-in-progress: true
@@ -17,15 +20,17 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
 
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: 20
+          node-version: 24
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -71,14 +76,38 @@ jobs:
         run: pnpm docs:build
         env:
           DOC_ENV: staging
-          NODE_OPTIONS: --max-old-space-size=6144
+          NODE_OPTIONS: --max-old-space-size=8192
 
       - name: Deploy staging website
-        uses: JamesIves/github-pages-deploy-action@v4.4.1
-        with:
-          token: ${{ secrets.EP_BOT_TOKEN }}
-          branch: main
-          folder: docs/.vitepress/dist
-          repository-name: element-plus/staging
-          git-config-name: ElementPlusBot
-          git-config-email: element-plus@outlook.com
+        run: |
+          set -euo pipefail
+
+          REPO_DIR="$(mktemp -d)"
+
+          git clone \
+            --depth=1 \
+            https://x-access-token:${{ secrets.EP_BOT_TOKEN }}@github.com/element-plus/staging.git \
+            "$REPO_DIR"
+
+          rsync -a \
+            --delete \
+            --exclude .git \
+            --exclude CNAME \
+            docs/.vitepress/dist/ \
+            "$REPO_DIR/"
+
+          cd "$REPO_DIR"
+
+          git config user.name "ElementPlusBot"
+          git config user.email "element-plus@outlook.com"
+
+          git add -A
+
+          if git diff --cached --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+
+          git commit -m "website deploy ${TAG_VERSION}"
+
+          git push origin main --force-with-lease

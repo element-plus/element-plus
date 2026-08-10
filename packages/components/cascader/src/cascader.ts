@@ -22,9 +22,7 @@ import type {
   CascaderValue,
 } from '@element-plus/components/cascader-panel'
 import type { TagProps } from '@element-plus/components/tag'
-import type { IconPropType } from '@element-plus/utils'
-
-type CascaderClassType = string | Record<string, boolean> | CascaderClassType[]
+import type { ClassValue, IconPropType } from '@element-plus/utils'
 
 export interface CascaderComponentProps
   extends CascaderCommonProps, UseEmptyValuesProps {
@@ -99,7 +97,7 @@ export interface CascaderComponentProps
   /**
    * @description custom class name for Cascader's dropdown
    */
-  popperClass?: CascaderClassType
+  popperClass?: ClassValue
   /**
    * @description custom style for Cascader's dropdown
    */
@@ -141,6 +139,10 @@ export interface CascaderComponentProps
    * @description whether to show the radio or checkbox prefix
    */
   showPrefix?: boolean
+  /**
+   * @description whether the width of the suggestion panel is the same as the input, if the value is `number`, then the width is fixed
+   */
+  fitInputWidth?: boolean | number
 }
 
 /**
@@ -313,6 +315,13 @@ export const cascaderProps = buildProps({
   showPrefix: {
     type: Boolean,
     default: true,
+  },
+  /**
+   * @description whether the width of the suggestion panel is the same as the input, if the value is `number`, then the width is fixed
+   */
+  fitInputWidth: {
+    type: [Boolean, Number],
+    default: false,
   },
   ...useEmptyValuesProps,
 })

@@ -334,4 +334,38 @@ describe('Mention.vue', () => {
     expect(inputEl.element.value).toBe('@')
     expect(model.value).toBe('@')
   })
+
+  test('should remove whole mention with spaces when pressing backspace', async () => {
+    const model = ref('@test 1 ')
+    const onWholeRemove = vi.fn()
+    const wrapper = mount(
+      () => (
+        <Mention
+          v-model={model.value}
+          options={[{ label: 'test 1', value: 'test 1' }]}
+          whole
+          onWhole-remove={onWholeRemove}
+        />
+      ),
+      {
+        attachTo: document.body,
+      }
+    )
+
+    const inputEl = wrapper.find('input')
+    inputEl.element.focus()
+    inputEl.element.setSelectionRange(8, 8)
+    await inputEl.trigger('focus')
+    vi.advanceTimersByTime(150)
+    await nextTick()
+
+    await inputEl.trigger('keydown', {
+      code: EVENT_CODE.backspace,
+      key: EVENT_CODE.backspace,
+    })
+    await nextTick()
+
+    expect(model.value).toBe('')
+    expect(onWholeRemove).toHaveBeenCalledWith('test 1', '@')
+  })
 })

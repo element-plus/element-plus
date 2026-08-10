@@ -112,11 +112,7 @@ export const useSelect = (
     // https://github.com/element-plus/element-plus/issues/14204
     'onUpdate:modelValue': (value) => emit(UPDATE_MODEL_EVENT, value),
     valueKey: key,
-    popperClass: computed(() => {
-      const classes = [ns.e('popper')]
-      if (props.popperClass) classes.push(props.popperClass)
-      return classes.join(' ')
-    }),
+    popperClass: computed(() => [ns.e('popper'), props.popperClass]),
     filterMethod: (keyword = '') => {
       if (props.filterMethod) {
         props.filterMethod(keyword)

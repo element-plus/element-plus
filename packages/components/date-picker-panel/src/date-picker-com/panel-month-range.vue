@@ -7,6 +7,7 @@
       ppNs.is('disabled', monthRangeDisabled),
       {
         'has-sidebar': Boolean($slots.sidebar) || hasShortcuts,
+        'single-panel': singlePanel,
       },
     ]"
   >
@@ -25,7 +26,13 @@
         </button>
       </div>
       <div :class="ppNs.e('body')">
-        <div :class="[ppNs.e('content'), drpNs.e('content')]" class="is-left">
+        <div
+          :class="[
+            ppNs.e('content'),
+            drpNs.e('content'),
+            drpNs.is('left', !singlePanel),
+          ]"
+        >
           <div :class="drpNs.e('header')">
             <button
               type="button"
@@ -39,7 +46,7 @@
               </slot>
             </button>
             <button
-              v-if="unlinkPanels"
+              v-if="unlinkPanels || singlePanel"
               type="button"
               :disabled="!enableYearArrow || monthRangeDisabled"
               :class="[
@@ -69,7 +76,11 @@
             @select="onSelect"
           />
         </div>
-        <div :class="[ppNs.e('content'), drpNs.e('content')]" class="is-right">
+        <div
+          v-if="!singlePanel"
+          :class="[ppNs.e('content'), drpNs.e('content')]"
+          class="is-right"
+        >
           <div :class="drpNs.e('header')">
             <button
               v-if="unlinkPanels"
@@ -136,7 +147,6 @@ import {
 } from '../props/panel-month-range'
 import { useMonthRangeHeader } from '../composables/use-month-range-header'
 import { useRangePicker } from '../composables/use-range-picker'
-import { ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY } from '../constants'
 import MonthTable from './basic-month-table.vue'
 import { useFormDisabled } from '@element-plus/components/form'
 
@@ -152,10 +162,6 @@ const unit = 'year'
 
 const { lang } = useLocale()
 const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
-const isDefaultFormat = inject(
-  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY,
-  undefined
-) as any
 const { shortcuts, disabledDate, cellClassName } = pickerBase.props
 const format = toRef(pickerBase.props, 'format')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
@@ -200,7 +206,10 @@ const {
 })
 
 const enableYearArrow = computed(() => {
-  return props.unlinkPanels && rightYear.value > leftYear.value + 1
+  return (
+    props.singlePanel ||
+    (props.unlinkPanels && rightYear.value > leftYear.value + 1)
+  )
 })
 
 type RangePickValue = {
@@ -241,12 +250,7 @@ const handleClear = () => {
 }
 
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
-  return correctlyParseUserInput(
-    value,
-    format.value,
-    lang.value,
-    isDefaultFormat
-  )
+  return correctlyParseUserInput(value, format.value, lang.value)
 }
 
 function sortDates(minDate: Dayjs | undefined, maxDate: Dayjs | undefined) {

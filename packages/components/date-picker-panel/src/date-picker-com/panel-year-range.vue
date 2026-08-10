@@ -28,7 +28,7 @@
               </slot>
             </button>
             <button
-              v-if="unlinkPanels"
+              v-if="unlinkPanels || singlePanel"
               type="button"
               :disabled="!enableYearArrow || yearRangeDisabled"
               :class="leftPanelKls.arrowRightBtn"
@@ -54,7 +54,7 @@
             @select="onSelect"
           />
         </div>
-        <div :class="rightPanelKls.content">
+        <div v-if="!singlePanel" :class="rightPanelKls.content">
           <div :class="drpNs.e('header')">
             <button
               v-if="unlinkPanels"
@@ -116,7 +116,6 @@ import {
   getDefaultValue,
   isValidRange,
 } from '../utils'
-import { ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY } from '../constants'
 import YearTable from './basic-year-table.vue'
 import { useFormDisabled } from '@element-plus/components/form'
 
@@ -134,10 +133,6 @@ const unit = 'year'
 const { lang } = useLocale()
 const leftDate = ref(dayjs().locale(lang.value))
 const rightDate = ref(dayjs().locale(lang.value).add(step, unit))
-const isDefaultFormat = inject(
-  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY,
-  undefined
-) as any
 const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
 const { shortcuts, disabledDate, cellClassName } = pickerBase.props
 const format = toRef(pickerBase.props, 'format')
@@ -190,12 +185,17 @@ const panelKls = computed(() => [
   ppNs.is('disabled', yearRangeDisabled.value),
   {
     'has-sidebar': Boolean(useSlots().sidebar) || hasShortcuts.value,
+    'single-panel': props.singlePanel,
   },
 ])
 
 const leftPanelKls = computed(() => {
   return {
-    content: [ppNs.e('content'), drpNs.e('content'), 'is-left'],
+    content: [
+      ppNs.e('content'),
+      drpNs.e('content'),
+      drpNs.is('left', !props.singlePanel),
+    ],
     arrowLeftBtn: [ppNs.e('icon-btn'), 'd-arrow-left'],
     arrowRightBtn: [
       ppNs.e('icon-btn'),
@@ -218,7 +218,10 @@ const rightPanelKls = computed(() => {
 })
 
 const enableYearArrow = computed(() => {
-  return props.unlinkPanels && rightYear.value > leftYear.value + 1
+  return (
+    props.singlePanel ||
+    (props.unlinkPanels && rightYear.value > leftYear.value + 1)
+  )
 })
 
 type RangePickValue = {
@@ -240,12 +243,7 @@ const handleRangePick = (val: RangePickValue, close = true) => {
 }
 
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
-  return correctlyParseUserInput(
-    value,
-    format.value,
-    lang.value,
-    isDefaultFormat
-  )
+  return correctlyParseUserInput(value, format.value, lang.value)
 }
 
 const isValidValue = (date: [Dayjs, Dayjs]) => {

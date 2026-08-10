@@ -1,6 +1,6 @@
 import process from 'process'
 import { performance } from 'node:perf_hooks'
-import chalk from 'chalk'
+import { styleText } from 'node:util'
 import consola from 'consola'
 
 type Awaitable<T> = Promise<T> | T
@@ -14,7 +14,7 @@ export async function execCommand<T extends () => Awaitable<any>>(
   fnc: T,
   overrideName?: string
 ) {
-  const commandName = chalk.cyan(overrideName || fnc.name)
+  const commandName = styleText('cyan', overrideName || fnc.name)
   try {
     const startTime = performance.now()
     consola.info(`Starting '${commandName}'...`)
@@ -24,7 +24,9 @@ export async function execCommand<T extends () => Awaitable<any>>(
       elapsedTime < 1000
         ? `${elapsedTime.toFixed(2)}ms`
         : `${(elapsedTime / 1000).toFixed(2)}s`
-    consola.info(`Ending '${commandName}' ${chalk.magenta(suffixTimeLog)}`)
+    consola.info(
+      `Ending '${commandName}' ${styleText('magenta', suffixTimeLog)}`
+    )
   } catch (e: any) {
     errorAndExit(e)
   }

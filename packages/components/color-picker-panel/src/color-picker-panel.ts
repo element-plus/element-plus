@@ -2,8 +2,14 @@ import { isNil } from 'lodash-unified'
 import { buildProps, definePropType, isString } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
-import type { ComputedRef, ExtractPublicPropTypes, InjectionKey } from 'vue'
+import type {
+  ComputedRef,
+  ExtractPublicPropTypes,
+  InjectionKey,
+  StyleValue,
+} from 'vue'
 import type { ColorFormats } from '@ctrl/tinycolor'
+import type { ClassValue } from '@element-plus/utils'
 import type ColorPickerPanel from './color-picker-panel.vue'
 import type Color from './utils/color'
 
@@ -36,6 +42,14 @@ export interface ColorPickerPanelProps {
    * @description whether to trigger form validation
    */
   validateEvent?: boolean
+  /**
+   * @description class names will be passed to hue-slider
+   */
+  hueSliderClass?: ClassValue
+  /**
+   * @description styles will be passed to hue-slider
+   */
+  hueSliderStyle?: StyleValue
 }
 
 /**
@@ -82,6 +96,20 @@ export const colorPickerPanelProps = buildProps({
   validateEvent: {
     type: Boolean,
     default: true,
+  },
+  /**
+   * @description class names will be passed to <hue-slider />
+   */
+  hueSliderClass: {
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
+    default: undefined,
+  },
+  /**
+   * @description styles will be passed to <hue-slider />
+   */
+  hueSliderStyle: {
+    type: definePropType<StyleValue>([String, Array, Object, Boolean]),
+    default: undefined,
   },
 } as const)
 export const colorPickerPanelEmits = {

@@ -1,4 +1,5 @@
 import { computed, ref, watch } from 'vue'
+import { clamp } from 'lodash-unified'
 import { getPct, getPx, isPct, isPx } from './useSize'
 import { NOOP } from '@element-plus/utils'
 
@@ -130,7 +131,11 @@ export function useResize(
   const cacheCollapsedSize: number[] = []
   const onCollapse = (index: number, type: 'start' | 'end') => {
     if (!cacheCollapsedSize.length) {
-      cacheCollapsedSize.push(...pxSizes.value)
+      cacheCollapsedSize.push(
+        ...pxSizes.value.map((size, i) =>
+          size <= 0 ? getLimitSize(limitSizes.value[i]?.[0], 0) : size
+        )
+      )
     }
 
     const currentSizes = pxSizes.value
@@ -148,7 +153,11 @@ export function useResize(
     } else {
       const totalSize = currentSize + targetSize
 
-      const targetCacheCollapsedSize = cacheCollapsedSize[index]
+      const targetCacheCollapsedSize = clamp(
+        cacheCollapsedSize[index],
+        0,
+        totalSize
+      )
       const currentCacheCollapsedSize = totalSize - targetCacheCollapsedSize
 
       currentSizes[targetIndex] = targetCacheCollapsedSize

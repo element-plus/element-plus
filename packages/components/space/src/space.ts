@@ -1,5 +1,6 @@
 import {
   Comment,
+  cloneVNode,
   createTextVNode,
   createVNode,
   defineComponent,
@@ -21,7 +22,6 @@ import Item from './item'
 import { useSpace } from './use-space'
 
 import type {
-  CSSProperties,
   ExtractPropTypes,
   ExtractPublicPropTypes,
   StyleValue,
@@ -29,7 +29,7 @@ import type {
   VNodeArrayChildren,
   VNodeChild,
 } from 'vue'
-import type { Arrayable } from '@element-plus/utils'
+import type { AlignItems, ClassValue } from '@element-plus/utils'
 
 export const spaceProps = buildProps({
   /**
@@ -44,25 +44,21 @@ export const spaceProps = buildProps({
    * @description Classname
    */
   class: {
-    type: definePropType<Arrayable<Record<string, boolean> | string>>([
-      String,
-      Object,
-      Array,
-    ]),
+    type: definePropType<ClassValue>([String, Object, Array, Boolean]),
     default: '',
   },
   /**
    * @description Extra style rules
    */
   style: {
-    type: definePropType<StyleValue>([String, Array, Object]),
+    type: definePropType<StyleValue>([String, Array, Object, Boolean]),
     default: '',
   },
   /**
    * @description Controls the alignment of items
    */
   alignment: {
-    type: definePropType<CSSProperties['align-items']>(String),
+    type: definePropType<AlignItems>(String),
     default: 'center',
   },
   /**
@@ -222,7 +218,7 @@ const Space = defineComponent({
                       // span element.
                       // otherwise, treat it as string.
                       isVNode(spacer)
-                        ? spacer
+                        ? cloneVNode(spacer)
                         : createTextVNode(spacer as string, PatchFlags.TEXT),
                     ],
                     PatchFlags.STYLE

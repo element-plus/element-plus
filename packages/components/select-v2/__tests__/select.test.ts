@@ -3,7 +3,9 @@ import { nextTick, ref } from 'vue'
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest'
 import { NOOP, hasClass } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
+import defineGetter from '@element-plus/test-utils/define-getter'
 import { makeMountFunc } from '@element-plus/test-utils/make-mount'
+import makeScroll from '@element-plus/test-utils/make-scroll'
 import { rAF } from '@element-plus/test-utils/tick'
 import { ArrowDown, CircleClose } from '@element-plus/icons-vue'
 import { usePopperContainerId } from '@element-plus/hooks'
@@ -84,6 +86,7 @@ interface SelectProps {
 interface SelectEvents {
   onChange?: (value?: string) => void
   onVisibleChange?: (visible?: boolean) => void
+  onEndReached?: (direction?: string) => void
   onRemoveTag?: (tag?: string) => void
   onFocus?: (event?: FocusEvent) => void
   onBlur?: (event?) => void
@@ -162,6 +165,7 @@ const createSelect = (
         }
         @change="onChange"
         @visible-change="onVisibleChange"
+        @end-reached="onEndReached"
         @remove-tag="onRemoveTag"
         @focus="onFocus"
         @blur="onBlur"
@@ -210,6 +214,7 @@ const createSelect = (
       methods: {
         onChange: NOOP,
         onVisibleChange: NOOP,
+        onEndReached: NOOP,
         onRemoveTag: NOOP,
         onFocus: NOOP,
         onBlur: NOOP,
@@ -684,6 +689,28 @@ describe('Select', () => {
       const tagIcon = wrapper.find('.el-tag__close')
       await tagIcon.trigger('click')
       expect(vm.value.length).toBe(1)
+    })
+
+    it('should preserve option focus handling without blocking nested inputs', async () => {
+      createSelect({
+        data: () => {
+          return {
+            multiple: true,
+            value: [],
+          }
+        },
+      })
+      await nextTick()
+
+      const option = getOptions()[0]
+      const optionEvent = new MouseEvent('mousedown', {
+        bubbles: true,
+        cancelable: true,
+        shiftKey: true,
+      })
+
+      option.dispatchEvent(optionEvent)
+      expect(optionEvent.defaultPrevented).toBeTruthy()
     })
 
     it('remove-tag', async () => {
@@ -1674,6 +1701,72 @@ describe('Select', () => {
       return text === 'options 500'
     })
     expect(result).toBeTruthy()
+  })
+
+  it('should trigger end-reached when dropdown scroll reaches bottom', async () => {
+    const onEndReached = vi.fn()
+    const wrapper = createSelect({
+      data() {
+        return {
+          teleported: false,
+        }
+      },
+      methods: {
+        onEndReached,
+      },
+    })
+
+    await nextTick()
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+
+    const scrollWindow = wrapper.find('.el-vl__window').element
+    const cleanup = [
+      defineGetter(scrollWindow, 'clientHeight', 274),
+      defineGetter(scrollWindow, 'scrollHeight', 34_000),
+    ]
+
+    try {
+      await makeScroll(scrollWindow, 'scrollTop', 34_000)
+
+      expect(onEndReached).toHaveBeenCalledWith('bottom')
+      expect(onEndReached).toHaveBeenCalledOnce()
+    } finally {
+      cleanup.forEach((fn) => {
+        fn()
+      })
+    }
+  })
+
+  it('should trigger end-reached when wheel scrolling reaches bottom', async () => {
+    const onEndReached = vi.fn()
+    const wrapper = createSelect({
+      data() {
+        return {
+          teleported: false,
+        }
+      },
+      methods: {
+        onEndReached,
+      },
+    })
+
+    await nextTick()
+    await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+
+    const scrollWindow = wrapper.find('.el-vl__window').element
+    scrollWindow.dispatchEvent(
+      new WheelEvent('wheel', {
+        bubbles: true,
+        cancelable: true,
+        deltaY: 40_000,
+      })
+    )
+
+    await rAF()
+    await nextTick()
+
+    expect(onEndReached).toHaveBeenCalledWith('bottom')
+    expect(onEndReached).toHaveBeenCalledOnce()
   })
 
   it('emptyText error show', async () => {
@@ -2947,6 +3040,29 @@ describe('Select', () => {
       // When empty again, should be hidden
       expect(inputWrapper.classes()).toContain('is-hidden')
     })
+
+    // #24167: in single mode the empty/blur condition must NOT hide the
+    // input-wrapper, otherwise it falls out of flow and the selection
+    // collapses to zero width inside auto-sized form layouts.
+    it('should not hide input-wrapper in single mode when empty and not focused', async () => {
+      const wrapper = createSelect({
+        data: () => ({
+          filterable: true,
+        }),
+      })
+      await nextTick()
+      const select = wrapper.findComponent(Select)
+      const inputWrapper = select.find('.el-select__input-wrapper')
+      const input = select.find('input')
+
+      expect(inputWrapper.classes()).not.toContain('is-hidden')
+
+      await input.trigger('focus')
+      expect(inputWrapper.classes()).not.toContain('is-hidden')
+
+      await input.trigger('blur')
+      expect(inputWrapper.classes()).not.toContain('is-hidden')
+    })
   })
 
   it('should not bubble native change event from filter input', async () => {
@@ -2963,5 +3079,84 @@ describe('Select', () => {
     expect(nativeChangeHandler).not.toHaveBeenCalled()
 
     parent.remove()
+  })
+  // #23838
+  it('should keep dropdown visible during debouncing when options exist (remote)', async () => {
+    vi.useFakeTimers()
+
+    const options = ref([{ value: 'test', label: 'test' }])
+    const handleVisibleChange = vi.fn()
+    const remoteMethod = vi.fn((query: string) => {
+      if (query) {
+        options.value = [
+          { value: 'Alabama', label: 'Alabama' },
+          { value: 'Alaska', label: 'Alaska' },
+        ]
+      }
+    })
+
+    // Temporarily restore useDebounceFn to use real debounce with fake timers
+    const { useDebounceFn } = await vi.importActual('@vueuse/core')
+    const mockedUseDebounceFn = vi.mocked(
+      (await import('@vueuse/core')).useDebounceFn
+    )
+    const originalUseDebounceFnImpl =
+      mockedUseDebounceFn.getMockImplementation()
+    mockedUseDebounceFn.mockImplementation(useDebounceFn)
+
+    try {
+      const wrapper = createSelect({
+        data() {
+          return {
+            filterable: true,
+            remote: true,
+            debounce: 300,
+            options,
+            value: '',
+          }
+        },
+        methods: {
+          remoteMethod,
+          onVisibleChange: handleVisibleChange,
+        },
+      })
+
+      const select = wrapper.findComponent(Select)
+      const vm = select.vm as any
+      const input = wrapper.find('input')
+
+      // Open dropdown first
+      await input.trigger('click')
+      await nextTick()
+      expect(vm.expanded).toBe(true)
+      expect(vm.dropdownMenuVisible).toBe(true)
+      expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+      expect(handleVisibleChange).toHaveBeenLastCalledWith(true)
+
+      // Start typing to trigger remote search and debouncing
+      input.element.value = 'a'
+      await input.trigger('input')
+      await nextTick()
+      vi.advanceTimersByTime(50) // Advance time but don't complete debounce
+      await nextTick()
+
+      // During debouncing (before debounce completes), check dropdown and event count
+      expect(vm.dropdownMenuVisible).toBe(true)
+      expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+
+      // Complete the debounce
+      vi.advanceTimersByTime(300)
+      await nextTick()
+
+      expect(remoteMethod).toHaveBeenCalledWith('a')
+      expect(vm.dropdownMenuVisible).toBe(true)
+      // Should still only have been called once - dropdown never closed
+      expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+    } finally {
+      mockedUseDebounceFn.mockImplementation(
+        originalUseDebounceFnImpl ?? ((fn: any) => fn)
+      )
+      vi.useRealTimers()
+    }
   })
 })

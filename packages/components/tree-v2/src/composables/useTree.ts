@@ -182,9 +182,8 @@ export function useTree(
     const nodeMap = tree.value!.treeNodeMap
 
     expandedKeySet.value.forEach((key) => {
-      const node = nodeMap.get(key)!
-      expandedKeySet.value.delete(node.key)
-      node.expanded = false
+      const node = nodeMap.get(key)
+      if (node) node.expanded = false
     })
 
     keys.forEach((k) => {
@@ -200,8 +199,8 @@ export function useTree(
   }
 
   function handleNodeClick(node: TreeNode, e: MouseEvent) {
-    emit(NODE_CLICK, node.data, node, e)
     handleCurrentChange(node)
+    emit(NODE_CLICK, node.data, node, e)
     if (props.expandOnClickNode) {
       toggleExpand(node)
     }
@@ -269,7 +268,7 @@ export function useTree(
   }
 
   function getCurrentNode(): TreeNodeData | undefined {
-    if (!currentKey.value) return undefined
+    if (currentKey.value === undefined) return undefined
     return tree.value?.treeNodeMap.get(currentKey.value)?.data
   }
 
@@ -313,11 +312,8 @@ export function useTree(
 
   watch(
     () => props.defaultExpandedKeys,
-    (key) => {
-      expandedKeySet.value = new Set<TreeKey>(key)
-    },
-    {
-      immediate: true,
+    (keys) => {
+      setExpandedKeys(keys || [])
     }
   )
 
@@ -325,6 +321,7 @@ export function useTree(
     () => props.data!,
     (data: TreeData) => {
       setData(data)
+      setExpandedKeys(props.defaultExpandedKeys || [])
     },
     {
       immediate: true,

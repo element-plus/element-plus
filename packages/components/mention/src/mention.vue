@@ -56,14 +56,11 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup generic="T extends MentionOption = MentionOption">
 import { computed, mergeProps, nextTick, ref } from 'vue'
 import { pick } from 'lodash-unified'
 import { useFocusController, useId, useNamespace } from '@element-plus/hooks'
-import ElInput, {
-  inputProps,
-  inputPropsDefaults,
-} from '@element-plus/components/input'
+import ElInput, { inputPropsDefaults } from '@element-plus/components/input'
 import ElTooltip from '@element-plus/components/tooltip'
 import {
   EVENT_CODE,
@@ -71,7 +68,7 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { useFormDisabled } from '@element-plus/components/form'
-import { getEventCode, isFunction } from '@element-plus/utils'
+import { getEventCode, isArray, isFunction } from '@element-plus/utils'
 import { mentionDefaultProps, mentionEmits } from './mention'
 import { filterOption, getCursorPosition, getMentionCtx } from './helper'
 import ElMentionDropdown from './mention-dropdown.vue'
@@ -88,7 +85,7 @@ defineOptions({
   inheritAttrs: false,
 })
 
-const props = withDefaults(defineProps<MentionProps>(), {
+const props = withDefaults(defineProps<MentionProps<T>>(), {
   ...inputPropsDefaults,
   options: () => [],
   prefix: '@',
@@ -96,12 +93,26 @@ const props = withDefaults(defineProps<MentionProps>(), {
   filterOption: () => filterOption,
   placement: 'bottom',
   offset: 0,
+  popperClass: undefined,
+  popperStyle: undefined,
   popperOptions: () => ({}),
   props: () => mentionDefaultProps,
 })
 const emit = defineEmits(mentionEmits)
+defineSlots<
+  InputInstance['$slots'] & {
+    header?: () => any
+    footer?: () => any
+    loading?: () => any
+    label?: (props: { item: T & MentionOption; index: number }) => any
+  }
+>()
 
-const passInputProps = computed(() => pick(props, Object.keys(inputProps)))
+const passInputProps = computed(() => {
+  const inputProps = ElInput.props ?? []
+  const keys = isArray(inputProps) ? inputProps : Object.keys(inputProps)
+  return pick(props, keys)
+})
 
 const ns = useNamespace('mention')
 const disabled = useFormDisabled()
@@ -128,7 +139,7 @@ const aliasProps = computed(() => ({
   ...props.props,
 }))
 
-const mapOption = (option: MentionOption) => {
+const mapOption = (option: T) => {
   const base = {
     label: option[aliasProps.value.label],
     value: option[aliasProps.value.value],

@@ -7,6 +7,7 @@ import type {
   ExtractPropTypes,
   ExtractPublicPropTypes,
 } from 'vue'
+import type { ClassValue, ZIndexType } from '@element-plus/utils'
 
 export const overlayProps = buildProps({
   mask: {
@@ -15,14 +16,11 @@ export const overlayProps = buildProps({
   },
   customMaskEvent: Boolean,
   overlayClass: {
-    type: definePropType<string | string[] | Record<string, boolean>>([
-      String,
-      Array,
-      Object,
-    ]),
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
+    default: undefined,
   },
   zIndex: {
-    type: definePropType<CSSProperties['z-index']>([String, Number]),
+    type: definePropType<ZIndexType>([String, Number]),
   },
 } as const)
 export type OverlayProps = ExtractPropTypes<typeof overlayProps>

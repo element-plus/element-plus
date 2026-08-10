@@ -8,7 +8,6 @@ import {
   useDelayedToggleProps,
   useDelayedTogglePropsDefaults,
 } from '@element-plus/hooks'
-import { teleportProps } from '@element-plus/components/teleport'
 
 import type { AriaProps, UseDelayedToggleProps } from '@element-plus/hooks'
 import type { PopperContentProps } from '@element-plus/components/popper'
@@ -74,7 +73,7 @@ export const useTooltipContentProps = buildProps({
    * @description which element the tooltip CONTENT appends to
    */
   appendTo: {
-    type: teleportProps.to.type,
+    type: definePropType<string | HTMLElement>([String, Object]),
   },
   /**
    * @description display content, can be overridden by `slot#content`

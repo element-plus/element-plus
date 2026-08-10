@@ -97,6 +97,46 @@ describe('Input.vue', () => {
         ]
       `)
     })
+    test('el-input add count-graphemes', async () => {
+      const inputVal = ref('12🌚')
+      const calc = (value: string) => {
+        return Array.from(value).length
+      }
+      const wrapper = mount(() => (
+        <Input
+          class="test-exceed"
+          maxlength="4"
+          showWordLimit
+          count-graphemes={calc}
+          v-model={inputVal.value}
+        />
+      ))
+      const vm = wrapper.vm
+      const inputElm = wrapper.find('input')
+      const nativeInput = inputElm.element
+      expect(nativeInput.value).toMatchInlineSnapshot(`"12🌚"`)
+
+      const elCount = wrapper.find('.el-input__count-inner')
+      expect(elCount.exists()).toBe(true)
+      expect(elCount.text()).toMatchInlineSnapshot(`"3 / 4"`)
+
+      inputVal.value = '1👌3😄'
+      await nextTick()
+      expect(nativeInput.value).toMatchInlineSnapshot(`"1👌3😄"`)
+      expect(elCount.text()).toMatchInlineSnapshot(`"4 / 4"`)
+
+      inputVal.value = '哈哈1👌3😄'
+      await nextTick()
+      expect(nativeInput.value).toMatchInlineSnapshot(`"哈哈1👌3😄"`)
+      expect(elCount.text()).toMatchInlineSnapshot(`"6 / 4"`)
+      expect(Array.from(vm.$el.classList)).toMatchInlineSnapshot(`
+        [
+          "el-input",
+          "is-exceed",
+          "test-exceed",
+        ]
+      `)
+    })
 
     test('textarea should minimize value between emoji length and maxLength', async () => {
       const inputVal = ref('啊好😄')
@@ -127,6 +167,170 @@ describe('Input.vue', () => {
           "is-exceed",
         ]
       `)
+    })
+
+    test('textarea add count-graphemes', async () => {
+      const inputVal = ref('啊好😄')
+      const calc = (value: string) => {
+        return Array.from(value).length
+      }
+      const wrapper = mount(() => (
+        <Input
+          type="textarea"
+          maxlength="4"
+          showWordLimit
+          count-graphemes={calc}
+          v-model={inputVal.value}
+        />
+      ))
+      const vm = wrapper.vm
+      const inputElm = wrapper.find('textarea')
+      const nativeInput = inputElm.element
+      expect(nativeInput.value).toMatchInlineSnapshot(`"啊好😄"`)
+
+      const elCount = wrapper.find('.el-input__count')
+      expect(elCount.exists()).toBe(true)
+      expect(elCount.text()).toMatchInlineSnapshot(`"3 / 4"`)
+
+      inputVal.value = '哈哈1👌3😄'
+      await nextTick()
+      expect(nativeInput.value).toMatchInlineSnapshot(`"哈哈1👌3😄"`)
+      expect(elCount.text()).toMatchInlineSnapshot(`"6 / 4"`)
+      expect(Array.from(vm.$el.classList)).toMatchInlineSnapshot(`
+        [
+          "el-textarea",
+          "is-exceed",
+        ]
+      `)
+    })
+
+    test('el-input keep exceed state and block further typing with count-graphemes', async () => {
+      const inputVal = ref('哈哈1👌3😄')
+      const calc = (value: string) => {
+        return Array.from(value).length
+      }
+      const wrapper = mount(() => (
+        <Input
+          class="test-exceed"
+          maxlength="4"
+          showWordLimit
+          count-graphemes={calc}
+          v-model={inputVal.value}
+        />
+      ))
+
+      const inputElm = wrapper.find('input')
+      expect(inputElm.element.value).toBe('哈哈1👌3😄')
+      expect(inputVal.value).toBe('哈哈1👌3😄')
+      expect(wrapper.classes('is-exceed')).toBe(true)
+
+      await inputElm.setValue('哈哈1👌3😄a')
+      await nextTick()
+
+      expect(inputElm.element.value).toBe('哈哈1👌3😄')
+      expect(inputVal.value).toBe('哈哈1👌3😄')
+      expect(wrapper.classes('is-exceed')).toBe(true)
+      expect(wrapper.find('.el-input__count-inner').text()).toBe('6 / 4')
+    })
+
+    test('el-input do not show exceed at limit and block further typing with count-graphemes', async () => {
+      const inputVal = ref('1👌3😄')
+      const calc = (value: string) => {
+        return Array.from(value).length
+      }
+      const wrapper = mount(() => (
+        <Input
+          class="test-exceed"
+          maxlength="4"
+          showWordLimit
+          count-graphemes={calc}
+          v-model={inputVal.value}
+        />
+      ))
+
+      const inputElm = wrapper.find('input')
+      expect(inputElm.element.value).toBe('1👌3😄')
+      expect(wrapper.classes('is-exceed')).toBe(false)
+      expect(wrapper.find('.el-input__count-inner').text()).toBe('4 / 4')
+
+      await inputElm.setValue('1👌3😄a')
+      await nextTick()
+
+      expect(inputElm.element.value).toBe('1👌3😄')
+      expect(inputVal.value).toBe('1👌3😄')
+      expect(wrapper.classes('is-exceed')).toBe(false)
+      expect(wrapper.find('.el-input__count-inner').text()).toBe('4 / 4')
+    })
+
+    test('el-input should reset native value when blocked by count-graphemes', async () => {
+      const inputVal = ref('1👌3😄')
+      const calc = (value: string) => {
+        return Array.from(value).length
+      }
+      const wrapper = mount(() => (
+        <Input
+          maxlength="4"
+          showWordLimit
+          count-graphemes={calc}
+          v-model={inputVal.value}
+        />
+      ))
+
+      const inputElm = wrapper.find('input')
+      inputElm.element.value = '1👌3😄a'
+      await inputElm.trigger('input')
+      await nextTick()
+
+      expect(inputElm.element.value).toBe('1👌3😄')
+      expect(inputVal.value).toBe('1👌3😄')
+    })
+
+    test('el-input should block mid-string insertion at limit without replacing suffix', async () => {
+      const inputVal = ref('1👌3😄')
+      const calc = (value: string) => {
+        return Array.from(value).length
+      }
+      const wrapper = mount(() => (
+        <Input
+          maxlength="4"
+          showWordLimit
+          count-graphemes={calc}
+          v-model={inputVal.value}
+        />
+      ))
+
+      const inputElm = wrapper.find('input')
+      // Simulate typing in the middle when current length is already at limit.
+      inputElm.element.value = '1👌a3😄'
+      await inputElm.trigger('input')
+      await nextTick()
+
+      expect(inputElm.element.value).toBe('1👌3😄')
+      expect(inputVal.value).toBe('1👌3😄')
+      expect(wrapper.find('.el-input__count-inner').text()).toBe('4 / 4')
+    })
+
+    test('el-input should keep caret position when blocked at limit', async () => {
+      const inputVal = ref('1👌3😄')
+      const calc = (value: string) => {
+        return Array.from(value).length
+      }
+      const wrapper = mount(() => (
+        <Input maxlength="4" count-graphemes={calc} v-model={inputVal.value} />
+      ))
+
+      const inputElm = wrapper.find('input')
+      // Place caret before "3" and simulate typing one char while already at limit.
+      inputElm.element.setSelectionRange(3, 3)
+      inputElm.element.value = '1👌a3😄'
+      inputElm.element.setSelectionRange(4, 4)
+      await inputElm.trigger('input')
+      await nextTick()
+
+      expect(inputElm.element.value).toBe('1👌3😄')
+      expect(inputVal.value).toBe('1👌3😄')
+      expect(inputElm.element.selectionStart).toBe(3)
+      expect(inputElm.element.selectionEnd).toBe(3)
     })
   })
 
@@ -168,6 +372,19 @@ describe('Input.vue', () => {
     resize.value = 'horizontal'
     await nextTick()
     expect(textarea.style.resize).toEqual(resize.value)
+  })
+
+  test('inputmode', () => {
+    const wrapper = mount(() => (
+      <>
+        <Input inputmode="numeric" />
+        <Input type="textarea" inputmode="decimal" />
+      </>
+    ))
+    const input = wrapper.find('input')
+    const textarea = wrapper.find('textarea')
+    expect(input.attributes('inputmode')).toBe('numeric')
+    expect(textarea.attributes('inputmode')).toBe('decimal')
   })
 
   test('sets value on textarea / input type change', async () => {
@@ -457,28 +674,49 @@ describe('Input.vue', () => {
       const handleClear = vi.fn()
       const handleInput = vi.fn()
       const content = ref('a')
+      const handleTextareaClear = vi.fn()
+      const handleTextareaInput = vi.fn()
+      const textareaContent = ref('a')
 
       const wrapper = mount(() => (
-        <Input
-          placeholder="请输入内容"
-          clearable
-          v-model={content.value}
-          onClear={handleClear}
-          onInput={handleInput}
-        />
+        <>
+          <Input
+            placeholder="请输入内容"
+            clearable
+            v-model={content.value}
+            onClear={handleClear}
+            onInput={handleInput}
+          />
+          <Input
+            type="textarea"
+            placeholder="请输入内容"
+            clearable
+            v-model={textareaContent.value}
+            onClear={handleTextareaClear}
+            onInput={handleTextareaInput}
+          />
+        </>
       ))
 
       const input = wrapper.find('input')
-      const vm = wrapper.vm
+      const textarea = wrapper.find('textarea')
       // focus to show clear button
       await input.trigger('focus')
       await nextTick()
-      vm.$el.querySelector('.el-input__clear').click()
+      wrapper.find('.el-input__clear').trigger('click')
       await nextTick()
       expect(content.value).toEqual('')
       expect(handleClear).toBeCalled()
       expect(handleClear).toBeCalledWith(expect.any(MouseEvent))
       expect(handleInput).toBeCalled()
+      // textarea
+      await textarea.trigger('focus')
+      await nextTick()
+      wrapper.find('.el-textarea__clear').trigger('click')
+      await nextTick()
+      expect(textareaContent.value).toEqual('')
+      expect(handleTextareaClear).toBeCalled()
+      expect(handleTextareaInput).toBeCalled()
     })
 
     test('event:input', async () => {
@@ -591,6 +829,282 @@ describe('Input.vue', () => {
     await icon.trigger('click')
     expect(input.element.selectionStart).toBe(1)
     expect(input.element.selectionEnd).toBe(4)
+  })
+
+  test('show password emits change on blur when value changed', async () => {
+    const password = ref('123456')
+    const onChange = vi.fn()
+    const wrapper = mount(() => (
+      <Input
+        type="password"
+        modelValue={password.value}
+        show-password
+        onChange={onChange}
+        onUpdate:modelValue={(value) => (password.value = value)}
+      />
+    ))
+
+    const input = wrapper.find('input')
+    const icon = wrapper.find('.el-input__icon.el-input__password')
+
+    await input.trigger('focus')
+    input.element.value = '1234567'
+    input.element.dispatchEvent(new Event('input'))
+    await nextTick()
+
+    // clicking icon should NOT emit change (change fires at blur)
+    await icon.trigger('click')
+    expect(onChange).not.toHaveBeenCalled()
+
+    // blur triggers change because value changed since focus
+    await input.trigger('blur')
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith('1234567', expect.any(Event))
+    expect(onChange.mock.calls[0][1].target).toBe(input.element)
+    expect(onChange.mock.calls[0][1].bubbles).toBe(true)
+  })
+
+  test('show password does not emit change after value reverts', async () => {
+    const password = ref('123456')
+    const onChange = vi.fn()
+    const wrapper = mount(() => (
+      <Input
+        type="password"
+        modelValue={password.value}
+        show-password
+        onChange={onChange}
+        onUpdate:modelValue={(value) => (password.value = value)}
+      />
+    ))
+
+    const input = wrapper.find('input')
+    const icon = wrapper.find('.el-input__icon.el-input__password')
+
+    await input.trigger('focus')
+    input.element.value = '1234567'
+    input.element.dispatchEvent(new Event('input'))
+    await nextTick()
+    input.element.value = '123456'
+    input.element.dispatchEvent(new Event('input'))
+    await nextTick()
+    await icon.trigger('click')
+    await input.trigger('blur')
+
+    expect(onChange).not.toHaveBeenCalled()
+  })
+
+  test('show password emits change on blur with lazy modifier', async () => {
+    const password = ref('123456')
+    const onChange = vi.fn()
+    const wrapper = mount(() => (
+      <Input
+        type="password"
+        modelValue={password.value}
+        show-password
+        modelModifiers={{ lazy: true }}
+        onChange={onChange}
+        onUpdate:modelValue={(value) => (password.value = value)}
+      />
+    ))
+
+    const input = wrapper.find('input')
+    const icon = wrapper.find('.el-input__icon.el-input__password')
+
+    await input.trigger('focus')
+    input.element.value = '1234567'
+    input.element.dispatchEvent(new Event('input'))
+    await nextTick()
+
+    // lazy: modelValue not yet updated
+    expect(password.value).toBe('123456')
+
+    // clicking icon should NOT emit change
+    await icon.trigger('click')
+    expect(onChange).not.toHaveBeenCalled()
+    expect(password.value).toBe('123456')
+
+    // blur triggers change + modelValue update (lazy)
+    await input.trigger('blur')
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith('1234567', expect.any(Event))
+    expect(password.value).toBe('1234567')
+  })
+
+  test('show password restores a rejected lazy value after blur', async () => {
+    const onChange = vi.fn()
+    const onUpdate = vi.fn()
+    const wrapper = mount(() => (
+      <Input
+        type="password"
+        modelValue="123456"
+        show-password
+        modelModifiers={{ lazy: true }}
+        onChange={onChange}
+        onUpdate:modelValue={onUpdate}
+      />
+    ))
+
+    const input = wrapper.find('input')
+    const icon = wrapper.find('.el-input__icon.el-input__password')
+
+    await input.trigger('focus')
+    input.element.value = '1234567'
+    input.element.dispatchEvent(new Event('input'))
+    await nextTick()
+    await icon.trigger('click')
+    await input.trigger('blur')
+    await nextTick()
+
+    expect(onUpdate).toHaveBeenCalledWith('1234567')
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(input.element.value).toBe('123456')
+  })
+
+  test('show password does not emit change when focus stays in the wrapper', async () => {
+    const onChange = vi.fn()
+    const onBlur = vi.fn()
+    const wrapper = mount(() => (
+      <Input
+        type="password"
+        modelValue="123456"
+        show-password
+        onChange={onChange}
+        onBlur={onBlur}
+        v-slots={{ suffix: () => <button type="button">suffix</button> }}
+      />
+    ))
+
+    const input = wrapper.find('input')
+    const suffix = wrapper.find('button')
+
+    await input.trigger('focus')
+    input.element.value = '1234567'
+    input.element.dispatchEvent(new Event('input'))
+    await nextTick()
+    input.element.dispatchEvent(
+      new FocusEvent('blur', { relatedTarget: suffix.element })
+    )
+    await nextTick()
+
+    expect(onChange).not.toHaveBeenCalled()
+    expect(onBlur).not.toHaveBeenCalled()
+  })
+
+  test('show password emits change and model update before blur event with lazy modifier', async () => {
+    const password = ref('123456')
+    const events: string[] = []
+
+    const wrapper = mount(() => (
+      <Input
+        type="password"
+        modelValue={password.value}
+        show-password
+        modelModifiers={{ lazy: true }}
+        onChange={() => events.push('change')}
+        onBlur={() => events.push('blur')}
+        onUpdate:modelValue={(value) => {
+          password.value = value
+          events.push('update')
+        }}
+      />
+    ))
+
+    const input = wrapper.find('input')
+    const icon = wrapper.find('.el-input__icon.el-input__password')
+
+    await input.trigger('focus')
+    input.element.value = '1234567'
+    input.element.dispatchEvent(new Event('input'))
+    await nextTick()
+
+    await icon.trigger('click')
+    await input.trigger('blur')
+
+    expect(events[0]).toBe('update')
+    expect(events[1]).toBe('change')
+    expect(events.includes('blur')).toBe(true)
+    expect(password.value).toBe('1234567')
+  })
+
+  test('show password clear button does not emit duplicate change on blur', async () => {
+    const password = ref('123456')
+    const onChange = vi.fn()
+    const wrapper = mount(() => (
+      <Input
+        type="password"
+        modelValue={password.value}
+        show-password
+        clearable
+        onChange={onChange}
+        onUpdate:modelValue={(value) => (password.value = value)}
+      />
+    ))
+
+    const input = wrapper.find('input')
+    await input.trigger('focus')
+    await nextTick()
+
+    const clearBtn = wrapper.find('.el-input__clear')
+    await clearBtn.trigger('click')
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith('')
+
+    await input.trigger('blur')
+    expect(onChange).toHaveBeenCalledTimes(1)
+  })
+
+  test('passwordVisible expose', async () => {
+    const inputRef = ref<InputInstance>()
+    const wrapper = mount(() => (
+      <Input ref={inputRef} type="password" modelValue="123456" show-password />
+    ))
+
+    const icon = wrapper.find('.el-input__icon.el-input__password')
+    const input = wrapper.find('input')
+
+    expect(inputRef.value?.passwordVisible).toBe(false)
+    expect(input.element.type).toBe('password')
+
+    inputRef.value!.passwordVisible = true
+    await nextTick()
+
+    expect(inputRef.value?.passwordVisible).toBe(true)
+    expect(input.element.type).toBe('text')
+
+    await icon.trigger('click')
+
+    expect(inputRef.value?.passwordVisible).toBe(false)
+    expect(input.element.type).toBe('password')
+  })
+
+  test('password-icon slot', async () => {
+    const wrapper = mount(() => (
+      <Input
+        modelValue="123"
+        showPassword
+        v-slots={{
+          'password-icon': ({ visible }: { visible: boolean }) => (
+            <span class="custom-password-icon">
+              {visible ? 'Hide' : 'Show'}
+            </span>
+          ),
+        }}
+      />
+    ))
+
+    const icon = wrapper.find('.el-input__password')
+    expect(icon.exists()).toBe(true)
+
+    // Initial state: password hidden
+    expect(wrapper.find('.custom-password-icon').text()).toBe('Show')
+
+    // Click to toggle
+    await icon.trigger('click')
+    expect(wrapper.find('.custom-password-icon').text()).toBe('Hide')
+
+    // Click again
+    await icon.trigger('click')
+    expect(wrapper.find('.custom-password-icon').text()).toBe('Show')
   })
 
   describe('form item accessibility integration', () => {

@@ -11,11 +11,11 @@ export interface DividerProps {
    */
   direction?: 'horizontal' | 'vertical'
   /**
-   * @description Set the style of divider
+   * @description The position of the customized content on the divider line
    */
   contentPosition?: 'left' | 'center' | 'right'
   /**
-   * @description the position of the customized content on the divider line
+   * @description Set the style of divider
    */
   borderStyle?: BorderStyle
 }
@@ -33,7 +33,7 @@ export const dividerProps = buildProps({
     default: 'horizontal',
   },
   /**
-   * @description Set the style of divider
+   * @description The position of the customized content on the divider line
    */
   contentPosition: {
     type: String,
@@ -41,7 +41,7 @@ export const dividerProps = buildProps({
     default: 'center',
   },
   /**
-   * @description the position of the customized content on the divider line
+   * @description Set the style of divider
    */
   borderStyle: {
     type: definePropType<BorderStyle>(String),

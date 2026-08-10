@@ -27,7 +27,7 @@ popover/basic-usage
 
 ## Virtual triggering
 
-Like Tooltip, Popover can be triggered by virtual elements, if your use case includes separate the triggering element and the content element, you should definitely use the mechanism, normally we use `#reference` to place our triggering element, with `triggering-element` API you can set your triggering element anywhere you like, but notice that the triggering element should be an element that accepts `mouse` and `keyboard` event.
+Like Tooltip, Popover can be triggered by virtual elements, if your use case includes separate the triggering element and the content element, you should definitely use the mechanism, normally we use `#reference` to place our triggering element, with `virtual-ref` API you can set your triggering element anywhere you like, but notice that the triggering element should be an element that accepts `mouse` and `keyboard` event.
 
 :::warning
 
@@ -106,10 +106,10 @@ popover/directive-usage
 
 ### Slots
 
-| Name      | Description                                                                |
-| --------- | -------------------------------------------------------------------------- |
-| default   | text content of popover                                                    |
-| reference | HTML element that triggers popover, only a single root element is accepted |
+| Name      | Description                                                                     | Type                          |
+| --------- | ------------------------------------------------------------------------------- | ----------------------------- |
+| default   | content of popover, version ^(2.13.4) and later can receive the hide parameter. | ^[object]`{hide: () => void}` |
+| reference | HTML element that triggers popover, only a single root element is accepted      | -                             |
 
 ### Events
 

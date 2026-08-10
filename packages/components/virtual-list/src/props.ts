@@ -7,6 +7,7 @@ import {
 import { VERTICAL } from './defaults'
 
 import type { ExtractPropTypes, ExtractPublicPropTypes, StyleValue } from 'vue'
+import type { ClassValue } from '@element-plus/utils'
 import type { GridItemKeyGetter, ItemSize } from './types'
 
 const itemSize = buildProp({
@@ -47,7 +48,7 @@ const layout = buildProp({
 
 export const virtualizedProps = buildProps({
   className: {
-    type: String,
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
     default: '',
   },
 
@@ -82,12 +83,18 @@ export const virtualizedProps = buildProps({
   },
 
   style: {
-    type: definePropType<StyleValue>([Object, String, Array]),
+    type: definePropType<StyleValue>([Object, String, Array, Boolean]),
+    default: undefined,
   },
 
   useIsScrolling: Boolean,
 
   width: {
+    type: [Number, String],
+    required: false,
+  },
+
+  innerWidth: {
     type: [Number, String],
     required: false,
   },
@@ -163,7 +170,10 @@ export const virtualizedGridProps = buildProps({
 
 export const virtualizedScrollbarProps = buildProps({
   alwaysOn: Boolean,
-  class: String,
+  class: {
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
+    default: '',
+  },
   layout,
   total,
   ratio: {
