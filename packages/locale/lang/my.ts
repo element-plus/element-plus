@@ -88,6 +88,9 @@ export default {
         dec: 'ဒီ',
       },
     },
+    input: {
+      characters: '{count} / {max} စာလုံး',
+    },
     inputNumber: {
       decrease: 'အရေအတွက်လျှော့ချ',
       increase: 'အရေအတွက်တိုး',

@@ -86,6 +86,9 @@ export default {
         dec: 'Dets',
       },
     },
+    input: {
+      characters: '{count} / {max} märki',
+    },
     inputNumber: {
       decrease: 'decrease number', // to be translated
       increase: 'increase number', // to be translated

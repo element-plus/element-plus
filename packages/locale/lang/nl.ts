@@ -86,6 +86,9 @@ export default {
         dec: 'dec',
       },
     },
+    input: {
+      characters: '{count} / {max} tekens',
+    },
     inputNumber: {
       decrease: 'getal verlagen',
       increase: 'getal verhogen',

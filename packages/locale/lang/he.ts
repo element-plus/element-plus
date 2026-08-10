@@ -86,6 +86,9 @@ export default {
         dec: 'דצמבר',
       },
     },
+    input: {
+      characters: '{count} / {max} תווים',
+    },
     inputNumber: {
       decrease: 'decrease number', // to be translated
       increase: 'increase number', // to be translated

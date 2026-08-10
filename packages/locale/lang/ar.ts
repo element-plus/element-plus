@@ -85,6 +85,9 @@ export default {
         dec: 'كانون الاول',
       },
     },
+    input: {
+      characters: '{count} / {max} حرف',
+    },
     inputNumber: {
       decrease: 'طرح رقم',
       increase: 'زيادة رقم',

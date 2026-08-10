@@ -86,6 +86,9 @@ export default {
         dec: '12月',
       },
     },
+    input: {
+      characters: '{count} / {max} 文字',
+    },
     inputNumber: {
       decrease: 'decrease number', // to be translated
       increase: 'increase number', // to be translated

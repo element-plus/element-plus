@@ -84,6 +84,9 @@ export default {
         dec: 'Th.12',
       },
     },
+    input: {
+      characters: '{count} / {max} ký tự',
+    },
     inputNumber: {
       decrease: 'giảm số',
       increase: 'tăng số',

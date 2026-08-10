@@ -84,6 +84,9 @@ export default {
         dec: '十二月',
       },
     },
+    input: {
+      characters: '{count} / {max} 個字元',
+    },
     inputNumber: {
       decrease: '減少數值',
       increase: '增加數值',

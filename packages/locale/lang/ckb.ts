@@ -86,6 +86,9 @@ export default {
         dec: 'بەفرانبار',
       },
     },
+    input: {
+      characters: '{count} / {max} پیت',
+    },
     inputNumber: {
       decrease: 'کەمکردنەوەی ژمارە',
       increase: 'زیادکردنی ژمارە',

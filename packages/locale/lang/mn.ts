@@ -86,6 +86,9 @@ export default {
         dec: '12 сар',
       },
     },
+    input: {
+      characters: '{count} / {max} тэмдэгт',
+    },
     inputNumber: {
       decrease: 'decrease number', // to be translated
       increase: 'increase number', // to be translated

@@ -86,6 +86,9 @@ export default {
         dec: 'Դեկ',
       },
     },
+    input: {
+      characters: '{count} / {max} նիշ',
+    },
     inputNumber: {
       decrease: 'decrease number', // to be translated
       increase: 'increase number', // to be translated

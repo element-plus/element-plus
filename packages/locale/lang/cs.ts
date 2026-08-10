@@ -88,6 +88,9 @@ export default {
       day: 'Den',
       month: 'Měsíc',
     },
+    input: {
+      characters: '{count} / {max} znaků',
+    },
     inputNumber: {
       decrease: 'decrease number', // to be translated
       increase: 'increase number', // to be translated

@@ -86,6 +86,9 @@ export default {
         dec: 'Ara',
       },
     },
+    input: {
+      characters: '{count} / {max} karakter',
+    },
     inputNumber: {
       decrease: 'decrease number', // to be translated
       increase: 'increase number', // to be translated

@@ -86,6 +86,9 @@ export default {
         dec: '12-ئاي',
       },
     },
+    input: {
+      characters: '{count} / {max} ھەرپ',
+    },
     inputNumber: {
       decrease: 'decrease number', // to be translated
       increase: 'increase number', // to be translated

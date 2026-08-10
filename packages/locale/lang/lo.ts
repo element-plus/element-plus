@@ -84,6 +84,9 @@ export default {
         dec: 'ທັນວາ',
       },
     },
+    input: {
+      characters: '{count} / {max} ຕົວອັກສອນ',
+    },
     inputNumber: {
       decrease: 'ຫຼຸດຈຳນວນ',
       increase: 'ເພີ່ມຈຳນວນ',

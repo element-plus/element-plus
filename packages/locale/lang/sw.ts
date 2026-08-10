@@ -87,6 +87,9 @@ export default {
         dec: 'mwezi 12',
       },
     },
+    input: {
+      characters: '{count} / {max} herufi',
+    },
     inputNumber: {
       decrease: 'kupunguza idadi',
       increase: 'kuongeza idadi',

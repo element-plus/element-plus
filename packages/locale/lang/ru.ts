@@ -86,6 +86,9 @@ export default {
         dec: 'Дек',
       },
     },
+    input: {
+      characters: '{count} / {max} символов',
+    },
     inputNumber: {
       decrease: 'decrease number', // to be translated
       increase: 'increase number', // to be translated

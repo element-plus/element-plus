@@ -84,6 +84,9 @@ export default {
         dec: 'Desember',
       },
     },
+    input: {
+      characters: '{count} / {max} tegn',
+    },
     inputNumber: {
       decrease: 'Minsk verdi',
       increase: 'Øk verdi',

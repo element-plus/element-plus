@@ -86,6 +86,9 @@ export default {
         dec: 'Dec',
       },
     },
+    input: {
+      characters: '{count} / {max} characters',
+    },
     inputNumber: {
       decrease: 'decrease number',
       increase: 'increase number',

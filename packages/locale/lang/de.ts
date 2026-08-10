@@ -88,6 +88,9 @@ export default {
       day: 'Tag',
       month: 'Monat',
     },
+    input: {
+      characters: '{count} / {max} Zeichen',
+    },
     inputNumber: {
       decrease: 'decrease number', // to be translated
       increase: 'increase number', // to be translated

@@ -88,6 +88,9 @@ export default {
         dec: 'दिसं.',
       },
     },
+    input: {
+      characters: '{count} / {max} वर्ण',
+    },
     inputNumber: {
       decrease: 'संख्या घटाएँ',
       increase: 'संख्या बढ़ाएँ',

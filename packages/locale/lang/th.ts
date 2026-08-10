@@ -86,6 +86,9 @@ export default {
         dec: 'ธ.ค.',
       },
     },
+    input: {
+      characters: '{count} / {max} ตัวอักษร',
+    },
     inputNumber: {
       decrease: 'decrease number', // to be translated
       increase: 'increase number', // to be translated
