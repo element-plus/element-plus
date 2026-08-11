@@ -307,7 +307,8 @@ const slots = useSlots()
 
 const { t, lang } = useLocale()
 const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
-const { shortcuts, disabledDate, cellClassName, defaultTime } = pickerBase.props
+const { shortcuts, cellClassName, defaultTime } = pickerBase.props
+const disabledDate = toRef(pickerBase.props, 'disabledDate')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 
 const currentViewRef = ref<{ focus: () => void }>()
@@ -499,7 +500,7 @@ const handleMonthPick = async (
       innerDate.value.year(),
       month as number,
       lang.value,
-      disabledDate
+      disabledDate.value
     )
     emit(innerDate.value, false)
   } else if (selectionMode.value === 'months') {
@@ -510,7 +511,7 @@ const handleMonthPick = async (
       innerDate.value.year(),
       month as number,
       lang.value,
-      disabledDate
+      disabledDate.value
     )
     currentView.value = 'date'
     if (['month', 'year', 'date', 'week'].includes(selectionMode.value)) {
@@ -532,7 +533,7 @@ const handleQuarterPick = async (
       innerDate.value.year(),
       quarter as number,
       lang.value,
-      disabledDate
+      disabledDate.value
     )
     emit(innerDate.value, false)
   } else if (selectionMode.value === 'quarters') {
@@ -546,13 +547,13 @@ const handleYearPick = async (
 ) => {
   if (selectionMode.value === 'year') {
     const data = innerDate.value.startOf('year').year(year as number)
-    innerDate.value = getValidDateOfYear(data, lang.value, disabledDate)
+    innerDate.value = getValidDateOfYear(data, lang.value, disabledDate.value)
     emit(innerDate.value, false)
   } else if (selectionMode.value === 'years') {
     emit(year as YearsPickerEmits, keepOpen ?? true)
   } else {
     const data = innerDate.value.year(year as number)
-    innerDate.value = getValidDateOfYear(data, lang.value, disabledDate)
+    innerDate.value = getValidDateOfYear(data, lang.value, disabledDate.value)
     currentView.value = ['quarter', 'quarters'].includes(selectionMode.value)
       ? 'quarter'
       : 'month'
@@ -602,20 +603,20 @@ const footerFilled = computed(
 )
 
 const disabledConfirm = computed(() => {
-  if (!disabledDate) return false
+  if (!disabledDate.value) return false
   if (!props.parsedValue) return true
   if (isArray(props.parsedValue)) {
     if (!props.parsedValue.length) return true
 
     if (selectionMode.value === 'quarters') {
       return props.parsedValue.some((date) =>
-        isQuarterFullyDisabled(date, lang.value, disabledDate)
+        isQuarterFullyDisabled(date, lang.value, disabledDate.value)
       )
     }
 
-    return disabledDate(props.parsedValue[0].toDate())
+    return disabledDate.value(props.parsedValue[0].toDate())
   }
-  return disabledDate(props.parsedValue.toDate())
+  return disabledDate.value(props.parsedValue.toDate())
 })
 const onConfirm = () => {
   if (isMultipleType.value) {
@@ -637,8 +638,8 @@ const onConfirm = () => {
 }
 
 const disabledNow = computed(() => {
-  if (!disabledDate) return false
-  return disabledDate(dayjs().locale(lang.value).toDate())
+  if (!disabledDate.value) return false
+  return disabledDate.value(dayjs().locale(lang.value).toDate())
 })
 const changeToNow = () => {
   // NOTE: not a permanent solution
@@ -647,7 +648,7 @@ const changeToNow = () => {
   const nowDate = now.toDate()
   isChangeToNow.value = true
   if (
-    (!disabledDate || !disabledDate(nowDate)) &&
+    (!disabledDate.value || !disabledDate.value(nowDate)) &&
     checkDateWithinRange(nowDate)
   ) {
     innerDate.value = dayjs().locale(lang.value)
@@ -731,7 +732,7 @@ const handleVisibleDateChange = (value: string) => {
     lang.value
   ) as Dayjs
   if (newDate.isValid()) {
-    if (disabledDate && disabledDate(newDate.toDate())) {
+    if (disabledDate.value && disabledDate.value(newDate.toDate())) {
       return
     }
     const { hour, minute, second } = getUnits(innerDate.value)
@@ -747,10 +748,10 @@ const isValidValue = (date: unknown) => {
   }
 
   if (selectionMode.value === 'quarter') {
-    return isSelectableQuarterDate(date, lang.value, disabledDate)
+    return isSelectableQuarterDate(date, lang.value, disabledDate.value)
   }
 
-  return disabledDate ? !disabledDate(date.toDate()) : true
+  return disabledDate.value ? !disabledDate.value(date.toDate()) : true
 }
 
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
@@ -762,7 +763,7 @@ const parseUserInput = (value: Dayjs | Dayjs[]) => {
   }
 
   const normalize = (date: Dayjs) =>
-    normalizeQuarterDate(date, lang.value, disabledDate)
+    normalizeQuarterDate(date, lang.value, disabledDate.value)
 
   if (isArray(parsed)) {
     return parsed.map(normalize)
@@ -912,7 +913,7 @@ const handleKeyControl = (code: string) => {
     let result: Dayjs
     if (mode === 'quarter') {
       const candidate = dayjs(newDate).locale(lang.value)
-      if (isQuarterFullyDisabled(candidate, lang.value, disabledDate)) {
+      if (isQuarterFullyDisabled(candidate, lang.value, disabledDate.value)) {
         break
       }
       result = getValidDateOfQuarter(
@@ -920,10 +921,10 @@ const handleKeyControl = (code: string) => {
         candidate.year(),
         candidate.quarter() - 1,
         lang.value,
-        disabledDate
+        disabledDate.value
       )
     } else {
-      if (disabledDate && disabledDate(newDate)) {
+      if (disabledDate.value && disabledDate.value(newDate)) {
         break
       }
       result = dayjs(newDate).locale(lang.value)

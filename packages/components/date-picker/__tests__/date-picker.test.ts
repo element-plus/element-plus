@@ -443,6 +443,27 @@ describe('DatePicker', () => {
     expect(document.querySelector('.disabled')).not.toBeNull()
   })
 
+  it('should react to disabledDate changes', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        :disabledDate="disabledDate"
+    />`,
+      () => ({
+        value: '',
+        disabledDate: () => false,
+      })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    expect(document.querySelectorAll('td.disabled')).toHaveLength(0)
+    wrapper.vm.disabledDate = () => true
+    await nextTick()
+    expect(document.querySelectorAll('td.disabled').length).toBeGreaterThan(0)
+  })
+
   it('select year picker when using disabledDate prop', async () => {
     const wrapper = _mount(
       `<el-date-picker
