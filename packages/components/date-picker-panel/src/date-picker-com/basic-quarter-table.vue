@@ -16,7 +16,7 @@
           class="available"
           :class="getCellStyle(cell)"
           :aria-selected="!!cell.isSelected"
-          :aria-label="`Q${+cell.text + 1}`"
+          :aria-label="`Q${cell.text + 1}`"
           :tabindex="cell.isSelected ? 0 : -1"
           @keydown.space.prevent.stop="handleQuarterTableClick"
           @keydown.enter.prevent.stop="handleQuarterTableClick"
@@ -24,7 +24,7 @@
           <el-date-picker-cell
             :cell="{
               ...cell,
-              renderText: `Q${+cell.text + 1}`,
+              renderText: `Q${cell.text + 1}`,
             }"
           />
         </td>
@@ -45,6 +45,7 @@ import ElDatePickerCell from './basic-cell-render'
 import type { Dayjs, OpUnitType } from 'dayjs'
 
 const QUARTER_UNIT = 'quarter' as OpUnitType
+const COL_COUNT = 4
 
 type QuarterCell = {
   column: number
@@ -75,8 +76,6 @@ const tbodyRef = ref<HTMLElement>()
 const currentCellRef = ref<HTMLElement>()
 const tableColumns = ref<QuarterCell[]>([])
 let lastQuarter: number | undefined
-
-const COL_COUNT = 4
 
 const resolveQuarterDate = (quarter: number) =>
   normalizeQuarterDate(
