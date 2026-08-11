@@ -236,7 +236,10 @@
       map.get($input, 'border-radius')
     );
     cursor: text;
-    transition: getCssVar('transition-box-shadow');
+    transition:
+      getCssVar('transition-box-shadow'),
+      background-color getCssVar('transition-duration-fast')
+        getCssVar('transition-function-ease-in-out-bezier');
 
     // Keep the 3D transform to avoid Chromium inset box-shadow noise.
     transform: translateZ(0);
