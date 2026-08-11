@@ -8,7 +8,6 @@ import {
   computed,
   getCurrentInstance,
   h,
-  onBeforeMount,
   onBeforeUnmount,
   onMounted,
   ref,
@@ -82,83 +81,95 @@ const parent = columnOrTableParent.value
 const parentId = 'tableId' in parent ? parent.tableId : parent.columnId
 columnId.value = createTableColumnId(parentId)
 
-onBeforeMount(() => {
-  isSubColumn.value = owner.value !== parent
+// ============================================================
+// Build column config and register in setup() synchronously
+// so that SSR can render table columns correctly.
+// Previously this was in onBeforeMount/onMounted, which are
+// not executed during SSR, causing the table to render with
+// empty columns (no <th>/<td>), leading to a flash on hydration.
+// ============================================================
+isSubColumn.value = owner.value !== parent
 
-  const type = (props.type as keyof typeof cellStarts) || 'default'
-  const sortable = props.sortable === '' ? true : props.sortable
-  //The selection column should not be affected by `showOverflowTooltip`.
-  const showOverflowTooltip =
-    type === 'selection'
-      ? false
-      : isUndefined(props.showOverflowTooltip)
-        ? (parent.props.showOverflowTooltip ??
-          globalConfig.value?.showOverflowTooltip)
-        : props.showOverflowTooltip
-  const tooltipFormatter = isUndefined(props.tooltipFormatter)
-    ? (parent.props.tooltipFormatter ?? globalConfig.value?.tooltipFormatter)
-    : props.tooltipFormatter
-  const defaults = {
-    ...cellStarts[type],
-    id: columnId.value,
-    type,
-    property: props.prop || props.property,
-    align: realAlign,
-    headerAlign: realHeaderAlign,
-    showOverflowTooltip,
-    tooltipFormatter,
-    // filter 相关属性
-    filterable: props.filters || props.filterMethod,
-    filteredValue: [],
-    filterPlacement: '',
-    filterClassName: '',
-    isColumnGroup: false,
-    isSubColumn: false,
-    filterOpened: false,
-    // sort 相关属性
-    sortable,
-    // index 列
-    index: props.index,
-    // <el-table-column key="xxx" />
-    rawColumnKey: instance.vnode.key,
-  }
+const type = (props.type as keyof typeof cellStarts) || 'default'
+const sortable = props.sortable === '' ? true : props.sortable
+const showOverflowTooltip =
+  type === 'selection'
+    ? false
+    : isUndefined(props.showOverflowTooltip)
+      ? (parent.props.showOverflowTooltip ??
+        globalConfig.value?.showOverflowTooltip)
+      : props.showOverflowTooltip
+const tooltipFormatter = isUndefined(props.tooltipFormatter)
+  ? (parent.props.tooltipFormatter ?? globalConfig.value?.tooltipFormatter)
+  : props.tooltipFormatter
+const defaults = {
+  ...cellStarts[type],
+  id: columnId.value,
+  type,
+  property: props.prop || props.property,
+  align: realAlign,
+  headerAlign: realHeaderAlign,
+  showOverflowTooltip,
+  tooltipFormatter,
+  filterable: props.filters || props.filterMethod,
+  filteredValue: [],
+  filterPlacement: '',
+  filterClassName: '',
+  isColumnGroup: false,
+  isSubColumn: false,
+  filterOpened: false,
+  sortable,
+  index: props.index,
+  rawColumnKey: instance.vnode.key,
+}
 
-  const basicProps = [
-    'columnKey',
-    'label',
-    'className',
-    'labelClassName',
-    'type',
-    'renderHeader',
-    'formatter',
-    'fixed',
-    'resizable',
-  ]
-  const sortProps = ['sortMethod', 'sortBy', 'sortOrders']
-  const selectProps = ['selectable', 'reserveSelection']
-  const filterProps = [
-    'filterMethod',
-    'filters',
-    'filterMultiple',
-    'filterOpened',
-    'filteredValue',
-    'filterPlacement',
-    'filterClassName',
-  ]
+const basicProps = [
+  'columnKey',
+  'label',
+  'className',
+  'labelClassName',
+  'type',
+  'renderHeader',
+  'formatter',
+  'fixed',
+  'resizable',
+]
+const sortProps = ['sortMethod', 'sortBy', 'sortOrders']
+const selectProps = ['selectable', 'reserveSelection']
+const filterProps = [
+  'filterMethod',
+  'filters',
+  'filterMultiple',
+  'filterOpened',
+  'filteredValue',
+  'filterPlacement',
+  'filterClassName',
+]
 
-  let column = getPropsData(basicProps, sortProps, selectProps, filterProps)
+let column = getPropsData(basicProps, sortProps, selectProps, filterProps)
 
-  column = mergeOptions(defaults, column)
-  // 注意 compose 中函数执行的顺序是从右到左
-  const chains = compose(setColumnRenders, setColumnWidth, setColumnForcedProps)
-  column = chains(column) as unknown as TableColumnCtx<T>
-  columnConfig.value = column
+column = mergeOptions(defaults, column)
+const chains = compose(setColumnRenders, setColumnWidth, setColumnForcedProps)
+column = chains(column) as unknown as TableColumnCtx<T>
+columnConfig.value = column
 
-  // 注册 watcher
-  registerNormalWatchers()
-  registerComplexWatchers()
-})
+// Register watchers for prop changes
+registerNormalWatchers()
+registerComplexWatchers()
 
+// Register the column in the table store synchronously.
+// This ensures columns are available during SSR rendering.
+// (insertColumn with $ready=false just adds to _columns array)
+owner.value.store.commit(
+  'insertColumn',
+  columnConfig.value,
+  isSubColumn.value
+    ? 'columnConfig' in parent && parent.columnConfig.value
+    : null,
+  updateColumnOrder
+)
+
+// onMounted — only update DOM-based column index
 onMounted(() => {
   const parent = columnOrTableParent.value
   const children = isSubColumn.value
@@ -167,16 +178,8 @@ onMounted(() => {
   const getColumnIndex = () =>
     getColumnElIndex(children || [], instance.vnode.el)
   columnConfig.value.getColumnIndex = getColumnIndex
-  const columnIndex = getColumnIndex()
-  columnIndex > -1 &&
-    owner.value.store.commit(
-      'insertColumn',
-      columnConfig.value,
-      isSubColumn.value
-        ? 'columnConfig' in parent && parent.columnConfig.value
-        : null,
-      updateColumnOrder
-    )
+  // Update column order based on actual DOM position
+  updateColumnOrder()
 })
 
 onBeforeUnmount(() => {
