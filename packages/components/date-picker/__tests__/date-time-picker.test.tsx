@@ -1305,6 +1305,22 @@ describe('Datetimerange', () => {
     vi.useRealTimers()
   })
 
+  it('should react to disabledDate changes', async () => {
+    const disabledDate = ref<(date: Date) => boolean>(() => false)
+    const wrapper = _mount(() => (
+      <DatePicker type="datetimerange" disabledDate={disabledDate.value} />
+    ))
+
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    expect(document.querySelectorAll('td.disabled')).toHaveLength(0)
+    disabledDate.value = () => true
+    await nextTick()
+    expect(document.querySelectorAll('td.disabled').length).toBeGreaterThan(0)
+  })
+
   it('should work with editable prop', async () => {
     const modelValue = ['2025-09-01', '2025-09-07']
     _mount(() => (
