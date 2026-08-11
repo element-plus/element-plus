@@ -11,21 +11,37 @@
         />
       </div>
       <div class="block">
-        <span class="demonstration">Dates</span>
-        <el-date-picker
-          v-model="value2"
-          type="dates"
-          placeholder="Pick one or more dates"
-        />
-      </div>
-    </div>
-    <div class="container">
-      <div class="block">
         <span class="demonstration">Year</span>
         <el-date-picker
           v-model="value3"
           type="year"
           placeholder="Pick a year"
+        />
+      </div>
+      <div class="block">
+        <span class="demonstration">Month</span>
+        <el-date-picker
+          v-model="value5"
+          type="month"
+          placeholder="Pick a month"
+        />
+      </div>
+      <div class="block">
+        <span class="demonstration">Quarter</span>
+        <el-date-picker
+          v-model="value7"
+          type="quarter"
+          placeholder="Pick a quarter"
+        />
+      </div>
+    </div>
+    <div class="container">
+      <div class="block">
+        <span class="demonstration">Dates</span>
+        <el-date-picker
+          v-model="value2"
+          type="dates"
+          placeholder="Pick one or more dates"
         />
       </div>
       <div class="block">
@@ -36,22 +52,20 @@
           placeholder="Pick one or more years"
         />
       </div>
-    </div>
-    <div class="container">
-      <div class="block">
-        <span class="demonstration">Month</span>
-        <el-date-picker
-          v-model="value5"
-          type="month"
-          placeholder="Pick a month"
-        />
-      </div>
       <div class="block">
         <span class="demonstration">Months</span>
         <el-date-picker
           v-model="value6"
           type="months"
           placeholder="Pick one or more months"
+        />
+      </div>
+      <div class="block">
+        <span class="demonstration">Quarters</span>
+        <el-date-picker
+          v-model="value8"
+          type="quarters"
+          placeholder="Pick one or more quarters"
         />
       </div>
     </div>
@@ -67,6 +81,8 @@ const value3 = ref('')
 const value4 = ref('')
 const value5 = ref('')
 const value6 = ref('')
+const value7 = ref('')
+const value8 = ref([])
 </script>
 
 <style scoped>
@@ -92,7 +108,7 @@ const value6 = ref('')
   text-align: center;
 }
 
-.demo-date-picker .container .block:last-child {
+.demo-date-picker .container .block:not(:first-child) {
   border-top: solid 1px var(--el-border-color);
 }
 
@@ -119,7 +135,7 @@ const value6 = ref('')
     padding: 1rem 0;
   }
 
-  .demo-date-picker .container .block:last-child {
+  .demo-date-picker .container .block:not(:first-child) {
     border-top: solid 1px var(--el-border-color);
   }
 }

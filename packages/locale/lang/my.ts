@@ -29,6 +29,8 @@ export default {
         'arrow keys နှင့် enter ကိုအသုံးပြုပြီး နေ့ရက် ကိုရွေးချယ်ပါ',
       monthTablePrompt:
         'arrow keys နှင့် enter ကိုအသုံးပြုပြီး လ ကိုရွေးချယ်ပါ',
+      quarterTablePrompt:
+        'arrow keys နှင့် enter ကိုအသုံးပြုပြီး သုံးလပတ် ကိုရွေးချယ်ပါ',
       yearTablePrompt:
         'arrow keys နှင့် enter ကိုအသုံးပြုပြီး နှစ် ကိုရွေးချယ်ပါ',
       selectedDate: 'ရွေးချယ်ထားသော ရက်စွဲ',

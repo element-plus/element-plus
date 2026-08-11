@@ -29,6 +29,8 @@ export default {
         'Tumia vitufe vya vishale na uweke ili kuchagua siku katika mwezi',
       monthTablePrompt:
         'Tumia vitufe vya vishale na uingize ili kuchagua mwezi',
+      quarterTablePrompt:
+        'Tumia vitufe vya vishale na uingize ili kuchagua robo',
       yearTablePrompt: 'Tumia vitufe vya vishale na uingize ili kuchagua mwaka',
       selectedDate: 'tarehe iliyochaguliwa',
       selectDate: 'chagua tarehe',
