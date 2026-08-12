@@ -66,7 +66,9 @@
           v-show="currentView !== 'time'"
           :class="[
             dpNs.e('header'),
-            (currentView === 'year' || currentView === 'month') &&
+            (currentView === 'year' ||
+              currentView === 'month' ||
+              currentView === 'quarter') &&
               dpNs.em('header', 'bordered'),
           ]"
         >
@@ -184,6 +186,17 @@
             :cell-class-name="cellClassName"
             @pick="handleMonthPick"
           />
+          <quarter-table
+            v-if="currentView === 'quarter'"
+            ref="currentViewRef"
+            :selection-mode="selectionMode"
+            :date="innerDate"
+            :parsed-value="parsedValue"
+            :disabled-date="disabledDate"
+            :disabled="dateDisabled"
+            :cell-class-name="cellClassName"
+            @pick="handleQuarterPick"
+          />
         </div>
       </div>
     </div>
@@ -257,11 +270,15 @@ import { panelDatePickProps } from '../props/panel-date-pick'
 import {
   correctlyParseUserInput,
   getValidDateOfMonth,
+  getValidDateOfQuarter,
   getValidDateOfYear,
+  isQuarterFullyDisabled,
+  isSelectableQuarterDate,
+  normalizeQuarterDate,
 } from '../utils'
-import { ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY } from '../constants'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
+import QuarterTable from './basic-quarter-table.vue'
 import YearTable from './basic-year-table.vue'
 import { useFormDisabled } from '@element-plus/components/form'
 
@@ -272,6 +289,7 @@ import type {
   DateTableEmits,
   DatesPickerEmits,
   MonthsPickerEmits,
+  QuartersPickerEmits,
   WeekPickerEmits,
   YearsPickerEmits,
 } from '../props/basic-date-table'
@@ -289,10 +307,6 @@ const slots = useSlots()
 
 const { t, lang } = useLocale()
 const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
-const isDefaultFormat = inject(
-  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY,
-  undefined
-) as any
 const { shortcuts, disabledDate, cellClassName, defaultTime } = pickerBase.props
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 
@@ -442,7 +456,18 @@ const handleShortcutClick = (shortcut: Shortcut) => {
 
 const selectionMode = computed<DatePickType>(() => {
   const { type } = props
-  if (['week', 'month', 'months', 'year', 'years', 'dates'].includes(type))
+  if (
+    [
+      'week',
+      'month',
+      'months',
+      'year',
+      'years',
+      'dates',
+      'quarter',
+      'quarters',
+    ].includes(type)
+  )
     return type
   return 'date'
 })
@@ -451,7 +476,8 @@ const isMultipleType = computed(() => {
   return (
     selectionMode.value === 'dates' ||
     selectionMode.value === 'months' ||
-    selectionMode.value === 'years'
+    selectionMode.value === 'years' ||
+    selectionMode.value === 'quarters'
   )
 })
 
@@ -496,6 +522,24 @@ const handleMonthPick = async (
   handlePanelChange('month')
 }
 
+const handleQuarterPick = async (
+  quarter: number | QuartersPickerEmits,
+  keepOpen?: boolean
+) => {
+  if (selectionMode.value === 'quarter') {
+    innerDate.value = getValidDateOfQuarter(
+      innerDate.value,
+      innerDate.value.year(),
+      quarter as number,
+      lang.value,
+      disabledDate
+    )
+    emit(innerDate.value, false)
+  } else if (selectionMode.value === 'quarters') {
+    emit(quarter as QuartersPickerEmits, keepOpen ?? true)
+  }
+}
+
 const handleYearPick = async (
   year: number | YearsPickerEmits,
   keepOpen?: boolean
@@ -509,8 +553,12 @@ const handleYearPick = async (
   } else {
     const data = innerDate.value.year(year as number)
     innerDate.value = getValidDateOfYear(data, lang.value, disabledDate)
-    currentView.value = 'month'
-    if (['month', 'year', 'date', 'week'].includes(selectionMode.value)) {
+    currentView.value = ['quarter', 'quarters'].includes(selectionMode.value)
+      ? 'quarter'
+      : 'month'
+    if (
+      ['month', 'year', 'date', 'week', 'quarter'].includes(selectionMode.value)
+    ) {
       emit(innerDate.value, true)
       await nextTick()
       handleFocusPicker()
@@ -536,13 +584,16 @@ const footerVisible = computed(() => {
   const showDateFooter = showTime.value || selectionMode.value === 'dates'
   const showYearFooter = selectionMode.value === 'years'
   const showMonthFooter = selectionMode.value === 'months'
+  const showQuarterFooter = selectionMode.value === 'quarters'
   const isDateView = currentView.value === 'date'
   const isYearView = currentView.value === 'year'
   const isMonthView = currentView.value === 'month'
+  const isQuarterView = currentView.value === 'quarter'
   return (
     (showDateFooter && isDateView) ||
     (showYearFooter && isYearView) ||
-    (showMonthFooter && isMonthView)
+    (showMonthFooter && isMonthView) ||
+    (showQuarterFooter && isQuarterView)
   )
 })
 
@@ -554,6 +605,14 @@ const disabledConfirm = computed(() => {
   if (!disabledDate) return false
   if (!props.parsedValue) return true
   if (isArray(props.parsedValue)) {
+    if (!props.parsedValue.length) return true
+
+    if (selectionMode.value === 'quarters') {
+      return props.parsedValue.some((date) =>
+        isQuarterFullyDisabled(date, lang.value, disabledDate)
+      )
+    }
+
     return disabledDate(props.parsedValue[0].toDate())
   }
   return disabledDate(props.parsedValue.toDate())
@@ -669,8 +728,7 @@ const handleVisibleDateChange = (value: string) => {
   const newDate = correctlyParseUserInput(
     value,
     dateFormat.value,
-    lang.value,
-    isDefaultFormat
+    lang.value
   ) as Dayjs
   if (newDate.isValid()) {
     if (disabledDate && disabledDate(newDate.toDate())) {
@@ -684,20 +742,35 @@ const handleVisibleDateChange = (value: string) => {
 }
 
 const isValidValue = (date: unknown) => {
-  return (
-    dayjs.isDayjs(date) &&
-    date.isValid() &&
-    (disabledDate ? !disabledDate(date.toDate()) : true)
-  )
+  if (!dayjs.isDayjs(date) || !date.isValid()) {
+    return false
+  }
+
+  if (selectionMode.value === 'quarter') {
+    return isSelectableQuarterDate(date, lang.value, disabledDate)
+  }
+
+  return disabledDate ? !disabledDate(date.toDate()) : true
 }
 
-const parseUserInput = (value: Dayjs) => {
-  return correctlyParseUserInput(
-    value,
-    props.format,
-    lang.value,
-    isDefaultFormat
-  )
+const parseUserInput = (value: Dayjs | Dayjs[]) => {
+  const parsed = correctlyParseUserInput(value, props.format, lang.value) as
+    Dayjs | Dayjs[]
+
+  if (!['quarter', 'quarters'].includes(selectionMode.value)) {
+    return parsed
+  }
+
+  const normalize = (date: Dayjs) =>
+    normalizeQuarterDate(date, lang.value, disabledDate)
+
+  if (isArray(parsed)) {
+    return parsed.map(normalize)
+  }
+  if (!dayjs.isDayjs(parsed) || !parsed.isValid()) {
+    return parsed
+  }
+  return normalize(parsed)
 }
 
 const getDefaultValue = () => {
@@ -714,7 +787,11 @@ const getDefaultValue = () => {
 }
 
 const handleFocusPicker = () => {
-  if (['week', 'month', 'year', 'date'].includes(selectionMode.value)) {
+  if (
+    ['week', 'month', 'year', 'date', 'quarter', 'quarters'].includes(
+      selectionMode.value
+    )
+  ) {
     currentViewRef.value?.focus()
   }
 }
@@ -788,6 +865,14 @@ const handleKeyControl = (code: string) => {
       offset: (date: Date, step: number) =>
         date.setMonth(date.getMonth() + step),
     },
+    quarter: {
+      [up]: -4,
+      [down]: 4,
+      [left]: -1,
+      [right]: 1,
+      offset: (date: Date, step: number) =>
+        date.setMonth(date.getMonth() + step * 3),
+    },
     week: {
       [up]: -1,
       [down]: 1,
@@ -813,7 +898,9 @@ const handleKeyControl = (code: string) => {
 
   const newDate = innerDate.value.toDate()
   while (Math.abs(innerDate.value.diff(newDate, 'year', true)) < 1) {
-    const map = mapping[keyboardMode.value]
+    const mode =
+      keyboardMode.value === 'quarters' ? 'quarter' : keyboardMode.value
+    const map = mapping[mode]
     if (!map) return
     map.offset(
       newDate,
@@ -821,12 +908,31 @@ const handleKeyControl = (code: string) => {
         ? (map[code] as unknown as KeyControlMappingCallableOffset)(newDate)
         : ((map[code] as number) ?? 0)
     )
-    if (disabledDate && disabledDate(newDate)) {
-      break
+
+    let result: Dayjs
+    if (mode === 'quarter') {
+      const candidate = dayjs(newDate).locale(lang.value)
+      if (isQuarterFullyDisabled(candidate, lang.value, disabledDate)) {
+        break
+      }
+      result = getValidDateOfQuarter(
+        candidate,
+        candidate.year(),
+        candidate.quarter() - 1,
+        lang.value,
+        disabledDate
+      )
+    } else {
+      if (disabledDate && disabledDate(newDate)) {
+        break
+      }
+      result = dayjs(newDate).locale(lang.value)
     }
-    const result = dayjs(newDate).locale(lang.value)
+
     innerDate.value = result
-    contextEmit('pick', result, true)
+    if (!isMultipleType.value) {
+      contextEmit('pick', result, true)
+    }
     break
   }
 }
@@ -838,7 +944,7 @@ const handlePanelChange = (mode: 'month' | 'year') => {
 watch(
   () => selectionMode.value,
   (val) => {
-    if (['month', 'year'].includes(val)) {
+    if (['month', 'year', 'quarter'].includes(val)) {
       currentView.value = val
       return
     } else if (val === 'years') {
@@ -846,6 +952,9 @@ watch(
       return
     } else if (val === 'months') {
       currentView.value = 'month'
+      return
+    } else if (val === 'quarters') {
+      currentView.value = 'quarter'
       return
     }
     currentView.value = 'date'

@@ -23,7 +23,7 @@
     "nprogress": "^0.2.0"
   },
   "devDependencies": {
-    "@crowdin/cli": "^4.14.3",
+    "@crowdin/cli": "^4.15.0",
     "@element-plus/build": "workspace:*",
     "@element-plus/build-constants": "workspace:*",
     "@element-plus/build-utils": "workspace:*",
@@ -40,7 +40,7 @@
     "vite-plugin-inspect": "^0.8.7",
     "vite-plugin-mkcert": "^2.1.0",
     "vitepress": "^1.6.4",
-    "vitepress-plugin-group-icons": "^1.7.5",
+    "vitepress-plugin-group-icons": "^1.7.6",
     "vue": "catalog:"
   }
 }

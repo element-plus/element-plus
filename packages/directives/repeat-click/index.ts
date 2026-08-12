@@ -52,7 +52,10 @@ export const vRepeatClick: ObjectDirective<
       clear()
       handler()
 
-      document.addEventListener('mouseup', clear, { once: true })
+      document.addEventListener('mouseup', clear, {
+        once: true,
+        capture: true,
+      })
 
       delayId = setTimeout(() => {
         intervalId = setInterval(() => {
@@ -73,7 +76,7 @@ export const vRepeatClick: ObjectDirective<
     }
     if (clear) {
       clear()
-      document.removeEventListener('mouseup', clear)
+      document.removeEventListener('mouseup', clear, true)
     }
     el[SCOPE] = null
   },

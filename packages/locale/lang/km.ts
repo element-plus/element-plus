@@ -29,6 +29,8 @@ export default {
         'ប្រើគ្រាប់ចុចដើម្បីរំកិល និងចុច Enter ដើម្បីជ្រើសរើសកាលបរិច្ឆេទ',
       monthTablePrompt:
         'ប្រើគ្រាប់ចុចដើម្បីរំកិល និងចុច Enter ដើម្បីជ្រើសរើសខែ',
+      quarterTablePrompt:
+        'ប្រើគ្រាប់ចុចដើម្បីរំកិល និងចុច Enter ដើម្បីជ្រើសរើសត្រីមាស',
       yearTablePrompt:
         'ប្រើគ្រាប់ចុចដើម្បីរំកិល និងចុច Enter ដើម្បីជ្រើសរើសឆ្នាំ',
       selectedDate: 'កាលបរិច្ឆេទដែលបានជ្រើសរើស',
@@ -87,6 +89,9 @@ export default {
         nov: 'វិច្ឆិកា',
         dec: 'ធ្នូ',
       },
+    },
+    input: {
+      characters: '{count} / {max} តួអក្សរ',
     },
     inputNumber: {
       decrease: 'បន្ថយតម្លៃ',

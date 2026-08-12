@@ -177,12 +177,14 @@ export default defineComponent({
     const filterValue = computed({
       get: () => (props.column?.filteredValue || [])[0],
       set: (value?: string | null) => {
-        if (filteredValue.value) {
+        if (props.column) {
+          const arr = [...(props.column.filteredValue ?? [])]
           if (!isPropAbsent(value)) {
-            filteredValue.value.splice(0, 1, value)
+            arr.splice(0, 1, value)
           } else {
-            filteredValue.value.splice(0, 1)
+            arr.splice(0, 1)
           }
+          props.upDataColumn?.('filteredValue', arr)
         }
       },
     })
