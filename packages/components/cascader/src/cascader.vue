@@ -280,7 +280,7 @@ import {
   useSlots,
   watch,
 } from 'vue'
-import { clamp, cloneDeep } from 'lodash-unified'
+import { clamp, cloneDeep, isEqual } from 'lodash-unified'
 import { useCssVar, useDebounceFn, useResizeObserver } from '@vueuse/core'
 import {
   NOOP,
@@ -289,9 +289,9 @@ import {
   getEventCode,
   getSibling,
   isClient,
-  isEmpty,
   isNumber,
   isPromise,
+  isPropAbsent,
   unique,
 } from '@element-plus/utils'
 import ElCascaderPanel, {
@@ -335,6 +335,7 @@ import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
 import type { FixedSizeListInstance } from '@element-plus/components/virtual-list'
 import type {
   CascaderNode,
+  CascaderNodeValue,
   CascaderPanelInstance,
   CascaderValue,
   Tag,
@@ -490,7 +491,7 @@ const checkedNodes: ComputedRef<CascaderNode[]> = computed(() => {
   // When persistent=false and the panel is not yet mounted, resolve
   // checked nodes directly from modelValue + options so the cascader
   // can display labels / tags without the panel being rendered.
-  if (!isEmpty(props.modelValue)) {
+  if (!isPropAbsent(props.modelValue)) {
     const cfg = config.value
     if (!cfg.lazy && props.options?.length) {
       const store = new CascaderStore(props.options, cfg)
@@ -635,8 +636,19 @@ const genTag = (node: CascaderNode): Tag => {
 
 const deleteTag = (tag: Tag) => {
   const node = tag.node as CascaderNode
-  node.doCheck(false)
-  cascaderPanelRef.value?.calculateCheckedValue()
+  if (cascaderPanelRef.value) {
+    node.doCheck(false)
+    cascaderPanelRef.value.calculateCheckedValue()
+  } else {
+    const cfg = config.value
+    const values = castArray(props.modelValue as CascaderNodeValue[]).filter(
+      (val) => !isEqual(val, node.valueByOption)
+    )
+    emit(
+      UPDATE_MODEL_EVENT,
+      cfg.multiple ? values : (values[0] ?? valueOnClear.value)
+    )
+  }
   emit('removeTag', node.valueByOption)
 }
 
@@ -645,9 +657,9 @@ const getStrategyCheckedNodes = (): CascaderNode[] => {
     case 'child':
       return checkedNodes.value
     case 'parent': {
-      const clickedNodes = getCheckedNodes(false)
-      const clickedNodesValue = clickedNodes!.map((o) => o.value)
-      const parentNodes = clickedNodes!.filter(
+      const clickedNodes = getCheckedNodes(false) ?? []
+      const clickedNodesValue = clickedNodes.map((o) => o.value)
+      const parentNodes = clickedNodes.filter(
         (o) => !o.parent || !clickedNodesValue.includes(o.parent.value)
       )
       return parentNodes
@@ -862,7 +874,12 @@ const handleKeyDown = (e: KeyboardEvent) => {
 }
 
 const handleClear = () => {
-  cascaderPanelRef.value?.clearCheckedNodes()
+  if (cascaderPanelRef.value) {
+    cascaderPanelRef.value.clearCheckedNodes()
+  } else {
+    emit(UPDATE_MODEL_EVENT, valueOnClear.value)
+    emit(CHANGE_EVENT, valueOnClear.value)
+  }
   if (!popperVisible.value && props.filterable) {
     syncPresentTextValue()
   }
