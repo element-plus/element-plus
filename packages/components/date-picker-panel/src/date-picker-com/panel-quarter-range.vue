@@ -170,7 +170,8 @@ const unit = 'year'
 
 const { lang } = useLocale()
 const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
-const { shortcuts, disabledDate, cellClassName } = pickerBase.props
+const { shortcuts, cellClassName } = pickerBase.props
+const disabledDate = toRef(pickerBase.props, 'disabledDate')
 const format = toRef(pickerBase.props, 'format')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 const leftDate = ref(dayjs().locale(lang.value))
@@ -248,7 +249,7 @@ const handleClear = () => {
 }
 
 const normalizeQuarterInput = (value: Dayjs) =>
-  normalizeQuarterDate(value, lang.value, disabledDate)
+  normalizeQuarterDate(value, lang.value, disabledDate.value)
 
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
   const parsed = correctlyParseUserInput(value, format.value, lang.value)
@@ -263,11 +264,12 @@ const parseUserInput = (value: Dayjs | Dayjs[]) => {
 const isValidValue = (date: [Dayjs, Dayjs]) => {
   return (
     isValidRange(date) &&
-    (disabledDate
-      ? !disabledDate(date[0].toDate()) && !disabledDate(date[1].toDate())
+    (disabledDate.value
+      ? !disabledDate.value(date[0].toDate()) &&
+        !disabledDate.value(date[1].toDate())
       : true) &&
-    !isQuarterFullyDisabled(date[0], lang.value, disabledDate) &&
-    !isQuarterFullyDisabled(date[1], lang.value, disabledDate)
+    !isQuarterFullyDisabled(date[0], lang.value, disabledDate.value) &&
+    !isQuarterFullyDisabled(date[1], lang.value, disabledDate.value)
   )
 }
 

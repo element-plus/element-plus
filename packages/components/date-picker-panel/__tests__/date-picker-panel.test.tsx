@@ -26,6 +26,24 @@ const setDayjsWeekStart = (weekStart = 0) => {
   })
 }
 
+const types: DatePickerType[] = [
+  'year',
+  'years',
+  'month',
+  'months',
+  'date',
+  'dates',
+  'week',
+  'quarter',
+  'quarters',
+  'quarterrange',
+  'datetime',
+  'datetimerange',
+  'daterange',
+  'monthrange',
+  'yearrange',
+]
+
 describe('DatePickerPanel', () => {
   it('should have border', async () => {
     const wrapper = mount(() => <DatePickerPanel />)
@@ -33,24 +51,6 @@ describe('DatePickerPanel', () => {
   })
 
   describe('common disabled actions', async () => {
-    const types: DatePickerType[] = [
-      'year',
-      'years',
-      'month',
-      'months',
-      'date',
-      'dates',
-      'week',
-      'quarter',
-      'quarters',
-      'quarterrange',
-      'datetime',
-      'datetimerange',
-      'daterange',
-      'monthrange',
-      'yearrange',
-    ]
-
     const currentType = ref<DatePickerType>()
     const onUpdateModelValue = vi.fn()
     const onPanelChange = vi.fn()
@@ -111,6 +111,27 @@ describe('DatePickerPanel', () => {
         expect(modelValue.value).toBeUndefined()
         expect(onUpdateModelValue).not.toHaveBeenCalled()
         expect(onPanelChange).not.toHaveBeenCalled()
+      }
+    )
+  })
+
+  describe('disabledDate should be reactive', async () => {
+    it.each(types)(
+      ":type='%s' should react to disabledDate changes",
+      async (type) => {
+        const disabledDate = ref<(date: Date) => boolean>(() => false)
+        const _wrapper = mount(() => (
+          <DatePickerPanel type={type} disabledDate={disabledDate.value} />
+        ))
+
+        const wrapper = _wrapper.findComponent(DatePickerPanel)
+
+        expect(wrapper.findAll('td.disabled')).toHaveLength(0)
+
+        disabledDate.value = () => true
+        await nextTick()
+
+        expect(wrapper.findAll('td.disabled').length).toBeGreaterThan(0)
       }
     )
   })

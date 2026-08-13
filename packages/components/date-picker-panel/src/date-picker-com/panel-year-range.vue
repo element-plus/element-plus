@@ -134,7 +134,8 @@ const { lang } = useLocale()
 const leftDate = ref(dayjs().locale(lang.value))
 const rightDate = ref(dayjs().locale(lang.value).add(step, unit))
 const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
-const { shortcuts, disabledDate, cellClassName } = pickerBase.props
+const { shortcuts, cellClassName } = pickerBase.props
+const disabledDate = toRef(pickerBase.props, 'disabledDate')
 const format = toRef(pickerBase.props, 'format')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 
@@ -249,8 +250,9 @@ const parseUserInput = (value: Dayjs | Dayjs[]) => {
 const isValidValue = (date: [Dayjs, Dayjs]) => {
   return (
     isValidRange(date) &&
-    (disabledDate
-      ? !disabledDate(date[0].toDate()) && !disabledDate(date[1].toDate())
+    (disabledDate.value
+      ? !disabledDate.value(date[0].toDate()) &&
+        !disabledDate.value(date[1].toDate())
       : true)
   )
 }
