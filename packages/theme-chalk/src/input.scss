@@ -54,6 +54,8 @@
     position: relative;
     display: block;
     resize: vertical;
+    // #24721 Keep Firefox's caret in view after autosize temporarily hides overflow.
+    overflow-y: auto;
     padding: 5px map.get($input-padding-horizontal, 'default')-$border-width;
     line-height: 1.5;
     box-sizing: border-box;
