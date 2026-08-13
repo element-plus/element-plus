@@ -284,16 +284,21 @@ import { clamp, cloneDeep } from 'lodash-unified'
 import { useCssVar, useDebounceFn, useResizeObserver } from '@vueuse/core'
 import {
   NOOP,
+  castArray,
   focusNode,
   getEventCode,
   getSibling,
   isClient,
+  isEmpty,
   isNumber,
   isPromise,
+  unique,
 } from '@element-plus/utils'
 import ElCascaderPanel, {
   CASCADER_PANEL_HEIGHT,
   CASCADER_PANEL_ITEM_SIZE,
+  CascaderStore,
+  useCascaderConfig,
 } from '@element-plus/components/cascader-panel'
 import ElInput from '@element-plus/components/input'
 import ElTooltip from '@element-plus/components/tooltip'
@@ -473,13 +478,35 @@ const tagSize = computed(() =>
   realSize.value === 'small' ? 'small' : 'default'
 )
 const multiple = computed(() => !!props.props.multiple)
+const config = useCascaderConfig(props)
 const readonly = computed(() => !props.filterable || multiple.value)
 const searchKeyword = computed(() =>
   multiple.value ? searchInputValue.value : inputValue.value
 )
-const checkedNodes: ComputedRef<CascaderNode[]> = computed(
-  () => cascaderPanelRef.value?.checkedNodes || []
-)
+const checkedNodes: ComputedRef<CascaderNode[]> = computed(() => {
+  const panelNodes = cascaderPanelRef.value?.checkedNodes
+  if (panelNodes) return panelNodes
+
+  // When persistent=false and the panel is not yet mounted, resolve
+  // checked nodes directly from modelValue + options so the cascader
+  // can display labels / tags without the panel being rendered.
+  if (!isEmpty(props.modelValue)) {
+    const cfg = config.value
+    if (!cfg.lazy && props.options?.length) {
+      const store = new CascaderStore(props.options, cfg)
+      const leafOnly = !cfg.checkStrictly
+      const values = cfg.multiple
+        ? castArray(props.modelValue)
+        : [props.modelValue]
+      return unique(
+        values
+          .map((val) => store.getNodeByValue(val as CascaderValue, leafOnly))
+          .filter((node) => !!node && (cfg.checkStrictly || node.isLeaf))
+      ) as CascaderNode[]
+    }
+  }
+  return []
+})
 
 const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
   disabled: isDisabled,
@@ -996,7 +1023,8 @@ watch(
     () => props.collapseTags,
     () => props.maxCollapseTags,
   ],
-  calculatePresentTags
+  calculatePresentTags,
+  { immediate: true }
 )
 
 watch(tags, () => {
