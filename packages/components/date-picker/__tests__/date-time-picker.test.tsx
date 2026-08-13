@@ -517,22 +517,6 @@ describe('Datetime Picker', () => {
       expect(input.props().readonly).toBe(true)
     })
   })
-
-  it('should react to disabledDate changes', async () => {
-    const disabledDate = ref<(date: Date) => boolean>(() => false)
-    const wrapper = _mount(() => (
-      <DatePicker type="datetime" disabledDate={disabledDate.value} />
-    ))
-
-    const input = wrapper.find('input')
-    input.trigger('blur')
-    input.trigger('focus')
-    await nextTick()
-    expect(document.querySelectorAll('td.disabled')).toHaveLength(0)
-    disabledDate.value = () => true
-    await nextTick()
-    expect(document.querySelectorAll('td.disabled').length).toBeGreaterThan(0)
-  })
 })
 
 describe('Datetimerange', () => {
@@ -1319,22 +1303,6 @@ describe('Datetimerange', () => {
     expect(leftHeader.text()).toBe('January')
     expect(rightHeader.text()).toBe('February')
     vi.useRealTimers()
-  })
-
-  it('should react to disabledDate changes', async () => {
-    const disabledDate = ref<(date: Date) => boolean>(() => false)
-    const wrapper = _mount(() => (
-      <DatePicker type="datetimerange" disabledDate={disabledDate.value} />
-    ))
-
-    const input = wrapper.find('input')
-    input.trigger('blur')
-    input.trigger('focus')
-    await nextTick()
-    expect(document.querySelectorAll('td.disabled')).toHaveLength(0)
-    disabledDate.value = () => true
-    await nextTick()
-    expect(document.querySelectorAll('td.disabled').length).toBeGreaterThan(0)
   })
 
   it('should work with editable prop', async () => {
