@@ -76,6 +76,9 @@ class Node {
     this.children = (childrenData || []).map(
       (child) => new Node(child, config, this)
     )
+    if (this.parent?.checked) {
+      this.checked = true
+    }
     this.loaded = !config.lazy || this.isLeaf || !isEmpty(childrenData)
     this.text = ''
   }
@@ -166,13 +169,7 @@ class Node {
       const num = p.checked ? 1 : p.indeterminate ? 0.5 : 0
       return c + num
     }, 0)
-
-    this.checked =
-      this.loaded &&
-      this.children
-        .filter((child) => !child.isDisabled)
-        .every((child) => child.loaded && child.checked) &&
-      checked
+    this.checked = checked
     this.indeterminate =
       this.loaded && checkedNum !== totalNum && checkedNum > 0
   }
