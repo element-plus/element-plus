@@ -644,10 +644,9 @@ const deleteTag = (tag: Tag) => {
     const values = castArray(props.modelValue as CascaderNodeValue[]).filter(
       (val) => !isEqual(val, node.valueByOption)
     )
-    emit(
-      UPDATE_MODEL_EVENT,
+    checkedValue.value = (
       cfg.multiple ? values : (values[0] ?? valueOnClear.value)
-    )
+    ) as CascaderValue
   }
   emit('removeTag', node.valueByOption)
 }
@@ -657,12 +656,18 @@ const getStrategyCheckedNodes = (): CascaderNode[] => {
     case 'child':
       return checkedNodes.value
     case 'parent': {
-      const clickedNodes = getCheckedNodes(false) ?? []
-      const clickedNodesValue = clickedNodes.map((o) => o.value)
-      const parentNodes = clickedNodes.filter(
-        (o) => !o.parent || !clickedNodesValue.includes(o.parent.value)
+      const clickedNodes = getCheckedNodes(false)
+      if (clickedNodes.length) {
+        const clickedNodesValue = clickedNodes.map((o) => o.value)
+        return clickedNodes.filter(
+          (o) => !o.parent || !clickedNodesValue.includes(o.parent.value)
+        )
+      }
+      // When the panel is not mounted, derive parent nodes from the
+      // fallback checkedNodes (leaf-only) by walking up the parent chain.
+      return checkedNodes.value.filter(
+        (node) => !node.parent || !checkedNodes.value.includes(node.parent)
       )
-      return parentNodes
     }
     default:
       return []
@@ -877,8 +882,9 @@ const handleClear = () => {
   if (cascaderPanelRef.value) {
     cascaderPanelRef.value.clearCheckedNodes()
   } else {
-    emit(UPDATE_MODEL_EVENT, valueOnClear.value)
-    emit(CHANGE_EVENT, valueOnClear.value)
+    checkedValue.value = (
+      multiple.value ? [] : valueOnClear.value
+    ) as CascaderValue
   }
   if (!popperVisible.value && props.filterable) {
     syncPresentTextValue()
