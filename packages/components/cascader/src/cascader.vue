@@ -838,7 +838,7 @@ const calculateSuggestionMaxWidth = () => {
 }
 
 const getCheckedNodes = (leafOnly: boolean) => {
-  return cascaderPanelRef.value?.getCheckedNodes(leafOnly)
+  return cascaderPanelRef.value?.getCheckedNodes(leafOnly) ?? []
 }
 
 const handleExpandChange = (value: CascaderValue) => {
