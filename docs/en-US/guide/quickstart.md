@@ -137,7 +137,7 @@ export default defineNuxtConfig({
 ```
 
 ::: tip
-If you are using `pnpm`, please note that the [dayjs](https://github.com/iamkun/dayjs) package used internally by element-plus is not a [JavaScript modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules).
+If you are using `pnpm`, please note that the [dayjs](https://github.com/iamkun/dayjs) package used internally by Element Plus is not a [JavaScript modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules).
 
 In order to ensure that it can be converted into a JavaScript modules before startup, you need to configure pnpm to hoist dependencies.
 
