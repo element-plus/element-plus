@@ -2,7 +2,7 @@
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { useLang } from '../../composables/lang'
 import demoBlockLocale from '../../../i18n/component/demo-block.json'
-import { computeFoldRegions } from './code-fold'
+import { computeFoldRegions, normalizeCodeFoldLines } from './code-fold'
 
 const props = defineProps({
   visible: {
@@ -29,22 +29,14 @@ const CHEVRON_SVG =
 
 const setupFolding = () => {
   const container = sourceRef.value
-  const code = container?.querySelector('pre > code')
+  const code = container?.querySelector<HTMLElement>('pre > code')
   if (!container || !code) return
 
   container.classList.remove('has-fold')
 
-  // Turn every `.line` span into a block-level row and drop the `\n`
-  // separator text nodes, so rows can be hidden without leaving blank lines.
-  const lineEls: HTMLElement[] = []
-  for (const node of Array.from(code.childNodes)) {
-    if (node.nodeType === Node.TEXT_NODE) {
-      if (/^\s*$/.test(node.textContent ?? '')) node.remove()
-    } else if (node instanceof HTMLElement && node.classList.contains('line')) {
-      node.classList.add('code-line')
-      lineEls.push(node)
-    }
-  }
+  // Preserve newline separators in the DOM so `textContent` still contains
+  // `\n`, while hiding the separator nodes visually to avoid blank rows.
+  const lineEls = normalizeCodeFoldLines(code)
 
   const regions = computeFoldRegions(lineEls.map((el) => el.textContent ?? ''))
   if (!regions.length) return
@@ -129,6 +121,10 @@ watch(decoded, async () => {
   &:empty {
     min-height: 1lh;
   }
+}
+
+:deep(.code-fold-separator) {
+  display: none;
 }
 
 .has-fold {

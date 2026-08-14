@@ -6,6 +6,30 @@
  * starting line's.
  */
 
+export const normalizeCodeFoldLines = (code: HTMLElement): HTMLElement[] => {
+  for (const node of Array.from(code.childNodes)) {
+    if (
+      node.nodeType === Node.TEXT_NODE &&
+      /^\s*$/.test(node.textContent ?? '')
+    ) {
+      const separator = document.createElement('span')
+      separator.className = 'code-fold-separator'
+      separator.textContent = node.textContent ?? ''
+      node.replaceWith(separator)
+    }
+  }
+
+  const lineEls: HTMLElement[] = []
+  for (const node of Array.from(code.childNodes)) {
+    if (node instanceof HTMLElement && node.classList.contains('line')) {
+      node.classList.add('code-line')
+      lineEls.push(node)
+    }
+  }
+
+  return lineEls
+}
+
 export interface FoldRegion {
   /** index of the line that starts the region (stays visible) */
   start: number
