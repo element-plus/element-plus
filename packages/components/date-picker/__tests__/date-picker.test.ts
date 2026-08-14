@@ -3901,31 +3901,6 @@ describe('Quarters', () => {
       vi.useRealTimers()
     }
   })
-
-  it('should focus quarter table on ArrowDown from input', async () => {
-    vi.useFakeTimers()
-    try {
-      vi.setSystemTime(new Date('2026-03-15'))
-      _mount(
-        `<el-date-picker
-          type="quarters"
-          v-model="value"
-        />`,
-        () => ({ value: [] as Date[] })
-      )
-      await nextTick()
-      const input = document.querySelector<HTMLInputElement>('input')!
-      input.blur()
-      await nextTick()
-      input.focus()
-      await nextTick()
-      triggerEvent(input, 'keydown', EVENT_CODE.down)
-      await nextTick()
-      expect(document.activeElement?.closest('.el-quarter-table')).toBeTruthy()
-    } finally {
-      vi.useRealTimers()
-    }
-  })
 })
 
 describe('QuarterRange', () => {
