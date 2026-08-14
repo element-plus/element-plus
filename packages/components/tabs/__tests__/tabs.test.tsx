@@ -24,6 +24,34 @@ const Comp = defineComponent({
   },
 })
 
+const transitionEnd = (propertyName: string) => {
+  const event = new Event('transitionend')
+  Object.defineProperty(event, 'propertyName', { value: propertyName })
+  return event
+}
+
+const mountEditableTabs = async () => {
+  const activeName = ref('first')
+  const wrapper = mount(() => (
+    <Tabs v-model={activeName.value} editable>
+      <TabPane name="first" label="First" />
+      <TabPane name="second" label="Second" />
+      <TabPane name="third" label="Third" />
+    </Tabs>
+  ))
+  await nextTick()
+
+  const closeIcon = (name: string) => {
+    const icon = wrapper.find(`#tab-${name} .is-icon-close`).element
+    vi.spyOn(icon, 'getBoundingClientRect').mockReturnValue({
+      width: 14,
+    } as DOMRect)
+    return icon
+  }
+
+  return { activeName, closeIcon, wrapper }
+}
+
 describe('Tabs.vue', () => {
   test('create', async () => {
     const wrapper = mount(() => (
@@ -741,6 +769,90 @@ describe('Tabs.vue', () => {
     mockOffsetLeft.mockRestore()
     mockComputedStyle.mockRestore()
     wrapper.unmount()
+  })
+
+  test('recalculates nav after the previous close icon width transition', async () => {
+    const { activeName, closeIcon, wrapper } = await mountEditableTabs()
+    const firstCloseIcon = closeIcon('first')
+    const requestAnimationFrame = vi
+      .spyOn(window, 'requestAnimationFrame')
+      .mockReturnValue(1)
+
+    activeName.value = 'second'
+    await nextTick()
+    requestAnimationFrame.mockClear()
+
+    firstCloseIcon.dispatchEvent(transitionEnd('width'))
+
+    expect(requestAnimationFrame).toHaveBeenCalledOnce()
+
+    requestAnimationFrame.mockRestore()
+    wrapper.unmount()
+  })
+
+  test('ignores non-width transitions on the previous close icon', async () => {
+    const { activeName, closeIcon, wrapper } = await mountEditableTabs()
+    const firstCloseIcon = closeIcon('first')
+    const requestAnimationFrame = vi
+      .spyOn(window, 'requestAnimationFrame')
+      .mockReturnValue(1)
+
+    activeName.value = 'second'
+    await nextTick()
+    requestAnimationFrame.mockClear()
+
+    firstCloseIcon.dispatchEvent(transitionEnd('opacity'))
+
+    expect(requestAnimationFrame).not.toHaveBeenCalled()
+
+    firstCloseIcon.dispatchEvent(transitionEnd('width'))
+    expect(requestAnimationFrame).toHaveBeenCalledOnce()
+
+    requestAnimationFrame.mockRestore()
+    wrapper.unmount()
+  })
+
+  test('cleans up a stale close icon listener after rapid tab changes', async () => {
+    const { activeName, closeIcon, wrapper } = await mountEditableTabs()
+    const firstCloseIcon = closeIcon('first')
+    const secondCloseIcon = closeIcon('second')
+    const requestAnimationFrame = vi
+      .spyOn(window, 'requestAnimationFrame')
+      .mockReturnValue(1)
+
+    activeName.value = 'second'
+    await nextTick()
+    activeName.value = 'third'
+    await nextTick()
+    requestAnimationFrame.mockClear()
+
+    firstCloseIcon.dispatchEvent(transitionEnd('width'))
+    expect(requestAnimationFrame).not.toHaveBeenCalled()
+
+    secondCloseIcon.dispatchEvent(transitionEnd('width'))
+    expect(requestAnimationFrame).toHaveBeenCalledOnce()
+
+    requestAnimationFrame.mockRestore()
+    wrapper.unmount()
+  })
+
+  test('cleans up the close icon listener when tabs unmount', async () => {
+    const { activeName, closeIcon, wrapper } = await mountEditableTabs()
+    const firstCloseIcon = closeIcon('first')
+    const requestAnimationFrame = vi
+      .spyOn(window, 'requestAnimationFrame')
+      .mockReturnValue(1)
+
+    activeName.value = 'second'
+    await nextTick()
+    requestAnimationFrame.mockClear()
+    wrapper.unmount()
+
+    firstCloseIcon.dispatchEvent(transitionEnd('width'))
+
+    expect(requestAnimationFrame).not.toHaveBeenCalled()
+
+    requestAnimationFrame.mockRestore()
   })
 
   test('value type', async () => {
