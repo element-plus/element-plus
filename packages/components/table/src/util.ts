@@ -20,14 +20,11 @@ import type { DefaultRow, Table, TreeProps } from './table/defaults'
 import type { TableColumnCtx } from './table-column/defaults'
 import type { CSSProperties, VNode, VNodeArrayChildren } from 'vue'
 
-let tableIdSeed = 1
-let columnIdSeed = 1
+export const createTableId = (namespace: string, id: string) =>
+  `${namespace}-table_${id}`
 
-export const createTableId = (namespace: string) =>
-  `${namespace}-table_${tableIdSeed++}`
-
-export const createTableColumnId = (parentId: string) =>
-  `${parentId}_column_${columnIdSeed++}`
+export const createTableColumnId = (parentId: string, id: string) =>
+  `${parentId}_column_${id}`
 
 export type TableOverflowTooltipOptions = Partial<
   Omit<

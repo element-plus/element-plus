@@ -1,17 +1,18 @@
-import { h } from 'vue'
+import { h, unref } from 'vue'
 import { isUndefined } from '@element-plus/utils'
 
+import type { MaybeRef } from 'vue'
 import type { TableColumnCtx } from './table-column/defaults'
 import type { DefaultRow } from './table/defaults'
 
 type Props = {
   tableLayout: 'fixed' | 'auto'
-  columns?: TableColumnCtx<DefaultRow>[]
+  columns?: MaybeRef<TableColumnCtx<DefaultRow>[]>
 }
 
 export function hColgroup(props: Props) {
   const isAuto = props.tableLayout === 'auto'
-  let columns = props.columns || []
+  let columns = unref(props.columns) || []
   if (isAuto) {
     if (columns.every(({ width }) => isUndefined(width))) {
       columns = []

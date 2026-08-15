@@ -45,7 +45,7 @@
           cellspacing="0"
         >
           <hColgroup
-            :columns="store.states.columns.value"
+            :columns="store.states.columns"
             :table-layout="tableLayout"
           />
           <table-header
@@ -81,7 +81,7 @@
             }"
           >
             <hColgroup
-              :columns="store.states.columns.value"
+              :columns="store.states.columns"
               :table-layout="tableLayout"
             />
             <table-header
@@ -148,7 +148,7 @@
           :style="tableBodyStyles"
         >
           <hColgroup
-            :columns="store.states.columns.value"
+            :columns="store.states.columns"
             :table-layout="tableLayout"
           />
           <table-footer
@@ -174,7 +174,7 @@
 import { computed, getCurrentInstance, onBeforeUnmount, provide } from 'vue'
 import { debounce } from 'lodash-unified'
 import { Mousewheel as vMousewheel } from '@element-plus/directives'
-import { useLocale, useNamespace } from '@element-plus/hooks'
+import { useId, useLocale, useNamespace } from '@element-plus/hooks'
 import { useGlobalConfig } from '@element-plus/components/config-provider'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import { createStore } from './store/helper'
@@ -279,7 +279,7 @@ const { scrollBarRef, scrollTo, setScrollLeft, setScrollTop } = useScrollbar()
 
 const debouncedUpdateLayout = debounce(doLayout, 50)
 
-const tableId = createTableId(ns.namespace.value)
+const tableId = createTableId(ns.namespace.value, useId().value)
 const context = table
 table.tableId = tableId
 table.state = {

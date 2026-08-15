@@ -8,11 +8,11 @@ import {
   computed,
   getCurrentInstance,
   h,
-  onBeforeMount,
   onBeforeUnmount,
   onMounted,
   ref,
 } from 'vue'
+import { useId } from '@element-plus/hooks'
 import { useGlobalConfig } from '@element-plus/components/config-provider'
 import { isArray, isString, isUndefined } from '@element-plus/utils'
 import { cellStarts } from '../config'
@@ -80,117 +80,112 @@ const {
 
 const parent = columnOrTableParent.value
 const parentId = 'tableId' in parent ? parent.tableId : parent.columnId
-columnId.value = createTableColumnId(parentId)
+columnId.value = createTableColumnId(parentId, useId().value)
 
-onBeforeMount(() => {
-  isSubColumn.value = owner.value !== parent
+isSubColumn.value = owner.value !== parent
 
-  const type = (props.type as keyof typeof cellStarts) || 'default'
-  const sortable = props.sortable === '' ? true : props.sortable
-  //The selection column should not be affected by `showOverflowTooltip`.
-  const showOverflowTooltip =
-    type === 'selection'
-      ? false
-      : isUndefined(props.showOverflowTooltip)
-        ? (parent.props.showOverflowTooltip ??
-          globalConfig.value?.showOverflowTooltip)
-        : props.showOverflowTooltip
-  const tooltipFormatter = isUndefined(props.tooltipFormatter)
-    ? (parent.props.tooltipFormatter ?? globalConfig.value?.tooltipFormatter)
-    : props.tooltipFormatter
-  const defaults = {
-    ...cellStarts[type],
-    id: columnId.value,
-    type,
-    property: props.prop || props.property,
-    align: realAlign,
-    headerAlign: realHeaderAlign,
-    showOverflowTooltip,
-    tooltipFormatter,
-    // filter 相关属性
-    filterable: props.filters || props.filterMethod,
-    filteredValue: [],
-    filterPlacement: '',
-    filterClassName: '',
-    isColumnGroup: false,
-    isSubColumn: false,
-    filterOpened: false,
-    // sort 相关属性
-    sortable,
-    // index 列
-    index: props.index,
-    // <el-table-column key="xxx" />
-    rawColumnKey: instance.vnode.key,
-  }
+const type = (props.type as keyof typeof cellStarts) || 'default'
+const sortable = props.sortable === '' ? true : props.sortable
+//The selection column should not be affected by `showOverflowTooltip`.
+const showOverflowTooltip =
+  type === 'selection'
+    ? false
+    : isUndefined(props.showOverflowTooltip)
+      ? (parent.props.showOverflowTooltip ??
+        globalConfig.value?.showOverflowTooltip)
+      : props.showOverflowTooltip
+const tooltipFormatter = isUndefined(props.tooltipFormatter)
+  ? (parent.props.tooltipFormatter ?? globalConfig.value?.tooltipFormatter)
+  : props.tooltipFormatter
+const defaults = {
+  ...cellStarts[type],
+  id: columnId.value,
+  type,
+  property: props.prop || props.property,
+  align: realAlign,
+  headerAlign: realHeaderAlign,
+  showOverflowTooltip,
+  tooltipFormatter,
+  // filter 相关属性
+  filterable: props.filters || props.filterMethod,
+  filteredValue: [],
+  filterPlacement: '',
+  filterClassName: '',
+  isColumnGroup: false,
+  isSubColumn: false,
+  filterOpened: false,
+  // sort 相关属性
+  sortable,
+  // index 列
+  index: props.index,
+  // <el-table-column key="xxx" />
+  rawColumnKey: instance.vnode.key,
+}
 
-  const basicProps = [
-    'columnKey',
-    'label',
-    'className',
-    'labelClassName',
-    'type',
-    'renderHeader',
-    'formatter',
-    'fixed',
-    'resizable',
-  ]
-  const sortProps = ['sortMethod', 'sortBy', 'sortOrders']
-  const selectProps = ['selectable', 'reserveSelection']
-  const filterProps = [
-    'filterMethod',
-    'filters',
-    'filterMultiple',
-    'filterOpened',
-    'filteredValue',
-    'filterPlacement',
-    'filterClassName',
-  ]
+const basicProps = [
+  'columnKey',
+  'label',
+  'className',
+  'labelClassName',
+  'type',
+  'renderHeader',
+  'formatter',
+  'fixed',
+  'resizable',
+]
+const sortProps = ['sortMethod', 'sortBy', 'sortOrders']
+const selectProps = ['selectable', 'reserveSelection']
+const filterProps = [
+  'filterMethod',
+  'filters',
+  'filterMultiple',
+  'filterOpened',
+  'filteredValue',
+  'filterPlacement',
+  'filterClassName',
+]
 
-  let column = getPropsData(basicProps, sortProps, selectProps, filterProps)
+let column = getPropsData(basicProps, sortProps, selectProps, filterProps)
 
-  column = mergeOptions(defaults, column)
-  // 注意 compose 中函数执行的顺序是从右到左
-  const chains = compose(setColumnRenders, setColumnWidth, setColumnForcedProps)
-  column = chains(column) as unknown as TableColumnCtx<T>
-  columnConfig.value = column
+column = mergeOptions(defaults, column)
+// 注意 compose 中函数执行的顺序是从右到左
+const chains = compose(setColumnRenders, setColumnWidth, setColumnForcedProps)
+column = chains(column) as unknown as TableColumnCtx<T>
+columnConfig.value = column
 
-  // 注册 watcher
-  registerNormalWatchers()
-  registerComplexWatchers()
-})
+// 注册 watcher
+registerNormalWatchers()
+registerComplexWatchers()
 
-onMounted(() => {
-  const parent = columnOrTableParent.value
+const getColumnIndex = () => {
   const children = isSubColumn.value
     ? parent.vnode.el?.children
     : parent.refs.hiddenColumns?.children
-  const getColumnIndex = () =>
-    getColumnElIndex(children || [], instance.vnode.el)
-  columnConfig.value.getColumnIndex = getColumnIndex
-  const columnIndex = getColumnIndex()
-  columnIndex > -1 &&
-    owner.value.store.commit(
-      'insertColumn',
-      columnConfig.value,
-      isSubColumn.value
-        ? 'columnConfig' in parent && parent.columnConfig.value
-        : null,
-      updateColumnOrder
-    )
+  return getColumnElIndex(children || [], instance.vnode.el)
+}
+columnConfig.value.getColumnIndex = getColumnIndex
+owner.value.store.commit(
+  'insertColumn',
+  columnConfig.value,
+  isSubColumn.value
+    ? 'columnConfig' in parent && parent.columnConfig.value
+    : null,
+  updateColumnOrder
+)
+
+onMounted(() => {
+  updateColumnOrder()
 })
 
 onBeforeUnmount(() => {
-  const getColumnIndex = columnConfig.value.getColumnIndex
-  const columnIndex = getColumnIndex ? getColumnIndex() : -1
-  columnIndex > -1 &&
-    owner.value.store.commit(
-      'removeColumn',
-      columnConfig.value,
-      isSubColumn.value
-        ? 'columnConfig' in parent && parent.columnConfig.value
-        : null,
-      updateColumnOrder
-    )
+  owner.value.store.commit(
+    'removeColumn',
+    columnConfig.value,
+    isSubColumn.value
+      ? 'columnConfig' in parent && parent.columnConfig.value
+      : null,
+    updateColumnOrder
+  )
 })
 
 instance.columnId = columnId.value

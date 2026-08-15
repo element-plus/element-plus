@@ -1,5 +1,6 @@
 import { getCurrentInstance, nextTick, unref } from 'vue'
 import { isNull } from 'lodash-unified'
+import { isUndefined } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import useWatcher from './watcher'
 
@@ -97,8 +98,8 @@ function useStore<T extends DefaultRow>() {
         states.selectable.value = column.selectable
         states.reserveSelection.value = column.reserveSelection
       }
+      instance.store.updateColumns()
       if (instance.$ready) {
-        instance.store.updateColumns() // hack for dynamics insert column
         instance.store.scheduleLayout()
       }
     },
@@ -122,10 +123,12 @@ function useStore<T extends DefaultRow>() {
     ) {
       const array = unref(states._columns) || []
       if (parent) {
-        parent.children?.splice(
-          parent.children.findIndex((item) => item.id === column.id),
-          1
+        const index = parent.children?.findIndex(
+          (item) => item.id === column.id
         )
+        if (!isUndefined(index) && index >= 0) {
+          parent.children?.splice(index, 1)
+        }
         // fix #10699, delete parent.children immediately will trigger again
         nextTick(() => {
           if (parent.children?.length === 0) {
@@ -144,8 +147,8 @@ function useStore<T extends DefaultRow>() {
       const updateFnIndex = states.updateOrderFns.indexOf(updateColumnOrder)
       updateFnIndex > -1 && states.updateOrderFns.splice(updateFnIndex, 1)
 
+      instance.store.updateColumns()
       if (instance.$ready) {
-        instance.store.updateColumns() // hack for dynamics remove column
         instance.store.scheduleLayout()
       }
     },

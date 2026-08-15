@@ -1033,6 +1033,33 @@ describe('table column', () => {
   })
 
   describe('multi level column', () => {
+    it('should ignore removing an absent subcolumn', async () => {
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table ref="table">
+            <el-table-column label="group">
+              <el-table-column prop="release" />
+              <el-table-column prop="director" />
+            </el-table-column>
+          </el-table>
+        `,
+      })
+
+      await doubleWait()
+      const store = wrapper.vm.$refs.table.store
+      const parent = store.states._columns.value[0]
+      const children = [...parent.children]
+
+      store.commit('removeColumn', { id: 'absent-column' }, parent, vi.fn())
+
+      expect(parent.children).toEqual(children)
+      wrapper.unmount()
+    })
+
     it('should works', async () => {
       const wrapper = mount({
         components: {
