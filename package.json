@@ -66,8 +66,8 @@
     "normalize-wheel-es": "^1.2.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^21.2.1",
-    "@commitlint/config-conventional": "^21.2.0",
+    "@commitlint/cli": "^21.2.2",
+    "@commitlint/config-conventional": "^21.2.2",
     "@ctrl/tinycolor": "catalog:",
     "@element-plus/build": "workspace:^0.0.1",
     "@element-plus/build-utils": "workspace:^0.0.1",
@@ -86,8 +86,8 @@
     "@vue/test-utils": "catalog:",
     "consola": "^3.4.2",
     "csstype": "^3.2.3",
-    "cz-git": "^1.13.1",
-    "czg": "^1.13.1",
+    "cz-git": "^1.13.2",
+    "czg": "^1.13.2",
     "eslint": "^10.8.1",
     "expect-type": "^1.4.0",
     "happy-dom": "^20.11.2",
