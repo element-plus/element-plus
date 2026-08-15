@@ -30,7 +30,7 @@
     "@element-plus/build": "workspace:*",
     "lightningcss": "^1.33.0",
     "tinyglobby": "^0.2.17",
-    "sass-embedded": "^1.100.0",
+    "sass-embedded": "^1.102.0",
     "tsx": "catalog:"
   },
   "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
