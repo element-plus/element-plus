@@ -35,6 +35,22 @@ describe('table hydration', () => {
   it('keeps server-rendered cells during hydration', async () => {
     const container = document.createElement('div')
     container.innerHTML = await renderToString(createTableApp())
+    const getCellText = (selector: string) =>
+      [...container.querySelectorAll(selector)].map((cell) =>
+        cell.textContent?.trim()
+      )
+    const expectRenderedCellContent = () => {
+      expect(getCellText('.el-table__header .cell')).toEqual([
+        'Date',
+        'Name',
+        'Address',
+      ])
+      expect(getCellText('.el-table__body td .cell')).toEqual([
+        '2016-05-03',
+        'Tom',
+        'No. 189, Grove St, Los Angeles',
+      ])
+    }
 
     expect(
       container.querySelectorAll('.el-table__header colgroup col')
@@ -42,6 +58,7 @@ describe('table hydration', () => {
     expect(
       container.querySelectorAll('.el-table__body colgroup col')
     ).toHaveLength(3)
+    expectRenderedCellContent()
     const app = createTableApp()
 
     app.mount(container)
@@ -59,6 +76,7 @@ describe('table hydration', () => {
       3
     )
     expect(container.querySelectorAll('.el-table__body td')).toHaveLength(3)
+    expectRenderedCellContent()
 
     app.unmount()
   })
