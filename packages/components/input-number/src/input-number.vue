@@ -77,7 +77,7 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, onUpdated, reactive, ref, watch } from 'vue'
-import { isNil } from 'lodash-unified'
+import { isNil } from 'es-toolkit/compat'
 import { ElInput } from '@element-plus/components/input'
 import { ElIcon } from '@element-plus/components/icon'
 import {

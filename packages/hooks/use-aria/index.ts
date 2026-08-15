@@ -1,4 +1,4 @@
-import { pick } from 'lodash-unified'
+import { pick } from 'es-toolkit/compat'
 import { buildProps } from '@element-plus/utils'
 
 export interface AriaProps {

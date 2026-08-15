@@ -6,7 +6,7 @@ import {
   shallowRef,
   unref,
 } from 'vue'
-import { debounce } from 'lodash-unified'
+import { debounce } from 'es-toolkit/compat'
 import { isNumber } from '@element-plus/utils'
 import { FixedDir } from '../constants'
 

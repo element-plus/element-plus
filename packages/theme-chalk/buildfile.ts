@@ -6,7 +6,7 @@ import consola from 'consola'
 import { transform } from 'lightningcss'
 import { glob } from 'tinyglobby'
 import { compileAsync } from 'sass-embedded'
-import { chunk } from 'lodash-unified'
+import { chunk } from 'es-toolkit/compat'
 
 const distFolder = path.resolve(__dirname, 'dist')
 const distBundle = path.resolve(epOutput, 'theme-chalk')

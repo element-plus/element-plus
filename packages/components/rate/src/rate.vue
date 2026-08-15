@@ -67,7 +67,7 @@
 
 <script lang="ts" setup>
 import { computed, inject, markRaw, ref, watch } from 'vue'
-import { clamp } from 'lodash-unified'
+import { clamp } from 'es-toolkit/compat'
 import {
   CHANGE_EVENT,
   EVENT_CODE,

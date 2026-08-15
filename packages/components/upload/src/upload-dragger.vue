@@ -14,7 +14,7 @@ import { inject, ref } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormDisabled } from '@element-plus/components/form'
 import { throwError } from '@element-plus/utils/error'
-import { flatten } from 'lodash-unified'
+import { flatten } from 'es-toolkit/compat'
 import { uploadContextKey } from './constants'
 import { uploadDraggerEmits } from './upload-dragger'
 

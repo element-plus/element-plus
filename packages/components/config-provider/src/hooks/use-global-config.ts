@@ -12,7 +12,7 @@ import {
   useZIndex,
   zIndexContextKey,
 } from '@element-plus/hooks'
-import { isNil } from 'lodash-unified'
+import { isNil } from 'es-toolkit/compat'
 import { configProviderContextKey } from '../constants'
 
 import type { App, MaybeRef, Ref } from 'vue'

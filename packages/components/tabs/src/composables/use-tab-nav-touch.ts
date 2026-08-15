@@ -1,5 +1,5 @@
 import { computed, ref } from 'vue'
-import { clamp, isUndefined } from 'lodash-unified'
+import { clamp, isUndefined } from 'es-toolkit/compat'
 import { getClientXY } from '@element-plus/utils'
 
 import type { ComputedRef, Ref } from 'vue'

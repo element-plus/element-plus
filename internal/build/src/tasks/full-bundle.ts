@@ -4,7 +4,7 @@ import { replacePlugin } from 'rolldown/plugins'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import { glob } from 'tinyglobby'
-import { camelCase, upperFirst } from 'lodash-unified'
+import { camelCase, upperFirst } from 'es-toolkit/compat'
 import {
   PKG_BRAND_NAME,
   PKG_CAMELCASE_LOCAL_NAME,

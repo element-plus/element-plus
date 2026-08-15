@@ -1,5 +1,5 @@
 import { computed, getCurrentInstance, inject, toRaw, watch } from 'vue'
-import { get, isEqual } from 'lodash-unified'
+import { get, isEqual } from 'es-toolkit/compat'
 import {
   ensureArray,
   escapeStringRegexp,

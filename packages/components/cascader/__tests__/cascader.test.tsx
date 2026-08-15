@@ -16,9 +16,9 @@ import Cascader from '../src/cascader.vue'
 import type { VNode } from 'vue'
 import type ElCascader from '@element-plus/components/cascader'
 
-vi.mock('lodash-unified', async () => {
+vi.mock('es-toolkit/compat', async () => {
   return {
-    ...((await vi.importActual('lodash-unified')) as Record<string, any>),
+    ...((await vi.importActual('es-toolkit/compat')) as Record<string, any>),
     debounce: vi.fn((fn) => {
       fn.cancel = vi.fn()
       fn.flush = vi.fn()

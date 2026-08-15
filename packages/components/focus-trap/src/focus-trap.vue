@@ -13,7 +13,7 @@ import {
   unref,
   watch,
 } from 'vue'
-import { isNil } from 'lodash-unified'
+import { isNil } from 'es-toolkit/compat'
 import { EVENT_CODE } from '@element-plus/constants'
 import { useEscapeKeydown } from '@element-plus/hooks'
 import { getEventCode, isString } from '@element-plus/utils'

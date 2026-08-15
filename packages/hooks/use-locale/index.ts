@@ -1,5 +1,5 @@
 import { computed, inject, isRef, ref, unref } from 'vue'
-import { get } from 'lodash-unified'
+import { get } from 'es-toolkit/compat'
 import English from '@element-plus/locale/lang/en'
 
 import type { InjectionKey, MaybeRef, Ref } from 'vue'

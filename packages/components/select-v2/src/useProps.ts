@@ -1,5 +1,5 @@
 import { ref, watch } from 'vue'
-import { get, isEqual } from 'lodash-unified'
+import { get, isEqual } from 'es-toolkit/compat'
 
 import type { SelectV2Props } from './token'
 import type { Option } from './select.types'

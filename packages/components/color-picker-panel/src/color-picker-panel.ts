@@ -1,4 +1,4 @@
-import { isNil } from 'lodash-unified'
+import { isNil } from 'es-toolkit/compat'
 import { buildProps, definePropType, isString } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 

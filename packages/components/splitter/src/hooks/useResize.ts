@@ -1,5 +1,5 @@
 import { computed, ref, watch } from 'vue'
-import { clamp } from 'lodash-unified'
+import { clamp } from 'es-toolkit/compat'
 import { getPct, getPx, isPct, isPx } from './useSize'
 import { NOOP } from '@element-plus/utils'
 

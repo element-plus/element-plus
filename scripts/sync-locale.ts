@@ -2,7 +2,7 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import { basename, resolve } from 'node:path'
 import { globSync } from 'tinyglobby'
 import consola from 'consola'
-import { isArray, isObject, isString } from 'lodash-unified'
+import { isArray, isObject, isString } from 'es-toolkit/compat'
 import { localeRoot, normalizePath } from '@element-plus/build-utils'
 
 type TranslatePair = {

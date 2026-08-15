@@ -1,5 +1,5 @@
 import { watch } from 'vue'
-import { debounce } from 'lodash-unified'
+import { debounce } from 'es-toolkit/compat'
 import { isObject } from '@element-plus/utils'
 import useStore from '.'
 

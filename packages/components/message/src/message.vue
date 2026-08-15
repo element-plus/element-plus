@@ -67,7 +67,7 @@ import {
   messageEmits,
 } from './message'
 import { getLastOffset, getOffsetOrSpace } from './instance'
-import { omit } from 'lodash-unified'
+import { omit } from 'es-toolkit/compat'
 
 import type { BadgeProps } from '@element-plus/components/badge'
 import type { CSSProperties } from 'vue'

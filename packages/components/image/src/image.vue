@@ -68,7 +68,6 @@ import {
   watch,
 } from 'vue'
 import { useIntersectionObserver, useThrottleFn } from '@vueuse/core'
-import { fromPairs } from 'lodash-unified'
 import { useAttrs, useLocale, useNamespace } from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
 import {
@@ -108,7 +107,7 @@ const ns = useNamespace('image')
 const rawAttrs = useRawAttrs()
 
 const containerAttrs = computed(() => {
-  return fromPairs(
+  return Object.fromEntries(
     Object.entries(rawAttrs).filter(
       ([key]) => /^(data-|on[A-Z])/i.test(key) || ['id', 'style'].includes(key)
     )

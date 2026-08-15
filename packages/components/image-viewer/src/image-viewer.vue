@@ -122,7 +122,7 @@ import {
   watch,
 } from 'vue'
 import { clamp, useEventListener } from '@vueuse/core'
-import { throttle } from 'lodash-unified'
+import { throttle } from 'es-toolkit/compat'
 import {
   useLocale,
   useLockscreen,

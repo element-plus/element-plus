@@ -1,4 +1,4 @@
-import { get, set } from 'lodash-unified'
+import { get, set } from 'es-toolkit/compat'
 
 import type { Arrayable } from '.'
 

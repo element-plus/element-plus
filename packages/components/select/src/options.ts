@@ -1,5 +1,5 @@
 import { defineComponent, inject } from 'vue'
-import { isEqual } from 'lodash-unified'
+import { isEqual } from 'es-toolkit/compat'
 import { isArray, isFunction, isString } from '@element-plus/utils'
 import { selectKey } from './token'
 

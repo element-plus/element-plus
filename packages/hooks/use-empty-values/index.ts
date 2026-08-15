@@ -6,7 +6,7 @@ import {
   isArray,
   isFunction,
 } from '@element-plus/utils'
-import { isEqual } from 'lodash-unified'
+import { isEqual } from 'es-toolkit/compat'
 
 import type { InjectionKey, Ref } from 'vue'
 

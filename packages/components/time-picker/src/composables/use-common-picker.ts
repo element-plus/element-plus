@@ -1,5 +1,5 @@
 import { computed, ref } from 'vue'
-import { isEqual } from 'lodash-unified'
+import { isEqual } from 'es-toolkit/compat'
 import { useLocale } from '@element-plus/hooks/use-locale'
 import { isArray } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'

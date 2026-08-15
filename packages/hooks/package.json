@@ -15,7 +15,7 @@
     "@floating-ui/dom": "catalog:",
     "@popperjs/core": "catalog:",
     "@vueuse/core": "catalog:",
-    "lodash-unified": "catalog:"
+    "es-toolkit": "catalog:"
   },
   "devDependencies": {
     "@vue/test-utils": "catalog:",

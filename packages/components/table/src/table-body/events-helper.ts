@@ -1,5 +1,5 @@
 import { h, inject, ref } from 'vue'
-import { debounce } from 'lodash-unified'
+import { debounce } from 'es-toolkit/compat'
 import {
   addClass,
   hasClass,

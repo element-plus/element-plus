@@ -58,7 +58,7 @@
 
 <script lang="ts" setup generic="T extends MentionOption = MentionOption">
 import { computed, mergeProps, nextTick, ref } from 'vue'
-import { pick } from 'lodash-unified'
+import { pick } from 'es-toolkit/compat'
 import { useFocusController, useId, useNamespace } from '@element-plus/hooks'
 import ElInput, { inputPropsDefaults } from '@element-plus/components/input'
 import ElTooltip from '@element-plus/components/tooltip'

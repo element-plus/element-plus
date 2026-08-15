@@ -1,5 +1,5 @@
 import { getCurrentInstance, inject, ref } from 'vue'
-import { isNull } from 'lodash-unified'
+import { isNull } from 'es-toolkit/compat'
 import {
   addClass,
   hasClass,

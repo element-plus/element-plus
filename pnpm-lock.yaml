@@ -37,9 +37,9 @@ catalogs:
     '@vueuse/core':
       specifier: 14.3.0
       version: 14.3.0
-    lodash-unified:
-      specifier: ^1.0.3
-      version: 1.0.3
+    es-toolkit:
+      specifier: ^1.49.0
+      version: 1.49.0
     normalize-wheel-es:
       specifier: ^1.2.0
       version: 1.2.0
@@ -100,12 +100,6 @@ importers:
       '@popperjs/core':
         specifier: 'catalog:'
         version: '@sxzz/popperjs-es@2.11.8'
-      '@types/lodash':
-        specifier: ^4.17.24
-        version: 4.17.24
-      '@types/lodash-es':
-        specifier: ^4.17.12
-        version: 4.17.12
       '@vueuse/core':
         specifier: 'catalog:'
         version: 14.3.0(vue@3.5.25)
@@ -115,15 +109,9 @@ importers:
       dayjs:
         specifier: ^1.11.20
         version: 1.11.20
-      lodash:
-        specifier: ^4.18.1
-        version: 4.18.1
-      lodash-es:
-        specifier: ^4.18.1
-        version: 4.18.1
-      lodash-unified:
-        specifier: ^1.0.3
-        version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.18.1)(lodash@4.18.1)
+      es-toolkit:
+        specifier: 'catalog:'
+        version: 1.49.0
       memoize-one:
         specifier: ^6.0.0
         version: 6.0.0
@@ -366,9 +354,9 @@ importers:
       consola:
         specifier: ^3.4.2
         version: 3.4.2
-      lodash:
-        specifier: ^4.18.1
-        version: 4.18.1
+      es-toolkit:
+        specifier: 'catalog:'
+        version: 1.49.0
       magic-string:
         specifier: ^0.30.21
         version: 0.30.21
@@ -477,15 +465,12 @@ importers:
       '@element-plus/build-utils':
         specifier: workspace:*
         version: link:../build-utils
-      '@types/lodash-es':
-        specifier: ^4.17.12
-        version: 4.17.12
       consola:
         specifier: ^3.4.2
         version: 3.4.2
-      lodash-es:
-        specifier: ^4.18.1
-        version: 4.18.1
+      es-toolkit:
+        specifier: 'catalog:'
+        version: 1.49.0
       octokit:
         specifier: ^5.0.5
         version: 5.0.5
@@ -522,9 +507,9 @@ importers:
       '@vueuse/core':
         specifier: 'catalog:'
         version: 14.3.0(vue@3.5.25)
-      lodash-unified:
+      es-toolkit:
         specifier: 'catalog:'
-        version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.18.1)(lodash@4.18.1)
+        version: 1.49.0
     devDependencies:
       '@element-plus/test-utils':
         specifier: workspace:^
@@ -574,12 +559,6 @@ importers:
       '@popperjs/core':
         specifier: 'catalog:'
         version: '@sxzz/popperjs-es@2.11.8'
-      '@types/lodash':
-        specifier: ^4.17.24
-        version: 4.17.24
-      '@types/lodash-es':
-        specifier: ^4.17.12
-        version: 4.17.12
       '@vueuse/core':
         specifier: 'catalog:'
         version: 14.3.0(vue@3.5.25)
@@ -589,15 +568,9 @@ importers:
       dayjs:
         specifier: ^1.11.20
         version: 1.11.20
-      lodash:
-        specifier: ^4.18.1
-        version: 4.18.1
-      lodash-es:
-        specifier: ^4.18.1
-        version: 4.18.1
-      lodash-unified:
-        specifier: ^1.0.3
-        version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.18.1)(lodash@4.18.1)
+      es-toolkit:
+        specifier: 'catalog:'
+        version: 1.49.0
       memoize-one:
         specifier: ^6.0.0
         version: 6.0.0
@@ -629,9 +602,9 @@ importers:
       '@vueuse/core':
         specifier: 'catalog:'
         version: 14.3.0(vue@3.5.25)
-      lodash-unified:
+      es-toolkit:
         specifier: 'catalog:'
-        version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.18.1)(lodash@4.18.1)
+        version: 1.49.0
     devDependencies:
       '@vue/test-utils':
         specifier: 'catalog:'
@@ -647,9 +620,9 @@ importers:
       '@vue/test-utils':
         specifier: 'catalog:'
         version: 2.4.6
-      lodash-unified:
+      es-toolkit:
         specifier: 'catalog:'
-        version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.18.1)(lodash@4.18.1)
+        version: 1.49.0
       vue:
         specifier: 'catalog:'
         version: 3.5.25(typescript@6.0.3)
@@ -683,9 +656,9 @@ importers:
       '@vueuse/core':
         specifier: 'catalog:'
         version: 14.3.0(vue@3.5.25)
-      lodash-unified:
+      es-toolkit:
         specifier: 'catalog:'
-        version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.18.1)(lodash@4.18.1)
+        version: 1.49.0
       vue-component-type-helpers:
         specifier: 'catalog:'
         version: 3.3.9
@@ -4152,8 +4125,8 @@ packages:
     resolution: {integrity: sha512-w+5mJ3GuFL+NjVtJlvydShqE1eN3h3PbI7/5LAsYJP/2qtuMXjfL2LpHSRqo4b4eSF5K/DH1JXKUAHSB2UW50g==}
     engines: {node: '>= 0.4'}
 
-  es-toolkit@1.46.1:
-    resolution: {integrity: sha512-5eNtXOs3tbfxXOj04tjjseeWkRWaoCjdEI+96DgwzZoe6c9juL49pXlzAFTI72aWC9Y8p7168g6XIKjh7k6pyQ==}
+  es-toolkit@1.49.0:
+    resolution: {integrity: sha512-G5iZ6Pc/FNRY/soKZHC+TxGDD83rHUDXxzaWhGCX44vAv/tMs56WMusnm/KMNK+luUPsgA9U28cGr4RDlSzL2g==}
 
   esbuild@0.21.5:
     resolution: {integrity: sha512-mg3OPMV4hXywwpoDxu3Qda5xCKQi+vCTZq8S9J/EpkhB2HzKXq4SNFZE3+NK93JYxc8VMSep+lOUSC/RVKaBqw==}
@@ -7598,7 +7571,7 @@ snapshots:
   '@commitlint/ensure@21.2.0':
     dependencies:
       '@commitlint/types': 21.2.0
-      es-toolkit: 1.46.1
+      es-toolkit: 1.49.0
 
   '@commitlint/execute-rule@21.0.1': {}
 
@@ -7627,7 +7600,7 @@ snapshots:
       '@commitlint/types': 21.2.0
       cosmiconfig: 9.0.1(typescript@6.0.3)
       cosmiconfig-typescript-loader: 6.3.0(@types/node@24.13.3)(cosmiconfig@9.0.1)(typescript@6.0.3)
-      es-toolkit: 1.46.1
+      es-toolkit: 1.49.0
       is-plain-obj: 4.1.0
       picocolors: 1.1.1
     transitivePeerDependencies:
@@ -7656,7 +7629,7 @@ snapshots:
     dependencies:
       '@commitlint/config-validator': 21.2.0
       '@commitlint/types': 21.2.0
-      es-toolkit: 1.46.1
+      es-toolkit: 1.49.0
       global-directory: 5.0.0
       resolve-from: 5.0.0
 
@@ -10627,7 +10600,7 @@ snapshots:
       is-date-object: 1.1.0
       is-symbol: 1.1.1
 
-  es-toolkit@1.46.1: {}
+  es-toolkit@1.49.0: {}
 
   esbuild@0.21.5:
     optionalDependencies:

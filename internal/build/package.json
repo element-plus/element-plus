@@ -19,7 +19,7 @@
     "@vitejs/plugin-vue-jsx": "catalog:",
     "components-helper": "^2.2.0",
     "consola": "^3.4.2",
-    "lodash": "^4.18.1",
+    "es-toolkit": "catalog:",
     "magic-string": "^0.30.21",
     "oxc-parser": "^0.110.0",
     "rolldown": "^1.0.0",

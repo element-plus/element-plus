@@ -8,7 +8,7 @@ import {
   watch,
   watchEffect,
 } from 'vue'
-import { findLastIndex, get, isEqual } from 'lodash-unified'
+import { findLastIndex, get, isEqual } from 'es-toolkit/compat'
 import { useDebounceFn, useResizeObserver } from '@vueuse/core'
 import {
   NOOP,

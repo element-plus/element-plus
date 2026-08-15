@@ -101,7 +101,7 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, provide, ref, watch } from 'vue'
-import { debounce, pick } from 'lodash-unified'
+import { debounce, pick } from 'es-toolkit/compat'
 import { ElIcon } from '@element-plus/components/icon'
 import { reactiveComputed } from '@vueuse/core'
 import { ClickOutside as vClickOutside } from '@element-plus/directives'

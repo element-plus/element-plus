@@ -214,13 +214,17 @@ export default defineConfig([
         'error',
         {
           paths: [
-            { name: 'lodash', message: 'Use lodash-unified instead.' },
-            { name: 'lodash-es', message: 'Use lodash-unified instead.' },
+            { name: 'lodash', message: 'Use es-toolkit/compat instead.' },
+            { name: 'lodash-es', message: 'Use es-toolkit/compat instead.' },
+            {
+              name: 'lodash-unified',
+              message: 'Use es-toolkit/compat instead.',
+            },
           ],
           patterns: [
             {
               group: ['lodash/*', 'lodash-es/*'],
-              message: 'Use lodash-unified instead.',
+              message: 'Use es-toolkit/compat instead.',
             },
           ],
         },
@@ -399,8 +403,12 @@ export default defineConfig([
         'error',
         {
           paths: [
-            { name: 'lodash', message: 'Use lodash-unified instead.' },
-            { name: 'lodash-es', message: 'Use lodash-unified instead.' },
+            { name: 'lodash', message: 'Use es-toolkit/compat instead.' },
+            { name: 'lodash-es', message: 'Use es-toolkit/compat instead.' },
+            {
+              name: 'lodash-unified',
+              message: 'Use es-toolkit/compat instead.',
+            },
             {
               name: 'element-plus',
               message: 'Use @element-plus/* instead.',
@@ -409,7 +417,7 @@ export default defineConfig([
           patterns: [
             {
               group: ['lodash/*', 'lodash-es/*'],
-              message: 'Use lodash-unified instead.',
+              message: 'Use es-toolkit/compat instead.',
             },
             {
               group: ['element-plus/*'],
@@ -445,8 +453,12 @@ export default defineConfig([
         'error',
         {
           paths: [
-            { name: 'lodash', message: 'Use lodash-unified instead.' },
-            { name: 'lodash-es', message: 'Use lodash-unified instead.' },
+            { name: 'lodash', message: 'Use es-toolkit/compat instead.' },
+            { name: 'lodash-es', message: 'Use es-toolkit/compat instead.' },
+            {
+              name: 'lodash-unified',
+              message: 'Use es-toolkit/compat instead.',
+            },
             {
               name: 'element-plus',
               message: 'Use @element-plus/* instead.',
@@ -455,7 +467,7 @@ export default defineConfig([
           patterns: [
             {
               group: ['lodash/*', 'lodash-es/*'],
-              message: 'Use lodash-unified instead.',
+              message: 'Use es-toolkit/compat instead.',
             },
             {
               group: ['element-plus/*'],
@@ -489,8 +501,12 @@ export default defineConfig([
         'error',
         {
           paths: [
-            { name: 'lodash', message: 'Use lodash-unified instead.' },
-            { name: 'lodash-es', message: 'Use lodash-unified instead.' },
+            { name: 'lodash', message: 'Use es-toolkit/compat instead.' },
+            { name: 'lodash-es', message: 'Use es-toolkit/compat instead.' },
+            {
+              name: 'lodash-unified',
+              message: 'Use es-toolkit/compat instead.',
+            },
             {
               name: 'element-plus',
               message: 'Use @element-plus/* instead.',
@@ -499,7 +515,7 @@ export default defineConfig([
           patterns: [
             {
               group: ['lodash/*', 'lodash-es/*'],
-              message: 'Use lodash-unified instead.',
+              message: 'Use es-toolkit/compat instead.',
             },
             {
               group: ['element-plus/*'],

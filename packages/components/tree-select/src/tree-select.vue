@@ -1,6 +1,6 @@
 <script lang="ts">
 import { computed, defineComponent, h, onMounted, reactive, ref } from 'vue'
-import { pick } from 'lodash-unified'
+import { pick } from 'es-toolkit/compat'
 import { ElSelect, selectProps } from '@element-plus/components/select'
 import { ElTree, treeProps } from '@element-plus/components/tree'
 import { useSelect } from './select'

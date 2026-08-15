@@ -45,7 +45,7 @@ import {
   ref,
   watch,
 } from 'vue'
-import { isEqual } from 'lodash-unified'
+import { isEqual } from 'es-toolkit/compat'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { formItemContextKey } from '@element-plus/components/form'
 import TreeStore from './model/tree-store'

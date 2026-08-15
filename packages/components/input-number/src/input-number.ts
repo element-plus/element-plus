@@ -1,4 +1,4 @@
-import { isNil } from 'lodash-unified'
+import { isNil } from 'es-toolkit/compat'
 import { buildProps, definePropType, isNumber } from '@element-plus/utils'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 import {

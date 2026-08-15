@@ -1,6 +1,6 @@
 import { onBeforeUnmount, onMounted, ref, watchEffect } from 'vue'
 import { addUnit } from '@element-plus/utils'
-import { clamp } from 'lodash-unified'
+import { clamp } from 'es-toolkit/compat'
 
 import type { ComputedRef, Ref } from 'vue'
 

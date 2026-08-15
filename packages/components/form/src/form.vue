@@ -6,7 +6,7 @@
 
 <script lang="ts" setup>
 import { computed, provide, reactive, ref, toRefs, watch } from 'vue'
-import { cloneDeep } from 'lodash-unified'
+import { cloneDeep } from 'es-toolkit/compat'
 import {
   NOOP,
   debugWarn,

@@ -27,7 +27,7 @@
 
 <script lang="ts" setup>
 import { inject, onBeforeUnmount, onMounted, provide, unref, watch } from 'vue'
-import { isNil } from 'lodash-unified'
+import { isNil } from 'es-toolkit/compat'
 import { NOOP, isElement } from '@element-plus/utils'
 import ElFocusTrap from '@element-plus/components/focus-trap'
 import { formItemContextKey } from '@element-plus/components/form'

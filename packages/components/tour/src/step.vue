@@ -67,7 +67,7 @@
 <script lang="ts" setup>
 import { computed, inject, onBeforeUnmount, onMounted, watch } from 'vue'
 import { EVENT_CODE } from '@element-plus/constants'
-import { omit } from 'lodash-unified'
+import { omit } from 'es-toolkit/compat'
 import { ElButton } from '@element-plus/components/button'
 import { ElIcon } from '@element-plus/components/icon'
 import { CloseComponents, getEventCode } from '@element-plus/utils'

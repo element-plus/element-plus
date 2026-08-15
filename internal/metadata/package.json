@@ -26,9 +26,8 @@
     "@element-plus/build": "workspace:*",
     "@element-plus/build-constants": "workspace:*",
     "@element-plus/build-utils": "workspace:*",
-    "@types/lodash-es": "^4.17.12",
     "consola": "^3.4.2",
-    "lodash-es": "^4.18.1",
+    "es-toolkit": "catalog:",
     "octokit": "^5.0.5",
     "tinyglobby": "^0.2.17",
     "tsx": "catalog:"
