@@ -35,7 +35,8 @@ function useLayoutObserver<T extends DefaultRow>(root: Table<T>) {
     return layout
   })
   const onColumnsChange = (layout: TableLayout<T>) => {
-    const cols = root.vnode.el?.querySelectorAll('colgroup > col') || []
+    const cols =
+      root.refs.tableWrapper?.querySelectorAll('colgroup > col') || []
     if (!cols.length) return
     const flattenColumns = layout.getFlattenColumns()
     const columnsMap: Record<string, TableColumnCtx<T>> = {}
@@ -45,21 +46,28 @@ function useLayoutObserver<T extends DefaultRow>(root: Table<T>) {
     for (let i = 0, j = cols.length; i < j; i++) {
       const col = cols[i]
       const name = col.getAttribute('name')
-      const column = columnsMap[name]
+      const column = name && columnsMap[name]
       if (column) {
-        col.setAttribute('width', column.realWidth || column.width)
+        col.setAttribute('width', (column.realWidth || column.width) as string)
       }
     }
   }
 
   const onScrollableChange = (layout: TableLayout<T>) => {
     const cols =
-      root.vnode.el?.querySelectorAll('colgroup > col[name=gutter]') || []
+      root.refs.tableWrapper?.querySelectorAll('colgroup > col[name=gutter]') ||
+      []
     for (let i = 0, j = cols.length; i < j; i++) {
       const col = cols[i]
-      col.setAttribute('width', layout.scrollY.value ? layout.gutterWidth : '0')
+      col.setAttribute(
+        'width',
+        String(layout.scrollY.value ? layout.gutterWidth : '0')
+      )
     }
-    const ths = root.vnode.el?.querySelectorAll('th.gutter') || []
+    const ths =
+      root.refs.tableWrapper?.querySelectorAll<HTMLTableCellElement>(
+        'th.gutter'
+      ) || []
     for (let i = 0, j = ths.length; i < j; i++) {
       const th = ths[i]
       th.style.width = layout.scrollY.value ? `${layout.gutterWidth}px` : '0'

@@ -6,15 +6,15 @@ export default function useKeyRender<T extends DefaultRow>(table: Table<T>) {
   let observer: MutationObserver | undefined
 
   const initWatchDom = () => {
-    const el = table.vnode.el
-    const columnsWrapper = (el as HTMLElement).querySelector('.hidden-columns')
+    const columnsWrapper = table.refs.hiddenColumns
+    if (!columnsWrapper) return
     const config = { childList: true, subtree: true }
     const updateOrderFns = table.store.states.updateOrderFns
     observer = new MutationObserver(() => {
       updateOrderFns.forEach((fn: () => void) => fn())
     })
 
-    observer.observe(columnsWrapper!, config)
+    observer.observe(columnsWrapper, config)
   }
 
   onMounted(() => {
