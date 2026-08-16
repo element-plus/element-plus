@@ -79,6 +79,10 @@ defineEmits(notificationEmits)
 const { ns, zIndex } = useGlobalComponentSettings('notification')
 const { nextZIndex, currentZIndex } = zIndex
 
+// Call nextZIndex eagerly so the first render gets the correct z-index,
+// avoiding the notification being covered by overlay elements on the first call.
+nextZIndex()
+
 const visible = ref(false)
 let timer: (() => void) | undefined = undefined
 const percentage = ref(100)
@@ -219,7 +223,6 @@ function onKeydown(event: KeyboardEvent) {
 // lifecycle
 onMounted(() => {
   startTimer()
-  nextZIndex()
   visible.value = true
 })
 

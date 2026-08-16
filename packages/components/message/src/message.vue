@@ -90,6 +90,11 @@ const isStartTransition = ref(false)
 const { ns, zIndex } = useGlobalComponentSettings('message')
 const { currentZIndex, nextZIndex } = zIndex
 
+// Call nextZIndex eagerly so the first render gets the correct z-index,
+// avoiding the message being covered by overlay elements (e.g. el-drawer
+// with appendToBody) on the first call.
+nextZIndex()
+
 const messageRef = ref<HTMLDivElement>()
 const visible = ref(false)
 const height = ref(0)
@@ -166,7 +171,6 @@ function keydown(event: KeyboardEvent) {
 
 onMounted(() => {
   startTimer()
-  nextZIndex()
   visible.value = true
 })
 
