@@ -4415,6 +4415,8 @@ describe('Select', () => {
         collapseTags: true,
       })
       await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+      const input = wrapper.find('input')
+      await input.trigger('focus')
       const options = getOptions()
       options[0].click()
       await nextTick()
@@ -4427,7 +4429,6 @@ describe('Select', () => {
       await nextTick()
 
       const inputWrapper = wrapper.find('.el-select__input-wrapper')
-      const input = wrapper.find('input')
       const tagItem = wrapper.find('.el-tag').element.parentElement!
       expect(inputWrapper.classes()).not.toContain('is-hidden')
       expect(tagItem.style.maxWidth).toBe('calc(100% - 61px)')
