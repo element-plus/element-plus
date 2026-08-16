@@ -41,8 +41,8 @@ export const useZIndex = (zIndexOverrides?: Ref<number>) => {
   const currentZIndex = computed(() => initialZIndex.value + zIndex.value)
 
   const nextZIndex = () => {
-    // components created outside of the app, like `ElMessage`, fall back to the
-    // module scoped counter, so realign it to avoid handing out a used z-index
+    // a component created outside of the app, like `ElMessage`, falls back to
+    // the module scoped counter, so lift it to the last handed out value first
     if (isClient) {
       increasingInjection.current = Math.max(
         increasingInjection.current,

@@ -1,3 +1,4 @@
+import { h, render } from 'vue'
 import { config, mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { ZINDEX_INJECTION_KEY, useZIndex } from '../use-z-index'
@@ -61,7 +62,7 @@ describe('with and without injection value', () => {
   beforeEach(() => {
     config.global.provide = {
       [ZINDEX_INJECTION_KEY as symbol]: {
-        current: 0,
+        current: 100,
       },
     }
   })
@@ -75,16 +76,25 @@ describe('with and without injection value', () => {
     const wrapper = mount({
       setup() {
         const { nextZIndex } = useZIndex()
-
-        nextZIndex()
-        return { zIndexWithInjection: nextZIndex() }
+        return { zIndex: nextZIndex() }
       },
       render: () => undefined,
     })
-    const zIndexWithoutInjection = useZIndex().nextZIndex()
 
-    expect(zIndexWithoutInjection).toBeGreaterThan(
-      wrapper.vm.zIndexWithInjection
+    // rendered without an app context, the way `ElMessage` is
+    let zIndexWithoutInjection = 0
+    render(
+      h({
+        setup() {
+          const { nextZIndex } = useZIndex()
+          zIndexWithoutInjection = nextZIndex()
+          return () => undefined
+        },
+      }),
+      document.createElement('div')
     )
+
+    expect(wrapper.vm.zIndex).toBe(2101)
+    expect(zIndexWithoutInjection).toBe(2102)
   })
 })
