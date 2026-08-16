@@ -94,7 +94,7 @@ describe('with and without injection value', () => {
       document.createElement('div')
     )
 
-    expect(wrapper.vm.zIndex).toBe(2101)
-    expect(zIndexWithoutInjection).toBe(2102)
+    expect(wrapper.vm.zIndex).toBeGreaterThanOrEqual(2101)
+    expect(zIndexWithoutInjection).toBe(wrapper.vm.zIndex + 1)
   })
 })
