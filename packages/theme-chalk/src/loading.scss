@@ -98,6 +98,7 @@
     stroke-dashoffset: -40px;
   }
   100% {
+    transform: rotate(0deg);
     stroke-dasharray: 90, 150;
     stroke-dashoffset: -120px;
   }
