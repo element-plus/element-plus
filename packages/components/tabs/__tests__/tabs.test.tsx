@@ -132,6 +132,79 @@ describe('Tabs.vue', () => {
     expect(tabsWrapper.vm.$.exposed!.currentName.value).toEqual('c')
   })
 
+  test('tab bar is always rendered with default-value', async () => {
+    const wrapper = mount(() => (
+      <Tabs defaultValue="b">
+        <TabPane name="a" label="label-1">
+          A
+        </TabPane>
+        <TabPane name="b" label="label-2">
+          B
+        </TabPane>
+        <TabPane name="c" label="label-3">
+          C
+        </TabPane>
+      </Tabs>
+    ))
+
+    // the bar should stay in the DOM and only be hidden until its style
+    // is calculated, to avoid the bar flickering on initial render.
+    const bar = wrapper.find('.el-tabs__active-bar')
+    expect(bar.exists()).toBe(true)
+    expect(bar.classes()).toContain('is-hidden')
+
+    await flushPromises()
+    expect(bar.classes()).not.toContain('is-hidden')
+  })
+
+  test('tab bar is visible without default-value', async () => {
+    const wrapper = mount(() => (
+      <Tabs>
+        <TabPane name="a" label="label-1">
+          A
+        </TabPane>
+        <TabPane name="b" label="label-2">
+          B
+        </TabPane>
+      </Tabs>
+    ))
+
+    const bar = wrapper.find('.el-tabs__active-bar')
+    expect(bar.exists()).toBe(true)
+    expect(bar.classes()).not.toContain('is-hidden')
+  })
+
+  test('tab bar disables transition until initial position is ready', async () => {
+    const rAFCallbacks: FrameRequestCallback[] = []
+    vi.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => {
+      rAFCallbacks.push(cb)
+      return rAFCallbacks.length
+    })
+
+    const wrapper = mount(() => (
+      <Tabs defaultValue="b">
+        <TabPane name="a" label="label-1">
+          A
+        </TabPane>
+        <TabPane name="b" label="label-2">
+          B
+        </TabPane>
+      </Tabs>
+    ))
+    await flushPromises()
+
+    const bar = wrapper.find('.el-tabs__active-bar')
+    expect(bar.classes()).not.toContain('is-hidden')
+    expect(bar.attributes('style')).toContain('transition: none')
+
+    // flush the double rAF that marks the bar position as ready
+    rAFCallbacks.splice(0).forEach((cb) => cb(0))
+    rAFCallbacks.splice(0).forEach((cb) => cb(0))
+    await nextTick()
+
+    expect(bar.attributes('style')).not.toContain('transition: none')
+  })
+
   test('card', async () => {
     const wrapper = mount(() => (
       <Tabs type="card">

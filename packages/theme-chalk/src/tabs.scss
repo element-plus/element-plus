@@ -13,11 +13,9 @@
     align-items: center;
     justify-content: space-between;
   }
-
   @include e(header-vertical) {
     flex-direction: column;
   }
-
   @include e(active-bar) {
     position: absolute;
     bottom: 0;
@@ -31,11 +29,9 @@
       transform getCssVar('transition-duration')
         getCssVar('transition-function-ease-in-out-bezier');
     list-style: none;
-
     &.is-bottom {
       bottom: auto;
     }
-
     @include when(hidden) {
       visibility: hidden;
 
@@ -49,9 +45,31 @@
         z-index: 1;
         background-color: getCssVar('color-primary');
       }
+
+      &.is-bottom ~ .is-active::after {
+        top: 0;
+        bottom: auto;
+      }
+
+      &.is-left ~ .is-active::after,
+      &.is-right ~ .is-active::after {
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        height: auto;
+      }
+
+      &.is-left ~ .is-active::after {
+        left: auto;
+        right: 0;
+      }
+
+      &.is-right ~ .is-active::after {
+        left: 0;
+        right: auto;
+      }
     }
   }
-
   @include e(new-tab) {
     display: flex;
     align-items: center;
@@ -83,11 +101,9 @@
       color: getCssVar('color-primary');
     }
   }
-
   @include e(new-tab-vertical) {
     margin-left: 0;
   }
-
   @include e(nav-wrap) {
     overflow: hidden;
     margin-bottom: -1px;
@@ -115,11 +131,9 @@
       box-sizing: border-box;
     }
   }
-
   @include e(nav-scroll) {
     overflow: hidden;
   }
-
   @include e((nav-next, nav-prev)) {
     position: absolute;
     cursor: pointer;
@@ -134,15 +148,12 @@
       cursor: not-allowed;
     }
   }
-
   @include e(nav-next) {
     right: 0;
   }
-
   @include e(nav-prev) {
     left: 0;
   }
-
   @include e(nav) {
     display: flex;
     white-space: nowrap;
@@ -154,14 +165,12 @@
     @include when(stretch) {
       min-width: 100%;
       display: flex;
-
       & > * {
         flex: 1;
         text-align: center;
       }
     }
   }
-
   @include e(item) {
     padding: 0 20px;
     height: getCssVar('tabs', 'header-height');
@@ -217,19 +226,16 @@
       cursor: not-allowed;
     }
   }
-
   @include e(content) {
     overflow: hidden;
     position: relative;
     flex-grow: 1;
   }
-
   @include m((top, bottom)) {
     > .#{$namespace}-tabs__header {
       .#{$namespace}-tabs__item:nth-child(2) {
         padding-left: 0;
       }
-
       .#{$namespace}-tabs__item:last-child {
         padding-right: 0;
       }
@@ -241,36 +247,30 @@
         .#{$namespace}-tabs__item:nth-child(2) {
           padding-left: 20px;
         }
-
         .#{$namespace}-tabs__item:last-child {
           padding-right: 20px;
         }
       }
     }
   }
-
   @include m(card) {
     > .#{$namespace}-tabs__header {
       border-bottom: 1px solid getCssVar('border-color-light');
       height: getCssVar('tabs', 'header-height');
       box-sizing: border-box;
     }
-
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__nav-wrap::after {
       content: none;
     }
-
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__nav {
       border: 1px solid getCssVar('border-color-light');
       border-bottom: none;
       border-radius: 4px 4px 0 0;
       box-sizing: border-box;
     }
-
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__active-bar {
       display: none;
     }
-
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__item .is-icon-close {
       position: relative;
       font-size: 12px;
@@ -280,7 +280,6 @@
       right: -2px;
       transform-origin: 100% 50%;
     }
-
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__item {
       margin-top: -1px;
       border-bottom: 1px solid transparent;
@@ -320,7 +319,6 @@
       }
     }
   }
-
   @include m(border-card) {
     background: getCssVar('bg-color', 'overlay');
     border: 1px solid getCssVar('border-color');
@@ -328,17 +326,14 @@
     > .#{$namespace}-tabs__content {
       padding: 15px;
     }
-
     > .#{$namespace}-tabs__header {
       background-color: getCssVar('fill-color', 'light');
       border-bottom: 1px solid getCssVar('border-color-light');
       margin: 0;
     }
-
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__nav-wrap::after {
       content: none;
     }
-
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__item {
       transition: all getCssVar('transition-duration')
         getCssVar('transition-function-ease-in-out-bezier');
@@ -376,7 +371,6 @@
       margin-left: 0;
     }
   }
-
   @include m(bottom) {
     flex-direction: column;
 
@@ -384,7 +378,6 @@
       margin-bottom: 0;
       margin-top: 10px;
     }
-
     &.#{$namespace}-tabs--border-card {
       .#{$namespace}-tabs__header.is-bottom {
         border-bottom: 0;
@@ -488,7 +481,6 @@
       justify-content: flex-start;
     }
   }
-
   @include m(left) {
     flex-direction: row;
 
@@ -496,7 +488,6 @@
       margin-bottom: 0;
       margin-right: 10px;
     }
-
     .#{$namespace}-tabs__nav-wrap.is-left {
       margin-right: -1px;
 
@@ -505,12 +496,10 @@
         right: 0;
       }
     }
-
     .#{$namespace}-tabs__active-bar.is-left {
       right: 0;
       left: auto;
     }
-
     .#{$namespace}-tabs__item.is-left {
       text-align: right;
     }
@@ -581,7 +570,6 @@
       order: -1;
     }
   }
-
   @include m(right) {
     .#{$namespace}-tabs__header.is-right {
       margin-bottom: 0;
@@ -637,7 +625,6 @@
         border-left: none;
       }
     }
-
     &.#{$namespace}-tabs--border-card {
       .#{$namespace}-tabs__header.is-right {
         border-left: 1px solid getCssVar('border-color');
@@ -655,7 +642,6 @@
       }
     }
   }
-
   @include m(top) {
     flex-direction: column;
 
