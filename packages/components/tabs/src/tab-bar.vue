@@ -32,18 +32,21 @@ if (!rootTabs) throwError(COMPONENT_NAME, '<el-tabs><el-tab-bar /></el-tabs>')
 const ns = useNamespace('tabs')
 
 const barRef = ref<HTMLDivElement>()
-const barStyle = ref<CSSProperties>()
+const barStyle = ref<CSSProperties>({ opacity: 0 })
 /**
  * when defaultValue is not set, the bar is always shown.
  *
  * when defaultValue is set, the bar will be hidden until style is calculated
  * to avoid the bar showing in the wrong position on initial render.
  */
-const renderActiveBar = computed(
-  () =>
+const renderActiveBar = computed(() => {
+  // Always render the active bar during SSR to prevent flash on hydration
+  if (typeof window === 'undefined') return true
+  return (
     isUndefined(rootTabs.props.defaultValue) ||
     Boolean(barStyle.value?.transform)
-)
+  )
+})
 
 const getBarStyle = (): CSSProperties => {
   let offset = 0
