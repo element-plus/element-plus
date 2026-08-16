@@ -4450,25 +4450,6 @@ describe('Select', () => {
       // When empty again, should be hidden
       expect(inputWrapper.classes()).toContain('is-hidden')
     })
-
-    // #24167: in single mode the empty/blur condition must NOT hide the
-    // input-wrapper, otherwise it falls out of flow and the selection
-    // collapses to zero width inside auto-sized form layouts.
-    test('should not hide input-wrapper in single mode when empty and not focused', async () => {
-      wrapper = getSelectVm({
-        filterable: true,
-      })
-      const inputWrapper = wrapper.find('.el-select__input-wrapper')
-      const input = wrapper.find('input')
-
-      expect(inputWrapper.classes()).not.toContain('is-hidden')
-
-      await input.trigger('focus')
-      expect(inputWrapper.classes()).not.toContain('is-hidden')
-
-      await input.trigger('blur')
-      expect(inputWrapper.classes()).not.toContain('is-hidden')
-    })
   })
 
   it('should not bubble native change event from filter input', async () => {

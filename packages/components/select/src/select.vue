@@ -175,7 +175,7 @@
                   'hidden',
                   !filterable ||
                     selectDisabled ||
-                    (multiple && !states.inputValue && !isFocused)
+                    (!states.inputValue && !isFocused)
                 ),
               ]"
             >
