@@ -56,3 +56,35 @@ describe('with injection value', () => {
     expect(wrapper.vm.nextZIndex).toBe(2012)
   })
 })
+
+describe('with and without injection value', () => {
+  beforeEach(() => {
+    config.global.provide = {
+      [ZINDEX_INJECTION_KEY as symbol]: {
+        current: 0,
+      },
+    }
+  })
+
+  afterEach(() => {
+    document.body.innerHTML = ''
+    config.global.provide = {}
+  })
+
+  it('useZIndex', () => {
+    const wrapper = mount({
+      setup() {
+        const { nextZIndex } = useZIndex()
+
+        nextZIndex()
+        return { zIndexWithInjection: nextZIndex() }
+      },
+      render: () => undefined,
+    })
+    const zIndexWithoutInjection = useZIndex().nextZIndex()
+
+    expect(zIndexWithoutInjection).toBeGreaterThan(
+      wrapper.vm.zIndexWithInjection
+    )
+  })
+})
