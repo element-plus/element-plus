@@ -168,6 +168,18 @@
     display: flex;
     flex-wrap: wrap;
     user-select: none;
+
+    > .#{$namespace}-tag {
+      max-width: 100%;
+    }
+  }
+
+  @include e(collapse-item) {
+    flex-shrink: 0;
+
+    > .#{$namespace}-tag {
+      max-width: none;
+    }
   }
 
   @include e(tags-text) {

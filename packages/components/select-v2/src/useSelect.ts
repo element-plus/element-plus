@@ -22,6 +22,7 @@ import {
   isNumber,
   isObject,
   isUndefined,
+  rAF,
 } from '@element-plus/utils'
 import {
   useComposition,
@@ -72,7 +73,6 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     createdOptions: [],
     hoveringIndex: -1,
     inputHovering: false,
-    selectionWidth: 0,
     collapseItemWidth: 0,
     previousQuery: null,
     previousValue: undefined,
@@ -130,6 +130,13 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
       }
     },
   })
+
+  const inputWrapperVisible = computed(
+    () =>
+      props.filterable &&
+      !selectDisabled.value &&
+      (!props.multiple || !!states.inputValue || isFocused.value)
+  )
 
   const allOptions = computed(() => filterOptions(''))
 
@@ -332,19 +339,15 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   // computed style
   const tagStyle = computed(() => {
     const gapWidth = getGapWidth()
-    const inputSlotWidth = props.filterable ? gapWidth + MINIMUM_INPUT_WIDTH : 0
-    const maxWidth =
+    const inputSlotWidth = inputWrapperVisible.value
+      ? gapWidth + MINIMUM_INPUT_WIDTH
+      : 0
+    const collapseSlotWidth =
       collapseItemRef.value && props.maxCollapseTags === 1
-        ? states.selectionWidth -
-          states.collapseItemWidth -
-          gapWidth -
-          inputSlotWidth
-        : states.selectionWidth - inputSlotWidth
-    return { maxWidth: `${maxWidth}px` }
-  })
-
-  const collapseTagStyle = computed(() => {
-    return { maxWidth: `${states.selectionWidth}px` }
+        ? states.collapseItemWidth + gapWidth
+        : 0
+    const reservedWidth = inputSlotWidth + collapseSlotWidth
+    return { maxWidth: `calc(100% - ${reservedWidth}px)` }
   })
 
   const shouldShowPlaceholder = computed(() => {
@@ -569,12 +572,6 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
 
   const onEndReached = (direction: ScrollbarDirection) => {
     emit('end-reached', direction)
-  }
-
-  const resetSelectionWidth = () => {
-    states.selectionWidth = Number.parseFloat(
-      window.getComputedStyle(selectionRef.value!).width
-    )
   }
 
   const resetCollapseItemWidth = () => {
@@ -995,8 +992,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   onMounted(() => {
     initStates()
   })
-  useResizeObserver(selectRef, handleResize)
-  useResizeObserver(selectionRef, resetSelectionWidth)
+  useResizeObserver(selectRef, () => rAF(handleResize))
   useResizeObserver(wrapperRef, updateTooltip)
   useResizeObserver(tagMenuRef, updateTagTooltip)
   useResizeObserver(collapseItemRef, resetCollapseItemWidth)
@@ -1031,7 +1027,6 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     iconComponent,
     iconReverse,
     tagStyle,
-    collapseTagStyle,
     popperSize,
     dropdownMenuVisible,
     hasModelValue,
@@ -1042,6 +1037,7 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     showClearBtn,
     states,
     isFocused,
+    inputWrapperVisible,
     nsSelect,
     nsInput,
 
@@ -1081,7 +1077,6 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     blur,
     handleMenuEnter,
     handleResize,
-    resetSelectionWidth,
     updateTooltip,
     updateTagTooltip,
     updateOptions,

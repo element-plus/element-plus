@@ -68,6 +68,7 @@
                 v-for="item in showTagList"
                 :key="getValueKey(item)"
                 :class="nsSelect.e('selected-item')"
+                :style="tagStyle"
               >
                 <el-tag
                   :closable="!selectDisabled && !item.isDisabled"
@@ -75,7 +76,6 @@
                   :type="tagType"
                   :effect="tagEffect"
                   disable-transitions
-                  :style="tagStyle"
                   @close="deleteTag($event, item)"
                 >
                   <span :class="nsSelect.e('tags-text')">
@@ -119,7 +119,10 @@
                 <template #default>
                   <div
                     ref="collapseItemRef"
-                    :class="nsSelect.e('selected-item')"
+                    :class="[
+                      nsSelect.e('selected-item'),
+                      nsSelect.e('collapse-item'),
+                    ]"
                   >
                     <el-tag
                       :closable="false"
@@ -127,7 +130,6 @@
                       :type="tagType"
                       :effect="tagEffect"
                       disable-transitions
-                      :style="collapseTagStyle"
                     >
                       <span :class="nsSelect.e('tags-text')">
                         + {{ states.selected.length - maxCollapseTags }}
@@ -171,12 +173,7 @@
               :class="[
                 nsSelect.e('selected-item'),
                 nsSelect.e('input-wrapper'),
-                nsSelect.is(
-                  'hidden',
-                  !filterable ||
-                    selectDisabled ||
-                    (multiple && !states.inputValue && !isFocused)
-                ),
+                nsSelect.is('hidden', !inputWrapperVisible),
               ]"
             >
               <input

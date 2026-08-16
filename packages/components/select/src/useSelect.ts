@@ -74,7 +74,6 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     cachedOptions: new Map(),
     optionValues: [], // sorted value of options
     selected: [],
-    selectionWidth: 0,
     collapseItemWidth: 0,
     selectedLabel: '',
     hoveringIndex: -1,
@@ -140,6 +139,13 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
       }
     },
   })
+
+  const inputWrapperVisible = computed(
+    () =>
+      props.filterable &&
+      !selectDisabled.value &&
+      (!props.multiple || !!states.inputValue || isFocused.value)
+  )
 
   const hasModelValue = computed(() => {
     return isArray(props.modelValue)
@@ -484,12 +490,6 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     } else {
       states.hoveringIndex = -1
     }
-  }
-
-  const resetSelectionWidth = () => {
-    states.selectionWidth = Number.parseFloat(
-      window.getComputedStyle(selectionRef.value!).width
-    )
   }
 
   const resetCollapseItemWidth = () => {
@@ -894,19 +894,15 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   // computed style
   const tagStyle = computed(() => {
     const gapWidth = getGapWidth()
-    const inputSlotWidth = props.filterable ? gapWidth + MINIMUM_INPUT_WIDTH : 0
-    const maxWidth =
+    const inputSlotWidth = inputWrapperVisible.value
+      ? gapWidth + MINIMUM_INPUT_WIDTH
+      : 0
+    const collapseSlotWidth =
       collapseItemRef.value && props.maxCollapseTags === 1
-        ? states.selectionWidth -
-          states.collapseItemWidth -
-          gapWidth -
-          inputSlotWidth
-        : states.selectionWidth - inputSlotWidth
-    return { maxWidth: `${maxWidth}px` }
-  })
-
-  const collapseTagStyle = computed(() => {
-    return { maxWidth: `${states.selectionWidth}px` }
+        ? states.collapseItemWidth + gapWidth
+        : 0
+    const reservedWidth = inputSlotWidth + collapseSlotWidth
+    return { maxWidth: `calc(100% - ${reservedWidth}px)` }
   })
 
   const popupScroll = (data: { scrollTop: number; scrollLeft: number }) => {
@@ -917,7 +913,6 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     emit('end-reached', direction)
   }
 
-  useResizeObserver(selectionRef, resetSelectionWidth)
   useResizeObserver(wrapperRef, updateTooltip)
   useResizeObserver(tagMenuRef, updateTagTooltip)
   useResizeObserver(collapseItemRef, resetCollapseItemWidth)
@@ -948,6 +943,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     nsInput,
     states,
     isFocused,
+    inputWrapperVisible,
     expanded,
     optionsArray,
     hoverOption,
@@ -1003,7 +999,6 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
 
     // computed style
     tagStyle,
-    collapseTagStyle,
 
     // DOM ref
     popperRef,
