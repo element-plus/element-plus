@@ -68,6 +68,18 @@
         left: 0;
         right: auto;
       }
+
+      // the first and last items of horizontal tabs have their outer
+      // padding removed, so the fallback line should not be inset there.
+      &.is-top ~ .is-active:nth-child(2)::after,
+      &.is-bottom ~ .is-active:nth-child(2)::after {
+        left: 0;
+      }
+
+      &.is-top ~ .is-active:last-child::after,
+      &.is-bottom ~ .is-active:last-child::after {
+        right: 0;
+      }
     }
   }
   @include e(new-tab) {
