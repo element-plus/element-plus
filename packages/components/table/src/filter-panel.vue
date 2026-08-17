@@ -26,7 +26,7 @@
         <div :class="ns.e('content')">
           <el-scrollbar :wrap-class="ns.e('wrap')">
             <el-checkbox-group
-              v-model="filteredValue"
+              v-model="storeFilteredValue"
               :class="ns.e('checkbox-group')"
             >
               <el-checkbox
@@ -40,12 +40,7 @@
           </el-scrollbar>
         </div>
         <div :class="ns.e('bottom')">
-          <button
-            :class="ns.is('disabled', filteredValue.length === 0)"
-            :disabled="filteredValue.length === 0"
-            type="button"
-            @click="handleConfirm"
-          >
+          <button type="button" @click="handleConfirm">
             {{ t('el.table.confirmFilter') }}
           </button>
           <button type="button" @click="handleReset">
@@ -104,7 +99,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, getCurrentInstance, ref } from 'vue'
+import { computed, defineComponent, getCurrentInstance, ref, watch } from 'vue'
 import { ElCheckbox, ElCheckboxGroup } from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
@@ -164,6 +159,17 @@ export default defineComponent({
     const tooltipRef = ref<TooltipInstance | null>(null)
     const rootRef = ref<HTMLElement | null>(null)
     const checkedIndex = ref(0)
+    const storeFilteredValue = ref<string[]>([])
+
+    watch(
+      () => props.column?.filteredValue,
+      (val) => {
+        if (props.column?.filterOpened) {
+          storeFilteredValue.value = [...(val || [])]
+        }
+      },
+      { deep: true }
+    )
 
     const filters = computed(() => {
       return props.column && props.column.filters
@@ -214,12 +220,14 @@ export default defineComponent({
       tooltipRef.value?.onClose()
     }
     const handleConfirm = () => {
-      confirmFilter(filteredValue.value)
+      filteredValue.value = storeFilteredValue.value
+      confirmFilter(storeFilteredValue.value)
       hidden()
     }
     const handleReset = () => {
+      storeFilteredValue.value = []
       filteredValue.value = []
-      confirmFilter(filteredValue.value)
+      confirmFilter([])
       hidden()
     }
     const handleSelect = (_filterValue: string | null, index: number) => {
@@ -240,6 +248,7 @@ export default defineComponent({
       props.store?.updateAllSelected()
     }
     const handleShowTooltip = () => {
+      storeFilteredValue.value = [...(props.column?.filteredValue || [])]
       rootRef.value?.focus()
       !multiple.value && initCheckedIndex()
       if (props.column) {
@@ -309,6 +318,7 @@ export default defineComponent({
       multiple,
       filterClassName,
       filteredValue,
+      storeFilteredValue,
       filterValue,
       filters,
       handleConfirm,
