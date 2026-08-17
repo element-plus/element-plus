@@ -176,10 +176,12 @@ describe('Tabs.vue', () => {
 
   test('tab bar disables transition until initial position is ready', async () => {
     const rAFCallbacks: FrameRequestCallback[] = []
-    vi.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => {
-      rAFCallbacks.push(cb)
-      return rAFCallbacks.length
-    })
+    const rAFSpy = vi
+      .spyOn(window, 'requestAnimationFrame')
+      .mockImplementation((cb) => {
+        rAFCallbacks.push(cb)
+        return rAFCallbacks.length
+      })
 
     const wrapper = mount(() => (
       <Tabs defaultValue="b">
@@ -203,6 +205,8 @@ describe('Tabs.vue', () => {
     await nextTick()
 
     expect(bar.attributes('style')).not.toContain('transition: none')
+
+    rAFSpy.mockRestore()
   })
 
   test('card', async () => {
