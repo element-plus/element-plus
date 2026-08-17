@@ -25,6 +25,7 @@ export default {
       confirm: '确定',
       dateTablePrompt: '使用方向键与 Enter 键可选择日期',
       monthTablePrompt: '使用方向键与 Enter 键可选择月份',
+      quarterTablePrompt: '使用方向键与 Enter 键可选择季度',
       yearTablePrompt: '使用方向键与 Enter 键可选择年份',
       selectedDate: '已选日期',
       selectDate: '选择日期',
@@ -82,6 +83,9 @@ export default {
         nov: '十一月',
         dec: '十二月',
       },
+    },
+    input: {
+      characters: '{count} / {max} 个字符',
     },
     inputNumber: {
       decrease: '减少数值',

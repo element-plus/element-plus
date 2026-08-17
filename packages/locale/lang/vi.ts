@@ -26,6 +26,7 @@ export default {
       confirm: 'OK',
       dateTablePrompt: 'Sử dụng các phím mũi tên và enter để chọn ngày',
       monthTablePrompt: 'Sử dụng các phím mũi tên và enter để chọn tháng',
+      quarterTablePrompt: 'Sử dụng các phím mũi tên và enter để chọn quý',
       yearTablePrompt: 'Sử dụng các phím mũi tên và enter để chọn năm',
       selectedDate: 'Ngày đã chọn',
       selectDate: 'Chọn ngày',
@@ -83,6 +84,9 @@ export default {
         nov: 'Th.11',
         dec: 'Th.12',
       },
+    },
+    input: {
+      characters: '{count} / {max} ký tự',
     },
     inputNumber: {
       decrease: 'giảm số',

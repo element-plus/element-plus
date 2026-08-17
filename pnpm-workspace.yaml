@@ -13,9 +13,9 @@ allowBuilds:
 catalog:
   '@ctrl/tinycolor': ^4.2.0
   '@element-plus/icons-vue': ^2.3.2
-  '@floating-ui/dom': ^1.7.6
+  '@floating-ui/dom': ^1.8.0
   '@popperjs/core': npm:@sxzz/popperjs-es@^2.11.8
-  '@vitejs/plugin-vue': ^6.0.7
+  '@vitejs/plugin-vue': ^6.0.8
   '@vitejs/plugin-vue-jsx': ^5.1.6
   '@vue/server-renderer': 3.5.25
   '@vue/shared': 3.5.25
@@ -23,9 +23,10 @@ catalog:
   '@vueuse/core': 14.3.0
   lodash-unified: ^1.0.3
   normalize-wheel-es: ^1.2.0
+  prettier: ^3.9.6
   vue: 3.5.25
-  vue-component-type-helpers: ^3.3.3
-  tsx: ^4.22.4
+  vue-component-type-helpers: ^3.3.9
+  tsx: ^4.23.12
   typescript: ~6.0.3
   # vitest: ^2.0.5
 

@@ -89,8 +89,7 @@ interface Table<T extends DefaultRow = any> extends Omit<
 
 type ColumnCls<T> = string | ((data: { row: T; rowIndex: number }) => string)
 type ColumnStyle<T> =
-  | CSSProperties
-  | ((data: { row: T; rowIndex: number }) => CSSProperties)
+  CSSProperties | ((data: { row: T; rowIndex: number }) => CSSProperties)
 type CellCls<T extends DefaultRow> =
   | string
   | ((data: {

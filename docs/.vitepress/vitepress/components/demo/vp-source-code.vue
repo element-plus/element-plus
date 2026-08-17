@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { useLang } from '../../composables/lang'
+import demoBlockLocale from '../../../i18n/component/demo-block.json'
+import { computeFoldRegions, normalizeCodeFoldLines } from './code-fold'
 
 const props = defineProps({
   visible: {
@@ -15,11 +18,92 @@ const props = defineProps({
 const decoded = computed(() => {
   return decodeURIComponent(props.source)
 })
+
+const sourceRef = ref<HTMLElement>()
+
+const lang = useLang()
+const locale = computed(() => demoBlockLocale[lang.value])
+
+const CHEVRON_SVG =
+  '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+
+const setupFolding = () => {
+  const container = sourceRef.value
+  const code = container?.querySelector<HTMLElement>('pre > code')
+  if (!container || !code) return
+
+  container.classList.remove('has-fold')
+
+  // Preserve newline separators in the DOM so `textContent` still contains
+  // `\n`, while hiding the separator nodes visually to avoid blank rows.
+  const lineEls = normalizeCodeFoldLines(code)
+
+  const regions = computeFoldRegions(lineEls.map((el) => el.textContent ?? ''))
+  if (!regions.length) return
+
+  container.classList.add('has-fold')
+
+  // Reference-count how many folded regions cover each line, so that
+  // unfolding an outer region keeps inner regions collapsed.
+  const foldDepths = new Map<HTMLElement, number>()
+  const setCovered = (els: HTMLElement[], folded: boolean) => {
+    for (const el of els) {
+      const depth = (foldDepths.get(el) ?? 0) + (folded ? 1 : -1)
+      foldDepths.set(el, depth)
+      el.style.display = depth > 0 ? 'none' : ''
+    }
+  }
+
+  for (const { start, end } of regions) {
+    const startEl = lineEls[start]
+    const hiddenEls = lineEls.slice(start + 1, end + 1)
+
+    const btn = document.createElement('button')
+    btn.type = 'button'
+    btn.className = 'code-fold-btn'
+    btn.setAttribute('aria-expanded', 'true')
+    btn.setAttribute('aria-label', locale.value['fold-code-region'])
+    btn.innerHTML = CHEVRON_SVG
+    startEl.appendChild(btn)
+
+    const toggle = () => {
+      const folded = startEl.classList.toggle('folded')
+      btn.setAttribute('aria-expanded', String(!folded))
+      btn.setAttribute(
+        'aria-label',
+        folded
+          ? locale.value['unfold-code-region']
+          : locale.value['fold-code-region']
+      )
+      setCovered(hiddenEls, folded)
+      if (folded) {
+        const count = hiddenEls.length
+        const template =
+          locale.value[count === 1 ? 'folded-line' : 'folded-lines']
+        const placeholder = document.createElement('span')
+        placeholder.className = 'code-fold-placeholder'
+        placeholder.textContent = '⋯'
+        placeholder.title = template.replace('{lines}', String(count))
+        placeholder.addEventListener('click', toggle)
+        startEl.appendChild(placeholder)
+      } else {
+        startEl.querySelector('.code-fold-placeholder')?.remove()
+      }
+    }
+    btn.addEventListener('click', toggle)
+  }
+}
+
+onMounted(setupFolding)
+watch(decoded, async () => {
+  await nextTick()
+  setupFolding()
+})
 </script>
 
 <template>
   <div v-show="visible" class="example-source-wrapper">
-    <div class="example-source" v-html="decoded" />
+    <div ref="sourceRef" class="example-source" v-html="decoded" />
   </div>
 </template>
 
@@ -27,5 +111,81 @@ const decoded = computed(() => {
 :deep(.language-vue) {
   margin: 0 !important;
   border-radius: 0 !important;
+}
+
+:deep(.code-line) {
+  display: block;
+  position: relative;
+
+  /* empty rows have no line boxes; keep blank source lines visible */
+  &:empty {
+    min-height: 1lh;
+  }
+}
+
+:deep(.code-fold-separator) {
+  display: none;
+}
+
+.has-fold {
+  :deep(.code-fold-btn) {
+    position: absolute;
+    left: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: var(--el-text-color-secondary);
+    opacity: 0;
+    transition: opacity 0.2s;
+
+    svg {
+      transition: transform 0.2s;
+    }
+
+    &:hover {
+      color: var(--el-text-color-primary);
+    }
+
+    &:focus-visible {
+      opacity: 1;
+      outline: 1px solid var(--el-color-primary);
+      border-radius: 2px;
+    }
+  }
+
+  &:hover :deep(.code-fold-btn),
+  :deep(.folded) .code-fold-btn {
+    opacity: 1;
+  }
+
+  :deep(.folded) {
+    .code-fold-btn svg {
+      transform: rotate(-90deg);
+    }
+  }
+
+  :deep(.code-fold-placeholder) {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 0 6px;
+    border-radius: 4px;
+    background-color: var(--el-fill-color);
+    color: var(--el-text-color-secondary);
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+      background-color: var(--el-fill-color-dark);
+      color: var(--el-text-color-primary);
+    }
+  }
 }
 </style>
