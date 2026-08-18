@@ -5,10 +5,13 @@
   outline: none;
   @include e(main) {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
   }
   @include e(icon) {
     margin-right: 5px;
+    flex-shrink: 0;
+    // Keep the icon optically aligned with the first line of text
+    margin-top: 0.2em;
   }
   @include e(action) {
     text-align: right;
