@@ -59,9 +59,9 @@ $form-item-label-top-margin-bottom: map.merge(
     ('form-item', 'margin-bottom'),
     map.get($form-item-margin-bottom, 'default')
   );
+  --font-size: #{map.get($input-font-size, 'default')};
 
   display: flex;
-  --font-size: #{map.get($input-font-size, 'default')};
   margin-bottom: getCssVar('form-item', 'margin-bottom');
 
   .#{$namespace}-form-item {
