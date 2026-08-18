@@ -219,8 +219,8 @@ importers:
         specifier: 'catalog:'
         version: 3.9.6
       puppeteer:
-        specifier: ^25.7.0
-        version: 25.7.0(yauzl@3.4.0)
+        specifier: ^25.8.0
+        version: 25.8.0(yauzl@3.4.0)
       resize-observer-polyfill:
         specifier: ^1.5.1
         version: 1.5.1
@@ -2435,8 +2435,8 @@ packages:
     peerDependencies:
       prettier: '*'
 
-  '@puppeteer/browsers@3.2.0':
-    resolution: {integrity: sha512-LlBrE8oqGfU7b1Nk2d5Q1SbuPhZxTj0cJEMDPEws28OjNMELlflekmPPuf4FnK03x0ZRjKaYwJElUcKK4kyqJA==}
+  '@puppeteer/browsers@3.2.1':
+    resolution: {integrity: sha512-KDz+3qDRdBAlRlMjmKyj6dEs33YHTk/xRHEENSXq6TNnhgoU15ruSHtEBeVF6OZ9tBDY55Se4P0nFMNsipzU9A==}
     engines: {node: '>=22.12.0'}
     hasBin: true
     peerDependencies:
@@ -5907,12 +5907,12 @@ packages:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
 
-  puppeteer-core@25.7.0:
-    resolution: {integrity: sha512-wgBBj7dU5ceGyoT2PCrJpkYOhxPY8mDOmcSKZP92Cj5GgqQ3kv/UxzawnOLxiYuupe4bDf/yiQm3bzs/1nI0rQ==}
+  puppeteer-core@25.8.0:
+    resolution: {integrity: sha512-LDOrawV8vfCVk+yLj2ozvajNP4Sv3OV9y3Tpiyy2g2Z+aQlbcozP6KJfI4iSBq7YQER+86ihEtPa5ioiZyWxMQ==}
     engines: {node: '>=22.12.0'}
 
-  puppeteer@25.7.0:
-    resolution: {integrity: sha512-zLBIYuW66SGwY7JNqGmiqeKiM92CYOs6xPibSRBPIeYGIfM1nE/8VCE8G0fGot2EfXENC4PbhktxLrQ0EK5Thg==}
+  puppeteer@25.8.0:
+    resolution: {integrity: sha512-3gcUJ+Jfodb5zNa/lWLZukBUwYiRIwAc8WRICoqfi+ZYmNWqpsPFyanTU3Gw/lhgII9aotVbAmhT6/NKHWgyUA==}
     engines: {node: '>=22.12.0'}
     hasBin: true
 
@@ -8807,7 +8807,7 @@ snapshots:
       make-synchronized: 0.8.0
       prettier: 3.9.6
 
-  '@puppeteer/browsers@3.2.0(yauzl@3.4.0)':
+  '@puppeteer/browsers@3.2.1(yauzl@3.4.0)':
     dependencies:
       modern-tar: 0.8.4
       yargs: 18.0.0
@@ -12708,9 +12708,9 @@ snapshots:
 
   punycode@2.3.1: {}
 
-  puppeteer-core@25.7.0(yauzl@3.4.0):
+  puppeteer-core@25.8.0(yauzl@3.4.0):
     dependencies:
-      '@puppeteer/browsers': 3.2.0(yauzl@3.4.0)
+      '@puppeteer/browsers': 3.2.1(yauzl@3.4.0)
       chromium-bidi: 17.0.2(devtools-protocol@0.0.1666840)
       devtools-protocol: 0.0.1666840
       typed-query-selector: 2.12.2
@@ -12722,13 +12722,13 @@ snapshots:
       - utf-8-validate
       - yauzl
 
-  puppeteer@25.7.0(yauzl@3.4.0):
+  puppeteer@25.8.0(yauzl@3.4.0):
     dependencies:
-      '@puppeteer/browsers': 3.2.0(yauzl@3.4.0)
+      '@puppeteer/browsers': 3.2.1(yauzl@3.4.0)
       chromium-bidi: 17.0.2(devtools-protocol@0.0.1666840)
       devtools-protocol: 0.0.1666840
       lilconfig: 3.1.3
-      puppeteer-core: 25.7.0(yauzl@3.4.0)
+      puppeteer-core: 25.8.0(yauzl@3.4.0)
       typed-query-selector: 2.12.2
     transitivePeerDependencies:
       - bufferutil
