@@ -579,6 +579,25 @@ describe('Table.vue', () => {
       filter.parentNode.removeChild(filter)
     })
 
+    it('does not highlight an unconfirmed multiple filter', async () => {
+      const btn = wrapper.find('.el-table__column-filter-trigger')
+
+      await btn.trigger('click')
+      await doubleWait()
+      const filter = document.body.querySelector('.el-table-filter')
+
+      triggerEvent(filter.querySelector('.el-checkbox'), 'click', true, false)
+      await doubleWait()
+      await btn.trigger('click')
+      await doubleWait()
+
+      expect(wrapper.find('thead .cell.highlight').exists()).toBe(false)
+      expect(wrapper.findAll('.el-table__body-wrapper tbody tr')).toHaveLength(
+        5
+      )
+      filter.parentNode.removeChild(filter)
+    })
+
     it('clear filter', async () => {
       const btn = wrapper.find('.el-table__column-filter-trigger')
 
