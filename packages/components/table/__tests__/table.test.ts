@@ -3,6 +3,7 @@ import { h, nextTick } from 'vue'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import ElCheckbox from '@element-plus/components/checkbox'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
+import defineGetter from '@element-plus/test-utils/define-getter'
 import { rAF } from '@element-plus/test-utils/tick'
 import { CaretBottom, CaretTop } from '@element-plus/icons-vue'
 import ElTable from '../src/table.vue'
@@ -2890,6 +2891,114 @@ describe('Table.vue', () => {
     expect(wrapper.find('.el-table__body thead').exists()).toBeTruthy()
     expect(wrapper.find('.el-table__body colgroup col').exists()).toBeFalsy()
     expect(wrapper.find('.el-table__body tbody').exists()).toBeTruthy()
+  })
+
+  it('should show fixed column shadow when scrollX is false but DOM overflows', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+        <div style="width: 400px">
+          <el-table ref="tableRef" :data="testData" table-layout="auto">
+            <el-table-column prop="date" label="Date" fixed="left" />
+            <el-table-column prop="name" label="Name" />
+            <el-table-column prop="address" label="Address" />
+            <el-table-column prop="action" label="Action" fixed="right" />
+          </el-table>
+        </div>
+      `,
+      created() {
+        this.testData = [
+          {
+            date: '2016-05-03',
+            name: 'Tom',
+            address:
+              'No. 189, Grove St, Los Angeles No. 189, Grove St, Los Angeles No. 189, Grove St, Los Angeles',
+            action: 'test',
+          },
+        ]
+      },
+    })
+    await doubleWait()
+    const tableRef = wrapper.vm.$refs.tableRef as InstanceType<typeof ElTable>
+    const wrapRef = tableRef.scrollBarRef?.wrapRef as HTMLElement
+
+    tableRef.layout.scrollX.value = false
+    const cleanup = [
+      defineGetter(tableRef.$el as HTMLElement, 'clientWidth', 2000),
+      defineGetter(wrapRef, 'scrollWidth', 1000),
+      defineGetter(wrapRef, 'clientWidth', 400),
+    ]
+
+    expect(wrapRef.scrollWidth).toBeGreaterThan(wrapRef.clientWidth)
+
+    tableRef.layout.updateColumnsWidth()
+    expect(tableRef.layout.scrollX.value).toBe(true)
+
+    triggerEvent(wrapRef, 'scroll')
+    expect(tableRef.$el.classList.contains('is-scrolling-left')).toBe(true)
+    expect(tableRef.$el.classList.contains('is-scrolling-none')).toBe(false)
+
+    cleanup.forEach((fn) => fn())
+  })
+
+  it('should detect overflow against client width when scrollbar gutter is present', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+        <div style="width: 400px">
+          <el-table ref="tableRef" :data="testData" table-layout="auto">
+            <el-table-column prop="date" label="Date" fixed="left" />
+            <el-table-column prop="name" label="Name" />
+            <el-table-column prop="address" label="Address" />
+            <el-table-column prop="action" label="Action" fixed="right" />
+          </el-table>
+        </div>
+      `,
+      created() {
+        this.testData = [
+          {
+            date: '2016-05-03',
+            name: 'Tom',
+            address:
+              'No. 189, Grove St, Los Angeles No. 189, Grove St, Los Angeles No. 189, Grove St, Los Angeles',
+            action: 'test',
+          },
+        ]
+      },
+    })
+    await doubleWait()
+    const tableRef = wrapper.vm.$refs.tableRef as InstanceType<typeof ElTable>
+    const wrapRef = tableRef.scrollBarRef?.wrapRef as HTMLElement
+
+    tableRef.layout.scrollX.value = false
+    // Overflow is smaller than the native scrollbar gutter:
+    // scrollWidth > clientWidth but scrollWidth <= offsetWidth
+    const cleanup = [
+      defineGetter(wrapRef, 'scrollWidth', 415),
+      defineGetter(wrapRef, 'clientWidth', 400),
+      defineGetter(wrapRef, 'offsetWidth', 417),
+    ]
+
+    expect(wrapRef.scrollWidth).toBeGreaterThan(wrapRef.clientWidth)
+    expect(wrapRef.scrollWidth).toBeLessThanOrEqual(wrapRef.offsetWidth)
+
+    tableRef.layout.updateColumnsWidth()
+    expect(tableRef.layout.scrollX.value).toBe(true)
+
+    triggerEvent(wrapRef, 'scroll')
+    // Once horizontal scrollability is detected, syncPosition must use
+    // clientWidth so scrollLeft 0 is classified as is-scrolling-left rather
+    // than is-scrolling-right, keeping fixed-column shadows correct.
+    expect(tableRef.$el.classList.contains('is-scrolling-left')).toBe(true)
+    expect(tableRef.$el.classList.contains('is-scrolling-none')).toBe(false)
+
+    cleanup.forEach((fn) => fn())
   })
 
   it('automatic minimum size of flex-items', async () => {
