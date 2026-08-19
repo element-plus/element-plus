@@ -17,6 +17,10 @@ export type UseLockScreenOptions = {
   // shouldLock?: MaybeRef<boolean>
 }
 
+let lockCount = 0
+let paddingCompensated = false
+let bodyPaddingRightBeforeLock = ''
+
 /**
  * Hook that monitoring the ref value to lock or unlock the screen.
  * When the trigger became true, it assumes modal is now opened and vice versa.
@@ -38,21 +42,32 @@ export const useLockscreen = (
   const hiddenCls = computed(() => ns.bm('parent', 'hidden'))
 
   let scrollBarWidth = 0
-  let withoutHiddenClass = false
-  let bodyWidth = '0'
+  let addedHiddenClass = false
+  let hasActiveLock = false
   let cleaned = false
 
   const cleanup = () => {
     if (cleaned) return
 
     cleaned = true
+    if (hasActiveLock) {
+      lockCount = Math.max(0, lockCount - 1)
+      hasActiveLock = false
+    }
     setTimeout(() => {
       // When the test case is running, the context environment simulated by jsdom may have been destroyed,
       // and the document does not exist at this time.
       if (typeof document === 'undefined') return
-      if (withoutHiddenClass && document) {
-        document.body.style.width = bodyWidth
+      if (addedHiddenClass) {
         removeClass(document.body, hiddenCls.value)
+      }
+      if (paddingCompensated && lockCount === 0) {
+        if (bodyPaddingRightBeforeLock) {
+          document.body.style.paddingRight = bodyPaddingRightBeforeLock
+        } else {
+          document.body.style.removeProperty('padding-right')
+        }
+        paddingCompensated = false
       }
     }, 200)
   }
@@ -63,21 +78,30 @@ export const useLockscreen = (
     }
 
     cleaned = false
-    withoutHiddenClass = !hasClass(document.body, hiddenCls.value)
-    if (withoutHiddenClass) {
-      bodyWidth = document.body.style.width
-      addClass(document.body, hiddenCls.value)
-    }
+    if (hasActiveLock) return
+
+    addedHiddenClass = !hasClass(document.body, hiddenCls.value)
+    hasActiveLock = true
+    lockCount++
+
     scrollBarWidth = getScrollBarWidth(ns.namespace.value)
     const bodyHasOverflow =
       document.documentElement.clientHeight < document.body.scrollHeight
     const bodyOverflowY = getStyle(document.body, 'overflowY')
-    if (
-      scrollBarWidth > 0 &&
-      (bodyHasOverflow || bodyOverflowY === 'scroll') &&
-      withoutHiddenClass
-    ) {
-      document.body.style.width = `calc(100% - ${scrollBarWidth}px)`
+    const needCompensation =
+      scrollBarWidth > 0 && (bodyHasOverflow || bodyOverflowY === 'scroll')
+
+    if (lockCount === 1 && needCompensation) {
+      bodyPaddingRightBeforeLock = document.body.style.paddingRight
+      const computedBodyPaddingRight =
+        Number.parseFloat(getStyle(document.body, 'paddingRight')) || 0
+      document.body.style.paddingRight = `${
+        computedBodyPaddingRight + scrollBarWidth
+      }px`
+      paddingCompensated = true
+    }
+    if (addedHiddenClass) {
+      addClass(document.body, hiddenCls.value)
     }
   })
   onScopeDispose(() => cleanup())
