@@ -214,7 +214,7 @@ export default defineComponent({
       filterValue.value = _filterValue!
       checkedIndex.value = index
       if (!isPropAbsent(_filterValue)) {
-        confirmFilter(filteredValue.value)
+        confirmFilter([_filterValue])
       } else {
         confirmFilter([])
       }

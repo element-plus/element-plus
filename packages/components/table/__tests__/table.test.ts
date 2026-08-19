@@ -598,6 +598,63 @@ describe('Table.vue', () => {
       filter.parentNode.removeChild(filter)
     })
 
+    it('applies a single filter from an initially unfiltered column', async () => {
+      wrapper.unmount()
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table :data="testData" @filter-change="handleFilterChange">
+            <el-table-column
+              prop="director"
+              column-key="director"
+              :filters="[
+                { text: 'John Lasseter', value: 'John Lasseter' },
+                { text: 'Peter Docter', value: 'Peter Docter' }
+              ]"
+              :filter-method="filterMethod"
+              :filter-multiple="false"
+            />
+          </el-table>
+        `,
+        data() {
+          return {
+            testData: getTestData(),
+            filters: {},
+          }
+        },
+        methods: {
+          filterMethod(value, row) {
+            return value === row.director
+          },
+          handleFilterChange(filters) {
+            this.filters = filters
+          },
+        },
+      })
+      await doubleWait()
+      await wrapper.find('.el-table__column-filter-trigger').trigger('click')
+      await doubleWait()
+
+      const filter = document.body.querySelector('.el-table-filter')
+      const filterItems = filter.querySelectorAll('.el-table-filter__list-item')
+      triggerEvent(filterItems[1], 'click', true, false)
+      await doubleWait()
+
+      expect(
+        (wrapper.vm as ComponentPublicInstance & { filters: any }).filters[
+          'director'
+        ]
+      ).toEqual(['John Lasseter'])
+      expect(wrapper.find('thead .cell.highlight').exists()).toBe(true)
+      expect(wrapper.findAll('.el-table__body-wrapper tbody tr')).toHaveLength(
+        3
+      )
+      filter.parentNode.removeChild(filter)
+    })
+
     it('clear filter', async () => {
       const btn = wrapper.find('.el-table__column-filter-trigger')
 
