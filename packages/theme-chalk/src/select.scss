@@ -176,10 +176,7 @@
 
   @include e(collapse-item) {
     flex-shrink: 0;
-
-    > .#{$namespace}-tag {
-      max-width: none;
-    }
+    max-width: 100%;
   }
 
   @include e(tags-text) {
