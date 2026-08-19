@@ -140,13 +140,6 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     },
   })
 
-  const inputWrapperVisible = computed(
-    () =>
-      props.filterable &&
-      !selectDisabled.value &&
-      (!props.multiple || !!states.inputValue || isFocused.value)
-  )
-
   const hasModelValue = computed(() => {
     return isArray(props.modelValue)
       ? props.modelValue.length > 0
@@ -894,9 +887,10 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   // computed style
   const tagStyle = computed(() => {
     const gapWidth = getGapWidth()
-    const inputSlotWidth = inputWrapperVisible.value
-      ? gapWidth + MINIMUM_INPUT_WIDTH
-      : 0
+    const inputSlotWidth =
+      props.filterable && !selectDisabled.value
+        ? gapWidth + MINIMUM_INPUT_WIDTH
+        : 0
     const collapseSlotWidth =
       collapseItemRef.value && props.maxCollapseTags === 1
         ? states.collapseItemWidth + gapWidth
@@ -943,7 +937,6 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     nsInput,
     states,
     isFocused,
-    inputWrapperVisible,
     expanded,
     optionsArray,
     hoverOption,

@@ -4435,7 +4435,7 @@ describe('Select', () => {
 
       await input.trigger('blur')
       expect(inputWrapper.classes()).toContain('is-hidden')
-      expect(tagItem.style.maxWidth).toBe('calc(100% - 44px)')
+      expect(tagItem.style.maxWidth).toBe('calc(100% - 61px)')
 
       await input.trigger('focus')
       expect(inputWrapper.classes()).not.toContain('is-hidden')

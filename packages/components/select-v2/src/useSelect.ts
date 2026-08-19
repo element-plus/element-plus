@@ -131,13 +131,6 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     },
   })
 
-  const inputWrapperVisible = computed(
-    () =>
-      props.filterable &&
-      !selectDisabled.value &&
-      (!props.multiple || !!states.inputValue || isFocused.value)
-  )
-
   const allOptions = computed(() => filterOptions(''))
 
   const hasOptions = computed(() => {
@@ -339,9 +332,10 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
   // computed style
   const tagStyle = computed(() => {
     const gapWidth = getGapWidth()
-    const inputSlotWidth = inputWrapperVisible.value
-      ? gapWidth + MINIMUM_INPUT_WIDTH
-      : 0
+    const inputSlotWidth =
+      props.filterable && !selectDisabled.value
+        ? gapWidth + MINIMUM_INPUT_WIDTH
+        : 0
     const collapseSlotWidth =
       collapseItemRef.value && props.maxCollapseTags === 1
         ? states.collapseItemWidth + gapWidth
@@ -1037,7 +1031,6 @@ const useSelect = (props: SelectV2Props, emit: SelectV2EmitFn) => {
     showClearBtn,
     states,
     isFocused,
-    inputWrapperVisible,
     nsSelect,
     nsInput,
 
