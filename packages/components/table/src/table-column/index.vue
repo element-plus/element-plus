@@ -26,6 +26,9 @@ import type { DefaultRow } from '../table/defaults'
 
 defineOptions({
   name: 'ElTableColumn',
+  // Allows user land components to be recognized as column providers as well,
+  // see the `__isTableColumn` check in `TableColumnRenderer` below.
+  __isTableColumn: true,
 })
 
 const props = withDefaults(defineProps<TableColumnProps<T>>(), {
@@ -209,6 +212,7 @@ const TableColumnRenderer = () => {
       for (const childNode of renderDefault) {
         if (
           (childNode.type as any)?.name === 'ElTableColumn' ||
+          (childNode.type as any)?.__isTableColumn ||
           childNode.shapeFlag & 2
         ) {
           children.push(childNode)
