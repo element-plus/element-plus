@@ -120,7 +120,7 @@ import { getEventCode, isPropAbsent } from '@element-plus/utils'
 import type { DefaultRow } from './table/defaults'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { Placement } from '@element-plus/components/popper'
-import type { PropType, WritableComputedRef } from 'vue'
+import type { PropType } from 'vue'
 import type { TableColumnCtx } from './table-column/defaults'
 import type { TableHeader } from './table-header'
 import type { Store } from './store'
@@ -188,19 +188,7 @@ export default defineComponent({
         }
       },
     })
-    const filteredValue: WritableComputedRef<string[]> = computed({
-      get() {
-        if (props.column) {
-          return props.column.filteredValue || []
-        }
-        return []
-      },
-      set(value: string[]) {
-        if (props.column) {
-          props.upDataColumn?.('filteredValue', value)
-        }
-      },
-    })
+    const filteredValue = ref<string[]>([])
     const multiple = computed(() => {
       if (props.column) {
         return props.column.filterMultiple
@@ -226,13 +214,14 @@ export default defineComponent({
       filterValue.value = _filterValue!
       checkedIndex.value = index
       if (!isPropAbsent(_filterValue)) {
-        confirmFilter(filteredValue.value)
+        confirmFilter([_filterValue])
       } else {
         confirmFilter([])
       }
       hidden()
     }
     const confirmFilter = (filteredValue: unknown[]) => {
+      props.upDataColumn?.('filteredValue', filteredValue)
       props.store?.commit('filterChange', {
         column: props.column,
         values: filteredValue,
@@ -240,6 +229,7 @@ export default defineComponent({
       props.store?.updateAllSelected()
     }
     const handleShowTooltip = () => {
+      filteredValue.value = [...(props.column?.filteredValue || [])]
       rootRef.value?.focus()
       !multiple.value && initCheckedIndex()
       if (props.column) {
