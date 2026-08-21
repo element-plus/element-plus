@@ -65,7 +65,7 @@ const { focusTrapRef } = inject(FOCUS_TRAP_INJECTION_KEY)!
 
 const composedDialogRef = composeRefs(focusTrapRef, dialogRef)
 const popupNs = useNamespace('popup', ns.namespace)
-const draggingClass = popupNs.bm('parent', 'dragging')
+const draggingClass = computed(() => popupNs.bm('parent', 'dragging'))
 
 const draggable = computed(() => !!props.draggable)
 const overflow = computed(() => !!props.overflow)
@@ -86,18 +86,25 @@ const dialogKls = computed(() => [
 ])
 
 // TODO: When we support the :has selector, this can be removed here.
-watch(isDragging, (dragging) => {
-  if (!isClient) {
-    return
-  }
+watch(
+  [isDragging, draggingClass],
+  ([dragging, className], [, oldClassName]) => {
+    if (!isClient) {
+      return
+    }
 
-  const toggleClass = dragging ? addClass : removeClass
-  toggleClass(document.body, draggingClass)
-})
+    if (oldClassName !== className) {
+      removeClass(document.body, oldClassName)
+    }
+
+    const toggleClass = dragging ? addClass : removeClass
+    toggleClass(document.body, className)
+  }
+)
 
 onBeforeUnmount(() => {
   if (isClient && isDragging.value) {
-    removeClass(document.body, draggingClass)
+    removeClass(document.body, draggingClass.value)
   }
 })
 
