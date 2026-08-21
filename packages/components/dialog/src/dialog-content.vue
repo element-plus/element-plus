@@ -96,7 +96,7 @@ watch(isDragging, (dragging) => {
 })
 
 onBeforeUnmount(() => {
-  if (isClient) {
+  if (isClient && isDragging.value) {
     removeClass(document.body, draggingClass)
   }
 })
