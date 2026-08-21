@@ -1,6 +1,27 @@
 ## Changelog
 
 
+### 2.14.5
+
+_2026-08-21_
+
+#### Features
+
+- Components [date-picker] add quarter picker (#24490 by @LostElkByte)
+- Theme-chalk expose form item margin bottom variable (#24752 by @xueelf)
+
+#### Bug fixes
+
+- Components [form-item] add alert role to validation message (#24680 by @lazerg)
+- Components [input] expose word limit count to screen readers (#24679 by @lazerg)
+- Components [date-picker] keep `disabled-date` reactive in panels (#24708 by @lazerg)
+- Components [textarea] prevent autosize scroll reset in Firefox (#24724 by @rzzf)
+- Components [date-picker] remove keyboard navigation for `quarters` (#24726 by @keeplearning66)
+- Components [loading] loading spinner jiggling issue on chrome (#24737 by @jiangyi1985)
+- Components [tabs] ssr env setting the default value causes tab to flicker (#24742 by @btea)
+- Components [select] match input wrapper transition (#24709 by @lazerg)
+- Components [tree-v2] sync checked state after clearing keys (#24756 by @rzzf)
+
 ### 2.14.4
 
 _2026-08-07_
