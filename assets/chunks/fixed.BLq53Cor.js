@@ -1,0 +1,1 @@
+import{aD as n,aj as e,O as s,M as c,W as t,a0 as f,_}from"./framework.DdtdhLCM.js";const r={};function p(i,x){const o=e("el-button"),a=e("el-affix");return c(),s(a,{position:"bottom",offset:20},{default:t(()=>[f(o,{type:"primary"},{default:t(()=>[_("Offset bottom 20px")]),_:1})]),_:1})}const m=n(r,[["render",p]]);export{m as E};

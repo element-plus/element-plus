@@ -969,7 +969,9 @@ export default defineNuxtConfig({
 })
 ```
 
-Refer to the [docs](https://github.com/element-plus/element-plus-nuxt#readme) for how to configure it.
+
+
+For more configuration options, please refer to the [docs](https://github.com/element-plus/element-plus-nuxt#readme).
 
 ### Manually import
 
