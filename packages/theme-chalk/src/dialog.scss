@@ -205,3 +205,13 @@
     opacity: 0;
   }
 }
+
+@include b(popup-parent) {
+  @include m(hidden) {
+    // fix #24758, avoid selecting text when dragging
+    &:has(.#{$namespace}-modal-dialog:not(.is-penetrable)) {
+      user-select: none;
+      -webkit-user-select: none;
+    }
+  }
+}
