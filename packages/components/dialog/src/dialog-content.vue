@@ -31,11 +31,17 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject } from 'vue'
+import { computed, inject, onBeforeUnmount, watch } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { FOCUS_TRAP_INJECTION_KEY } from '@element-plus/components/focus-trap'
-import { useDraggable, useLocale } from '@element-plus/hooks'
-import { CloseComponents, composeRefs } from '@element-plus/utils'
+import { useDraggable, useLocale, useNamespace } from '@element-plus/hooks'
+import {
+  CloseComponents,
+  addClass,
+  composeRefs,
+  isClient,
+  removeClass,
+} from '@element-plus/utils'
 import { dialogInjectionKey } from './constants'
 import {
   dialogContentEmits,
@@ -58,6 +64,8 @@ const { dialogRef, headerRef, bodyId, ns, style } = inject(dialogInjectionKey)!
 const { focusTrapRef } = inject(FOCUS_TRAP_INJECTION_KEY)!
 
 const composedDialogRef = composeRefs(focusTrapRef, dialogRef)
+const popupNs = useNamespace('popup', ns.namespace)
+const draggingClass = computed(() => popupNs.bm('parent', 'dragging'))
 
 const draggable = computed(() => !!props.draggable)
 const overflow = computed(() => !!props.overflow)
@@ -76,6 +84,29 @@ const dialogKls = computed(() => [
   ns.is('align-center', !!props.alignCenter),
   { [ns.m('center')]: props.center },
 ])
+
+// TODO: When we support the :has selector, this can be removed here.
+watch(
+  [isDragging, draggingClass],
+  ([dragging, className], [, oldClassName]) => {
+    if (!isClient) {
+      return
+    }
+
+    if (oldClassName !== className) {
+      removeClass(document.body, oldClassName)
+    }
+
+    const toggleClass = dragging ? addClass : removeClass
+    toggleClass(document.body, className)
+  }
+)
+
+onBeforeUnmount(() => {
+  if (isClient && isDragging.value) {
+    removeClass(document.body, draggingClass.value)
+  }
+})
 
 defineExpose({
   resetPosition,

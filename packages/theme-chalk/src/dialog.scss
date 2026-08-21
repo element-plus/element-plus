@@ -205,3 +205,11 @@
     opacity: 0;
   }
 }
+
+@include b(popup-parent) {
+  @include m(dragging) {
+    // fix #24758, avoid selecting text when dragging
+    user-select: none;
+    -webkit-user-select: none;
+  }
+}
