@@ -486,6 +486,59 @@ describe('Dialog.vue', () => {
       await nextTick()
       expect(wrapper.find('.is-draggable').exists()).toBe(true)
     })
+
+    test('should toggle the body dragging class while dragging', async () => {
+      const wrapper = mount(
+        <Dialog modelValue={true} draggable={true} lockScroll={false}>
+          {AXIOM}
+        </Dialog>
+      )
+      const draggingClass = 'el-popup-parent--dragging'
+
+      await nextTick()
+      await rAF()
+      await nextTick()
+      expect(document.body.classList.contains(draggingClass)).toBe(false)
+
+      await wrapper.find('.el-dialog__header').trigger('mousedown', {
+        clientX: 0,
+        clientY: 0,
+      })
+      document.dispatchEvent(
+        new MouseEvent('mousemove', {
+          clientX: 10,
+          clientY: 10,
+        })
+      )
+      await nextTick()
+      expect(document.body.classList.contains(draggingClass)).toBe(true)
+
+      document.dispatchEvent(new MouseEvent('mouseup'))
+      await nextTick()
+      expect(document.body.classList.contains(draggingClass)).toBe(false)
+      wrapper.unmount()
+    })
+
+    test('should remove the body dragging class when unmounted', async () => {
+      const wrapper = mount(
+        <Dialog modelValue={true} draggable={true}>
+          {AXIOM}
+        </Dialog>
+      )
+      const draggingClass = 'el-popup-parent--dragging'
+
+      await nextTick()
+      await rAF()
+      await nextTick()
+      await wrapper.find('.el-dialog__header').trigger('mousedown')
+      document.dispatchEvent(new MouseEvent('mousemove'))
+      await nextTick()
+      expect(document.body.classList.contains(draggingClass)).toBe(true)
+
+      wrapper.unmount()
+      await nextTick()
+      expect(document.body.classList.contains(draggingClass)).toBe(false)
+    })
   })
 
   describe('accessibility', () => {
