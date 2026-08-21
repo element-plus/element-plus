@@ -4,6 +4,9 @@ on: workflow_dispatch
 
 jobs:
   deploy-docs:
+    concurrency:
+      group: docs-i18n-sync
+      cancel-in-progress: false
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -46,6 +49,23 @@ jobs:
           LATEST_VERSION=$(curl -s https://api.github.com/repos/element-plus/element-plus/releases/latest | jq -r '.tag_name')
           echo "latest_version=${LATEST_VERSION}" >> $GITHUB_OUTPUT
 
+      - name: Sync translations to docs-i18n
+        env:
+          RELEASE_VERSION: ${{ steps.get_release.outputs.latest_version }}
+          EP_BOT_TOKEN: ${{ secrets.EP_BOT_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          TARGET_REPO="$(mktemp -d)"
+
+          git clone \
+            --depth=1 \
+            "https://x-access-token:${EP_BOT_TOKEN}@github.com/element-plus/docs-i18n.git" \
+            "$TARGET_REPO"
+
+          COMMIT_MESSAGE="docs-i18n: sync translations for ${RELEASE_VERSION}" \
+            bash scripts/sync-docs-i18n.sh "$GITHUB_WORKSPACE/docs" "$TARGET_REPO" --push
+
       - name: Build Metadata
         run: cd internal/metadata && pnpm build
         env:
@@ -58,7 +78,7 @@ jobs:
           NODE_OPTIONS: --max-old-space-size=8192
 
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@d92aa235d04922e8f08b40ce78cc5442fcfbfa2f # v4.8.0
+        uses: JamesIves/github-pages-deploy-action@fa24774553152dd7873cd16ebd8d959b010c5445 # v4.9.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages

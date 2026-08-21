@@ -1,5 +1,16 @@
 <template>
-  <div :class="panelKls">
+  <div
+    :class="[
+      ppNs.b(),
+      drpNs.b(),
+      ppNs.is('border', border),
+      ppNs.is('disabled', quarterRangeDisabled),
+      {
+        'has-sidebar': Boolean($slots.sidebar) || hasShortcuts,
+        'single-panel': singlePanel,
+      },
+    ]"
+  >
     <div :class="ppNs.e('body-wrapper')">
       <slot name="sidebar" :class="ppNs.e('sidebar')" />
       <div v-if="hasShortcuts" :class="ppNs.e('sidebar')">
@@ -8,19 +19,26 @@
           :key="key"
           type="button"
           :class="ppNs.e('shortcut')"
-          :disabled="yearRangeDisabled"
+          :disabled="quarterRangeDisabled"
           @click="handleShortcutClick(shortcut)"
         >
           {{ shortcut.text }}
         </button>
       </div>
       <div :class="ppNs.e('body')">
-        <div :class="leftPanelKls.content">
+        <div
+          :class="[
+            ppNs.e('content'),
+            drpNs.e('content'),
+            drpNs.is('left', !singlePanel),
+          ]"
+        >
           <div :class="drpNs.e('header')">
             <button
               type="button"
-              :class="leftPanelKls.arrowLeftBtn"
-              :disabled="yearRangeDisabled"
+              :class="ppNs.e('icon-btn')"
+              class="d-arrow-left"
+              :disabled="quarterRangeDisabled"
               @click="leftPrevYear"
             >
               <slot name="prev-year">
@@ -30,8 +48,12 @@
             <button
               v-if="unlinkPanels || singlePanel"
               type="button"
-              :disabled="!enableYearArrow || yearRangeDisabled"
-              :class="leftPanelKls.arrowRightBtn"
+              :disabled="!enableYearArrow || quarterRangeDisabled"
+              :class="[
+                ppNs.e('icon-btn'),
+                ppNs.is('disabled', !enableYearArrow || quarterRangeDisabled),
+              ]"
+              class="d-arrow-right"
               @click="leftNextYear"
             >
               <slot name="next-year">
@@ -40,27 +62,35 @@
             </button>
             <div>{{ leftLabel }}</div>
           </div>
-          <year-table
+          <quarter-table
             selection-mode="range"
             :date="leftDate"
             :min-date="minDate"
             :max-date="maxDate"
             :range-state="rangeState"
             :disabled-date="disabledDate"
-            :disabled="yearRangeDisabled"
+            :disabled="quarterRangeDisabled"
             :cell-class-name="cellClassName"
             @changerange="handleChangeRange"
             @pick="handleRangePick"
             @select="onSelect"
           />
         </div>
-        <div v-if="!singlePanel" :class="rightPanelKls.content">
+        <div
+          v-if="!singlePanel"
+          :class="[ppNs.e('content'), drpNs.e('content')]"
+          class="is-right"
+        >
           <div :class="drpNs.e('header')">
             <button
               v-if="unlinkPanels"
               type="button"
-              :disabled="!enableYearArrow || yearRangeDisabled"
-              :class="rightPanelKls.arrowLeftBtn"
+              :disabled="!enableYearArrow || quarterRangeDisabled"
+              :class="[
+                ppNs.e('icon-btn'),
+                ppNs.is('disabled', !enableYearArrow || quarterRangeDisabled),
+              ]"
+              class="d-arrow-left"
               @click="rightPrevYear"
             >
               <slot name="prev-year">
@@ -69,8 +99,9 @@
             </button>
             <button
               type="button"
-              :class="rightPanelKls.arrowRightBtn"
-              :disabled="yearRangeDisabled"
+              :class="ppNs.e('icon-btn')"
+              class="d-arrow-right"
+              :disabled="quarterRangeDisabled"
               @click="rightNextYear"
             >
               <slot name="next-year">
@@ -79,14 +110,14 @@
             </button>
             <div>{{ rightLabel }}</div>
           </div>
-          <year-table
+          <quarter-table
             selection-mode="range"
             :date="rightDate"
             :min-date="minDate"
             :max-date="maxDate"
             :range-state="rangeState"
             :disabled-date="disabledDate"
-            :disabled="yearRangeDisabled"
+            :disabled="quarterRangeDisabled"
             :cell-class-name="cellClassName"
             @changerange="handleChangeRange"
             @pick="handleRangePick"
@@ -99,45 +130,52 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref, toRef, unref, useSlots, watch } from 'vue'
+import { computed, inject, ref, toRef, unref, watch } from 'vue'
 import dayjs from 'dayjs'
-import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
 import ElIcon from '@element-plus/components/icon'
 import { useLocale } from '@element-plus/hooks'
+import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
 import { PICKER_BASE_INJECTION_KEY } from '@element-plus/components/time-picker'
-import {
-  panelYearRangeEmits,
-  panelYearRangeProps,
-} from '../props/panel-year-range'
-import { useYearRangeHeader } from '../composables/use-year-range-header'
-import { useRangePicker } from '../composables/use-range-picker'
+import { isArray } from '@element-plus/utils'
 import {
   correctlyParseUserInput,
   getDefaultValue,
+  isQuarterFullyDisabled,
   isValidRange,
+  normalizeQuarterDate,
 } from '../utils'
-import YearTable from './basic-year-table.vue'
+import {
+  panelQuarterRangeEmits,
+  panelQuarterRangeProps,
+} from '../props/panel-quarter-range'
+import { useMonthRangeHeader } from '../composables/use-month-range-header'
+import { useRangePicker } from '../composables/use-range-picker'
+import QuarterTable from './basic-quarter-table.vue'
 import { useFormDisabled } from '@element-plus/components/form'
 
 import type { Dayjs } from 'dayjs'
 
+type RangePickValue = {
+  minDate: Dayjs
+  maxDate?: Dayjs
+}
+
 defineOptions({
-  name: 'DatePickerYearRange',
+  name: 'DatePickerQuarterRange',
 })
 
-const props = defineProps(panelYearRangeProps)
-const emit = defineEmits(panelYearRangeEmits)
-const step = 10
+const props = defineProps(panelQuarterRangeProps)
+const emit = defineEmits(panelQuarterRangeEmits)
 const unit = 'year'
 
 const { lang } = useLocale()
-const leftDate = ref(dayjs().locale(lang.value))
-const rightDate = ref(dayjs().locale(lang.value).add(step, unit))
 const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
 const { shortcuts, cellClassName } = pickerBase.props
 const disabledDate = toRef(pickerBase.props, 'disabledDate')
 const format = toRef(pickerBase.props, 'format')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
+const leftDate = ref(dayjs().locale(lang.value))
+const rightDate = ref(dayjs().locale(lang.value).add(1, unit))
 
 const {
   minDate,
@@ -145,7 +183,6 @@ const {
   rangeState,
   ppNs,
   drpNs,
-
   handleChangeRange,
   handleRangeConfirm,
   handleShortcutClick,
@@ -155,10 +192,11 @@ const {
   defaultValue,
   leftDate,
   rightDate,
-  step,
   unit,
   sortDates,
 })
+
+const hasShortcuts = computed(() => !!shortcuts.length)
 
 const {
   leftPrevYear,
@@ -169,53 +207,10 @@ const {
   rightLabel,
   leftYear,
   rightYear,
-} = useYearRangeHeader({
+} = useMonthRangeHeader({
   unlinkPanels: toRef(props, 'unlinkPanels'),
   leftDate,
   rightDate,
-})
-
-const yearRangeDisabled = useFormDisabled()
-
-const hasShortcuts = computed(() => !!shortcuts.length)
-
-const panelKls = computed(() => [
-  ppNs.b(),
-  drpNs.b(),
-  ppNs.is('border', props.border),
-  ppNs.is('disabled', yearRangeDisabled.value),
-  {
-    'has-sidebar': Boolean(useSlots().sidebar) || hasShortcuts.value,
-    'single-panel': props.singlePanel,
-  },
-])
-
-const leftPanelKls = computed(() => {
-  return {
-    content: [
-      ppNs.e('content'),
-      drpNs.e('content'),
-      drpNs.is('left', !props.singlePanel),
-    ],
-    arrowLeftBtn: [ppNs.e('icon-btn'), 'd-arrow-left'],
-    arrowRightBtn: [
-      ppNs.e('icon-btn'),
-      ppNs.is('disabled', !enableYearArrow.value || yearRangeDisabled.value),
-      'd-arrow-right',
-    ],
-  }
-})
-
-const rightPanelKls = computed(() => {
-  return {
-    content: [ppNs.e('content'), drpNs.e('content'), 'is-right'],
-    arrowLeftBtn: [
-      ppNs.e('icon-btn'),
-      ppNs.is('disabled', !enableYearArrow.value || yearRangeDisabled.value),
-      'd-arrow-left',
-    ],
-    arrowRightBtn: [ppNs.e('icon-btn'), 'd-arrow-right'],
-  }
 })
 
 const enableYearArrow = computed(() => {
@@ -225,10 +220,6 @@ const enableYearArrow = computed(() => {
   )
 })
 
-type RangePickValue = {
-  minDate: Dayjs
-  maxDate: Dayjs
-}
 const handleRangePick = (val: RangePickValue, close = true) => {
   const minDate_ = val.minDate
   const maxDate_ = val.maxDate
@@ -243,8 +234,31 @@ const handleRangePick = (val: RangePickValue, close = true) => {
   handleRangeConfirm()
 }
 
+const handleClear = () => {
+  let valueOnClear = null
+  if (pickerBase?.emptyValues) {
+    valueOnClear = pickerBase.emptyValues.valueOnClear.value
+  }
+  leftDate.value = getDefaultValue(unref(defaultValue), {
+    lang: unref(lang),
+    unit: 'year',
+    unlinkPanels: props.unlinkPanels,
+  })[0]
+  rightDate.value = leftDate.value.add(1, 'year')
+  emit('pick', valueOnClear)
+}
+
+const normalizeQuarterInput = (value: Dayjs) =>
+  normalizeQuarterDate(value, lang.value, disabledDate.value)
+
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
-  return correctlyParseUserInput(value, format.value, lang.value)
+  const parsed = correctlyParseUserInput(value, format.value, lang.value)
+
+  if (isArray(parsed)) {
+    return parsed.map((item) => normalizeQuarterInput(item))
+  }
+
+  return normalizeQuarterInput(parsed)
 }
 
 const isValidValue = (date: [Dayjs, Dayjs]) => {
@@ -253,37 +267,24 @@ const isValidValue = (date: [Dayjs, Dayjs]) => {
     (disabledDate.value
       ? !disabledDate.value(date[0].toDate()) &&
         !disabledDate.value(date[1].toDate())
-      : true)
+      : true) &&
+    !isQuarterFullyDisabled(date[0], lang.value, disabledDate.value) &&
+    !isQuarterFullyDisabled(date[1], lang.value, disabledDate.value)
   )
-}
-
-const handleClear = () => {
-  let valueOnClear = null
-  if (pickerBase?.emptyValues) {
-    valueOnClear = pickerBase.emptyValues.valueOnClear.value
-  }
-  const defaultArr = getDefaultValue(unref(defaultValue), {
-    lang: unref(lang),
-    step,
-    unit,
-    unlinkPanels: props.unlinkPanels,
-  })
-  leftDate.value = defaultArr[0]
-  rightDate.value = defaultArr[1]
-  emit('pick', valueOnClear)
 }
 
 function sortDates(minDate: Dayjs | undefined, maxDate: Dayjs | undefined) {
   if (props.unlinkPanels && maxDate) {
     const minDateYear = minDate?.year() || 0
     const maxDateYear = maxDate.year()
-
     rightDate.value =
-      minDateYear + step > maxDateYear ? maxDate.add(step, unit) : maxDate
+      minDateYear === maxDateYear ? maxDate.add(1, unit) : maxDate
   } else {
-    rightDate.value = leftDate.value.add(step, unit)
+    rightDate.value = leftDate.value.add(1, unit)
   }
 }
+
+const quarterRangeDisabled = useFormDisabled()
 
 watch(
   () => props.visible,
