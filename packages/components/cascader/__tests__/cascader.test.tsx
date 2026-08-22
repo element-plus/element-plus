@@ -470,7 +470,10 @@ describe('Cascader.vue', () => {
     const collapseTag = collapseTags[0]
     await collapseTag.trigger('hover')
     const scrollbars = wrapper.findAllComponents(ElScrollbar).filter((item) => {
-      return !hasClass(item.element, 'el-cascader-menu')
+      return (
+        !hasClass(item.element, 'el-cascader-menu') &&
+        !hasClass(item.element, 'el-cascader__panel-scrollbar')
+      )
     })
     expect(scrollbars.length).toBe(1)
     const scrollbar = scrollbars[0]
