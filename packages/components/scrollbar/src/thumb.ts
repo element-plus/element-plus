@@ -9,6 +9,8 @@ export interface ThumbProps {
   move?: number
   ratio: number
   always?: boolean
+  startGap?: number
+  endGap?: number
 }
 
 /**
@@ -23,6 +25,14 @@ export const thumbProps = buildProps({
     required: true,
   },
   always: Boolean,
+  startGap: {
+    type: Number,
+    default: 0,
+  },
+  endGap: {
+    type: Number,
+    default: 0,
+  },
 } as const)
 
 /**

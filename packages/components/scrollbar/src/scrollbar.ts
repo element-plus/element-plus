@@ -64,6 +64,16 @@ export interface ScrollbarProps {
    */
   minSize?: number
   /**
+   * @description distance between vertical scrollbar track and the top edge of viewport
+   * @default 0
+   */
+  verticalStartGap?: number
+  /**
+   * @description distance between vertical scrollbar track and the bottom edge of viewport
+   * @default 0
+   */
+  verticalEndGap?: number
+  /**
    * @description Wrap tabindex
    * @default undefined
    */
@@ -164,6 +174,20 @@ export const scrollbarProps = buildProps({
   minSize: {
     type: Number,
     default: 20,
+  },
+  /**
+   * @description distance between vertical scrollbar track and the top edge of viewport
+   */
+  verticalStartGap: {
+    type: Number,
+    default: 0,
+  },
+  /**
+   * @description distance between vertical scrollbar track and the bottom edge of viewport
+   */
+  verticalEndGap: {
+    type: Number,
+    default: 0,
   },
   /**
    * @description Wrap tabindex
