@@ -142,6 +142,38 @@ describe('Cascader.vue', () => {
     expect(wrapper.find('input').element.value).toBe('Zhejiang / Ningbo')
   })
 
+  test('persistent false should still display label', async () => {
+    const value = ref(['zhejiang', 'hangzhou'])
+    const wrapper = _mount(() => (
+      <Cascader v-model={value.value} options={OPTIONS} persistent={false} />
+    ))
+
+    await nextTick()
+    expect(wrapper.find('input').element.value).toBe('Zhejiang / Hangzhou')
+  })
+
+  test('persistent false should still display tags in multiple mode', async () => {
+    const value = ref([
+      ['zhejiang', 'hangzhou'],
+      ['zhejiang', 'ningbo'],
+    ])
+    const cascaderProps = { multiple: true }
+    const wrapper = _mount(() => (
+      <Cascader
+        v-model={value.value}
+        options={OPTIONS}
+        props={cascaderProps}
+        persistent={false}
+      />
+    ))
+
+    await nextTick()
+    const tags = wrapper.findAll(TAG)
+    expect(tags.length).toBe(2)
+    expect(tags[0].text()).toBe('Zhejiang / Hangzhou')
+    expect(tags[1].text()).toBe('Zhejiang / Ningbo')
+  })
+
   test('options change', async () => {
     const value = ref(['zhejiang', 'hangzhou'])
     const options = ref(OPTIONS)
