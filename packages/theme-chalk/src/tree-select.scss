@@ -10,7 +10,7 @@
   @include e(popper) {
     @include set-css-var-value(
       ('fill-color', 'blank'),
-      getCssVar('bg-color', 'overlay')
+      getCssVar('popper', 'bg-color-light')
     );
 
     @include when(dark) {
