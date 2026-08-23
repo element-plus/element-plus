@@ -23,7 +23,7 @@
     "nprogress": "^0.2.0"
   },
   "devDependencies": {
-    "@crowdin/cli": "^4.15.0",
+    "@crowdin/cli": "^4.15.1",
     "@element-plus/build": "workspace:*",
     "@element-plus/build-constants": "workspace:*",
     "@element-plus/build-utils": "workspace:*",
