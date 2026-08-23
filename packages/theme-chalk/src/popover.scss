@@ -5,10 +5,12 @@
 @include b(popover) {
   @include set-component-css-var('popover', $popover);
 
-  @include set-css-var-value(
-    ('fill-color', 'blank'),
-    getCssVar('popper', 'bg-color-light')
-  );
+  @include when(light) {
+    @include set-css-var-value(
+      ('fill-color', 'blank'),
+      getCssVar('popper', 'bg-color-light')
+    );
+  }
 
   @include when(dark) {
     @include set-css-var-value(
