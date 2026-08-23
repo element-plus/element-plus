@@ -55,6 +55,7 @@
           isDatesPicker ||
           isMonthsPicker ||
           isYearsPicker ||
+          isQuartersPicker ||
           type === 'week'
         "
         :aria-label="ariaLabel"
@@ -206,7 +207,7 @@ import {
 import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
-import { NOOP, getEventCode, isArray } from '@element-plus/utils'
+import { NOOP, debugWarn, getEventCode, isArray } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
   EVENT_CODE,
@@ -416,7 +417,10 @@ const displayValue = computed<UserInput>(() => {
   if (!isTimePicker.value && valueIsEmpty.value) return ''
   if (!pickerVisible.value && valueIsEmpty.value) return ''
   if (formattedValue) {
-    return isDatesPicker.value || isMonthsPicker.value || isYearsPicker.value
+    return isDatesPicker.value ||
+      isMonthsPicker.value ||
+      isYearsPicker.value ||
+      isQuartersPicker.value
       ? (formattedValue as Array<string>).join(', ')
       : formattedValue
   }
@@ -432,6 +436,8 @@ const isDatesPicker = computed(() => props.type === 'dates')
 const isMonthsPicker = computed(() => props.type === 'months')
 
 const isYearsPicker = computed(() => props.type === 'years')
+
+const isQuartersPicker = computed(() => props.type === 'quarters')
 
 const triggerIcon = computed(
   () => props.prefixIcon || (isTimeLikePicker.value ? Clock : Calendar)
@@ -606,6 +612,15 @@ const handleKeydownInput = async (event: Event | KeyboardEvent) => {
     ) {
       handleChange()
       pickerVisible.value = false
+    } else {
+      if (
+        !isValidValue(parseUserInputToDayjs(displayValue.value) as DayOrDays)
+      ) {
+        debugWarn(
+          'Picker',
+          `Invalid user input: ${displayValue.value}. Please check the format of the input.`
+        )
+      }
     }
     event.preventDefault()
     event.stopPropagation()

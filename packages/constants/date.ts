@@ -6,11 +6,14 @@ export const datePickTypes = [
   'date',
   'dates',
   'week',
+  'quarter',
+  'quarters',
   'datetime',
   'datetimerange',
   'daterange',
   'monthrange',
   'yearrange',
+  'quarterrange',
 ] as const
 
 export const WEEK_DAYS = [

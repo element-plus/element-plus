@@ -7,6 +7,7 @@ import localeData from 'dayjs/plugin/localeData.js'
 import weekOfYear from 'dayjs/plugin/weekOfYear.js'
 import weekYear from 'dayjs/plugin/weekYear.js'
 import dayOfYear from 'dayjs/plugin/dayOfYear.js'
+import quarterOfYear from 'dayjs/plugin/quarterOfYear.js'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter.js'
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore.js'
 import {
@@ -27,6 +28,7 @@ dayjs.extend(customParseFormat)
 dayjs.extend(weekOfYear)
 dayjs.extend(weekYear)
 dayjs.extend(dayOfYear)
+dayjs.extend(quarterOfYear)
 dayjs.extend(isSameOrAfter)
 dayjs.extend(isSameOrBefore)
 

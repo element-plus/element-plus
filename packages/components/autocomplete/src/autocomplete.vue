@@ -171,6 +171,8 @@ const props = withDefaults(defineProps<AutocompleteProps<T>>(), {
   loopNavigation: true,
   teleported: true,
   showArrow: true,
+  popperClass: undefined,
+  popperStyle: undefined,
   popperOptions: () => ({}),
 })
 const emit = defineEmits(autocompleteEmits)
@@ -292,6 +294,8 @@ const handleFocus = (evt: FocusEvent) => {
     emit('focus', evt)
     const queryString = props.modelValue ?? ''
     if (props.triggerOnFocus && !readonly) {
+      suggestions.value = []
+      highlightedIndex.value = -1
       debouncedGetData(String(queryString))
     }
   } else {

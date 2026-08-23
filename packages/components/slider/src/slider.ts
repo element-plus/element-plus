@@ -12,7 +12,7 @@ import {
 } from '@element-plus/constants'
 import { useAriaProps, useSizeProp } from '@element-plus/hooks'
 
-import type { Arrayable } from '@element-plus/utils'
+import type { Arrayable, ClassValue } from '@element-plus/utils'
 import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type { SliderMarkerProps } from './marker'
 import type Slider from './slider.vue'
@@ -141,7 +141,7 @@ export const sliderProps = buildProps({
    * @description custom class name for the tooltip
    */
   tooltipClass: {
-    type: String,
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
     default: undefined,
   },
   /**

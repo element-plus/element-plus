@@ -8,11 +8,14 @@ export type DatePickerType =
   | 'date'
   | 'dates'
   | 'week'
+  | 'quarter'
+  | 'quarters'
   | 'datetime'
   | 'datetimerange'
   | 'daterange'
   | 'monthrange'
   | 'yearrange'
+  | 'quarterrange'
 
 type DateCellType = 'normal' | 'today' | 'week' | 'next-month' | 'prev-month'
 export interface DateCell {

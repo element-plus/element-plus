@@ -27,6 +27,7 @@ export default {
       dateTablePrompt:
         'استخدم مفاتيح الاسهم و اضغط انتر لاختيار اليوم المراد من الشهر',
       monthTablePrompt: 'استخدم مفاتيح الاسهم واضغط انتر لاختيار الشهر',
+      quarterTablePrompt: 'استخدم مفاتيح الاسهم واضغط انتر لاختيار الربع',
       yearTablePrompt: 'استخدم مفاتيح الاسهم واضغط انتر لاختيار السنة',
       selectedDate: 'Selected date', // to be translated
       selectDate: 'إختر التاريخ',
@@ -84,6 +85,9 @@ export default {
         nov: 'تشرين الثاني',
         dec: 'كانون الاول',
       },
+    },
+    input: {
+      characters: '{count} / {max} حرف',
     },
     inputNumber: {
       decrease: 'طرح رقم',

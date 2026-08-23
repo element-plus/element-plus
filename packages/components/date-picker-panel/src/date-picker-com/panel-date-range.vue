@@ -445,7 +445,6 @@ import {
   isValidRange,
 } from '../utils'
 import { usePanelDateRange } from '../composables/use-panel-date-range'
-import { ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY } from '../constants'
 import YearTable from './basic-year-table.vue'
 import MonthTable from './basic-month-table.vue'
 import DateTable from './basic-date-table.vue'
@@ -472,11 +471,8 @@ const emit = defineEmits([
 const unit = 'month'
 // FIXME: fix the type for ep picker
 const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
-const isDefaultFormat = inject(
-  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY,
-  undefined
-) as any
-const { disabledDate, cellClassName, defaultTime, clearable } = pickerBase.props
+const { cellClassName, defaultTime, clearable } = pickerBase.props
+const disabledDate = toRef(pickerBase.props, 'disabledDate')
 const format: Ref<string | undefined> = toRef(pickerBase.props, 'format')
 const shortcuts = toRef(pickerBase.props, 'shortcuts')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
@@ -593,8 +589,9 @@ const dateFormat = computed(() => {
 const isValidValue = (date: [Dayjs, Dayjs]) => {
   return (
     isValidRange(date) &&
-    (disabledDate
-      ? !disabledDate(date[0].toDate()) && !disabledDate(date[1].toDate())
+    (disabledDate.value
+      ? !disabledDate.value(date[0].toDate()) &&
+        !disabledDate.value(date[1].toDate())
       : true)
   )
 }
@@ -764,12 +761,12 @@ const handleMaxTimeClose = () => {
 }
 
 const findValidDateToward = (from: Dayjs, toward: Dayjs): Dayjs => {
-  if (!disabledDate || !disabledDate(from.toDate())) return from
+  if (!disabledDate.value || !disabledDate.value(from.toDate())) return from
   const forward = from.isBefore(toward)
   let cursor = from
   while (forward ? cursor.isBefore(toward) : cursor.isAfter(toward)) {
     cursor = forward ? cursor.add(1, 'day') : cursor.subtract(1, 'day')
-    if (!disabledDate(cursor.toDate())) return cursor
+    if (!disabledDate.value(cursor.toDate())) return cursor
   }
   return from
 }
@@ -778,7 +775,7 @@ const handleDateInput = (value: string | null, type: ChangeType) => {
   dateUserInput.value[type] = value
   const parsedValueD = dayjs(value, dateFormat.value).locale(lang.value)
   if (parsedValueD.isValid()) {
-    if (disabledDate && disabledDate(parsedValueD.toDate())) {
+    if (disabledDate.value && disabledDate.value(parsedValueD.toDate())) {
       return
     }
     if (type === 'min') {
@@ -961,12 +958,7 @@ const handleClear = () => {
 }
 
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
-  return correctlyParseUserInput(
-    value,
-    format.value || '',
-    lang.value,
-    isDefaultFormat
-  )
+  return correctlyParseUserInput(value, format.value || '', lang.value)
 }
 function sortDates(minDate: Dayjs | undefined, maxDate: Dayjs | undefined) {
   if (props.unlinkPanels && maxDate) {

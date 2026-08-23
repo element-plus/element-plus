@@ -18,7 +18,7 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Download pr number
-        uses: dawidd6/action-download-artifact@b6e2e70617bc3265edd6dab6c906732b2f1ae151 # v21
+        uses: dawidd6/action-download-artifact@57aa996fc1713cc1579039614f4645a7f4841fd4 # v23
         with:
           workflow: ${{ github.event.workflow.id }}
           run_id: ${{ github.event.workflow_run.id }}
@@ -29,7 +29,7 @@ jobs:
         run: echo "id=$(<pr.txt)" >> $GITHUB_OUTPUT
 
       - name: Download artifact
-        uses: dawidd6/action-download-artifact@b6e2e70617bc3265edd6dab6c906732b2f1ae151 # v21
+        uses: dawidd6/action-download-artifact@57aa996fc1713cc1579039614f4645a7f4841fd4 # v23
         with:
           workflow: ${{ github.event.workflow.id }}
           run_id: ${{ github.event.workflow_run.id }}
@@ -63,7 +63,8 @@ jobs:
           body: |
             🧪 Playground Preview: https://element-plus.run/?pr=${{ steps.pr.outputs.id }}
             Please comment the example via this playground if needed.
-            <!-- ELEMENT_PLUS_PLAYGROUND -->
+
+            🔖 Commit: [`${{ github.event.workflow_run.head_sha }}`](https://github.com/${{ github.repository }}/commit/${{ github.event.workflow_run.head_sha }})
           body-include: '<!-- ELEMENT_PLUS_PLAYGROUND -->'
           number: ${{ steps.pr.outputs.id }}
 
@@ -88,7 +89,7 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'failure' }}
     steps:
       - name: Download pr number
-        uses: dawidd6/action-download-artifact@b6e2e70617bc3265edd6dab6c906732b2f1ae151 # v21
+        uses: dawidd6/action-download-artifact@57aa996fc1713cc1579039614f4645a7f4841fd4 # v23
         with:
           workflow: ${{ github.event.workflow.id }}
           run_id: ${{ github.event.workflow_run.id }}
