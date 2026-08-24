@@ -17,7 +17,7 @@ export const notificationTypes = [
 export type NotificationType = (typeof notificationTypes)[number] | ''
 
 export type NotificationPosition =
-  'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
+  'top' | 'top-right' | 'top-left' | 'bottom' | 'bottom-right' | 'bottom-left'
 
 /**
  * Progress bar configuration. `percentage`, `type`, `duration`, `indeterminate`
@@ -171,7 +171,14 @@ export const notificationProps = buildProps({
    */
   position: {
     type: String,
-    values: ['top-right', 'top-left', 'bottom-right', 'bottom-left'],
+    values: [
+      'top',
+      'top-right',
+      'top-left',
+      'bottom',
+      'bottom-right',
+      'bottom-left',
+    ],
     default: 'top-right',
   },
   /**

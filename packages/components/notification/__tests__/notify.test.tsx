@@ -143,6 +143,26 @@ describe('Notification on command', () => {
     cleanups.forEach((fn) => fn())
   })
 
+  it('should stack centered notifications independently', async () => {
+    const first = Notification({ position: 'top', duration: 0 })
+    const second = Notification({ position: 'top', duration: 0 })
+    await rAF()
+
+    const notificationEls = Array.from(
+      document.querySelectorAll<HTMLElement>(selector)
+    )
+    expect(notificationEls).toHaveLength(2)
+    expect(
+      notificationEls.map((el) => el.classList.contains('center'))
+    ).toEqual([true, true])
+    expect(notificationEls.map((el) => el.style.top)).toEqual(['16px', '32px'])
+
+    first.close()
+    await rAF()
+    await nextTick()
+    second.close()
+  })
+
   it('it should be able to render all types notification', () => {
     for (const type of ['success', 'warning', 'error', 'info'] as const) {
       Notification[type]({})
