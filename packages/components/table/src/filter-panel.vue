@@ -13,6 +13,7 @@
     :popper-class="filterClassName"
     persistent
     :append-to="appendTo"
+    @before-show="handleBeforeShowTooltip"
     @show="handleShowTooltip"
     @hide="handleHideTooltip"
   >
@@ -228,6 +229,9 @@ export default defineComponent({
       })
       props.store?.updateAllSelected()
     }
+    const handleBeforeShowTooltip = () => {
+      filteredValue.value = [...(props.column?.filteredValue || [])]
+    }
     const handleShowTooltip = () => {
       rootRef.value?.focus()
       !multiple.value && initCheckedIndex()
@@ -239,7 +243,6 @@ export default defineComponent({
       if (props.column) {
         props.upDataColumn?.('filterOpened', false)
       }
-      filteredValue.value = [...(props.column?.filteredValue || [])]
     }
 
     const initCheckedIndex = () => {
@@ -311,6 +314,7 @@ export default defineComponent({
       tooltipRef,
       rootRef,
       checkedIndex,
+      handleBeforeShowTooltip,
       handleShowTooltip,
       handleHideTooltip,
       handleKeydown,
