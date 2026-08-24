@@ -3,6 +3,10 @@
 </p>
 
 <p align="center">
+  English | <a href="./README.zh-CN.md">简体中文</a>
+</p>
+
+<p align="center">
   <a href="https://npmx.dev/package/element-plus">
     <img src="https://npmx.dev/api/registry/badge/version/element-plus" />
   </a>

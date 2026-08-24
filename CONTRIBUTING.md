@@ -1,5 +1,9 @@
 # How To Contribute
 
+<p align="center">
+  English | <a href="./CONTRIBUTING.zh-CN.md">简体中文</a>
+</p>
+
 ## Opening Issues
 
 - Before opening an issue, please search for the keyword to see whether the issue you encountered has already been reported. :pray:
