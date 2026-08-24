@@ -95,8 +95,8 @@ describe('Notification.vue', () => {
     })
 
     test.each([
-      ['top', 'top', 'center'],
-      ['bottom', 'bottom', 'center'],
+      ['top', 'top', 'is-center'],
+      ['bottom', 'bottom', 'is-center'],
       ['top-left', 'top', 'left'],
       ['bottom-right', 'bottom', 'right'],
     ] as const)(
@@ -116,6 +116,19 @@ describe('Notification.vue', () => {
         )
       }
     )
+
+    test('should not let customClass activate centered positioning', () => {
+      const wrapper = _mount({
+        props: {
+          customClass: 'center',
+          position: 'top-right',
+        },
+      })
+
+      expect(wrapper.classes()).toContain('center')
+      expect(wrapper.classes()).not.toContain('is-center')
+      expect(wrapper.vm.horizontalClass).toBe('right')
+    })
 
     test('should be able to render default close icon', () => {
       const wrapper = _mount({

@@ -35,7 +35,7 @@
     left: 16px;
   }
 
-  &.center {
+  &.is-center {
     left: 50%;
     transform: translateX(-50%);
   }
@@ -119,11 +119,11 @@
     transform: translateX(-100%);
   }
 
-  &.center.top {
+  &.is-center.top {
     transform: translate(-50%, -100%);
   }
 
-  &.center.bottom {
+  &.is-center.bottom {
     transform: translate(-50%, 100%);
   }
 }

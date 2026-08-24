@@ -153,7 +153,7 @@ describe('Notification on command', () => {
     )
     expect(notificationEls).toHaveLength(2)
     expect(
-      notificationEls.map((el) => el.classList.contains('center'))
+      notificationEls.map((el) => el.classList.contains('is-center'))
     ).toEqual([true, true])
     expect(notificationEls.map((el) => el.style.top)).toEqual(['16px', '32px'])
 

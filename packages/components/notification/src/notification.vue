@@ -120,7 +120,9 @@ const iconComponent = computed(() => {
 })
 
 const horizontalClass = computed(() => {
-  if (props.position === 'top' || props.position === 'bottom') return 'center'
+  if (props.position === 'top' || props.position === 'bottom') {
+    return ns.is('center')
+  }
   return props.position.endsWith('right') ? 'right' : 'left'
 })
 
