@@ -229,7 +229,6 @@ export default defineComponent({
       props.store?.updateAllSelected()
     }
     const handleShowTooltip = () => {
-      filteredValue.value = [...(props.column?.filteredValue || [])]
       rootRef.value?.focus()
       !multiple.value && initCheckedIndex()
       if (props.column) {
@@ -240,6 +239,7 @@ export default defineComponent({
       if (props.column) {
         props.upDataColumn?.('filterOpened', false)
       }
+      filteredValue.value = [...(props.column?.filteredValue || [])]
     }
 
     const initCheckedIndex = () => {
