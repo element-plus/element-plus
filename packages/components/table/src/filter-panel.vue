@@ -164,6 +164,7 @@ export default defineComponent({
     const tooltipRef = ref<TooltipInstance | null>(null)
     const rootRef = ref<HTMLElement | null>(null)
     const checkedIndex = ref(0)
+    const filteredValue = ref<string[]>([])
 
     const filters = computed(() => {
       return props.column && props.column.filters
@@ -188,7 +189,6 @@ export default defineComponent({
         }
       },
     })
-    const filteredValue = ref<string[]>([])
     const multiple = computed(() => {
       if (props.column) {
         return props.column.filterMultiple
