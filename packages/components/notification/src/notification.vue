@@ -130,7 +130,7 @@ const verticalProperty = computed(() =>
   props.position.startsWith('top') ? 'top' : 'bottom'
 )
 
-const verticalClass = computed(() => verticalProperty.value)
+const verticalClass = computed(() => ns.is(verticalProperty.value))
 
 const positionStyle = computed<CSSProperties>(() => {
   return {

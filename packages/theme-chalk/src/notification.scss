@@ -119,11 +119,11 @@
     transform: translateX(-100%);
   }
 
-  &.is-center.top {
+  &.is-center.is-top {
     transform: translate(-50%, -100%);
   }
 
-  &.is-center.bottom {
+  &.is-center.is-bottom {
     transform: translate(-50%, 100%);
   }
 }

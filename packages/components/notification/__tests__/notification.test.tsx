@@ -95,13 +95,13 @@ describe('Notification.vue', () => {
     })
 
     test.each([
-      ['top', 'top', 'is-center'],
-      ['bottom', 'bottom', 'is-center'],
-      ['top-left', 'top', 'left'],
-      ['bottom-right', 'bottom', 'right'],
+      ['top', 'is-top', 'is-center', 'top'],
+      ['bottom', 'is-bottom', 'is-center', 'bottom'],
+      ['top-left', 'is-top', 'left', 'top'],
+      ['bottom-right', 'is-bottom', 'right', 'bottom'],
     ] as const)(
       'should render %s position',
-      (position, vertical, horizontal) => {
+      (position, vertical, horizontal, verticalProperty) => {
         const wrapper = _mount({
           props: { position },
         })
@@ -111,7 +111,7 @@ describe('Notification.vue', () => {
         )
         expect(wrapper.vm.positionStyle).toEqual(
           expect.objectContaining({
-            [vertical]: '0px',
+            [verticalProperty]: '0px',
           })
         )
       }
@@ -128,6 +128,19 @@ describe('Notification.vue', () => {
       expect(wrapper.classes()).toContain('center')
       expect(wrapper.classes()).not.toContain('is-center')
       expect(wrapper.vm.horizontalClass).toBe('right')
+    })
+
+    test('should not let customClass activate vertical positioning', () => {
+      const wrapper = _mount({
+        props: {
+          customClass: 'bottom',
+          position: 'top',
+        },
+      })
+
+      expect(wrapper.classes()).toContain('bottom')
+      expect(wrapper.classes()).toContain('is-top')
+      expect(wrapper.classes()).not.toContain('is-bottom')
     })
 
     test('should be able to render default close icon', () => {
