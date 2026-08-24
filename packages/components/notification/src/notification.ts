@@ -54,7 +54,7 @@ export interface NotificationProps {
    */
   message?: string | VNode | (() => VNode)
   /**
-   * @description offset from the top edge of the screen. Every Notification instance of the same moment should have the same offset
+   * @description offset from the selected edge of the screen. Top positions use the top edge and bottom positions use the bottom edge. Every Notification instance of the same position should have the same offset
    */
   offset?: number
   /**
@@ -146,7 +146,7 @@ export const notificationProps = buildProps({
     default: '',
   },
   /**
-   * @description offset from the top edge of the screen. Every Notification instance of the same moment should have the same offset
+   * @description offset from the selected edge of the screen. Top positions use the top edge and bottom positions use the bottom edge. Every Notification instance of the same position should have the same offset
    */
   offset: {
     type: Number,

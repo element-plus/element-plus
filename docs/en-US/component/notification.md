@@ -29,7 +29,7 @@ notification/different-types
 
 Notification can emerge from any corner you like.
 
-:::demo The `position` attribute defines where the Notification slides in. It can be `top`, `bottom`, `top-right`, `top-left`, `bottom-right`, or `bottom-left`. Defaults to `top-right`. The `top` and `bottom` positions are supported since ^(2.14.5).
+:::demo The `position` attribute defines where the Notification slides in. It can be `top`, `bottom`, `top-right`, `top-left`, `bottom-right`, or `bottom-left`. The `top` and `bottom` positions are horizontally centered and supported since ^(2.14.6). Defaults to `top-right`.
 
 notification/positioning
 
@@ -39,7 +39,7 @@ notification/positioning
 
 Customize Notification's offset from the edge of the screen.
 
-:::demo Set the `offset` attribute to customize Notification's offset from the edge of the screen. Note that every Notification instance of the same moment should have the same offset.
+:::demo Set the `offset` attribute to customize Notification's offset from the selected edge of the screen. Top positions use the top edge, while bottom positions use the bottom edge. Note that every Notification instance of the same position should have the same offset.
 
 notification/offsetting
 
@@ -150,7 +150,7 @@ ElNotification({}, appContext)
 | showClose                | whether to show a close button                                                                                                                                                                                                                     | ^[boolean]                                                                                 | true      |
 | onClose                  | callback function when closed                                                                                                                                                                                                                      | ^[Function]`() => void`                                                                    | —         |
 | onClick                  | callback function when notification clicked                                                                                                                                                                                                        | ^[Function]`() => void`                                                                    | —         |
-| offset                   | offset from the top edge of the screen. Every Notification instance of the same moment should have the same offset                                                                                                                                 | ^[number]                                                                                  | 0         |
+| offset                   | offset from the selected edge of the screen. Top positions use the top edge and bottom positions use the bottom edge. Every Notification instance of the same position should have the same offset                                                 | ^[number]                                                                                  | 0         |
 | appendTo                 | set the root element for the notification, default to `document.body`                                                                                                                                                                              | ^[CSSSelector] / ^[HTMLElement]                                                            | —         |
 | zIndex                   | initial zIndex                                                                                                                                                                                                                                     | ^[number]                                                                                  | 0         |
 | closeIcon ^(2.9.8)       | custom close icon                                                                                                                                                                                                                                  | ^[string] / ^[Component]                                                                   | Close     |
