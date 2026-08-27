@@ -1299,6 +1299,86 @@ describe('Cascader.vue', () => {
       )
     })
   })
+  describe('Cascader - persistent=false keeps selected values visible', () => {
+    const runWithPersistent = (fn: () => Promise<void>) =>
+      (async () => {
+        const prev = process.env.RUN_TEST_WITH_PERSISTENT
+        process.env.RUN_TEST_WITH_PERSISTENT = 'true'
+        try {
+          await fn()
+        } finally {
+          if (prev === undefined) delete process.env.RUN_TEST_WITH_PERSISTENT
+          else process.env.RUN_TEST_WITH_PERSISTENT = prev
+        }
+      })()
+
+    it('should keep selected tags after the dropdown is destroyed (multiple)', async () => {
+      await runWithPersistent(async () => {
+        const value = ref<string[][]>([])
+        const wrapper = _mount(() => (
+          <Cascader
+            v-model={value.value}
+            options={OPTIONS}
+            props={{ multiple: true, checkOnClickNode: true }}
+            persistent={false}
+          />
+        ))
+        const trigger = wrapper.find(TRIGGER)
+        await trigger.trigger('click')
+        await nextTick()
+        const firstNode = document.querySelector(NODE) as HTMLElement
+        firstNode.click()
+        await nextTick()
+        expect(wrapper.findAll(TAG).length).toBeGreaterThan(0)
+
+        // close the dropdown, which destroys the panel
+        await trigger.trigger('keydown', {
+          key: EVENT_CODE.esc,
+          code: EVENT_CODE.esc,
+        })
+        await nextTick()
+        await nextTick()
+
+        expect(value.value.length).toBe(1)
+        // tags must remain visible even though the panel was destroyed
+        expect(wrapper.findAll(TAG).length).toBe(1)
+      })
+    })
+
+    it('should keep the selected label after the dropdown is destroyed (single)', async () => {
+      await runWithPersistent(async () => {
+        const value = ref<string[]>([])
+        const wrapper = _mount(() => (
+          <Cascader
+            v-model={value.value}
+            options={OPTIONS}
+            persistent={false}
+          />
+        ))
+        const trigger = wrapper.find(TRIGGER)
+        await trigger.trigger('click')
+        await nextTick()
+        const firstNode = document.querySelector(NODE) as HTMLElement
+        // expand the first (parent) node
+        firstNode.click()
+        await nextTick()
+        // click a leaf node to select it
+        const leafNode = Array.from(document.querySelectorAll(NODE_LABEL)).find(
+          (el) => el.textContent?.includes('Hangzhou')
+        ) as HTMLElement
+        leafNode.click()
+        await nextTick()
+        await nextTick()
+
+        expect(value.value).toEqual(['zhejiang', 'hangzhou'])
+        const input = wrapper.find('input')
+        expect((input.element as HTMLInputElement).value).toBe(
+          'Zhejiang / Hangzhou'
+        )
+      })
+    })
+  })
+
   it('should select leaf node when checkOnClickLeaf is enabled', async () => {
     const value = ref([])
     const checkOnClickLeaf = ref(true)
