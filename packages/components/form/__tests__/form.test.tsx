@@ -53,6 +53,7 @@ describe('Form', () => {
         )
       },
     })
+    await nextTick()
     expect(findStyle(wrapper, '.el-form-item__label').width).toBe('80px')
   })
 
