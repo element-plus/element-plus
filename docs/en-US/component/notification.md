@@ -39,7 +39,7 @@ notification/positioning
 
 Customize Notification's offset from the edge of the screen.
 
-:::demo Set the `offset` attribute to customize Notification's offset from the selected edge of the screen. Top positions use the top edge, while bottom positions use the bottom edge. Note that every Notification instance of the same position should have the same offset.
+:::demo Set the `offset` attribute to customize Notification's offset from the edge of the screen. Top positions use the top edge, while bottom positions use the bottom edge. Note that every Notification instance of the same position should have the same offset.
 
 notification/offsetting
 
