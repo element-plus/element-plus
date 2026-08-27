@@ -13,6 +13,7 @@
   background: getCssVar('fill-color', 'blank');
   color: getCssVar('tree-text-color');
   font-size: getCssVar('font-size', 'base');
+  width: max-content;
 
   @include e(empty-block) {
     position: relative;
