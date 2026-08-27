@@ -188,6 +188,7 @@
                 :class="[nsSelect.e('input'), nsSelect.is(selectSize)]"
                 :disabled="selectDisabled"
                 :autocomplete="autocomplete"
+                :autofocus="autofocus"
                 :style="inputStyle"
                 :tabindex="tabindex"
                 role="combobox"
