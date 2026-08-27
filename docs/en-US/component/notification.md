@@ -29,7 +29,7 @@ notification/different-types
 
 Notification can emerge from any corner you like.
 
-:::demo The `position` attribute defines where the Notification slides in. It can be `top`, `bottom`, `top-right`, `top-left`, `bottom-right`, or `bottom-left`. The `top` and `bottom` positions are horizontally centered and supported since ^(2.14.6). Defaults to `top-right`.
+:::demo The `position` attribute defines where the Notification slides in. It can be `top`, `top-right`, `top-left`, `bottom`, `bottom-right` or `bottom-left`. The `top` and `bottom` positions are horizontally centered and supported since ^(2.14.6). Defaults to `top-right`.
 
 notification/positioning
 
