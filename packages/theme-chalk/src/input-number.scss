@@ -17,7 +17,10 @@
     inset: 0;
     z-index: 2;
     pointer-events: none;
-    border-radius: getCssVar('border-radius', 'base');
+    border-radius: getCssVarWithDefault(
+      'input-border-radius',
+      map.get($input, 'border-radius')
+    );
     box-sizing: border-box;
     box-shadow: 0 0 0 1px getCssVar('border-color') inset;
     transition: getCssVar('transition-box-shadow');
