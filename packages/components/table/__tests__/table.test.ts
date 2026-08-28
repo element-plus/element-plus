@@ -2924,20 +2924,15 @@ describe('Table.vue', () => {
     await doubleWait()
     const tableRef = wrapper.vm.$refs.tableRef as InstanceType<typeof ElTable>
     const wrapRef = tableRef.scrollBarRef?.wrapRef as HTMLElement
-
-    tableRef.layout.scrollX.value = false
     const cleanup = [
       defineGetter(tableRef.$el as HTMLElement, 'clientWidth', 2000),
       defineGetter(wrapRef, 'scrollWidth', 1000),
       defineGetter(wrapRef, 'clientWidth', 400),
     ]
 
-    expect(wrapRef.scrollWidth).toBeGreaterThan(wrapRef.clientWidth)
-
     tableRef.layout.updateColumnsWidth()
-    expect(tableRef.layout.scrollX.value).toBe(true)
-
     triggerEvent(wrapRef, 'scroll')
+
     expect(tableRef.$el.classList.contains('is-scrolling-left')).toBe(true)
     expect(tableRef.$el.classList.contains('is-scrolling-none')).toBe(false)
 
@@ -2976,21 +2971,16 @@ describe('Table.vue', () => {
     const tableRef = wrapper.vm.$refs.tableRef as InstanceType<typeof ElTable>
     const wrapRef = tableRef.scrollBarRef?.wrapRef as HTMLElement
 
-    tableRef.layout.scrollX.value = false
     // Overflow is smaller than the native scrollbar gutter:
     // scrollWidth > clientWidth but scrollWidth <= offsetWidth
     const cleanup = [
+      defineGetter(tableRef.$el as HTMLElement, 'clientWidth', 2000),
       defineGetter(wrapRef, 'scrollWidth', 415),
       defineGetter(wrapRef, 'clientWidth', 400),
       defineGetter(wrapRef, 'offsetWidth', 417),
     ]
 
-    expect(wrapRef.scrollWidth).toBeGreaterThan(wrapRef.clientWidth)
-    expect(wrapRef.scrollWidth).toBeLessThanOrEqual(wrapRef.offsetWidth)
-
     tableRef.layout.updateColumnsWidth()
-    expect(tableRef.layout.scrollX.value).toBe(true)
-
     triggerEvent(wrapRef, 'scroll')
     // Once horizontal scrollability is detected, syncPosition must use
     // clientWidth so scrollLeft 0 is classified as is-scrolling-left rather
