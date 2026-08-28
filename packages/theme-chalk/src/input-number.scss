@@ -19,21 +19,21 @@
     pointer-events: none;
     border-radius: getCssVar('border-radius', 'base');
     box-sizing: border-box;
-    box-shadow: 0 0 0 1px getCssVar('border-color');
+    box-shadow: 0 0 0 1px getCssVar('border-color') inset;
     transition: getCssVar('transition-box-shadow');
   }
 
   &:hover::after {
-    box-shadow: 0 0 0 1px getCssVar('border-color-hover');
+    box-shadow: 0 0 0 1px getCssVar('border-color-hover') inset;
   }
 
   &:focus-within::after {
-    box-shadow: 0 0 0 1px getCssVar('color-primary');
+    box-shadow: 0 0 0 1px getCssVar('color-primary') inset;
   }
 
   @include when(controls-hover) {
     &::after {
-      box-shadow: 0 0 0 1px getCssVar('color-primary');
+      box-shadow: 0 0 0 1px getCssVar('color-primary') inset;
     }
   }
 
@@ -42,7 +42,7 @@
     &:hover::after,
     &:focus-within::after,
     &.is-controls-hover::after {
-      box-shadow: 0 0 0 1px getCssVar('disabled-border-color');
+      box-shadow: 0 0 0 1px getCssVar('disabled-border-color') inset;
     }
   }
 
