@@ -228,6 +228,10 @@ $form-item-label-top-margin-bottom: map.merge(
         }
       }
 
+      .#{$namespace}-input-number::after {
+        box-shadow: 0 0 0 1px getCssVar('color-danger');
+      }
+
       .#{$namespace}-input-group__append,
       .#{$namespace}-input-group__prepend {
         .#{$namespace}-input__wrapper {

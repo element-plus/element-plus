@@ -314,6 +314,39 @@ describe('InputNumber.vue', () => {
     expect(wrapper.findComponent(ArrowUp).exists()).toBe(true)
   })
 
+  test('controls hover state', async () => {
+    const wrapper = mount(() => <InputNumber />)
+    const inputNumber = wrapper.find('.el-input-number')
+    const decrease = wrapper.find('.el-input-number__decrease')
+    const increase = wrapper.find('.el-input-number__increase')
+
+    expect(inputNumber.classes()).not.toContain('is-controls-hover')
+    await decrease.trigger('mouseenter')
+    expect(inputNumber.classes()).toContain('is-controls-hover')
+    await decrease.trigger('mouseleave')
+    expect(inputNumber.classes()).not.toContain('is-controls-hover')
+
+    await increase.trigger('mouseenter')
+    expect(inputNumber.classes()).toContain('is-controls-hover')
+    await increase.trigger('mouseleave')
+    expect(inputNumber.classes()).not.toContain('is-controls-hover')
+  })
+
+  test.each(['', 'large', 'small'] as const)(
+    'controls-right renders controls for %s size',
+    (size) => {
+      const wrapper = mount(() => (
+        <InputNumber controls-position="right" size={size || undefined} />
+      ))
+
+      expect(wrapper.find('.el-input-number').classes()).toContain(
+        'is-controls-right'
+      )
+      expect(wrapper.find('.el-input-number__increase').exists()).toBe(true)
+      expect(wrapper.find('.el-input-number__decrease').exists()).toBe(true)
+    }
+  )
+
   test('input-event', async () => {
     const handleInput = vi.fn()
     const num = ref(0)
