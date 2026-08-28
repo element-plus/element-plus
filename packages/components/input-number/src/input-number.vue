@@ -180,6 +180,13 @@ const inputNumberSize = useFormSize()
 const inputNumberDisabled = useFormDisabled()
 const controlsHovering = ref(false)
 
+watch(
+  () => props.controls,
+  () => {
+    controlsHovering.value = false
+  }
+)
+
 const onControlsMouseEnter = () => {
   controlsHovering.value = true
 }

@@ -332,6 +332,27 @@ describe('InputNumber.vue', () => {
     expect(inputNumber.classes()).not.toContain('is-controls-hover')
   })
 
+  test.each(['increase', 'decrease'] as const)(
+    'resets controls hover state when controls are disabled after %s is hovered',
+    async (control) => {
+      const controls = ref(true)
+      const wrapper = mount(() => <InputNumber controls={controls.value} />)
+      const inputNumber = wrapper.find('.el-input-number')
+      const button = wrapper.find(`.el-input-number__${control}`)
+
+      await button.trigger('mouseenter')
+      expect(inputNumber.classes()).toContain('is-controls-hover')
+
+      controls.value = false
+      await nextTick()
+      expect(inputNumber.classes()).not.toContain('is-controls-hover')
+
+      controls.value = true
+      await nextTick()
+      expect(inputNumber.classes()).not.toContain('is-controls-hover')
+    }
+  )
+
   test.each(['', 'large', 'small'] as const)(
     'controls-right renders controls for %s size',
     (size) => {
