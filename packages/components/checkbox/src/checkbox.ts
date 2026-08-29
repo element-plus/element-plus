@@ -44,11 +44,11 @@ export interface CheckboxProps extends Pick<
   /**
    * @description value of the Checkbox if it's checked
    */
-  trueValue?: string | number
+  trueValue?: number | string | boolean
   /**
    * @description value of the Checkbox if it's not checked
    */
-  falseValue?: string | number
+  falseValue?: number | string | boolean
   /**
    * @deprecated use `trueValue` instead
    * @description value of the Checkbox if it's checked
@@ -131,14 +131,14 @@ export const checkboxProps = {
    * @description value of the Checkbox if it's checked
    */
   trueValue: {
-    type: [String, Number],
+    type: [String, Number, Boolean],
     default: undefined,
   },
   /**
    * @description value of the Checkbox if it's not checked
    */
   falseValue: {
-    type: [String, Number],
+    type: [String, Number, Boolean],
     default: undefined,
   },
   /**
