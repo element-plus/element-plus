@@ -28,6 +28,8 @@ export default {
       dateTablePrompt:
         'کلیلی ئاراستەکان بەکاربهێنەر بۆ هەڵبژاردنی ڕۆژی مانگەکە',
       monthTablePrompt: 'کلیلی ئاراستەکان بەکاربهێنەر بۆ هەڵبژاردنی مانگ',
+      quarterTablePrompt:
+        'کلیلی ئاراستەکان بەکاربهێنەر بۆ هەڵبژاردنی چارەکی ساڵ',
       yearTablePrompt: 'کلیلی ئاراستەکان بەکاربهێنەر بۆ هەڵبژاردنی ساڵ',
       selectedDate: 'بەرواری هەڵبژێردراو',
       selectDate: 'هەڵبژاردنی بەروار',
@@ -85,6 +87,9 @@ export default {
         nov: 'سەرماوەز',
         dec: 'بەفرانبار',
       },
+    },
+    input: {
+      characters: '{count} / {max} پیت',
     },
     inputNumber: {
       decrease: 'کەمکردنەوەی ژمارە',
