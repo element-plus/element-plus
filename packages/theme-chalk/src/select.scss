@@ -205,12 +205,16 @@
 
   @include e(input-wrapper) {
     flex: 1;
+    // Allow the wrapper to shrink below the input's intrinsic width so an
+    // empty input never wraps onto its own line (see #23394) while still
+    // occupying its flex slot — auto-sized layouts such as inline forms
+    // rely on it to reserve width (#24167, #24457).
+    min-width: 0;
 
     @include when(hidden) {
-      // Out of the document flow
-      position: absolute;
       opacity: 0;
       z-index: -1;
+      pointer-events: none;
     }
   }
 

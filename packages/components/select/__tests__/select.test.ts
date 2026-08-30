@@ -4402,72 +4402,46 @@ describe('Select', () => {
     vi.useRealTimers()
   })
 
-  describe('input-wrapper in multiple mode', () => {
-    test('should hide input-wrapper when empty and not focused', async () => {
-      wrapper = getSelectVm({
-        multiple: true,
-        filterable: true,
-      })
+  describe('input-wrapper visibility', () => {
+    // #24457 / #24167: hiding the input-wrapper on "empty and not focused"
+    // took it out of the document flow (position: absolute), which collapsed
+    // the select to the width of its tags inside auto-sized layouts such as
+    // inline forms. The wrapper must stay in flow and only be hidden when it
+    // carries no input at all.
+    test.each([
+      ['multiple', { multiple: true, filterable: true }],
+      ['single', { filterable: true }],
+    ])(
+      'should keep input-wrapper in flow in %s mode when empty and not focused',
+      async (_mode, props) => {
+        wrapper = getSelectVm(props)
+        const inputWrapper = wrapper.find('.el-select__input-wrapper')
+        const input = wrapper.find('input')
+
+        expect(inputWrapper.classes()).not.toContain('is-hidden')
+
+        await input.trigger('focus')
+        expect(inputWrapper.classes()).not.toContain('is-hidden')
+
+        await input.trigger('blur')
+        expect(inputWrapper.classes()).not.toContain('is-hidden')
+      }
+    )
+
+    test('should hide input-wrapper when not filterable', async () => {
+      wrapper = getSelectVm({ multiple: true, filterable: false })
       const inputWrapper = wrapper.find('.el-select__input-wrapper')
-      const input = wrapper.find('input')
 
-      // When input is empty and not focused, input-wrapper should have hidden class
-      expect(inputWrapper.classes()).toContain('is-hidden')
-
-      // Focus the input
-      await input.trigger('focus')
-
-      // When focused, input-wrapper should not have hidden class
-      expect(inputWrapper.classes()).not.toContain('is-hidden')
-
-      // Blur the input
-      await input.trigger('blur')
-
-      // When blurred and empty, input-wrapper should have hidden class again
       expect(inputWrapper.classes()).toContain('is-hidden')
     })
 
-    test('should show input-wrapper when input has value', async () => {
-      wrapper = getSelectVm({
-        multiple: true,
-        filterable: true,
-      })
+    test('should hide input-wrapper when disabled', async () => {
+      wrapper = _mount(
+        `<el-select disabled filterable multiple><el-option label="a" value="a" /></el-select>`
+      )
       const inputWrapper = wrapper.find('.el-select__input-wrapper')
-      const input = wrapper.find('input')
 
-      // Initially empty, should be hidden
       expect(inputWrapper.classes()).toContain('is-hidden')
-
-      // Set input value
-      await input.setValue('test')
-
-      // When input has value, input-wrapper should not have hidden class
-      expect(inputWrapper.classes()).not.toContain('is-hidden')
-
-      // Clear input
-      await input.setValue('')
-
-      // When empty again, should be hidden
-      expect(inputWrapper.classes()).toContain('is-hidden')
-    })
-
-    // #24167: in single mode the empty/blur condition must NOT hide the
-    // input-wrapper, otherwise it falls out of flow and the selection
-    // collapses to zero width inside auto-sized form layouts.
-    test('should not hide input-wrapper in single mode when empty and not focused', async () => {
-      wrapper = getSelectVm({
-        filterable: true,
-      })
-      const inputWrapper = wrapper.find('.el-select__input-wrapper')
-      const input = wrapper.find('input')
-
-      expect(inputWrapper.classes()).not.toContain('is-hidden')
-
-      await input.trigger('focus')
-      expect(inputWrapper.classes()).not.toContain('is-hidden')
-
-      await input.trigger('blur')
-      expect(inputWrapper.classes()).not.toContain('is-hidden')
     })
   })
 

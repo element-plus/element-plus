@@ -2984,84 +2984,61 @@ describe('Select', () => {
     expect((select.vm as any).expanded).toBe(true)
   })
 
-  describe('input-wrapper in multiple mode', () => {
-    it('should hide input-wrapper when empty and not focused', async () => {
+  describe('input-wrapper visibility', () => {
+    // #24457 / #24167: hiding the input-wrapper on "empty and not focused"
+    // took it out of the document flow (position: absolute), which collapsed
+    // the select to the width of its tags inside auto-sized layouts such as
+    // inline forms. The wrapper must stay in flow and only be hidden when it
+    // carries no input at all.
+    it.each([
+      ['multiple', { multiple: true, filterable: true }],
+      ['single', { filterable: true }],
+    ])(
+      'should keep input-wrapper in flow in %s mode when empty and not focused',
+      async (_mode, data) => {
+        const wrapper = createSelect({ data: () => data })
+        await nextTick()
+        const select = wrapper.findComponent(Select)
+        const inputWrapper = select.find('.el-select__input-wrapper')
+        const input = select.find('input')
+
+        expect(inputWrapper.classes()).not.toContain('is-hidden')
+
+        await input.trigger('focus')
+        expect(inputWrapper.classes()).not.toContain('is-hidden')
+
+        await input.trigger('blur')
+        expect(inputWrapper.classes()).not.toContain('is-hidden')
+      }
+    )
+
+    it('should hide input-wrapper when not filterable', async () => {
+      const wrapper = createSelect({
+        data: () => ({
+          multiple: true,
+          filterable: false,
+        }),
+      })
+      await nextTick()
+      const select = wrapper.findComponent(Select)
+      const inputWrapper = select.find('.el-select__input-wrapper')
+
+      expect(inputWrapper.classes()).toContain('is-hidden')
+    })
+
+    it('should hide input-wrapper when disabled', async () => {
       const wrapper = createSelect({
         data: () => ({
           multiple: true,
           filterable: true,
+          disabled: true,
         }),
       })
       await nextTick()
       const select = wrapper.findComponent(Select)
       const inputWrapper = select.find('.el-select__input-wrapper')
-      const input = select.find('input')
 
-      // When input is empty and not focused, input-wrapper should have hidden class
       expect(inputWrapper.classes()).toContain('is-hidden')
-
-      // Focus the input
-      await input.trigger('focus')
-
-      // When focused, input-wrapper should not have hidden class
-      expect(inputWrapper.classes()).not.toContain('is-hidden')
-
-      // Blur the input
-      await input.trigger('blur')
-
-      // When blurred and empty, input-wrapper should have hidden class again
-      expect(inputWrapper.classes()).toContain('is-hidden')
-    })
-
-    it('should show input-wrapper when input has value', async () => {
-      const wrapper = createSelect({
-        data: () => ({
-          multiple: true,
-          filterable: true,
-        }),
-      })
-      await nextTick()
-      const select = wrapper.findComponent(Select)
-      const inputWrapper = select.find('.el-select__input-wrapper')
-      const input = select.find('input')
-
-      // Initially empty, should be hidden
-      expect(inputWrapper.classes()).toContain('is-hidden')
-
-      // Set input value
-      await input.setValue('test')
-
-      // When input has value, input-wrapper should not have hidden class
-      expect(inputWrapper.classes()).not.toContain('is-hidden')
-
-      // Clear input
-      await input.setValue('')
-
-      // When empty again, should be hidden
-      expect(inputWrapper.classes()).toContain('is-hidden')
-    })
-
-    // #24167: in single mode the empty/blur condition must NOT hide the
-    // input-wrapper, otherwise it falls out of flow and the selection
-    // collapses to zero width inside auto-sized form layouts.
-    it('should not hide input-wrapper in single mode when empty and not focused', async () => {
-      const wrapper = createSelect({
-        data: () => ({
-          filterable: true,
-        }),
-      })
-      await nextTick()
-      const select = wrapper.findComponent(Select)
-      const inputWrapper = select.find('.el-select__input-wrapper')
-      const input = select.find('input')
-
-      expect(inputWrapper.classes()).not.toContain('is-hidden')
-
-      await input.trigger('focus')
-      expect(inputWrapper.classes()).not.toContain('is-hidden')
-
-      await input.trigger('blur')
-      expect(inputWrapper.classes()).not.toContain('is-hidden')
     })
   })
 

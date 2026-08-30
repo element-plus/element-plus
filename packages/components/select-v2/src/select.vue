@@ -173,12 +173,7 @@
               :class="[
                 nsSelect.e('selected-item'),
                 nsSelect.e('input-wrapper'),
-                nsSelect.is(
-                  'hidden',
-                  !filterable ||
-                    selectDisabled ||
-                    (multiple && !states.inputValue && !isFocused)
-                ),
+                nsSelect.is('hidden', !filterable || selectDisabled),
               ]"
             >
               <input
