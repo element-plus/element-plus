@@ -105,6 +105,19 @@ table/grouping-header
 
 :::
 
+:::tip
+
+The default slot of `el-table-column` is shared by the cell content and the sub
+columns, so only `el-table-column` itself is picked up as a sub column. When the
+columns are built by your own (possibly recursive) component, mark that component
+with `__isTableColumn` ^(2.14.5) so it is recognized as a column provider as well:
+
+```ts
+defineOptions({ __isTableColumn: true })
+```
+
+:::
+
 ## Table with fixed group header
 
 fixed group head is supported
