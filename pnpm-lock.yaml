@@ -53,8 +53,8 @@ catalogs:
       specifier: 3.5.25
       version: 3.5.25
     vue-component-type-helpers:
-      specifier: ^3.3.9
-      version: 3.3.9
+      specifier: ^3.3.11
+      version: 3.3.11
 
 overrides:
   jwa: ^1.4.2
@@ -537,7 +537,7 @@ importers:
         version: 3.5.25(typescript@6.0.3)
       vue-component-type-helpers:
         specifier: 'catalog:'
-        version: 3.3.9
+        version: 3.3.11
 
   packages/constants: {}
 
@@ -606,7 +606,7 @@ importers:
         version: 1.2.0
       vue-component-type-helpers:
         specifier: 'catalog:'
-        version: 3.3.9
+        version: 3.3.11
     devDependencies:
       '@types/node':
         specifier: '*'
@@ -688,7 +688,7 @@ importers:
         version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.18.1)(lodash@4.18.1)
       vue-component-type-helpers:
         specifier: 'catalog:'
-        version: 3.3.9
+        version: 3.3.11
     devDependencies:
       '@vue/shared':
         specifier: 'catalog:'
@@ -6927,6 +6927,9 @@ packages:
   vue-component-type-helpers@2.0.0:
     resolution: {integrity: sha512-r+lO2aYasxliE6I76dutaY0GBCnqM7Q/c3VO2MPxrJsIUwPZIESLfis9/1EXAMWajnpF+o0syJAIV6Y6/crKNw==}
 
+  vue-component-type-helpers@3.3.11:
+    resolution: {integrity: sha512-LwcxzeliO9fkQcpJG0PoX8X5kmAhKmH9wkpDLxNabwzkQ9Zeib2YVHwFV4pcWmMLfXVfjr/dSV+DaJ3cIPgSNA==}
+
   vue-component-type-helpers@3.3.9:
     resolution: {integrity: sha512-3c/UfMe0SqyEfcGTyH7mfshHagJ9QTCbppCb0/uGpHZpFug7+If3GeGZN7I0YheKEExemx3xldQPoO7PQSOLQg==}
 
@@ -9615,7 +9618,7 @@ snapshots:
       alien-signals: 3.2.1
       muggle-string: 0.4.1
       path-browserify: 1.0.1
-      picomatch: 4.0.5
+      picomatch: 4.0.7
     optionalDependencies:
       typescript: 6.0.3
 
@@ -9627,7 +9630,7 @@ snapshots:
       alien-signals: 3.2.1
       muggle-string: 0.4.1
       path-browserify: 1.0.1
-      picomatch: 4.0.5
+      picomatch: 4.0.7
 
   '@vue/reactivity@3.5.25':
     dependencies:
@@ -13840,6 +13843,8 @@ snapshots:
   vscode-uri@3.1.0: {}
 
   vue-component-type-helpers@2.0.0: {}
+
+  vue-component-type-helpers@3.3.11: {}
 
   vue-component-type-helpers@3.3.9: {}
 
