@@ -228,7 +228,7 @@ $form-item-label-top-margin-bottom: map.merge(
         }
       }
 
-      .#{$namespace}-input-number::after {
+      .#{$namespace}-input-number .#{$namespace}-input::after {
         box-shadow: 0 0 0 1px getCssVar('color-danger') inset;
       }
 
