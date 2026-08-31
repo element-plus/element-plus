@@ -5,6 +5,11 @@
 @use 'common/var' as *;
 
 @include b(input-number) {
+  $input-border-radius: getCssVarWithDefault(
+    'input-border-radius',
+    map.get($input, 'border-radius')
+  );
+
   position: relative;
   display: inline-flex;
   width: map.get($input-number-width, 'default');
@@ -17,10 +22,7 @@
     inset: 0;
     z-index: 2;
     pointer-events: none;
-    border-radius: getCssVarWithDefault(
-      'input-border-radius',
-      map.get($input, 'border-radius')
-    );
+    border-radius: $input-border-radius;
     box-sizing: border-box;
     box-shadow: 0 0 0 1px
       var(
@@ -139,15 +141,13 @@
 
   @include e(increase) {
     right: 0;
-    border-radius: 0 getCssVar('border-radius-base')
-      getCssVar('border-radius-base') 0;
+    border-radius: 0 $input-border-radius $input-border-radius 0;
     border-left: getCssVar('border');
   }
 
   @include e(decrease) {
     left: 0;
-    border-radius: getCssVar('border-radius-base') 0 0
-      getCssVar('border-radius-base');
+    border-radius: $input-border-radius 0 0 $input-border-radius;
     border-right: getCssVar('border');
   }
 
@@ -224,7 +224,7 @@
     @include e(increase) {
       bottom: auto;
       left: auto;
-      border-radius: 0 getCssVar('border-radius-base') 0 0;
+      border-radius: 0 $input-border-radius 0 0;
       border-bottom: getCssVar('border');
     }
 
@@ -234,7 +234,7 @@
       left: auto;
       border-right: none;
       border-left: getCssVar('border');
-      border-radius: 0 0 getCssVar('border-radius-base') 0;
+      border-radius: 0 0 $input-border-radius 0;
     }
 
     @each $size in (large, small) {
