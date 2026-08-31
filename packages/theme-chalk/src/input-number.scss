@@ -16,7 +16,7 @@
   line-height: #{map.get($input-height, 'default') - 2};
   vertical-align: middle;
 
-  &::after {
+  .#{$namespace}-input::after {
     content: '';
     position: absolute;
     inset: 0;
@@ -33,7 +33,7 @@
     transition: getCssVar('transition-box-shadow');
   }
 
-  &:hover::after {
+  &:hover .#{$namespace}-input::after {
     box-shadow: 0 0 0 1px
       getCssVarWithDefault(
         ('input', 'hover-border-color'),
@@ -42,7 +42,7 @@
       inset;
   }
 
-  &:focus-within::after {
+  &:focus-within .#{$namespace}-input::after {
     box-shadow: 0 0 0 1px
       getCssVarWithDefault(
         ('input', 'focus-border-color'),
@@ -52,7 +52,7 @@
   }
 
   @include when(controls-hover) {
-    &::after {
+    .#{$namespace}-input::after {
       box-shadow: 0 0 0 1px
         getCssVarWithDefault(
           ('input', 'focus-border-color'),
@@ -63,10 +63,10 @@
   }
 
   @include when(disabled) {
-    &::after,
-    &:hover::after,
-    &:focus-within::after,
-    &.is-controls-hover::after {
+    .#{$namespace}-input::after,
+    &:hover .#{$namespace}-input::after,
+    &:focus-within .#{$namespace}-input::after,
+    &.is-controls-hover .#{$namespace}-input::after {
       box-shadow: 0 0 0 1px getCssVar('disabled-border-color') inset;
     }
   }
