@@ -22,21 +22,41 @@
       map.get($input, 'border-radius')
     );
     box-sizing: border-box;
-    box-shadow: 0 0 0 1px getCssVar('border-color') inset;
+    box-shadow: 0 0 0 1px
+      var(
+        #{getCssVarName('input-border-color')},
+        map.get($input, 'border-color')
+      )
+      inset;
     transition: getCssVar('transition-box-shadow');
   }
 
   &:hover::after {
-    box-shadow: 0 0 0 1px getCssVar('border-color-hover') inset;
+    box-shadow: 0 0 0 1px
+      getCssVarWithDefault(
+        ('input', 'hover-border-color'),
+        map.get($input, 'hover-border-color')
+      )
+      inset;
   }
 
   &:focus-within::after {
-    box-shadow: 0 0 0 1px getCssVar('color-primary') inset;
+    box-shadow: 0 0 0 1px
+      getCssVarWithDefault(
+        ('input', 'focus-border-color'),
+        map.get($input, 'focus-border-color')
+      )
+      inset;
   }
 
   @include when(controls-hover) {
     &::after {
-      box-shadow: 0 0 0 1px getCssVar('color-primary') inset;
+      box-shadow: 0 0 0 1px
+        getCssVarWithDefault(
+          ('input', 'focus-border-color'),
+          map.get($input, 'focus-border-color')
+        )
+        inset;
     }
   }
 
