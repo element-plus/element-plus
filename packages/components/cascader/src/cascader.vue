@@ -279,6 +279,7 @@ import {
   computed,
   markRaw,
   nextTick,
+  onBeforeUnmount,
   onMounted,
   ref,
   useAttrs,
@@ -624,13 +625,40 @@ const adjustPanelScroll = () => {
   const menus = wrapEl.querySelectorAll<HTMLElement>(`.${nsCascader.b('menu')}`)
   const lastMenu = menus[menus.length - 1]
   if (lastMenu) {
-    const overflow =
-      lastMenu.getBoundingClientRect().right -
-      wrapEl.getBoundingClientRect().right
-    if (overflow > 0) {
-      wrapEl.scrollLeft += overflow
+    const isRTL = getComputedStyle(wrapEl).direction === 'rtl'
+    const wrapRect = wrapEl.getBoundingClientRect()
+    const menuRect = lastMenu.getBoundingClientRect()
+    if (isRTL) {
+      const overflow = wrapRect.left - menuRect.left
+      if (overflow > 0) {
+        wrapEl.scrollLeft -= overflow
+      }
+    } else {
+      const overflow = menuRect.right - wrapRect.right
+      if (overflow > 0) {
+        wrapEl.scrollLeft += overflow
+      }
     }
   }
+}
+
+let stopPanelResizeObserver: (() => void) | undefined
+
+const startPanelResizeObserver = () => {
+  stopPanelResizeObserver?.()
+  nextTick(() => {
+    const wrapEl = panelScrollbarRef.value?.wrapRef
+    if (!wrapEl) return
+    ;({ stop: stopPanelResizeObserver } = useResizeObserver(
+      wrapEl,
+      adjustPanelScroll
+    ))
+  })
+}
+
+const stopPanelResizeObserverFn = () => {
+  stopPanelResizeObserver?.()
+  stopPanelResizeObserver = undefined
 }
 
 const genTag = (node: CascaderNode): Tag => {
@@ -843,11 +871,7 @@ const getCheckedNodes = (leafOnly: boolean) => {
 const handleExpandChange = (value: CascaderValue) => {
   updatePopperPosition()
   emit('expandChange', value)
-  if (props.props.expandTrigger === 'hover') {
-    nextTick(() => panelScrollbarRef.value?.update())
-  } else {
-    nextTick(adjustPanelScroll)
-  }
+  nextTick(adjustPanelScroll)
 }
 
 const handleKeyDown = (e: KeyboardEvent) => {
@@ -1058,11 +1082,20 @@ watch(presentText, syncPresentTextValue, { immediate: true })
 watch(
   () => popperVisible.value,
   (val) => {
-    if (val && props.props.lazy && props.props.lazyLoad) {
-      cascaderPanelRef.value?.loadLazyRootNodes()
+    if (val) {
+      startPanelResizeObserver()
+      if (props.props.lazy && props.props.lazyLoad) {
+        cascaderPanelRef.value?.loadLazyRootNodes()
+      }
+    } else {
+      stopPanelResizeObserverFn()
     }
   }
 )
+
+onBeforeUnmount(() => {
+  stopPanelResizeObserverFn()
+})
 
 onMounted(() => {
   const inputInner = inputRef.value!.input!
