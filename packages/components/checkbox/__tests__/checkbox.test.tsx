@@ -844,11 +844,10 @@ describe('check-button', () => {
       const formItem = await wrapper.findComponent(ElFormItem)
       const checkboxGroup = await wrapper.findComponent(CheckboxGroup)
       const formItemLabel = formItem.find('.el-form-item__label')
-      expect(formItem.attributes('role')).toBeFalsy()
+      expect(formItem.attributes('role')).toBe('group')
       expect(checkboxGroup.attributes('role')).toBe('group')
-      expect(formItemLabel.attributes('for')).toBe(
-        checkboxGroup.attributes('id')
-      )
+      expect(checkboxGroup.attributes('id')).toBeTruthy()
+      expect(formItemLabel.attributes('for')).toBeFalsy()
       expect(formItemLabel.attributes('id')).toBe(
         checkboxGroup.attributes('aria-labelledby')
       )
@@ -867,9 +866,8 @@ describe('check-button', () => {
       const formItem = await wrapper.findComponent(ElFormItem)
       const checkboxGroup = await wrapper.findComponent(CheckboxGroup)
       const formItemLabel = formItem.find('.el-form-item__label')
-      expect(formItemLabel.attributes('for')).toBe(
-        checkboxGroup.attributes('id')
-      )
+      expect(formItem.attributes('role')).toBe('group')
+      expect(formItemLabel.attributes('for')).toBeFalsy()
       expect(checkboxGroup.attributes('role')).toBe('group')
       expect(checkboxGroup.attributes()['aria-label']).toBe('Foo')
       expect(checkboxGroup.attributes()['aria-labelledby']).toBeFalsy()

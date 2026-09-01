@@ -60,6 +60,8 @@ const radioGroupRef = ref<HTMLDivElement>()
 const { formItem } = useFormItem()
 const { inputId: groupId, isLabeledByFormItem } = useFormItemInputId(props, {
   formItemContext: formItem,
+  // The group root is not labelable; use aria-labelledby instead of label[for].
+  disableIdManagement: computed(() => true),
 })
 
 const changeEvent = (value: RadioGroupProps['modelValue']) => {

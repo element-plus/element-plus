@@ -69,6 +69,8 @@ const _disabled = useFormDisabled()
 const { formItem } = useFormItem()
 const { inputId, isLabeledByFormItem } = useFormItemInputId(props, {
   formItemContext: formItem,
+  // The group root is not labelable; use aria-labelledby instead of label[for].
+  disableIdManagement: computed(() => true),
 })
 
 const segmentedRef = ref<HTMLElement | null>(null)

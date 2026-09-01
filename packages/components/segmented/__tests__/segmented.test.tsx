@@ -2,7 +2,7 @@ import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import Segmented from '../src/segmented.vue'
-import { ElForm } from '@element-plus/components/form'
+import { ElForm, ElFormItem } from '@element-plus/components/form'
 import { defineGetter } from '@element-plus/test-utils'
 
 describe('Segmented.vue', () => {
@@ -188,6 +188,27 @@ describe('Segmented.vue', () => {
     expect(wrapper.attributes('id')).toEqual('id')
     expect(wrapper.attributes('aria-label')).toEqual('label')
     expect(input.attributes('name')).toEqual('name')
+  })
+
+  test('form item accessibility integration', async () => {
+    const value = ref('Mon')
+    const wrapper = mount(() => (
+      <ElFormItem label="Activity type">
+        <Segmented v-model={value.value} options={['Mon', 'Tue']} />
+      </ElFormItem>
+    ))
+    await nextTick()
+
+    const formItem = wrapper.findComponent(ElFormItem)
+    const segmented = wrapper.findComponent(Segmented)
+    const formItemLabel = formItem.find('.el-form-item__label')
+
+    expect(formItem.attributes('role')).toBe('group')
+    expect(formItemLabel.attributes('for')).toBeFalsy()
+    expect(segmented.attributes('id')).toBeTruthy()
+    expect(formItemLabel.attributes('id')).toBe(
+      segmented.attributes('aria-labelledby')
+    )
   })
 
   test('async disabled', async () => {

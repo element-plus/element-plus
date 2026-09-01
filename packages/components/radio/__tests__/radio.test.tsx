@@ -461,9 +461,10 @@ describe('Radio Button', () => {
       const formItem = await wrapper.findComponent(ElFormItem)
       const radioGroup = await wrapper.findComponent(RadioGroup)
       const formItemLabel = formItem.find('.el-form-item__label')
-      expect(formItem.attributes().role).toBeFalsy()
+      expect(formItem.attributes().role).toBe('group')
       expect(radioGroup.attributes().role).toBe('radiogroup')
-      expect(formItemLabel.attributes().for).toBe(radioGroup.attributes().id)
+      expect(radioGroup.attributes().id).toBeTruthy()
+      expect(formItemLabel.attributes().for).toBeFalsy()
       expect(formItemLabel.attributes().id).toBe(
         radioGroup.attributes()['aria-labelledby']
       )
@@ -482,7 +483,8 @@ describe('Radio Button', () => {
       const formItem = await wrapper.findComponent(ElFormItem)
       const radioGroup = await wrapper.findComponent(RadioGroup)
       const formItemLabel = formItem.find('.el-form-item__label')
-      expect(formItemLabel.attributes().for).toBe(radioGroup.attributes().id)
+      expect(formItem.attributes().role).toBe('group')
+      expect(formItemLabel.attributes().for).toBeFalsy()
       expect(radioGroup.attributes().role).toBe('radiogroup')
       expect(radioGroup.attributes()['aria-label']).toBe('Foo')
       expect(radioGroup.attributes()['aria-labelledby']).toBeFalsy()
