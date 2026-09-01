@@ -27,13 +27,20 @@ export function useFormLabelWidth() {
   function registerLabelWidth(val: number, oldVal: number) {
     if (val && oldVal) {
       const index = getLabelWidthIndex(oldVal)
-      potentialLabelWidthArr.value.splice(index, 1, val)
+      if (index > -1) {
+        potentialLabelWidthArr.value.splice(index, 1, val)
+      } else {
+        potentialLabelWidthArr.value.push(val)
+      }
     } else if (val) {
       potentialLabelWidthArr.value.push(val)
+    } else if (oldVal) {
+      deregisterLabelWidth(oldVal)
     }
   }
 
   function deregisterLabelWidth(val: number) {
+    if (!val) return
     const index = getLabelWidthIndex(val)
     if (index > -1) {
       potentialLabelWidthArr.value.splice(index, 1)
