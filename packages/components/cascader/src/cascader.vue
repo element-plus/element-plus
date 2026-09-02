@@ -658,14 +658,14 @@ const startPanelResizeObserver = () => {
     if (setupToken !== panelResizeSetupToken || !popperVisible.value) return
     const wrapEl = panelScrollbarRef.value?.wrapRef
     if (!wrapEl) return
-    const contentEl = wrapEl.firstElementChild as HTMLElement | null
+    const panelEl = cascaderPanelRef.value?.$el as HTMLElement | undefined
     ;({ stop: stopPanelResizeObservers[0] } = useResizeObserver(
       wrapEl,
       adjustPanelScroll
     ))
-    if (contentEl) {
+    if (panelEl) {
       ;({ stop: stopPanelResizeObservers[1] } = useResizeObserver(
-        contentEl,
+        panelEl,
         adjustPanelScroll
       ))
     }
@@ -1099,7 +1099,14 @@ watch(realSize, async () => {
 
 watch(presentText, syncPresentTextValue, { immediate: true })
 
-watch(() => props.modelValue, schedulePanelScrollSync, { deep: true })
+watch(
+  () => props.modelValue,
+  () => {
+    if (multiple.value) return
+    schedulePanelScrollSync()
+  },
+  { deep: true }
+)
 watch(() => props.options, schedulePanelScrollSync, { deep: true })
 
 watch(

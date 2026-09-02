@@ -289,6 +289,38 @@ describe('Cascader.vue', () => {
     expect(wrapEl!.scrollLeft).toBeGreaterThan(0)
   })
 
+  test('does not adjust panel scroll on multiple checkbox change', async () => {
+    const value = ref<string[][]>([])
+    const wrapper = _mount(() => (
+      <Cascader
+        v-model={value.value}
+        options={DEEP_OPTIONS}
+        props={{ multiple: true, checkStrictly: true }}
+      />
+    ))
+
+    await wrapper.find(TRIGGER).trigger('click')
+    await nextTick()
+
+    const wrapEl = getPanelWrap(wrapper)
+    expect(wrapEl).toBeTruthy()
+    setupPanelOverflowMocks(wrapEl!)
+
+    for (let i = 0; i < 3; i++) {
+      ;(document.querySelectorAll(NODE)[i] as HTMLElement).click()
+      await nextTick()
+    }
+
+    expect(wrapEl!.scrollLeft).toBeGreaterThan(0)
+    wrapEl!.scrollLeft = 0
+
+    ;(document.querySelectorAll(NODE)[0] as HTMLElement).click()
+    await nextTick()
+    await nextTick()
+
+    expect(wrapEl!.scrollLeft).toBe(0)
+  })
+
   test('with default value', async () => {
     const value = ref(['zhejiang', 'hangzhou'])
     const wrapper = _mount(() => (
