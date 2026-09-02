@@ -36,7 +36,7 @@
     line-height: map.get($select-item-height, 'default');
     border-radius: getCssVar('border-radius-base');
     background-color: getCssVar('fill-color', 'blank');
-    transition: getCssVar('transition', 'duration');
+    transition: getCssVar('transition-box-shadow');
 
     // Keep the 3D transform to avoid Chromium inset box-shadow noise.
     transform: translateZ(0);

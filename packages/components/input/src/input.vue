@@ -94,6 +94,8 @@
                 nsInput.e('count'),
                 nsInput.is('outside', wordLimitPosition === 'outside'),
               ]"
+              :aria-label="wordLimitLabel"
+              role="status"
             >
               <span :class="nsInput.e('count-inner')">
                 {{ textLength }} / {{ maxlength }}
@@ -170,6 +172,8 @@
           nsInput.e('count'),
           nsInput.is('outside', wordLimitPosition === 'outside'),
         ]"
+        :aria-label="wordLimitLabel"
+        role="status"
       >
         {{ textLength }} / {{ maxlength }}
       </span>
@@ -214,6 +218,7 @@ import {
   useComposition,
   useCursor,
   useFocusController,
+  useLocale,
   useNamespace,
 } from '@element-plus/hooks'
 import {
@@ -273,6 +278,7 @@ const inputSize = useFormSize()
 const inputDisabled = useFormDisabled()
 const nsInput = useNamespace('input')
 const nsTextarea = useNamespace('textarea')
+const { t } = useLocale()
 
 const input = shallowRef<HTMLInputElement>()
 const textarea = shallowRef<HTMLTextAreaElement>()
@@ -373,6 +379,12 @@ const textLength = computed(() => {
   }
   return nativeInputValue.value.length
 })
+const wordLimitLabel = computed(() =>
+  t('el.input.characters', {
+    count: textLength.value,
+    max: maxlength.value ?? '',
+  })
+)
 const inputExceed = computed(
   () =>
     // show exceed style if length of initial value greater then maxlength

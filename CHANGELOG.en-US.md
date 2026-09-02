@@ -1,6 +1,55 @@
 ## Changelog
 
 
+### 2.14.5
+
+_2026-08-21_
+
+#### Features
+
+- Components [date-picker] add quarter picker (#24490 by @LostElkByte)
+- Theme-chalk expose form item margin bottom variable (#24752 by @xueelf)
+
+#### Bug fixes
+
+- Components [form-item] add alert role to validation message (#24680 by @lazerg)
+- Components [input] expose word limit count to screen readers (#24679 by @lazerg)
+- Components [date-picker] keep `disabled-date` reactive in panels (#24708 by @lazerg)
+- Components [textarea] prevent autosize scroll reset in Firefox (#24724 by @rzzf)
+- Components [date-picker] remove keyboard navigation for `quarters` (#24726 by @keeplearning66)
+- Components [loading] loading spinner jiggling issue on chrome (#24737 by @jiangyi1985)
+- Components [tabs] ssr env setting the default value causes tab to flicker (#24742 by @btea)
+- Components [select] match input wrapper transition (#24709 by @lazerg)
+- Components [tree-v2] sync checked state after clearing keys (#24756 by @rzzf)
+
+### 2.14.4
+
+_2026-08-07_
+
+#### Features
+
+- Components [notification] add `progress` and `pauseOnHover` options (#24565 by @misakamayako)
+
+#### Bug fixes
+
+- Directives stop repeat-click after mouseup (#24573 by @qp666)
+- Components [input/select] prevent box-shadow noise (#24619 by @thlovey)
+- Components [autocomplete] clear stale suggestions on refocus (#24621 by @ixyzorg)
+- Components [popover] omit `gpuAcceleration` default value (#24636 by @btea)
+- Components [table] stop mutating parent's filtered-value (#24594 by @SpanManX)
+- Components [upload] stabilize file list reorder transitions (#24609 by @rzzf)
+- Components [space] clone spacer vnode (#24647 by @rzzf)
+- Components [date-picker] correct the input time format (#24574 by @xingyixiang)
+- Components [scrollbar] update component on transition and animation end (#24508 by @prd-y-nguyen)
+- Components [input] emit change event when toggling password visibility (#24342 by @guozi9999)
+- Components [table] avoid null theadRef access after header unmount (#24668 by @btea)
+- Components [loading] avoid innerHTML and children conflict (#24675 by @rzzf)
+
+#### Refactors
+
+- Components normalize `*-class` and `*-style` props (#24418 by @ZacharyBear)
+- Components [popover] replace attrs with props for better type inference (#24571 by @Jungzl)
+
 ### 2.14.3
 
 _2026-07-10_

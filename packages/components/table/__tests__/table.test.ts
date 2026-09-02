@@ -579,6 +579,82 @@ describe('Table.vue', () => {
       filter.parentNode.removeChild(filter)
     })
 
+    it('does not highlight an unconfirmed multiple filter', async () => {
+      const btn = wrapper.find('.el-table__column-filter-trigger')
+
+      await btn.trigger('click')
+      await doubleWait()
+      const filter = document.body.querySelector('.el-table-filter')
+
+      triggerEvent(filter.querySelector('.el-checkbox'), 'click', true, false)
+      await doubleWait()
+      await btn.trigger('click')
+      await doubleWait()
+
+      expect(wrapper.find('thead .cell.highlight').exists()).toBe(false)
+      expect(wrapper.findAll('.el-table__body-wrapper tbody tr')).toHaveLength(
+        5
+      )
+      filter.parentNode.removeChild(filter)
+    })
+
+    it('applies a single filter from an initially unfiltered column', async () => {
+      wrapper.unmount()
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table :data="testData" @filter-change="handleFilterChange">
+            <el-table-column
+              prop="director"
+              column-key="director"
+              :filters="[
+                { text: 'John Lasseter', value: 'John Lasseter' },
+                { text: 'Peter Docter', value: 'Peter Docter' }
+              ]"
+              :filter-method="filterMethod"
+              :filter-multiple="false"
+            />
+          </el-table>
+        `,
+        data() {
+          return {
+            testData: getTestData(),
+            filters: {},
+          }
+        },
+        methods: {
+          filterMethod(value, row) {
+            return value === row.director
+          },
+          handleFilterChange(filters) {
+            this.filters = filters
+          },
+        },
+      })
+      await doubleWait()
+      await wrapper.find('.el-table__column-filter-trigger').trigger('click')
+      await doubleWait()
+
+      const filter = document.body.querySelector('.el-table-filter')
+      const filterItems = filter.querySelectorAll('.el-table-filter__list-item')
+      triggerEvent(filterItems[1], 'click', true, false)
+      await doubleWait()
+
+      expect(
+        (wrapper.vm as ComponentPublicInstance & { filters: any }).filters[
+          'director'
+        ]
+      ).toEqual(['John Lasseter'])
+      expect(wrapper.find('thead .cell.highlight').exists()).toBe(true)
+      expect(wrapper.findAll('.el-table__body-wrapper tbody tr')).toHaveLength(
+        3
+      )
+      filter.parentNode.removeChild(filter)
+    })
+
     it('clear filter', async () => {
       const btn = wrapper.find('.el-table__column-filter-trigger')
 
@@ -3444,5 +3520,39 @@ describe('Table.vue', () => {
     expect(filteredValue).toEqual([])
     filter.parentNode.removeChild(filter)
     wrapper.unmount()
+  })
+
+  it('should not throw when unmounted with a pending fixed column style update', async () => {
+    // https://github.com/element-plus/element-plus/issues/24540
+    vi.useFakeTimers()
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+        <el-table :data="testData" table-layout="auto">
+          <el-table-column prop="name" label="片名" />
+          <el-table-column v-if="showExtra" prop="director" label="导演" />
+          <el-table-column prop="release" label="发行日期" fixed="right" />
+        </el-table>
+      `,
+      data() {
+        return {
+          testData: getTestData(),
+          showExtra: false,
+        }
+      },
+    })
+    await doubleWait()
+    // trigger a header re-render so another fixed column style update is
+    // scheduled while the previous one is still pending
+    await wrapper.setData({ showExtra: true })
+    await doubleWait()
+    wrapper.unmount()
+    // pending timers must be cleared on unmount and never touch the
+    // destroyed thead
+    expect(() => vi.runAllTimers()).not.toThrow()
+    vi.useRealTimers()
   })
 })
