@@ -623,6 +623,7 @@ const adjustPanelScroll = () => {
   if (!wrapEl) return
   panelScrollbarRef.value!.update()
   const menus = wrapEl.querySelectorAll<HTMLElement>(`.${nsCascader.b('menu')}`)
+  if (menus.length <= 1) return
   const lastMenu = menus[menus.length - 1]
   if (lastMenu) {
     const isRTL = getComputedStyle(wrapEl).direction === 'rtl'

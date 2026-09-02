@@ -321,6 +321,25 @@ describe('Cascader.vue', () => {
     expect(wrapEl!.scrollLeft).toBe(0)
   })
 
+  test('does not auto-scroll when only the root menu overflows', async () => {
+    const wrapper = _mount(() => (
+      <Cascader
+        options={DEEP_OPTIONS}
+        props={{ multiple: true, checkStrictly: true }}
+      />
+    ))
+
+    await wrapper.find(TRIGGER).trigger('click')
+    await nextTick()
+
+    const wrapEl = getPanelWrap(wrapper)
+    expect(wrapEl).toBeTruthy()
+    setupPanelOverflowMocks(wrapEl!)
+
+    expect(wrapEl!.querySelectorAll('.el-cascader-menu').length).toBe(1)
+    expect(wrapEl!.scrollLeft).toBe(0)
+  })
+
   test('with default value', async () => {
     const value = ref(['zhejiang', 'hangzhou'])
     const wrapper = _mount(() => (
