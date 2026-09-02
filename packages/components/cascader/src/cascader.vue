@@ -642,23 +642,43 @@ const adjustPanelScroll = () => {
   }
 }
 
-let stopPanelResizeObserver: (() => void) | undefined
+let panelResizeSetupToken = 0
+let stopPanelResizeObservers: (() => void)[] = []
+
+const stopPanelResizeObserverFn = () => {
+  panelResizeSetupToken++
+  stopPanelResizeObservers.forEach((stop) => stop())
+  stopPanelResizeObservers = []
+}
 
 const startPanelResizeObserver = () => {
-  stopPanelResizeObserver?.()
+  stopPanelResizeObserverFn()
+  const setupToken = panelResizeSetupToken
   nextTick(() => {
+    if (setupToken !== panelResizeSetupToken || !popperVisible.value) return
     const wrapEl = panelScrollbarRef.value?.wrapRef
     if (!wrapEl) return
-    ;({ stop: stopPanelResizeObserver } = useResizeObserver(
+    const contentEl = wrapEl.firstElementChild as HTMLElement | null
+    ;({ stop: stopPanelResizeObservers[0] } = useResizeObserver(
       wrapEl,
       adjustPanelScroll
     ))
+    if (contentEl) {
+      ;({ stop: stopPanelResizeObservers[1] } = useResizeObserver(
+        contentEl,
+        adjustPanelScroll
+      ))
+    }
   })
 }
 
-const stopPanelResizeObserverFn = () => {
-  stopPanelResizeObserver?.()
-  stopPanelResizeObserver = undefined
+const schedulePanelScrollSync = () => {
+  if (!popperVisible.value || filtering.value) return
+  nextTick(() => {
+    if (!popperVisible.value || filtering.value) return
+    cascaderPanelRef.value?.scrollToExpandingNode()
+    adjustPanelScroll()
+  })
 }
 
 const genTag = (node: CascaderNode): Tag => {
@@ -1078,6 +1098,9 @@ watch(realSize, async () => {
 })
 
 watch(presentText, syncPresentTextValue, { immediate: true })
+
+watch(() => props.modelValue, schedulePanelScrollSync, { deep: true })
+watch(() => props.options, schedulePanelScrollSync, { deep: true })
 
 watch(
   () => popperVisible.value,

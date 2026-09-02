@@ -265,6 +265,30 @@ describe('Cascader.vue', () => {
     expect(wrapEl!.scrollLeft).toBeGreaterThan(0)
   })
 
+  test('adjusts panel scroll when modelValue changes while dropdown is open', async () => {
+    const value = ref<string[]>([])
+    const wrapper = _mount(() => (
+      <Cascader v-model={value.value} options={DEEP_OPTIONS} />
+    ))
+
+    await wrapper.find(TRIGGER).trigger('click')
+    await nextTick()
+
+    const wrapEl = getPanelWrap(wrapper)
+    expect(wrapEl).toBeTruthy()
+    setupPanelOverflowMocks(wrapEl!)
+
+    value.value = ['level1', 'level2', 'level3', 'level4', 'level5']
+    await nextTick()
+    await nextTick()
+    await nextTick()
+
+    expect(
+      wrapEl!.querySelectorAll('.el-cascader-menu').length
+    ).toBeGreaterThan(2)
+    expect(wrapEl!.scrollLeft).toBeGreaterThan(0)
+  })
+
   test('with default value', async () => {
     const value = ref(['zhejiang', 'hangzhou'])
     const wrapper = _mount(() => (
