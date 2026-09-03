@@ -111,7 +111,6 @@ describe('Form', () => {
   })
 
   it('does not warn when label is missing', async () => {
-    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
     const wrapper = mount({
       setup() {
         const form = reactive({ name: '' })
@@ -124,16 +123,20 @@ describe('Form', () => {
         )
       },
     })
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
 
-    await nextTick()
-    warn.mockClear()
-    wrapper.unmount()
-    await nextTick()
+    try {
+      await nextTick()
+      warn.mockClear()
+      wrapper.unmount()
+      await nextTick()
 
-    expect(warn).not.toHaveBeenCalledWith(
-      expect.objectContaining({ message: '[ElForm] unexpected width 0' })
-    )
-    warn.mockRestore()
+      expect(warn).not.toHaveBeenCalledWith(
+        expect.objectContaining({ message: '[ElForm] unexpected width 0' })
+      )
+    } finally {
+      warn.mockRestore()
+    }
   })
 
   it('form-item auto label width', async () => {
