@@ -19,7 +19,6 @@ export type SelectStates = {
   createdOptions: Option[]
   hoveringIndex: number
   inputHovering: boolean
-  selectionWidth: number
   collapseItemWidth: number
   previousQuery: string | null
   previousValue: unknown
