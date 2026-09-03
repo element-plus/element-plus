@@ -319,4 +319,23 @@ describe('ElFormItem', () => {
       vi.useRealTimers()
     })
   })
+
+  it('should not warn when form-item without label is unmounted', async () => {
+    const wrapper = mount({
+      setup() {
+        return () => (
+          <Form labelWidth="auto">
+            <FormItem />
+          </Form>
+        )
+      },
+    })
+
+    wrapper.unmount()
+    await nextTick()
+
+    expect(console.warn).not.toHaveBeenCalledWith(
+      expect.objectContaining({ message: '[ElForm] unexpected width 0' })
+    )
+  })
 })
