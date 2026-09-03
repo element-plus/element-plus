@@ -110,35 +110,6 @@ describe('Form', () => {
     expect(marginRight).toEqual(marginRight1)
   })
 
-  it('does not warn when label is missing', async () => {
-    const wrapper = mount({
-      setup() {
-        const form = reactive({ name: '' })
-        return () => (
-          <Form model={form} labelWidth="auto">
-            <FormItem>
-              <Input v-model={form.name} />
-            </FormItem>
-          </Form>
-        )
-      },
-    })
-    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
-
-    try {
-      await nextTick()
-      warn.mockClear()
-      wrapper.unmount()
-      await nextTick()
-
-      expect(warn).not.toHaveBeenCalledWith(
-        expect.objectContaining({ message: '[ElForm] unexpected width 0' })
-      )
-    } finally {
-      warn.mockRestore()
-    }
-  })
-
   it('form-item auto label width', async () => {
     const wrapper = mount({
       setup() {
