@@ -52,3 +52,6 @@ minimumReleaseAge: 1440
 minimumReleaseAgeExclude:
   - 'element-plus'
   - '@element-plus/*'
+  - '@vitest/mocker@5.0.0'
+  - '@vitest/spy@5.0.0'
+  - vitest@5.0.0
