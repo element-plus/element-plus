@@ -35,6 +35,11 @@
     left: 16px;
   }
 
+  &.is-center {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
   @include e(group) {
     flex: 1;
     min-width: 0;
@@ -112,6 +117,14 @@
   &.left {
     left: 0;
     transform: translateX(-100%);
+  }
+
+  &.is-center.is-top {
+    transform: translate(-50%, -100%);
+  }
+
+  &.is-center.is-bottom {
+    transform: translate(-50%, 100%);
   }
 }
 

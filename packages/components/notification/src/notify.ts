@@ -22,8 +22,10 @@ import type {
 
 // This should be a queue but considering there were `non-autoclosable` notifications.
 const notifications: Record<NotificationPosition, NotificationQueue> = {
+  top: [],
   'top-left': [],
   'top-right': [],
+  bottom: [],
   'bottom-left': [],
   'bottom-right': [],
 }

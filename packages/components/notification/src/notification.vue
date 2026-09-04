@@ -7,7 +7,7 @@
     <div
       v-show="visible"
       :id="id"
-      :class="[ns.b(), customClass, horizontalClass]"
+      :class="[ns.b(), customClass, horizontalClass, verticalClass]"
       :style="positionStyle"
       role="alert"
       @mouseenter="onMouseEnter"
@@ -119,13 +119,18 @@ const iconComponent = computed(() => {
   return TypeComponentsMap[props.type] || props.icon
 })
 
-const horizontalClass = computed(() =>
-  props.position.endsWith('right') ? 'right' : 'left'
-)
+const horizontalClass = computed(() => {
+  if (props.position === 'top' || props.position === 'bottom') {
+    return ns.is('center')
+  }
+  return props.position.endsWith('right') ? 'right' : 'left'
+})
 
 const verticalProperty = computed(() =>
   props.position.startsWith('top') ? 'top' : 'bottom'
 )
+
+const verticalClass = computed(() => ns.is(verticalProperty.value))
 
 const positionStyle = computed<CSSProperties>(() => {
   return {

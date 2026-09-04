@@ -94,6 +94,29 @@ describe('Notification.vue', () => {
       )
     })
 
+    test.each([
+      ['top', 'is-top', 'is-center', 'top'],
+      ['bottom', 'is-bottom', 'is-center', 'bottom'],
+      ['top-left', 'is-top', 'left', 'top'],
+      ['bottom-right', 'is-bottom', 'right', 'bottom'],
+    ] as const)(
+      'should render %s position',
+      (position, vertical, horizontal, verticalProperty) => {
+        const wrapper = _mount({
+          props: { position },
+        })
+
+        expect(wrapper.classes()).toEqual(
+          expect.arrayContaining([vertical, horizontal])
+        )
+        expect(wrapper.vm.positionStyle).toEqual(
+          expect.objectContaining({
+            [verticalProperty]: '0px',
+          })
+        )
+      }
+    )
+
     test('should be able to render default close icon', () => {
       const wrapper = _mount({
         slots: {
