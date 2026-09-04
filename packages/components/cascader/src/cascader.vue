@@ -280,20 +280,25 @@ import {
   useSlots,
   watch,
 } from 'vue'
-import { clamp, cloneDeep } from 'lodash-unified'
+import { clamp, cloneDeep, isEqual } from 'lodash-unified'
 import { useCssVar, useDebounceFn, useResizeObserver } from '@vueuse/core'
 import {
   NOOP,
+  castArray,
   focusNode,
   getEventCode,
   getSibling,
   isClient,
   isNumber,
   isPromise,
+  isPropAbsent,
+  unique,
 } from '@element-plus/utils'
 import ElCascaderPanel, {
   CASCADER_PANEL_HEIGHT,
   CASCADER_PANEL_ITEM_SIZE,
+  CascaderStore,
+  useCascaderConfig,
 } from '@element-plus/components/cascader-panel'
 import ElInput from '@element-plus/components/input'
 import ElTooltip from '@element-plus/components/tooltip'
@@ -330,6 +335,7 @@ import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
 import type { FixedSizeListInstance } from '@element-plus/components/virtual-list'
 import type {
   CascaderNode,
+  CascaderNodeValue,
   CascaderPanelInstance,
   CascaderValue,
   Tag,
@@ -473,13 +479,35 @@ const tagSize = computed(() =>
   realSize.value === 'small' ? 'small' : 'default'
 )
 const multiple = computed(() => !!props.props.multiple)
+const config = useCascaderConfig(props)
 const readonly = computed(() => !props.filterable || multiple.value)
 const searchKeyword = computed(() =>
   multiple.value ? searchInputValue.value : inputValue.value
 )
-const checkedNodes: ComputedRef<CascaderNode[]> = computed(
-  () => cascaderPanelRef.value?.checkedNodes || []
-)
+const checkedNodes: ComputedRef<CascaderNode[]> = computed(() => {
+  const panelNodes = cascaderPanelRef.value?.checkedNodes
+  if (panelNodes) return panelNodes
+
+  // When persistent=false and the panel is not yet mounted, resolve
+  // checked nodes directly from modelValue + options so the cascader
+  // can display labels / tags without the panel being rendered.
+  if (!isPropAbsent(props.modelValue)) {
+    const cfg = config.value
+    if (!cfg.lazy && props.options?.length) {
+      const store = new CascaderStore(props.options, cfg)
+      const leafOnly = !cfg.checkStrictly
+      const values = cfg.multiple
+        ? castArray(props.modelValue)
+        : [props.modelValue]
+      return unique(
+        values
+          .map((val) => store.getNodeByValue(val as CascaderValue, leafOnly))
+          .filter((node) => !!node && (cfg.checkStrictly || node.isLeaf))
+      ) as CascaderNode[]
+    }
+  }
+  return []
+})
 
 const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {
   disabled: isDisabled,
@@ -608,8 +636,18 @@ const genTag = (node: CascaderNode): Tag => {
 
 const deleteTag = (tag: Tag) => {
   const node = tag.node as CascaderNode
-  node.doCheck(false)
-  cascaderPanelRef.value?.calculateCheckedValue()
+  if (cascaderPanelRef.value) {
+    node.doCheck(false)
+    cascaderPanelRef.value.calculateCheckedValue()
+  } else {
+    const cfg = config.value
+    const values = castArray(props.modelValue as CascaderNodeValue[]).filter(
+      (val) => !isEqual(val, node.valueByOption)
+    )
+    checkedValue.value = (
+      cfg.multiple ? values : (values[0] ?? valueOnClear.value)
+    ) as CascaderValue
+  }
   emit('removeTag', node.valueByOption)
 }
 
@@ -619,11 +657,17 @@ const getStrategyCheckedNodes = (): CascaderNode[] => {
       return checkedNodes.value
     case 'parent': {
       const clickedNodes = getCheckedNodes(false)
-      const clickedNodesValue = clickedNodes!.map((o) => o.value)
-      const parentNodes = clickedNodes!.filter(
-        (o) => !o.parent || !clickedNodesValue.includes(o.parent.value)
+      if (clickedNodes.length) {
+        const clickedNodesValue = clickedNodes.map((o) => o.value)
+        return clickedNodes.filter(
+          (o) => !o.parent || !clickedNodesValue.includes(o.parent.value)
+        )
+      }
+      // When the panel is not mounted, derive parent nodes from the
+      // fallback checkedNodes (leaf-only) by walking up the parent chain.
+      return checkedNodes.value.filter(
+        (node) => !node.parent || !checkedNodes.value.includes(node.parent)
       )
-      return parentNodes
     }
     default:
       return []
@@ -799,7 +843,7 @@ const calculateSuggestionMaxWidth = () => {
 }
 
 const getCheckedNodes = (leafOnly: boolean) => {
-  return cascaderPanelRef.value?.getCheckedNodes(leafOnly)
+  return cascaderPanelRef.value?.getCheckedNodes(leafOnly) ?? []
 }
 
 const handleExpandChange = (value: CascaderValue) => {
@@ -835,7 +879,13 @@ const handleKeyDown = (e: KeyboardEvent) => {
 }
 
 const handleClear = () => {
-  cascaderPanelRef.value?.clearCheckedNodes()
+  if (cascaderPanelRef.value) {
+    cascaderPanelRef.value.clearCheckedNodes()
+  } else {
+    checkedValue.value = (
+      multiple.value ? [] : valueOnClear.value
+    ) as CascaderValue
+  }
   if (!popperVisible.value && props.filterable) {
     syncPresentTextValue()
   }
@@ -996,7 +1046,8 @@ watch(
     () => props.collapseTags,
     () => props.maxCollapseTags,
   ],
-  calculatePresentTags
+  calculatePresentTags,
+  { immediate: true }
 )
 
 watch(tags, () => {
