@@ -1,5 +1,12 @@
 <template>
-  <el-table-v2 fixed :columns="columns" :data="data" :width="700" :height="400">
+  <el-table-v2
+    fixed
+    :columns="columns"
+    :data="data"
+    :width="700"
+    :height="400"
+    :column-cache="4"
+  >
     <template #row="props">
       <Row v-bind="props" />
     </template>
@@ -45,20 +52,22 @@ columns[colSpanIndex].align = 'center'
 
 const Row = ({ rowData, rowIndex, cells, columns }) => {
   const colSpan = columns[colSpanIndex].colSpan({ rowData, rowIndex })
-  if (colSpan > 1) {
-    let width = Number.parseInt(cells[colSpanIndex].props.style.width)
+  const firstCell = cells[colSpanIndex]
+  if (colSpan > 1 && firstCell) {
+    let width = Number.parseInt(firstCell.props.style.width)
     for (let i = 1; i < colSpan; i++) {
-      width += Number.parseInt(cells[colSpanIndex + i].props.style.width)
+      const curCell = cells[colSpanIndex + i]
+      if (!curCell) continue
+      width += Number.parseInt(curCell.props.style.width)
       cells[colSpanIndex + i] = null
     }
     const style = {
-      ...cells[colSpanIndex].props.style,
+      ...firstCell.props.style,
       width: `${width}px`,
       backgroundColor: 'var(--el-color-primary-light-3)',
     }
-    cells[colSpanIndex] = cloneVNode(cells[colSpanIndex], { style })
+    cells[colSpanIndex] = cloneVNode(firstCell, { style })
   }
-
   return cells
 }
 </script>
