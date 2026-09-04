@@ -159,24 +159,29 @@
       <div v-if="$slots.header" :class="nsCascader.e('header')" @click.stop>
         <slot name="header" />
       </div>
-      <el-cascader-panel
+      <el-scrollbar
         v-show="!filtering"
-        ref="cascaderPanelRef"
-        v-model="checkedValue"
-        :options="options"
-        :props="props.props"
-        :border="false"
-        :render-label="$slots.default"
-        :virtual-scroll="virtualScroll"
-        :item-size="itemSize"
-        :height="height"
-        @expand-change="handleExpandChange"
-        @close="$nextTick(() => togglePopperVisible(false))"
+        ref="panelScrollbarRef"
+        :class="nsCascader.e('panel-scrollbar')"
       >
-        <template #empty>
-          <slot name="empty" />
-        </template>
-      </el-cascader-panel>
+        <el-cascader-panel
+          ref="cascaderPanelRef"
+          v-model="checkedValue"
+          :options="options"
+          :props="props.props"
+          :border="false"
+          :render-label="$slots.default"
+          :virtual-scroll="virtualScroll"
+          :item-size="itemSize"
+          :height="height"
+          @expand-change="handleExpandChange"
+          @close="$nextTick(() => togglePopperVisible(false))"
+        >
+          <template #empty>
+            <slot name="empty" />
+          </template>
+        </el-cascader-panel>
+      </el-scrollbar>
       <template v-if="filterable">
         <el-scrollbar
           v-if="!virtualScroll"
@@ -274,6 +279,7 @@ import {
   computed,
   markRaw,
   nextTick,
+  onBeforeUnmount,
   onMounted,
   ref,
   useAttrs,
@@ -337,6 +343,7 @@ import type {
 import type { CascaderComponentProps } from './cascader'
 
 const SUGGESTION_ITEM_EXTRA_WIDTH = 34 // span margin-right (10px) + check icon width (24px)
+const POPPER_VIEWPORT_PADDING = 8
 
 const popperOptions: Partial<Options> = {
   modifiers: [
@@ -352,6 +359,19 @@ const popperOptions: Partial<Options> = {
         }
       },
       requires: ['arrow'],
+    },
+    {
+      name: 'preventOverflow',
+      options: {
+        altAxis: true,
+        tether: false,
+        padding: {
+          left: POPPER_VIEWPORT_PADDING,
+          right: POPPER_VIEWPORT_PADDING,
+          top: 0,
+          bottom: 0,
+        },
+      },
     },
   ],
 }
@@ -425,6 +445,7 @@ const tagTooltipRef = ref<TooltipInstance>()
 const inputRef = ref<InputInstance>()
 const tagWrapper = ref<HTMLDivElement>()
 const cascaderPanelRef = ref<CascaderPanelInstance>()
+const panelScrollbarRef = ref<ScrollbarInstance>()
 const suggestionPanel = ref<HTMLElement>()
 const suggestionVirtualListRef = ref<FixedSizeListInstance>()
 const popperVisible = ref(false)
@@ -578,6 +599,7 @@ const togglePopperVisible = (visible?: boolean) => {
       updatePopperPosition()
       cascaderPanelRef.value &&
         nextTick(cascaderPanelRef.value.scrollToExpandingNode)
+      nextTick(adjustPanelScroll)
     } else if (props.filterable) {
       syncPresentTextValue()
     }
@@ -593,6 +615,71 @@ const updatePopperPosition = () => {
 }
 const hideSuggestionPanel = () => {
   filtering.value = false
+}
+
+const adjustPanelScroll = () => {
+  if (!isClient) return
+  const wrapEl = panelScrollbarRef.value?.wrapRef
+  if (!wrapEl) return
+  panelScrollbarRef.value!.update()
+  const menus = wrapEl.querySelectorAll<HTMLElement>(`.${nsCascader.b('menu')}`)
+  if (menus.length <= 1) return
+  const lastMenu = menus[menus.length - 1]
+  if (lastMenu) {
+    const isRTL = getComputedStyle(wrapEl).direction === 'rtl'
+    const wrapRect = wrapEl.getBoundingClientRect()
+    const menuRect = lastMenu.getBoundingClientRect()
+    if (isRTL) {
+      const overflow = wrapRect.left - menuRect.left
+      if (overflow > 0) {
+        wrapEl.scrollLeft -= overflow
+      }
+    } else {
+      const overflow = menuRect.right - wrapRect.right
+      if (overflow > 0) {
+        wrapEl.scrollLeft += overflow
+      }
+    }
+  }
+}
+
+let panelResizeSetupToken = 0
+let stopPanelResizeObservers: (() => void)[] = []
+
+const stopPanelResizeObserverFn = () => {
+  panelResizeSetupToken++
+  stopPanelResizeObservers.forEach((stop) => stop())
+  stopPanelResizeObservers = []
+}
+
+const startPanelResizeObserver = () => {
+  stopPanelResizeObserverFn()
+  const setupToken = panelResizeSetupToken
+  nextTick(() => {
+    if (setupToken !== panelResizeSetupToken || !popperVisible.value) return
+    const wrapEl = panelScrollbarRef.value?.wrapRef
+    if (!wrapEl) return
+    const panelEl = cascaderPanelRef.value?.$el as HTMLElement | undefined
+    ;({ stop: stopPanelResizeObservers[0] } = useResizeObserver(
+      wrapEl,
+      adjustPanelScroll
+    ))
+    if (panelEl) {
+      ;({ stop: stopPanelResizeObservers[1] } = useResizeObserver(
+        panelEl,
+        adjustPanelScroll
+      ))
+    }
+  })
+}
+
+const schedulePanelScrollSync = () => {
+  if (!popperVisible.value || filtering.value) return
+  nextTick(() => {
+    if (!popperVisible.value || filtering.value) return
+    cascaderPanelRef.value?.scrollToExpandingNode()
+    adjustPanelScroll()
+  })
 }
 
 const genTag = (node: CascaderNode): Tag => {
@@ -805,6 +892,7 @@ const getCheckedNodes = (leafOnly: boolean) => {
 const handleExpandChange = (value: CascaderValue) => {
   updatePopperPosition()
   emit('expandChange', value)
+  nextTick(adjustPanelScroll)
 }
 
 const handleKeyDown = (e: KeyboardEvent) => {
@@ -1013,13 +1101,32 @@ watch(realSize, async () => {
 watch(presentText, syncPresentTextValue, { immediate: true })
 
 watch(
+  () => props.modelValue,
+  () => {
+    if (multiple.value) return
+    schedulePanelScrollSync()
+  },
+  { deep: true }
+)
+watch(() => props.options, schedulePanelScrollSync, { deep: true })
+
+watch(
   () => popperVisible.value,
   (val) => {
-    if (val && props.props.lazy && props.props.lazyLoad) {
-      cascaderPanelRef.value?.loadLazyRootNodes()
+    if (val) {
+      startPanelResizeObserver()
+      if (props.props.lazy && props.props.lazyLoad) {
+        cascaderPanelRef.value?.loadLazyRootNodes()
+      }
+    } else {
+      stopPanelResizeObserverFn()
     }
   }
 )
+
+onBeforeUnmount(() => {
+  stopPanelResizeObserverFn()
+})
 
 onMounted(() => {
   const inputInner = inputRef.value!.input!

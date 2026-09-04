@@ -68,6 +68,95 @@ const SUGGESTION_ITEM = '.el-cascader__suggestion-item'
 const SUGGESTION_PANEL = '.el-cascader__suggestion-panel'
 const DROPDOWN = '.el-cascader__dropdown'
 
+const DEEP_OPTIONS = [
+  {
+    value: 'level1',
+    label: 'Level 1',
+    children: [
+      {
+        value: 'level2',
+        label: 'Level 2',
+        children: [
+          {
+            value: 'level3',
+            label: 'Level 3',
+            children: [
+              {
+                value: 'level4',
+                label: 'Level 4',
+                children: [{ value: 'level5', label: 'Level 5' }],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+]
+
+const getPanelWrap = (wrapper: ReturnType<typeof _mount>) => {
+  const panelScrollbar = wrapper
+    .findAllComponents(ElScrollbar)
+    .find((item) => hasClass(item.element, 'el-cascader__panel-scrollbar'))
+  return panelScrollbar?.vm.wrapRef as HTMLElement | undefined
+}
+
+const setupPanelOverflowMocks = (wrapEl: HTMLElement) => {
+  const wrapWidth = 200
+  const menuWidth = 180
+  let scrollLeftValue = 0
+
+  Object.defineProperty(wrapEl, 'scrollLeft', {
+    configurable: true,
+    get: () => scrollLeftValue,
+    set: (value: number) => {
+      scrollLeftValue = value
+    },
+  })
+
+  const originalGetBoundingClientRect =
+    HTMLElement.prototype.getBoundingClientRect
+
+  vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(
+    function (this: HTMLElement) {
+      if (this === wrapEl) {
+        return {
+          left: 0,
+          right: wrapWidth,
+          top: 0,
+          bottom: 300,
+          width: wrapWidth,
+          height: 300,
+          x: 0,
+          y: 0,
+          toJSON: () => ({}),
+        } as DOMRect
+      }
+
+      if (this.classList.contains('el-cascader-menu')) {
+        const menus = wrapEl.querySelectorAll('.el-cascader-menu')
+        const index = Array.prototype.indexOf.call(menus, this)
+        if (index >= 0) {
+          const left = index * menuWidth
+          return {
+            left,
+            right: left + menuWidth,
+            top: 0,
+            bottom: 300,
+            width: menuWidth,
+            height: 300,
+            x: left,
+            y: 0,
+            toJSON: () => ({}),
+          } as DOMRect
+        }
+      }
+
+      return originalGetBoundingClientRect.call(this)
+    }
+  )
+}
+
 const _mount = (render: () => VNode) =>
   mount(render, {
     attachTo: document.body,
@@ -75,6 +164,7 @@ const _mount = (render: () => VNode) =>
 
 afterEach(() => {
   document.body.innerHTML = ''
+  vi.restoreAllMocks()
 })
 
 describe('Cascader.vue', () => {
@@ -127,6 +217,127 @@ describe('Cascader.vue', () => {
     expect(handleChange).toBeCalledWith(['zhejiang', 'hangzhou'])
     expect(value.value).toEqual(['zhejiang', 'hangzhou'])
     expect(wrapper.find('input').element.value).toBe('Zhejiang / Hangzhou')
+  })
+
+  test('adjusts panel scroll on click expand when panel overflows', async () => {
+    const wrapper = _mount(() => <Cascader options={DEEP_OPTIONS} />)
+
+    await wrapper.find(TRIGGER).trigger('click')
+    await nextTick()
+
+    const wrapEl = getPanelWrap(wrapper)
+    expect(wrapEl).toBeTruthy()
+    setupPanelOverflowMocks(wrapEl!)
+
+    for (let i = 0; i < 3; i++) {
+      ;(document.querySelectorAll(NODE)[i] as HTMLElement).click()
+      await nextTick()
+    }
+
+    expect(
+      wrapEl!.querySelectorAll('.el-cascader-menu').length
+    ).toBeGreaterThan(2)
+    expect(wrapEl!.scrollLeft).toBeGreaterThan(0)
+  })
+
+  test('adjusts panel scroll on hover expand when panel overflows', async () => {
+    const wrapper = _mount(() => (
+      <Cascader options={DEEP_OPTIONS} props={{ expandTrigger: 'hover' }} />
+    ))
+
+    await wrapper.find(TRIGGER).trigger('click')
+    await nextTick()
+
+    const wrapEl = getPanelWrap(wrapper)
+    expect(wrapEl).toBeTruthy()
+    setupPanelOverflowMocks(wrapEl!)
+
+    for (let i = 0; i < 3; i++) {
+      ;(document.querySelectorAll(NODE)[i] as HTMLElement).dispatchEvent(
+        new MouseEvent('mouseenter', { bubbles: true })
+      )
+      await nextTick()
+    }
+
+    expect(
+      wrapEl!.querySelectorAll('.el-cascader-menu').length
+    ).toBeGreaterThan(2)
+    expect(wrapEl!.scrollLeft).toBeGreaterThan(0)
+  })
+
+  test('adjusts panel scroll when modelValue changes while dropdown is open', async () => {
+    const value = ref<string[]>([])
+    const wrapper = _mount(() => (
+      <Cascader v-model={value.value} options={DEEP_OPTIONS} />
+    ))
+
+    await wrapper.find(TRIGGER).trigger('click')
+    await nextTick()
+
+    const wrapEl = getPanelWrap(wrapper)
+    expect(wrapEl).toBeTruthy()
+    setupPanelOverflowMocks(wrapEl!)
+
+    value.value = ['level1', 'level2', 'level3', 'level4', 'level5']
+    await nextTick()
+    await nextTick()
+    await nextTick()
+
+    expect(
+      wrapEl!.querySelectorAll('.el-cascader-menu').length
+    ).toBeGreaterThan(2)
+    expect(wrapEl!.scrollLeft).toBeGreaterThan(0)
+  })
+
+  test('does not adjust panel scroll on multiple checkbox change', async () => {
+    const value = ref<string[][]>([])
+    const wrapper = _mount(() => (
+      <Cascader
+        v-model={value.value}
+        options={DEEP_OPTIONS}
+        props={{ multiple: true, checkStrictly: true }}
+      />
+    ))
+
+    await wrapper.find(TRIGGER).trigger('click')
+    await nextTick()
+
+    const wrapEl = getPanelWrap(wrapper)
+    expect(wrapEl).toBeTruthy()
+    setupPanelOverflowMocks(wrapEl!)
+
+    for (let i = 0; i < 3; i++) {
+      ;(document.querySelectorAll(NODE)[i] as HTMLElement).click()
+      await nextTick()
+    }
+
+    expect(wrapEl!.scrollLeft).toBeGreaterThan(0)
+    wrapEl!.scrollLeft = 0
+
+    ;(document.querySelectorAll(NODE)[0] as HTMLElement).click()
+    await nextTick()
+    await nextTick()
+
+    expect(wrapEl!.scrollLeft).toBe(0)
+  })
+
+  test('does not auto-scroll when only the root menu overflows', async () => {
+    const wrapper = _mount(() => (
+      <Cascader
+        options={DEEP_OPTIONS}
+        props={{ multiple: true, checkStrictly: true }}
+      />
+    ))
+
+    await wrapper.find(TRIGGER).trigger('click')
+    await nextTick()
+
+    const wrapEl = getPanelWrap(wrapper)
+    expect(wrapEl).toBeTruthy()
+    setupPanelOverflowMocks(wrapEl!)
+
+    expect(wrapEl!.querySelectorAll('.el-cascader-menu').length).toBe(1)
+    expect(wrapEl!.scrollLeft).toBe(0)
   })
 
   test('with default value', async () => {
@@ -470,7 +681,10 @@ describe('Cascader.vue', () => {
     const collapseTag = collapseTags[0]
     await collapseTag.trigger('hover')
     const scrollbars = wrapper.findAllComponents(ElScrollbar).filter((item) => {
-      return !hasClass(item.element, 'el-cascader-menu')
+      return (
+        !hasClass(item.element, 'el-cascader-menu') &&
+        !hasClass(item.element, 'el-cascader__panel-scrollbar')
+      )
     })
     expect(scrollbars.length).toBe(1)
     const scrollbar = scrollbars[0]
