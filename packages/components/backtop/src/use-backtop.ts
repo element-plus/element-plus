@@ -16,9 +16,9 @@ export const useBackTop = (
 ) => {
   const el = shallowRef<HTMLElement>()
   const container = shallowRef<Document | HTMLElement>()
-  // Only observe content changes when progress is shown for an explicit target.
+  // Only observe content changes while progress is shown for the active target.
   const contentTarget = computed(() =>
-    props.showProgress && props.target ? el.value : undefined
+    props.showProgress ? el.value : undefined
   )
   const visible = ref(false)
   const scrollProgress = ref(0)
@@ -68,6 +68,8 @@ export const useBackTop = (
     childList: true,
     subtree: true,
     characterData: true,
+    attributes: true,
+    attributeFilter: ['class', 'style'],
   })
   useResizeObserver(contentTarget, handleContentChange)
   watch(
