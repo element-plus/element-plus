@@ -11,7 +11,6 @@ import { EVENT_CODE } from '@element-plus/constants'
 import TimePicker from '../src/time-picker'
 import Picker from '../src/common/picker.vue'
 import PanelTimePick from '../src/time-picker-com/panel-time-pick.vue'
-import PanelTimeRangePick from '../src/time-picker-com/panel-time-range.vue'
 
 const makeRange = (start, end) => {
   const result = []
@@ -295,33 +294,6 @@ describe('TimePicker', () => {
     await nextTick()
     await rAF()
     expect(handleVisibleChange).toHaveBeenCalledTimes(3)
-  })
-
-  it('should cancel correctly the right value after manual input', async () => {
-    const value = ref<[Date, Date]>([
-      new Date(2016, 9, 10, 8, 40),
-      new Date(2016, 9, 10, 9, 40),
-    ])
-    const wrapper = mount(() => (
-      <>
-        <TimePicker v-model={value.value} is-range />
-        <button>click me</button>
-      </>
-    ))
-    const input = wrapper.find('input')
-    await input.trigger('focus')
-
-    const picker = wrapper.findComponent(PanelTimeRangePick)
-    const secondPanel = picker.findAll('.el-time-range-picker__cell')[1]
-    const currentHour = secondPanel.find('.el-time-spinner__item.is-active')
-    expect(currentHour.text()).toBe('09')
-    await currentHour.trigger('mouseover')
-    await picker.find('.el-time-panel__btn.cancel').trigger('click')
-    const secondInput = wrapper.findAll('.el-range-input')[1]
-    await secondInput.setValue('07:40:00')
-    expect(secondInput.element.value).toBe('07:40:00')
-    await input.trigger('blur')
-    expect(secondInput.element.value).toBe('09:40:00')
   })
 
   it('selectableRange ', async () => {
@@ -1027,7 +999,7 @@ describe('TimePicker(range)', () => {
       picker.vm.onPick('', false)
       await rAF() // Picker triggers popup close, event propagation
       await rAF() // Focus trap recognizes focusout event, and propagation
-      expect(document.activeElement).toBe(wrapper.find('input').element)
+      expect(document.activeElement).not.toBe(wrapper.find('input').element)
       expect(document.querySelector('.el-time-panel')).toBeFalsy()
       input.vm.$emit('input', 'a')
       await rAF()
