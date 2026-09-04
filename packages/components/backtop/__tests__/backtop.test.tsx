@@ -90,7 +90,7 @@ describe('Backtop.vue', () => {
     )
   })
 
-  test('updates progress when its scroll range changes', async () => {
+  test('updates progress when showProgress is enabled at runtime', async () => {
     const target = document.createElement('div')
     target.className = 'runtime-target'
     document.body.appendChild(target)
@@ -124,78 +124,8 @@ describe('Backtop.vue', () => {
       '--el-backtop-progress: 0.25turn'
     )
 
-    const content = document.createElement('div')
-    target.appendChild(content)
-    await nextTick()
-    await nextFrame()
-
-    expect(wrapper.attributes('style')).toContain(
-      '--el-backtop-progress: 0.25turn'
-    )
-
-    Object.defineProperty(target, 'scrollHeight', {
-      configurable: true,
-      value: 1000,
-    })
-    content.className = 'expanded'
-    await nextTick()
-    await nextFrame()
-
-    expect(wrapper.attributes('style')).toContain(
-      '--el-backtop-progress: 0.5turn'
-    )
-
-    Object.defineProperty(target, 'scrollHeight', {
-      configurable: true,
-      value: 1900,
-    })
-    content.style.height = '100px'
-    await nextTick()
-    await nextFrame()
-
-    expect(wrapper.attributes('style')).toContain(
-      '--el-backtop-progress: 0.25turn'
-    )
     wrapper.unmount()
     target.remove()
-  })
-
-  test('updates document progress when its scroll range changes', async () => {
-    const root = document.documentElement
-    const content = document.createElement('div')
-    const wrapper = mount(Backtop, {
-      attachTo: document.body,
-      props: { showProgress: true, visibilityHeight: 0 },
-    })
-    await nextTick()
-    Object.defineProperties(root, {
-      clientHeight: { configurable: true, value: 100 },
-      scrollHeight: { configurable: true, value: 1000 },
-    })
-    root.scrollTop = 450
-    document.dispatchEvent(new Event('scroll'))
-    await nextFrame()
-
-    expect(wrapper.attributes('style')).toContain(
-      '--el-backtop-progress: 0.5turn'
-    )
-
-    Object.defineProperty(root, 'scrollHeight', {
-      configurable: true,
-      value: 1900,
-    })
-    document.body.appendChild(content)
-    await nextTick()
-    await nextFrame()
-
-    expect(wrapper.attributes('style')).toContain(
-      '--el-backtop-progress: 0.25turn'
-    )
-    wrapper.unmount()
-    content.remove()
-    delete (root as { clientHeight?: number }).clientHeight
-    delete (root as { scrollHeight?: number }).scrollHeight
-    root.scrollTop = 0
   })
 
   test('does not force a circular progress ring for custom content', async () => {

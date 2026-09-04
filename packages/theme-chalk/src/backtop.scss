@@ -21,6 +21,7 @@
 
   &:hover {
     background-color: getCssVar('backtop', 'hover-bg-color');
+    --el-backtop-progress-bg-color: #{getCssVar('backtop', 'hover-bg-color')};
   }
 
   @include e(icon) {
@@ -47,9 +48,5 @@
       );
     background-origin: border-box;
     background-clip: padding-box, border-box;
-
-    &:hover {
-      --el-backtop-progress-bg-color: #{getCssVar('backtop', 'hover-bg-color')};
-    }
   }
 }
