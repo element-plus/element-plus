@@ -297,6 +297,41 @@ describe('TimePicker', () => {
     expect(handleVisibleChange).toHaveBeenCalledTimes(3)
   })
 
+  it('does not handle Enter while an IME composition is active', async () => {
+    const handleVisibleChange = vi.fn()
+    const value = ref(new Date(2016, 9, 10, 18, 40))
+
+    const wrapper = mount(() => (
+      <TimePicker v-model={value.value} onVisibleChange={handleVisibleChange} />
+    ))
+
+    const input = wrapper.find('input')
+    input.trigger('focus')
+    await nextTick()
+    await rAF()
+    expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+
+    // Pressing Enter to confirm an IME candidate must not close the panel or
+    // swallow the keystroke that commits the composition.
+    const composingEnter = new KeyboardEvent('keydown', {
+      code: EVENT_CODE.enter,
+      isComposing: true,
+      bubbles: true,
+      cancelable: true,
+    })
+    input.element.dispatchEvent(composingEnter)
+    await nextTick()
+    await rAF()
+    expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+    expect(composingEnter.defaultPrevented).toBe(false)
+
+    // A normal Enter (composition already finished) still closes the panel.
+    input.trigger('keydown', { code: EVENT_CODE.enter })
+    await nextTick()
+    await rAF()
+    expect(handleVisibleChange).toHaveBeenCalledTimes(2)
+  })
+
   it('should cancel correctly the right value after manual input', async () => {
     const value = ref<[Date, Date]>([
       new Date(2016, 9, 10, 8, 40),
