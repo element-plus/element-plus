@@ -1,5 +1,9 @@
-import { onMounted, onUnmounted, ref, shallowRef, watch } from 'vue'
-import { useEventListener } from '@vueuse/core'
+import { computed, onMounted, onUnmounted, ref, shallowRef, watch } from 'vue'
+import {
+  useEventListener,
+  useMutationObserver,
+  useResizeObserver,
+} from '@vueuse/core'
 import { throwError } from '@element-plus/utils'
 
 import type { SetupContext } from 'vue'
@@ -12,6 +16,10 @@ export const useBackTop = (
 ) => {
   const el = shallowRef<HTMLElement>()
   const container = shallowRef<Document | HTMLElement>()
+  // Only observe content changes when progress is shown for an explicit target.
+  const contentTarget = computed(() =>
+    props.showProgress && props.target ? el.value : undefined
+  )
   const visible = ref(false)
   const scrollProgress = ref(0)
   let animationFrameId: number | undefined
@@ -46,8 +54,22 @@ export const useBackTop = (
     if (props.showProgress) scheduleScrollUpdate()
   }
 
+  const handleContentChange = () => {
+    if (props.showProgress) scheduleScrollUpdate()
+  }
+
   useEventListener(container, 'scroll', scheduleScrollUpdate)
+  // Recalculate progress when asynchronous content changes the scroll range.
+  useEventListener(contentTarget, 'load', handleContentChange, {
+    capture: true,
+  })
   useEventListener('resize', handleResize)
+  useMutationObserver(contentTarget, handleContentChange, {
+    childList: true,
+    subtree: true,
+    characterData: true,
+  })
+  useResizeObserver(contentTarget, handleContentChange)
   watch(
     () => props.showProgress,
     () => handleScroll()

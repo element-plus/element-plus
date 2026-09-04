@@ -90,7 +90,7 @@ describe('Backtop.vue', () => {
     )
   })
 
-  test('updates progress when showProgress is enabled at runtime', async () => {
+  test('updates progress when its scroll range changes', async () => {
     const target = document.createElement('div')
     target.className = 'runtime-target'
     document.body.appendChild(target)
@@ -122,6 +122,18 @@ describe('Backtop.vue', () => {
 
     expect(wrapper.attributes('style')).toContain(
       '--el-backtop-progress: 0.25turn'
+    )
+
+    Object.defineProperty(target, 'scrollHeight', {
+      configurable: true,
+      value: 1000,
+    })
+    target.appendChild(document.createElement('div'))
+    await nextTick()
+    await nextFrame()
+
+    expect(wrapper.attributes('style')).toContain(
+      '--el-backtop-progress: 0.5turn'
     )
     wrapper.unmount()
     target.remove()
