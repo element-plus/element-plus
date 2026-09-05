@@ -25,8 +25,8 @@ catalog:
   normalize-wheel-es: ^1.2.0
   prettier: ^3.9.6
   vue: 3.5.25
-  vue-component-type-helpers: ^3.3.9
-  tsx: ^4.23.12
+  vue-component-type-helpers: ^3.3.11
+  tsx: ^4.23.13
   typescript: ~6.0.3
   # vitest: ^2.0.5
 
@@ -52,3 +52,10 @@ minimumReleaseAge: 1440
 minimumReleaseAgeExclude:
   - 'element-plus'
   - '@element-plus/*'
+  - '@vitest/mocker@5.0.0'
+  - '@vitest/spy@5.0.0'
+  - vitest@5.0.0
+  - '@vitest/coverage-v8@5.0.0'
+  - '@vitest/pretty-format@5.0.0'
+  - '@vitest/ui@5.0.0'
+  - '@vitest/utils@5.0.0'
