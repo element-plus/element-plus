@@ -73,6 +73,22 @@ const _mount = (render: () => VNode) =>
     attachTo: document.body,
   })
 
+// Renders the tooltip content lazily like in production, so tests with
+// persistent={false} cover the fallback path without a mounted panel.
+const withRealPersistent = async (run: () => Promise<void>) => {
+  const previousValue = process.env.RUN_TEST_WITH_PERSISTENT
+  process.env.RUN_TEST_WITH_PERSISTENT = 'true'
+  try {
+    await run()
+  } finally {
+    if (previousValue === undefined) {
+      delete process.env.RUN_TEST_WITH_PERSISTENT
+    } else {
+      process.env.RUN_TEST_WITH_PERSISTENT = previousValue
+    }
+  }
+}
+
 afterEach(() => {
   document.body.innerHTML = ''
 })
@@ -143,10 +159,7 @@ describe('Cascader.vue', () => {
   })
 
   test('persistent false should still display label', async () => {
-    // Render the tooltip content lazily like in production, so the
-    // fallback path without a mounted panel is actually covered.
-    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
-    try {
+    await withRealPersistent(async () => {
       const value = ref(['zhejiang', 'hangzhou'])
       const wrapper = _mount(() => (
         <Cascader v-model={value.value} options={OPTIONS} persistent={false} />
@@ -154,14 +167,11 @@ describe('Cascader.vue', () => {
 
       await nextTick()
       expect(wrapper.find('input').element.value).toBe('Zhejiang / Hangzhou')
-    } finally {
-      delete process.env.RUN_TEST_WITH_PERSISTENT
-    }
+    })
   })
 
   test('persistent false should still display tags in multiple mode', async () => {
-    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
-    try {
+    await withRealPersistent(async () => {
       const value = ref([
         ['zhejiang', 'hangzhou'],
         ['zhejiang', 'ningbo'],
@@ -181,14 +191,11 @@ describe('Cascader.vue', () => {
       expect(tags.length).toBe(2)
       expect(tags[0].text()).toBe('Zhejiang / Hangzhou')
       expect(tags[1].text()).toBe('Zhejiang / Ningbo')
-    } finally {
-      delete process.env.RUN_TEST_WITH_PERSISTENT
-    }
+    })
   })
 
   test('persistent false should collapse fully checked nodes in parent strategy', async () => {
-    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
-    try {
+    await withRealPersistent(async () => {
       const value = ref([
         ['zhejiang', 'hangzhou'],
         ['zhejiang', 'ningbo'],
@@ -221,14 +228,11 @@ describe('Cascader.vue', () => {
         'Zhejiang / Hangzhou',
         'Zhejiang / Ningbo',
       ])
-    } finally {
-      delete process.env.RUN_TEST_WITH_PERSISTENT
-    }
+    })
   })
 
   test('persistent false should remove collapsed subtree when deleting a parent tag', async () => {
-    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
-    try {
+    await withRealPersistent(async () => {
       const value = ref([
         ['zhejiang', 'hangzhou'],
         ['zhejiang', 'ningbo'],
@@ -252,9 +256,7 @@ describe('Cascader.vue', () => {
       await tags[0].find('.el-tag__close').trigger('click')
       expect(value.value).toEqual([])
       expect(wrapper.findAll(TAG).length).toBe(0)
-    } finally {
-      delete process.env.RUN_TEST_WITH_PERSISTENT
-    }
+    })
   })
 
   test('options change', async () => {

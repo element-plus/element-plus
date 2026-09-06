@@ -689,15 +689,23 @@ const getStrategyCheckedNodes = (): CascaderNode[] => {
         )
       }
       const selectedNodes = new Set(nodes)
+      // Memoize the result per run so shared ancestors are only
+      // traversed once instead of once per selected leaf.
+      const fullySelectedCache = new Map<CascaderNode, boolean>()
       const isFullySelected = (node: CascaderNode): boolean => {
-        if (selectedNodes.has(node)) return true
-        const validChildren = (node.children ?? []).filter(
-          (child) => !child.isDisabled
-        )
-        return (
-          validChildren.length > 0 &&
-          validChildren.every((child) => isFullySelected(child))
-        )
+        const cached = fullySelectedCache.get(node)
+        if (cached !== undefined) return cached
+        let result = selectedNodes.has(node)
+        if (!result) {
+          const validChildren = (node.children ?? []).filter(
+            (child) => !child.isDisabled
+          )
+          result =
+            validChildren.length > 0 &&
+            validChildren.every((child) => isFullySelected(child))
+        }
+        fullySelectedCache.set(node, result)
+        return result
       }
       // Sort by uid to keep the same order as the mounted panel, whose
       // nodes come from the store in depth-first order.
