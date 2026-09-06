@@ -143,35 +143,118 @@ describe('Cascader.vue', () => {
   })
 
   test('persistent false should still display label', async () => {
-    const value = ref(['zhejiang', 'hangzhou'])
-    const wrapper = _mount(() => (
-      <Cascader v-model={value.value} options={OPTIONS} persistent={false} />
-    ))
+    // Render the tooltip content lazily like in production, so the
+    // fallback path without a mounted panel is actually covered.
+    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
+    try {
+      const value = ref(['zhejiang', 'hangzhou'])
+      const wrapper = _mount(() => (
+        <Cascader v-model={value.value} options={OPTIONS} persistent={false} />
+      ))
 
-    await nextTick()
-    expect(wrapper.find('input').element.value).toBe('Zhejiang / Hangzhou')
+      await nextTick()
+      expect(wrapper.find('input').element.value).toBe('Zhejiang / Hangzhou')
+    } finally {
+      delete process.env.RUN_TEST_WITH_PERSISTENT
+    }
   })
 
   test('persistent false should still display tags in multiple mode', async () => {
-    const value = ref([
-      ['zhejiang', 'hangzhou'],
-      ['zhejiang', 'ningbo'],
-    ])
-    const cascaderProps = { multiple: true }
-    const wrapper = _mount(() => (
-      <Cascader
-        v-model={value.value}
-        options={OPTIONS}
-        props={cascaderProps}
-        persistent={false}
-      />
-    ))
+    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
+    try {
+      const value = ref([
+        ['zhejiang', 'hangzhou'],
+        ['zhejiang', 'ningbo'],
+      ])
+      const cascaderProps = { multiple: true }
+      const wrapper = _mount(() => (
+        <Cascader
+          v-model={value.value}
+          options={OPTIONS}
+          props={cascaderProps}
+          persistent={false}
+        />
+      ))
 
-    await nextTick()
-    const tags = wrapper.findAll(TAG)
-    expect(tags.length).toBe(2)
-    expect(tags[0].text()).toBe('Zhejiang / Hangzhou')
-    expect(tags[1].text()).toBe('Zhejiang / Ningbo')
+      await nextTick()
+      const tags = wrapper.findAll(TAG)
+      expect(tags.length).toBe(2)
+      expect(tags[0].text()).toBe('Zhejiang / Hangzhou')
+      expect(tags[1].text()).toBe('Zhejiang / Ningbo')
+    } finally {
+      delete process.env.RUN_TEST_WITH_PERSISTENT
+    }
+  })
+
+  test('persistent false should collapse fully checked nodes in parent strategy', async () => {
+    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
+    try {
+      const value = ref([
+        ['zhejiang', 'hangzhou'],
+        ['zhejiang', 'ningbo'],
+        ['zhejiang', 'wenzhou'],
+      ])
+      const cascaderProps = { multiple: true }
+      const wrapper = _mount(() => (
+        <Cascader
+          v-model={value.value}
+          options={OPTIONS}
+          props={cascaderProps}
+          persistent={false}
+          showCheckedStrategy="parent"
+        />
+      ))
+
+      await nextTick()
+      // All leaves of "Zhejiang" are selected, collapse to the top node
+      expect(wrapper.findAll(TAG).map((tag) => tag.text())).toEqual([
+        'Zhejiang',
+      ])
+
+      value.value = [
+        ['zhejiang', 'hangzhou'],
+        ['zhejiang', 'ningbo'],
+      ]
+      await nextTick()
+      // Partial selection keeps the leaf tags
+      expect(wrapper.findAll(TAG).map((tag) => tag.text())).toEqual([
+        'Zhejiang / Hangzhou',
+        'Zhejiang / Ningbo',
+      ])
+    } finally {
+      delete process.env.RUN_TEST_WITH_PERSISTENT
+    }
+  })
+
+  test('persistent false should remove collapsed subtree when deleting a parent tag', async () => {
+    process.env.RUN_TEST_WITH_PERSISTENT = 'true'
+    try {
+      const value = ref([
+        ['zhejiang', 'hangzhou'],
+        ['zhejiang', 'ningbo'],
+        ['zhejiang', 'wenzhou'],
+      ])
+      const cascaderProps = { multiple: true }
+      const wrapper = _mount(() => (
+        <Cascader
+          v-model={value.value}
+          options={OPTIONS}
+          props={cascaderProps}
+          persistent={false}
+          showCheckedStrategy="parent"
+        />
+      ))
+
+      await nextTick()
+      const tags = wrapper.findAll(TAG)
+      expect(tags.length).toBe(1)
+
+      await tags[0].find('.el-tag__close').trigger('click')
+      expect(value.value).toEqual([])
+      expect(wrapper.findAll(TAG).length).toBe(0)
+    } finally {
+      delete process.env.RUN_TEST_WITH_PERSISTENT
+    }
   })
 
   test('options change', async () => {

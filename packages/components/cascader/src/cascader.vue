@@ -641,14 +641,29 @@ const deleteTag = (tag: Tag) => {
     cascaderPanelRef.value.calculateCheckedValue()
   } else {
     const cfg = config.value
+    // Deleting a fully selected subtree node unchecks every enabled
+    // leaf under it, mirroring the mounted panel's doCheck(false).
+    const removedValues =
+      cfg.multiple && !cfg.checkStrictly
+        ? getSubtreeLeafValues(node)
+        : [node.valueByOption]
     const values = castArray(props.modelValue as CascaderNodeValue[]).filter(
-      (val) => !isEqual(val, node.valueByOption)
+      (val) => !removedValues.some((removed) => isEqual(val, removed))
     )
     checkedValue.value = (
       cfg.multiple ? values : (values[0] ?? valueOnClear.value)
     ) as CascaderValue
   }
   emit('removeTag', node.valueByOption)
+}
+
+const getSubtreeLeafValues = (node: CascaderNode): CascaderNodeValue[] => {
+  if (node.isLeaf) return node.isDisabled ? [] : [node.valueByOption]
+  return (node.children ?? []).reduce(
+    (values: CascaderNodeValue[], child) =>
+      values.concat(getSubtreeLeafValues(child)),
+    []
+  )
 }
 
 const getStrategyCheckedNodes = (): CascaderNode[] => {
@@ -663,11 +678,40 @@ const getStrategyCheckedNodes = (): CascaderNode[] => {
           (o) => !o.parent || !clickedNodesValue.includes(o.parent.value)
         )
       }
-      // When the panel is not mounted, derive parent nodes from the
-      // fallback checkedNodes (leaf-only) by walking up the parent chain.
-      return checkedNodes.value.filter(
-        (node) => !node.parent || !checkedNodes.value.includes(node.parent)
-      )
+      // When the panel is not mounted, checkedNodes only contains the
+      // nodes resolved from modelValue (leaf nodes in non-strict mode),
+      // so collapse fully selected subtrees to their topmost node to
+      // match the behavior of the mounted panel.
+      const nodes = checkedNodes.value
+      if (config.value.checkStrictly) {
+        return nodes.filter(
+          (node) => !node.parent || !nodes.includes(node.parent)
+        )
+      }
+      const selectedNodes = new Set(nodes)
+      const isFullySelected = (node: CascaderNode): boolean => {
+        if (selectedNodes.has(node)) return true
+        const validChildren = (node.children ?? []).filter(
+          (child) => !child.isDisabled
+        )
+        return (
+          validChildren.length > 0 &&
+          validChildren.every((child) => isFullySelected(child))
+        )
+      }
+      // Sort by uid to keep the same order as the mounted panel, whose
+      // nodes come from the store in depth-first order.
+      return unique(
+        nodes.map((node) => {
+          let topNode = node
+          let parent = node.parent
+          while (parent && isFullySelected(parent)) {
+            topNode = parent
+            parent = parent.parent
+          }
+          return topNode
+        })
+      ).sort((a, b) => a.uid - b.uid)
     }
     default:
       return []
