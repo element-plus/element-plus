@@ -103,7 +103,7 @@
     "typescript": "catalog:",
     "vitest": "^5.0.0",
     "vue": "catalog:",
-    "vue-router": "^5.3.0",
+    "vue-router": "^5.3.1",
     "vue-tsc": "=3.1.5"
   },
   "engines": {
