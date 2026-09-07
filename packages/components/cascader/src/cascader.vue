@@ -512,7 +512,10 @@ const checkedNodes: ComputedRef<CascaderNode[]> = computed(() => {
     if (cfg.lazy) {
       // Lazy options cannot be resolved without the panel's loaded
       // data, so match the values against the nodes loaded by the
-      // panel most recently.
+      // panel most recently. Nodes the panel never resolved keep an
+      // unknown leaf state and are kept as valid selections.
+      const isSelectableNode = (node: CascaderNode): boolean =>
+        cfg.checkStrictly || node.loaded ? node.isLeaf : true
       const values = cfg.multiple
         ? castArray(props.modelValue)
         : [props.modelValue]
@@ -523,7 +526,9 @@ const checkedNodes: ComputedRef<CascaderNode[]> = computed(() => {
               isEqual(node.valueByOption, val)
             )
           )
-          .filter((node) => !!node)
+          .filter(
+            (node): node is CascaderNode => !!node && isSelectableNode(node)
+          )
       )
     }
     return []
@@ -713,8 +718,9 @@ const getStrategyCheckedNodes = (): CascaderNode[] => {
       // match the behavior of the mounted panel.
       const nodes = checkedNodes.value
       if (config.value.checkStrictly) {
+        const nodeValues = nodes.map((node) => node.value)
         return nodes.filter(
-          (node) => !node.parent || !nodes.includes(node.parent)
+          (node) => !node.parent || !nodeValues.includes(node.parent.value)
         )
       }
       const selectedNodes = new Set(nodes)
@@ -1153,22 +1159,17 @@ watch(
     }
     if (!val && props.props.lazy) {
       // Keep all nodes the panel loaded before it unmounts, so lazy
-      // cascaders can resolve any loaded value while closed.
+      // cascaders can resolve any loaded value while closed. Merge by
+      // value so each value resolves to its newest loaded node.
       const loadedNodes = cascaderPanelRef.value?.getFlattedNodes(false)
       if (loadedNodes?.length) {
-        resolvedPanelNodes.value = unique(
-          resolvedPanelNodes.value.concat(loadedNodes)
+        const mergedNodes = new Map(
+          resolvedPanelNodes.value
+            .concat(loadedNodes)
+            .map((node) => [JSON.stringify(node.valueByOption), node])
         )
+        resolvedPanelNodes.value = [...mergedNodes.values()]
       }
-    }
-  }
-)
-
-watch(
-  () => popperVisible.value,
-  (val) => {
-    if (val && props.props.lazy && props.props.lazyLoad) {
-      cascaderPanelRef.value?.loadLazyRootNodes()
     }
   }
 )

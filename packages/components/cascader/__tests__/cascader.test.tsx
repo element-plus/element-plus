@@ -292,7 +292,10 @@ describe('Cascader.vue', () => {
       const lazyData: Record<string, any> = {
         root: [{ value: 'asia', label: 'Asia' }],
         asia: [{ value: 'china', label: 'China' }],
-        china: [{ value: 'beijing', label: 'Beijing' }],
+        china: [
+          { value: 'beijing', label: 'Beijing' },
+          { value: 'shenzhen', label: 'Shenzhen' },
+        ],
       }
       const cascaderProps = {
         lazy: true,
@@ -330,11 +333,85 @@ describe('Cascader.vue', () => {
       }
       expect(wrapper.find('input').element.value).toBe('Asia / China / Beijing')
 
-      // Any node loaded by the panel can be resolved while closed
+      // Any loaded leaf value can be resolved while closed, while
+      // non-leaf values are dropped like the mounted panel does
       value.value = ['asia']
       await nextTick()
-      expect(wrapper.find('input').element.value).toBe('Asia')
+      expect(wrapper.find('input').element.value).toBe('')
+
+      value.value = ['asia', 'china', 'shenzhen']
+      await nextTick()
+      expect(wrapper.find('input').element.value).toBe(
+        'Asia / China / Shenzhen'
+      )
+
+      // Reopen with updated lazy data, the newest loaded node wins
+      lazyData.china = [{ value: 'beijing', label: 'Beijing II' }]
+      value.value = ['asia', 'china', 'beijing']
+      await nextTick()
+      expect(wrapper.find('input').element.value).toBe('Asia / China / Beijing')
+
+      await wrapper.find(TRIGGER).trigger('click')
+      for (let i = 0; i < 10; i++) {
+        await nextTick()
+      }
+      await new Promise((resolve) => setTimeout(resolve, 20))
+      for (let i = 0; i < 10; i++) {
+        await nextTick()
+      }
+      expect(wrapper.find('input').element.value).toBe(
+        'Asia / China / Beijing II'
+      )
+
+      await wrapper.find(TRIGGER).trigger('click')
+      for (let i = 0; i < 5; i++) {
+        await rAF()
+        await nextTick()
+      }
+      expect(wrapper.find('input').element.value).toBe(
+        'Asia / China / Beijing II'
+      )
     })
+  })
+
+  test('lazy cascader should not duplicate lazy load requests when opening', async () => {
+    const value = ref(['asia', 'china', 'beijing'])
+    const lazyData: Record<string, any> = {
+      asia: [{ value: 'china', label: 'China' }],
+      china: [{ value: 'beijing', label: 'Beijing' }],
+    }
+    const lazyLoadSpy = vi.fn((node: any, resolve: (data: any[]) => void) => {
+      setTimeout(() => resolve(lazyData[node?.value] ?? []), 0)
+    })
+    const cascaderProps = { lazy: true, lazyLoad: lazyLoadSpy }
+    const options = [{ value: 'asia', label: 'Asia' }]
+    const wrapper = _mount(() => (
+      <Cascader v-model={value.value} options={options} props={cascaderProps} />
+    ))
+
+    for (let i = 0; i < 10; i++) {
+      await nextTick()
+    }
+    await new Promise((resolve) => setTimeout(resolve, 20))
+    for (let i = 0; i < 10; i++) {
+      await nextTick()
+    }
+    expect(wrapper.find('input').element.value).toBe('Asia / China / Beijing')
+
+    const callsBeforeOpen = lazyLoadSpy.mock.calls.length
+    await wrapper.find(TRIGGER).trigger('click')
+    for (let i = 0; i < 10; i++) {
+      await nextTick()
+    }
+    await new Promise((resolve) => setTimeout(resolve, 20))
+    for (let i = 0; i < 10; i++) {
+      await nextTick()
+    }
+    // Only the pending ancestors are requested once more
+    const requestedValues = lazyLoadSpy.mock.calls
+      .slice(callsBeforeOpen)
+      .map((call) => call[0]?.value)
+    expect(requestedValues).toEqual(['asia', 'china', 'beijing'])
   })
 
   test('persistent false should not show a label after options are emptied', async () => {
