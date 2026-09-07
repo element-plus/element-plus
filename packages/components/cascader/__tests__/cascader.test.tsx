@@ -329,6 +329,41 @@ describe('Cascader.vue', () => {
         await nextTick()
       }
       expect(wrapper.find('input').element.value).toBe('Asia / China / Beijing')
+
+      // Any node loaded by the panel can be resolved while closed
+      value.value = ['asia']
+      await nextTick()
+      expect(wrapper.find('input').element.value).toBe('Asia')
+    })
+  })
+
+  test('persistent false should not show a label after options are emptied', async () => {
+    await withRealPersistent(async () => {
+      const value = ref(['zhejiang', 'hangzhou'])
+      const options = ref(OPTIONS)
+      const wrapper = _mount(() => (
+        <Cascader
+          v-model={value.value}
+          options={options.value}
+          persistent={false}
+        />
+      ))
+
+      await nextTick()
+      expect(wrapper.find('input').element.value).toBe('Zhejiang / Hangzhou')
+
+      // Open and close so the panel gets mounted and unmounted once
+      await wrapper.find(TRIGGER).trigger('click')
+      await nextTick()
+      await wrapper.find(TRIGGER).trigger('click')
+      for (let i = 0; i < 5; i++) {
+        await rAF()
+        await nextTick()
+      }
+
+      options.value = []
+      await nextTick()
+      expect(wrapper.find('input').element.value).toBe('')
     })
   })
 

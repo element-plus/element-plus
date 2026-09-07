@@ -480,9 +480,9 @@ const tagSize = computed(() =>
 )
 const multiple = computed(() => !!props.props.multiple)
 const config = useCascaderConfig(props)
-// Last non-empty checked nodes resolved by the mounted panel, used as
-// a fallback for lazy mode where the unmounted cascader cannot resolve
-// model values into labels on its own.
+// Nodes loaded by the panel while it was mounted, used as a fallback
+// for lazy mode where the unmounted cascader cannot resolve model
+// values into labels on its own.
 const resolvedPanelNodes = ref<CascaderNode[]>([])
 const readonly = computed(() => !props.filterable || multiple.value)
 const searchKeyword = computed(() =>
@@ -509,20 +509,24 @@ const checkedNodes: ComputedRef<CascaderNode[]> = computed(() => {
           .filter((node) => !!node && (cfg.checkStrictly || node.isLeaf))
       ) as CascaderNode[]
     }
-    // Lazy options cannot be resolved without the panel's loaded data,
-    // so match the values against the nodes the panel resolved last.
-    const values = cfg.multiple
-      ? castArray(props.modelValue)
-      : [props.modelValue]
-    return unique(
-      values
-        .map((val) =>
-          resolvedPanelNodes.value.find((node) =>
-            isEqual(node.valueByOption, val)
+    if (cfg.lazy) {
+      // Lazy options cannot be resolved without the panel's loaded
+      // data, so match the values against the nodes loaded by the
+      // panel most recently.
+      const values = cfg.multiple
+        ? castArray(props.modelValue)
+        : [props.modelValue]
+      return unique(
+        values
+          .map((val) =>
+            resolvedPanelNodes.value.find((node) =>
+              isEqual(node.valueByOption, val)
+            )
           )
-        )
-        .filter((node) => !!node)
-    )
+          .filter((node) => !!node)
+      )
+    }
+    return []
   }
   return []
 })
@@ -1141,10 +1145,21 @@ watch(realSize, async () => {
 watch(presentText, syncPresentTextValue, { immediate: true })
 
 watch(
-  () => cascaderPanelRef.value?.checkedNodes,
-  (nodes) => {
-    if (nodes?.length) {
-      resolvedPanelNodes.value = nodes
+  () => popperVisible.value,
+  (val) => {
+    if (val && props.props.lazy && props.props.lazyLoad) {
+      cascaderPanelRef.value?.loadLazyRootNodes()
+      return
+    }
+    if (!val && props.props.lazy) {
+      // Keep all nodes the panel loaded before it unmounts, so lazy
+      // cascaders can resolve any loaded value while closed.
+      const loadedNodes = cascaderPanelRef.value?.getFlattedNodes(false)
+      if (loadedNodes?.length) {
+        resolvedPanelNodes.value = unique(
+          resolvedPanelNodes.value.concat(loadedNodes)
+        )
+      }
     }
   }
 )
