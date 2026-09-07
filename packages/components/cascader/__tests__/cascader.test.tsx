@@ -259,6 +259,79 @@ describe('Cascader.vue', () => {
     })
   })
 
+  test('persistent false should drop invalid values when deleting a tag', async () => {
+    await withRealPersistent(async () => {
+      const value = ref([['zhejiang', 'hangzhou'], ['not-exist']])
+      const cascaderProps = { multiple: true }
+      const wrapper = _mount(() => (
+        <Cascader
+          v-model={value.value}
+          options={OPTIONS}
+          props={cascaderProps}
+          persistent={false}
+        />
+      ))
+
+      await nextTick()
+      // Only the value matching an option gets a tag
+      expect(wrapper.findAll(TAG).map((tag) => tag.text())).toEqual([
+        'Zhejiang / Hangzhou',
+      ])
+
+      const tags = wrapper.findAll(TAG)
+      await tags[0].find('.el-tag__close').trigger('click')
+      // The leftover value without a matching option is dropped as well
+      expect(value.value).toEqual([])
+      expect(wrapper.findAll(TAG).length).toBe(0)
+    })
+  })
+
+  test('persistent false should keep the label after the lazy panel closes', async () => {
+    await withRealPersistent(async () => {
+      const value = ref(['asia', 'china', 'beijing'])
+      const lazyData: Record<string, any> = {
+        root: [{ value: 'asia', label: 'Asia' }],
+        asia: [{ value: 'china', label: 'China' }],
+        china: [{ value: 'beijing', label: 'Beijing' }],
+      }
+      const cascaderProps = {
+        lazy: true,
+        lazyLoad: (node: any, resolve: (data: any[]) => void) => {
+          setTimeout(() => resolve(lazyData[node?.value ?? 'root'] ?? []), 0)
+        },
+      }
+      const wrapper = _mount(() => (
+        <Cascader
+          v-model={value.value}
+          props={cascaderProps}
+          persistent={false}
+        />
+      ))
+
+      await nextTick()
+      expect(wrapper.find('input').element.value).toBe('')
+
+      // Open the dropdown so the panel mounts and lazy loads the value path
+      await wrapper.find(TRIGGER).trigger('click')
+      for (let i = 0; i < 10; i++) {
+        await nextTick()
+      }
+      await new Promise((resolve) => setTimeout(resolve, 20))
+      for (let i = 0; i < 10; i++) {
+        await nextTick()
+      }
+      expect(wrapper.find('input').element.value).toBe('Asia / China / Beijing')
+
+      // Close the dropdown, the panel unmounts but the label stays
+      await wrapper.find(TRIGGER).trigger('click')
+      for (let i = 0; i < 5; i++) {
+        await rAF()
+        await nextTick()
+      }
+      expect(wrapper.find('input').element.value).toBe('Asia / China / Beijing')
+    })
+  })
+
   test('options change', async () => {
     const value = ref(['zhejiang', 'hangzhou'])
     const options = ref(OPTIONS)

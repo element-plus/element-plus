@@ -480,6 +480,10 @@ const tagSize = computed(() =>
 )
 const multiple = computed(() => !!props.props.multiple)
 const config = useCascaderConfig(props)
+// Last non-empty checked nodes resolved by the mounted panel, used as
+// a fallback for lazy mode where the unmounted cascader cannot resolve
+// model values into labels on its own.
+const resolvedPanelNodes = ref<CascaderNode[]>([])
 const readonly = computed(() => !props.filterable || multiple.value)
 const searchKeyword = computed(() =>
   multiple.value ? searchInputValue.value : inputValue.value
@@ -505,6 +509,20 @@ const checkedNodes: ComputedRef<CascaderNode[]> = computed(() => {
           .filter((node) => !!node && (cfg.checkStrictly || node.isLeaf))
       ) as CascaderNode[]
     }
+    // Lazy options cannot be resolved without the panel's loaded data,
+    // so match the values against the nodes the panel resolved last.
+    const values = cfg.multiple
+      ? castArray(props.modelValue)
+      : [props.modelValue]
+    return unique(
+      values
+        .map((val) =>
+          resolvedPanelNodes.value.find((node) =>
+            isEqual(node.valueByOption, val)
+          )
+        )
+        .filter((node) => !!node)
+    )
   }
   return []
 })
@@ -647,9 +665,16 @@ const deleteTag = (tag: Tag) => {
       cfg.multiple && !cfg.checkStrictly
         ? getSubtreeLeafValues(node)
         : [node.valueByOption]
-    const values = castArray(props.modelValue as CascaderNodeValue[]).filter(
-      (val) => !removedValues.some((removed) => isEqual(val, removed))
-    )
+    // Recalculate from the resolved nodes so values that no longer
+    // match any option are dropped, like the mounted panel does.
+    const values = checkedNodes.value
+      .filter(
+        (checkedNode) =>
+          !removedValues.some((removed) =>
+            isEqual(checkedNode.valueByOption, removed)
+          )
+      )
+      .map((checkedNode) => checkedNode.valueByOption)
     checkedValue.value = (
       cfg.multiple ? values : (values[0] ?? valueOnClear.value)
     ) as CascaderValue
@@ -1114,6 +1139,15 @@ watch(realSize, async () => {
 })
 
 watch(presentText, syncPresentTextValue, { immediate: true })
+
+watch(
+  () => cascaderPanelRef.value?.checkedNodes,
+  (nodes) => {
+    if (nodes?.length) {
+      resolvedPanelNodes.value = nodes
+    }
+  }
+)
 
 watch(
   () => popperVisible.value,
