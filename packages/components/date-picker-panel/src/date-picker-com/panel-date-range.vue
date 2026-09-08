@@ -771,6 +771,17 @@ const findValidDateToward = (from: Dayjs, toward: Dayjs): Dayjs => {
   return from
 }
 
+const findNearestValidDate = (from: Dayjs): Dayjs => {
+  if (!disabledDate.value || !disabledDate.value(from.toDate())) return from
+  for (let i = 1; i < 731; i++) {
+    const later = from.add(i, 'day')
+    if (!disabledDate.value(later.toDate())) return later
+    const earlier = from.subtract(i, 'day')
+    if (!disabledDate.value(earlier.toDate())) return earlier
+  }
+  return from
+}
+
 const handleDateInput = (value: string | null, type: ChangeType) => {
   dateUserInput.value[type] = value
   const parsedValueD = dayjs(value, dateFormat.value).locale(lang.value)
@@ -854,14 +865,14 @@ const handleTimeInput = (value: string | null, type: ChangeType) => {
   if (parsedValueD.isValid()) {
     if (type === 'min') {
       minTimePickerVisible.value = true
-      minDate.value = (minDate.value || leftDate.value)
+      minDate.value = (minDate.value || findNearestValidDate(leftDate.value))
         .hour(parsedValueD.hour())
         .minute(parsedValueD.minute())
         .second(parsedValueD.second())
       leftDate.value = minDate.value
     } else {
       maxTimePickerVisible.value = true
-      maxDate.value = (maxDate.value || rightDate.value)
+      maxDate.value = (maxDate.value || findNearestValidDate(rightDate.value))
         .hour(parsedValueD.hour())
         .minute(parsedValueD.minute())
         .second(parsedValueD.second())
@@ -891,7 +902,7 @@ const handleTimeChange = (_value: string | null, type: ChangeType) => {
 const handleMinTimePick = (value: Dayjs, visible: boolean, first: boolean) => {
   if (timeUserInput.value.min) return
   if (value) {
-    minDate.value = (minDate.value || leftDate.value)
+    minDate.value = (minDate.value || findNearestValidDate(leftDate.value))
       .hour(value.hour())
       .minute(value.minute())
       .second(value.second())
@@ -903,7 +914,7 @@ const handleMinTimePick = (value: Dayjs, visible: boolean, first: boolean) => {
 
   if (!maxDate.value || maxDate.value.isBefore(minDate.value)) {
     maxDate.value = minDate.value
-    rightDate.value = value
+    rightDate.value = maxDate.value
     nextTick(() => {
       parseValue(props.parsedValue)
     })
@@ -918,7 +929,7 @@ const handleMaxTimePick = (
 ) => {
   if (timeUserInput.value.max) return
   if (value) {
-    maxDate.value = (maxDate.value || rightDate.value)
+    maxDate.value = (maxDate.value || findNearestValidDate(rightDate.value))
       .hour(value.hour())
       .minute(value.minute())
       .second(value.second())

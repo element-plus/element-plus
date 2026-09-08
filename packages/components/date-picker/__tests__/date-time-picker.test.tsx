@@ -680,6 +680,47 @@ describe('Datetimerange', () => {
     expect(value.value).not.toBe('')
   })
 
+  it('select time should honor disabledDate when auto filling dates', async () => {
+    const value = ref<string[]>([])
+    const minValidDate = dayjs().startOf('day').add(3, 'day')
+    const disabledDate = (time: Date) => dayjs(time).isBefore(minValidDate, 'day')
+    const wrapper = _mount(() => (
+      <DatePicker
+        v-model={value.value}
+        type="datetimerange"
+        disabledDate={disabledDate}
+      />
+    ))
+
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const timeInput = document.querySelectorAll(
+      '.el-date-range-picker__editors-wrap input'
+    )[1] as HTMLInputElement
+    timeInput.blur()
+    timeInput.focus()
+    timeInput.blur()
+    await nextTick()
+    const button: HTMLElement = document.querySelector(
+      '.el-date-range-picker__time-picker-wrap .el-time-panel .confirm'
+    )!
+    button.click()
+    await nextTick()
+    const btn = document.querySelectorAll(
+      '.el-picker-panel__footer .el-button'
+    )[1] as HTMLElement
+    btn.click()
+    await nextTick()
+    expect(value.value).not.toBe('')
+    // dates auto-filled by time selection should never be disabled ones
+    value.value.forEach((date) => {
+      expect(disabledDate(dayjs(date).toDate())).toBe(false)
+      expect(dayjs(date).isSame(minValidDate, 'day')).toBe(true)
+    })
+  })
+
   it('clear button should empty the input value', async () => {
     const value = ref([])
     const onClear = vi.fn()
