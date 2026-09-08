@@ -40,7 +40,7 @@
     "docs:crowdin-credentials": "pnpm run -C docs crowdin-credentials",
     "stub": "pnpm run -r --parallel stub",
     "prepare": "husky",
-    "postinstall": "pnpm stub && pnpm gen:version & pnpm run -C internal/metadata dev &"
+    "postinstall": "pnpm stub && pnpm gen:version && pnpm run -C internal/metadata dev"
   },
   "dependencies": {
     "@element-plus/components": "workspace:*",
