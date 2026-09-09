@@ -169,6 +169,7 @@
     }
 
     @include e(decrease) {
+      bottom: 1.2px;
       right: 1px;
       top: auto;
       left: auto;
