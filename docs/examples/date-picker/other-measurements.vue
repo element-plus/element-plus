@@ -45,6 +45,14 @@
         />
       </div>
       <div class="block">
+        <span class="demonstration">Weeks</span>
+        <el-date-picker
+          v-model="value9"
+          type="weeks"
+          placeholder="Pick one or more weeks"
+        />
+      </div>
+      <div class="block">
         <span class="demonstration">Years</span>
         <el-date-picker
           v-model="value4"
@@ -83,6 +91,7 @@ const value5 = ref('')
 const value6 = ref('')
 const value7 = ref('')
 const value8 = ref([])
+const value9 = ref([])
 </script>
 
 <style scoped>

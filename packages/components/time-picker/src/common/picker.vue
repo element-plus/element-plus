@@ -53,6 +53,7 @@
           !editable ||
           readonly ||
           isDatesPicker ||
+          isWeeksPicker ||
           isMonthsPicker ||
           isYearsPicker ||
           isQuartersPicker ||
@@ -418,6 +419,7 @@ const displayValue = computed<UserInput>(() => {
   if (!pickerVisible.value && valueIsEmpty.value) return ''
   if (formattedValue) {
     return isDatesPicker.value ||
+      isWeeksPicker.value ||
       isMonthsPicker.value ||
       isYearsPicker.value ||
       isQuartersPicker.value
@@ -432,6 +434,8 @@ const isTimeLikePicker = computed(() => props.type.includes('time'))
 const isTimePicker = computed(() => props.type.startsWith('time'))
 
 const isDatesPicker = computed(() => props.type === 'dates')
+
+const isWeeksPicker = computed(() => props.type === 'weeks')
 
 const isMonthsPicker = computed(() => props.type === 'months')
 

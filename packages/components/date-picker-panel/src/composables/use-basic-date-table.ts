@@ -2,7 +2,7 @@ import { computed, nextTick, ref, unref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { flatten } from 'lodash-unified'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { castArray, isArray } from '@element-plus/utils'
+import { castArray } from '@element-plus/utils'
 import { buildPickerTable } from '../utils'
 
 import type { SetupContext } from 'vue'
@@ -140,7 +140,7 @@ export const useBasicDateTable = (
   }
 
   const setRowMetadata = (row: DateCell[]) => {
-    if (props.selectionMode === 'week') {
+    if (props.selectionMode === 'week' || props.selectionMode === 'weeks') {
       const [start, end] = props.showWeekNumber ? [1, 7] : [0, 6]
       const isActive = isWeekActive(row[start + 1])
       row[start].inRange = isActive
@@ -316,6 +316,32 @@ export const useBasicDateTable = (
     })
   }
 
+  const handleWeeksPick = (newDate: Dayjs) => {
+    const weekDate = newDate.startOf('week')
+    const selectedWeeks = castArray(props.parsedValue).filter(dayjs.isDayjs)
+    // 判断当前点击的周，如果已经选择了，则取消选择；否则加入
+    const isSelected = selectedWeeks.some((date) =>
+      date.startOf('week').isSame(weekDate, 'day')
+    )
+    const newValue = isSelected
+      ? selectedWeeks.filter(
+          (date) => !date.startOf('week').isSame(weekDate, 'day')
+        )
+      : selectedWeeks.concat(weekDate)
+    emit(
+      'pick',
+      newValue.map((date) => {
+        const weekNumber = date.week()
+        return {
+          year: date.year(),
+          week: weekNumber,
+          value: `${date.year()}w${weekNumber}`,
+          date: date.startOf('week'),
+        }
+      })
+    )
+  }
+
   const handleDatesPick = (newDate: Dayjs, selected: boolean) => {
     const newValue = selected
       ? castArray(props.parsedValue).filter(
@@ -326,7 +352,7 @@ export const useBasicDateTable = (
   }
 
   const handlePickDate = (
-    event: FocusEvent | MouseEvent,
+    event: FocusEvent | MouseEvent | KeyboardEvent,
     isKeyboardMovement = false
   ) => {
     if (props.disabled) return
@@ -355,6 +381,10 @@ export const useBasicDateTable = (
         handleWeekPick(newDate)
         break
       }
+      case 'weeks': {
+        handleWeeksPick(newDate)
+        break
+      }
       case 'dates': {
         handleDatesPick(newDate, !!cell.selected)
         break
@@ -365,8 +395,17 @@ export const useBasicDateTable = (
     }
   }
 
+  const handleKeydown = (event: KeyboardEvent) => {
+    if (props.selectionMode !== 'weeks') return
+    event.preventDefault()
+    event.stopPropagation()
+    handlePickDate(event)
+  }
+
   const isWeekActive = (cell: DateCell) => {
-    if (props.selectionMode !== 'week') return false
+    const isWeekMode =
+      props.selectionMode === 'week' || props.selectionMode === 'weeks'
+    if (!isWeekMode) return false
     let newDate = props.date.startOf('day')
 
     if (cell.type === 'prev-month') {
@@ -379,12 +418,14 @@ export const useBasicDateTable = (
 
     newDate = newDate.date(Number.parseInt(cell.text as any, 10))
 
-    if (props.parsedValue && !isArray(props.parsedValue)) {
-      const dayOffset = ((props.parsedValue.day() - firstDayOfWeek + 7) % 7) - 1
-      const weekDate = props.parsedValue.subtract(dayOffset, 'day')
-      return weekDate.isSame(newDate, 'day')
-    }
-    return false
+    // 单周和多周统一逐项判断，任意一项匹配时高亮当前行
+    return castArray(props.parsedValue)
+      .filter(dayjs.isDayjs)
+      .some((date) => {
+        const dayOffset = ((date.day() - firstDayOfWeek + 7) % 7) - 1
+        const weekDate = date.subtract(dayOffset, 'day')
+        return weekDate.isSame(newDate, 'day')
+      })
   }
 
   return {
@@ -405,6 +446,7 @@ export const useBasicDateTable = (
     handleMouseDown,
     handleMouseMove,
     handleFocus,
+    handleKeydown,
   }
 }
 
@@ -420,7 +462,11 @@ export const useBasicDateTableDOM = (
 
   const tableKls = computed(() => [
     ns.b(),
-    ns.is('week-mode', props.selectionMode === 'week' && !props.disabled),
+    ns.is(
+      'week-mode',
+      (props.selectionMode === 'week' || props.selectionMode === 'weeks') &&
+        !props.disabled
+    ),
   ])
 
   const tableLabel = computed(() => t('el.datepicker.dateTablePrompt'))
@@ -442,7 +488,9 @@ export const useBasicDateTableDOM = (
 
     if (
       cell.inRange &&
-      (isNormalDay(cell.type) || props.selectionMode === 'week')
+      (isNormalDay(cell.type) ||
+        props.selectionMode === 'week' ||
+        props.selectionMode === 'weeks')
     ) {
       classes.push('in-range')
 

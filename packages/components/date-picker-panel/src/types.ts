@@ -8,6 +8,7 @@ export type DatePickerType =
   | 'date'
   | 'dates'
   | 'week'
+  | 'weeks'
   | 'quarter'
   | 'quarters'
   | 'datetime'
