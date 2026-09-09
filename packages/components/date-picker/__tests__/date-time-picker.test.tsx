@@ -7,6 +7,7 @@ import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { ElFormItem } from '@element-plus/components/form'
 import DatePicker from '../src/date-picker'
 import DatePickerRange from '../../date-picker-panel/src/date-picker-com/panel-date-range.vue'
+import TimePickPanel from '../../time-picker/src/time-picker-com/panel-time-pick.vue'
 
 import type { VNode } from 'vue'
 import type { DatePickerType } from '../../date-picker-panel/src/types'
@@ -739,6 +740,7 @@ describe('Datetimerange', () => {
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
+    const rangePicker = wrapper.findComponent(DatePickerRange)
     const timeInput = document.querySelectorAll(
       '.el-date-range-picker__editors-wrap input'
     )[1] as HTMLInputElement
@@ -751,6 +753,9 @@ describe('Datetimerange', () => {
     )!
     button.click()
     await nextTick()
+    // the time popover should be closed even when no valid date is found
+    const timePanel = rangePicker.findComponent(TimePickPanel)
+    expect(timePanel.props('visible')).toBe(false)
     const btn = document.querySelectorAll(
       '.el-picker-panel__footer .el-button'
     )[1] as HTMLElement
