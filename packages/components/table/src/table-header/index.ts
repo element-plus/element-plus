@@ -84,12 +84,16 @@ export default defineComponent({
 
     let delayId: ReturnType<typeof setTimeout> | undefined
     const updateFixedColumnStyle = () => {
+      if (delayId) {
+        clearTimeout(delayId)
+        delayId = undefined
+      }
       delayId = setTimeout(() => {
-        if (saveIndexSelection.size > 0) {
+        delayId = undefined
+        const thead = theadRef.value
+        if (thead && saveIndexSelection.size > 0) {
           saveIndexSelection.forEach((column, key) => {
-            const el = theadRef.value.querySelector(
-              `.${key.replace(/\s/g, '.')}`
-            )
+            const el = thead.querySelector(`.${key.replace(/\s/g, '.')}`)
             if (el) {
               const width = el.getBoundingClientRect().width
               column.width = width || column.width

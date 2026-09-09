@@ -68,6 +68,7 @@
                 v-for="item in showTagList"
                 :key="getValueKey(item)"
                 :class="nsSelect.e('selected-item')"
+                :style="tagStyle"
               >
                 <el-tag
                   :closable="!selectDisabled && !item.isDisabled"
@@ -75,7 +76,6 @@
                   :type="tagType"
                   :effect="tagEffect"
                   disable-transitions
-                  :style="tagStyle"
                   @close="deleteTag($event, item)"
                 >
                   <span :class="nsSelect.e('tags-text')">
@@ -119,7 +119,10 @@
                 <template #default>
                   <div
                     ref="collapseItemRef"
-                    :class="nsSelect.e('selected-item')"
+                    :class="[
+                      nsSelect.e('selected-item'),
+                      nsSelect.e('collapse-item'),
+                    ]"
                   >
                     <el-tag
                       :closable="false"
@@ -127,7 +130,6 @@
                       :type="tagType"
                       :effect="tagEffect"
                       disable-transitions
-                      :style="collapseTagStyle"
                     >
                       <span :class="nsSelect.e('tags-text')">
                         + {{ states.selected.length - maxCollapseTags }}
@@ -555,7 +557,7 @@ export default defineComponent({
         handleOptionSelect: API.handleOptionSelect,
         onOptionCreate: API.onOptionCreate,
         onOptionDestroy: API.onOptionDestroy,
-      }) satisfies SelectContext
+      }) as unknown as SelectContext // Avoid TS2589
     )
 
     const selectedLabel = computed(() => {

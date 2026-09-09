@@ -1,6 +1,6 @@
-import { buildProps, iconPropType } from '@element-plus/utils'
+import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 
-import type { IconPropType } from '@element-plus/utils'
+import type { ClassValue, IconPropType } from '@element-plus/utils'
 
 /**
  * @description dialog-content component props
@@ -33,15 +33,15 @@ export interface DialogContentProps {
   /**
    * @description custom class names for header wrapper
    */
-  headerClass?: string
+  headerClass?: ClassValue
   /**
    * @description custom class names for body wrapper
    */
-  bodyClass?: string
+  bodyClass?: ClassValue
   /**
    * @description custom class names for footer wrapper
    */
-  footerClass?: string
+  footerClass?: ClassValue
   /**
    * @description whether to show a close button
    */
@@ -98,15 +98,24 @@ export const dialogContentProps = buildProps({
   /**
    * @description custom class names for header wrapper
    */
-  headerClass: String,
+  headerClass: {
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
+    default: undefined,
+  },
   /**
    * @description custom class names for body wrapper
    */
-  bodyClass: String,
+  bodyClass: {
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
+    default: undefined,
+  },
   /**
    * @description custom class names for footer wrapper
    */
-  footerClass: String,
+  footerClass: {
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
+    default: undefined,
+  },
   /**
    * @description whether to show a close button
    */
@@ -141,4 +150,7 @@ export const dialogContentPropsDefaults = {
   showClose: true,
   title: '',
   ariaLevel: '2',
+  headerClass: undefined,
+  bodyClass: undefined,
+  footerClass: undefined,
 } as const

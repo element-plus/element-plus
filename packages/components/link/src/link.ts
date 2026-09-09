@@ -26,11 +26,7 @@ export interface LinkProps {
    * @description same as native hyperlink's `target`
    */
   target?:
-    | '_blank'
-    | '_parent'
-    | '_self'
-    | '_top'
-    | (string & NonNullable<unknown>)
+    '_blank' | '_parent' | '_self' | '_top' | (string & NonNullable<unknown>)
 
   /**
    * @description icon component

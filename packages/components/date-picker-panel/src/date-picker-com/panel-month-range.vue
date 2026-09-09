@@ -147,7 +147,6 @@ import {
 } from '../props/panel-month-range'
 import { useMonthRangeHeader } from '../composables/use-month-range-header'
 import { useRangePicker } from '../composables/use-range-picker'
-import { ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY } from '../constants'
 import MonthTable from './basic-month-table.vue'
 import { useFormDisabled } from '@element-plus/components/form'
 
@@ -163,11 +162,8 @@ const unit = 'year'
 
 const { lang } = useLocale()
 const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
-const isDefaultFormat = inject(
-  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY,
-  undefined
-) as any
-const { shortcuts, disabledDate, cellClassName } = pickerBase.props
+const { shortcuts, cellClassName } = pickerBase.props
+const disabledDate = toRef(pickerBase.props, 'disabledDate')
 const format = toRef(pickerBase.props, 'format')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 const leftDate = ref(dayjs().locale(lang.value))
@@ -255,12 +251,7 @@ const handleClear = () => {
 }
 
 const parseUserInput = (value: Dayjs | Dayjs[]) => {
-  return correctlyParseUserInput(
-    value,
-    format.value,
-    lang.value,
-    isDefaultFormat
-  )
+  return correctlyParseUserInput(value, format.value, lang.value)
 }
 
 function sortDates(minDate: Dayjs | undefined, maxDate: Dayjs | undefined) {

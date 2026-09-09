@@ -70,6 +70,7 @@
     stroke-width: 2;
     stroke: getCssVar('color-primary');
     stroke-linecap: round;
+    will-change: transform; // #24731
   }
 
   i {
@@ -93,10 +94,12 @@
     stroke-dasharray: 1, 200;
     stroke-dashoffset: 0;
   }
+
   50% {
     stroke-dasharray: 90, 150;
     stroke-dashoffset: -40px;
   }
+
   100% {
     stroke-dasharray: 90, 150;
     stroke-dashoffset: -120px;

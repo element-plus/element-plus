@@ -1500,8 +1500,6 @@ describe('Select', () => {
     )
     await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
     const options = getOptions()
-    const selectRef = wrapper.findComponent(Select)
-    selectRef.vm.states.selectionWidth = 200
     options[0].click()
     await nextTick()
     options[1].click()
@@ -1511,7 +1509,10 @@ describe('Select', () => {
     const tagWrappers = wrapper.findAll('.el-tag')
     for (const tagWrapper of tagWrappers) {
       const tagWrapperDom = tagWrapper.element
-      expect(tagWrapperDom.style.maxWidth).toBe('200px')
+      expect(tagWrapperDom.style.maxWidth).toBe('')
+      expect(tagWrapperDom.parentElement!.style.maxWidth).toBe(
+        'calc(100% - 0px)'
+      )
     }
   })
 
@@ -1554,18 +1555,22 @@ describe('Select', () => {
     await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
     const options = getOptions()
     const selectRef = wrapper.findComponent(Select)
-    selectRef.vm.states.selectionWidth = 200
     options[0].click()
     await nextTick()
     const tagWrappers = wrapper.findAll('.el-tag')
     const tagWrapperDom = tagWrappers[0].element
-    expect(tagWrapperDom.style.maxWidth).toBe('200px')
+    const tagItemDom = tagWrapperDom.parentElement!
+    expect(tagWrapperDom.style.maxWidth).toBe('')
+    expect(tagItemDom.style.maxWidth).toBe('calc(100% - 0px)')
     options[1].click()
     await nextTick()
     options[2].click()
     selectRef.vm.states.collapseItemWidth = 38
     await nextTick()
-    expect(tagWrapperDom.style.maxWidth).toBe('156px')
+    expect(tagItemDom.style.maxWidth).toBe('calc(100% - 44px)')
+    const collapseItem = wrapper.find('.el-select__collapse-item')
+    expect(collapseItem.exists()).toBe(true)
+    expect(collapseItem.find('.el-tag').element.style.maxWidth).toBe('')
   })
 
   test('multiple select with collapseTagsTooltip', async () => {
@@ -4403,6 +4408,40 @@ describe('Select', () => {
   })
 
   describe('input-wrapper in multiple mode', () => {
+    test('should reserve input width only when input-wrapper is visible', async () => {
+      wrapper = getSelectVm({
+        multiple: true,
+        filterable: true,
+        collapseTags: true,
+      })
+      await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+      const input = wrapper.find('input')
+      await input.trigger('focus')
+      const options = getOptions()
+      options[0].click()
+      await nextTick()
+      options[1].click()
+      await nextTick()
+      options[2].click()
+
+      const selectRef = wrapper.findComponent(Select)
+      selectRef.vm.states.collapseItemWidth = 38
+      await nextTick()
+
+      const inputWrapper = wrapper.find('.el-select__input-wrapper')
+      const tagItem = wrapper.find('.el-tag').element.parentElement!
+      expect(inputWrapper.classes()).not.toContain('is-hidden')
+      expect(tagItem.style.maxWidth).toBe('calc(100% - 61px)')
+
+      await input.trigger('blur')
+      expect(inputWrapper.classes()).toContain('is-hidden')
+      expect(tagItem.style.maxWidth).toBe('calc(100% - 61px)')
+
+      await input.trigger('focus')
+      expect(inputWrapper.classes()).not.toContain('is-hidden')
+      expect(tagItem.style.maxWidth).toBe('calc(100% - 61px)')
+    })
+
     test('should hide input-wrapper when empty and not focused', async () => {
       wrapper = getSelectVm({
         multiple: true,

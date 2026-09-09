@@ -205,6 +205,7 @@ export const colorPickerPropsDefaults = {
   modelValue: undefined,
   disabled: undefined,
   clearable: true,
+  popperClass: undefined,
   popperStyle: undefined,
   tabindex: 0,
   teleported: true,

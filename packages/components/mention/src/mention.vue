@@ -93,6 +93,8 @@ const props = withDefaults(defineProps<MentionProps<T>>(), {
   filterOption: () => filterOption,
   placement: 'bottom',
   offset: 0,
+  popperClass: undefined,
+  popperStyle: undefined,
   popperOptions: () => ({}),
   props: () => mentionDefaultProps,
 })

@@ -55,9 +55,14 @@ $form-item-label-top-margin-bottom: map.merge(
 );
 
 @include b(form-item) {
-  display: flex;
+  @include set-css-var-value(
+    ('form-item', 'margin-bottom'),
+    map.get($form-item-margin-bottom, 'default')
+  );
   --font-size: #{map.get($input-font-size, 'default')};
-  margin-bottom: #{map.get($form-item-margin-bottom, 'default')};
+
+  display: flex;
+  margin-bottom: getCssVar('form-item', 'margin-bottom');
 
   .#{$namespace}-form-item {
     margin-bottom: 0;
@@ -71,8 +76,10 @@ $form-item-label-top-margin-bottom: map.merge(
     @include m($size) {
       --font-size: #{map.get($input-font-size, $size)};
       @include set-css-var-value(('form', 'label-font-size'), var(--font-size));
-
-      margin-bottom: #{map.get($form-item-margin-bottom, $size)};
+      @include set-css-var-value(
+        ('form-item', 'margin-bottom'),
+        map.get($form-item-margin-bottom, $size)
+      );
 
       @include e(label) {
         height: #{map.get($form-item-line-height, $size)};

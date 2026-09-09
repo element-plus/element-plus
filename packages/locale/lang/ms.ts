@@ -33,6 +33,8 @@ export default {
         'Gunakan kekunci anak panah dan masukkan untuk memilih hari dalam bulan tersebut',
       monthTablePrompt:
         'Gunakan kekunci anak panah dan masukkan untuk memilih bulan',
+      quarterTablePrompt:
+        'Gunakan kekunci anak panah dan masukkan untuk memilih suku',
       yearTablePrompt:
         'Gunakan kekunci anak panah dan masukkan untuk memilih tahun',
       selectedDate: 'Tarikh yang dipilih',
@@ -91,6 +93,9 @@ export default {
         nov: 'Nov',
         dec: 'Dis',
       },
+    },
+    input: {
+      characters: '{count} / {max} aksara',
     },
     inputNumber: {
       decrease: 'mengurangkan',

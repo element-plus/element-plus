@@ -7,9 +7,7 @@ export type ItemSize = (idx: number) => number
 export type Direction = 'ltr' | 'rtl'
 export type LayoutDirection = 'horizontal' | 'vertical'
 export type RTLOffsetType =
-  | 'negative'
-  | 'positive-descending'
-  | 'positive-ascending'
+  'negative' | 'positive-descending' | 'positive-ascending'
 
 export type ItemProps<T> = {
   data: T

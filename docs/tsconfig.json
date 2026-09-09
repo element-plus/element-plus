@@ -20,6 +20,11 @@
     "jsx": "preserve",
     "jsxImportSource": "vue"
   },
-  "include": ["**/*", ".vitepress/**/*", "../typings/global.d.ts"],
+  "include": [
+    "**/*",
+    ".vitepress/**/*",
+    "../typings/global.d.ts",
+    "../typings/style.d.ts"
+  ],
   "exclude": ["node_modules"]
 }

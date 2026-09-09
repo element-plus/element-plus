@@ -125,6 +125,8 @@ const props = withDefaults(defineProps<ColorPickerPanelProps>(), {
   validateEvent: true,
   showAlpha: false,
   showGradient: false,
+  hueSliderClass: undefined,
+  hueSliderStyle: undefined,
 })
 const emit = defineEmits(colorPickerPanelEmits)
 

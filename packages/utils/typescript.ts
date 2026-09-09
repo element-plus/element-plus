@@ -62,8 +62,7 @@ type ArrayKey = number
  * 用于通过一个类型递归构建路径的辅助类型
  */
 type PathImpl<K extends string | number, V> = V extends
-  | Primitive
-  | BrowserNativeObject
+  Primitive | BrowserNativeObject
   ? `${K}`
   : `${K}` | `${K}.${Path<V>}`
 
@@ -120,3 +119,7 @@ export type ObjectFit = CSSProperties['objectFit']
 export type ZIndexType = CSSProperties['zIndex']
 
 export type AlignItems = CSSProperties['alignItems']
+
+// todo: Use the `ClassValue` type exported by Vue, after we upgrades its peer dependency to ^3.5.29
+export type ClassValue =
+  false | null | undefined | string | Record<string, any> | Array<ClassValue>

@@ -14,6 +14,8 @@ const selectionModes = [
   'month',
   'months',
   'week',
+  'quarter',
+  'quarters',
   'range',
 ]
 

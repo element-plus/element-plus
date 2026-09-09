@@ -33,6 +33,8 @@ export default {
         'Utiliser les touches fléchées et appuyer sur Entrée pour sélectionner le jour du mois',
       monthTablePrompt:
         'Utiliser les touches fléchées et appuyer sur Entrée pour sélectionner le mois',
+      quarterTablePrompt:
+        'Utiliser les touches fléchées et appuyer sur Entrée pour sélectionner le trimestre',
       yearTablePrompt:
         "Utiliser les touches fléchées et appuyer sur Entrée pour sélectionner l'année",
       selectedDate: 'Date sélectionnée',
@@ -91,6 +93,9 @@ export default {
         nov: 'Nov',
         dec: 'Déc',
       },
+    },
+    input: {
+      characters: '{count} / {max} caractères',
     },
     inputNumber: {
       decrease: 'Décrémenter',

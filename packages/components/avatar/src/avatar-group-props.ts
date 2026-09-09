@@ -6,6 +6,7 @@ import { componentSizes } from '@element-plus/constants'
 import type { AvatarProps } from './avatar'
 import type { ExtractPropTypes, ExtractPublicPropTypes, StyleValue } from 'vue'
 import type { Placement, PopperEffect } from '@element-plus/components/popper'
+import type { ClassValue } from '@element-plus/utils'
 
 export const avatarGroupProps = {
   /**
@@ -64,7 +65,10 @@ export const avatarGroupProps = {
   /**
    * @description custom class name for the collapse-avatar
    */
-  collapseClass: String,
+  collapseClass: {
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
+    default: undefined,
+  },
   /**
    * @description custom style for the collapse-avatar
    */

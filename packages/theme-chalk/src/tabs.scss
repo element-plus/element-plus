@@ -32,6 +32,55 @@
     &.is-bottom {
       bottom: auto;
     }
+    @include when(hidden) {
+      visibility: hidden;
+
+      & ~ .is-active::after {
+        content: '';
+        position: absolute;
+        left: 20px;
+        right: 20px;
+        height: 2px;
+        bottom: 0;
+        z-index: 1;
+        background-color: getCssVar('color-primary');
+      }
+
+      &.is-bottom ~ .is-active::after {
+        top: 0;
+        bottom: auto;
+      }
+
+      &.is-left ~ .is-active::after,
+      &.is-right ~ .is-active::after {
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        height: auto;
+      }
+
+      &.is-left ~ .is-active::after {
+        left: auto;
+        right: 0;
+      }
+
+      &.is-right ~ .is-active::after {
+        left: 0;
+        right: auto;
+      }
+
+      // the first and last items of horizontal tabs have their outer
+      // padding removed, so the fallback line should not be inset there.
+      &.is-top ~ .is-active:nth-child(2)::after,
+      &.is-bottom ~ .is-active:nth-child(2)::after {
+        left: 0;
+      }
+
+      &.is-top ~ .is-active:last-child::after,
+      &.is-bottom ~ .is-active:last-child::after {
+        right: 0;
+      }
+    }
   }
   @include e(new-tab) {
     display: flex;

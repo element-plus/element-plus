@@ -9,10 +9,7 @@ import type { Component, ExtractPublicPropTypes } from 'vue'
 import type ImageViewer from './image-viewer.vue'
 
 export type ImageViewerAction =
-  | 'zoomIn'
-  | 'zoomOut'
-  | 'clockwise'
-  | 'anticlockwise'
+  'zoomIn' | 'zoomOut' | 'clockwise' | 'anticlockwise'
 
 export type ImageViewerCrossorigin = 'anonymous' | 'use-credentials' | ''
 

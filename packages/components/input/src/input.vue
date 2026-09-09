@@ -94,6 +94,8 @@
                 nsInput.e('count'),
                 nsInput.is('outside', wordLimitPosition === 'outside'),
               ]"
+              :aria-label="wordLimitLabel"
+              role="status"
             >
               <span :class="nsInput.e('count-inner')">
                 {{ textLength }} / {{ maxlength }}
@@ -170,6 +172,8 @@
           nsInput.e('count'),
           nsInput.is('outside', wordLimitPosition === 'outside'),
         ]"
+        :aria-label="wordLimitLabel"
+        role="status"
       >
         {{ textLength }} / {{ maxlength }}
       </span>
@@ -214,6 +218,7 @@ import {
   useComposition,
   useCursor,
   useFocusController,
+  useLocale,
   useNamespace,
 } from '@element-plus/hooks'
 import {
@@ -273,6 +278,7 @@ const inputSize = useFormSize()
 const inputDisabled = useFormDisabled()
 const nsInput = useNamespace('input')
 const nsTextarea = useNamespace('textarea')
+const { t } = useLocale()
 
 const input = shallowRef<HTMLInputElement>()
 const textarea = shallowRef<HTMLTextAreaElement>()
@@ -283,6 +289,7 @@ const countStyle = ref<StyleValue>()
 const clearIconStyle = ref<StyleValue>()
 const textareaCalcStyle = shallowRef(props.inputStyle)
 const saveValue = ref('')
+let passwordFocusValue: string | undefined
 const textareaHeight = ref<string>()
 
 const _ref = computed(() => input.value || textarea.value)
@@ -293,6 +300,32 @@ const { wrapperRef, isFocused, handleFocus, handleBlur } = useFocusController(
   _ref,
   {
     disabled: inputDisabled,
+    afterFocus() {
+      if (props.showPassword) {
+        passwordFocusValue = _ref.value?.value
+      }
+    },
+    beforeBlur(event) {
+      if (props.showPassword) {
+        const target = _ref.value
+        if (
+          event.relatedTarget &&
+          target?.parentElement?.contains(event.relatedTarget as Node)
+        ) {
+          return undefined
+        }
+        const value = target?.value
+        if (
+          !isNil(value) &&
+          !isNil(passwordFocusValue) &&
+          value !== passwordFocusValue
+        ) {
+          target?.dispatchEvent(new Event('change', { bubbles: true }))
+        }
+        passwordFocusValue = undefined
+      }
+      return undefined
+    },
     afterBlur() {
       if (props.validateEvent) {
         elFormItem?.validate?.('blur').catch(NOOP)
@@ -346,6 +379,12 @@ const textLength = computed(() => {
   }
   return nativeInputValue.value.length
 })
+const wordLimitLabel = computed(() =>
+  t('el.input.characters', {
+    count: textLength.value,
+    max: maxlength.value ?? '',
+  })
+)
 const inputExceed = computed(
   () =>
     // show exceed style if length of initial value greater then maxlength
@@ -610,6 +649,10 @@ const handleInput = async (event: Event) => {
 const handleChange = async (event: Event) => {
   let { value } = event.target as TargetElement
 
+  if (props.showPassword) {
+    passwordFocusValue = value
+  }
+
   value = formatValue(value)
   if (props.modelModifiers.lazy) {
     emit(UPDATE_MODEL_EVENT, value)
@@ -655,6 +698,7 @@ const select = () => {
 
 const clear = (evt?: MouseEvent) => {
   emit(UPDATE_MODEL_EVENT, '')
+  passwordFocusValue = ''
   emit(CHANGE_EVENT, '')
   emit('clear', evt)
   emit(INPUT_EVENT, '')

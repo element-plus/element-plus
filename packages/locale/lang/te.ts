@@ -32,6 +32,8 @@ export default {
       dateTablePrompt:
         'నెలలోని రోజును ఎంచుకోవడానికి ఈతలు మరియు ఎంటర్ ఉపయోగించండి',
       monthTablePrompt: 'నెలను ఎంచుకోవడానికి ఈతలు మరియు ఎంటర్ ఉపయోగించండి',
+      quarterTablePrompt:
+        'త్రైమాసికాన్ని ఎంచుకోవడానికి ఈతలు మరియు ఎంటర్ ఉపయోగించండి',
       yearTablePrompt:
         'సంవత్సరాన్ని ఎంచుకోవడానికి ఈతలు మరియు ఎంటర్ ఉపయోగించండి',
       selectedDate: 'ఎంచుకున్న తేదీ',
@@ -90,6 +92,9 @@ export default {
         nov: 'నవం',
         dec: 'డిసెం',
       },
+    },
+    input: {
+      characters: '{count} / {max} అక్షరాలు',
     },
     inputNumber: {
       decrease: 'సంఖ్య తగ్గించు',

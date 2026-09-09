@@ -30,6 +30,7 @@ export default {
       confirm: 'Bekreft',
       dateTablePrompt: 'Bruk piltastene og Enter-tasten for å velge dato',
       monthTablePrompt: 'Bruk piltastene og Enter-tasten for å velge måned',
+      quarterTablePrompt: 'Bruk piltastene og Enter-tasten for å velge kvartal',
       yearTablePrompt: 'Bruk piltastene og Enter-tasten for å velge år',
       selectedDate: 'Valgt dato',
       selectDate: 'Velg dato',
@@ -87,6 +88,9 @@ export default {
         nov: 'November',
         dec: 'Desember',
       },
+    },
+    input: {
+      characters: '{count} / {max} tegn',
     },
     inputNumber: {
       decrease: 'Minsk verdi',

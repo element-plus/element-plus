@@ -22,9 +22,7 @@ import type {
   CascaderValue,
 } from '@element-plus/components/cascader-panel'
 import type { TagProps } from '@element-plus/components/tag'
-import type { IconPropType } from '@element-plus/utils'
-
-type CascaderClassType = string | Record<string, boolean> | CascaderClassType[]
+import type { ClassValue, IconPropType } from '@element-plus/utils'
 
 export interface CascaderComponentProps
   extends CascaderCommonProps, UseEmptyValuesProps {
@@ -99,7 +97,7 @@ export interface CascaderComponentProps
   /**
    * @description custom class name for Cascader's dropdown
    */
-  popperClass?: CascaderClassType
+  popperClass?: ClassValue
   /**
    * @description custom style for Cascader's dropdown
    */

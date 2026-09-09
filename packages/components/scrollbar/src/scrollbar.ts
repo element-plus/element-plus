@@ -1,6 +1,7 @@
 import { buildProps, definePropType, isNumber } from '@element-plus/utils'
 import { useAriaProps } from '@element-plus/hooks'
 
+import type { ClassValue } from '@element-plus/utils'
 import type { ExtractPublicPropTypes, StyleValue } from 'vue'
 import type Scrollbar from './scrollbar.vue'
 
@@ -33,12 +34,12 @@ export interface ScrollbarProps {
    * @description class of wrap
    * @default ''
    */
-  wrapClass?: string | string[]
+  wrapClass?: ClassValue
   /**
    * @description class of view
    * @default ''
    */
-  viewClass?: string | string[]
+  viewClass?: ClassValue
   /**
    * @description style of view
    * @default ''
@@ -125,14 +126,14 @@ export const scrollbarProps = buildProps({
    * @description class of wrap
    */
   wrapClass: {
-    type: [String, Array],
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
     default: '',
   },
   /**
    * @description class of view
    */
   viewClass: {
-    type: [String, Array],
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
     default: '',
   },
   /**

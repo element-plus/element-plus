@@ -103,8 +103,7 @@ export interface UploadBaseProps {
    * @description additions options of request
    */
   data?:
-    | Awaitable<UploadData>
-    | ((rawFile: UploadRawFile) => Awaitable<UploadData>)
+    Awaitable<UploadData> | ((rawFile: UploadRawFile) => Awaitable<UploadData>)
   /**
    * @description whether uploading multiple files is permitted
    */

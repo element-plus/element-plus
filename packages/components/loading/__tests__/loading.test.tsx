@@ -143,6 +143,26 @@ describe('Loading', () => {
     expect(wrapper.find('.custom-path').attributes().d).toEqual('M 30 15')
   })
 
+  test('switch between default and custom spinner', async () => {
+    const spinner = ref<string>()
+    const wrapper = _mount(() => (
+      <div v-loading={true} element-loading-spinner={spinner.value} />
+    ))
+
+    await nextTick()
+    expect(wrapper.find('svg circle.path').exists()).toBe(true)
+
+    spinner.value = '<path class="custom-spinner" d="M 30 15"/>'
+    await nextTick()
+    expect(wrapper.find('svg .custom-spinner').exists()).toBe(true)
+    expect(wrapper.find('svg circle.path').exists()).toBe(false)
+
+    spinner.value = undefined
+    await nextTick()
+    expect(wrapper.find('svg .custom-spinner').exists()).toBe(false)
+    expect(wrapper.find('svg circle.path').exists()).toBe(true)
+  })
+
   test('create service', async () => {
     loadingInstance = Loading()
     expect(document.querySelector('.el-loading-mask')).toBeTruthy()

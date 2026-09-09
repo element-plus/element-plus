@@ -19,13 +19,11 @@ export const useMarks = (props: SliderProps) => {
       .map(Number.parseFloat)
       .sort((a, b) => a - b)
       .filter((point) => point <= props.max && point >= props.min)
-      .map(
-        (point): Mark => ({
-          point,
-          position: ((point - props.min) * 100) / (props.max - props.min),
-          mark: props.marks![point],
-        })
-      )
+      .map((point): Mark => ({
+        point,
+        position: ((point - props.min) * 100) / (props.max - props.min),
+        mark: props.marks![point],
+      }))
   })
 
   watchEffect(() => {

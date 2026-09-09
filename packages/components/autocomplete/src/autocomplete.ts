@@ -39,12 +39,7 @@ export type AutocompleteFetchSuggestions<
   | AutocompleteData<T>
 
 export type AutocompletePlacement =
-  | 'top'
-  | 'top-start'
-  | 'top-end'
-  | 'bottom'
-  | 'bottom-start'
-  | 'bottom-end'
+  'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end'
 
 export interface AutocompleteProps<
   T extends AutocompleteDataItem = AutocompleteDataItem,

@@ -31,6 +31,7 @@ export default {
       confirm: 'OK',
       dateTablePrompt: 'Bruk piltastene og enter for å velge dag i måneden',
       monthTablePrompt: 'Bruk piltastene og enter for å velge måned',
+      quarterTablePrompt: 'Bruk piltastene og enter for å velge kvartal',
       yearTablePrompt: 'Bruk piltastene og enter for å velge år',
       selectedDate: 'Valgt dato',
       selectDate: 'Velg dato',
@@ -88,6 +89,9 @@ export default {
         nov: 'Nov',
         dec: 'Des',
       },
+    },
+    input: {
+      characters: '{count} / {max} tegn',
     },
     inputNumber: {
       decrease: 'reduser tall',

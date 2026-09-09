@@ -143,13 +143,11 @@ function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     const cellChild = (event.target as HTMLElement).querySelector(
       '.cell'
     ) as HTMLElement
-    if (
-      !(
-        hasClass(cellChild, `${namespace}-tooltip`) &&
-        cellChild.childNodes.length &&
-        cellChild.textContent?.trim()
-      )
-    ) {
+    if (!(
+      hasClass(cellChild, `${namespace}-tooltip`) &&
+      cellChild.childNodes.length &&
+      cellChild.textContent?.trim()
+    )) {
       return
     }
     // use range width instead of scrollWidth to determine whether the text is overflowing

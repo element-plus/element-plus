@@ -87,11 +87,7 @@ Note, date time locale (month name, first day of the week ...) are also configur
 
 ```ts
 type CalendarDateType =
-  | 'prev-month'
-  | 'next-month'
-  | 'prev-year'
-  | 'next-year'
-  | 'today'
+  'prev-month' | 'next-month' | 'prev-year' | 'next-year' | 'today'
 ```
 
 </details>
