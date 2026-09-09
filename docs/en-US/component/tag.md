@@ -110,6 +110,7 @@ tag/checkable
 | checked / v-model:checked | is checked                        | ^[boolean]                                                         | false   |
 | disabled ^(2.8.2)         | whether the check-tag is disabled | ^[boolean]                                                         | false   |
 | type ^(2.5.4)             | type of CheckTag                  | ^[enum]`'primary' \| 'success' \| 'info' \| 'warning' \| 'danger'` | primary |
+| size ^(2.14.0)            | size of CheckTag                  | ^[enum]`'large' \| 'default' \| 'small'`                           | default |
 
 ### CheckTag Events
 
