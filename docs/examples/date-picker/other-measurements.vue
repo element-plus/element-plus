@@ -68,14 +68,14 @@
           placeholder="Pick one or more quarters"
         />
       </div>
-      <div class="block">
-        <span class="demonstration">Dates</span>
-        <el-date-picker
-          v-model="value2"
-          type="dates"
-          placeholder="Pick one or more dates"
-        />
-      </div>
+    </div>
+    <div class="block dates">
+      <span class="demonstration">Dates</span>
+      <el-date-picker
+        v-model="value2"
+        type="dates"
+        placeholder="Pick one or more dates"
+      />
     </div>
   </div>
 </template>
@@ -105,16 +105,20 @@ const value9 = ref([])
 .demo-date-picker .container {
   flex: 1;
   min-width: 300px;
-  border-right: solid 1px var(--el-border-color);
 }
 
-.demo-date-picker .container:last-child {
-  border-right: none;
+.demo-date-picker .container:first-child {
+  border-right: solid 1px var(--el-border-color);
 }
 
 .demo-date-picker .block {
   padding: 1.5rem 0;
   text-align: center;
+}
+
+.demo-date-picker .dates {
+  flex: 0 0 100%;
+  border-top: solid 1px var(--el-border-color);
 }
 
 .demo-date-picker .container .block:not(:first-child) {
@@ -132,12 +136,11 @@ const value9 = ref([])
   .demo-date-picker .container {
     flex: 0 0 100%;
     min-width: auto;
-    border-right: none;
-    border-bottom: solid 1px var(--el-border-color);
   }
 
-  .demo-date-picker .container:last-child {
-    border-bottom: none;
+  .demo-date-picker .container:first-child {
+    border-right: none;
+    border-bottom: solid 1px var(--el-border-color);
   }
 
   .demo-date-picker .block {
