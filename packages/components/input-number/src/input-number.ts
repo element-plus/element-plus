@@ -219,7 +219,7 @@ export const inputNumberProps = buildProps({
    */
   inputmode: {
     type: definePropType<HTMLAttributes['inputmode']>(String),
-    default: undefined,
+    default: 'decimal',
   },
   /**
    * @description alignment for the inner input text

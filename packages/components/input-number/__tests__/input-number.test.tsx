@@ -799,4 +799,43 @@ describe('InputNumber.vue', () => {
     await input.trigger('blur')
     expect(input.element.value).toEqual('$ ')
   })
+
+  // fix: #23563
+  test('intermediate decimal is preserved during typing', async () => {
+    const num = ref<number>(0)
+    const wrapper = mount(() => <InputNumber v-model={num.value} />)
+    const inputWrapper = wrapper.find('input')
+    const nativeInput = inputWrapper.element as HTMLInputElement
+
+    nativeInput.value = '1.'
+    await inputWrapper.trigger('input')
+    await nextTick()
+
+    expect(wrapper.find('input').element.value).toBe('1.')
+  })
+
+  // fix: #23563
+  test('normalize trailing decimal point on blur', async () => {
+    const num = ref<number>(0)
+    const wrapper = mount(() => <InputNumber v-model={num.value} />)
+    const inputWrapper = wrapper.find('input')
+    const nativeInput = inputWrapper.element as HTMLInputElement
+
+    nativeInput.value = '11.'
+    await inputWrapper.trigger('input')
+    await inputWrapper.trigger('blur')
+    await nextTick()
+
+    expect(wrapper.find('input').element.value).toBe('11')
+    expect(num.value).toBe(11)
+  })
+
+  // fix: #23563
+  test('inputmode defaults to decimal and can be overridden', async () => {
+    const wrapper = mount(() => <InputNumber />)
+    expect(wrapper.find('input').attributes('inputmode')).toBe('decimal')
+
+    const wrapper2 = mount(() => <InputNumber inputmode="numeric" />)
+    expect(wrapper2.find('input').attributes('inputmode')).toBe('numeric')
+  })
 })
