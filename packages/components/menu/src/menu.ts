@@ -265,8 +265,13 @@ export default defineComponent({
       // 将不在该菜单路径下的其余菜单收起
       // collapse all menu that are not under current menu item
       if (props.uniqueOpened) {
-        openedMenus.value = openedMenus.value.filter((index: string) =>
-          indexPath.includes(index)
+        openedMenus.value = openedMenus.value.filter(
+          (openedIndex: string) =>
+            indexPath.includes(openedIndex) ||
+            // 保留该菜单下已展开的子菜单，重新展开父菜单时可恢复
+            // keep the already opened descendants of the menu being opened,
+            // so re-expanding a parent restores its previously opened children
+            subMenus.value[openedIndex]?.indexPath.includes(index)
         )
       }
       openedMenus.value.push(index)
