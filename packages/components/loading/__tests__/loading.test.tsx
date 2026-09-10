@@ -191,6 +191,27 @@ describe('Loading', () => {
     expect(loadingInstance.visible.value).toBeFalsy()
   })
 
+  test('close service should release detached dom', async () => {
+    loadingInstance = Loading()
+    const mask = document.querySelector('.el-loading-mask') as HTMLElement
+    expect(mask).toBeTruthy()
+
+    vi.useFakeTimers()
+    loadingInstance.close()
+    vi.runAllTimers()
+    vi.useRealTimers()
+    await nextTick()
+
+    // the mask is removed from the document ...
+    expect(mask.parentNode).toBeNull()
+    // ... and no reference on the instance keeps it alive anymore
+    expect(loadingInstance.$el).toBeNull()
+    const internalInstance = loadingInstance.vm.$
+    expect(internalInstance.vnode.el).toBeNull()
+    expect(internalInstance.subTree).toBeNull()
+    expect(internalInstance.appContext.app._container).toBeNull()
+  })
+
   test('target service', async () => {
     const container = document.createElement('div')
     container.className = 'loading-container'
