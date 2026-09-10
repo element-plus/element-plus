@@ -401,11 +401,11 @@ export const useBasicDateTable = (
     event.stopPropagation()
     handlePickDate(event)
   }
-
+  const isWeekMode = computed(() => {
+    return props.selectionMode === 'week' || props.selectionMode === 'weeks'
+  })
   const isWeekActive = (cell: DateCell) => {
-    const isWeekMode =
-      props.selectionMode === 'week' || props.selectionMode === 'weeks'
-    if (!isWeekMode) return false
+    if (!isWeekMode.value) return false
     let newDate = props.date.startOf('day')
 
     if (cell.type === 'prev-month') {

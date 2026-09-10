@@ -37,14 +37,6 @@
     </div>
     <div class="container">
       <div class="block">
-        <span class="demonstration">Dates</span>
-        <el-date-picker
-          v-model="value2"
-          type="dates"
-          placeholder="Pick one or more dates"
-        />
-      </div>
-      <div class="block">
         <span class="demonstration">Weeks</span>
         <el-date-picker
           v-model="value9"
@@ -74,6 +66,14 @@
           v-model="value8"
           type="quarters"
           placeholder="Pick one or more quarters"
+        />
+      </div>
+      <div class="block">
+        <span class="demonstration">Dates</span>
+        <el-date-picker
+          v-model="value2"
+          type="dates"
+          placeholder="Pick one or more dates"
         />
       </div>
     </div>
