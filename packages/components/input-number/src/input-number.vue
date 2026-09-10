@@ -6,6 +6,7 @@
       ns.is('disabled', inputNumberDisabled),
       ns.is('without-controls', !controls),
       ns.is('controls-right', controlsAtRight),
+      ns.is('controls-hover', controlsHovering),
       ns.is(align, !!align),
     ]"
     @dragstart.prevent
@@ -16,6 +17,8 @@
       role="button"
       :aria-label="t('el.inputNumber.decrease')"
       :class="[ns.e('decrease'), ns.is('disabled', minDisabled)]"
+      @mouseenter="onControlsMouseEnter"
+      @mouseleave="onControlsMouseLeave"
       @keydown.enter="decrease"
     >
       <slot name="decrease-icon">
@@ -31,6 +34,8 @@
       role="button"
       :aria-label="t('el.inputNumber.increase')"
       :class="[ns.e('increase'), ns.is('disabled', maxDisabled)]"
+      @mouseenter="onControlsMouseEnter"
+      @mouseleave="onControlsMouseLeave"
       @keydown.enter="increase"
     >
       <slot name="increase-icon">
@@ -173,6 +178,22 @@ const controlsAtRight = computed(() => {
 
 const inputNumberSize = useFormSize()
 const inputNumberDisabled = useFormDisabled()
+const controlsHovering = ref(false)
+
+watch(
+  () => props.controls,
+  () => {
+    controlsHovering.value = false
+  }
+)
+
+const onControlsMouseEnter = () => {
+  controlsHovering.value = true
+}
+
+const onControlsMouseLeave = () => {
+  controlsHovering.value = false
+}
 
 const displayValue = computed(() => {
   if (data.userInput !== null) {
