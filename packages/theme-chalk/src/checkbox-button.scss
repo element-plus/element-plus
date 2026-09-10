@@ -13,6 +13,10 @@
   position: relative;
   display: inline-block;
 
+  & + & {
+    margin-left: -1px;
+  }
+
   @include e(inner) {
     display: inline-block;
     line-height: 1;
@@ -24,7 +28,7 @@
       #{getCssVarName('button-bg-color')},
       map.get($button, 'bg-color')
     );
-    outline: getCssVar('border');
+    border: getCssVar('border');
     color: var(
       #{getCssVarName('button-text-color')},
       map.get($button, 'text-color')
@@ -66,11 +70,12 @@
   }
 
   &.is-checked {
+    z-index: 1;
+
     & .#{$namespace}-checkbox-button__inner {
       color: getCssVar('checkbox-button-checked-text-color');
       background-color: getCssVar('checkbox-button-checked-bg-color');
       border-color: getCssVar('checkbox-button-checked-border-color');
-      box-shadow: -1px 0 0 0 getCssVar('color-primary-light-7');
     }
     &:first-child .#{$namespace}-checkbox-button__inner {
       border-left-color: getCssVar('checkbox-button-checked-border-color');
