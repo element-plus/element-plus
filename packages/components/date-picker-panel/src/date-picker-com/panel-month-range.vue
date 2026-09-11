@@ -60,9 +60,33 @@
                 <el-icon><d-arrow-right /></el-icon>
               </slot>
             </button>
-            <div>{{ leftLabel }}</div>
+            <div>
+              <span
+                role="button"
+                aria-live="polite"
+                tabindex="0"
+                :class="[
+                  drpNs.e('header-label'),
+                  { active: leftCurrentView === 'year' },
+                ]"
+                @keydown.enter="togglePicker('left')"
+                @click="togglePicker('left')"
+              >
+                {{ leftLabel }}
+              </span>
+            </div>
           </div>
+          <year-table
+            v-if="leftCurrentView === 'year'"
+            selection-mode="year"
+            :date="leftDate"
+            :disabled-date="disabledDate"
+            :parsed-value="parsedRangeValue"
+            :disabled="disabled"
+            @pick="handleLeftYearPick"
+          />
           <month-table
+            v-else
             selection-mode="range"
             :date="leftDate"
             :min-date="minDate"
@@ -108,9 +132,33 @@
                 <el-icon><d-arrow-right /></el-icon>
               </slot>
             </button>
-            <div>{{ rightLabel }}</div>
+            <div>
+              <span
+                role="button"
+                aria-live="polite"
+                tabindex="0"
+                :class="[
+                  drpNs.e('header-label'),
+                  { active: rightCurrentView === 'year' },
+                ]"
+                @keydown.enter="togglePicker('right')"
+                @click="togglePicker('right')"
+              >
+                {{ rightLabel }}
+              </span>
+            </div>
           </div>
+          <year-table
+            v-if="rightCurrentView === 'year'"
+            selection-mode="year"
+            :date="rightDate"
+            :disabled-date="disabledDate"
+            :parsed-value="parsedRangeValue"
+            :disabled="disabled"
+            @pick="handleRightYearPick"
+          />
           <month-table
+            v-else
             selection-mode="range"
             :date="rightDate"
             :min-date="minDate"
@@ -139,6 +187,7 @@ import { PICKER_BASE_INJECTION_KEY } from '@element-plus/components/time-picker'
 import {
   correctlyParseUserInput,
   getDefaultValue,
+  getValidDateOfYear,
   isValidRange,
 } from '../utils'
 import {
@@ -149,6 +198,7 @@ import { useMonthRangeHeader } from '../composables/use-month-range-header'
 import { useRangePicker } from '../composables/use-range-picker'
 import MonthTable from './basic-month-table.vue'
 import { useFormDisabled } from '@element-plus/components/form'
+import YearTable from './basic-year-table.vue'
 
 import type { Dayjs } from 'dayjs'
 
@@ -166,6 +216,7 @@ const { shortcuts, cellClassName } = pickerBase.props
 const disabledDate = toRef(pickerBase.props, 'disabledDate')
 const format = toRef(pickerBase.props, 'format')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
+const parsedRangeValue = toRef(props, 'parsedValue')
 const leftDate = ref(dayjs().locale(lang.value))
 const rightDate = ref(dayjs().locale(lang.value).add(1, unit))
 
@@ -196,12 +247,15 @@ const {
   rightNextYear,
   leftNextYear,
   rightPrevYear,
+  togglePicker,
   leftLabel,
   rightLabel,
   leftYear,
   rightYear,
+  leftCurrentView,
+  rightCurrentView,
 } = useMonthRangeHeader({
-  unlinkPanels: toRef(props, 'unlinkPanels'),
+  props,
   leftDate,
   rightDate,
 })
@@ -212,6 +266,35 @@ const enableYearArrow = computed(() => {
     (props.unlinkPanels && rightYear.value > leftYear.value + 1)
   )
 })
+
+const updatePanelYear = (panel: 'left' | 'right', year: number) => {
+  if (props.disabled) return
+  const target = panel === 'left' ? leftDate : rightDate
+  const sibling = panel === 'left' ? rightDate : leftDate
+  const nextValue = getValidDateOfYear(
+    target.value.year(year),
+    lang.value,
+    disabledDate
+  )
+  target.value = nextValue
+
+  if (!props.unlinkPanels) {
+    sibling.value =
+      panel === 'left'
+        ? target.value.add(1, 'year')
+        : target.value.subtract(1, 'year')
+  }
+}
+
+const handleLeftYearPick = (year: number) => {
+  updatePanelYear('left', year)
+  leftCurrentView.value = 'month'
+}
+
+const handleRightYearPick = (year: number) => {
+  updatePanelYear('right', year)
+  rightCurrentView.value = 'month'
+}
 
 type RangePickValue = {
   minDate: Dayjs
@@ -273,6 +356,10 @@ watch(
     if (!visible && rangeState.value.selecting) {
       parseValue(props.parsedValue)
       onSelect(false)
+    }
+    if (!visible) {
+      leftCurrentView.value = 'month'
+      rightCurrentView.value = 'month'
     }
   }
 )
