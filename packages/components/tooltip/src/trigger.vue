@@ -63,7 +63,12 @@ const onMouseenter = composeEventHandlers(
 
     if (props.focusOnTarget && e.target) {
       nextTick(() => {
-        focusElement(e.target as HTMLElement, { preventScroll: true })
+        // `focusVisible: false` keeps the browser from painting the
+        // keyboard focus ring for this pointer-initiated focus
+        focusElement(e.target as HTMLElement, {
+          preventScroll: true,
+          focusVisible: false,
+        })
       })
     }
   })

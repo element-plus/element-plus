@@ -102,5 +102,33 @@ describe('Aria Utils', () => {
       expect(() => focusElement(null)).not.toThrow()
       expect(() => focusElement(undefined)).not.toThrow()
     })
+
+    it('should forward the given options to the element', () => {
+      const input = CE('input')
+      document.body.appendChild(input)
+      const focusSpy = vi.spyOn(input, 'focus')
+      focusElement(input, { preventScroll: true, focusVisible: false })
+      expect(focusSpy).toHaveBeenCalledWith({
+        preventScroll: true,
+        focusVisible: false,
+      })
+      focusSpy.mockRestore()
+      document.body.removeChild(input)
+    })
+
+    it('should not opt out of :focus-visible on its own', () => {
+      const input = CE('input')
+      document.body.appendChild(input)
+      const focusSpy = vi.spyOn(input, 'focus')
+      focusElement(input)
+      expect(focusSpy).toHaveBeenCalledWith(undefined)
+      focusElement(input, { preventScroll: true })
+      expect(focusSpy).toHaveBeenLastCalledWith({ preventScroll: true })
+      expect(focusSpy).not.toHaveBeenCalledWith(
+        expect.objectContaining({ focusVisible: expect.anything() })
+      )
+      focusSpy.mockRestore()
+      document.body.removeChild(input)
+    })
   })
 })
