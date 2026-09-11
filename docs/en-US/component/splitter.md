@@ -57,6 +57,29 @@ splitter/size
 
 :::
 
+### Size units
+
+The unit a `size` is written in decides what the panel aims for when the
+container is resized, so pick the one that matches your intent:
+
+| `size`        | Panel aims for                                                                     |
+| ------------- | ---------------------------------------------------------------------------------- |
+| `"200px"`     | 200px, keeping that width as the container resizes. The rest goes to other panels. |
+| `:size="200"` | 200px to begin with, then its share of the container proportionally.               |
+| `"25%"`       | A quarter of the container.                                                        |
+| omitted       | Whatever the sized panels leave over, split evenly with the other omitted panels.  |
+
+A panel sized in `px` keeps its width through collapse and expand too, and
+dragging it sets a new one.
+
+These are targets rather than guarantees. `min` and `max` take precedence, a
+panel can be collapsed to zero whatever its size says, and when the `px` panels
+together are wider than the container they shrink in proportion rather than
+pushing the other panels out.
+
+`min` and `max` read their units the usual way: a percentage tracks the
+container, while a number or a `px` string is a literal pixel limit.
+
 ## Lazy ^(2.11.0)
 
 When `lazy` is enabled, the panel size will not update in real time during dragging, but only after the drag ends.
