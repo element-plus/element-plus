@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="shouldRender"
     :class="[ns.b('panel'), ns.is('bordered', border)]"
     @keydown="handleKeyDown"
   >
@@ -23,6 +24,7 @@
 <script lang="ts" setup>
 import {
   computed,
+  inject,
   nextTick,
   onBeforeUpdate,
   onMounted,
@@ -59,7 +61,7 @@ import {
   useCascaderConfig,
 } from './config'
 import { checkNode, getMenuIndex, sortByOriginalOrder } from './utils'
-import { CASCADER_PANEL_INJECTION_KEY } from './types'
+import { CASCADER_INJECTION_KEY, CASCADER_PANEL_INJECTION_KEY } from './types'
 
 import type {
   CascaderNode,
@@ -106,6 +108,16 @@ const virtualScroll = computed(() => props.virtualScroll)
 const itemSize = computed(() => props.itemSize)
 const height = computed(() => props.height)
 
+const cascader = inject(CASCADER_INJECTION_KEY)
+
+const shouldRender = computed(() => {
+  return cascader?.shouldRenderContent ?? true
+})
+
+const shouldInitLazyNodes = computed(
+  () => !isEmpty(props.modelValue) || shouldRender.value
+)
+
 const initStore = () => {
   const { options } = props
   const cfg = config.value
@@ -113,20 +125,25 @@ const initStore = () => {
   manualChecked = false
   store = new Store(options, cfg)
   menus.value = [store.getNodes()]
-
-  if (cfg.lazy && isEmpty(props.options)) {
-    initialLoaded.value = false
-    lazyLoad(undefined, (list) => {
-      if (list) {
-        store = new Store(list, cfg)
-        menus.value = [store.getNodes()]
-      }
-      initialLoaded.value = true
-      syncCheckedValue(false, true)
-    })
-  } else {
+  if (!cfg.lazy || !isEmpty(props.options)) {
     syncCheckedValue(false, true)
   }
+}
+
+const initLazyRootNodes = () => {
+  const cfg = config.value
+
+  if (!cfg.lazy || !isEmpty(props.options)) return
+
+  initialLoaded.value = false
+  lazyLoad(undefined, (list) => {
+    if (list) {
+      store = new Store(list, cfg)
+      menus.value = [store.getNodes()]
+    }
+    initialLoaded.value = true
+    syncCheckedValue(false, true)
+  })
 }
 
 const lazyLoad: ElCascaderPanelContext['lazyLoad'] = (node, cb) => {
@@ -410,20 +427,35 @@ watch(
   (newVal, oldVal) => {
     if (isEqual(newVal, oldVal)) return
     initStore()
+    if (shouldInitLazyNodes.value) {
+      initLazyRootNodes()
+    }
   },
   {
     immediate: true,
   }
 )
 
-watch(() => props.options, initStore, {
-  deep: true,
-})
+watch(
+  () => props.options,
+  () => {
+    initStore()
+    if (shouldInitLazyNodes.value) {
+      initLazyRootNodes()
+    }
+  },
+  {
+    deep: true,
+  }
+)
 
 watch(
   () => props.modelValue,
   () => {
     manualChecked = false
+    if (shouldInitLazyNodes.value) {
+      loadLazyRootNodes()
+    }
     syncCheckedValue()
   },
   {
@@ -443,7 +475,7 @@ watch(
 
 const loadLazyRootNodes = () => {
   if (initialLoadedOnce.value || !initialLoaded.value) return
-  initStore()
+  initLazyRootNodes()
 }
 
 onBeforeUpdate(() => (menuList.value = []))

@@ -108,6 +108,9 @@ cascader/dynamic-loading
 
 :::
 
+:::tip When `persistent = false` and the initial value of `Cascader` is empty, the root `lazyload` will not be triggered during initialization. Instead, it will be deferred until the dropdown opens. This prevents unnecessary data fetching when the panel is not visible.
+:::
+
 ## Filterable
 
 Search and select options with a keyword.
