@@ -125,7 +125,7 @@ export default defineComponent({
     }
 
     const onKeydown = (e: KeyboardEvent) => {
-      const focusIntent = getFocusIntent(e as KeyboardEvent)
+      const focusIntent = getFocusIntent(e as KeyboardEvent, props.orientation)
 
       if (focusIntent) {
         e.preventDefault()
