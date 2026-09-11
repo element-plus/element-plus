@@ -356,6 +356,28 @@ const TabNav = defineComponent({
       rAF(update)
     })
 
+    watch(
+      () => props.currentName,
+      (_, oldName, onCleanup) => {
+        const previousTab = tabRefsMap.value[oldName]
+        const closeIcon =
+          previousTab?.querySelector<HTMLElement>('.is-icon-close')
+        if (!closeIcon || closeIcon.getBoundingClientRect().width === 0) return
+
+        const handleTransitionEnd = (event: TransitionEvent) => {
+          if (event.propertyName !== 'width') return
+
+          closeIcon.removeEventListener('transitionend', handleTransitionEnd)
+          rAF(update)
+        }
+
+        closeIcon.addEventListener('transitionend', handleTransitionEnd)
+        onCleanup(() =>
+          closeIcon.removeEventListener('transitionend', handleTransitionEnd)
+        )
+      }
+    )
+
     onMounted(() => setTimeout(() => scrollToActiveTab(), 0))
     onUpdated(() => update())
 
