@@ -1804,6 +1804,45 @@ describe('DatePicker dates', () => {
       document.querySelectorAll('.el-date-table__row .selected').length
     ).toBe(1)
   })
+
+  it('should toggle dates on keyboard enter and space', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        type="dates"
+        v-model="value"
+      />`,
+      () => ({ value: [] as Date[] })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+
+    const date = document.querySelector(
+      '.el-date-table__row .available'
+    ) as HTMLElement
+    date.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        key: 'Enter',
+        code: EVENT_CODE.enter,
+        bubbles: true,
+      })
+    )
+    await nextTick()
+
+    const vm = wrapper.vm as any
+    expect(vm.value).toHaveLength(1)
+
+    date.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        key: ' ',
+        code: EVENT_CODE.space,
+        bubbles: true,
+      })
+    )
+    await nextTick()
+    expect(vm.value).toHaveLength(0)
+  })
 })
 
 describe('DatePicker months', () => {
