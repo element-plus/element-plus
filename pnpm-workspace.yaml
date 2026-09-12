@@ -11,7 +11,7 @@ allowBuilds:
   vue-demi: true
 
 catalog:
-  '@ctrl/tinycolor': ^4.2.0
+  '@ctrl/tinycolor': ^4.2.1
   '@element-plus/icons-vue': ^2.3.2
   '@floating-ui/dom': ^1.8.0
   '@popperjs/core': npm:@sxzz/popperjs-es@^2.11.8
