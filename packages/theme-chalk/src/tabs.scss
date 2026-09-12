@@ -12,6 +12,22 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 2px;
+      background-color: getCssVar('border-color-light');
+      z-index: getCssVar('index-normal');
+    }
+
+    &.is-bottom::after {
+      top: 0;
+      bottom: auto;
+    }
   }
   @include e(header-vertical) {
     flex-direction: column;
@@ -122,22 +138,6 @@
     position: relative;
     flex: 1 auto;
 
-    &::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      height: 2px;
-      background-color: getCssVar('border-color-light');
-      z-index: getCssVar('index-normal');
-    }
-
-    &.is-bottom::after {
-      top: 0;
-      bottom: auto;
-    }
-
     @include when(scrollable) {
       padding: 0 20px;
       box-sizing: border-box;
@@ -244,6 +244,17 @@
     flex-grow: 1;
   }
   @include m((top, bottom)) {
+    &:not(.#{$namespace}-tabs--card):not(.#{$namespace}-tabs--border-card) {
+      > .#{$namespace}-tabs__header > .#{$namespace}-tabs__nav-wrap {
+        margin-bottom: 0;
+        align-self: flex-end;
+
+        &.is-bottom {
+          align-self: flex-start;
+        }
+      }
+    }
+
     > .#{$namespace}-tabs__header {
       .#{$namespace}-tabs__item:nth-child(2) {
         padding-left: 0;
@@ -270,9 +281,6 @@
       border-bottom: 1px solid getCssVar('border-color-light');
       height: getCssVar('tabs', 'header-height');
       box-sizing: border-box;
-    }
-    > .#{$namespace}-tabs__header .#{$namespace}-tabs__nav-wrap::after {
-      content: none;
     }
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__nav {
       border: 1px solid getCssVar('border-color-light');
@@ -343,9 +351,6 @@
       border-bottom: 1px solid getCssVar('border-color-light');
       margin: 0;
     }
-    > .#{$namespace}-tabs__header .#{$namespace}-tabs__nav-wrap::after {
-      content: none;
-    }
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__item {
       transition: all getCssVar('transition-duration')
         getCssVar('transition-function-ease-in-out-bezier');
@@ -412,6 +417,10 @@
   }
 
   @include m((card, border-card)) {
+    > .#{$namespace}-tabs__header::after {
+      content: none;
+    }
+
     & > .#{$namespace}-tabs__header.is-left,
     & > .#{$namespace}-tabs__header.is-right {
       border-bottom: none;
@@ -420,6 +429,13 @@
 
   @include m((left, right)) {
     overflow: hidden;
+
+    > .#{$namespace}-tabs__header::after {
+      height: 100%;
+      width: 2px;
+      bottom: auto;
+      top: 0;
+    }
 
     .#{$namespace}-tabs__header.is-left,
     .#{$namespace}-tabs__header.is-right,
@@ -471,13 +487,6 @@
       &.is-scrollable {
         padding: 30px 0;
       }
-
-      &::after {
-        height: 100%;
-        width: 2px;
-        bottom: auto;
-        top: 0;
-      }
     }
 
     .#{$namespace}-tabs__nav.is-left,
@@ -496,17 +505,17 @@
   @include m(left) {
     flex-direction: row;
 
+    > .#{$namespace}-tabs__header::after {
+      left: auto;
+      right: -1px;
+    }
+
     .#{$namespace}-tabs__header.is-left {
       margin-bottom: 0;
       margin-right: 10px;
     }
     .#{$namespace}-tabs__nav-wrap.is-left {
       margin-right: -1px;
-
-      &::after {
-        left: auto;
-        right: 0;
-      }
     }
     .#{$namespace}-tabs__active-bar.is-left {
       right: 0;
@@ -583,6 +592,11 @@
     }
   }
   @include m(right) {
+    > .#{$namespace}-tabs__header::after {
+      left: -1px;
+      right: auto;
+    }
+
     .#{$namespace}-tabs__header.is-right {
       margin-bottom: 0;
       margin-left: 10px;
@@ -590,11 +604,6 @@
 
     .#{$namespace}-tabs__nav-wrap.is-right {
       margin-left: -1px;
-
-      &::after {
-        left: 0;
-        right: auto;
-      }
     }
 
     .#{$namespace}-tabs__active-bar.is-right {
