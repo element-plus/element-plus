@@ -46,6 +46,7 @@ export const tableV2GridProps = buildProps({
    * Special attributes
    */
   cache: virtualizedListProps.cache,
+  columnCache: virtualizedGridProps.columnCache,
   useIsScrolling: Boolean,
   scrollbarAlwaysOn: virtualizedGridProps.scrollbarAlwaysOn,
   scrollbarStartGap: virtualizedGridProps.scrollbarStartGap,

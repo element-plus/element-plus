@@ -636,9 +636,26 @@ const createGrid = ({
         return children
       }
 
+      const renderChunk = () => {
+        const [columnStart, columnEnd] = unref(columnsToRender)
+        const [rowStart, rowEnd] = unref(rowsToRender)
+        const { totalColumn, totalRow } = props
+        if (totalRow > 0 && totalColumn > 0)
+          return h(
+            Fragment,
+            {},
+            slots.chunk?.({
+              columnRange: [columnStart, columnEnd],
+              rowRange: [rowStart, rowEnd],
+              getItemStyle,
+            })
+          )
+        return []
+      }
+
       const renderInner = () => {
         const Inner = resolveDynamicComponent(props.innerElement) as VNode
-        const children = renderItems()
+        const children = props.chunkMode ? renderChunk() : renderItems()
         return [
           h(
             Inner,

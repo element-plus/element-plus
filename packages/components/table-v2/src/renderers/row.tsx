@@ -42,6 +42,8 @@ const RowRenderer: FunctionalComponent<RowRendererProps> = (
 ) => {
   const {
     columns,
+    activeColumns,
+    activeColumnStartIndex,
     columnsStyles,
     depthMap,
     expandColumnKey,
@@ -87,6 +89,8 @@ const RowRenderer: FunctionalComponent<RowRendererProps> = (
   const _rowProps = {
     ...additionalProps,
     columns,
+    activeColumns,
+    activeColumnStartIndex,
     columnsStyles,
     class: kls,
     depth,
