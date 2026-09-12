@@ -16,6 +16,10 @@ export default {
       svLabel: '选择饱和度与明度的值',
       svDescription: '饱和度 {saturation}, 明度 {brightness}, 当前颜色 {color}',
       predefineDescription: '选择 {value} 作为颜色',
+      solid: '纯色',
+      gradient: '渐变',
+      startColor: '起始颜色',
+      endColor: '结束颜色',
     },
     datepicker: {
       now: '此刻',

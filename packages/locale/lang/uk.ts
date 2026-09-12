@@ -16,6 +16,12 @@ export default {
       hueDescription: 'відтінок {hue}, поточний колір {color}',
       svLabel: 'виберіть насиченість і яскравість',
       svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
+      predefineDescription: 'select {value} as the color', // to be translated
+      solid: 'Solid', // to be translated
+      gradient: 'Gradient', // to be translated
+      startColor: 'Start Color', // to be translated
+      endColor: 'End Color', // to be translated
         'насиченість {saturation}, яскравість {brightness}, поточний колір {color}',
       predefineDescription: 'обрати {value} як колір',
     },

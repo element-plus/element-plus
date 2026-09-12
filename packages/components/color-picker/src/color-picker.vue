@@ -73,12 +73,7 @@
       >
         <div :class="ns.be('picker', 'trigger')" @click="handleTrigger">
           <span :class="[ns.be('picker', 'color'), ns.is('alpha', showAlpha)]">
-            <span
-              :class="ns.be('picker', 'color-inner')"
-              :style="{
-                backgroundColor: displayedColor,
-              }"
-            >
+            <span :class="ns.be('picker', 'color-inner')" :style="colorStyle">
               <el-icon
                 v-show="modelValue || showPanelColor"
                 :class="[ns.be('picker', 'icon'), ns.is('icon-arrow-down')]"
@@ -133,6 +128,7 @@ import {
   colorPickerPanelProps,
 } from '@element-plus/components/color-picker-panel'
 import Color from '@element-plus/components/color-picker-panel/src/utils/color'
+import { TinyColor } from '@ctrl/tinycolor'
 import { useCommonColor } from '@element-plus/components/color-picker-panel/src/composables/use-common-color'
 
 import type { ColorPickerPanelInstance } from '@element-plus/components/color-picker-panel'
@@ -187,15 +183,36 @@ const color = reactiveComputed(
   () => pickerPanelRef.value?.color ?? commonColor.color
 ) as Color
 
+// One-shot guard for initial hydration - suppress first active-change only
+let suppressNextActiveChange = true
+
 const panelProps = computed(() =>
   pick(props, Object.keys(colorPickerPanelProps))
 )
 
-const displayedColor = computed(() => {
+const colorStyle = computed(() => {
   if (!props.modelValue && !showPanelColor.value) {
-    return 'transparent'
+    return { backgroundColor: 'transparent' }
   }
-  return displayedRgb(color, props.showAlpha)
+  // Use background style in gradient mode only if showGradient is enabled
+  if (props.showGradient && color.isGradient) {
+    return {
+      background: color.toGradientValue(),
+      backgroundColor: undefined,
+    }
+  }
+  // When persistent=false, panel is not rendered so color.isGradient is not set.
+  // Parse gradient directly from modelValue to show preview.
+  if (props.showGradient) {
+    const gradientPreview = parseGradientPreview(props.modelValue)
+    if (gradientPreview) {
+      return {
+        background: gradientPreview,
+        backgroundColor: undefined,
+      }
+    }
+  }
+  return { backgroundColor: displayedRgb(color, props.showAlpha) }
 })
 
 const currentColor = computed(() => {
@@ -226,6 +243,30 @@ function displayedRgb(color: Color, showAlpha: boolean) {
   return showAlpha ? `rgba(${r}, ${g}, ${b}, ${a})` : `rgb(${r}, ${g}, ${b})`
 }
 
+function isGradientValue(value: string | undefined): boolean {
+  return !!(value && value.includes('gradient'))
+}
+
+function parseGradientPreview(value: string): string | null {
+  // Parse gradient value for preview when panel is not mounted
+  // e.g., "linear-gradient(90deg, #f00 25%, #00f 75%)"
+  if (!isGradientValue(value)) return null
+  const colorMatch = value.match(/rgba?\([^)]+\)|#[0-9a-fA-F]+/g)
+  if (colorMatch && colorMatch.length >= 2) {
+    const startColor = new TinyColor(colorMatch[0])
+    const endColor = new TinyColor(colorMatch[colorMatch.length - 1])
+    const posMatch = value.match(/(\d+(?:\.\d+)?)\s*%/g)
+    const startPos =
+      posMatch && posMatch[0] ? Number.parseFloat(posMatch[0]) : 0
+    const endPos =
+      posMatch && posMatch[1] ? Number.parseFloat(posMatch[1]) : 100
+    const formatColor = (c: TinyColor) =>
+      color.enableAlpha ? c.toRgbString() : c.toHexString()
+    return `linear-gradient(90deg, ${formatColor(startColor)} ${startPos}%, ${formatColor(endColor)} ${endPos}%)`
+  }
+  return null
+}
+
 function setShowPicker(value: boolean) {
   showPicker.value = value
 }
@@ -244,9 +285,49 @@ function hide() {
 function resetColor() {
   nextTick(() => {
     if (props.modelValue) {
-      color.fromString(props.modelValue)
+      if (props.showGradient && isGradientValue(props.modelValue)) {
+        const colorMatch = props.modelValue.match(
+          /rgba?\([^)]+\)|#[0-9a-fA-F]+/g
+        )
+        const posMatch = props.modelValue.match(/(\d+(?:\.\d+)?)\s*%/g)
+        if (colorMatch && colorMatch.length >= 2) {
+          const startColor = props.showAlpha
+            ? new TinyColor(colorMatch[0]).toRgbString()
+            : new TinyColor(colorMatch[0]).toHexString()
+          const endColor = props.showAlpha
+            ? new TinyColor(colorMatch[colorMatch.length - 1]).toRgbString()
+            : new TinyColor(colorMatch[colorMatch.length - 1]).toHexString()
+          const startPos =
+            posMatch && posMatch[0] ? Number.parseFloat(posMatch[0]) : 0
+          const endPos =
+            posMatch && posMatch[1] ? Number.parseFloat(posMatch[1]) : 100
+          color.startValue = startColor
+          color.endValue = endColor
+          color.startPosition = startPos
+          color.endPosition = endPos
+          color.isGradient = true
+          color.editingGradientPart = 'start'
+          color.fromString(startColor)
+        } else {
+          // Clear gradient state before hydrating solid value
+          color.isGradient = false
+          color.startValue = ''
+          color.endValue = ''
+          color.fromString(props.modelValue)
+        }
+      } else {
+        // Clear gradient state before hydrating solid value
+        color.isGradient = false
+        color.startValue = ''
+        color.endValue = ''
+        color.fromString(props.modelValue)
+      }
     } else {
+      // Clear color and gradient state when modelValue is empty
       color.value = ''
+      color.isGradient = false
+      color.startValue = ''
+      color.endValue = ''
       nextTick(() => {
         showPanelColor.value = false
       })
@@ -263,7 +344,13 @@ function handleTrigger() {
 }
 
 function confirmValue() {
-  const value = isEmptyValue(color.value) ? valueOnClear.value : color.value
+  // Use toGradientValue() in gradient mode, otherwise use color.value
+  // Check gradient mode first because gradient edits don't write to color.value
+  const value = color.isGradient
+    ? color.toGradientValue()
+    : isEmptyValue(color.value)
+      ? valueOnClear.value
+      : color.value
   emit(UPDATE_MODEL_EVENT, value)
   emit(CHANGE_EVENT, value)
   if (props.validateEvent) {
@@ -272,13 +359,36 @@ function confirmValue() {
   debounceSetShowPicker(false)
   // check if modelValue change, if not change, then reset color.
   nextTick(() => {
-    const newColor = new Color({
-      enableAlpha: props.showAlpha,
-      format: props.colorFormat || '',
-      value: props.modelValue,
-    })
-    if (!color.compare(newColor)) {
-      resetColor()
+    // Handle gradient value
+    if (props.modelValue && props.modelValue.includes('gradient')) {
+      const match = props.modelValue.match(/rgba?\([^)]+\)|#[0-9a-fA-F]+/g)
+      const posMatch = props.modelValue.match(/(\d+(?:\.\d+)?)\s*%/g)
+      if (match && match.length >= 2) {
+        const startColor = new TinyColor(match[0]).toHexString()
+        const endColor = new TinyColor(match[match.length - 1]).toHexString()
+        const startPos =
+          posMatch && posMatch[0] ? Number.parseFloat(posMatch[0]) : 0
+        const endPos =
+          posMatch && posMatch[1] ? Number.parseFloat(posMatch[1]) : 100
+        if (
+          color.startValue !== startColor ||
+          color.endValue !== endColor ||
+          color.startPosition !== startPos ||
+          color.endPosition !== endPos
+        ) {
+          resetColor()
+        }
+      }
+    } else {
+      // Original solid color comparison logic
+      const newColor = new Color({
+        enableAlpha: props.showAlpha,
+        format: props.colorFormat || '',
+        value: props.modelValue,
+      })
+      if (!color.compare(newColor) || color.isGradient) {
+        resetColor()
+      }
     }
   })
 }
@@ -339,7 +449,12 @@ function blur() {
 watch(
   () => currentColor.value,
   (val) => {
-    shouldActiveChange && emit('activeChange', val)
+    // Use one-shot guard to suppress initial hydration change only
+    if (!suppressNextActiveChange) {
+      shouldActiveChange && emit('activeChange', val)
+    }
+    // Disable guard after first value change
+    suppressNextActiveChange = false
     shouldActiveChange = true
   }
 )
@@ -358,9 +473,87 @@ watch(
   (newVal) => {
     if (!newVal) {
       showPanelColor.value = false
-    } else if (newVal && newVal !== color.value) {
-      shouldActiveChange = false
-      color.fromString(newVal)
+      // Clear gradient state (reset to solid mode)
+      if (color.isGradient) {
+        color.isGradient = false
+        color.startValue = ''
+        color.endValue = ''
+      }
+    } else if (newVal !== color.value || color.isGradient) {
+      // Only suppress activeChange when value actually changes
+      // For gradients, compare the full gradient string to avoid false positives
+      const currentGradientValue = color.isGradient
+        ? color.toGradientValue()
+        : color.value
+      if (newVal !== currentGradientValue) {
+        shouldActiveChange = false
+      }
+      // Check if value is a gradient
+      const isGradientValue = newVal.includes('gradient')
+      // Ignore gradient value if showGradient is not enabled
+      if (!props.showGradient && isGradientValue) {
+        return
+      }
+      // Handle gradient initialization if showGradient is enabled
+      if (props.showGradient && isGradientValue) {
+        // Parse colors and positions from gradient value
+        const match = newVal.match(/rgba?\([^)]+\)|#[0-9a-fA-F]+/g)
+        const posMatch = newVal.match(/(\d+(?:\.\d+)?)\s*%/g)
+        if (match && match.length >= 2) {
+          const startColor = props.showAlpha
+            ? new TinyColor(match[0]).toRgbString()
+            : new TinyColor(match[0]).toHexString()
+          const endColor = props.showAlpha
+            ? new TinyColor(match[match.length - 1]).toRgbString()
+            : new TinyColor(match[match.length - 1]).toHexString()
+          const startPos =
+            posMatch && posMatch[0] ? Number.parseFloat(posMatch[0]) : 0
+          const endPos =
+            posMatch && posMatch[1] ? Number.parseFloat(posMatch[1]) : 100
+          // Reset editingGradientPart before setGradient() to prevent
+          // doOnChange() from overwriting endValue with startColor
+          color.editingGradientPart = 'start'
+          color.setGradient(startColor, endColor)
+          color.startPosition = startPos
+          color.endPosition = endPos
+          color.fromString(startColor)
+        } else {
+          // Invalid gradient format, treat as solid color
+          color.isGradient = false
+          color.startValue = ''
+          color.endValue = ''
+          color.fromString(newVal)
+        }
+      } else {
+        // Solid color mode or non-gradient value
+        // Reset gradient state before setting solid color to prevent
+        // doOnChange() from rebuilding color.value as a gradient
+        color.isGradient = false
+        color.startValue = ''
+        color.endValue = ''
+        color.fromString(newVal)
+      }
+    }
+  }
+)
+
+watch(
+  () => props.showGradient,
+  (newVal) => {
+    // Clear gradient state when showGradient is disabled
+    if (!newVal && color.isGradient) {
+      // Set color.value to the active stop before clearing gradient state
+      // This ensures confirmValue emits the solid color instead of stale gradient
+      const activeStop =
+        color.editingGradientPart === 'start'
+          ? color.startValue
+          : color.endValue
+      if (activeStop) {
+        color.value = activeStop
+      }
+      color.isGradient = false
+      color.startValue = ''
+      color.endValue = ''
     }
   }
 )

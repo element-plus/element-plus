@@ -77,6 +77,10 @@ export interface ColorPickerProps
    * @description whether to trigger form validation
    */
   validateEvent?: boolean
+  /**
+   * @description whether to enable gradient mode
+   */
+  showGradient?: boolean
 }
 
 /**
@@ -164,6 +168,13 @@ export const colorPickerProps = buildProps({
   validateEvent: {
     type: Boolean,
     default: true,
+  },
+  /**
+   * @description whether to enable gradient mode
+   */
+  showGradient: {
+    type: Boolean,
+    default: false,
   },
   ...useEmptyValuesProps,
   ...useAriaProps(['ariaLabel']),

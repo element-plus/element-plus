@@ -7,6 +7,11 @@ interface ColorOptions {
   enableAlpha: boolean
   format: string
   value?: string | null
+  isGradient?: boolean
+  startValue?: string | null
+  endValue?: string | null
+  startPosition?: number
+  endPosition?: number
 }
 
 export default class Color {
@@ -20,6 +25,12 @@ export default class Color {
   public format = ''
   public value = ''
   public selected?: boolean
+  public isGradient = false
+  public startValue = ''
+  public endValue = ''
+  public startPosition = 0 // position percentage (0-100)
+  public endPosition = 100 // position percentage (0-100)
+  public editingGradientPart: 'start' | 'end' = 'start'
 
   constructor(options: Partial<ColorOptions> = {}) {
     for (const option in options) {
@@ -27,11 +38,73 @@ export default class Color {
         this[option] = options[option]
       }
     }
-    if (options.value) {
-      this.fromString(options.value)
+
+    if (options.isGradient) {
+      if (options.startValue) {
+        this.startValue = options.startValue
+      }
+      if (options.endValue) {
+        this.endValue = options.endValue
+      }
+      if (options.startPosition !== undefined) {
+        this.startPosition = options.startPosition
+      }
+      if (options.endPosition !== undefined) {
+        this.endPosition = options.endPosition
+      }
     } else {
-      this.doOnChange()
+      if (options.value) {
+        this.fromString(options.value)
+      } else {
+        this.doOnChange()
+      }
     }
+  }
+
+  toGradientValue(): string {
+    if (!this.isGradient) {
+      return this.value
+    }
+    const startColor = new TinyColor(this.startValue || this.value)
+    const endColor = new TinyColor(this.endValue)
+    const startPos = Math.min(this.startPosition, this.endPosition)
+    const endPos = Math.max(this.startPosition, this.endPosition)
+    const startClr =
+      this.startPosition <= this.endPosition ? startColor : endColor
+    const endClr =
+      this.startPosition <= this.endPosition ? endColor : startColor
+
+    // Use the same format logic as doOnChange()
+    let _format = this.format || (this.enableAlpha ? 'rgb' : 'hex')
+    if (this.format === 'hex' && this.enableAlpha) {
+      _format = 'hex8'
+    }
+
+    return `linear-gradient(90deg, ${startClr.toString(_format as ColorFormats)} ${startPos}%, ${endClr.toString(_format as ColorFormats)} ${endPos}%)`
+  }
+
+  setGradient(startValue: string, endValue: string) {
+    this.isGradient = true
+    this.startValue = startValue
+    this.endValue = endValue
+    const startColor = new TinyColor(startValue)
+    const endColor = new TinyColor(endValue)
+    if (startColor.isValid) {
+      const { h, s, v, a } = startColor.toHsv()
+      this._hue = h
+      this._saturation = s * 100
+      this._value = v * 100
+      this._alpha = a * 100
+    }
+    this._isValid = startColor.isValid && endColor.isValid
+    this.doOnChange()
+  }
+
+  setSolidColor(value: string) {
+    this.isGradient = false
+    this.startValue = ''
+    this.endValue = ''
+    this.fromString(value)
   }
 
   set(prop: { [key: string]: any } | any, value?: number) {
@@ -81,10 +154,13 @@ export default class Color {
   clear() {
     this._isValid = false
     this.value = ''
+    this.startValue = ''
+    this.endValue = ''
     this._hue = 0
     this._saturation = 100
     this._value = 100
     this._alpha = 100
+    this.isGradient = false
   }
 
   compare(color: this) {
@@ -109,8 +185,27 @@ export default class Color {
       v: _value / 100,
       a: _alpha / 100,
     })
-    this.value = this._isValid
-      ? this._tiny.toString(_format as ColorFormats)
-      : ''
+    let colorStr = ''
+    if (this._isValid) {
+      if (this.isGradient) {
+        colorStr = enableAlpha
+          ? this._tiny.toRgbString()
+          : this._tiny.toHexString()
+      } else {
+        colorStr = this._tiny.toString(_format as ColorFormats)
+      }
+    }
+
+    if (this.isGradient) {
+      if (this.editingGradientPart === 'start') {
+        this.startValue = colorStr
+      } else {
+        this.endValue = colorStr
+      }
+      // Keep value as gradient string for active-change event
+      this.value = this.toGradientValue()
+    } else {
+      this.value = colorStr
+    }
   }
 }
