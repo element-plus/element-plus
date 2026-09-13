@@ -312,6 +312,7 @@ const { isFocused, handleFocus, handleBlur } = useFocusController(inputRef, {
     }
     pickerVisible.value = false
     hasJustTabExitedInput = false
+    isClearIconMousedown = false
     props.validateEvent && formItem?.validate('blur').catch(NOOP)
   },
 })
