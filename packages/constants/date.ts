@@ -6,6 +6,7 @@ export const datePickTypes = [
   'date',
   'dates',
   'week',
+  'weeks',
   'quarter',
   'quarters',
   'datetime',
