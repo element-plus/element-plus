@@ -395,12 +395,6 @@ export const useBasicDateTable = (
     }
   }
 
-  const handleKeydown = (event: KeyboardEvent) => {
-    if (props.selectionMode !== 'weeks') return
-    event.preventDefault()
-    event.stopPropagation()
-    handlePickDate(event)
-  }
   const isWeekMode = computed(() => {
     return props.selectionMode === 'week' || props.selectionMode === 'weeks'
   })
@@ -429,7 +423,8 @@ export const useBasicDateTable = (
   }
 
   const handleKeydown = (event: KeyboardEvent) => {
-    if (props.selectionMode !== 'dates') return
+    if (props.selectionMode !== 'dates' && props.selectionMode !== 'weeks')
+      return
     event.preventDefault()
     event.stopPropagation()
     handlePickDate(event)
