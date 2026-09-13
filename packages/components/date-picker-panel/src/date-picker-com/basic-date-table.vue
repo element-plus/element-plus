@@ -42,8 +42,8 @@
           :tabindex="disabled ? undefined : isSelectedCell(cell) ? 0 : -1"
           :aria-disabled="disabled"
           @focus="handleFocus"
-          @keydown.space="handleKeydown"
           @keydown.enter="handleKeydown"
+          @keydown.space="handleKeydown"
         >
           <el-date-picker-cell :cell="cell" />
         </td>

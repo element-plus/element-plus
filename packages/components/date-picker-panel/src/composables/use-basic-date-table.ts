@@ -352,7 +352,7 @@ export const useBasicDateTable = (
   }
 
   const handlePickDate = (
-    event: FocusEvent | MouseEvent | KeyboardEvent,
+    event: FocusEvent | KeyboardEvent | MouseEvent,
     isKeyboardMovement = false
   ) => {
     if (props.disabled) return
@@ -428,6 +428,12 @@ export const useBasicDateTable = (
       })
   }
 
+  const handleKeydown = (event: KeyboardEvent) => {
+    if (props.selectionMode !== 'dates') return
+    event.preventDefault()
+    event.stopPropagation()
+    handlePickDate(event)
+  }
   return {
     WEEKS,
     rows,
