@@ -264,6 +264,7 @@ const refPopper = ref<TooltipInstance>()
 const inputRef = ref<InputInstance>()
 const valueOnOpen = ref<TimePickerDefaultProps['modelValue'] | null>(null)
 let hasJustTabExitedInput = false
+let shouldSkipChange = false
 
 const pickerDisabled = useFormDisabled()
 
@@ -332,9 +333,12 @@ const clearIconKls = computed(() => [
 watch(pickerVisible, (val) => {
   if (!val) {
     userInput.value = null
-    nextTick(() => {
-      emitChange(props.modelValue)
-    })
+    if (!shouldSkipChange) {
+      nextTick(() => {
+        emitChange(props.modelValue)
+      })
+    }
+    shouldSkipChange = false
   } else {
     nextTick(() => {
       if (val) {
@@ -456,6 +460,7 @@ const onClear = (event?: MouseEvent) => {
   if (props.readonly || pickerDisabled.value) return
   if (showClearBtn.value) {
     event?.stopPropagation()
+    shouldSkipChange = true
     // When the handleClear Function was provided, emit null will be executed inside it
     // There is no need for us to execute emit null twice. #14752
     if (pickerOptions.value.handleClear) {
