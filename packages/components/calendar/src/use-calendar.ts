@@ -158,8 +158,11 @@ export const useCalendar = (
     }
   }
 
-  const pickDay = (day: Dayjs) => {
+  const pickDay = (day: Dayjs, triggerSelect: boolean = true) => {
     realSelectedDay.value = day
+    if (triggerSelect) {
+      emit('select', day.toDate())
+    }
   }
 
   const selectDate = (type: CalendarDateType) => {
@@ -174,7 +177,7 @@ export const useCalendar = (
     const day = dateMap[type]
 
     if (!day.isSame(date.value, 'day')) {
-      pickDay(day)
+      pickDay(day, false)
     }
   }
 
@@ -182,7 +185,7 @@ export const useCalendar = (
     if (date === 'today') {
       selectDate('today')
     } else {
-      pickDay(date)
+      pickDay(date, false)
     }
   }
 
