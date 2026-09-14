@@ -11,11 +11,15 @@ import type { ButtonType } from '@element-plus/components/button'
 import type {
   ElTooltipContentProps,
   ElTooltipTriggerProps,
+  UseTooltipProps,
 } from '@element-plus/components/tooltip'
 import type { IconPropType } from '@element-plus/utils'
 import type Popconfirm from './popconfirm.vue'
 
-export interface PopconfirmProps {
+export interface PopconfirmProps extends Omit<
+  UseTooltipProps,
+  'content' | 'rawContent'
+> {
   /**
    * @description Title
    */
