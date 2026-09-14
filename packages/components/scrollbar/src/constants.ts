@@ -8,3 +8,5 @@ export interface ScrollbarContext {
 export const scrollbarContextKey: InjectionKey<ScrollbarContext> = Symbol(
   'scrollbarContextKey'
 )
+
+export const SCROLLING_KEEP_ALIVE_TIME = 300
