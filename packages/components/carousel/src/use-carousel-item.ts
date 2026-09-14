@@ -88,6 +88,85 @@ export const useCarouselItem = (props: Required<CarouselItemProps>) => {
     return distance * (index - activeIndex)
   }
 
+  // Calculate shortest distance and direction for carousel navigation
+  function calcDistanceAndDirection(
+    activeIndex: number,
+    oldIndex: number,
+    total: number,
+    loopEnabled: boolean
+  ) {
+    if (loopEnabled) {
+      const forwardDist = (activeIndex - oldIndex + total) % total
+      const backwardDist = (oldIndex - activeIndex + total) % total
+      return {
+        shortestDist: Math.min(forwardDist, backwardDist),
+        direction: forwardDist <= backwardDist ? 1 : -1,
+      }
+    }
+    return {
+      shortestDist: Math.abs(activeIndex - oldIndex),
+      direction: activeIndex > oldIndex ? 1 : -1,
+    }
+  }
+
+  // Check if index is between oldIndex and activeIndex
+  function isIndexBetween(
+    index: number,
+    oldIndex: number,
+    activeIndex: number,
+    direction: number,
+    loopEnabled: boolean
+  ) {
+    if (!loopEnabled) {
+      return direction > 0
+        ? index > oldIndex && index < activeIndex
+        : index < oldIndex && index > activeIndex
+    }
+
+    const isWrapping =
+      direction > 0 ? oldIndex >= activeIndex : oldIndex <= activeIndex
+
+    if (isWrapping) {
+      return direction > 0
+        ? index > oldIndex || index < activeIndex
+        : index < oldIndex || index > activeIndex
+    }
+
+    return direction > 0
+      ? index > oldIndex && index < activeIndex
+      : index < oldIndex && index > activeIndex
+  }
+
+  // Calculate animation state for carousel items
+  function calcAnimatingState(
+    index: number,
+    activeIndex: number,
+    oldIndex: number,
+    total: number,
+    loopEnabled: boolean
+  ) {
+    const isActive = index === activeIndex
+    const { shortestDist, direction } = calcDistanceAndDirection(
+      activeIndex,
+      oldIndex,
+      total,
+      loopEnabled
+    )
+
+    if (shortestDist <= 1) {
+      return isActive || index === oldIndex
+    }
+
+    const isBetween = isIndexBetween(
+      index,
+      oldIndex,
+      activeIndex,
+      direction,
+      loopEnabled
+    )
+    return isActive || index === oldIndex || isBetween
+  }
+
   const translateItem = (
     index: number,
     activeIndex: number,
@@ -95,16 +174,30 @@ export const useCarouselItem = (props: Required<CarouselItemProps>) => {
   ) => {
     const _isCardType = unref(isCardType)
     const carouselItemLength = carouselContext.items.value.length ?? Number.NaN
-
     const isActive = index === activeIndex
+
+    // Calculate animation state for non-card type
     if (!_isCardType && !isUndefined(oldIndex)) {
-      animating.value = isActive || index === oldIndex
+      const loopEnabled =
+        carouselContext.loop &&
+        Number.isFinite(carouselItemLength) &&
+        carouselItemLength > 0
+
+      animating.value = calcAnimatingState(
+        index,
+        activeIndex,
+        oldIndex,
+        carouselItemLength,
+        loopEnabled
+      )
     }
 
+    // Process index for loop mode positioning
     if (!isActive && carouselItemLength > 2 && carouselContext.loop) {
       index = processIndex(index, activeIndex, carouselItemLength)
     }
 
+    // Set active state and calculate transform
     const _isVertical = unref(isVertical)
     active.value = isActive
 
