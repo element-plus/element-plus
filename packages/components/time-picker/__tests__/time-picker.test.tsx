@@ -585,6 +585,25 @@ describe('TimePicker', () => {
 
     vi.useRealTimers()
   })
+
+  it('should only trigger change once when clearing', async () => {
+    const date = ref(new Date())
+    const changeHandler = vi.fn()
+    const wrapper = mount(() => (
+      <TimePicker
+        modelValue={date.value}
+        clearable
+        onUpdate:modelValue={(val) => (date.value = val ?? '')}
+        onChange={changeHandler}
+      />
+    ))
+
+    await wrapper.find('input').trigger('focus')
+    await wrapper.find('.clear-icon').trigger('click')
+
+    expect(changeHandler).toHaveBeenCalledOnce()
+    expect(changeHandler).toHaveBeenCalledWith(null)
+  })
 })
 
 describe('TimePicker(range)', () => {
