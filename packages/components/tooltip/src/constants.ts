@@ -5,6 +5,7 @@ import type { TooltipTriggerType } from './trigger'
 export type ElTooltipInjectionContext = {
   controlled: Ref<boolean>
   id: Ref<string>
+  toggleByHover: Ref<boolean>
   open: Ref<boolean>
   trigger: Ref<Arrayable<TooltipTriggerType>>
   onOpen: (e?: Event) => void
