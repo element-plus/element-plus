@@ -539,6 +539,21 @@ describe('Dialog.vue', () => {
     })
   })
 
+  describe('fullscreen', () => {
+    test('should apply fullscreen class when fullscreen is true', async () => {
+      const wrapper = mount(
+        <Dialog modelValue={true} fullscreen>
+          {AXIOM}
+        </Dialog>
+      )
+
+      await nextTick()
+      await rAF()
+      await nextTick()
+      expect(wrapper.find('.el-dialog').classes()).toContain('is-fullscreen')
+    })
+  })
+
   describe('transition', () => {
     test('dialog supports transition as string', async () => {
       const wrapper = mount(
