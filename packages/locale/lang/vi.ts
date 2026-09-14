@@ -17,6 +17,10 @@ export default {
       svDescription:
         'độ bão hòa {saturation}, độ sáng {brightness}, màu hiện tại là {color}',
       predefineDescription: 'chọn {value} làm màu',
+      solid: 'Solid', // to be translated
+      gradient: 'Gradient', // to be translated
+      startColor: 'Start Color', // to be translated
+      endColor: 'End Color', // to be translated
     },
     datepicker: {
       now: 'Hiện tại',
