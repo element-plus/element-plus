@@ -9,7 +9,6 @@
   left: 0;
   width: var(--sidebar-width-xs);
   background-color: var(--bg-color);
-  padding: 48px 32px;
   overflow-y: auto;
   transform: translate(-100%);
   transition:
@@ -21,12 +20,15 @@
     transform: translate(0);
   }
 
+  aside {
+    padding: 48px 32px;
+    @include respond-to('max') {
+      padding: 48px;
+    }
+  }
+
   .sidebar-groups {
     padding: 0 2px;
-
-    @include respond-to('lg') {
-      padding-bottom: 48px;
-    }
 
     .sidebar-group__title {
       font-size: 1rem;
@@ -51,18 +53,17 @@
   }
 
   @include respond-to('lg') {
+    height: calc(100% - var(--header-height));
     z-index: var(--sidebar-z-index);
     top: var(--header-height);
     transform: translate(0);
   }
 
   @include respond-to('xxl') {
-    padding: 48px 32px;
     width: calc(var(--vp-sidebar-width-small) + 32px);
   }
 
   @include respond-to('max') {
-    padding: 48px;
     width: calc(var(--vp-sidebar-width-small) + 48px);
   }
 }
