@@ -1,6 +1,6 @@
 import { computed, ref, watch } from 'vue'
 import { clamp } from 'lodash-unified'
-import { getPct, getPx, isPct, isPx } from './useSize'
+import { isPct, isPx, resolveLimit } from './useSize'
 import { NOOP } from '@element-plus/utils'
 
 import type { ComputedRef, Ref } from 'vue'
@@ -12,19 +12,10 @@ export function useResize(
   pxSizes: ComputedRef<number[]>,
   lazy: Ref<boolean>
 ) {
-  const ptg2px = (ptg: number) => ptg * containerSize.value || 0
-
-  function getLimitSize(
+  const getLimitSize = (
     str: string | number | undefined,
     defaultLimit: number
-  ) {
-    if (isPct(str)) {
-      return ptg2px(getPct(str))
-    } else if (isPx(str)) {
-      return getPx(str)
-    }
-    return str ?? defaultLimit
-  }
+  ) => resolveLimit(str, containerSize.value, defaultLimit)
 
   const lazyOffset = ref(0)
   const movingIndex = ref<{
@@ -109,6 +100,14 @@ export function useResize(
     updatePanelSizes = () => {
       panels.value.forEach((panel, index) => {
         panel.size = numSizes[index]
+        // Dragging a pinned panel is a deliberate resize, so it becomes the
+        // new pinned width - including a drag right down to 0. Only the two
+        // panels either side of this bar took part, though: a panel collapsed
+        // elsewhere still reads 0 here and must keep the width it had.
+        const isDragged = index === mergedIndex || index === nextIndex
+        if (isDragged && panel.isFixedSize && numSizes[index] !== undefined) {
+          panel.fixedPxSize = numSizes[index]
+        }
       })
       updatePanelSizes = NOOP
     }
@@ -128,13 +127,65 @@ export function useResize(
     cachePxSizes = []
   }
 
-  const cacheCollapsedSize: number[] = []
+  // A panel's declared size mode (fixed pixel vs proportional) is read from
+  // `panel.isFixedSize`, which is derived purely from its `size` prop and is
+  // NOT affected by `panel.size` itself being overwritten with a live raw px
+  // number while dragging/collapsing (see split-panel.vue).
+  const px2ptg = (px: number) =>
+    containerSize.value ? px / containerSize.value : 0
+  const ptg2pxSize = (ptg: number) => ptg * containerSize.value
+
+  interface CachedSize {
+    value: number
+    isRatio: boolean
+  }
+
+  const toCachedSize = (
+    px: number,
+    isFixed: boolean | undefined
+  ): CachedSize =>
+    isFixed
+      ? { value: px, isRatio: false }
+      : { value: px2ptg(px), isRatio: true }
+
+  const cachedSizeToPx = (cached: CachedSize | undefined) =>
+    cached ? (cached.isRatio ? ptg2pxSize(cached.value) : cached.value) : 0
+
+  // Limits follow different unit rules to sizes: `getLimitSize` reads a bare
+  // number or an "Npx" string as a literal pixel floor, and only a '%' string
+  // scales with the container.
+  const isFixedLimit = (limit: string | number | undefined) =>
+    limit != null &&
+    limit !== '' &&
+    !isPct(limit) &&
+    // `isPx` first: `Number('100px')` is NaN, which would otherwise class an
+    // explicit pixel limit as proportional even though `resolveLimit` reads it
+    // as a literal width.
+    (isPx(limit) || !Number.isNaN(Number(limit)))
+
+  // A panel whose *declared* size always resolves to 0 (e.g. "0%") has no
+  // meaningful size of its own to remember - `min` is the real floor, so
+  // classify by min's units instead of the (irrelevantly proportional) size.
+  const isFixedForCache = (
+    panel: PanelItemState | undefined,
+    minLimit: string | number | undefined
+  ) => (panel?.isZeroSize ? isFixedLimit(minLimit) : !!panel?.isFixedSize)
+
+  // Keyed by *panel* index, not bar index: a middle panel can be collapsed
+  // from one bar and expanded from the other, so its remembered size has to
+  // belong to the panel itself rather than to whichever bar collapsed it.
+  const cacheCollapsedSize: (CachedSize | undefined)[] = []
   const onCollapse = (index: number, type: 'start' | 'end') => {
     if (!cacheCollapsedSize.length) {
       cacheCollapsedSize.push(
-        ...pxSizes.value.map((size, i) =>
-          size <= 0 ? getLimitSize(limitSizes.value[i]?.[0], 0) : size
-        )
+        ...pxSizes.value.map((size, i) => {
+          const minLimit = limitSizes.value[i]?.[0]
+          const validSize = size <= 0 ? getLimitSize(minLimit, 0) : size
+          return toCachedSize(
+            validSize,
+            isFixedForCache(panels.value[i], minLimit)
+          )
+        })
       )
     }
 
@@ -149,19 +200,60 @@ export function useResize(
     if (currentSize !== 0 && targetSize !== 0) {
       currentSizes[currentIndex] = 0
       currentSizes[targetIndex]! += currentSize
-      cacheCollapsedSize[index] = currentSize
+      if (panels.value[currentIndex]) {
+        panels.value[currentIndex]!.isCollapsed = true
+      }
+      cacheCollapsedSize[currentIndex] = toCachedSize(
+        currentSize,
+        isFixedForCache(
+          panels.value[currentIndex],
+          limitSizes.value[currentIndex]?.[0]
+        )
+      )
     } else {
+      // Whichever of the pair sits at 0 is the one being expanded; restore it
+      // from its own cache entry and give the remainder to its neighbour.
+      const collapsedIndex = currentSize === 0 ? currentIndex : targetIndex
       const totalSize = currentSize + targetSize
 
-      const targetCacheCollapsedSize = clamp(
-        cacheCollapsedSize[index],
+      const restoredSize = clamp(
+        cachedSizeToPx(cacheCollapsedSize[collapsedIndex]),
         0,
         totalSize
       )
-      const currentCacheCollapsedSize = totalSize - targetCacheCollapsedSize
 
-      currentSizes[targetIndex] = targetCacheCollapsedSize
-      currentSizes[currentIndex] = currentCacheCollapsedSize
+      // Restoring has to respect the same limits dragging enforces - a cached
+      // ratio can otherwise land outside them once the container was resized
+      // while the panel sat collapsed. Applied in the same order as onMoving
+      // (start min, end min, start max, end max) so conflicting limits resolve
+      // identically whether the size came from a drag or from an expand.
+      const startIndex = index
+      const endIndex = index + 1
+      const startMinSize = getLimitSize(limitSizes.value[startIndex]?.[0], 0)
+      const endMinSize = getLimitSize(limitSizes.value[endIndex]?.[0], 0)
+      const startMaxSize = getLimitSize(
+        limitSizes.value[startIndex]?.[1],
+        containerSize.value || 0
+      )
+      const endMaxSize = getLimitSize(
+        limitSizes.value[endIndex]?.[1],
+        containerSize.value || 0
+      )
+
+      let startSize =
+        collapsedIndex === startIndex ? restoredSize : totalSize - restoredSize
+
+      startSize = Math.max(startSize, startMinSize)
+      startSize = Math.min(startSize, totalSize - endMinSize)
+      startSize = Math.min(startSize, startMaxSize)
+      startSize = Math.max(startSize, totalSize - endMaxSize)
+      startSize = clamp(startSize, 0, totalSize)
+
+      currentSizes[startIndex] = startSize
+      currentSizes[endIndex] = totalSize - startSize
+      if (panels.value[collapsedIndex]) {
+        panels.value[collapsedIndex]!.isCollapsed = false
+      }
     }
 
     panels.value.forEach((panel, index) => {
