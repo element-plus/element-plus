@@ -66,6 +66,7 @@ const props = withDefaults(
   defineProps<UploadContentProps>(),
   uploadContentPropsDefaults
 )
+const emit = defineEmits(['set-file-url'])
 const ns = useNamespace('upload')
 const disabled = useFormDisabled()
 
@@ -112,6 +113,7 @@ const upload = async (rawFile: UploadRawFile): Promise<void> => {
     const beforeUploadPromise = props.beforeUpload(rawFile)
     beforeData = isPlainObject(props.data) ? cloneDeep(props.data) : props.data
     hookResult = await beforeUploadPromise
+    props.autoUpload && emit('set-file-url', rawFile)
     if (isPlainObject(props.data) && isEqual(originData, beforeData)) {
       beforeData = cloneDeep(props.data)
     }
