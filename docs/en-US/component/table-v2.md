@@ -40,6 +40,8 @@ Resize your browser to see how it works.
 Make sure the parent node of the `AutoResizer` **HAS A FIXED HEIGHT**, since its default height value is set to 100%.
 Alternatively, you can define it by passing the `style` attribute to `AutoResizer`.
 
+When the parent container can only take a flexible height (e.g. `height: 100%` or `flex: 1`) instead of a fixed one, wrap `el-table-v2` in a `<div style="height: 0">` inside the `AutoResizer` default slot. Otherwise the table keeps growing to fill an ever-increasing height and triggers an infinite render loop.
+
 :::
 
 :::demo
