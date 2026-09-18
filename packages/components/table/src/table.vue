@@ -47,6 +47,7 @@
           <hColgroup
             :columns="store.states.columns.value"
             :table-layout="tableLayout"
+            :native-scrollbar="nativeScrollbar"
           />
           <table-header
             ref="tableHeaderRef"
@@ -55,6 +56,7 @@
             :store="store"
             :append-filter-panel-to="appendFilterPanelTo"
             :allow-drag-last-column="allowDragLastColumn"
+            :native-scrollbar="nativeScrollbar"
             @set-drag-visible="setDragVisible"
           />
         </table>
@@ -83,6 +85,7 @@
             <hColgroup
               :columns="store.states.columns.value"
               :table-layout="tableLayout"
+              :native-scrollbar="nativeScrollbar"
             />
             <table-header
               v-if="showHeader && tableLayout === 'auto'"
@@ -92,6 +95,7 @@
               :default-sort="defaultSort"
               :store="store"
               :append-filter-panel-to="appendFilterPanelTo"
+              :native-scrollbar="nativeScrollbar"
               @set-drag-visible="setDragVisible"
             />
             <table-body
@@ -150,6 +154,7 @@
           <hColgroup
             :columns="store.states.columns.value"
             :table-layout="tableLayout"
+            :native-scrollbar="nativeScrollbar"
           />
           <table-footer
             :border="border"
