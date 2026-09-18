@@ -542,6 +542,10 @@
       top: -7px;
     }
   }
+
+  .#{bem('upload-list', 'loading-icon')} {
+    margin: auto;
+  }
 }
 
 @include b(upload-cover) {
