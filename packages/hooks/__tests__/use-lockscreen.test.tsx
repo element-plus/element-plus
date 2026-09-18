@@ -19,20 +19,18 @@ const Comp = defineComponent({
   },
 })
 
-vi.mock('@element-plus/utils', async (importOriginal) => {
-  return {
-    ...((await importOriginal()) as Record<string, any>),
-    getScrollBarWidth: vi.fn(() => 16),
-  }
-})
-
 describe('useLockscreen', () => {
   beforeEach(() => {
     vi.useFakeTimers()
+    document.body.className = ''
+    document.body.removeAttribute('style')
   })
 
-  afterEach(() => {
+  afterEach(async () => {
+    vi.advanceTimersByTime(250)
+    await nextTick()
     vi.useRealTimers()
+    vi.restoreAllMocks()
   })
 
   it('should lock screen when trigger is true', async () => {
@@ -111,6 +109,8 @@ describe('useLockscreen', () => {
     )
 
     wrapper.unmount()
+    vi.advanceTimersByTime(250)
+    await nextTick()
   })
 
   it('should not cleanup when newly created during the closing process', async () => {
@@ -135,7 +135,9 @@ describe('useLockscreen', () => {
     expect(hasClass(document.body, kls)).toBe(false)
   })
 
-  it('should clean up body.width only once', async () => {
+  it('should not compensate padding twice across different namespaces', async () => {
+    const utilsModule = await import('@element-plus/utils')
+    vi.spyOn(utilsModule, 'getScrollBarWidth').mockReturnValue(16)
     const scrollHeightSpy = vi
       .spyOn(document.body, 'scrollHeight', 'get')
       .mockReturnValue(200)
@@ -145,12 +147,14 @@ describe('useLockscreen', () => {
 
     const parentTrigger = ref(false)
     const childTrigger = ref(false)
+    const parentNs = 'ns-1'
+    const childNs = 'ns-2'
 
-    mount({
+    const parentWrapper = mount({
       setup() {
         const ns = useNamespace(
           'lock',
-          computed(() => 'test-kls-1')
+          computed(() => parentNs)
         )
         useLockscreen(parentTrigger, { ns })
         onMounted(() => {
@@ -164,7 +168,7 @@ describe('useLockscreen', () => {
       setup() {
         const ns = useNamespace(
           'lock',
-          computed(() => 'test-kls-2')
+          computed(() => childNs)
         )
         useLockscreen(childTrigger, { ns })
         onMounted(() => {
@@ -174,20 +178,294 @@ describe('useLockscreen', () => {
       },
     })
 
-    vi.advanceTimersByTime(250)
     await nextTick()
-    expect(document.body.style.width).toBe('calc(100% - 16px)')
+    expect(document.body.style.paddingRight).toBe('16px')
+    expect(hasClass(document.body, `${parentNs}-lock-parent--hidden`)).toBe(
+      true
+    )
+    expect(hasClass(document.body, `${childNs}-lock-parent--hidden`)).toBe(true)
 
     childTrigger.value = false
-    await nextTick()
     parentTrigger.value = false
     await nextTick()
+    vi.advanceTimersByTime(250)
+    await nextTick()
+    expect(document.body.style.paddingRight).toBe('')
+
+    parentWrapper.unmount()
     childWrapper.unmount()
     vi.advanceTimersByTime(250)
-    expect(document.body.style.width).toBe('')
+    await nextTick()
 
     scrollHeightSpy.mockRestore()
     clientHeightSpy.mockRestore()
-    vi.useRealTimers()
+  })
+
+  it('should restore padding only after all locks released', async () => {
+    const utilsModule = await import('@element-plus/utils')
+    vi.spyOn(utilsModule, 'getScrollBarWidth').mockReturnValue(16)
+    const scrollHeightSpy = vi
+      .spyOn(document.body, 'scrollHeight', 'get')
+      .mockReturnValue(200)
+    const clientHeightSpy = vi
+      .spyOn(document.documentElement, 'clientHeight', 'get')
+      .mockReturnValue(100)
+
+    const parentTrigger = ref(false)
+    const childTrigger = ref(false)
+    const parentNs = 'ns-1'
+    const childNs = 'ns-2'
+
+    const parentWrapper = mount({
+      setup() {
+        const ns = useNamespace(
+          'lock',
+          computed(() => parentNs)
+        )
+        useLockscreen(parentTrigger, { ns })
+        onMounted(() => {
+          parentTrigger.value = true
+        })
+        return () => undefined
+      },
+    })
+
+    const childWrapper = mount({
+      setup() {
+        const ns = useNamespace(
+          'lock',
+          computed(() => childNs)
+        )
+        useLockscreen(childTrigger, { ns })
+        onMounted(() => {
+          childTrigger.value = true
+        })
+        return () => undefined
+      },
+    })
+
+    await nextTick()
+    expect(document.body.style.paddingRight).toBe('16px')
+
+    parentTrigger.value = false
+    await nextTick()
+    vi.advanceTimersByTime(250)
+    await nextTick()
+    expect(document.body.style.paddingRight).toBe('16px')
+
+    childTrigger.value = false
+    await nextTick()
+    vi.advanceTimersByTime(250)
+    await nextTick()
+    expect(document.body.style.paddingRight).toBe('')
+
+    parentWrapper.unmount()
+    childWrapper.unmount()
+    vi.advanceTimersByTime(250)
+    await nextTick()
+
+    scrollHeightSpy.mockRestore()
+    clientHeightSpy.mockRestore()
+  })
+
+  it('should not compensate padding twice when nested', async () => {
+    const utilsModule = await import('@element-plus/utils')
+    vi.spyOn(utilsModule, 'getScrollBarWidth').mockReturnValue(16)
+    const scrollHeightSpy = vi
+      .spyOn(document.body, 'scrollHeight', 'get')
+      .mockReturnValue(200)
+    const clientHeightSpy = vi
+      .spyOn(document.documentElement, 'clientHeight', 'get')
+      .mockReturnValue(100)
+
+    const parentTrigger = ref(false)
+    const childTrigger = ref(false)
+
+    const parentWrapper = mount({
+      setup() {
+        useLockscreen(parentTrigger)
+        onMounted(() => {
+          parentTrigger.value = true
+        })
+        return () => undefined
+      },
+    })
+
+    await nextTick()
+
+    const childWrapper = mount({
+      setup() {
+        useLockscreen(childTrigger)
+        onMounted(() => {
+          childTrigger.value = true
+        })
+        return () => undefined
+      },
+    })
+
+    await nextTick()
+    expect(document.body.style.paddingRight).toBe('16px')
+
+    childTrigger.value = false
+    await nextTick()
+    vi.advanceTimersByTime(250)
+    await nextTick()
+    expect(document.body.style.paddingRight).toBe('16px')
+
+    parentTrigger.value = false
+    await nextTick()
+    vi.advanceTimersByTime(250)
+    await nextTick()
+    expect(document.body.style.paddingRight).toBe('')
+
+    parentWrapper.unmount()
+    childWrapper.unmount()
+    vi.advanceTimersByTime(250)
+    await nextTick()
+
+    scrollHeightSpy.mockRestore()
+    clientHeightSpy.mockRestore()
+  })
+
+  it('should compensate body padding when scrollbar exists', async () => {
+    const utilsModule = await import('@element-plus/utils')
+    vi.spyOn(utilsModule, 'getScrollBarWidth').mockReturnValue(16)
+    const scrollHeightSpy = vi
+      .spyOn(document.body, 'scrollHeight', 'get')
+      .mockReturnValue(200)
+    const clientHeightSpy = vi
+      .spyOn(document.documentElement, 'clientHeight', 'get')
+      .mockReturnValue(100)
+
+    const trigger = ref(false)
+    const wrapper = mount({
+      setup() {
+        useLockscreen(trigger)
+        onMounted(() => {
+          trigger.value = true
+        })
+        return () => undefined
+      },
+    })
+
+    await nextTick()
+    expect(document.body.style.paddingRight).toBe('16px')
+    expect(document.body.style.width).toBe('')
+
+    trigger.value = false
+    await nextTick()
+    wrapper.unmount()
+    vi.advanceTimersByTime(250)
+    await nextTick()
+    expect(document.body.style.paddingRight).toBe('')
+
+    scrollHeightSpy.mockRestore()
+    clientHeightSpy.mockRestore()
+  })
+
+  it('should add scrollbar width to existing body padding-right', async () => {
+    const utilsModule = await import('@element-plus/utils')
+    vi.spyOn(utilsModule, 'getScrollBarWidth').mockReturnValue(16)
+    const scrollHeightSpy = vi
+      .spyOn(document.body, 'scrollHeight', 'get')
+      .mockReturnValue(200)
+    const clientHeightSpy = vi
+      .spyOn(document.documentElement, 'clientHeight', 'get')
+      .mockReturnValue(100)
+    document.body.style.paddingRight = '10px'
+
+    const trigger = ref(false)
+    const wrapper = mount({
+      setup() {
+        useLockscreen(trigger)
+        onMounted(() => {
+          trigger.value = true
+        })
+        return () => undefined
+      },
+    })
+
+    await nextTick()
+    expect(document.body.style.paddingRight).toBe('26px')
+
+    trigger.value = false
+    await nextTick()
+    wrapper.unmount()
+    vi.advanceTimersByTime(250)
+    await nextTick()
+    expect(document.body.style.paddingRight).toBe('10px')
+
+    scrollHeightSpy.mockRestore()
+    clientHeightSpy.mockRestore()
+  })
+
+  it('should preserve fractional body padding-right when compensating', async () => {
+    const utilsModule = await import('@element-plus/utils')
+    vi.spyOn(utilsModule, 'getScrollBarWidth').mockReturnValue(16)
+    const scrollHeightSpy = vi
+      .spyOn(document.body, 'scrollHeight', 'get')
+      .mockReturnValue(200)
+    const clientHeightSpy = vi
+      .spyOn(document.documentElement, 'clientHeight', 'get')
+      .mockReturnValue(100)
+    document.body.style.paddingRight = '10.5px'
+
+    const trigger = ref(false)
+    const wrapper = mount({
+      setup() {
+        useLockscreen(trigger)
+        onMounted(() => {
+          trigger.value = true
+        })
+        return () => undefined
+      },
+    })
+
+    await nextTick()
+    expect(document.body.style.paddingRight).toBe('26.5px')
+
+    trigger.value = false
+    await nextTick()
+    wrapper.unmount()
+    vi.advanceTimersByTime(250)
+    await nextTick()
+    expect(document.body.style.paddingRight).toBe('10.5px')
+
+    scrollHeightSpy.mockRestore()
+    clientHeightSpy.mockRestore()
+  })
+
+  it('should not modify body width when locked', async () => {
+    const utilsModule = await import('@element-plus/utils')
+    vi.spyOn(utilsModule, 'getScrollBarWidth').mockReturnValue(16)
+    const scrollHeightSpy = vi
+      .spyOn(document.body, 'scrollHeight', 'get')
+      .mockReturnValue(200)
+    const clientHeightSpy = vi
+      .spyOn(document.documentElement, 'clientHeight', 'get')
+      .mockReturnValue(100)
+
+    const trigger = ref(false)
+    const wrapper = mount({
+      setup() {
+        useLockscreen(trigger)
+        onMounted(() => {
+          trigger.value = true
+        })
+        return () => undefined
+      },
+    })
+
+    await nextTick()
+    expect(document.body.style.width).toBe('')
+
+    trigger.value = false
+    await nextTick()
+    wrapper.unmount()
+    vi.advanceTimersByTime(250)
+    await nextTick()
+
+    scrollHeightSpy.mockRestore()
+    clientHeightSpy.mockRestore()
   })
 })
