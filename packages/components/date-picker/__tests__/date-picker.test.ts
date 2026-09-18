@@ -4258,3 +4258,102 @@ describe('QuarterRange', () => {
     expect(vm.value[1].getTime()).toBe(initialValue[1].getTime())
   })
 })
+
+describe('clear with externally normalized empty value (#24826)', () => {
+  const mountWithNormalizedClear = (onChange: ReturnType<typeof vi.fn>) =>
+    _mount(
+      `<el-date-picker
+        :model-value="value"
+        type="date"
+        clearable
+        @update:model-value="handleUpdate"
+        @change="onChange"
+      />`,
+      () => ({ value: new Date(2025, 0, 15) }),
+      {
+        methods: {
+          // the parent converts the cleared `null` to ''
+          handleUpdate(val: unknown) {
+            ;(this as any).value = val ?? ''
+          },
+          onChange,
+        },
+      }
+    )
+
+  it('does not open the panel when the clear icon is clicked while unfocused', async () => {
+    const onChange = vi.fn()
+    const wrapper = mountWithNormalizedClear(onChange)
+    await nextTick()
+
+    await wrapper.find('.el-input').trigger('mouseenter')
+    const clearIcon = wrapper.find('.clear-icon')
+    expect(clearIcon.exists()).toBe(true)
+
+    await clearIcon.trigger('mousedown')
+    // in real browsers ElInput's capture-phase click listener focuses the
+    // input here, and a microtask checkpoint runs before the clear icon's
+    // own click handler
+    wrapper.find('input').element.focus()
+    await nextTick()
+    await nextTick()
+    await rAF()
+    const popperEl = document.querySelector('.el-picker__popper') as HTMLElement
+    expect(popperEl.style.display).toBe('none')
+
+    await clearIcon.trigger('click')
+    await flushPromises()
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith(null)
+    expect((wrapper.vm as any).value).toBe('')
+  })
+
+  it('emits change only once when clearing while the panel is open', async () => {
+    const onChange = vi.fn()
+    const wrapper = mountWithNormalizedClear(onChange)
+    await nextTick()
+
+    await wrapper.find('input').trigger('focus')
+    await nextTick()
+    await nextTick()
+    await wrapper.find('.el-input').trigger('mouseenter')
+    await wrapper.find('.clear-icon').trigger('click')
+    await flushPromises()
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith(null)
+    expect((wrapper.vm as any).value).toBe('')
+  })
+
+  it('still opens the panel on focus after a canceled clear gesture', async () => {
+    const wrapper = _mount(
+      `<el-date-picker v-model="value" type="date" clearable />`,
+      () => ({ value: new Date(2025, 0, 15) })
+    )
+    await nextTick()
+
+    const input = wrapper.find('input')
+    input.element.focus()
+    await nextTick()
+    await nextTick()
+    await rAF()
+    const popperEl = document.querySelector('.el-picker__popper') as HTMLElement
+    expect(popperEl.style.display).not.toBe('none')
+
+    // press the clear icon but release over the wrapper (canceled gesture):
+    // neither onClear nor onMouseLeave runs
+    await wrapper.find('.el-input').trigger('mouseenter')
+    await wrapper.find('.clear-icon').trigger('mousedown')
+    await wrapper.find('.el-input__wrapper').trigger('click')
+    await nextTick()
+
+    input.element.blur()
+    await nextTick()
+    input.element.focus()
+    await nextTick()
+    await nextTick()
+    await rAF()
+    expect(popperEl.style.display).not.toBe('none')
+  })
+})

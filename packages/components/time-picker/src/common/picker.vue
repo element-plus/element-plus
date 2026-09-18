@@ -86,7 +86,7 @@
           <el-icon
             v-if="showClearBtn && clearIcon"
             :class="`${nsInput.e('icon')} clear-icon`"
-            @mousedown.prevent="NOOP"
+            @mousedown.prevent="onClearIconMousedown"
             @click="onClear"
           >
             <component :is="clearIcon" />
@@ -145,7 +145,7 @@
           <el-icon
             v-if="clearIcon"
             :class="clearIconKls"
-            @mousedown.prevent="NOOP"
+            @mousedown.prevent="onClearIconMousedown"
             @click="onClear"
           >
             <component :is="clearIcon" />
@@ -264,6 +264,7 @@ const refPopper = ref<TooltipInstance>()
 const inputRef = ref<InputInstance>()
 const valueOnOpen = ref<TimePickerDefaultProps['modelValue'] | null>(null)
 let hasJustTabExitedInput = false
+let isClearIconMousedown = false
 
 const pickerDisabled = useFormDisabled()
 
@@ -289,6 +290,11 @@ const { isFocused, handleFocus, handleBlur } = useFocusController(inputRef, {
   },
   afterFocus() {
     if (!props.automaticDropdown) return
+    // Clicking the clear icon focuses the input, which must not open the panel (#24826)
+    if (isClearIconMousedown) {
+      isClearIconMousedown = false
+      return
+    }
     pickerVisible.value = true
   },
   beforeBlur(event) {
@@ -306,6 +312,7 @@ const { isFocused, handleFocus, handleBlur } = useFocusController(inputRef, {
     }
     pickerVisible.value = false
     hasJustTabExitedInput = false
+    isClearIconMousedown = false
     props.validateEvent && formItem?.validate('blur').catch(NOOP)
   },
 })
@@ -348,7 +355,16 @@ const emitChange = (
   isClear?: boolean
 ) => {
   // determine user real change only
-  if (isClear || !valueEquals(val, valueOnOpen.value)) {
+  if (
+    isClear ||
+    !(
+      valueEquals(val, valueOnOpen.value) ||
+      // the parent may normalize the cleared value to another empty
+      // representation, e.g. `null` to '' (#24826)
+      (emptyValues.isEmptyValue(val) &&
+        emptyValues.isEmptyValue(valueOnOpen.value))
+    )
+  ) {
     emit(CHANGE_EVENT, val)
     // Set the value of valueOnOpen when clearing to avoid triggering change events multiple times.
     isClear && (valueOnOpen.value = val)
@@ -452,8 +468,13 @@ const showClearBtn = computed(
     (hovering.value || isFocused.value)
 )
 
+const onClearIconMousedown = () => {
+  isClearIconMousedown = true
+}
+
 const onClear = (event?: MouseEvent) => {
   if (props.readonly || pickerDisabled.value) return
+  isClearIconMousedown = false
   if (showClearBtn.value) {
     event?.stopPropagation()
     // When the handleClear Function was provided, emit null will be executed inside it
@@ -487,6 +508,7 @@ const onMouseEnter = () => {
 }
 const onMouseLeave = () => {
   hovering.value = false
+  isClearIconMousedown = false
 }
 
 const onTouchStartInput = (event: TouchEvent) => {
