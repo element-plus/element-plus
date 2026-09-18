@@ -14,6 +14,10 @@
   display: inline-block;
   outline: none;
 
+  & + & {
+    margin-left: -1px;
+  }
+
   @include e(inner) {
     display: inline-block;
     line-height: 1;
@@ -23,7 +27,7 @@
       #{getCssVarName('button-bg-color')},
       map.get($button, 'bg-color')
     );
-    outline: getCssVar('border');
+    border: getCssVar('border');
     font-weight: var(
       #{getCssVarName('button-font-weight')},
       map.get($button, 'font-weight')
@@ -70,6 +74,8 @@
   }
 
   @include when(active) {
+    z-index: 1;
+
     @include e(original-radio) {
       &:not(:disabled) {
         & + .#{$namespace}-radio-button__inner {
@@ -85,11 +91,6 @@
             'radio-button-checked-border-color',
             map.get($radio-button, 'checked-border-color')
           );
-          box-shadow: -1px 0 0 0
-            getCssVarWithDefault(
-              'radio-button-checked-border-color',
-              map.get($radio-button, 'checked-border-color')
-            );
         }
       }
     }
