@@ -11,6 +11,27 @@ describe('Link.vue', () => {
     expect(wrapper.text()).toEqual(AXIOM)
   })
 
+  it('toggles truncation without changing link content or navigation', async () => {
+    const wrapper = mount(Link, {
+      props: { href: '/details', target: '_blank' },
+      slots: { default: () => AXIOM, icon: () => <span>icon</span> },
+    })
+
+    expect(wrapper.classes()).not.toContain('is-truncated')
+    await wrapper.setProps({ truncated: true })
+    expect(wrapper.classes()).toContain('is-truncated')
+    expect(wrapper.find('.el-link__inner').text()).toBe(AXIOM)
+    expect(wrapper.attributes('href')).toBe('/details')
+    expect(wrapper.attributes('target')).toBe('_blank')
+    expect(wrapper.text()).toContain('icon')
+    expect(wrapper.attributes('truncated')).toBeUndefined()
+    await wrapper.trigger('click')
+    expect(wrapper.emitted('click')).toHaveLength(1)
+
+    await wrapper.setProps({ truncated: false })
+    expect(wrapper.classes()).not.toContain('is-truncated')
+  })
+
   it('it should handle click event when link is not disabled', async () => {
     const wrapper = mount(() => <Link>{AXIOM}</Link>)
 

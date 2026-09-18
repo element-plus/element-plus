@@ -19,6 +19,10 @@ export interface LinkProps {
    */
   disabled?: boolean
   /**
+   * @description render single-line ellipsis
+   */
+  truncated?: boolean
+  /**
    * @description same as native hyperlink's `href`
    */
   href?: string
@@ -58,6 +62,10 @@ export const linkProps = buildProps({
    * @description whether the component is disabled
    */
   disabled: Boolean,
+  /**
+   * @description render single-line ellipsis
+   */
+  truncated: Boolean,
   /**
    * @description same as native hyperlink's `href`
    */

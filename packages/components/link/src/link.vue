@@ -53,6 +53,7 @@ const linkKls = computed(() => [
   ns.b(),
   ns.m(props.type ?? globalConfig.value?.type ?? 'default'),
   ns.is('disabled', props.disabled),
+  ns.is('truncated', props.truncated),
   ns.is('underline', underline.value === 'always'),
   ns.is('hover-underline', underline.value === 'hover' && !props.disabled),
 ])

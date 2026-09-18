@@ -65,6 +65,23 @@
     @include utils-inline-flex-center;
   }
 
+  @include when(truncated) {
+    min-width: 0;
+    max-width: 100%;
+
+    .#{$namespace}-link__inner {
+      display: block;
+      min-width: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    > .#{$namespace}-icon {
+      flex-shrink: 0;
+    }
+  }
+
   @each $type in $types {
     &.#{$namespace}-link--#{$type} {
       @include css-var-from-global(('link', 'text-color'), ('color', $type));
