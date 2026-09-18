@@ -17,7 +17,7 @@ jobs:
         if: |
           contains(github.event.pull_request.labels.*.name, 'conflict pending') &&
           github.repository_owner == 'element-plus'
-        uses: actions-awesome/pr-helper@48f7641b8b2feebab7d6a2fbc22812fd0bfee829 # v1.1.1
+        uses: actions-awesome/pr-helper@48f7641b8b2feebab7d6a2fbc22812fd0bfee829 # 1.1.1
         with:
           actions: 'maintain-comment'
           comment-body: |
@@ -69,7 +69,7 @@ jobs:
           github.repository_owner == 'element-plus' &&
           contains(github.event.pull_request.labels.*.name, 'conflict pending') &&
           steps.poll.outputs.mergeable == 'true'
-        uses: actions-awesome/pr-helper@48f7641b8b2feebab7d6a2fbc22812fd0bfee829 # v1.1.1
+        uses: actions-awesome/pr-helper@48f7641b8b2feebab7d6a2fbc22812fd0bfee829 # 1.1.1
         with:
           actions: 'remove-labels, maintain-comment'
           labels-to-remove: 'conflict pending'
