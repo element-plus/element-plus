@@ -14,8 +14,14 @@ export const useLifecycle = (
   onMounted(async () => {
     if (props.range) {
       if (isArray(props.modelValue)) {
-        initData.firstValue = Math.max(props.min, props.modelValue[0])
-        initData.secondValue = Math.min(props.max, props.modelValue[1])
+        initData.firstValue = Math.max(
+          props.min,
+          props.modelValue[0] || props.min
+        )
+        initData.secondValue = Math.min(
+          props.max,
+          props.modelValue[1] || props.max
+        )
       } else {
         initData.firstValue = props.min
         initData.secondValue = props.max
