@@ -7,7 +7,7 @@
   display: flex;
   align-items: center;
   height: getCssVar('menu-item-height');
-  line-height: getCssVar('menu-item-height');
+  line-height: normal;
   font-size: getCssVar('menu-item-font-size');
   color: getCssVar('menu-text-color');
   padding: 0 getCssVar('menu-base-level-padding');
