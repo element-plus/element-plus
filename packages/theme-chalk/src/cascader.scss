@@ -157,6 +157,17 @@
     &.#{$namespace}-popper {
       box-shadow: getCssVar('cascader-menu-shadow');
     }
+
+    .#{$namespace}-cascader-panel {
+      overflow-x: hidden;
+    }
+  }
+
+  @include e(panel-scrollbar) {
+    height: auto;
+
+    // Must stay in sync with POPPER_VIEWPORT_PADDING * 2 in cascader.vue
+    max-width: calc(100vw - 16px);
   }
 
   @include e(header) {
