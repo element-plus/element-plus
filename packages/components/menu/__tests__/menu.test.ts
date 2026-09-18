@@ -304,6 +304,33 @@ describe('submenu', () => {
     await nextTick()
     expect(submenu.classes()).toContain('is-opened')
   })
+  test('should not trigger :focus-visible when focusing on mouseenter', async () => {
+    const wrapper = _mount(
+      `<el-menu mode="horizontal">
+        <el-sub-menu index="1" ref="submenu">
+          <template #title>导航一</template>
+          <el-menu-item index="1-1">选项1</el-menu-item>
+        </el-sub-menu>
+      </el-menu>`
+    )
+    await nextTick()
+    const submenu = wrapper.findComponent({ ref: 'submenu' })
+    const focusSpy = vi.spyOn(submenu.element as HTMLElement, 'focus')
+
+    vi.useFakeTimers()
+    await submenu.trigger('mouseenter')
+    vi.runAllTimers()
+    vi.useRealTimers()
+    await rAF()
+
+    // pointer-initiated focus must not paint the keyboard focus ring
+    expect(focusSpy).toHaveBeenCalledTimes(1)
+    expect(focusSpy).toHaveBeenCalledWith({
+      preventScroll: true,
+      focusVisible: false,
+    })
+    focusSpy.mockRestore()
+  })
   test('default opened', async () => {
     const wrapper = _mount(
       `<el-menu :default-openeds="defaultOpeneds">
