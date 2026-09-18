@@ -186,11 +186,11 @@ function useStyle<T extends DefaultRow>(
     }
     const scrollContainer = table.refs.scrollBarRef.wrapRef
     if (!scrollContainer) return
-    const { scrollLeft, offsetWidth, scrollWidth } = scrollContainer
+    const { scrollLeft, clientWidth, scrollWidth } = scrollContainer
     const { headerWrapper, footerWrapper } = table.refs
     if (headerWrapper) headerWrapper.scrollLeft = scrollLeft
     if (footerWrapper) footerWrapper.scrollLeft = scrollLeft
-    const maxScrollLeftPosition = scrollWidth - offsetWidth - 1
+    const maxScrollLeftPosition = scrollWidth - clientWidth - 1
     if (scrollLeft >= maxScrollLeftPosition) {
       setScrollClass('is-scrolling-right')
     } else if (scrollLeft === 0) {

@@ -214,6 +214,13 @@ class TableLayout<T extends DefaultRow> {
       this.bodyWidth.value = bodyMinWidth
     }
 
+    const isAutoLayout =
+      this.table.props.tableLayout === 'auto' && !this.table.props.maxHeight
+    const wrapRef = this.table.refs.scrollBarRef?.wrapRef
+    if (isAutoLayout && wrapRef && !this.scrollX.value) {
+      this.scrollX.value = wrapRef.scrollWidth > wrapRef.clientWidth
+    }
+
     const fixedColumns = this.store.states.fixedColumns.value
 
     if (fixedColumns.length > 0) {
