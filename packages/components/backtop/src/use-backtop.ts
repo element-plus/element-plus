@@ -1,5 +1,5 @@
-import { onMounted, ref, shallowRef } from 'vue'
-import { useEventListener, useThrottleFn } from '@vueuse/core'
+import { onMounted, onUnmounted, ref, shallowRef, watch } from 'vue'
+import { useEventListener } from '@vueuse/core'
 import { throwError } from '@element-plus/utils'
 
 import type { SetupContext } from 'vue'
@@ -13,9 +13,19 @@ export const useBackTop = (
   const el = shallowRef<HTMLElement>()
   const container = shallowRef<Document | HTMLElement>()
   const visible = ref(false)
+  const scrollProgress = ref(0)
+  let animationFrameId: number | undefined
 
   const handleScroll = () => {
-    if (el.value) visible.value = el.value.scrollTop >= props.visibilityHeight
+    if (!el.value) return
+
+    const { clientHeight, scrollHeight, scrollTop } = el.value
+    visible.value = scrollTop >= props.visibilityHeight
+    if (!props.showProgress) return
+
+    const maxScrollTop = scrollHeight - clientHeight
+    scrollProgress.value =
+      maxScrollTop > 0 ? Math.min(Math.max(scrollTop / maxScrollTop, 0), 1) : 0
   }
 
   const handleClick = (event: MouseEvent) => {
@@ -23,9 +33,30 @@ export const useBackTop = (
     emit('click', event)
   }
 
-  const handleScrollThrottled = useThrottleFn(handleScroll, 300, true)
+  const scheduleScrollUpdate = () => {
+    if (animationFrameId !== undefined) return
 
-  useEventListener(container, 'scroll', handleScrollThrottled)
+    animationFrameId = requestAnimationFrame(() => {
+      handleScroll()
+      animationFrameId = undefined
+    })
+  }
+
+  const handleResize = () => {
+    if (props.showProgress) scheduleScrollUpdate()
+  }
+
+  useEventListener(container, 'scroll', scheduleScrollUpdate)
+  useEventListener('resize', handleResize)
+  watch(
+    () => props.showProgress,
+    () => handleScroll()
+  )
+  onUnmounted(() => {
+    if (animationFrameId !== undefined) {
+      cancelAnimationFrame(animationFrameId)
+    }
+  })
   onMounted(() => {
     container.value = document
     el.value = document.documentElement
@@ -43,6 +74,7 @@ export const useBackTop = (
 
   return {
     visible,
+    scrollProgress,
     handleClick,
   }
 }
