@@ -77,7 +77,8 @@
       text-overflow: ellipsis;
     }
 
-    > .#{$namespace}-icon {
+    > .#{$namespace}-icon,
+    > svg {
       flex-shrink: 0;
     }
   }
