@@ -43,8 +43,7 @@
     <el-input
       :id="id"
       ref="input"
-      :type="formatter ? 'text' : 'number'"
-      :step="step"
+      type="text"
       :model-value="displayValue"
       :placeholder="placeholder"
       :readonly="readonly"
@@ -125,7 +124,7 @@ const props = withDefaults(defineProps<InputNumberProps>(), {
   controlsPosition: '',
   valueOnClear: null,
   validateEvent: true,
-  inputmode: undefined,
+  inputmode: 'decimal',
   align: 'center',
   tabindex: 0,
 })
@@ -362,6 +361,12 @@ const handleFocus = (event: MouseEvent | FocusEvent) => {
 }
 
 const handleBlur = (event: MouseEvent | FocusEvent) => {
+  if (data.userInput !== null) {
+    const newVal = Number.parseFloat(data.userInput as string)
+    if (!Number.isNaN(newVal)) {
+      setCurrentValue(newVal)
+    }
+  }
   data.userInput = null
   // When non-numeric content is entered into a numeric input box,
   // the content displayed on the page is not cleared after the value is cleared. #18533
