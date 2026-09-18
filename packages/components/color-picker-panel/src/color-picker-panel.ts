@@ -50,6 +50,10 @@ export interface ColorPickerPanelProps {
    * @description styles will be passed to hue-slider
    */
   hueSliderStyle?: StyleValue
+  /**
+   * @description whether to enable gradient mode
+   */
+  showGradient?: boolean
 }
 
 /**
@@ -110,6 +114,13 @@ export const colorPickerPanelProps = buildProps({
   hueSliderStyle: {
     type: definePropType<StyleValue>([String, Array, Object, Boolean]),
     default: undefined,
+  },
+  /**
+   * @description whether to enable gradient mode
+   */
+  showGradient: {
+    type: Boolean,
+    default: false,
   },
 } as const)
 export const colorPickerPanelEmits = {
