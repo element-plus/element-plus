@@ -1,6 +1,23 @@
 ## Changelog
 
 
+### 2.14.6
+
+_2026-09-18_
+
+#### Features
+
+- Components [text] add `isTruncated` expose (#24822 by @rzzf)
+
+#### Bug fixes
+
+- Components [table] defer multiple filters until confirm (#24749 by @william-xue)
+- Components [form] avoid warning for zero label width (#24820 by @wjp980108)
+- Components [select/v2] avoid circular tag width calculation (#24743 by @rzzf)
+- Components [upload] preserve dropped directory paths (#24838 by @rzzf)
+- Components prevent duplicate keyboard handling in dates picker (#24860 by @ixyzorg)
+- Components [loading] memory leak (#24865 by @btea)
+
 ### 2.14.5
 
 _2026-08-21_

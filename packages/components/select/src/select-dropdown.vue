@@ -19,6 +19,7 @@ import { useResizeObserver } from '@vueuse/core'
 import { useNamespace } from '@element-plus/hooks'
 import { selectKey } from './token'
 import { BORDER_HORIZONTAL_WIDTH } from '@element-plus/constants'
+import { rAF } from '@element-plus/utils'
 
 export default defineComponent({
   name: 'ElSelectDropdown',
@@ -48,7 +49,9 @@ export default defineComponent({
       // TODO: updatePopper
       // popper.value.update()
       updateMinWidth()
-      useResizeObserver(select.selectRef, updateMinWidth)
+      useResizeObserver(select.selectRef, () => {
+        rAF(updateMinWidth)
+      })
     })
 
     return {
