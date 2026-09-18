@@ -98,18 +98,27 @@ link/with-icon
 
 :::
 
+## Ellipsis
+
+:::demo Pass the `truncated` prop to render a single-line ellipsis when the link text exceeds its own or its parent's width constraint. Icons supplied through the `icon` prop or slot remain visible.
+
+link/truncated
+
+:::
+
 ## API
 
 ### Attributes
 
-| Name      | Description                         | Type                                                                            | Default |
-| --------- | ----------------------------------- | ------------------------------------------------------------------------------- | ------- |
-| type      | type                                | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'default'` | default |
-| underline | when underlines should appear       | ^[enum]`'always' \| 'hover' \| 'never' \| boolean`                              | hover   |
-| disabled  | whether the component is disabled   | ^[boolean]                                                                      | false   |
-| href      | same as native hyperlink's `href`   | ^[string]                                                                       | —       |
-| target    | same as native hyperlink's `target` | ^[enum]`'_blank' \| '_parent' \| '_self' \| '_top'`                             | \_self  |
-| icon      | icon component                      | ^[string] / ^[Component]                                                        | —       |
+| Name                | Description                                                      | Type                                                                            | Default |
+| ------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------- |
+| type                | type                                                             | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'default'` | default |
+| underline           | when underlines should appear                                    | ^[enum]`'always' \| 'hover' \| 'never' \| boolean`                              | hover   |
+| disabled            | whether the component is disabled                                | ^[boolean]                                                                      | false   |
+| truncated ^(2.14.6) | whether to truncate overflowing text with a single-line ellipsis | ^[boolean]                                                                      | false   |
+| href                | same as native hyperlink's `href`                                | ^[string]                                                                       | —       |
+| target              | same as native hyperlink's `target`                              | ^[enum]`'_blank' \| '_parent' \| '_self' \| '_top'`                             | \_self  |
+| icon                | icon component                                                   | ^[string] / ^[Component]                                                        | —       |
 
 ### Slots
 
