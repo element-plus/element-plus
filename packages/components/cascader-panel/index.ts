@@ -10,3 +10,4 @@ export default ElCascaderPanel
 export * from './src/types'
 export * from './src/config'
 export * from './src/instance'
+export { default as CascaderStore } from './src/store'
