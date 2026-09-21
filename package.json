@@ -66,8 +66,8 @@
     "normalize-wheel-es": "^1.2.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^21.2.2",
-    "@commitlint/config-conventional": "^21.2.2",
+    "@commitlint/cli": "^21.2.3",
+    "@commitlint/config-conventional": "^21.2.3",
     "@ctrl/tinycolor": "catalog:",
     "@element-plus/build": "workspace:^0.0.1",
     "@element-plus/build-utils": "workspace:^0.0.1",
@@ -76,7 +76,7 @@
     "@pnpm/logger": "^5.2.0",
     "@pnpm/types": "^12.2.0",
     "@types/jsdom": "^30.0.0",
-    "@types/node": "^24.13.5",
+    "@types/node": "^24.13.6",
     "@vitejs/plugin-vue": "catalog:",
     "@vitejs/plugin-vue-jsx": "catalog:",
     "@vitest/coverage-v8": "^5.0.1",
