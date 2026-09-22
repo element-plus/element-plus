@@ -444,7 +444,7 @@ importers:
         version: 0.2.0
     devDependencies:
       '@crowdin/cli':
-        specifier: ^5.1.0
+        specifier: ^5.2.0
         version: 5.2.0
       '@element-plus/build':
         specifier: workspace:*
