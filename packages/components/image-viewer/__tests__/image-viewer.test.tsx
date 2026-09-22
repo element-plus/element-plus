@@ -107,6 +107,36 @@ describe('<image-viewer />', () => {
     wrapper.unmount()
   })
 
+  test('viewer slot', async () => {
+    const wrapper = mount(ImageViewer, {
+      props: {
+        urlList: [IMAGE_SUCCESS],
+      },
+      slots: {
+        viewer: () => <div class="viewer-slot">viewer slot</div>,
+      },
+    })
+
+    await doubleWait()
+    expect(wrapper.find('.viewer-slot').text()).toBe('viewer slot')
+    wrapper.unmount()
+  })
+
+  test('default slot', async () => {
+    const wrapper = mount(ImageViewer, {
+      props: {
+        urlList: [IMAGE_SUCCESS],
+      },
+      slots: {
+        default: () => <div class="default-slot">default slot</div>,
+      },
+    })
+
+    await doubleWait()
+    expect(wrapper.find('.default-slot').text()).toBe('default slot')
+    wrapper.unmount()
+  })
+
   test('custom ImageViewer load failed slot', async () => {
     const wrapper = mount(ImageViewer, {
       props: {

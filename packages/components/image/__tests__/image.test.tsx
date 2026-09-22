@@ -273,6 +273,28 @@ describe('Image.vue', () => {
     expect(wrapper.find('.el-image-viewer__progress').exists()).toBe(true)
   })
 
+  test('viewer slot', async () => {
+    const url = IMAGE_SUCCESS
+    const wrapper = _mount(
+      `
+      <el-image
+        ref="imageRef"
+        :src="url"
+        :preview-src-list="[url]"
+      >
+        <template #viewer>
+          <div class="viewer-slot">viewer slot</div>
+        </template>
+      </el-image>`,
+      () => ({ url })
+    ) as unknown as VueWrapper<ImageInstance>
+
+    await doubleWait()
+    ;(wrapper.vm.$refs.imageRef as ImageInstance).showPreview()
+    await doubleWait()
+    expect(wrapper.find('.viewer-slot').text()).toBe('viewer slot')
+  })
+
   test('custom viewer load failed slot', async () => {
     const url = IMAGE_SUCCESS
     const srcList = ['error']
