@@ -607,6 +607,107 @@ describe('Table.vue', () => {
       filter.parentNode.removeChild(filter)
     })
 
+    it('emits all active filters when filter changes', async () => {
+      wrapper.unmount()
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table ref="table" :data="testData" @filter-change="handleFilterChange">
+            <el-table-column
+              prop="director"
+              column-key="director"
+              :filters="[
+                { text: 'John Lasseter', value: 'John Lasseter' },
+                { text: 'Peter Docter', value: 'Peter Docter' },
+              ]"
+              :filter-multiple="false"
+            />
+            <el-table-column
+              prop="release"
+              column-key="release"
+              :filters="[
+                { text: '1995-11-22', value: '1995-11-22' },
+                { text: '1998-11-25', value: '1998-11-25' },
+              ]"
+            />
+          </el-table>
+        `,
+        data() {
+          return {
+            testData: getTestData(),
+            filterChanges: [],
+          }
+        },
+        methods: {
+          handleFilterChange(filters) {
+            this.filterChanges.push(filters)
+          },
+        },
+      })
+      await doubleWait()
+
+      const triggers = wrapper.findAll('.el-table__column-filter-trigger')
+
+      await triggers[0].trigger('click')
+      await doubleWait()
+      const singleFilterPanel =
+        document.body.querySelectorAll('.el-table-filter')[0]
+      triggerEvent(
+        singleFilterPanel.querySelectorAll('.el-table-filter__list-item')[1],
+        'click',
+        true,
+        false
+      )
+      await doubleWait()
+      expect(wrapper.vm.filterChanges.at(-1)).toEqual({
+        director: ['John Lasseter'],
+      })
+
+      await triggers[1].trigger('click')
+      await doubleWait()
+      const multipleFilterPanel =
+        document.body.querySelectorAll('.el-table-filter')[1]
+      triggerEvent(
+        multipleFilterPanel.querySelector('.el-checkbox'),
+        'click',
+        true,
+        false
+      )
+      await doubleWait()
+      triggerEvent(
+        multipleFilterPanel.querySelector('.el-table-filter__bottom button'),
+        'click',
+        true,
+        false
+      )
+      await doubleWait()
+      expect(wrapper.vm.filterChanges.at(-1)).toEqual({
+        director: ['John Lasseter'],
+        release: ['1995-11-22'],
+      })
+
+      await triggers[0].trigger('click')
+      await doubleWait()
+      const singleFilterPanelAfter =
+        document.body.querySelectorAll('.el-table-filter')[0]
+      triggerEvent(
+        singleFilterPanelAfter.querySelectorAll(
+          '.el-table-filter__list-item'
+        )[0],
+        'click',
+        true,
+        false
+      )
+      await doubleWait()
+      expect(wrapper.vm.filterChanges.at(-1)).toEqual({
+        director: [],
+        release: ['1995-11-22'],
+      })
+    })
+
     it('click reset', async () => {
       const btn = wrapper.find('.el-table__column-filter-trigger')
       btn.trigger('click')
