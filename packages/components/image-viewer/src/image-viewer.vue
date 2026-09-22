@@ -95,13 +95,26 @@
               :key="currentImg"
               :src="currentImg"
               :style="imgStyle"
-              :class="ns.e('img')"
+              :class="[
+                ns.e('img'),
+                ns.is('loading', loading && !!$slots['viewer-placeholder']),
+              ]"
               :crossorigin="crossorigin"
               @load="handleImgLoad"
               @error="handleImgError"
               @mousedown="handleMouseDown"
               @touchstart="handleTouchStart"
             />
+            <div
+              v-if="loading && !loadError && $slots['viewer-placeholder']"
+              :class="ns.e('loading')"
+            >
+              <slot
+                name="viewer-placeholder"
+                :active-index="activeIndex"
+                :src="currentImg"
+              />
+            </div>
           </div>
           <slot />
         </el-focus-trap>
@@ -480,10 +493,12 @@ watch(
 )
 
 watch(currentImg, () => {
+  loading.value = true
+  loadError.value = false
   nextTick(() => {
     const $img = imgRef.value
-    if (!$img?.complete) {
-      loading.value = true
+    if ($img?.complete) {
+      loading.value = false
     }
   })
 })

@@ -50,6 +50,12 @@
         <template #toolbar="toolbar">
           <slot name="toolbar" v-bind="toolbar" />
         </template>
+        <template
+          v-if="$slots['viewer-placeholder']"
+          #viewer-placeholder="viewerPlaceholder"
+        >
+          <slot name="viewer-placeholder" v-bind="viewerPlaceholder" />
+        </template>
         <template v-if="$slots['viewer-error']" #viewer-error="viewerError">
           <slot name="viewer-error" v-bind="viewerError" />
         </template>
