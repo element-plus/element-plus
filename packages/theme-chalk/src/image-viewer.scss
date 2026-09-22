@@ -58,6 +58,14 @@
     user-select: none;
   }
 
+  @include e(img) {
+    cursor: grab;
+
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
   @include e(actions) {
     left: 50%;
     bottom: 30px;
