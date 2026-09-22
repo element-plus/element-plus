@@ -179,6 +179,50 @@ describe('<ElTooltipContent />', () => {
         expect(onClose).not.toHaveBeenCalled()
       })
 
+      it('should not close on ESC (focus-trap close) when controlled', async () => {
+        controlled.value = true
+        await nextTick()
+        const { vm } = wrapper
+
+        expect(onClose).not.toHaveBeenCalled()
+        vm.onContentClose()
+        await nextTick()
+        expect(onClose).not.toHaveBeenCalled()
+      })
+
+      it('should not close on blur when controlled', async () => {
+        controlled.value = true
+        await nextTick()
+        const { vm } = wrapper
+
+        expect(onClose).not.toHaveBeenCalled()
+        vm.onContentBlur()
+        await nextTick()
+        expect(onClose).not.toHaveBeenCalled()
+      })
+
+      it('should close on ESC (focus-trap close) when uncontrolled', async () => {
+        controlled.value = false
+        await nextTick()
+        const { vm } = wrapper
+
+        expect(onClose).not.toHaveBeenCalled()
+        vm.onContentClose()
+        await nextTick()
+        expect(onClose).toHaveBeenCalled()
+      })
+
+      it('should close on blur when uncontrolled and not virtual triggering', async () => {
+        controlled.value = false
+        await nextTick()
+        const { vm } = wrapper
+
+        expect(onClose).not.toHaveBeenCalled()
+        vm.onContentBlur()
+        await nextTick()
+        expect(onClose).toHaveBeenCalled()
+      })
+
       describe('onCloseOutside', () => {
         beforeEach(() => {
           // Have to mock this ref because we are not going to render the content in this component
