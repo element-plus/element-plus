@@ -60,6 +60,11 @@
 
   @include e(img) {
     opacity: 1;
+    cursor: grab;
+
+    &:active {
+      cursor: grabbing;
+    }
 
     @include when(loading) {
       opacity: 0;
