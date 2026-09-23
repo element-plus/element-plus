@@ -103,10 +103,7 @@
               @touchstart="handleTouchStart"
             />
           </div>
-          <slot name="viewer">
-            <!-- Keep the default slot as a fallback for backward compatibility. -->
-            <slot />
-          </slot>
+          <slot />
         </el-focus-trap>
       </div>
     </transition>

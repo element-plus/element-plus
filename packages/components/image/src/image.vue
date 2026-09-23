@@ -41,9 +41,9 @@
         @close="closeViewer"
         @switch="switchViewer"
       >
-        <template v-if="$slots.viewer" #viewer>
+        <div v-if="$slots.viewer">
           <slot name="viewer" />
-        </template>
+        </div>
         <template v-if="$slots.progress" #progress="progress">
           <slot name="progress" v-bind="progress" />
         </template>
