@@ -29,6 +29,8 @@ export default {
         'महीने का दिन चुनने के लिए एरो कुंजी का इस्तेमाल करें और एंटर करें',
       monthTablePrompt:
         'महीने चुनने के लिए एरो कुंजी का इस्तेमाल करें और एंटर करें ',
+      quarterTablePrompt:
+        'तिमाही चुनने के लिए एरो कुंजी का इस्तेमाल करें और एंटर करें',
       yearTablePrompt:
         'साल चुनने के लिए एरो कुंजी का इस्तेमाल करें और एंटर करें',
       selectedDate: 'चुनी गई तारीख',
@@ -87,6 +89,9 @@ export default {
         nov: 'नवं.',
         dec: 'दिसं.',
       },
+    },
+    input: {
+      characters: '{count} / {max} वर्ण',
     },
     inputNumber: {
       decrease: 'संख्या घटाएँ',

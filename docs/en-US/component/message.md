@@ -19,7 +19,7 @@ message/basic
 
 ## Types
 
-Used to show the feedback of Success, Warning, Message and Error activities.
+Used to show the feedback of Primary, Success, Warning, Info and Error activities.
 
 :::demo When you need more customizations, Message component can also take an object as parameter. For example, setting value of `type` can define different types, and its default is `info`. In such cases the main body is passed in as the value of `message`. Also, we have registered methods for different types, so you can directly call it without passing a type like `open4`. `primary` has been added in ^(2.9.11).
 

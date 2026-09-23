@@ -143,6 +143,26 @@ describe('Loading', () => {
     expect(wrapper.find('.custom-path').attributes().d).toEqual('M 30 15')
   })
 
+  test('switch between default and custom spinner', async () => {
+    const spinner = ref<string>()
+    const wrapper = _mount(() => (
+      <div v-loading={true} element-loading-spinner={spinner.value} />
+    ))
+
+    await nextTick()
+    expect(wrapper.find('svg circle.path').exists()).toBe(true)
+
+    spinner.value = '<path class="custom-spinner" d="M 30 15"/>'
+    await nextTick()
+    expect(wrapper.find('svg .custom-spinner').exists()).toBe(true)
+    expect(wrapper.find('svg circle.path').exists()).toBe(false)
+
+    spinner.value = undefined
+    await nextTick()
+    expect(wrapper.find('svg .custom-spinner').exists()).toBe(false)
+    expect(wrapper.find('svg circle.path').exists()).toBe(true)
+  })
+
   test('create service', async () => {
     loadingInstance = Loading()
     expect(document.querySelector('.el-loading-mask')).toBeTruthy()
@@ -169,6 +189,27 @@ describe('Loading', () => {
     loadingInstance = Loading()
     loadingInstance.close()
     expect(loadingInstance.visible.value).toBeFalsy()
+  })
+
+  test('close service should release detached dom', async () => {
+    loadingInstance = Loading()
+    const mask = document.querySelector('.el-loading-mask') as HTMLElement
+    expect(mask).toBeTruthy()
+
+    vi.useFakeTimers()
+    loadingInstance.close()
+    vi.runAllTimers()
+    vi.useRealTimers()
+    await nextTick()
+
+    // the mask is removed from the document ...
+    expect(mask.parentNode).toBeNull()
+    // ... and no reference on the instance keeps it alive anymore
+    expect(loadingInstance.$el).toBeNull()
+    const internalInstance = loadingInstance.vm.$
+    expect(internalInstance.vnode.el).toBeNull()
+    expect(internalInstance.subTree).toBeNull()
+    expect(internalInstance.appContext.app._container).toBeNull()
   })
 
   test('target service', async () => {

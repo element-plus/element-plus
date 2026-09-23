@@ -136,7 +136,34 @@ export default defineNuxtConfig({
 })
 ```
 
-Refer to the [docs](https://github.com/element-plus/element-plus-nuxt#readme) for how to configure it.
+::: tip
+If you are using `pnpm`, please note that the [dayjs](https://github.com/iamkun/dayjs) package used internally by Element Plus is not a [JavaScript modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules).
+
+In order to ensure that it can be converted into a JavaScript modules before startup, you need to configure pnpm to hoist dependencies.
+
+For pnpm 10.5.x and earlier, add the following configuration to a `.npmrc` file in the project root:
+
+```ini
+shamefully-hoist=true
+node-linker=hoisted
+```
+
+For pnpm 10.6.x and later, add the following configuration to `pnpm-workspace.yaml`:
+
+```yaml
+shamefullyHoist: true
+nodeLinker: hoisted
+```
+
+Alternatively, you can install the dayjs dependency explicitly in your project:
+
+```bash
+pnpm add dayjs
+```
+
+:::
+
+For more configuration options, please refer to the [docs](https://github.com/element-plus/element-plus-nuxt#readme).
 
 ### Manually import
 

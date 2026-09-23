@@ -10,6 +10,7 @@ defineOptions({ inheritAttrs: false })
 
 const darkMode = ref(isDark.value)
 const switchRef = ref<SwitchInstance>()
+let latestTransitionId = 0
 
 watch(
   () => isDark.value,
@@ -53,29 +54,26 @@ const beforeChange = () => {
     const referR = Math.hypot(innerWidth, innerHeight) / Math.SQRT2
     const ratioR = (100 * endRadius) / referR
 
+    const transitionId = ++latestTransitionId
+    const root = document.documentElement
+    root.dataset.themeTransition = isDark.value ? 'to-light' : 'to-dark'
+    root.style.setProperty('--theme-transition-x', `${ratioX}%`)
+    root.style.setProperty('--theme-transition-y', `${ratioY}%`)
+    root.style.setProperty('--theme-transition-radius', `${ratioR}%`)
+
     // @ts-expect-error: Transition API
     const transition = document.startViewTransition(async () => {
       resolve(true)
       await nextTick()
     })
-    transition.ready.then(() => {
-      const clipPath = [
-        `circle(0% at ${ratioX}% ${ratioY}%)`,
-        `circle(${ratioR}% at ${ratioX}% ${ratioY}%)`,
-      ]
-      document.documentElement.animate(
-        {
-          clipPath: isDark.value ? [...clipPath].reverse() : clipPath,
-        },
-        {
-          duration: 400,
-          easing: 'ease-in',
-          fill: 'both',
-          pseudoElement: isDark.value
-            ? '::view-transition-old(root)'
-            : '::view-transition-new(root)',
-        }
-      )
+
+    transition.finished.finally(() => {
+      if (transitionId !== latestTransitionId) return
+
+      delete root.dataset.themeTransition
+      root.style.removeProperty('--theme-transition-x')
+      root.style.removeProperty('--theme-transition-y')
+      root.style.removeProperty('--theme-transition-radius')
     })
   })
 }

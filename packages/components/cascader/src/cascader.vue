@@ -388,6 +388,7 @@ const props = withDefaults(defineProps<CascaderComponentProps>(), {
   persistent: true,
   showCheckedStrategy: 'child',
   showPrefix: true,
+  popperClass: undefined,
   popperStyle: undefined,
   valueOnClear: undefined,
   itemSize: CASCADER_PANEL_ITEM_SIZE,

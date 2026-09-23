@@ -55,6 +55,7 @@
           isDatesPicker ||
           isMonthsPicker ||
           isYearsPicker ||
+          isQuartersPicker ||
           type === 'week'
         "
         :aria-label="ariaLabel"
@@ -416,7 +417,10 @@ const displayValue = computed<UserInput>(() => {
   if (!isTimePicker.value && valueIsEmpty.value) return ''
   if (!pickerVisible.value && valueIsEmpty.value) return ''
   if (formattedValue) {
-    return isDatesPicker.value || isMonthsPicker.value || isYearsPicker.value
+    return isDatesPicker.value ||
+      isMonthsPicker.value ||
+      isYearsPicker.value ||
+      isQuartersPicker.value
       ? (formattedValue as Array<string>).join(', ')
       : formattedValue
   }
@@ -432,6 +436,8 @@ const isDatesPicker = computed(() => props.type === 'dates')
 const isMonthsPicker = computed(() => props.type === 'months')
 
 const isYearsPicker = computed(() => props.type === 'years')
+
+const isQuartersPicker = computed(() => props.type === 'quarters')
 
 const triggerIcon = computed(
   () => props.prefixIcon || (isTimeLikePicker.value ? Clock : Calendar)

@@ -32,20 +32,20 @@ type ExtractEventNames<T> =
   ComponentEmit<T> extends (event: string, ...args: any[]) => any
     ? never
     : keyof {
-        [K in keyof ComponentProps<T> as K extends `on${infer Event}`
-          ? ComponentEmit<T> extends (
-              event: Uncapitalize<Event>,
-              ...args: any[]
-            ) => any
-            ? K
+        [
+          K in keyof ComponentProps<T> as K extends `on${infer Event}`
+            ? ComponentEmit<T> extends (
+                event: Uncapitalize<Event>,
+                ...args: any[]
+              ) => any
+              ? K
+              : never
             : never
-          : never]: unknown
+        ]: unknown
       }
 
 type ExcludedProps<T> =
-  | ExtractEventNames<T>
-  | keyof VNodeProps
-  | keyof AllowedComponentProps
+  ExtractEventNames<T> | keyof VNodeProps | keyof AllowedComponentProps
 
 export type SFCWithInstall<T> = T & ObjectPlugin & SFCWithPropsDefaultsSetter<T>
 
@@ -57,9 +57,11 @@ export type SFCWithPropsDefaultsSetter<T> = T extends Component
   ? {
       setPropsDefaults: (
         defaults: InferDefaults<{
-          [K in keyof ComponentProps<T> as K extends ExcludedProps<T>
-            ? never
-            : K]?: ComponentProps<T>[K]
+          [
+            K in keyof ComponentProps<T> as K extends ExcludedProps<T>
+              ? never
+              : K
+          ]?: ComponentProps<T>[K]
         }>
       ) => void
     }

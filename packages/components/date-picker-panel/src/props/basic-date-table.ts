@@ -23,6 +23,7 @@ export type DatePickerEmits = Dayjs
 export type DatesPickerEmits = Dayjs[]
 export type MonthsPickerEmits = Dayjs[]
 export type YearsPickerEmits = Dayjs[]
+export type QuartersPickerEmits = Dayjs[]
 export type WeekPickerEmits = {
   year: number
   week: number
@@ -31,7 +32,4 @@ export type WeekPickerEmits = {
 }
 
 export type DateTableEmits =
-  | RangePickerEmits
-  | DatePickerEmits
-  | DatesPickerEmits
-  | WeekPickerEmits
+  RangePickerEmits | DatePickerEmits | DatesPickerEmits | WeekPickerEmits

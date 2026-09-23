@@ -13,7 +13,7 @@
       role="button"
       @keydown.delete="!disabled && handleRemove(file)"
       @focus="focusing = true"
-      @blur="focusing = false"
+      @blur="handleBlur"
       @click="focusing = false"
     >
       <slot :file="file" :index="index">
@@ -109,7 +109,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed, nextTick, ref } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import {
   Check,
@@ -153,6 +153,16 @@ const containerKls = computed(() => [
   nsUpload.bm('list', props.listType),
   nsUpload.is('disabled', disabled.value),
 ])
+
+const handleBlur = async (event: FocusEvent) => {
+  const nextTarget = event.relatedTarget as HTMLElement | null
+
+  await nextTick()
+
+  if (!nextTarget?.classList.contains(nsUpload.be('list', 'item'))) {
+    focusing.value = false
+  }
+}
 
 const handleRemove = (file: UploadFile) => {
   emit('remove', file)

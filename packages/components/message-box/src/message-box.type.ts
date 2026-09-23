@@ -17,8 +17,7 @@ export interface MessageBoxInputData {
 }
 
 export type MessageBoxInputValidator =
-  | ((value: string) => boolean | string)
-  | undefined
+  ((value: string) => boolean | string) | undefined
 export type CloseFn = () => void
 export interface MessageBoxActionHandlers {
   confirm: CloseFn
@@ -33,7 +32,7 @@ export declare interface MessageBoxState {
   type: MessageType
   icon: string | Component
   closeIcon: string | Component
-  customClass: string
+  customClass: string // todo: use ClassValue, TS Error: ts-plugin(2589)
   customStyle: CSSProperties
   showInput: boolean
   inputValue: string
@@ -74,8 +73,7 @@ export declare interface MessageBoxState {
 }
 
 export type Callback =
-  | ((value: string, action: Action) => any)
-  | ((action: Action) => any)
+  ((value: string, action: Action) => any) | ((action: Action) => any)
 
 /** Options used in MessageBox */
 export interface ElMessageBoxOptions {
@@ -228,7 +226,7 @@ export type ElMessageBoxShortcutMethod = ((
   ) => Promise<MessageBoxData>)
 
 export interface IElMessageBox {
-  _context: AppContext | null;
+  _context: AppContext | null
 
   /** Show a message box */
   // (message: string, title?: string, type?: string): Promise<MessageBoxData>

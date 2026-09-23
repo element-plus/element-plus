@@ -4,6 +4,7 @@ import { describe, expect, test, vi } from 'vitest'
 import { TypeComponentsMap } from '@element-plus/utils'
 import { Close, CloseBold } from '@element-plus/icons-vue'
 import { EVENT_CODE } from '@element-plus/constants'
+import { ElProgress } from '@element-plus/components/progress'
 import { notificationTypes } from '../src/notification'
 import Notification from '../src/notification.vue'
 
@@ -266,6 +267,100 @@ describe('Notification.vue', () => {
       document.dispatchEvent(event)
       vi.runAllTimers()
       expect(wrapper.vm.visible).toBe(false)
+      vi.useRealTimers()
+    })
+
+    test('should keep hover-paused notification paused on unrelated keydown', async () => {
+      vi.useFakeTimers()
+      const wrapper = _mount({
+        props: {
+          duration: 100,
+        },
+      })
+
+      await wrapper.find('[role=alert]').trigger('mouseenter')
+
+      // pressing an unrelated key should not resume the timer while hovered
+      document.dispatchEvent(
+        new KeyboardEvent('keydown', { code: 'KeyA', bubbles: true })
+      )
+      vi.advanceTimersByTime(5000)
+      expect(wrapper.vm.visible).toBe(true)
+
+      await wrapper.find('[role=alert]').trigger('mouseleave')
+      vi.runAllTimers()
+      expect(wrapper.vm.visible).toBe(false)
+      vi.useRealTimers()
+    })
+  })
+
+  describe('progress bar', () => {
+    test('should render progress bar when progress is true', () => {
+      const wrapper = _mount({
+        props: {
+          progress: true,
+        },
+      })
+
+      expect(wrapper.find('.el-notification__progress').exists()).toBe(true)
+      expect(wrapper.findComponent(ElProgress).exists()).toBe(true)
+    })
+
+    test('should not render progress bar by default', () => {
+      const wrapper = _mount({})
+
+      expect(wrapper.find('.el-notification__progress').exists()).toBe(false)
+    })
+
+    test('should not render progress bar when duration is 0', () => {
+      const wrapper = _mount({
+        props: {
+          progress: true,
+          duration: 0,
+        },
+      })
+
+      expect(wrapper.find('.el-notification__progress').exists()).toBe(false)
+    })
+
+    test('should apply custom progress options', () => {
+      const wrapper = _mount({
+        props: {
+          progress: {
+            color: 'rgb(64, 158, 255)',
+            strokeWidth: 6,
+          },
+        },
+      })
+
+      const inner = wrapper.find('.el-progress-bar__inner')
+      expect(inner.attributes('style')).toContain(
+        'background-color: rgb(64, 158, 255);'
+      )
+      expect(wrapper.findComponent(ElProgress).props('strokeWidth')).toBe(6)
+    })
+
+    test('should pause and resume the progress bar on hover', async () => {
+      vi.useFakeTimers()
+      const wrapper = _mount({
+        props: {
+          duration: 1000,
+          progress: true,
+        },
+      })
+      await nextTick()
+
+      vi.advanceTimersByTime(200)
+      const pausedPercentage = wrapper.vm.percentage
+      expect(pausedPercentage).toBeLessThan(100)
+
+      await wrapper.find('[role=alert]').trigger('mouseenter')
+      vi.advanceTimersByTime(500)
+      expect(wrapper.vm.percentage).toBe(pausedPercentage)
+
+      await wrapper.find('[role=alert]').trigger('mouseleave')
+      vi.advanceTimersByTime(400)
+      expect(wrapper.vm.percentage).toBeLessThan(pausedPercentage)
       vi.useRealTimers()
     })
   })

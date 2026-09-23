@@ -6,6 +6,8 @@
       :style="wrapStyle"
       :tabindex="tabindex"
       @scroll="handleScroll"
+      @transitionend="updateBar"
+      @animationend="updateBar"
     >
       <component
         :is="tag"
@@ -80,6 +82,7 @@ const ns = useNamespace('scrollbar')
 let stopResizeObserver: (() => void) | undefined = undefined
 let stopWrapResizeObserver: (() => void) | undefined = undefined
 let stopResizeListener: (() => void) | undefined = undefined
+let rafId = 0
 let wrapScrollTop = 0
 let wrapScrollLeft = 0
 let direction = '' as ScrollbarDirection
@@ -215,6 +218,23 @@ const update = () => {
   barRef.value?.update()
   distanceScrollState[direction] = false
   if (wrapRef.value) barRef.value?.handleScroll(wrapRef.value)
+}
+
+// Transform-driven overflow (e.g. slide transitions) is not observable via
+// resize observers, so refresh the bar when transitions/animations end —
+// this applies even when `noresize` is set.
+const updateBar = () => {
+  if (rafId) return
+  rafId = requestAnimationFrame(() => {
+    rafId = 0
+    if (!wrapRef.value) return
+
+    // Bar state may be stale even when the final scroll dimensions match a
+    // previously seen value (e.g. `onUpdated` measured the transient
+    // overflow mid-transition), so always refresh the bar here.
+    barRef.value?.update()
+    barRef.value?.handleScroll(wrapRef.value)
+  })
 }
 
 watch(

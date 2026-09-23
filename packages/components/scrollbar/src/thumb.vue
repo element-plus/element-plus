@@ -46,8 +46,9 @@ let cursorLeave = false
 let baseScrollHeight = 0
 let baseScrollWidth = 0
 let originalOnSelectStart:
-  | ((this: GlobalEventHandlers, ev: Event) => any)
-  | null = isClient ? document.onselectstart : null
+  ((this: GlobalEventHandlers, ev: Event) => any) | null = isClient
+  ? document.onselectstart
+  : null
 
 const bar = computed(() => BAR_MAP[props.vertical ? 'vertical' : 'horizontal'])
 

@@ -12,6 +12,10 @@
       <span class="demonstration">year range</span>
       <el-date-picker v-model="value3" type="yearrange" single-panel />
     </div>
+    <div class="block">
+      <span class="demonstration">quarter range</span>
+      <el-date-picker v-model="value4" type="quarterrange" single-panel />
+    </div>
   </div>
 </template>
 
@@ -21,6 +25,7 @@ import { ref } from 'vue'
 const value1 = ref()
 const value2 = ref()
 const value3 = ref()
+const value4 = ref()
 </script>
 
 <style scoped>

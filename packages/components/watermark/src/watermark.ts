@@ -12,12 +12,7 @@ export interface WatermarkFontType {
   fontGap?: number
   textAlign?: 'start' | 'end' | 'left' | 'right' | 'center'
   textBaseline?:
-    | 'top'
-    | 'hanging'
-    | 'middle'
-    | 'alphabetic'
-    | 'ideographic'
-    | 'bottom'
+    'top' | 'hanging' | 'middle' | 'alphabetic' | 'ideographic' | 'bottom'
 }
 
 export interface WatermarkProps {

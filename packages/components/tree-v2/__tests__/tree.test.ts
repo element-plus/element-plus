@@ -1536,7 +1536,7 @@ describe('Virtual Tree', () => {
     })
 
     test('setCheckedKeys', async () => {
-      const { treeRef } = createTree({
+      const { treeRef, wrapper } = createTree({
         data() {
           return {
             showCheckbox: true,
@@ -1590,6 +1590,26 @@ describe('Virtual Tree', () => {
       const halfCheckedKeys = treeRef.getHalfCheckedKeys()
       expect(checkedKeys.toString()).toBe(['1-1', '1-1-1', '1-1-2'].toString())
       expect(halfCheckedKeys.toString()).toBe(['1'].toString())
+
+      const allCheckedKeys = [
+        '1',
+        '1-1',
+        '1-1-1',
+        '1-1-2',
+        '1-2',
+        '1-2-1',
+        '1-3',
+      ]
+      treeRef.setCheckedKeys(['1'])
+      await nextTick()
+      expect(treeRef.getCheckedKeys()).toEqual(allCheckedKeys)
+
+      treeRef.setCheckedKeys([])
+      await nextTick()
+      expect(treeRef.getCheckedKeys()).toHaveLength(0)
+
+      await wrapper.find(TREE_NODE_CHECKBOX_CLASS_NAME).trigger('click')
+      expect(treeRef.getCheckedKeys()).toEqual(allCheckedKeys)
     })
 
     test('setChecked', async () => {

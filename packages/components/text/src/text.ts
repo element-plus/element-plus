@@ -3,6 +3,7 @@ import { componentSizes } from '@element-plus/constants'
 
 import type { ExtractPublicPropTypes } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
+import type Text from './text.vue'
 
 export interface TextProps {
   /**
@@ -70,3 +71,5 @@ export const textProps = buildProps({
  * @deprecated Removed after 3.0.0, Use `TextProps` instead.
  */
 export type TextPropsPublic = ExtractPublicPropTypes<typeof textProps>
+
+export type TextInstance = InstanceType<typeof Text> & unknown

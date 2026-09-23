@@ -71,10 +71,7 @@ export type EpPropInputDefault<
  * 原生 prop `类型，BooleanConstructor`、`StringConstructor`、`null`、`undefined` 等
  */
 export type NativePropType =
-  | ((...args: any) => any)
-  | { new (...args: any): any }
-  | undefined
-  | null
+  ((...args: any) => any) | { new (...args: any): any } | undefined | null
 export type IfNativePropType<T, Y, N> = [T] extends [NativePropType] ? Y : N
 
 /**

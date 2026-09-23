@@ -28,18 +28,16 @@ const open2 = () => {
 }
 
 const open3 = () => {
-  ElNotification({
+  ElNotification.info({
     title: 'Info',
     message: 'This is an info message',
-    type: 'info',
   })
 }
 
 const open4 = () => {
-  ElNotification({
+  ElNotification.error({
     title: 'Error',
     message: 'This is an error message',
-    type: 'error',
   })
 }
 

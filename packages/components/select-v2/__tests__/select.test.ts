@@ -2304,14 +2304,47 @@ describe('Select', () => {
     await nextTick()
     options[2].click()
     await nextTick()
-    const tagWrappers = wrapper.findAll('.el-select__tags-text')
+    const tagWrappers = wrapper.findAll('.el-tag')
     for (const tagWrapper of tagWrappers) {
       const tagWrapperDom = tagWrapper.element
-      expect(
-        Number.parseInt(tagWrapperDom.style.maxWidth) === selectRect.width - 42
-      ).toBe(true)
+      expect(tagWrapperDom.style.maxWidth).toBe('')
+      expect(tagWrapperDom.parentElement!.style.maxWidth).toBe(
+        'calc(100% - 0px)'
+      )
     }
     mockSelectWidth.mockRestore()
+  })
+
+  it('multiple select with collapseTags when content overflow', async () => {
+    const wrapper = createSelect({
+      data: () => ({
+        multiple: true,
+        collapseTags: true,
+        value: [],
+      }),
+    })
+    await nextTick()
+    const select = wrapper.findComponent(Select)
+    const options = getOptions()
+    options[0].click()
+    await nextTick()
+
+    const tag = select.find('.el-tag')
+    const tagItem = tag.element.parentElement!
+    expect(tag.element.style.maxWidth).toBe('')
+    expect(tagItem.style.maxWidth).toBe('calc(100% - 0px)')
+
+    options[1].click()
+    await nextTick()
+    options[2].click()
+    const selectVm = select.vm as any
+    selectVm.states.collapseItemWidth = 38
+    await nextTick()
+
+    expect(tagItem.style.maxWidth).toBe('calc(100% - 44px)')
+    const collapseItem = select.find('.el-select__collapse-item')
+    expect(collapseItem.exists()).toBe(true)
+    expect(collapseItem.find('.el-tag').element.style.maxWidth).toBe('')
   })
 
   describe('scrollbarAlwaysOn flag control the scrollbar whether always displayed', () => {
@@ -2985,6 +3018,50 @@ describe('Select', () => {
   })
 
   describe('input-wrapper in multiple mode', () => {
+    it('should reserve input width only when input-wrapper is visible', async () => {
+      const wrapper = createSelect({
+        data: () => ({
+          multiple: true,
+          filterable: true,
+          collapseTags: true,
+          value: [],
+        }),
+      })
+      await nextTick()
+      const select = wrapper.findComponent(Select)
+      const inputWrapper = select.find('.el-select__input-wrapper')
+      const input = select.find('input')
+      await input.trigger('focus')
+
+      const options = getOptions()
+      options[0].click()
+      await nextTick()
+      options[1].click()
+      await nextTick()
+      options[2].click()
+
+      const selectVm = select.vm as any
+      selectVm.states.collapseItemWidth = 38
+      await nextTick()
+
+      const tag = select.find('.el-tag')
+      const tagItem = tag.element.parentElement!
+      expect(inputWrapper.classes()).not.toContain('is-hidden')
+      expect(tag.element.style.maxWidth).toBe('')
+      expect(tagItem.style.maxWidth).toBe('calc(100% - 61px)')
+      const collapseItem = select.find('.el-select__collapse-item')
+      expect(collapseItem.exists()).toBe(true)
+      expect(collapseItem.find('.el-tag').element.style.maxWidth).toBe('')
+
+      await input.trigger('blur')
+      expect(inputWrapper.classes()).toContain('is-hidden')
+      expect(tagItem.style.maxWidth).toBe('calc(100% - 61px)')
+
+      await input.trigger('focus')
+      expect(inputWrapper.classes()).not.toContain('is-hidden')
+      expect(tagItem.style.maxWidth).toBe('calc(100% - 61px)')
+    })
+
     it('should hide input-wrapper when empty and not focused', async () => {
       const wrapper = createSelect({
         data: () => ({

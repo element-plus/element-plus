@@ -1,9 +1,17 @@
-import { Component, createApp } from 'vue'
+import { Component, createApp, watchEffect } from 'vue'
+import { usePreferredDark } from '@vueuse/core'
+
 import '@element-plus/theme-chalk/src/var.scss'
 import '@element-plus/theme-chalk/src/dark/css-vars.scss'
-import '@element-plus/theme-chalk/src/notification.scss'
-import '@element-plus/theme-chalk/src/message-box.scss'
-import '@element-plus/theme-chalk/src/message.scss'
+import '@element-plus/components/notification/style'
+import '@element-plus/components/message-box/style'
+import '@element-plus/components/message/style'
+
+const isDark = usePreferredDark()
+
+watchEffect(() => {
+  document.documentElement.classList.toggle('dark', isDark.value)
+})
 
 // #21498
 window.addEventListener('error', (e: ErrorEvent) => {

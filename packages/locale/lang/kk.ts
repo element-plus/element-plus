@@ -28,6 +28,7 @@ export default {
       dateTablePrompt:
         'Use the arrow keys and enter to select the day of the month', // to be translated
       monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
+      quarterTablePrompt: 'Use the arrow keys and enter to select the quarter', // to be translated
       yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
       selectedDate: 'Selected date', // to be translated
       selectDate: 'Күнді таңдаңыз',
@@ -85,6 +86,9 @@ export default {
         nov: 'Қар',
         dec: 'Жел',
       },
+    },
+    input: {
+      characters: '{count} / {max} таңба',
     },
     inputNumber: {
       decrease: 'decrease number', // to be translated

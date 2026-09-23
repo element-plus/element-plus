@@ -13,6 +13,7 @@
     :popper-class="filterClassName"
     persistent
     :append-to="appendTo"
+    @before-show="handleBeforeShowTooltip"
     @show="handleShowTooltip"
     @hide="handleHideTooltip"
   >
@@ -120,7 +121,7 @@ import { getEventCode, isPropAbsent } from '@element-plus/utils'
 import type { DefaultRow } from './table/defaults'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { Placement } from '@element-plus/components/popper'
-import type { PropType, WritableComputedRef } from 'vue'
+import type { PropType } from 'vue'
 import type { TableColumnCtx } from './table-column/defaults'
 import type { TableHeader } from './table-header'
 import type { Store } from './store'
@@ -164,6 +165,7 @@ export default defineComponent({
     const tooltipRef = ref<TooltipInstance | null>(null)
     const rootRef = ref<HTMLElement | null>(null)
     const checkedIndex = ref(0)
+    const filteredValue = ref<string[]>([])
 
     const filters = computed(() => {
       return props.column && props.column.filters
@@ -177,25 +179,14 @@ export default defineComponent({
     const filterValue = computed({
       get: () => (props.column?.filteredValue || [])[0],
       set: (value?: string | null) => {
-        if (filteredValue.value) {
+        if (props.column) {
+          const arr = [...(props.column.filteredValue ?? [])]
           if (!isPropAbsent(value)) {
-            filteredValue.value.splice(0, 1, value)
+            arr.splice(0, 1, value)
           } else {
-            filteredValue.value.splice(0, 1)
+            arr.splice(0, 1)
           }
-        }
-      },
-    })
-    const filteredValue: WritableComputedRef<string[]> = computed({
-      get() {
-        if (props.column) {
-          return props.column.filteredValue || []
-        }
-        return []
-      },
-      set(value: string[]) {
-        if (props.column) {
-          props.upDataColumn?.('filteredValue', value)
+          props.upDataColumn?.('filteredValue', arr)
         }
       },
     })
@@ -224,18 +215,22 @@ export default defineComponent({
       filterValue.value = _filterValue!
       checkedIndex.value = index
       if (!isPropAbsent(_filterValue)) {
-        confirmFilter(filteredValue.value)
+        confirmFilter([_filterValue])
       } else {
         confirmFilter([])
       }
       hidden()
     }
     const confirmFilter = (filteredValue: unknown[]) => {
+      props.upDataColumn?.('filteredValue', filteredValue)
       props.store?.commit('filterChange', {
         column: props.column,
         values: filteredValue,
       })
       props.store?.updateAllSelected()
+    }
+    const handleBeforeShowTooltip = () => {
+      filteredValue.value = [...(props.column?.filteredValue || [])]
     }
     const handleShowTooltip = () => {
       rootRef.value?.focus()
@@ -319,6 +314,7 @@ export default defineComponent({
       tooltipRef,
       rootRef,
       checkedIndex,
+      handleBeforeShowTooltip,
       handleShowTooltip,
       handleHideTooltip,
       handleKeydown,

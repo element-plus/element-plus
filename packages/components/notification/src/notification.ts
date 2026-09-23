@@ -1,8 +1,9 @@
 import { Close } from '@element-plus/icons-vue'
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 
-import type { AppContext, ExtractPublicPropTypes, VNode } from 'vue'
-import type { IconPropType } from '@element-plus/utils'
+import type { AppContext, ExtractPublicPropTypes, Ref, VNode } from 'vue'
+import type { ClassValue, IconPropType } from '@element-plus/utils'
+import type { ProgressProps } from '@element-plus/components/progress'
 import type Notification from './notification.vue'
 
 export const notificationTypes = [
@@ -16,16 +17,22 @@ export const notificationTypes = [
 export type NotificationType = (typeof notificationTypes)[number] | ''
 
 export type NotificationPosition =
-  | 'top-right'
-  | 'top-left'
-  | 'bottom-right'
-  | 'bottom-left'
+  'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
+
+/**
+ * Progress bar configuration. `percentage`, `type`, `duration`, `indeterminate`
+ * and `width` are excluded: the bar is always a countdown-driven line.
+ */
+export type NotificationProgress = Omit<
+  Partial<ProgressProps>,
+  'percentage' | 'type' | 'duration' | 'indeterminate' | 'width'
+>
 
 export interface NotificationProps {
   /**
    * @description custom class name for Notification
    */
-  customClass?: string
+  customClass?: ClassValue
   /**
    * @description whether `message` is treated as HTML string
    */
@@ -82,6 +89,14 @@ export interface NotificationProps {
    * @description custom close icon, default is Close
    */
   closeIcon?: IconPropType
+  /**
+   * @description progress bar indicating auto-close countdown. Set `true` to show a default progress bar, or pass an object to customize it (options of `ElProgress`)
+   */
+  progress?: boolean | NotificationProgress
+  /**
+   * @description whether to pause the timer when hovering over the notification
+   */
+  pauseOnHover?: boolean
 }
 
 /**
@@ -92,7 +107,7 @@ export const notificationProps = buildProps({
    * @description custom class name for Notification
    */
   customClass: {
-    type: String,
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
     default: '',
   },
   /**
@@ -192,6 +207,20 @@ export const notificationProps = buildProps({
     type: iconPropType,
     default: Close,
   },
+  /**
+   * @description progress bar indicating auto-close countdown. Set `true` to show a default progress bar, or pass an object to customize it (options of `ElProgress`)
+   */
+  progress: {
+    type: definePropType<boolean | NotificationProgress>([Boolean, Object]),
+    default: false,
+  },
+  /**
+   * @description whether to pause the timer when hovering over the notification
+   */
+  pauseOnHover: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 
 /**
@@ -207,6 +236,12 @@ export const notificationEmits = {
 export type NotificationEmits = typeof notificationEmits
 
 export type NotificationInstance = InstanceType<typeof Notification> & unknown
+
+export interface NotificationExposed {
+  /** @description close notification */
+  close: () => void
+  visible: Ref<boolean>
+}
 
 export type NotificationOptions = Omit<NotificationProps, 'id' | 'onClose'> & {
   /**
@@ -226,9 +261,7 @@ export interface NotificationHandle {
 
 export type NotificationParams = Partial<NotificationOptions> | string | VNode
 export type NotificationParamsTyped =
-  | Partial<NotificationOptionsTyped>
-  | string
-  | VNode
+  Partial<NotificationOptionsTyped> | string | VNode
 
 export interface NotifyFn {
   (

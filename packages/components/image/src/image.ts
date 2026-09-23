@@ -9,12 +9,7 @@ import type { ExtractPublicPropTypes } from 'vue'
 import type Image from './image.vue'
 
 export type ImageFitType =
-  | ''
-  | 'contain'
-  | 'cover'
-  | 'fill'
-  | 'none'
-  | 'scale-down'
+  '' | 'contain' | 'cover' | 'fill' | 'none' | 'scale-down'
 export type ImageCrossorigin = 'anonymous' | 'use-credentials' | ''
 
 export interface ImageProps {

@@ -10,8 +10,9 @@ import {
 import NotificationConstructor from './notification.vue'
 import { notificationTypes } from './notification'
 
-import type { Ref, VNode } from 'vue'
+import type { VNode } from 'vue'
 import type {
+  NotificationExposed,
   NotificationPosition,
   NotificationProps,
   NotificationQueue,
@@ -99,9 +100,10 @@ const notify: NotifyFn & Partial<Notify> = function (options = {}, context) {
   return {
     // instead of calling the onClose function directly, setting this value so that we can have the full lifecycle
     // for out component, so that all closing steps will not be skipped.
+    // UPDATE: call the exposed close() here rather than setting visible.value = false,
+    // because close() also runs clearTimer() to stop the progress tick and close timeout.
     close: () => {
-      ;(vm.component!.exposed as { visible: Ref<boolean> }).visible.value =
-        false
+      ;(vm.component!.exposed as NotificationExposed).close()
     },
   }
 }
@@ -161,8 +163,8 @@ export function closeAll(): void {
   for (const orientedNotifications of Object.values(notifications)) {
     orientedNotifications.forEach(({ vm }) => {
       // same as the previous close method, we'd like to make sure lifecycle gets handle properly.
-      ;(vm.component!.exposed as { visible: Ref<boolean> }).visible.value =
-        false
+      // UPDATE: call exposed close() so that clearTimer() also runs.
+      ;(vm.component!.exposed as NotificationExposed).close()
     })
   }
 }

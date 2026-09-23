@@ -30,6 +30,10 @@
       "matchDepTypes": ["devDependencies"],
       "groupName": "all patch devDependencies",
       "groupSlug": "all-patch-dev-dependencies"
+    },
+    {
+      "matchPackageNames": ["typescript"],
+      "allowedVersions": ">=6.0.0 <7.0.0"
     }
   ],
   "ignoreDeps": [
@@ -39,6 +43,7 @@
     // test
     "cypress",
     "jsdom",
+    "puppeteer",
     // can't work in v0.34.0
     "unocss",
     // locked due to test regressions in newer patch versions

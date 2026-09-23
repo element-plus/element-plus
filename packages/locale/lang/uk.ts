@@ -2,22 +2,22 @@ export default {
   name: 'uk',
   el: {
     breadcrumb: {
-      label: 'Breadcrumb', // to be translated
+      label: 'Навігаційний ланцюжок',
     },
     colorpicker: {
       confirm: 'OK',
       clear: 'Очистити',
-      defaultLabel: 'color picker', // to be translated
+      defaultLabel: 'вибір кольору',
       description:
-        'current color is {color}. press enter to select a new color.', // to be translated
-      alphaLabel: 'pick alpha value', // to be translated
-      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
-      hueLabel: 'pick hue value', // to be translated
-      hueDescription: 'hue {hue}, current color is {color}', // to be translated
-      svLabel: 'pick saturation and brightness value', // to be translated
+        'поточний колір {color}. натисніть enter, щоб обрати новий колір.',
+      alphaLabel: 'виберіть значення альфа-каналу',
+      alphaDescription: 'альфа-канал {alpha}, поточний колір {color}',
+      hueLabel: 'виберіть значення відтінку',
+      hueDescription: 'відтінок {hue}, поточний колір {color}',
+      svLabel: 'виберіть насиченість і яскравість',
       svDescription:
-        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
-      predefineDescription: 'select {value} as the color', // to be translated
+        'насиченість {saturation}, яскравість {brightness}, поточний колір {color}',
+      predefineDescription: 'обрати {value} як колір',
     },
     datepicker: {
       now: 'Зараз',
@@ -26,10 +26,11 @@ export default {
       clear: 'Очистити',
       confirm: 'OK',
       dateTablePrompt:
-        'Use the arrow keys and enter to select the day of the month', // to be translated
-      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
-      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
-      selectedDate: 'Selected date', // to be translated
+        'Використовуйте стрілки та enter, щоб обрати день місяця',
+      monthTablePrompt: 'Використовуйте стрілки та enter, щоб обрати місяць',
+      quarterTablePrompt: 'Використовуйте стрілки та enter, щоб обрати квартал',
+      yearTablePrompt: 'Використовуйте стрілки та enter, щоб обрати рік',
+      selectedDate: 'Обрана дата',
       selectDate: 'Вибрати дату',
       selectTime: 'Вибрати час',
       startDate: 'Дата початку',
@@ -63,13 +64,13 @@ export default {
         sat: 'Сб',
       },
       weeksFull: {
-        sun: 'Sunday', // to be translated
-        mon: 'Monday', // to be translated
-        tue: 'Tuesday', // to be translated
-        wed: 'Wednesday', // to be translated
-        thu: 'Thursday', // to be translated
-        fri: 'Friday', // to be translated
-        sat: 'Saturday', // to be translated
+        sun: 'Неділя',
+        mon: 'Понеділок',
+        tue: 'Вівторок',
+        wed: 'Середа',
+        thu: 'Четвер',
+        fri: "П'ятниця",
+        sat: 'Субота',
       },
       months: {
         jan: 'Січ',
@@ -86,9 +87,12 @@ export default {
         dec: 'Гру',
       },
     },
+    input: {
+      characters: '{count} / {max} символів',
+    },
     inputNumber: {
-      decrease: 'decrease number', // to be translated
-      increase: 'increase number', // to be translated
+      decrease: 'зменшити значення',
+      increase: 'збільшити значення',
     },
     select: {
       loading: 'Завантаження',
@@ -100,7 +104,7 @@ export default {
       loading: 'Завантаження',
     },
     dropdown: {
-      toggleDropdown: 'Toggle Dropdown', // to be translated
+      toggleDropdown: 'Перемкнути список',
     },
     cascader: {
       noMatch: 'Співпадінь не знайдено',
@@ -113,27 +117,27 @@ export default {
       pagesize: 'на сторінці',
       total: 'Всього {total}',
       pageClassifier: '',
-      page: 'Page', // to be translated
-      prev: 'Go to previous page', // to be translated
-      next: 'Go to next page', // to be translated
-      currentPage: 'page {pager}', // to be translated
-      prevPages: 'Previous {pager} pages', // to be translated
-      nextPages: 'Next {pager} pages', // to be translated
+      page: 'Сторінка',
+      prev: 'Перейти на попередню сторінку',
+      next: 'Перейти на наступну сторінку',
+      currentPage: 'сторінка {pager}',
+      prevPages: 'Попередні {pager} стор.',
+      nextPages: 'Наступні {pager} стор.',
       deprecationWarning:
-        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
+        'Виявлено застаріле використання, зверніться до документації el-pagination для деталей',
     },
     dialog: {
-      close: 'Close this dialog', // to be translated
+      close: 'Закрити це вікно',
     },
     drawer: {
-      close: 'Close this dialog', // to be translated
+      close: 'Закрити це вікно',
     },
     messagebox: {
       title: 'Повідомлення',
       confirm: 'OK',
       cancel: 'Відміна',
       error: 'Неприпустимий ввід даних',
-      close: 'Close this dialog', // to be translated
+      close: 'Закрити це вікно',
     },
     upload: {
       deleteTip: 'натисніть кнопку щоб видалити',
@@ -142,9 +146,9 @@ export default {
       continue: 'Продовжити',
     },
     slider: {
-      defaultLabel: 'slider between {min} and {max}', // to be translated
-      defaultRangeStartLabel: 'pick start value', // to be translated
-      defaultRangeEndLabel: 'pick end value', // to be translated
+      defaultLabel: 'повзунок від {min} до {max}',
+      defaultRangeStartLabel: 'виберіть початкове значення',
+      defaultRangeEndLabel: 'виберіть кінцеве значення',
     },
     table: {
       emptyText: 'Немає даних',
@@ -152,51 +156,51 @@ export default {
       resetFilter: 'Скинути',
       clearFilter: 'Все',
       sumText: 'Сума',
-      selectAllLabel: 'Select all rows', // to be translated
-      selectRowLabel: 'Select this row', // to be translated
-      expandRowLabel: 'Expand this row', // to be translated
-      collapseRowLabel: 'Collapse this row', // to be translated
-      sortLabel: 'Sort by {column}', // to be translated
-      filterLabel: 'Filter by {column}', // to be translated
+      selectAllLabel: 'Вибрати всі рядки',
+      selectRowLabel: 'Вибрати цей рядок',
+      expandRowLabel: 'Розгорнути цей рядок',
+      collapseRowLabel: 'Згорнути цей рядок',
+      sortLabel: 'Сортувати за {column}',
+      filterLabel: 'Фільтрувати за {column}',
     },
     tag: {
-      close: 'Close this tag', // to be translated
+      close: 'Закрити цей тег',
     },
     tour: {
       next: 'Далі',
       previous: 'Назад',
       finish: 'Завершити',
-      close: 'Close this dialog', // to be translated
+      close: 'Закрити це вікно',
     },
     tree: {
       emptyText: 'Немає даних',
     },
     transfer: {
       noMatch: 'Співпадінь не знайдено',
-      noData: 'Обрати',
+      noData: 'Немає даних',
       titles: ['Список 1', 'Список 2'],
       filterPlaceholder: 'Введіть ключове слово',
       noCheckedFormat: '{total} пунктів',
       hasCheckedFormat: '{checked}/{total} вибрано',
     },
     image: {
-      error: 'FAILED', // to be translated
+      error: 'ПОМИЛКА',
     },
     pageHeader: {
-      title: 'Back', // to be translated
+      title: 'Назад',
     },
     popconfirm: {
-      confirmButtonText: 'Yes', // to be translated
-      cancelButtonText: 'No', // to be translated
+      confirmButtonText: 'Так',
+      cancelButtonText: 'Ні',
     },
     carousel: {
-      leftArrow: 'Carousel arrow left', // to be translated
-      rightArrow: 'Carousel arrow right', // to be translated
-      indicator: 'Carousel switch to index {index}', // to be translated
+      leftArrow: 'Стрілка каруселі вліво',
+      rightArrow: 'Стрілка каруселі вправо',
+      indicator: 'Перейти до слайда {index}',
     },
     inputOTP: {
-      groupLabel: 'OTP Input', // to be translated
-      defaultLabel: 'Please enter OTP character {index}', // to be translated
+      groupLabel: 'Введення одноразового коду',
+      defaultLabel: 'Введіть символ {index} одноразового коду',
     },
   },
 }
