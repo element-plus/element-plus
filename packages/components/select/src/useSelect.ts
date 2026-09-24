@@ -218,13 +218,28 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     Array.from(states.cachedOptions.values())
   )
 
+  const createdOptionsForRender = computed(() =>
+    states.createdOptions.filter((value) => {
+      const option = states.options.get(value)
+      return !option || option.created
+    })
+  )
+
+  const hasRealOptionValue = (value: OptionValue) =>
+    optionsArray.value.some(
+      (option) => !option.created && option.value === value
+    )
+
   const showNewOption = computed(() => {
     const hasExistingOption = optionsArray.value
       .filter((option) => {
         return !option.created
       })
       .some((option) => {
-        return option.currentLabel === states.inputValue
+        return (
+          option.currentLabel === states.inputValue ||
+          option.value === states.inputValue
+        )
       })
     return (
       props.filterable &&
@@ -583,7 +598,8 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     const isNewOption =
       option.created &&
       (typeof option.value !== 'string' ||
-        !states.createdOptions.includes(option.value))
+        (!states.createdOptions.includes(option.value) &&
+          !hasRealOptionValue(option.value)))
     const rememberCreatedOption = () => {
       if (isNewOption && typeof option.value === 'string') {
         states.createdOptions.push(option.value)
@@ -660,10 +676,6 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   }
 
   const onOptionCreate = (vm: OptionPublicInstance) => {
-    if (!vm.created && typeof vm.value === 'string') {
-      const createdIndex = states.createdOptions.indexOf(vm.value)
-      if (createdIndex !== -1) states.createdOptions.splice(createdIndex, 1)
-    }
     states.options.set(vm.value, vm)
     states.cachedOptions.set(vm.value, vm)
   }
@@ -979,6 +991,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     validateState,
     validateIcon,
     showNewOption,
+    createdOptionsForRender,
     updateOptions,
     collapseTagSize,
     setSelected,

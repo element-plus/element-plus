@@ -300,7 +300,7 @@
               :created="true"
             />
             <el-option
-              v-for="createdOption in states.createdOptions"
+              v-for="createdOption in createdOptionsForRender"
               :key="createdOption"
               :value="createdOption"
               :created="true"

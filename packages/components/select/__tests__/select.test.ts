@@ -1422,6 +1422,40 @@ describe('Select', () => {
         .filter((option) => option.props('value') === 'new')
     ).toHaveLength(1)
     expect(selectVm.states.selectedLabel).toBe('New label')
+
+    ;(wrapper.vm as any).options = (wrapper.vm as any).options.slice(0, -1)
+    await nextTick()
+    await nextTick()
+
+    expect(
+      wrapper
+        .findAllComponents(Option)
+        .filter((option) => option.props('value') === 'new')
+    ).toHaveLength(1)
+    expect(getOptions().some((option) => option.textContent === 'new')).toBe(
+      true
+    )
+  })
+
+  test('does not create an option with the value of an existing option', async () => {
+    wrapper = getSelectVm({ filterable: true, allowCreate: true }, [
+      { value: 'new', label: 'Existing label' },
+    ])
+    const selectVm = wrapper.findComponent({ name: 'ElSelect' }).vm as any
+    const input = wrapper.find('input')
+
+    await input.trigger('click')
+    await input.setValue('new')
+    selectVm.debouncedOnInputChange()
+    await nextTick()
+
+    expect(selectVm.showNewOption).toBe(false)
+    expect(
+      wrapper
+        .findAllComponents(Option)
+        .filter((option) => option.props('value') === 'new')
+    ).toHaveLength(1)
+    expect(selectVm.states.options.get('new')?.created).toBe(false)
   })
 
   test('keeps a created option when a non-persistent dropdown is reopened', async () => {
