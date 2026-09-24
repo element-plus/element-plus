@@ -27,6 +27,7 @@ export type SelectStates = {
   options: Map<OptionValue, OptionPublicInstance>
   cachedOptions: Map<OptionValue, OptionPublicInstance>
   optionValues: OptionValue[]
+  createdOptions: string[]
   selected: OptionBasic[]
   hoveringIndex: number
   inputHovering: boolean

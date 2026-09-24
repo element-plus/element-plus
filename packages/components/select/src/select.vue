@@ -299,6 +299,12 @@
               :value="states.inputValue"
               :created="true"
             />
+            <el-option
+              v-for="createdOption in states.createdOptions"
+              :key="createdOption"
+              :value="createdOption"
+              :created="true"
+            />
             <el-options>
               <slot>
                 <template v-for="(option, index) in options" :key="index">
