@@ -106,8 +106,8 @@
               @touchstart="handleTouchStart"
             />
             <div
-              v-if="loading && !loadError && $slots['viewer-placeholder']"
-              :class="ns.e('loading')"
+              v-if="loading && $slots['viewer-placeholder']"
+              :class="ns.e('placeholder')"
             >
               <slot
                 name="viewer-placeholder"
@@ -493,12 +493,10 @@ watch(
 )
 
 watch(currentImg, () => {
-  loading.value = true
-  loadError.value = false
   nextTick(() => {
     const $img = imgRef.value
-    if ($img?.complete) {
-      loading.value = false
+    if (!$img?.complete) {
+      loading.value = true
     }
   })
 })

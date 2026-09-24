@@ -71,7 +71,7 @@
     }
   }
 
-  @include e(loading) {
+  @include e(placeholder) {
     position: absolute;
     top: 0;
     left: 0;
