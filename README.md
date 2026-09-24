@@ -86,11 +86,6 @@ You can also try out Element Plus with its built-in component playground.
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        <a href="https://fantastic-admin.hurui.me/" target="_blank">
-          <img width="130px" src="https://github.com/user-attachments/assets/62988be3-1179-4f56-a07c-353851e7e1c4">
-        </a>
-      </td>
-      <td align="center" valign="middle">
         <a href="https://unaimytext.com" target="_blank">
           <img width="130px" src="https://github.com/user-attachments/assets/a683ff79-12ec-40d7-acf1-233fad4b00f1">
         </a>
