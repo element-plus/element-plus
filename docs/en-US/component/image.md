@@ -118,12 +118,12 @@ image/custom-progress
 
 ### Image Slots
 
-| Name                                      | Description                                                                                         | Type |
-| ----------------------------------------- | --------------------------------------------------------------------------------------------------- | ---- |
-| placeholder                               | custom placeholder content when image hasn't loaded yet.                                            | -    |
-| error                                     | custom image load failed content.                                                                   | -    |
-| viewer                                    | custom content rendered inside the image viewer when preview is enabled.                            | -    |
-| [image viewer slots](#image-viewer-slots) | all slots listed under Image Viewer Slots, except `default`, are available when preview is enabled. | -    |
+| Name                                      | Description                                                                             | Type |
+| ----------------------------------------- | --------------------------------------------------------------------------------------- | ---- |
+| placeholder                               | custom placeholder content when image hasn't loaded yet.                                | -    |
+| error                                     | custom image load failed content.                                                       | -    |
+| viewer                                    | custom content when image preview.                                                      | -    |
+| [image viewer slots](#image-viewer-slots) | when you allow big image preview, image viewer slots all can be used, except `default`. | -    |
 
 ### Image Exposes
 
