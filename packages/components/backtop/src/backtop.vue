@@ -3,7 +3,13 @@
     <div
       v-if="visible"
       :style="backTopStyle"
-      :class="ns.b()"
+      :class="[
+        ns.b(),
+        {
+          [ns.m('circle')]: !showProgress || !hasCustomContent,
+          [ns.m('progress')]: showProgress,
+        },
+      ]"
       @click.stop="handleClick"
     >
       <slot>
@@ -14,7 +20,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, useSlots } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { CaretTop } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
@@ -34,15 +40,25 @@ const props = withDefaults(defineProps<BacktopProps>(), {
   target: '',
   right: 40,
   bottom: 40,
+  showProgress: false,
 })
 const emit = defineEmits(backtopEmits)
 
 const ns = useNamespace('backtop')
+const slots = useSlots()
+const hasCustomContent = computed(() => !!slots.default)
 
-const { handleClick, visible } = useBackTop(props, emit, COMPONENT_NAME)
+const { handleClick, scrollProgress, visible } = useBackTop(
+  props,
+  emit,
+  COMPONENT_NAME
+)
 
 const backTopStyle = computed(() => ({
   right: `${props.right}px`,
   bottom: `${props.bottom}px`,
+  ...(props.showProgress
+    ? { '--el-backtop-progress': `${scrollProgress.value}turn` }
+    : {}),
 }))
 </script>
