@@ -768,7 +768,7 @@ describe('CascaderPanel.vue', () => {
     vi.useRealTimers()
   })
 
-  test('no loaded nodes should not be checked', async () => {
+  test('unloaded lazy nodes are checked when parent broadcasts', async () => {
     vi.useFakeTimers()
     const props: CascaderProps = {
       multiple: true,
@@ -804,7 +804,8 @@ describe('CascaderPanel.vue', () => {
     expect(secondMenu.exists()).toBe(true)
     expect(firstMenu.find(CHECKBOX).classes('is-checked')).toBe(false)
     expect(firstMenu.find(CHECKBOX).classes('is-indeterminate')).toBe(true)
-    expect(secondMenu.findAll(CHECKBOX)[0].classes('is-checked')).toBe(false)
+    // unloaded lazy node inherits checked state from parent broadcast
+    expect(secondMenu.findAll(CHECKBOX)[0].classes('is-checked')).toBe(true)
     expect(secondMenu.findAll(CHECKBOX)[0].classes('is-indeterminate')).toBe(
       false
     )
@@ -812,6 +813,67 @@ describe('CascaderPanel.vue', () => {
     expect(secondMenu.findAll(CHECKBOX)[1].classes('is-indeterminate')).toBe(
       false
     )
+    vi.useRealTimers()
+  })
+
+  test('checked state propagates to lazy-loaded children on expand', async () => {
+    vi.useFakeTimers()
+    const value = ref<CascaderValue[]>([])
+    const props: CascaderProps = {
+      multiple: true,
+      lazy: true,
+      lazyLoad(node, resolve) {
+        const { level } = node
+        setTimeout(() => {
+          const nodes = Array.from({ length: level + 1 }).map(() => {
+            ++id
+            return {
+              value: id,
+              label: `option${id}`,
+              leaf: level >= 2,
+            }
+          })
+          resolve(nodes)
+        }, 1000)
+      },
+    }
+    const wrapper = mount(() => (
+      <CascaderPanel v-model={value.value} props={props} />
+    ))
+
+    vi.runAllTimers()
+    await nextTick()
+    const firstMenu = wrapper.findAll(MENU)[0]
+    expect(firstMenu.exists()).toBe(true)
+
+    // Expand root → lazy load first level children (non-leaf, loaded=false)
+    await firstMenu.find(NODE).trigger('click')
+    vi.runAllTimers()
+    await nextTick()
+
+    const secondMenu = wrapper.findAll(MENU)[1]
+    expect(secondMenu.exists()).toBe(true)
+
+    // Click parent checkbox — broadcasts checked state to non-leaf children
+    await firstMenu.find(CHECKBOX).find('input').trigger('click')
+
+    // Expand non-leaf child to trigger another lazy load
+    const l1Node = secondMenu.find(NODE)
+    await l1Node.trigger('click')
+    vi.runAllTimers()
+    await nextTick()
+
+    // Second menu is now replaced with newly loaded leaf children
+    // They should inherit checked state from parent broadcast in resolve
+    const menus = wrapper.findAll(MENU)
+    expect(menus.length).toBe(3)
+    // menu2 has leaf children that were lazy-loaded; should be checked
+    const leafCheckboxes = menus[2].findAll(CHECKBOX)
+    expect(leafCheckboxes.length).toBeGreaterThan(0)
+    leafCheckboxes.forEach((cb) => {
+      expect(cb.classes('is-checked')).toBe(true)
+    })
+    expect(value.value.length).toBeGreaterThan(0)
     vi.useRealTimers()
   })
 
