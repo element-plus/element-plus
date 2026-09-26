@@ -73,6 +73,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     options: new Map(),
     cachedOptions: new Map(),
     optionValues: [], // sorted value of options
+    createdOptions: [],
     selected: [],
     collapseItemWidth: 0,
     selectedLabel: '',
@@ -217,18 +218,34 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     Array.from(states.cachedOptions.values())
   )
 
+  const createdOptionsForRender = computed(() =>
+    states.createdOptions.filter((value) => {
+      const option = states.options.get(value)
+      return !option || option.created
+    })
+  )
+
+  const hasRealOptionValue = (value: OptionValue) =>
+    optionsArray.value.some(
+      (option) => !option.created && option.value === value
+    )
+
   const showNewOption = computed(() => {
     const hasExistingOption = optionsArray.value
       .filter((option) => {
         return !option.created
       })
       .some((option) => {
-        return option.currentLabel === states.inputValue
+        return (
+          option.currentLabel === states.inputValue ||
+          option.value === states.inputValue
+        )
       })
     return (
       props.filterable &&
       props.allowCreate &&
       states.inputValue !== '' &&
+      !states.createdOptions.includes(states.inputValue) &&
       !hasExistingOption
     )
   })
@@ -578,6 +595,16 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   }
 
   const handleOptionSelect = (option: OptionPublicInstance) => {
+    const isNewOption =
+      option.created &&
+      (typeof option.value !== 'string' ||
+        (!states.createdOptions.includes(option.value) &&
+          !hasRealOptionValue(option.value)))
+    const rememberCreatedOption = () => {
+      if (isNewOption && typeof option.value === 'string') {
+        states.createdOptions.push(option.value)
+      }
+    }
     if (props.multiple) {
       const value = ensureArray(props.modelValue ?? []).slice()
       const optionIndex = getValueIndex(value, option)
@@ -588,16 +615,18 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
         value.length < props.multipleLimit
       ) {
         value.push(option.value)
+        rememberCreatedOption()
       }
       emit(UPDATE_MODEL_EVENT, value)
       emitChange(value)
-      if (option.created) {
+      if (isNewOption) {
         handleQueryChange('')
       }
-      if (props.filterable && (option.created || !props.reserveKeyword)) {
+      if (props.filterable && (isNewOption || !props.reserveKeyword)) {
         states.inputValue = ''
       }
     } else {
+      rememberCreatedOption()
       !isEqual(props.modelValue, option.value) &&
         emit(UPDATE_MODEL_EVENT, option.value)
       emitChange(option.value)
@@ -962,6 +991,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
     validateState,
     validateIcon,
     showNewOption,
+    createdOptionsForRender,
     updateOptions,
     collapseTagSize,
     setSelected,
