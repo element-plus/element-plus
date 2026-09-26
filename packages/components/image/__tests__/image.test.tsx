@@ -273,6 +273,26 @@ describe('Image.vue', () => {
     expect(wrapper.find('.el-image-viewer__progress').exists()).toBe(true)
   })
 
+  test('viewer-placeholder forwards scoped slot props', async () => {
+    const wrapper = _mount(
+      `
+      <el-image ref="imageRef" src="thumbnail.png" :preview-src-list="['full.png']">
+        <template #viewer-placeholder="{ activeIndex, src }">
+          <div class="viewer-placeholder">{{ activeIndex }}: {{ src }}</div>
+        </template>
+      </el-image>
+    `,
+      () => ({})
+    )
+    await doubleWait()
+    ;(wrapper.vm.$refs.imageRef as ImageInstance).showPreview()
+    await doubleWait()
+    expect(wrapper.find('.viewer-placeholder').text()).toBe('0: full.png')
+    await wrapper.find('.el-image-viewer__canvas img').trigger('load')
+    expect(wrapper.find('.viewer-placeholder').exists()).toBe(false)
+    wrapper.unmount()
+  })
+
   test('custom viewer load failed slot', async () => {
     const url = IMAGE_SUCCESS
     const srcList = ['error']

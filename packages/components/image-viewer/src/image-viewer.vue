@@ -95,13 +95,26 @@
               :key="currentImg"
               :src="currentImg"
               :style="imgStyle"
-              :class="ns.e('img')"
+              :class="[
+                ns.e('img'),
+                ns.is('loading', loading && !!$slots['viewer-placeholder']),
+              ]"
               :crossorigin="crossorigin"
               @load="handleImgLoad"
               @error="handleImgError"
               @mousedown="handleMouseDown"
               @touchstart="handleTouchStart"
             />
+            <div
+              v-if="loading && $slots['viewer-placeholder']"
+              :class="ns.e('placeholder')"
+            >
+              <slot
+                name="viewer-placeholder"
+                :active-index="activeIndex"
+                :src="currentImg"
+              />
+            </div>
           </div>
           <slot />
         </el-focus-trap>

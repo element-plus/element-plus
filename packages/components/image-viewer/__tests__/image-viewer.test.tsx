@@ -107,6 +107,70 @@ describe('<image-viewer />', () => {
     wrapper.unmount()
   })
 
+  test('does not render a loading overlay without a placeholder slot', async () => {
+    const wrapper = mount(ImageViewer, {
+      props: { urlList: ['first.png', 'second.png'] },
+    })
+    await doubleWait()
+    expect(wrapper.find('.el-image-viewer__placeholder').exists()).toBe(false)
+    expect(wrapper.find('img').classes()).not.toContain('is-loading')
+    await wrapper.find('img').trigger('load')
+    await wrapper.find('.el-image-viewer__next').trigger('click')
+    await doubleWait()
+    expect(wrapper.find('.el-image-viewer__placeholder').exists()).toBe(false)
+    expect(wrapper.find('img').classes()).not.toContain('is-loading')
+    wrapper.unmount()
+  })
+
+  test('placeholder follows image loading and switching', async () => {
+    const wrapper = mount(ImageViewer, {
+      props: { urlList: ['first.png', 'second.png'] },
+      slots: {
+        'viewer-placeholder': ({ activeIndex, src }) => (
+          <div class="placeholder">
+            {activeIndex}: {src}
+          </div>
+        ),
+      },
+    })
+
+    await doubleWait()
+    expect(wrapper.find('.placeholder').text()).toBe('0: first.png')
+    const img = wrapper.find('img')
+    expect(img.classes()).toContain('is-loading')
+    await img.trigger('load')
+    expect(wrapper.find('.placeholder').exists()).toBe(false)
+    expect(img.classes()).not.toContain('is-loading')
+
+    await wrapper.find('.el-image-viewer__next').trigger('click')
+    await doubleWait()
+    expect(wrapper.find('.placeholder').text()).toBe('1: second.png')
+    wrapper.unmount()
+  })
+
+  test('removes the placeholder when switching to a cached image', async () => {
+    const wrapper = mount(ImageViewer, {
+      props: { urlList: ['first.png', 'cached.png'] },
+      slots: {
+        'viewer-placeholder': () => <div class="placeholder" />,
+      },
+    })
+    await doubleWait()
+    await wrapper.find('img').trigger('load')
+    const complete = vi
+      .spyOn(HTMLImageElement.prototype, 'complete', 'get')
+      .mockReturnValue(true)
+    try {
+      await wrapper.find('.el-image-viewer__next').trigger('click')
+      await doubleWait()
+      expect(wrapper.find('.placeholder').exists()).toBe(false)
+      expect(wrapper.find('img').classes()).not.toContain('is-loading')
+    } finally {
+      complete.mockRestore()
+      wrapper.unmount()
+    }
+  })
+
   test('custom ImageViewer load failed slot', async () => {
     const wrapper = mount(ImageViewer, {
       props: {
