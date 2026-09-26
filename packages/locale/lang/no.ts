@@ -17,6 +17,10 @@ export default {
       svDescription:
         'metning {saturation}, lysstyrke {brightness}, nåværende farge er {color}',
       predefineDescription: 'velg {value} som farge',
+      solid: 'Solid', // to be translated
+      gradient: 'Gradient', // to be translated
+      startColor: 'Start Color', // to be translated
+      endColor: 'End Color', // to be translated
     },
     datepicker: {
       now: 'Nå',
