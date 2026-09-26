@@ -1,10 +1,10 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
-import makeScroll from '@element-plus/test-utils/make-scroll'
-import defineGetter from '@element-plus/test-utils/define-getter'
 import Scrollbar from '../src/scrollbar.vue'
 import Thumb from '../src/thumb.vue'
+import { defineGetter, makeScroll, sleep } from '@element-plus/test-utils'
+import { SCROLLING_KEEP_ALIVE_TIME } from '../src/constants'
 
 describe('ScrollBar', () => {
   test('vertical', async () => {
@@ -390,5 +390,46 @@ describe('ScrollBar', () => {
     scrollHeightRestore()
     offsetWidthRestore()
     scrollWidthRestore()
+  })
+
+  test('should show scrollbar during scrolling', async () => {
+    const outerHeight = 204
+    const innerHeight = 500
+    const transitionDuration = 120
+    const wrapper = mount(() => (
+      <Scrollbar style={`height: ${outerHeight}px;`}>
+        <div style={`height: ${innerHeight}px;`}></div>
+      </Scrollbar>
+    ))
+
+    const scrollDom = wrapper.find('.el-scrollbar__wrap').element
+    const offsetHeightRestore = defineGetter(
+      scrollDom,
+      'offsetHeight',
+      outerHeight
+    )
+    const scrollHeightRestore = defineGetter(
+      scrollDom,
+      'scrollHeight',
+      innerHeight
+    )
+
+    const thumbBar = wrapper.find('.is-vertical')
+    expect(thumbBar.attributes('style')).toMatchInlineSnapshot(
+      `"display: none;"`
+    )
+    await makeScroll(scrollDom, 'scrollTop', 100)
+    expect(thumbBar.attributes('style')).toMatchInlineSnapshot(`""`)
+    await makeScroll(scrollDom, 'scrollTop', 0)
+    expect(thumbBar.attributes('style')).toMatchInlineSnapshot(`""`)
+    await sleep(SCROLLING_KEEP_ALIVE_TIME / 2)
+    expect(thumbBar.attributes('style')).toMatchInlineSnapshot(`""`)
+    await sleep(SCROLLING_KEEP_ALIVE_TIME / 2 + transitionDuration)
+    expect(thumbBar.attributes('style')).toMatchInlineSnapshot(
+      `"display: none;"`
+    )
+
+    offsetHeightRestore()
+    scrollHeightRestore()
   })
 })
