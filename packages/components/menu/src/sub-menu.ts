@@ -295,7 +295,12 @@ export default defineComponent({
 
       if (event.type === 'mouseenter' && event.target) {
         nextTick(() => {
-          focusElement(event.target as HTMLElement, { preventScroll: true })
+          // `focusVisible: false` keeps the browser from painting the
+          // keyboard focus ring for this pointer-initiated focus
+          focusElement(event.target as HTMLElement, {
+            preventScroll: true,
+            focusVisible: false,
+          })
         })
       }
     }
