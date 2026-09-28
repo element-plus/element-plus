@@ -23,6 +23,7 @@ export function createLoadingComponent(
   appContext: AppContext | null
 ) {
   let afterLeaveTimer: ReturnType<typeof setTimeout>
+  let destroyed = false
   // IMPORTANT NOTE: this is only a hacking way to expose the injections on an
   // instance, DO NOT FOLLOW this pattern in your own code.
   const afterLeaveFlag = ref(false)
@@ -38,8 +39,12 @@ export function createLoadingComponent(
   }
 
   function destroySelf() {
+    if (destroyed) return
+    destroyed = true
     const target = data.parent
-    const ns = (vm as any).ns as UseNamespaceReturn
+    // Compatible with the instance data format of vue@3.2.12 and earlier versions #12351
+    const ns =
+      ((vm as any).ns as UseNamespaceReturn) || (vm as any)._.exposed.ns
     if (!target.vLoadingAddClassList) {
       let loadingNumber: number | string | null =
         target.getAttribute('loading-number')
@@ -54,6 +59,11 @@ export function createLoadingComponent(
     }
     removeElLoadingChild()
     loadingInstance.unmount()
+
+    const internalInstance = vm.$ as any
+    internalInstance.vnode.el = null
+    internalInstance.subTree = null
+    loadingInstance._container = null
   }
   function removeElLoadingChild(): void {
     vm.$el?.parentNode?.removeChild(vm.$el)
@@ -165,8 +175,8 @@ export function createLoadingComponent(
     close,
     handleAfterLeave,
     vm,
-    get $el(): HTMLElement {
-      return vm.$el
+    get $el(): HTMLElement | null {
+      return destroyed ? null : vm.$el
     },
   }
 }

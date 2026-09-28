@@ -50,7 +50,7 @@ export default defineComponent({
 
     const updateLabelWidth = (action: 'update' | 'remove' = 'update') => {
       nextTick(() => {
-        if (slots.default && props.isAutoWidth) {
+        if (formItemContext.hasLabel && props.isAutoWidth) {
           if (action === 'update') {
             computedWidth.value = getLabelWidth()
           } else if (action === 'remove') {

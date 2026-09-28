@@ -1,6 +1,44 @@
 ## Changelog
 
 
+### 2.14.6
+
+_2026-09-18_
+
+#### Features
+
+- Components [text] add `isTruncated` expose (#24822 by @rzzf)
+
+#### Bug fixes
+
+- Components [table] defer multiple filters until confirm (#24749 by @william-xue)
+- Components [form] avoid warning for zero label width (#24820 by @wjp980108)
+- Components [select/v2] avoid circular tag width calculation (#24743 by @rzzf)
+- Components [upload] preserve dropped directory paths (#24838 by @rzzf)
+- Components prevent duplicate keyboard handling in dates picker (#24860 by @ixyzorg)
+- Components [loading] memory leak (#24865 by @btea)
+
+### 2.14.5
+
+_2026-08-21_
+
+#### Features
+
+- Components [date-picker] add quarter picker (#24490 by @LostElkByte)
+- Theme-chalk expose form item margin bottom variable (#24752 by @xueelf)
+
+#### Bug fixes
+
+- Components [form-item] add alert role to validation message (#24680 by @lazerg)
+- Components [input] expose word limit count to screen readers (#24679 by @lazerg)
+- Components [date-picker] keep `disabled-date` reactive in panels (#24708 by @lazerg)
+- Components [textarea] prevent autosize scroll reset in Firefox (#24724 by @rzzf)
+- Components [date-picker] remove keyboard navigation for `quarters` (#24726 by @keeplearning66)
+- Components [loading] loading spinner jiggling issue on chrome (#24737 by @jiangyi1985)
+- Components [tabs] ssr env setting the default value causes tab to flicker (#24742 by @btea)
+- Components [select] match input wrapper transition (#24709 by @lazerg)
+- Components [tree-v2] sync checked state after clearing keys (#24756 by @rzzf)
+
 ### 2.14.4
 
 _2026-08-07_
