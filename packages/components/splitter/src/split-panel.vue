@@ -151,10 +151,10 @@ watch(
   }
 )
 
-watch(
-  () => [props.min, props.max],
-  () => onLimitChange(index.value)
-)
+// Post flush so the sizes already include a `size` changed in the same tick
+watch([() => props.min, () => props.max], () => onLimitChange(index.value), {
+  flush: 'post',
+})
 
 watch(
   () => props.resizable,

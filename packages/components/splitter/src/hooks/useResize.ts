@@ -34,10 +34,19 @@ export function useResize(
 
   let cachePxSizes: number[] = []
   let updatePanelSizes = NOOP
+  // Latest sizes computed by the drag
+  let movedSizes: number[] | undefined
+  // Panels whose limits changed during a drag
+  const pendingLimitIndexes = new Set<number>()
 
   const limitSizes = computed(() =>
     panels.value.map((item) => [item.min, item.max])
   )
+
+  const getLimits = (i: number) => [
+    getLimitSize(limitSizes.value[i]?.[0], 0),
+    getLimitSize(limitSizes.value[i]?.[1], containerSize.value),
+  ]
 
   watch(lazy, () => {
     if (lazyOffset.value) {
@@ -105,6 +114,7 @@ export function useResize(
     numSizes[mergedIndex]! += mergedOffset
     numSizes[nextIndex]! -= mergedOffset
     lazyOffset.value = mergedOffset
+    movedSizes = numSizes
 
     updatePanelSizes = () => {
       panels.value.forEach((panel, index) => {
@@ -123,9 +133,19 @@ export function useResize(
       updatePanelSizes()
     }
 
+    // pxSizes is not updated yet with the sizes applied by the drag
+    const sizes = [...(movedSizes ?? pxSizes.value)]
+
     lazyOffset.value = 0
     movingIndex.value = null
     cachePxSizes = []
+    movedSizes = undefined
+
+    if (pendingLimitIndexes.size) {
+      const indexes = [...pendingLimitIndexes]
+      pendingLimitIndexes.clear()
+      applyLimits(indexes, sizes)
+    }
   }
 
   const cacheCollapsedSize: number[] = []
@@ -153,8 +173,10 @@ export function useResize(
     } else {
       const totalSize = currentSize + targetSize
 
+      // The limits may have changed while the panel was collapsed
+      const [minSize, maxSize] = getLimits(targetIndex)
       const targetCacheCollapsedSize = clamp(
-        cacheCollapsedSize[index],
+        clamp(cacheCollapsedSize[index], minSize, maxSize),
         0,
         totalSize
       )
@@ -169,45 +191,56 @@ export function useResize(
     })
   }
 
-  // Keep the panel within its min/max when those limits change
-  const onLimitChange = (index: number) => {
-    const sizes = [...pxSizes.value]
-    const currentSize = sizes[index]
-    // Skip when the container is not measured yet or the panel is collapsed
-    if (!containerSize.value || !currentSize) return
+  // Clamp the given panels to their min/max, taking the offset from the nearest panels
+  function applyLimits(indexes: number[], sizes: number[]) {
+    let changed = false
 
-    const getLimits = (i: number) => [
-      getLimitSize(limitSizes.value[i]?.[0], 0),
-      getLimitSize(limitSizes.value[i]?.[1], containerSize.value),
-    ]
+    indexes.forEach((index) => {
+      const currentSize = sizes[index]
+      // Skip when the container is not measured yet or the panel is collapsed
+      if (!containerSize.value || !currentSize) return
 
-    const [minSize, maxSize] = getLimits(index)
-    const targetSize = clamp(currentSize, minSize, maxSize)
-    if (targetSize === currentSize) return
+      const [minSize, maxSize] = getLimits(index)
+      const targetSize = clamp(currentSize, minSize, maxSize)
+      if (targetSize === currentSize) return
 
-    // Take the offset from the nearest panels, starting with the next one
-    let rest = targetSize - currentSize
-    for (let step = 1; rest && step < sizes.length; step += 1) {
-      for (const i of [index + step, index - step]) {
-        const size = sizes[i]
-        if (!rest || !size) continue
+      // Start with the next panel
+      let rest = targetSize - currentSize
+      for (let step = 1; rest && step < sizes.length; step += 1) {
+        for (const i of [index + step, index - step]) {
+          const size = sizes[i]
+          if (!rest || !size) continue
 
-        const [min, max] = getLimits(i)
-        const nextSize = clamp(
-          size - rest,
-          Math.min(min, size),
-          Math.max(max, size)
-        )
-        rest -= size - nextSize
-        sizes[i] = nextSize
+          const [min, max] = getLimits(i)
+          const nextSize = clamp(
+            size - rest,
+            Math.min(min, size),
+            Math.max(max, size)
+          )
+          rest -= size - nextSize
+          sizes[i] = nextSize
+        }
       }
+
+      sizes[index] = targetSize - rest
+      changed = true
+    })
+
+    if (changed) {
+      panels.value.forEach((panel, i) => {
+        panel.size = sizes[i]
+      })
+    }
+  }
+
+  const onLimitChange = (index: number) => {
+    // Dragging restores the sizes cached on move start, so wait for it to end
+    if (movingIndex.value) {
+      pendingLimitIndexes.add(index)
+      return
     }
 
-    sizes[index] = targetSize - rest
-
-    panels.value.forEach((panel, i) => {
-      panel.size = sizes[i]
-    })
+    applyLimits([index], [...pxSizes.value])
   }
 
   return {
