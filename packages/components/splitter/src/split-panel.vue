@@ -45,6 +45,7 @@ const {
   registerPanel,
   unregisterPanel,
   onCollapse,
+  onLimitChange,
   onMoveEnd,
   onMoveStart,
   onMoving,
@@ -151,6 +152,11 @@ watch(
 )
 
 watch(
+  () => [props.min, props.max],
+  () => onLimitChange(index.value)
+)
+
+watch(
   () => props.resizable,
   (val) => {
     if (panel.value) {
@@ -164,6 +170,8 @@ const _panel = reactive({
   getVnode: () => instance.vnode,
   setIndex,
   ...props,
+  min: computed(() => props.min),
+  max: computed(() => props.max),
   collapsible: computed(() => getCollapsible(props.collapsible)),
 })
 

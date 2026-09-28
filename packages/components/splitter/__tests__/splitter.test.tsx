@@ -140,6 +140,112 @@ describe('Splitter', () => {
     expect(panels[0].attributes('style')).toContain('flex-basis: 200px;')
   })
 
+  it('should respect updated min and max size constraints', async () => {
+    const min = ref(100)
+    const max = ref(200)
+    const wrapper = mount(() => (
+      <div style={{ width: '400px', height: '400px' }}>
+        <ElSplitter>
+          <ElSplitterPanel size={150} min={min.value} max={max.value}>
+            Left Panel
+          </ElSplitterPanel>
+          <ElSplitterPanel>Right Panel</ElSplitterPanel>
+        </ElSplitter>
+      </div>
+    ))
+    await nextTick()
+    const panels = wrapper.findAll('.el-splitter-panel')
+
+    const simulateDrag = async (startPos: number, endPos: number) => {
+      const splitBar = wrapper.find('.el-splitter-bar__dragger')
+
+      const mousedown = new MouseEvent('mousedown', { bubbles: true })
+      Object.defineProperty(mousedown, 'pageX', { value: startPos })
+      splitBar.element.dispatchEvent(mousedown)
+
+      const mousemove = new MouseEvent('mousemove', { bubbles: true })
+      Object.defineProperty(mousemove, 'pageX', { value: endPos })
+      window.dispatchEvent(mousemove)
+
+      const mouseup = new MouseEvent('mouseup', { bubbles: true })
+      Object.defineProperty(mouseup, 'pageX', { value: endPos })
+      window.dispatchEvent(mouseup)
+
+      await nextTick()
+    }
+
+    min.value = 50
+    max.value = 300
+    await nextTick()
+
+    await simulateDrag(150, 0)
+    expect(panels[0].attributes('style')).toContain('flex-basis: 50px;')
+
+    await simulateDrag(0, 300)
+    expect(panels[0].attributes('style')).toContain('flex-basis: 300px;')
+  })
+
+  it('should clamp panel size immediately when min or max changes', async () => {
+    const min = ref<string | number>('40px')
+    const max = ref<number>()
+    const size = ref<string | number>(40)
+    const wrapper = mount(() => (
+      <div style={{ width: '400px', height: '400px' }}>
+        <ElSplitter>
+          <ElSplitterPanel
+            v-model:size={size.value}
+            min={min.value}
+            max={max.value}
+          >
+            Left Panel
+          </ElSplitterPanel>
+          <ElSplitterPanel>Right Panel</ElSplitterPanel>
+        </ElSplitter>
+      </div>
+    ))
+    await nextTick()
+    const panels = wrapper.findAll('.el-splitter-panel')
+    expect(panels[0].attributes('style')).toContain('flex-basis: 40px;')
+
+    min.value = '90px'
+    await nextTick()
+    expect(panels[0].attributes('style')).toContain('flex-basis: 90px;')
+    expect(panels[1].attributes('style')).toContain('flex-basis: 310px;')
+    expect(size.value).toBe(90)
+
+    min.value = '40px'
+    await nextTick()
+    expect(panels[0].attributes('style')).toContain('flex-basis: 90px;')
+
+    max.value = 60
+    await nextTick()
+    expect(panels[0].attributes('style')).toContain('flex-basis: 60px;')
+    expect(panels[1].attributes('style')).toContain('flex-basis: 340px;')
+    expect(size.value).toBe(60)
+  })
+
+  it('should not expand a collapsed panel when min changes', async () => {
+    const min = ref(50)
+    const wrapper = mount(() => (
+      <div style={{ width: '400px', height: '400px' }}>
+        <ElSplitter>
+          <ElSplitterPanel size={0} min={min.value} collapsible>
+            Left Panel
+          </ElSplitterPanel>
+          <ElSplitterPanel>Right Panel</ElSplitterPanel>
+        </ElSplitter>
+      </div>
+    ))
+    await nextTick()
+    const panels = wrapper.findAll('.el-splitter-panel')
+    expect(panels[0].attributes('style')).toContain('flex-basis: 0px;')
+
+    min.value = 100
+    await nextTick()
+    expect(panels[0].attributes('style')).toContain('flex-basis: 0px;')
+    expect(panels[1].attributes('style')).toContain('flex-basis: 400px;')
+  })
+
   it('should handle collapse', async () => {
     const wrapper = mount(() => (
       <div style={{ width: '400px', height: '400px' }}>

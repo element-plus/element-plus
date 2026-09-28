@@ -169,6 +169,47 @@ export function useResize(
     })
   }
 
+  // Keep the panel within its min/max when those limits change
+  const onLimitChange = (index: number) => {
+    const sizes = [...pxSizes.value]
+    const currentSize = sizes[index]
+    // Skip when the container is not measured yet or the panel is collapsed
+    if (!containerSize.value || !currentSize) return
+
+    const getLimits = (i: number) => [
+      getLimitSize(limitSizes.value[i]?.[0], 0),
+      getLimitSize(limitSizes.value[i]?.[1], containerSize.value),
+    ]
+
+    const [minSize, maxSize] = getLimits(index)
+    const targetSize = clamp(currentSize, minSize, maxSize)
+    if (targetSize === currentSize) return
+
+    // Take the offset from the nearest panels, starting with the next one
+    let rest = targetSize - currentSize
+    for (let step = 1; rest && step < sizes.length; step += 1) {
+      for (const i of [index + step, index - step]) {
+        const size = sizes[i]
+        if (!rest || !size) continue
+
+        const [min, max] = getLimits(i)
+        const nextSize = clamp(
+          size - rest,
+          Math.min(min, size),
+          Math.max(max, size)
+        )
+        rest -= size - nextSize
+        sizes[i] = nextSize
+      }
+    }
+
+    sizes[index] = targetSize - rest
+
+    panels.value.forEach((panel, i) => {
+      panel.size = sizes[i]
+    })
+  }
+
   return {
     lazyOffset,
     onMoveStart,
@@ -176,5 +217,6 @@ export function useResize(
     onMoveEnd,
     movingIndex,
     onCollapse,
+    onLimitChange,
   }
 }
