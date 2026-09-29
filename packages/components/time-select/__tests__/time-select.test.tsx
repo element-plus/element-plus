@@ -324,6 +324,78 @@ describe('TimeSelect', () => {
     expect([...items].at(-1)?.textContent).toBe('18:00')
   })
 
+  it('should keep 24:00 as the last option instead of wrapping to 00:00', async () => {
+    const wrapper = mount(() => (
+      <TimeSelect start="22:00" end="24:00" step="00:30" />
+    ))
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    const items = document.querySelectorAll('.el-select-dropdown__item>span')
+    expect(items).toHaveLength(5)
+    expect([...items].at(-1)?.textContent).toBe('24:00')
+  })
+
+  it('should not render 00:00 twice when start and end span a whole day', async () => {
+    const wrapper = mount(() => (
+      <TimeSelect start="00:00" end="24:00" step="08:00" />
+    ))
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    const items = [
+      ...document.querySelectorAll('.el-select-dropdown__item>span'),
+    ].map((item) => item.textContent)
+    expect(items).toEqual(['00:00', '08:00', '16:00', '24:00'])
+  })
+
+  it('should render 24:00 when includeEndTime is set', async () => {
+    const wrapper = mount(() => (
+      <TimeSelect start="22:00" end="24:00" step="00:45" includeEndTime />
+    ))
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    const items = [
+      ...document.querySelectorAll('.el-select-dropdown__item>span'),
+    ].map((item) => item.textContent)
+    expect(items).toEqual(['22:00', '22:45', '23:30', '24:00'])
+  })
+
+  it('should fallback to default end time when end time is out of range', async () => {
+    const wrapper = mount(() => <TimeSelect start="17:00" end="25:00" />)
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    const items = document.querySelectorAll('.el-select-dropdown__item>span')
+    expect(items).toHaveLength(3)
+    expect([...items].at(0)?.textContent).toBe('17:00')
+    expect([...items].at(-1)?.textContent).toBe('18:00')
+  })
+
+  it('should treat only 24:00 as the end of day', async () => {
+    const wrapper = mount(() => <TimeSelect start="17:00" end="24:30" />)
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    const items = document.querySelectorAll('.el-select-dropdown__item>span')
+    expect(items).toHaveLength(3)
+    expect([...items].at(0)?.textContent).toBe('17:00')
+    expect([...items].at(-1)?.textContent).toBe('18:00')
+  })
+
+  it('should mark 24:00 as selected when it is the model value', async () => {
+    const wrapper = mount(() => (
+      <TimeSelect modelValue="24:00" start="22:00" end="24:00" step="00:30" />
+    ))
+
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    expect(document.querySelector('.is-selected')?.textContent).toBe('24:00')
+  })
+
   describe('form item accessibility integration', () => {
     it('automatic id attachment', async () => {
       const wrapper = mount(() => (

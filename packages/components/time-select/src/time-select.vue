@@ -49,6 +49,7 @@ import { CircleClose, Clock } from '@element-plus/icons-vue'
 import {
   compareTime,
   formatTime,
+  isEndOfDay,
   isValidTime,
   nextTime,
   parseTime,
@@ -115,7 +116,13 @@ const start = computed(() =>
   getValidTimeOrDefault(props.start, 'start', DEFAULT_START)
 )
 
-const end = computed(() => getValidTimeOrDefault(props.end, 'end', DEFAULT_END))
+const end = computed(() => {
+  // 24:00 is a valid end-of-day value
+  const time = parseTime(props.end || '')
+  return isEndOfDay(time)
+    ? formatTime(time)
+    : getValidTimeOrDefault(props.end, 'end', DEFAULT_END)
+})
 
 const minTime = computed(() => {
   const time = parseTime(props.minTime || '')
@@ -131,6 +138,14 @@ const step = computed(() =>
   getValidTimeOrDefault(props.step, 'step', DEFAULT_STEP, false)
 )
 
+const formatItemValue = (value: string) => {
+  const time = parseTime(value)
+  // dayjs formats 24:00 as 00:00, so keep this one as-is
+  return time && time.hours >= 24
+    ? formatTime(time)
+    : dayjs(value, 'HH:mm').locale(lang.value).format(props.format)
+}
+
 const items = computed(() => {
   const result: { value: string; rawValue: string; disabled: boolean }[] = []
   const push = (formattedValue: string, rawValue: string) => {
@@ -145,20 +160,14 @@ const items = computed(() => {
 
   let current = start.value
   while (compareTime(current, end.value) <= 0) {
-    const currentTime = dayjs(current, 'HH:mm')
-      .locale(lang.value)
-      .format(props.format)
-    push(currentTime, current)
+    push(formatItemValue(current), current)
     current = nextTime(current, step.value)
   }
   if (
     props.includeEndTime &&
     result[result.length - 1]?.rawValue !== end.value
   ) {
-    const formattedValue = dayjs(end.value, 'HH:mm')
-      .locale(lang.value)
-      .format(props.format)
-    push(formattedValue, end.value)
+    push(formatItemValue(end.value), end.value)
   }
   return result
 })
