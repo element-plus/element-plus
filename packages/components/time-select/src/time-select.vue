@@ -118,10 +118,11 @@ const start = computed(() =>
 
 const end = computed(() => {
   // 24:00 is a valid end-of-day value
-  const time = parseTime(props.end || '')
-  return isEndOfDay(time)
+  const endValue = props.end || ''
+  const time = parseTime(endValue)
+  return endValue === '24:00' && isEndOfDay(time)
     ? formatTime(time)
-    : getValidTimeOrDefault(props.end, 'end', DEFAULT_END)
+    : getValidTimeOrDefault(endValue, 'end', DEFAULT_END)
 })
 
 const minTime = computed(() => {

@@ -384,6 +384,17 @@ describe('TimeSelect', () => {
     expect([...items].at(-1)?.textContent).toBe('18:00')
   })
 
+  it('should fallback to default end time when end time is 24:00:01', async () => {
+    const wrapper = mount(() => <TimeSelect start="17:00" end="24:00:01" />)
+
+    const input = wrapper.find('input')
+    await input.trigger('click')
+    const items = document.querySelectorAll('.el-select-dropdown__item>span')
+    expect(items).toHaveLength(3)
+    expect([...items].at(0)?.textContent).toBe('17:00')
+    expect([...items].at(-1)?.textContent).toBe('18:00')
+  })
+
   it('should mark 24:00 as selected when it is the model value', async () => {
     const wrapper = mount(() => (
       <TimeSelect modelValue="24:00" start="22:00" end="24:00" step="00:30" />
