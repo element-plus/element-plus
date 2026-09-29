@@ -51,12 +51,16 @@ jobs:
 
       - name: Publish for PR
         if: ${{ github.event_name == 'pull_request' }}
+        env:
+          NPM_CONFIG_WORKSPACE_DIR: ${{ github.workspace }}
         run: |
           cd dist/element-plus
           pnpx pkg-pr-new publish --pnpm --packageManager=pnpm,npm,yarn
 
       - name: Publish for Commit Push
         if: ${{ github.event_name == 'push' }}
+        env:
+          NPM_CONFIG_WORKSPACE_DIR: ${{ github.workspace }}
         run: |
           cd dist/element-plus
           pnpx pkg-pr-new publish --pnpm --comment=off --packageManager=pnpm,npm,yarn
