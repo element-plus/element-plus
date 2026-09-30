@@ -765,6 +765,51 @@ describe('Datetimerange', () => {
     expect(value.value).toEqual([])
   })
 
+  it.each(['start', 'end'])(
+    'closes the %s time panel when typed time has no selectable date',
+    async (type) => {
+      const value = ref<Date[]>([])
+      const wrapper = _mount(() => (
+        <DatePicker
+          v-model={value.value}
+          type="datetimerange"
+          unlinkPanels
+          defaultValue={new Date(2026, 8, 9)}
+          disabledDate={(date: Date) => date.getHours() === 9}
+        />
+      ))
+
+      try {
+        await wrapper.find('input').trigger('focus')
+        const rangePicker = wrapper.findComponent(DatePickerRange)
+        const inputs = rangePicker.findAll<HTMLInputElement>(
+          '.el-date-range-picker__editors-wrap input'
+        )
+        const panelIndex = type === 'start' ? 0 : 1
+        if (type === 'end') {
+          // Make the end-time input editable without selecting an end date.
+          inputs[0].element.value = '2026-09-09'
+          await inputs[0].trigger('input')
+        }
+        const timeInput = inputs[panelIndex * 2 + 1]
+        expect(timeInput.element.readOnly).toBe(false)
+        await timeInput.trigger('focus')
+        const timePanel =
+          rangePicker.findAllComponents(TimePickPanel)[panelIndex]
+        expect(timePanel.props('visible')).toBe(true)
+
+        // Input alone must close the panel, without a change or blur event.
+        timeInput.element.value = '09:00:00'
+        await timeInput.trigger('input')
+
+        expect(timePanel.props('visible')).toBe(false)
+        expect(value.value).toEqual([])
+      } finally {
+        wrapper.unmount()
+      }
+    }
+  )
+
   it('clear button should empty the input value', async () => {
     const value = ref([])
     const onClear = vi.fn()

@@ -876,7 +876,10 @@ const handleTimeInput = (value: string | null, type: ChangeType) => {
       minTimePickerVisible.value = true
       const target =
         minDate.value || findNearestValidDate(leftDate.value, parsedValueD)
-      if (!target) return
+      if (!target) {
+        minTimePickerVisible.value = false
+        return
+      }
       minDate.value = target
         .hour(parsedValueD.hour())
         .minute(parsedValueD.minute())
@@ -886,7 +889,10 @@ const handleTimeInput = (value: string | null, type: ChangeType) => {
       maxTimePickerVisible.value = true
       const target =
         maxDate.value || findNearestValidDate(rightDate.value, parsedValueD)
-      if (!target) return
+      if (!target) {
+        maxTimePickerVisible.value = false
+        return
+      }
       maxDate.value = target
         .hour(parsedValueD.hour())
         .minute(parsedValueD.minute())
