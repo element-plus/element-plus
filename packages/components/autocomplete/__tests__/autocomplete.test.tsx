@@ -779,6 +779,20 @@ describe('Autocomplete.vue', () => {
       expect(document.querySelector(`#${activeId}`)?.textContent).toBe('Java')
     })
 
+    test('is absent when highlight-first-item meets no suggestions', async () => {
+      const wrapper = _mount({
+        highlightFirstItem: true,
+        fetchSuggestions: (_: string, cb: (list: []) => void) => cb([]),
+      })
+      await nextTick()
+      const input = wrapper.find('input')
+      await input.trigger('focus')
+      vi.runAllTimers()
+      await nextTick()
+
+      expect(input.attributes('aria-activedescendant')).toBeUndefined()
+    })
+
     test('is removed when the highlight moves off the list', async () => {
       const wrapper = _mount({ loopNavigation: false })
       await nextTick()

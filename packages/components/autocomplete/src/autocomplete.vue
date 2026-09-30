@@ -470,16 +470,17 @@ onBeforeUnmount(() => {
   stopHandle?.()
 })
 
-watch(highlightedIndex, (index) => {
+watch([highlightedIndex, suggestions], ([index, list]) => {
   const inputElement = inputRef.value?.ref
   if (!inputElement) return
-  if (index < 0) {
-    inputElement.removeAttribute('aria-activedescendant')
-  } else {
+  const highlightsAnOption = index >= 0 && index < list.length
+  if (highlightsAnOption) {
     inputElement.setAttribute(
       'aria-activedescendant',
       `${listboxId.value}-item-${index}`
     )
+  } else {
+    inputElement.removeAttribute('aria-activedescendant')
   }
 })
 
