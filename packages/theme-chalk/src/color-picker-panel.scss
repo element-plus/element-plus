@@ -89,6 +89,64 @@
     border-radius: 4px;
   }
 
+  @include e(gradient-toggle) {
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: center;
+  }
+
+  @include e(gradient-bar) {
+    position: relative;
+    height: 24px;
+    margin-top: 8px;
+    padding: 0 8px;
+  }
+
+  @include e(gradient-track) {
+    position: absolute;
+    left: 4px;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 6px;
+    border-radius: 3px;
+    border: 1px solid getCssVar('border-color-lighter');
+
+    @include when(disabled) {
+      @include disable;
+    }
+  }
+
+  @include e(gradient-dot) {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+    cursor: grab;
+    transition:
+      transform 0.2s,
+      box-shadow 0.2s;
+
+    // rewrite with the repository's scoped-root pattern required by stylelint
+    &:hover {
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    // rewrite with the repository's scoped-root pattern required by stylelint
+    &:active {
+      cursor: grabbing;
+    }
+
+    @include when(disabled) {
+      @include disable;
+    }
+  }
+
   @include e(wrapper) {
     margin-bottom: 6px;
 

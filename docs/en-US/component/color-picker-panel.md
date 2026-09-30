@@ -51,6 +51,16 @@ color-picker-panel/disabled
 
 :::
 
+## Gradient
+
+The `show-gradient` attribute determines if the color picker can show gradient function.
+
+:::demo
+
+color-picker-panel/gradient
+
+:::
+
 ## API
 
 ### Attributes
@@ -61,6 +71,7 @@ color-picker-panel/disabled
 | border                     | whether the color picker panel is bordered | ^[boolean]                                                                                            | true                                                                         |
 | disabled                   | whether to disable the color picker        | ^[boolean]                                                                                            | false                                                                        |
 | show-alpha                 | whether to display the alpha slider        | ^[boolean]                                                                                            | false                                                                        |
+| show-gradient^(2.14.3)     | whether to display the gradient mode       | ^[boolean]                                                                                            | false                                                                        |
 | color-format               | color format of v-model                    | ^[enum]`'rgb' \| 'prgb' \| 'hex' \| 'hex3' \| 'hex4' \| 'hex6' \| 'hex8' \| 'name' \| 'hsl' \| 'hsv'` | ^[enum]`'hex' (when show-alpha is false) \| 'rgb' (when show-alpha is true)` |
 | predefine                  | predefined color options                   | ^[array]`string[]`                                                                                    | —                                                                            |
 | validate-event ^(2.11.7)   | whether to trigger form validation         | ^[boolean]                                                                                            | true                                                                         |
