@@ -1,0 +1,17 @@
+$light: (
+  'panel': 0 8px 24px rgba(15, 23, 42, 0.08),
+  'popup': 0 12px 30px rgba(15, 23, 42, 0.16),
+  'dialog': 0 20px 50px rgba(15, 23, 42, 0.2),
+);
+
+$dark: (
+  'panel': 0 8px 24px rgba(0, 0, 0, 0.32),
+  'popup': 0 12px 30px rgba(0, 0, 0, 0.48),
+  'dialog': 0 20px 50px rgba(0, 0, 0, 0.6),
+);
+
+@mixin emit($shadows) {
+  @each $name, $value in $shadows {
+    --aircas-shadow-#{$name}: #{$value};
+  }
+}

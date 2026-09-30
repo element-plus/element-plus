@@ -1,0 +1,89 @@
+@use 'sass:color';
+
+// AirCAS owns these values. Element Plus names are introduced only in variables.scss.
+$light: (
+  'primary': #0758b8,
+  'success': #15803d,
+  'warning': #b45309,
+  'danger': #dc2626,
+  'info': #475569,
+  'white': #ffffff,
+  'black': #000000,
+  'on-accent': #ffffff,
+  'page-background': #f3f8fc,
+  'background': #ffffff,
+  'panel-background': #ffffff,
+  'panel-background-deep': #e7f1f8,
+  'input-background': #ffffff,
+  'section-background': #eaf2f9,
+  'section-header': #dceaf5,
+  'card-background': #ffffff,
+  'text-primary': #10243a,
+  'text-regular': #29465f,
+  'text-secondary': #425c73,
+  'text-disabled': #70869b,
+  'border': #afc4d4,
+  'border-light': #c7d9e7,
+  'hover': #e5f3ff,
+  'active': #cbe6fa,
+  'overlay': #0f172ac7,
+  'overlay-light': #0f172a9e,
+  'overlay-lighter': #0f172a73,
+  'mask': #ffffffe6,
+  'mask-extra-light': #ffffff4d,
+);
+
+$dark: (
+  'primary': #4dd2ff,
+  'success': #4ade80,
+  'warning': #fbbf24,
+  'danger': #f87171,
+  'info': #94a3b8,
+  'white': #ffffff,
+  'black': #000000,
+  'on-accent': #041923,
+  'page-background': #030d16,
+  'background': #0b2230,
+  'panel-background': #0b2230,
+  'panel-background-deep': #071925,
+  'input-background': #0d2938,
+  'section-background': #103445,
+  'section-header': #154457,
+  'card-background': #0b2230,
+  'text-primary': #f2fbff,
+  'text-regular': #d6e9f2,
+  'text-secondary': #b5d5e2,
+  'text-disabled': #7893a3,
+  'border': #2187a8,
+  'border-light': #1b5f79,
+  'hover': #10465b,
+  'active': #145c75,
+  'overlay': #00050fe0,
+  'overlay-light': #00050fc2,
+  'overlay-lighter': #00050fa3,
+  'mask': #ffffffd9,
+  'mask-extra-light': #ffffff3d,
+);
+
+@mixin emit($palette) {
+  @each $name, $value in $palette {
+    --aircas-color-#{$name}: #{$value};
+
+    @if $name ==
+      'primary' or
+      $name ==
+      'success' or
+      $name ==
+      'warning' or
+      $name ==
+      'danger' or
+      $name ==
+      'info'
+    {
+      --aircas-color-#{$name}-rgb:
+        #{color.channel($value, 'red', $space: rgb)},
+        #{color.channel($value, 'green', $space: rgb)},
+        #{color.channel($value, 'blue', $space: rgb)};
+    }
+  }
+}

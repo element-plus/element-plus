@@ -1,0 +1,29 @@
+.el-button:not(.el-button--large, .el-button--small) {
+  height: var(--aircas-size-button);
+}
+
+// Dark accent colors are bright enough to require dark foreground text.
+@each $type in (primary, success, warning, danger, info) {
+  :root.dark
+    .el-button.el-button--#{$type}:not(
+      .is-plain,
+      .is-text,
+      .is-link,
+      .is-dashed
+    ) {
+    --el-button-text-color: var(--aircas-color-on-accent);
+    --el-button-hover-text-color: var(--aircas-color-on-accent);
+    --el-button-active-text-color: var(--aircas-color-on-accent);
+    --el-button-disabled-text-color: var(--aircas-color-on-accent);
+    --el-button-hover-bg-color: color-mix(
+      in srgb,
+      var(--aircas-color-#{$type}) 85%,
+      var(--aircas-color-white)
+    );
+  }
+
+  :root.dark .el-button.el-button--#{$type}.is-plain {
+    --el-button-hover-text-color: var(--aircas-color-on-accent);
+    --el-button-active-text-color: var(--aircas-color-#{$type});
+  }
+}

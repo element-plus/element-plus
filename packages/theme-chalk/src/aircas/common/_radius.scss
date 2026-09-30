@@ -1,0 +1,11 @@
+$radii: (
+  'small': 3px,
+  'base': 6px,
+  'large': 10px,
+);
+
+@mixin emit() {
+  @each $name, $value in $radii {
+    --aircas-radius-#{$name}: #{$value};
+  }
+}

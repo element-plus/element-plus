@@ -1,0 +1,12 @@
+$sizes: (
+  'page-title': 20px,
+  'section-title': 16px,
+  'body': 14px,
+  'caption': 12px,
+);
+
+@mixin emit() {
+  @each $name, $value in $sizes {
+    --aircas-font-size-#{$name}: #{$value};
+  }
+}

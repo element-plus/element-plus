@@ -538,6 +538,14 @@ export default defineConfig([
   },
 
   {
+    // This README shows consumers how to import the published package.
+    files: ['packages/theme-chalk/src/aircas/readme.md/*'],
+    rules: {
+      'no-restricted-imports': 'off',
+    },
+  },
+
+  {
     ignores: [
       'node_modules',
       'dist',

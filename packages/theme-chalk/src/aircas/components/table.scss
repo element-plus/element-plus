@@ -1,0 +1,10 @@
+.el-table {
+  --el-table-border-color: var(--aircas-color-border-light);
+  --el-table-header-bg-color: var(--aircas-color-section-header);
+  --el-table-header-text-color: var(--aircas-color-text-primary);
+  --el-table-row-hover-bg-color: var(--aircas-color-hover);
+  --el-table-current-row-bg-color: var(--aircas-color-active);
+  --el-table-bg-color: var(--aircas-color-card-background);
+  --el-table-tr-bg-color: var(--aircas-color-card-background);
+  --el-table-expanded-cell-bg-color: var(--aircas-color-panel-background);
+}

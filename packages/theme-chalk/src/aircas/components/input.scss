@@ -1,0 +1,8 @@
+.el-input:not(.el-input--large, .el-input--small) {
+  --el-input-height: var(--aircas-size-control);
+}
+
+.el-input,
+.el-textarea {
+  --el-input-bg-color: var(--aircas-color-input-background);
+}

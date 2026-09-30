@@ -1,0 +1,81 @@
+// Bridge AirCAS semantics to CSS variables emitted by this version of theme-chalk.
+// Match html.dark specificity so the official dark definitions cannot win.
+:root:not(.dark),
+:root.dark {
+  --el-color-white: var(--aircas-color-white);
+  --el-color-black: var(--aircas-color-black);
+
+  @each $type in (primary, success, warning, danger, info) {
+    --el-color-#{$type}: var(--aircas-color-#{$type});
+    --el-color-#{$type}-rgb: var(--aircas-color-#{$type}-rgb);
+
+    @each $step in (3, 5, 7, 8, 9) {
+      --el-color-#{$type}-light-#{$step}: color-mix(
+        in srgb,
+        var(--aircas-color-#{$type}) #{(10 - $step) * 10%},
+        var(--aircas-color-background)
+      );
+    }
+
+    --el-color-#{$type}-dark-2: color-mix(
+      in srgb,
+      var(--aircas-color-#{$type}) 80%,
+      var(--aircas-color-text-primary)
+    );
+  }
+
+  // The official theme also emits error as an alias of danger.
+  --el-color-error: var(--aircas-color-danger);
+  @each $step in (3, 5, 7, 8, 9) {
+    --el-color-error-light-#{$step}: var(--el-color-danger-light-#{$step});
+  }
+  --el-color-error-dark-2: var(--el-color-danger-dark-2);
+  --el-color-error-rgb: var(--aircas-color-danger-rgb);
+
+  --el-bg-color: var(--aircas-color-background);
+  --el-bg-color-page: var(--aircas-color-page-background);
+  --el-bg-color-overlay: var(--aircas-color-panel-background);
+  --el-fill-color: var(--aircas-color-section-background);
+  --el-fill-color-light: var(--aircas-color-hover);
+  --el-fill-color-lighter: var(--aircas-color-section-background);
+  --el-fill-color-extra-light: var(--aircas-color-panel-background-deep);
+  --el-fill-color-dark: var(--aircas-color-active);
+  --el-fill-color-darker: var(--aircas-color-section-header);
+  --el-fill-color-blank: var(--aircas-color-card-background);
+
+  --el-text-color-primary: var(--aircas-color-text-primary);
+  --el-text-color-regular: var(--aircas-color-text-regular);
+  --el-text-color-secondary: var(--aircas-color-text-secondary);
+  --el-text-color-placeholder: var(--aircas-color-text-secondary);
+  --el-text-color-disabled: var(--aircas-color-text-disabled);
+  --el-border-color: var(--aircas-color-border);
+  --el-border-color-light: var(--aircas-color-border-light);
+  --el-border-color-lighter: var(--aircas-color-border-light);
+  --el-border-color-extra-light: var(--aircas-color-border-light);
+  --el-border-color-dark: var(--aircas-color-border);
+  --el-border-color-darker: var(--aircas-color-border);
+  --el-border-color-hover: var(--aircas-color-primary);
+
+  --el-box-shadow: var(--aircas-shadow-panel);
+  --el-box-shadow-light: var(--aircas-shadow-popup);
+  --el-box-shadow-lighter: var(--aircas-shadow-panel);
+  --el-box-shadow-dark: var(--aircas-shadow-dialog);
+  --el-font-size-extra-large: var(--aircas-font-size-page-title);
+  --el-font-size-large: var(--aircas-font-size-section-title);
+  --el-font-size-medium: var(--aircas-font-size-section-title);
+  --el-font-size-base: var(--aircas-font-size-body);
+  --el-font-size-small: var(--aircas-font-size-caption);
+  --el-font-size-extra-small: var(--aircas-font-size-caption);
+  --el-border-radius-small: var(--aircas-radius-small);
+  --el-border-radius-base: var(--aircas-radius-base);
+  --el-component-size: var(--aircas-size-control);
+  --el-component-size-default: var(--aircas-size-control);
+  --el-disabled-bg-color: var(--aircas-color-section-background);
+  --el-disabled-text-color: var(--aircas-color-text-disabled);
+  --el-disabled-border-color: var(--aircas-color-border-light);
+  --el-overlay-color: var(--aircas-color-overlay);
+  --el-overlay-color-light: var(--aircas-color-overlay-light);
+  --el-overlay-color-lighter: var(--aircas-color-overlay-lighter);
+  --el-mask-color: var(--aircas-color-mask);
+  --el-mask-color-extra-light: var(--aircas-color-mask-extra-light);
+}

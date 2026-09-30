@@ -1,0 +1,16 @@
+@use '../common/color';
+@use '../common/typography';
+@use '../common/size';
+@use '../common/spacing';
+@use '../common/radius';
+@use '../common/shadow';
+
+:root.dark {
+  color-scheme: dark;
+  @include color.emit(color.$dark);
+  @include typography.emit();
+  @include size.emit();
+  @include spacing.emit();
+  @include radius.emit();
+  @include shadow.emit(shadow.$dark);
+}

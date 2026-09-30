@@ -1,0 +1,7 @@
+$control: 30px;
+$button: 32px;
+
+@mixin emit() {
+  --aircas-size-control: #{$control};
+  --aircas-size-button: #{$button};
+}

@@ -1,0 +1,7 @@
+.el-select .el-select__wrapper {
+  background-color: var(--aircas-color-input-background);
+}
+
+.el-select:not(.el-select--large, .el-select--small) .el-select__wrapper {
+  min-height: var(--aircas-size-control);
+}

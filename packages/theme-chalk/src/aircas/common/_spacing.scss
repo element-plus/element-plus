@@ -1,0 +1,13 @@
+$space: (
+  '1': 4px,
+  '2': 8px,
+  '3': 12px,
+  '4': 16px,
+  '6': 24px,
+);
+
+@mixin emit() {
+  @each $name, $value in $space {
+    --aircas-space-#{$name}: #{$value};
+  }
+}
