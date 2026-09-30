@@ -663,6 +663,9 @@ describe('Autocomplete.vue', () => {
       expect(listboxes).toHaveLength(0)
       expect(popper.querySelector('[role="region"]')).toBeNull()
       expect(popper.querySelectorAll('[role="option"]')).toHaveLength(4)
+      expect(
+        wrapper.find('.el-autocomplete').attributes('aria-owns')
+      ).toBeUndefined()
     })
 
     test('no listbox is nested in the popper while suggestions load', async () => {

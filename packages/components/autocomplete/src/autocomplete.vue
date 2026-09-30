@@ -28,7 +28,6 @@
       role="combobox"
       aria-haspopup="listbox"
       :aria-expanded="suggestionVisible"
-      :aria-owns="listboxId"
     >
       <el-input
         ref="inputRef"
