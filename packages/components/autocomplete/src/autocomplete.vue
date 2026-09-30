@@ -65,7 +65,6 @@
           [fitInputWidth ? 'width' : 'minWidth']: dropdownWidth,
           outline: 'none',
         }"
-        role="region"
       >
         <div
           v-if="$slots.header"
@@ -79,7 +78,7 @@
           tag="ul"
           :wrap-class="ns.be('suggestion', 'wrap')"
           :view-class="ns.be('suggestion', 'list')"
-          role="listbox"
+          role="none"
         >
           <li v-if="suggestionLoading">
             <slot name="loading">

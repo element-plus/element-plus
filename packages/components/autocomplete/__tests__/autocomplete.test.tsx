@@ -649,6 +649,39 @@ describe('Autocomplete.vue', () => {
 
       expect(container.attributes('aria-expanded')).toBe('true')
     })
+
+    test('the suggestion popper is the listbox, with no listbox nested in it', async () => {
+      const wrapper = _mount({ popperClass: 'listbox-popper' })
+      await nextTick()
+      await wrapper.find('input').trigger('focus')
+      vi.runAllTimers()
+      await nextTick()
+
+      const popper = document.body.querySelector('.listbox-popper')!
+      const listboxes = popper.querySelectorAll('[role="listbox"]')
+      expect(popper.getAttribute('role')).toBe('listbox')
+      expect(listboxes).toHaveLength(0)
+      expect(popper.querySelector('[role="region"]')).toBeNull()
+      expect(popper.querySelectorAll('[role="option"]')).toHaveLength(4)
+    })
+
+    test('no listbox is nested in the popper while suggestions load', async () => {
+      const wrapper = _mount(
+        {
+          popperClass: 'loading-popper',
+          fetchSuggestions: () => new Promise(NOOP),
+        },
+        'fn-cb'
+      )
+      await nextTick()
+      await wrapper.find('input').trigger('focus')
+      vi.runAllTimers()
+      await nextTick()
+
+      const popper = document.body.querySelector('.loading-popper')!
+      expect(popper.querySelector('.el-icon.is-loading')).not.toBeNull()
+      expect(popper.querySelectorAll('[role="listbox"]')).toHaveLength(0)
+    })
   })
 
   describe('new slots: header & footer', () => {
