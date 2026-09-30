@@ -46,9 +46,8 @@ const reloadImages = () => {
 }
 .demo-image__placeholder .el-image {
   padding: 0 5px;
-  width: 100%;
   max-width: 300px;
-  height: 200px;
+  max-height: 200px;
 }
 
 .demo-image__placeholder .image-slot {
