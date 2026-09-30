@@ -77,6 +77,23 @@ export const useSelect = (
               select.value.states.hoveringIndex
             ].$el?.parentNode?.parentNode?.focus({ preventScroll: true })
           })
+        } else if (
+          [EVENT_CODE.enter, EVENT_CODE.numpadEnter].includes(code) &&
+          dropdownMenuVisible
+        ) {
+          // When Enter key is pressed, trigger the tree-node click event
+          // instead of directly calling handleOptionSelect
+          // This ensures that the tree-node's click handler is called,
+          // which will check if the node is a leaf or if checkStrictly is enabled
+          const option =
+            select.value.optionsArray[select.value.states.hoveringIndex]
+          if (option && !option.isDisabled) {
+            evt.preventDefault()
+            evt.stopPropagation()
+            // Trigger the tree-node click event
+            // el-select-dropdown__item => el-tree-node__content
+            option.$el?.parentNode?.click()
+          }
         }
       },
       {
