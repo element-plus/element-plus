@@ -12,7 +12,7 @@ const props = defineProps<{
 const emit = defineEmits(['update:color'])
 
 const sColor = computed({
-  get: () => tStore.theme.colors[props.name],
+  get: () => tStore.fullTheme.colors[props.name],
   set: (val) => {
     emit('update:color', val)
     tStore.updateColor(props.name, val)

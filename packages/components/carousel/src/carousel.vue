@@ -5,59 +5,86 @@
     @mouseenter.stop="handleMouseEnter"
     @mouseleave.stop="handleMouseLeave"
   >
-    <div :class="ns.e('container')" :style="containerStyle">
-      <transition v-if="arrowDisplay" name="carousel-arrow-left">
-        <button
-          v-show="
-            (arrow === 'always' || hover) && (props.loop || activeIndex > 0)
-          "
-          type="button"
-          :class="[ns.e('arrow'), ns.em('arrow', 'left')]"
-          @mouseenter="handleButtonEnter('left')"
-          @mouseleave="handleButtonLeave"
-          @click.stop="throttledArrowClick(activeIndex - 1)"
-        >
-          <ElIcon>
-            <ArrowLeft />
-          </ElIcon>
-        </button>
-      </transition>
-      <transition v-if="arrowDisplay" name="carousel-arrow-right">
-        <button
-          v-show="
-            (arrow === 'always' || hover) &&
-            (props.loop || activeIndex < items.length - 1)
-          "
-          type="button"
-          :class="[ns.e('arrow'), ns.em('arrow', 'right')]"
-          @mouseenter="handleButtonEnter('right')"
-          @mouseleave="handleButtonLeave"
-          @click.stop="throttledArrowClick(activeIndex + 1)"
-        >
-          <ElIcon>
-            <ArrowRight />
-          </ElIcon>
-        </button>
-      </transition>
+    <transition v-if="arrowDisplay" name="carousel-arrow-left">
+      <button
+        v-show="(arrow === 'always' || hover) && (loop || activeIndex > 0)"
+        type="button"
+        :class="[ns.e('arrow'), ns.em('arrow', 'left')]"
+        :aria-label="t('el.carousel.leftArrow')"
+        @mouseenter="handleButtonEnter('left')"
+        @mouseleave="handleButtonLeave"
+        @click.stop="throttledArrowClick(activeIndex - 1)"
+      >
+        <ElIcon>
+          <ArrowLeft />
+        </ElIcon>
+      </button>
+    </transition>
+    <transition v-if="arrowDisplay" name="carousel-arrow-right">
+      <button
+        v-show="
+          (arrow === 'always' || hover) &&
+          (loop || activeIndex < items.length - 1)
+        "
+        type="button"
+        :class="[ns.e('arrow'), ns.em('arrow', 'right')]"
+        :aria-label="t('el.carousel.rightArrow')"
+        @mouseenter="handleButtonEnter('right')"
+        @mouseleave="handleButtonLeave"
+        @click.stop="throttledArrowClick(activeIndex + 1)"
+      >
+        <ElIcon>
+          <ArrowRight />
+        </ElIcon>
+      </button>
+    </transition>
+    <div
+      :class="ns.e('container')"
+      :style="containerStyle"
+      @transitionstart="handleTransitionStart"
+      @transitionend="handleTransitionEnd"
+    >
+      <PlaceholderItem />
       <slot />
     </div>
-    <ul v-if="indicatorPosition !== 'none'" :class="indicatorsClasses">
-      <li
-        v-for="(item, index) in items"
-        :key="index"
-        :class="[
-          ns.e('indicator'),
-          ns.em('indicator', direction),
-          ns.is('active', index === activeIndex),
-        ]"
-        @mouseenter="throttledIndicatorHover(index)"
-        @click.stop="handleIndicatorClick(index)"
-      >
-        <button :class="ns.e('button')">
-          <span v-if="hasLabel">{{ item.props.label }}</span>
-        </button>
-      </li>
-    </ul>
+    <items-sorter>
+      <ul v-if="indicatorPosition !== 'none'" :class="indicatorsClasses">
+        <li
+          v-for="(item, index) in items"
+          v-show="isTwoLengthShow(index)"
+          :key="index"
+          :class="[
+            ns.e('indicator'),
+            ns.em('indicator', direction),
+            ns.is('active', index === activeIndex),
+          ]"
+          @mouseenter="throttledIndicatorHover(index)"
+          @click.stop="handleIndicatorClick(index)"
+        >
+          <button
+            :class="ns.e('button')"
+            :aria-label="t('el.carousel.indicator', { index: index + 1 })"
+          >
+            <span v-if="hasLabel">{{ item.props.label }}</span>
+          </button>
+        </li>
+      </ul>
+    </items-sorter>
+    <svg
+      v-if="motionBlur"
+      xmlns="http://www.w3.org/2000/svg"
+      version="1.1"
+      style="display: none"
+    >
+      <defs>
+        <filter id="elCarouselHorizontal">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="12,0" />
+        </filter>
+        <filter id="elCarouselVertical">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="0,10" />
+        </filter>
+      </defs>
+    </svg>
   </div>
 </template>
 
@@ -65,20 +92,36 @@
 import { computed, unref } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
-import { useNamespace } from '@element-plus/hooks'
-import { carouselEmits, carouselProps } from './carousel'
+import { useLocale, useNamespace } from '@element-plus/hooks'
+import { carouselEmits } from './carousel'
 import { useCarousel } from './use-carousel'
+
+import type { CarouselProps } from './carousel'
 
 const COMPONENT_NAME = 'ElCarousel'
 defineOptions({
   name: COMPONENT_NAME,
 })
 
-const props = defineProps(carouselProps)
+const props = withDefaults(defineProps<CarouselProps>(), {
+  initialIndex: 0,
+  height: '',
+  trigger: 'hover',
+  autoplay: true,
+  interval: 3000,
+  indicatorPosition: '',
+  arrow: 'hover',
+  type: '',
+  cardScale: 0.83,
+  loop: true,
+  direction: 'horizontal',
+  pauseOnHover: true,
+})
 const emit = defineEmits(carouselEmits)
 const {
   root,
   activeIndex,
+  exposeActiveIndex,
   arrowDisplay,
   hasLabel,
   hover,
@@ -94,16 +137,28 @@ const {
   setActiveItem,
   prev,
   next,
+  PlaceholderItem,
+  isTwoLengthShow,
+  ItemsSorter,
   throttledArrowClick,
   throttledIndicatorHover,
 } = useCarousel(props, emit, COMPONENT_NAME)
 const ns = useNamespace('carousel')
+
+const { t } = useLocale()
 
 const carouselClasses = computed(() => {
   const classes = [ns.b(), ns.m(props.direction)]
   if (unref(isCardType)) {
     classes.push(ns.m('card'))
   }
+  // When vertical with outside indicators, add modifier for flex layout
+  classes.push(
+    ns.is(
+      'vertical-outside',
+      unref(isVertical) && props.indicatorPosition === 'outside'
+    )
+  )
   return classes
 })
 
@@ -121,8 +176,28 @@ const indicatorsClasses = computed(() => {
   return classes
 })
 
+function handleTransitionStart(e: TransitionEvent) {
+  if (!props.motionBlur) return
+
+  const kls = unref(isVertical)
+    ? `${ns.namespace.value}-transitioning-vertical`
+    : `${ns.namespace.value}-transitioning`
+  ;(e.currentTarget as HTMLDivElement).classList.add(kls)
+}
+
+function handleTransitionEnd(e: TransitionEvent) {
+  if (!props.motionBlur) return
+
+  const kls = unref(isVertical)
+    ? `${ns.namespace.value}-transitioning-vertical`
+    : `${ns.namespace.value}-transitioning`
+  ;(e.currentTarget as HTMLDivElement).classList.remove(kls)
+}
+
 defineExpose({
-  /** @description manually switch slide */
+  /** @description active slide index */
+  activeIndex: exposeActiveIndex,
+  /** @description manually switch slide, index of the slide to be switched to, starting from 0; or the `name` of corresponding `el-carousel-item` */
   setActiveItem,
   /** @description switch to the previous slide */
   prev,

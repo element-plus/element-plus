@@ -4,7 +4,8 @@ import {
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { useFormItem } from '@element-plus/components/form'
+import { useFormDisabled, useFormItem } from '@element-plus/components/form'
+
 import type { CSSProperties, Ref, SetupContext } from 'vue'
 import type { Arrayable } from '@element-plus/utils'
 import type { SliderEmits, SliderInitData, SliderProps } from '../slider'
@@ -15,7 +16,7 @@ export const useSlide = (
   initData: SliderInitData,
   emit: SetupContext<SliderEmits>['emit']
 ) => {
-  const { form: elForm, formItem: elFormItem } = useFormItem()
+  const { formItem: elFormItem } = useFormItem()
 
   const slider = shallowRef<HTMLElement>()
 
@@ -28,9 +29,7 @@ export const useSlide = (
     secondButton,
   }
 
-  const sliderDisabled = computed(() => {
-    return props.disabled || elForm?.disabled || false
-  })
+  const sliderDisabled = useFormDisabled()
 
   const minValue = computed(() => {
     return Math.min(initData.firstValue, initData.secondValue)
@@ -74,8 +73,8 @@ export const useSlide = (
 
   const resetSize = () => {
     if (slider.value) {
-      initData.sliderSize =
-        slider.value[`client${props.vertical ? 'Height' : 'Width'}`]
+      const rect = slider.value.getBoundingClientRect()
+      initData.sliderSize = rect[props.vertical ? 'height' : 'width']
     }
   }
 
@@ -113,8 +112,10 @@ export const useSlide = (
   }
 
   const setFirstValue = (firstValue: number | undefined) => {
-    initData.firstValue = firstValue!
-    _emit(props.range ? [minValue.value, maxValue.value] : firstValue!)
+    initData.firstValue = firstValue ?? props.min
+    _emit(
+      props.range ? [minValue.value, maxValue.value] : (firstValue ?? props.min)
+    )
   }
 
   const setSecondValue = (secondValue: number) => {
@@ -185,6 +186,14 @@ export const useSlide = (
     }
   }
 
+  const onSliderMarkerDown = (position: number) => {
+    if (sliderDisabled.value || initData.dragging) return
+    const buttonRef = setPosition(position)
+    if (buttonRef) {
+      emitChange()
+    }
+  }
+
   return {
     elFormItem,
     slider,
@@ -201,6 +210,7 @@ export const useSlide = (
     onSliderWrapperPrevent,
     onSliderClick,
     onSliderDown,
+    onSliderMarkerDown,
     setFirstValue,
     setSecondValue,
   }

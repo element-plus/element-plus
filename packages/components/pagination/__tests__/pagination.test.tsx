@@ -1,9 +1,15 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { CaretLeft, CaretRight } from '@element-plus/icons-vue'
+import {
+  CaretLeft,
+  CaretRight,
+  DArrowLeft,
+  DArrowRight,
+} from '@element-plus/icons-vue'
 import Pagination from '../src/pagination'
 import selectDropdownVue from '../../select/src/select-dropdown.vue'
+
 import type { VueWrapper } from '@vue/test-utils'
 
 const assertElementsExistence = (
@@ -141,7 +147,7 @@ describe('Pagination', () => {
 
     test('test small layout', () => {
       const wrapper = mount(() => (
-        <Pagination total={100} small={true}></Pagination>
+        <Pagination total={100} size="small"></Pagination>
       ))
 
       expect(wrapper.vm.$el.classList.contains('el-pagination--small')).toBe(
@@ -238,6 +244,63 @@ describe('Pagination', () => {
       assertCurrent(wrapper, 2)
     })
 
+    test('test more icon', async () => {
+      const currentPage = ref(5)
+      const wrapper = mount(() => (
+        <Pagination
+          v-model:current-page={currentPage.value}
+          layout="pager"
+          total={100}
+          pageSize={10}
+        />
+      ))
+
+      assertCurrent(wrapper, 5)
+      expect(wrapper.find('.btn-quickprev').exists()).toBeTruthy()
+      expect(wrapper.find('.btn-quicknext').exists()).toBeTruthy()
+      expect(wrapper.findComponent(DArrowLeft).exists()).toBeFalsy()
+      expect(wrapper.findComponent(DArrowRight).exists()).toBeFalsy()
+
+      // quick prev
+      const quickPrev = wrapper.find('.btn-quickprev')
+      await quickPrev.trigger('mouseenter')
+      expect(wrapper.findComponent(DArrowLeft).exists()).toBeTruthy()
+
+      await quickPrev.trigger('click')
+      assertCurrent(wrapper, 1)
+      expect(wrapper.find('.btn-quickprev').exists()).toBeFalsy()
+
+      await wrapper.find('.el-pager li:nth-child(5)').trigger('click')
+      assertCurrent(wrapper, 5)
+      expect(wrapper.find('.btn-quickprev').exists()).toBeTruthy()
+      expect(wrapper.findComponent(DArrowLeft).exists()).toBeFalsy()
+
+      // quick next
+      const quickNext = wrapper.find('.btn-quicknext')
+      await quickNext.trigger('mouseenter')
+      expect(wrapper.findComponent(DArrowRight).exists()).toBeTruthy()
+
+      await quickNext.trigger('click')
+      assertCurrent(wrapper, 10)
+      expect(wrapper.find('.btn-quicknext').exists()).toBeFalsy()
+
+      await wrapper.find('.el-pager li:nth-child(3)').trigger('click')
+      assertCurrent(wrapper, 5)
+      expect(wrapper.find('.btn-quicknext').exists()).toBeTruthy()
+      expect(wrapper.findComponent(DArrowRight).exists()).toBeFalsy()
+
+      // While hovering over the icon
+      // switching pages does not change the icon's display state or the position of the more button
+      await wrapper.find('.btn-quickprev').trigger('mouseenter')
+      expect(wrapper.findComponent(DArrowLeft).exists()).toBeTruthy()
+
+      currentPage.value = 6
+      await nextTick()
+      assertCurrent(wrapper, 6)
+      expect(wrapper.find('.btn-quickprev').exists()).toBeTruthy()
+      expect(wrapper.findComponent(DArrowLeft).exists()).toBeTruthy()
+    })
+
     test('test pageCount change and side effect', async () => {
       const pageCount = ref(10)
       const wrapper = mount(() => (
@@ -261,23 +324,30 @@ describe('Pagination', () => {
     test('test listener work', async () => {
       const pageSizeWatcher = vi.fn()
       const currentPageWatcher = vi.fn()
+      let count = 0
+      const pageWatcher = () => {
+        count += 1
+      }
       const wrapper = mount(() => (
         <Pagination
           total={100}
           layout="prev, pager, next, sizes"
           onUpdate:current-page={currentPageWatcher}
           onUpdate:page-size={pageSizeWatcher}
+          onChange={pageWatcher}
         />
       ))
 
       await wrapper.find('.el-pager li:last-child').trigger('click')
       assertCurrent(wrapper, 10 /* Math.ceil(100/10) */)
       expect(currentPageWatcher).toHaveBeenCalled()
+      expect(count).toBe(1)
       await wrapper.find('.el-select').trigger('click')
       await wrapper
         .getComponent(selectDropdownVue)
         .find('li:nth-child(2)')
         .trigger('click')
+      expect(count).toBe(2)
       expect(pageSizeWatcher).toHaveBeenCalled()
       assertCurrent(wrapper, 5 /* Math.ceil(100/20) */)
     })

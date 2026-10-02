@@ -1,5 +1,10 @@
 <template>
-  <el-tree :data="data" :props="defaultProps" show-checkbox />
+  <el-tree
+    style="max-width: 600px"
+    :data="data"
+    :props="defaultProps"
+    show-checkbox
+  />
 </template>
 
 <script lang="ts" setup>

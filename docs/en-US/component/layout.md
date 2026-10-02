@@ -14,6 +14,8 @@ The component uses flex layout by default, no need to set `type="flex"` manually
 Please note that the parent container should avoid using `inline` related styles,
 which will cause the component to not fill up its width.
 
+The basic unit of a column is 1, with a maximum of 24 and a minimum of 0.
+
 :::
 
 ## Basic layout
@@ -109,7 +111,7 @@ The classes are:
 | ------- | ----------------------------------- | -------------------------------------------------------------------------------------------- | ------- |
 | gutter  | grid spacing                        | ^[number]                                                                                    | 0       |
 | justify | horizontal alignment of flex layout | ^[enum]`'start' \| 'end' \| 'center' \| 'space-around' \| 'space-between' \| 'space-evenly'` | start   |
-| align   | vertical alignment of flex layout   | ^[enum]`'top' \| 'middle' \| 'bottom'`                                                       | top     |
+| align   | vertical alignment of flex layout   | ^[enum]`'top' \| 'middle' \| 'bottom'`                                                       | —       |
 | tag     | custom element tag                  | ^[string]                                                                                    | div     |
 
 ### Row Slots

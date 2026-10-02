@@ -1,11 +1,9 @@
-import { isRef, onScopeDispose, watch } from 'vue'
-import { computed } from '@vue/reactivity'
+import { computed, isRef, onScopeDispose, watch } from 'vue'
 import {
   addClass,
   getScrollBarWidth,
   getStyle,
   hasClass,
-  isClient,
   removeClass,
   throwError,
 } from '@element-plus/utils'
@@ -39,19 +37,22 @@ export const useLockscreen = (
 
   const hiddenCls = computed(() => ns.bm('parent', 'hidden'))
 
-  if (!isClient || hasClass(document.body, hiddenCls.value)) {
-    return
-  }
-
   let scrollBarWidth = 0
   let withoutHiddenClass = false
   let bodyWidth = '0'
+  let cleaned = false
 
   const cleanup = () => {
+    if (cleaned) return
+
+    cleaned = true
     setTimeout(() => {
-      removeClass(document?.body, hiddenCls.value)
+      // When the test case is running, the context environment simulated by jsdom may have been destroyed,
+      // and the document does not exist at this time.
+      if (typeof document === 'undefined') return
       if (withoutHiddenClass && document) {
         document.body.style.width = bodyWidth
+        removeClass(document.body, hiddenCls.value)
       }
     }, 200)
   }
@@ -61,9 +62,11 @@ export const useLockscreen = (
       return
     }
 
+    cleaned = false
     withoutHiddenClass = !hasClass(document.body, hiddenCls.value)
     if (withoutHiddenClass) {
       bodyWidth = document.body.style.width
+      addClass(document.body, hiddenCls.value)
     }
     scrollBarWidth = getScrollBarWidth(ns.namespace.value)
     const bodyHasOverflow =
@@ -76,7 +79,6 @@ export const useLockscreen = (
     ) {
       document.body.style.width = `calc(100% - ${scrollBarWidth}px)`
     }
-    addClass(document.body, hiddenCls.value)
   })
   onScopeDispose(() => cleanup())
 }

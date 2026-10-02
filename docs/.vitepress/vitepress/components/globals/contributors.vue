@@ -15,23 +15,25 @@ const withSize = (rawURL: string) => {
 </script>
 
 <template>
-  <div class="mb-4">
-    <div class="flex flex-wrap gap-4 pt-2">
-      <div v-for="c of contributors" :key="c.hash">
-        <vp-link
-          :href="`https://github.com/${c.login}`"
-          class="flex gap-2 items-center link"
-          no-icon
-        >
-          <img
-            :src="withSize(c.avatar)"
-            class="w-8 h-8 rounded-full"
-            loading="lazy"
-          />
-          {{ c.name }}
-        </vp-link>
-      </div>
-    </div>
+  <div class="flex flex-wrap gap-2 pb-2">
+    <el-tooltip
+      v-for="{ login, avatar, name, hash } of contributors"
+      :key="hash"
+      :content="name"
+      placement="top"
+    >
+      <vp-link
+        :href="`https://github.com/${login}`"
+        class="flex gap-2 items-center link"
+        no-icon
+      >
+        <img
+          :src="withSize(avatar)"
+          class="w-8 h-8 rounded-full"
+          loading="lazy"
+        />
+      </vp-link>
+    </el-tooltip>
   </div>
 </template>
 

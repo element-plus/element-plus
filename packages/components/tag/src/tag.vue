@@ -8,11 +8,24 @@
     <span :class="ns.e('content')">
       <slot />
     </span>
-    <el-icon v-if="closable" :class="ns.e('close')" @click.stop="handleClose">
-      <Close />
-    </el-icon>
+    <button
+      v-if="closable"
+      :aria-label="t('el.tag.close')"
+      :class="ns.e('close')"
+      type="button"
+      @click.stop="handleClose"
+    >
+      <el-icon>
+        <Close />
+      </el-icon>
+    </button>
   </span>
-  <transition v-else :name="`${ns.namespace.value}-zoom-in-center`" appear>
+  <transition
+    v-else
+    :name="`${ns.namespace.value}-zoom-in-center`"
+    appear
+    @vue:mounted="handleVNodeMounted"
+  >
     <span
       :class="containerKls"
       :style="{ backgroundColor: color }"
@@ -21,9 +34,17 @@
       <span :class="ns.e('content')">
         <slot />
       </span>
-      <el-icon v-if="closable" :class="ns.e('close')" @click.stop="handleClose">
-        <Close />
-      </el-icon>
+      <button
+        v-if="closable"
+        :aria-label="t('el.tag.close')"
+        :class="ns.e('close')"
+        type="button"
+        @click.stop="handleClose"
+      >
+        <el-icon>
+          <Close />
+        </el-icon>
+      </button>
     </span>
   </transition>
 </template>
@@ -32,25 +53,31 @@
 import { computed } from 'vue'
 import ElIcon from '@element-plus/components/icon'
 import { Close } from '@element-plus/icons-vue'
-import { useNamespace } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { useFormSize } from '@element-plus/components/form'
+import { tagEmits } from './tag'
 
-import { tagEmits, tagProps } from './tag'
+import type { VNode } from 'vue'
+import type { TagProps } from './tag'
 
 defineOptions({
   name: 'ElTag',
 })
-const props = defineProps(tagProps)
+const props = withDefaults(defineProps<TagProps>(), {
+  type: 'primary',
+  effect: 'light',
+})
 const emit = defineEmits(tagEmits)
 
 const tagSize = useFormSize()
+const { t } = useLocale()
 const ns = useNamespace('tag')
 const containerKls = computed(() => {
   const { type, hit, effect, closable, round } = props
   return [
     ns.b(),
     ns.is('closable', closable),
-    ns.m(type),
+    ns.m(type || 'primary'),
     ns.m(tagSize.value),
     ns.m(effect),
     ns.is('hit', hit),
@@ -65,5 +92,13 @@ const handleClose = (event: MouseEvent) => {
 
 const handleClick = (event: MouseEvent) => {
   emit('click', event)
+}
+
+const handleVNodeMounted = (vnode: VNode) => {
+  // @ts-ignore
+  if (vnode?.component?.subTree?.component?.bum) {
+    // @ts-ignore
+    vnode.component.subTree.component.bum = null
+  }
 }
 </script>

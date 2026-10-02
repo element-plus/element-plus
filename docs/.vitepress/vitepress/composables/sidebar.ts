@@ -1,6 +1,6 @@
 import { computed } from 'vue'
 import { useData, useRoute } from 'vitepress'
-import { ensureStartingSlash, isArray, removeExtention } from '../utils'
+import { ensureStartingSlash } from '../utils'
 import { useLang } from './lang'
 
 export const useSidebar = () => {
@@ -30,13 +30,13 @@ export const useSidebar = () => {
 }
 
 export function isSideBarConfig(sidebar) {
-  return sidebar === false || sidebar === 'auto' || isArray(sidebar)
+  return sidebar === false || sidebar === 'auto' || Array.isArray(sidebar)
 }
 export function isSideBarGroup(item) {
   return item.children !== undefined
 }
 export function isSideBarEmpty(sidebar) {
-  return isArray(sidebar) ? sidebar.length === 0 : !sidebar
+  return Array.isArray(sidebar) ? sidebar.length === 0 : !sidebar
 }
 
 type SidebarItem = {
@@ -67,16 +67,11 @@ export function getSidebarConfig(sidebar: Sidebar, path: string, lang: string) {
   }
   return []
 }
-/**
- * Get flat sidebar links from the sidebar items. This method is useful for
- * creating the "next and prev link" feature. It will ignore any items that
- * don't have `link` property and removes `.md` or `.html` extension if a
- * link contains it.
- */
+
 export function getFlatSideBarLinks(sidebar) {
   return sidebar.reduce((links, item) => {
     if (item.link) {
-      links.push({ text: item.text, link: removeExtention(item.link) })
+      links.push({ text: item.text, link: item.link })
     }
     if (isSideBarGroup(item)) {
       links = [...links, ...getFlatSideBarLinks(item.children)]

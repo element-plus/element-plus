@@ -32,7 +32,7 @@ there. Generally it can be categorized into 'sidebar navigation' and 'top naviga
 
 An appropriate navigation gives users a smooth experience, while an inappropriate
 one leads to confusion. Here are the differences between sidebar navigation and
-top navigation
+top navigation.
 
 ## Side Navigation
 

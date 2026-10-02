@@ -2,7 +2,6 @@ import { nextTick, unref } from 'vue'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import makeMount from '@element-plus/test-utils/make-mount'
 import makeScroll from '@element-plus/test-utils/make-scroll'
-import setupMock from '../setup-mock'
 import {
   CENTERED_ALIGNMENT,
   END_ALIGNMENT,
@@ -10,6 +9,7 @@ import {
   START_ALIGNMENT,
 } from '../src/defaults'
 import { DynamicSizeGrid } from '..'
+import setupMock from './setup-mock'
 
 import type { GridExposes } from '../src/types'
 
@@ -211,38 +211,46 @@ describe('<fixed-size-grid />', () => {
     it('should throw when column-width is not number', () => {
       const errorHandler = vi.fn()
 
-      mount({
-        props: {
-          columnWidth: '1',
-        },
-        global: {
-          config: {
-            errorHandler,
-            warnHandler() {
-              // suppress warning
+      try {
+        mount({
+          props: {
+            columnWidth: '1',
+          },
+          global: {
+            config: {
+              errorHandler,
+              warnHandler() {
+                // suppress warning
+              },
             },
           },
-        },
-      })
+        })
+      } catch {
+        // suppress error
+      }
 
       expect(errorHandler).toHaveBeenCalled()
     })
 
     it('should throw when row-height is not number', () => {
       const errorHandler = vi.fn()
-      mount({
-        props: {
-          rowHeight: '1',
-        },
-        global: {
-          config: {
-            errorHandler,
-            warnHandler() {
-              // suppress warning
+      try {
+        mount({
+          props: {
+            rowHeight: '1',
+          },
+          global: {
+            config: {
+              errorHandler,
+              warnHandler() {
+                // suppress warning
+              },
             },
           },
-        },
-      })
+        })
+      } catch {
+        // suppress error
+      }
 
       expect(errorHandler).toHaveBeenCalled()
     })

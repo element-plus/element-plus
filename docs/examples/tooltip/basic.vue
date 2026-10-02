@@ -27,56 +27,56 @@
       </el-tooltip>
     </div>
     <div class="row">
-      <el-tooltip
-        class="box-item"
-        effect="dark"
-        content="Left Top prompts info"
-        placement="left-start"
-      >
+      <el-tooltip class="box-item" effect="dark" placement="left-start">
+        <template #content>
+          Left Top
+          <br />
+          prompts info
+        </template>
         <el-button>left-start</el-button>
       </el-tooltip>
-      <el-tooltip
-        class="box-item"
-        effect="dark"
-        content="Right Top prompts info"
-        placement="right-start"
-      >
+      <el-tooltip class="box-item" effect="dark" placement="right-start">
+        <template #content>
+          Right Top
+          <br />
+          prompts info
+        </template>
         <el-button>right-start</el-button>
       </el-tooltip>
     </div>
     <div class="row">
-      <el-tooltip
-        class="box-item"
-        effect="dark"
-        content="Left Center prompts info"
-        placement="left"
-      >
+      <el-tooltip class="box-item" effect="dark" placement="left">
+        <template #content>
+          Left Center
+          <br />
+          prompts info
+        </template>
         <el-button class="mt-3 mb-3">left</el-button>
       </el-tooltip>
-      <el-tooltip
-        class="box-item"
-        effect="dark"
-        content="Right Center prompts info"
-        placement="right"
-      >
+      <el-tooltip class="box-item" effect="dark" placement="right">
+        <template #content>
+          Right Center
+          <br />
+          prompts info
+        </template>
         <el-button>right</el-button>
       </el-tooltip>
     </div>
     <div class="row">
-      <el-tooltip
-        class="box-item"
-        effect="dark"
-        content="Left Bottom prompts info"
-        placement="left-end"
-      >
+      <el-tooltip class="box-item" effect="dark" placement="left-end">
+        <template #content>
+          Left Bottom
+          <br />
+          prompts info
+        </template>
         <el-button>left-end</el-button>
       </el-tooltip>
-      <el-tooltip
-        class="box-item"
-        effect="dark"
-        content="Right Bottom prompts info"
-        placement="right-end"
-      >
+      <el-tooltip class="box-item" effect="dark" placement="right-end">
+        <template #content>
+          Right Bottom
+          <br />
+          prompts info
+        </template>
         <el-button>right-end</el-button>
       </el-tooltip>
     </div>

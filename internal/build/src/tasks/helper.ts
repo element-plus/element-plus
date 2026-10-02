@@ -11,10 +11,10 @@ import {
   epOutput,
   epPackage,
   getPackageManifest,
+  normalizePath,
   projRoot,
 } from '@element-plus/build-utils'
 
-import type { TaskFunction } from 'gulp'
 import type {
   ReAttribute,
   ReComponentName,
@@ -80,7 +80,6 @@ const reAttribute: ReAttribute = (value, key) => {
   } else if (key === 'Type') {
     return rewriteType(str)
       .replaceAll(/\bfunction(\(.*\))?(:\s*\w+)?\b/gi, 'Function')
-      .replaceAll(/\bdate\b/g, 'Date')
       .replaceAll(/\([^)]*\)(?!\s*=>)/g, '')
       .replaceAll(/(<[^>]*>|\{[^}]*}|\([^)]*\))/g, (item) => {
         return item.replaceAll(/(\/|\|)/g, '=_0!')
@@ -189,7 +188,7 @@ const transformFunction = (str: string) => {
   return `(${params}) => ${returns}`
 }
 
-export const buildHelper: TaskFunction = (done) => {
+export const buildHelper = () => {
   const { name, version } = getPackageManifest(epPackage)
 
   const tagVer = process.env.TAG_VERSION
@@ -198,14 +197,15 @@ export const buildHelper: TaskFunction = (done) => {
       ? tagVer.slice(1)
       : tagVer
     : version!
+  const entry = `${path.resolve(
+    projRoot,
+    'docs/en-US/component'
+  )}/!(datetime-picker|message-box|message).md`
 
   main({
     name: name!,
     version: _version,
-    entry: `${path.resolve(
-      projRoot,
-      'docs/en-US/component'
-    )}/!(datetime-picker|message-box|message).md`,
+    entry: normalizePath(entry),
     outDir: epOutput,
     reComponentName,
     reDocUrl,
@@ -217,6 +217,4 @@ export const buildHelper: TaskFunction = (done) => {
     tableRegExp:
       /#+\s+(.*\s*Attributes|.*\s*Events|.*\s*Slots|.*\s*Directives)\s*\n+(\|?.+\|.+)\n\|?\s*:?-+:?\s*\|.+((\n\|?.+\|.+)+)/g,
   })
-
-  done()
 }

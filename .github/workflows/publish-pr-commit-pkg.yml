@@ -1,0 +1,66 @@
+name: Publish PR Commit Pkg
+
+on:
+  push:
+    branches:
+      - dev
+    tags:
+      - '!**'
+  pull_request:
+    branches:
+      - dev
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: ${{ github.repository == 'element-plus/element-plus' }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+          package-manager-cache: false
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build
+        run: pnpm build
+
+      - name: Get Latest Release Version
+        id: get_release
+        run: |
+          LATEST_VERSION=$(curl -s https://api.github.com/repos/element-plus/element-plus/releases/latest | jq -r '.tag_name')
+          echo "LATEST_VERSION=${LATEST_VERSION}" >> $GITHUB_ENV
+
+      - name: Update package.json version
+        run: |
+          cd dist/element-plus
+          ls -la
+          jq --arg newVersion "$LATEST_VERSION" '.version = $newVersion' package.json > tmp.json && mv tmp.json package.json
+
+      - name: Publish for PR
+        if: ${{ github.event_name == 'pull_request' }}
+        env:
+          NPM_CONFIG_WORKSPACE_DIR: ${{ github.workspace }}
+        run: |
+          cd dist/element-plus
+          pnpx pkg-pr-new publish --pnpm --packageManager=pnpm,npm,yarn
+
+      - name: Publish for Commit Push
+        if: ${{ github.event_name == 'push' }}
+        env:
+          NPM_CONFIG_WORKSPACE_DIR: ${{ github.workspace }}
+        run: |
+          cd dist/element-plus
+          pnpx pkg-pr-new publish --pnpm --comment=off --packageManager=pnpm,npm,yarn

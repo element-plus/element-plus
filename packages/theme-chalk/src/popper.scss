@@ -14,30 +14,41 @@
   font-size: 12px;
   line-height: 20px;
   min-width: 10px;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: normal;
   visibility: visible;
 
   $arrow-selector: #{& + '__arrow'};
 
   @include when(dark) {
+    @include set-css-var-value(
+      ('fill-color', 'blank'),
+      getCssVar('popper', 'bg-color-dark')
+    );
+
     color: getCssVar('bg-color');
-    background: getCssVar('text-color', 'primary');
+    background: getCssVar('popper', 'bg-color-dark');
     border: 1px solid getCssVar('text-color', 'primary');
 
-    #{$arrow-selector}::before {
+    > #{$arrow-selector}::before {
       border: 1px solid getCssVar('text-color', 'primary');
-      background: getCssVar('text-color', 'primary');
+      background: getCssVar('popper', 'bg-color-dark');
       right: 0;
     }
   }
 
   @include when(light) {
-    background: getCssVar('bg-color', 'overlay');
+    @include set-css-var-value(
+      ('fill-color', 'blank'),
+      getCssVar('popper', 'bg-color-light')
+    );
+
+    background: getCssVar('popper', 'bg-color-light');
     border: 1px solid getCssVar('border-color', 'light');
 
-    #{$arrow-selector}::before {
+    > #{$arrow-selector}::before {
       border: 1px solid getCssVar('border-color', 'light');
-      background: getCssVar('bg-color', 'overlay');
+      background: getCssVar('popper', 'bg-color-light');
       right: 0;
     }
   }
@@ -96,7 +107,7 @@
     $adjacency
       in ('top': 'left', 'bottom': 'right', 'left': 'bottom', 'right': 'top')
   {
-    &[data-popper-placement^='#{$placement}'] {
+    &[data-popper-placement^='#{$placement}'] > {
       #{$arrow-selector}::before {
         border-#{$placement}-color: transparent !important;
         border-#{$adjacency}-color: transparent !important;

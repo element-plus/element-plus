@@ -1,3 +1,3 @@
 import type Backtop from './backtop.vue'
 
-export type BacktopInstance = InstanceType<typeof Backtop>
+export type BacktopInstance = InstanceType<typeof Backtop> & unknown

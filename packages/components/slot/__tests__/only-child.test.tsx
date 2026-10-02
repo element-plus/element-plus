@@ -4,9 +4,8 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { debugWarn } from '@element-plus/utils'
 import { FORWARD_REF_INJECTION_KEY } from '@element-plus/hooks'
 import { OnlyChild } from '../src/only-child'
-import type { MountingOptions } from '@vue/test-utils'
 
-type Slot = NonNullable<NonNullable<MountingOptions<any>['slots']>['default']>
+import type { VNodeArrayChildren } from 'vue'
 
 vi.mock('@element-plus/utils/error', () => ({
   debugWarn: vi.fn(),
@@ -19,7 +18,7 @@ const defaultProvide = {
     forwardRef: ref(null),
   },
 }
-const createComponent = (slot: Slot) => {
+const createComponent = (slot?: () => VNodeArrayChildren) => {
   return shallowMount(OnlyChild, {
     global: {
       provide: defaultProvide,
@@ -118,14 +117,22 @@ describe('ElOnlyChild', () => {
     await nextTick()
 
     expect(debugWarn).toHaveBeenCalledTimes(1)
-    expect(wrapper.text()).toBe('')
+    expect(wrapper.text()).toBe(AXIOM)
   })
 
   it('should render nothing when no children provided', async () => {
-    wrapper = createComponent(null as any)
+    wrapper = createComponent()
     await nextTick()
 
     expect(debugWarn).not.toHaveBeenCalled()
     expect(wrapper.text()).toBe('')
+  })
+
+  it('should warns about having multiple children', async () => {
+    wrapper = createComponent(() => [h(Fragment, null, [AXIOM, AXIOM])])
+    await nextTick()
+
+    expect(debugWarn).toHaveBeenCalledTimes(1)
+    expect(wrapper.text()).toBe(AXIOM)
   })
 })

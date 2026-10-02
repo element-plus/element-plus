@@ -1,0 +1,38 @@
+import type { Dayjs } from 'dayjs'
+
+export type DatePickerType =
+  | 'year'
+  | 'years'
+  | 'month'
+  | 'months'
+  | 'date'
+  | 'dates'
+  | 'week'
+  | 'quarter'
+  | 'quarters'
+  | 'datetime'
+  | 'datetimerange'
+  | 'daterange'
+  | 'monthrange'
+  | 'yearrange'
+  | 'quarterrange'
+
+type DateCellType = 'normal' | 'today' | 'week' | 'next-month' | 'prev-month'
+export interface DateCell {
+  column?: number
+  customClass?: string
+  disabled?: boolean
+  end?: boolean
+  inRange?: boolean
+  row?: number
+  selected?: Dayjs
+  isCurrent?: boolean
+  isSelected?: boolean
+  start?: boolean
+  text?: number
+  renderText?: string
+  timestamp?: number
+  date?: Date
+  dayjs?: Dayjs
+  type?: DateCellType
+}

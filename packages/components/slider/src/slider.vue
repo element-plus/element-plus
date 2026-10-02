@@ -8,19 +8,17 @@
     :aria-labelledby="
       range && isLabeledByFormItem ? elFormItem?.labelId : undefined
     "
-    @touchstart="onSliderWrapperPrevent"
-    @touchmove="onSliderWrapperPrevent"
   >
     <div
       ref="slider"
       :class="[
         ns.e('runway'),
-        { 'show-input': showInput && !range },
+        { 'show-input': renderInput },
         ns.is('disabled', sliderDisabled),
       ]"
       :style="runwayStyle"
       @mousedown="onSliderDown"
-      @touchstart="onSliderDown"
+      @touchstart.passive="onSliderDown"
     >
       <div :class="ns.e('bar')" :style="barStyle" />
       <slider-button
@@ -85,21 +83,22 @@
             :key="key"
             :mark="item.mark"
             :style="getStopStyle(item.position)"
+            @mousedown.stop="onSliderMarkerDown(item.position)"
           />
         </div>
       </template>
     </div>
     <el-input-number
-      v-if="showInput && !range"
+      v-if="renderInput"
       ref="input"
       :model-value="firstValue"
       :class="ns.e('input')"
-      :step="step"
+      :step="sliderInputStep"
       :disabled="sliderDisabled"
       :controls="showInputControls"
       :min="min"
       :max="max"
-      :debounce="debounce"
+      :precision="precision"
       :size="sliderInputSize"
       @update:model-value="setFirstValue"
       @change="emitChange"
@@ -109,6 +108,7 @@
 
 <script lang="ts" setup>
 import { computed, provide, reactive, toRefs } from 'vue'
+import { useEventListener } from '@vueuse/core'
 import ElInputNumber from '@element-plus/components/input-number'
 import { useFormItemInputId, useFormSize } from '@element-plus/components/form'
 import { useLocale, useNamespace } from '@element-plus/hooks'
@@ -123,6 +123,8 @@ import {
   useStops,
   useWatch,
 } from './composables'
+import { isNumber } from '@element-plus/utils'
+
 import type { SliderInitData } from './slider'
 
 defineOptions({
@@ -158,6 +160,7 @@ const {
   onSliderWrapperPrevent,
   onSliderClick,
   onSliderDown,
+  onSliderMarkerDown,
   setFirstValue,
   setSecondValue,
 } = useSlide(props, initData, emit)
@@ -173,9 +176,13 @@ const sliderInputSize = computed(
   () => props.inputSize || sliderWrapperSize.value
 )
 
+const renderInput = computed(() => {
+  return props.showInput && !props.range && props.step !== 'mark'
+})
+
 const groupLabel = computed<string>(() => {
   return (
-    props.label ||
+    props.ariaLabel ||
     t('el.slider.defaultLabel', {
       min: props.min,
       max: props.max,
@@ -211,15 +218,20 @@ const sliderKls = computed(() => [
   ns.b(),
   ns.m(sliderWrapperSize.value),
   ns.is('vertical', props.vertical),
-  { [ns.m('with-input')]: props.showInput },
+  { [ns.m('with-input')]: renderInput.value },
 ])
 
 const markList = useMarks(props)
 
 useWatch(props, initData, minValue, maxValue, emit, elFormItem!)
 
+const sliderInputStep = computed(() => {
+  return isNumber(props.step) ? props.step : 1
+})
+
 const precision = computed(() => {
-  const precisions = [props.min, props.max, props.step].map((item) => {
+  const stepValue = isNumber(props.step) ? props.step : 1
+  const precisions = [props.min, props.max, stepValue].map((item) => {
     const decimal = `${item}`.split('.')[1]
     return decimal ? decimal.length : 0
   })
@@ -234,11 +246,19 @@ const updateDragging = (val: boolean) => {
   initData.dragging = val
 }
 
+useEventListener(sliderWrapper, 'touchstart', onSliderWrapperPrevent, {
+  passive: false,
+})
+useEventListener(sliderWrapper, 'touchmove', onSliderWrapperPrevent, {
+  passive: false,
+})
+
 provide(sliderContextKey, {
   ...toRefs(props),
   sliderSize,
   disabled: sliderDisabled,
   precision,
+  markList,
   emitChange,
   resetSize,
   updateDragging,

@@ -6,12 +6,16 @@
   },
   {
     "text": "Component",
-    "link": "/component/button",
+    "link": "/component/overview",
     "activeMatch": "/component/"
   },
   {
     "text": "Resource",
     "link": "/resource/index",
     "activeMatch": "/resource/"
+  },
+  {
+    "text": "Playground",
+    "link": "https://element-plus.run"
   }
 ]

@@ -1,3 +1,4 @@
+import { renderSlot } from 'vue'
 import { get } from 'lodash-unified'
 import { isFunction, isObject } from '@element-plus/utils'
 import { ExpandIcon, TableCell } from '../components'
@@ -6,9 +7,8 @@ import { placeholderSign } from '../private'
 import { componentToSlot, enforceUnit, tryCall } from '../utils'
 
 import type { FunctionalComponent, UnwrapNestedRefs, VNode } from 'vue'
-import type { CellRendererParams } from '../types'
 import type { TableV2RowCellRenderParam } from '../components'
-import type { UseNamespaceReturn } from '@element-plus/hooks'
+import type { Translator, UseNamespaceReturn } from '@element-plus/hooks'
 import type { UseTableReturn } from '../use-table'
 import type { TableV2Props } from '../table'
 
@@ -19,6 +19,7 @@ type CellRendererProps = TableV2RowCellRenderParam &
   > &
   UnwrapNestedRefs<Pick<UseTableReturn, 'expandedRowKeys'>> & {
     ns: UseNamespaceReturn
+    t: Translator
   }
 
 const CellRenderer: FunctionalComponent<CellRendererProps> = (
@@ -36,6 +37,7 @@ const CellRenderer: FunctionalComponent<CellRendererProps> = (
     style,
     expandedRowKeys,
     ns,
+    t,
     // derived props
     cellProps: _cellProps,
     expandColumnKey,
@@ -51,13 +53,6 @@ const CellRenderer: FunctionalComponent<CellRendererProps> = (
     return <div class={ns.em('row-cell', 'placeholder')} style={cellStyle} />
   }
   const { cellRenderer, dataKey, dataGetter } = column
-
-  const columnCellRenderer = componentToSlot(cellRenderer)
-
-  const CellComponent =
-    columnCellRenderer ||
-    slots.default ||
-    ((props: CellRendererParams<any>) => <TableCell {...props} />)
 
   const cellData = isFunction(dataGetter)
     ? dataGetter({ columns, column, columnIndex, rowData, rowIndex })
@@ -82,8 +77,12 @@ const CellRenderer: FunctionalComponent<CellRendererProps> = (
     rowData,
     rowIndex,
   }
-
-  const Cell = CellComponent(cellProps)
+  const columnCellRenderer = componentToSlot<typeof cellProps>(cellRenderer)
+  const Cell = columnCellRenderer
+    ? columnCellRenderer(cellProps)
+    : renderSlot(slots, 'default', cellProps, () => [
+        <TableCell {...cellProps}></TableCell>,
+      ])
 
   const kls = [
     ns.e('row-cell'),
@@ -106,6 +105,9 @@ const CellRenderer: FunctionalComponent<CellRendererProps> = (
           class={[ns.e('expand-icon'), ns.is('expanded', expanded)]}
           size={iconSize}
           expanded={expanded}
+          ariaLabel={t(
+            expanded ? 'el.table.collapseRowLabel' : 'el.table.expandRowLabel'
+          )}
           style={iconStyle}
           expandable
         />

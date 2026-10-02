@@ -68,16 +68,19 @@
     </li>
   </ul>
 </template>
+
 <script lang="ts" setup>
-import { computed, ref, watchEffect } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { DArrowLeft, DArrowRight, MoreFilled } from '@element-plus/icons-vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
+import { CHANGE_EVENT } from '@element-plus/constants'
 import { paginationPagerProps } from './pager'
+
 defineOptions({
   name: 'ElPaginationPager',
 })
 const props = defineProps(paginationPagerProps)
-const emit = defineEmits(['change'])
+const emit = defineEmits([CHANGE_EVENT])
 const nsPager = useNamespace('pager')
 const nsIcon = useNamespace('icon')
 const { t } = useLocale()
@@ -140,19 +143,25 @@ const nextMoreKls = computed(() => [
 ])
 
 const tabindex = computed(() => (props.disabled ? -1 : 0))
-watchEffect(() => {
-  const halfPagerCount = (props.pagerCount - 1) / 2
-  showPrevMore.value = false
-  showNextMore.value = false
-  if (props.pageCount! > props.pagerCount) {
-    if (props.currentPage > props.pagerCount - halfPagerCount) {
-      showPrevMore.value = true
+watch(
+  () => [props.pageCount, props.pagerCount, props.currentPage],
+  ([pageCount, pagerCount, currentPage]) => {
+    const halfPagerCount = (pagerCount - 1) / 2
+    let showPrev = false
+    let showNext = false
+
+    if (pageCount > pagerCount) {
+      showPrev = currentPage > pagerCount - halfPagerCount
+      showNext = currentPage < pageCount - halfPagerCount
     }
-    if (props.currentPage < props.pageCount! - halfPagerCount) {
-      showNextMore.value = true
-    }
-  }
-})
+
+    quickPrevHover.value &&= showPrev
+    quickNextHover.value &&= showNext
+    showPrevMore.value = showPrev
+    showNextMore.value = showNext
+  },
+  { immediate: true }
+)
 function onMouseEnter(forward = false) {
   if (props.disabled) return
   if (forward) {
@@ -176,7 +185,7 @@ function onEnter(e: UIEvent) {
   ) {
     const newPage = Number(target.textContent)
     if (newPage !== props.currentPage) {
-      emit('change', newPage)
+      emit(CHANGE_EVENT, newPage)
     }
   } else if (
     target.tagName.toLowerCase() === 'li' &&
@@ -210,7 +219,7 @@ function onPagerClick(event: UIEvent) {
     }
   }
   if (newPage !== currentPage) {
-    emit('change', newPage)
+    emit(CHANGE_EVENT, newPage)
   }
 }
 </script>

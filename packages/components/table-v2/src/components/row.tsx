@@ -170,7 +170,7 @@ const TableV2Row = defineComponent({
           columns,
           columnIndex,
           depth,
-          style: columnsStyles[column.key],
+          style: columnsStyles[column.key!],
           rowData,
           rowIndex,
           isScrolling: unref(isScrolling),
@@ -251,4 +251,14 @@ export type TableV2RowCellRenderParam = {
     rowIndex: number
     onExpand: (expand: boolean) => void
   }
+}
+
+export type TableV2RowSlotProps = {
+  cells: VNode[]
+  columns: TableV2RowProps['columns']
+  depth: number
+  style: TableV2RowProps['style']
+  rowData: any
+  rowIndex: number
+  isScrolling: boolean
 }

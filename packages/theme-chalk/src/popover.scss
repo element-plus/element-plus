@@ -14,10 +14,9 @@
     z-index: getCssVar('index-popper');
     color: getCssVar('text-color', 'regular');
     line-height: 1.4;
-    text-align: justify;
     font-size: getCssVar('popover-font-size');
     box-shadow: getCssVar('box-shadow-light');
-    word-break: break-all;
+    overflow-wrap: break-word;
     box-sizing: border-box;
 
     @include m(plain) {

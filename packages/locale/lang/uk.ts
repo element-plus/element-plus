@@ -1,9 +1,23 @@
 export default {
   name: 'uk',
   el: {
+    breadcrumb: {
+      label: 'Навігаційний ланцюжок',
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Очистити',
+      defaultLabel: 'вибір кольору',
+      description:
+        'поточний колір {color}. натисніть enter, щоб обрати новий колір.',
+      alphaLabel: 'виберіть значення альфа-каналу',
+      alphaDescription: 'альфа-канал {alpha}, поточний колір {color}',
+      hueLabel: 'виберіть значення відтінку',
+      hueDescription: 'відтінок {hue}, поточний колір {color}',
+      svLabel: 'виберіть насиченість і яскравість',
+      svDescription:
+        'насиченість {saturation}, яскравість {brightness}, поточний колір {color}',
+      predefineDescription: 'обрати {value} як колір',
     },
     datepicker: {
       now: 'Зараз',
@@ -11,6 +25,12 @@ export default {
       cancel: 'Відміна',
       clear: 'Очистити',
       confirm: 'OK',
+      dateTablePrompt:
+        'Використовуйте стрілки та enter, щоб обрати день місяця',
+      monthTablePrompt: 'Використовуйте стрілки та enter, щоб обрати місяць',
+      quarterTablePrompt: 'Використовуйте стрілки та enter, щоб обрати квартал',
+      yearTablePrompt: 'Використовуйте стрілки та enter, щоб обрати рік',
+      selectedDate: 'Обрана дата',
       selectDate: 'Вибрати дату',
       selectTime: 'Вибрати час',
       startDate: 'Дата початку',
@@ -34,7 +54,6 @@ export default {
       month10: 'Жовтень',
       month11: 'Листопад',
       month12: 'Грудень',
-      week: 'тиждень',
       weeks: {
         sun: 'Нд',
         mon: 'Пн',
@@ -43,6 +62,15 @@ export default {
         thu: 'Чт',
         fri: 'Пт',
         sat: 'Сб',
+      },
+      weeksFull: {
+        sun: 'Неділя',
+        mon: 'Понеділок',
+        tue: 'Вівторок',
+        wed: 'Середа',
+        thu: 'Четвер',
+        fri: "П'ятниця",
+        sat: 'Субота',
       },
       months: {
         jan: 'Січ',
@@ -59,11 +87,24 @@ export default {
         dec: 'Гру',
       },
     },
+    input: {
+      characters: '{count} / {max} символів',
+    },
+    inputNumber: {
+      decrease: 'зменшити значення',
+      increase: 'збільшити значення',
+    },
     select: {
       loading: 'Завантаження',
       noMatch: 'Співпадінь не знайдено',
       noData: 'Немає даних',
       placeholder: 'Обрати',
+    },
+    mention: {
+      loading: 'Завантаження',
+    },
+    dropdown: {
+      toggleDropdown: 'Перемкнути список',
     },
     cascader: {
       noMatch: 'Співпадінь не знайдено',
@@ -76,18 +117,27 @@ export default {
       pagesize: 'на сторінці',
       total: 'Всього {total}',
       pageClassifier: '',
-      page: 'Page', // to be translated
-      prev: 'Go to previous page', // to be translated
-      next: 'Go to next page', // to be translated
-      currentPage: 'page {pager}', // to be translated
-      prevPages: 'Previous {pager} pages', // to be translated
-      nextPages: 'Next {pager} pages', // to be translated
+      page: 'Сторінка',
+      prev: 'Перейти на попередню сторінку',
+      next: 'Перейти на наступну сторінку',
+      currentPage: 'сторінка {pager}',
+      prevPages: 'Попередні {pager} стор.',
+      nextPages: 'Наступні {pager} стор.',
+      deprecationWarning:
+        'Виявлено застаріле використання, зверніться до документації el-pagination для деталей',
+    },
+    dialog: {
+      close: 'Закрити це вікно',
+    },
+    drawer: {
+      close: 'Закрити це вікно',
     },
     messagebox: {
       title: 'Повідомлення',
       confirm: 'OK',
       cancel: 'Відміна',
       error: 'Неприпустимий ввід даних',
+      close: 'Закрити це вікно',
     },
     upload: {
       deleteTip: 'натисніть кнопку щоб видалити',
@@ -95,33 +145,62 @@ export default {
       preview: 'Перегляд',
       continue: 'Продовжити',
     },
+    slider: {
+      defaultLabel: 'повзунок від {min} до {max}',
+      defaultRangeStartLabel: 'виберіть початкове значення',
+      defaultRangeEndLabel: 'виберіть кінцеве значення',
+    },
     table: {
       emptyText: 'Немає даних',
       confirmFilter: 'Підтвердити',
       resetFilter: 'Скинути',
       clearFilter: 'Все',
       sumText: 'Сума',
+      selectAllLabel: 'Вибрати всі рядки',
+      selectRowLabel: 'Вибрати цей рядок',
+      expandRowLabel: 'Розгорнути цей рядок',
+      collapseRowLabel: 'Згорнути цей рядок',
+      sortLabel: 'Сортувати за {column}',
+      filterLabel: 'Фільтрувати за {column}',
+    },
+    tag: {
+      close: 'Закрити цей тег',
+    },
+    tour: {
+      next: 'Далі',
+      previous: 'Назад',
+      finish: 'Завершити',
+      close: 'Закрити це вікно',
     },
     tree: {
       emptyText: 'Немає даних',
     },
     transfer: {
       noMatch: 'Співпадінь не знайдено',
-      noData: 'Обрати',
+      noData: 'Немає даних',
       titles: ['Список 1', 'Список 2'],
       filterPlaceholder: 'Введіть ключове слово',
       noCheckedFormat: '{total} пунктів',
       hasCheckedFormat: '{checked}/{total} вибрано',
     },
     image: {
-      error: 'FAILED', // to be translated
+      error: 'ПОМИЛКА',
     },
     pageHeader: {
-      title: 'Back', // to be translated
+      title: 'Назад',
     },
     popconfirm: {
-      confirmButtonText: 'Yes', // to be translated
-      cancelButtonText: 'No', // to be translated
+      confirmButtonText: 'Так',
+      cancelButtonText: 'Ні',
+    },
+    carousel: {
+      leftArrow: 'Стрілка каруселі вліво',
+      rightArrow: 'Стрілка каруселі вправо',
+      indicator: 'Перейти до слайда {index}',
+    },
+    inputOTP: {
+      groupLabel: 'Введення одноразового коду',
+      defaultLabel: 'Введіть символ {index} одноразового коду',
     },
   },
 }

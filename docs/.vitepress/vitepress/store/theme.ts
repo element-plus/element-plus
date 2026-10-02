@@ -1,7 +1,9 @@
 import { computed, watch } from 'vue'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { useStorage } from '@vueuse/core'
-import type { EpTheme } from '~/utils/theme'
+
+import type { EpTheme } from '../utils/theme'
+
 import { parseFromCss, themes } from '~/utils/theme'
 import { generateColorsFromBase, setCssVarValue } from '~/utils'
 import { isColor } from '~/utils/colors/helper'

@@ -37,33 +37,35 @@ affix/fixed
 
 :::
 
-## Affix API
+## API
 
-### Affix Attributes
+### Attributes
 
-| Name       | Description                      | Type                       | Default | Required |
-| ---------- | -------------------------------- | -------------------------- | ------- | -------- |
-| `offset`   | offset distance.                 | ^[number]                  | `0`     | No       |
-| `position` | position of affix.               | ^[enum]`'top' \| 'bottom'` | `'top'` | No       |
-| `target`   | target container. (CSS selector) | ^[string]                  | —       | No       |
-| `z-index`  | `z-index` of affix               | ^[number]                  | `100`   | No       |
+| Name                 | Description                                                                                    | Type                            | Default |
+| -------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------- | ------- |
+| offset               | offset distance                                                                                | ^[number]                       | 0       |
+| position             | position of affix                                                                              | ^[enum]`'top' \| 'bottom'`      | top     |
+| target               | target container (CSS selector)                                                                | ^[string]                       | —       |
+| z-index              | `z-index` of affix                                                                             | ^[number]                       | 100     |
+| teleported ^(2.13.0) | whether affix element is teleported, if `true` it will be teleported to where `append-to` sets | ^[boolean]                      | false   |
+| append-to ^(2.13.0)  | which element the affix element appends to                                                     | ^[CSSSelector] / ^[HTMLElement] | body    |
 
-### Affix Events
+### Events
 
-| Name     | Description                        | Type                                                                |
-| -------- | ---------------------------------- | ------------------------------------------------------------------- |
-| `change` | triggers when fixed state changed. | ^[Function]`(fixed: boolean) => void`                               |
-| `scroll` | triggers when scrolling.           | ^[Function]`(value: { scrollTop: number, fixed: boolean }) => void` |
+| Name   | Description                       | Type                                                                |
+| ------ | --------------------------------- | ------------------------------------------------------------------- |
+| change | triggers when fixed state changed | ^[Function]`(fixed: boolean) => void`                               |
+| scroll | triggers when scrolling           | ^[Function]`(value: { scrollTop: number, fixed: boolean }) => void` |
 
-### Affix Exposes
+### Slots
 
-| Method       | Description                 | Type                    |
-| ------------ | --------------------------- | ----------------------- |
-| `update`     | update affix state manually | ^[Function]`() => void` |
-| `updateRoot` | update rootRect info        | ^[Function]`() => void` |
+| Name    | Description               |
+| ------- | ------------------------- |
+| default | customize default content |
 
-### Affix Slots
+### Exposes
 
-| Name      | Description                |
-| --------- | -------------------------- |
-| `default` | customize default content. |
+| Name       | Description                 | Type                    |
+| ---------- | --------------------------- | ----------------------- |
+| update     | update affix state manually | ^[Function]`() => void` |
+| updateRoot | update rootRect info        | ^[Function]`() => void` |

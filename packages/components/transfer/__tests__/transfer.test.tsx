@@ -2,12 +2,13 @@ import { nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import Transfer from '../src/transfer.vue'
+
 import type { TransferDataItem, renderContent } from '../src/transfer'
 
 describe('Transfer', () => {
-  const getTestData = () => {
+  const getTestData = (size = 15) => {
     const data = []
-    for (let i = 1; i <= 15; i++) {
+    for (let i = 1; i <= size; i++) {
       data.push({
         key: i,
         label: `备选项 ${i}`,
@@ -96,7 +97,7 @@ describe('Transfer', () => {
     expect(
       wrapper.find('.el-transfer-panel__list .el-checkbox__label span').text()
     ).toBe('1 - 备选项 1')
-    expect(label.find('span').text()).toBe('no')
+    expect(label.find('.el-transfer-panel__header-count').text()).toBe('no')
   })
 
   it('check', () => {
@@ -212,6 +213,243 @@ describe('Transfer', () => {
       app.clearQuery('right')
       await nextTick()
       expect(app.rightPanel.query).toBeFalsy()
+    })
+  })
+
+  describe('render default slot', () => {
+    it('single comment node', () => {
+      const wrapper = mount(Transfer, {
+        props: {
+          data: getTestData(),
+        },
+        slots: {
+          default: '<!--  -->',
+        },
+      })
+
+      const leftPanel = wrapper.find('.el-transfer-panel')
+      const labels = leftPanel.findAll(
+        '.el-transfer-panel__body .el-checkbox__label'
+      )
+
+      expect(labels.map((l) => l.text())).toMatchInlineSnapshot(`
+        [
+          "备选项 1",
+          "备选项 2",
+          "备选项 3",
+          "备选项 4",
+          "备选项 5",
+          "备选项 6",
+          "备选项 7",
+          "备选项 8",
+          "备选项 9",
+          "备选项 10",
+          "备选项 11",
+          "备选项 12",
+          "备选项 13",
+          "备选项 14",
+          "备选项 15",
+        ]
+      `)
+    })
+
+    it('multiple comment nodes', () => {
+      const wrapper = mount(Transfer, {
+        props: {
+          data: getTestData(),
+        },
+        slots: {
+          default: `
+<!--  -->
+<!--  -->
+`,
+        },
+      })
+
+      const leftPanel = wrapper.find('.el-transfer-panel')
+      const labels = leftPanel.findAll(
+        '.el-transfer-panel__body .el-checkbox__label'
+      )
+
+      expect(labels.map((l) => l.text())).toMatchInlineSnapshot(`
+        [
+          "备选项 1",
+          "备选项 2",
+          "备选项 3",
+          "备选项 4",
+          "备选项 5",
+          "备选项 6",
+          "备选项 7",
+          "备选项 8",
+          "备选项 9",
+          "备选项 10",
+          "备选项 11",
+          "备选项 12",
+          "备选项 13",
+          "备选项 14",
+          "备选项 15",
+        ]
+      `)
+    })
+
+    it('contents with multiple comment nodes', () => {
+      const wrapper = mount(Transfer, {
+        props: {
+          data: getTestData(),
+        },
+        slots: {
+          default: `
+<!--  -->
+1
+<!--  -->
+2
+`,
+        },
+      })
+
+      const leftPanel = wrapper.find('.el-transfer-panel')
+      const labels = leftPanel.findAll(
+        '.el-transfer-panel__body .el-checkbox__label'
+      )
+
+      expect(labels.map((l) => l.text())).toMatchInlineSnapshot(`
+        [
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+          "1  2",
+        ]
+      `)
+    })
+  })
+
+  describe('empty slots', () => {
+    it('render left-empty and right-empty slots', () => {
+      const wrapper = mount(() => (
+        <Transfer
+          data={[]}
+          v-slots={{
+            'left-empty': () => <span>No data</span>,
+            'right-empty': () => <span>No data</span>,
+          }}
+        />
+      ))
+
+      const panels = wrapper.findAll('.el-transfer-panel__empty')
+      expect(panels).toHaveLength(2)
+      expect(panels[0].text()).toBe('No data')
+      expect(panels[1].text()).toBe('No data')
+    })
+
+    it('render default empty content when slots not provided', () => {
+      const wrapper = mount(() => <Transfer data={[]} />)
+
+      const panels = wrapper.findAll('.el-transfer-panel__empty')
+      expect(panels).toHaveLength(2)
+      expect(panels[0].text()).toBe('No data')
+      expect(panels[1].text()).toBe('No data')
+    })
+
+    it('show no match content when filtering', async () => {
+      const wrapper = mount(() => (
+        <Transfer
+          data={getTestData()}
+          filterable={true}
+          v-slots={{
+            'left-empty': () => <span>No data</span>,
+          }}
+        />
+      ))
+
+      const leftPanel: any = wrapper.findComponent({ name: 'ElTransferPanel' })
+      leftPanel.vm.query = 'non-existing-data'
+      await nextTick()
+
+      const emptyContent = wrapper.find('.el-transfer-panel__empty')
+      expect(emptyContent.exists()).toBe(true)
+      expect(emptyContent.text()).toBe('No data')
+    })
+  })
+
+  describe('virtual scroll', () => {
+    it('create with item-size', () => {
+      const wrapper = mount(() => (
+        <Transfer virtualScroll itemSize={50} data={getTestData(2000)} />
+      ))
+      expect(wrapper.findComponent({ name: 'ElTransfer' })).toBeTruthy()
+    })
+
+    it('check', () => {
+      const value = ref([])
+      const wrapper = mount(() => (
+        <Transfer
+          virtualScroll
+          v-model={value.value}
+          data={getTestData(2000)}
+        />
+      ))
+
+      const leftList: any = wrapper.findComponent({ name: 'ElTransferPanel' })
+      leftList.vm.handleAllCheckedChange({ target: { checked: true } })
+      expect(leftList.vm.checked.length).toBe(1500)
+    })
+
+    it('transfer', async () => {
+      const value = ref([1, 4])
+      const wrapper = mount(() => (
+        <Transfer
+          v-model={value.value}
+          virtualScroll
+          leftDefaultChecked={[2, 3]}
+          rightDefaultChecked={[1]}
+          data={getTestData(2000)}
+        />
+      ))
+
+      const ElTransfer: any = wrapper.findComponent({ name: 'ElTransfer' })
+
+      ElTransfer.vm.addToLeft()
+      await nextTick()
+      expect(ElTransfer.vm.sourceData.length).toBe(1999)
+      ElTransfer.vm.addToRight()
+      await nextTick()
+      expect(ElTransfer.vm.sourceData.length).toBe(1997)
+    })
+
+    it('reset scroll offset after filtering', async () => {
+      const value = ref([])
+
+      const wrapper = mount(() => (
+        <Transfer
+          v-model={value.value}
+          virtualScroll
+          filterable
+          data={getTestData(2000)}
+        />
+      ))
+
+      const leftPanel: any = wrapper.findComponent({ name: 'ElTransferPanel' })
+      const leftVirtualList = leftPanel.findComponent({
+        name: 'ElFixedSizeList',
+      })
+      leftVirtualList.vm.scrollToItem(1900)
+      await nextTick()
+      expect(leftVirtualList.vm.states.scrollOffset).toBeGreaterThan(0)
+      leftPanel.vm.query = '10'
+      await leftPanel.find('input').setValue('10')
+      await nextTick()
+      expect(leftVirtualList.vm.states.scrollOffset).toBe(0)
     })
   })
 })

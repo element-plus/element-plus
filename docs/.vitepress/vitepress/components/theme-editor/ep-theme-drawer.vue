@@ -7,7 +7,6 @@ import { downloadTheme } from '~/utils/theme'
 
 // const drawer = ref(import.meta.env.DEV)
 const drawerOpen = ref(false)
-const direction = ref('rtl')
 
 const tStore = useThemeStore()
 const { t } = useI18n()
@@ -19,7 +18,7 @@ const { t } = useI18n()
       v-model="drawerOpen"
       :size="'350px'"
       :lock-scroll="false"
-      :direction="direction"
+      direction="rtl"
     >
       <template #header>
         <span class="flex-1" text="sm">Theme Editor</span>
@@ -39,7 +38,7 @@ const { t } = useI18n()
           <el-button
             class="inline-flex flex-1"
             m="l-2"
-            @click="downloadTheme('el-custom-theme.css', tStore.theme)"
+            @click="downloadTheme('el-custom-theme.css', tStore.fullTheme)"
           >
             <i-ep-download />
             导出

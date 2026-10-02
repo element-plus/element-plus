@@ -15,6 +15,18 @@
     "url": "https://github.com/element-plus/element-plus/issues"
   },
   "license": "MIT",
+  "files": [
+    "dist",
+    "es",
+    "lib",
+    "theme-chalk",
+    "global.d.ts",
+    "attributes.json",
+    "tags.json",
+    "web-types.json",
+    "LICENSE",
+    "README.md"
+  ],
   "main": "lib/index.js",
   "module": "es/index.mjs",
   "types": "es/index.d.ts",
@@ -23,6 +35,9 @@
       "types": "./es/index.d.ts",
       "import": "./es/index.mjs",
       "require": "./lib/index.js"
+    },
+    "./global": {
+      "types": "./global.d.ts"
     },
     "./es": {
       "types": "./es/index.d.ts",
@@ -74,30 +89,29 @@
     "lib/components/*/style/*"
   ],
   "peerDependencies": {
-    "vue": "^3.2.0"
+    "vue": "^3.3.7"
   },
   "dependencies": {
-    "@ctrl/tinycolor": "^3.4.1",
-    "@element-plus/icons-vue": "^2.0.6",
-    "@floating-ui/dom": "^1.0.1",
-    "@popperjs/core": "npm:@sxzz/popperjs-es@^2.11.7",
-    "@types/lodash": "^4.14.182",
-    "@types/lodash-es": "^4.17.6",
-    "@vueuse/core": "^9.1.0",
+    "@ctrl/tinycolor": "catalog:",
+    "@element-plus/icons-vue": "^2.3.2",
+    "@floating-ui/dom": "catalog:",
+    "@popperjs/core": "catalog:",
+    "@types/lodash": "^4.17.24",
+    "@types/lodash-es": "^4.17.12",
+    "@vueuse/core": "catalog:",
     "async-validator": "^4.2.5",
-    "dayjs": "^1.11.3",
-    "escape-html": "^1.0.3",
-    "lodash": "^4.17.21",
-    "lodash-es": "^4.17.21",
-    "lodash-unified": "^1.0.2",
+    "dayjs": "^1.11.20",
+    "lodash": "^4.18.1",
+    "lodash-es": "^4.18.1",
+    "lodash-unified": "^1.0.3",
     "memoize-one": "^6.0.0",
-    "normalize-wheel-es": "^1.2.0"
+    "normalize-wheel-es": "^1.2.0",
+    "vue-component-type-helpers": "catalog:"
   },
   "devDependencies": {
     "@types/node": "*",
-    "csstype": "^2.6.20",
-    "vue": "^3.2.37",
-    "vue-router": "^4.0.16"
+    "vue": "catalog:",
+    "vue-router": "^5.3.1"
   },
   "vetur": {
     "tags": "tags.json",

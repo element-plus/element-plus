@@ -1,37 +1,40 @@
 <template>
   <p>Basic text button</p>
-  <div class="flex justify-space-between mb-4 flex-wrap gap-4">
+  <div class="mb-4">
     <el-button
       v-for="button in buttons"
       :key="button.text"
       :type="button.type"
       text
-      >{{ button.text }}</el-button
     >
+      {{ button.text }}
+    </el-button>
   </div>
 
   <p>Background color always on</p>
-  <div class="flex justify-space-between mb-4 flex-wrap gap-4">
+  <div class="mb-4">
     <el-button
       v-for="button in buttons"
       :key="button.text"
       :type="button.type"
       text
       bg
-      >{{ button.text }}</el-button
     >
+      {{ button.text }}
+    </el-button>
   </div>
 
   <p>Disabled text button</p>
-  <div class="flex justify-space-between flex-wrap gap-4">
+  <div>
     <el-button
       v-for="button in buttons"
       :key="button.text"
       :type="button.type"
       text
       disabled
-      >{{ button.text }}</el-button
     >
+      {{ button.text }}
+    </el-button>
   </div>
 </template>
 

@@ -1,9 +1,36 @@
 import { buildProps } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
+
+import type { ExtractPublicPropTypes } from 'vue'
+import type { ComponentSize } from '@element-plus/constants'
 import type Text from './text.vue'
 
-import type { ExtractPropTypes } from 'vue'
+export interface TextProps {
+  /**
+   * @description text type
+   */
+  type?: 'primary' | 'success' | 'info' | 'warning' | 'danger' | ''
+  /**
+   * @description text size
+   */
+  size?: ComponentSize
+  /**
+   * @description render ellipsis
+   */
+  truncated?: boolean
+  /**
+   * @description maximum lines
+   */
+  lineClamp?: number | string
+  /**
+   * @description custom element tag
+   */
+  tag?: string
+}
 
+/**
+ * @deprecated Removed after 3.0.0, Use `TextProps` instead.
+ */
 export const textProps = buildProps({
   /**
    * @description text type
@@ -24,8 +51,12 @@ export const textProps = buildProps({
   /**
    * @description render ellipsis
    */
-  truncated: {
-    type: Boolean,
+  truncated: Boolean,
+  /**
+   * @description maximum lines
+   */
+  lineClamp: {
+    type: [String, Number],
   },
   /**
    * @description custom element tag
@@ -35,5 +66,10 @@ export const textProps = buildProps({
     default: 'span',
   },
 } as const)
-export type TextProps = ExtractPropTypes<typeof textProps>
-export type TextInstance = InstanceType<typeof Text>
+
+/**
+ * @deprecated Removed after 3.0.0, Use `TextProps` instead.
+ */
+export type TextPropsPublic = ExtractPublicPropTypes<typeof textProps>
+
+export type TextInstance = InstanceType<typeof Text> & unknown

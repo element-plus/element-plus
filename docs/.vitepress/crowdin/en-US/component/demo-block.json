@@ -8,5 +8,9 @@
   "switch-button-option-text": "Switch to Options API",
   "switch-button-setup-text": "Switch to Composition API",
   "copy-success": "Copied!",
-  "copy-error": "This browser does not support automatic copy！"
+  "copy-error": "This browser does not support automatic copy！",
+  "fold-code-region": "Fold code region",
+  "unfold-code-region": "Unfold code region",
+  "folded-line": "{lines} line",
+  "folded-lines": "{lines} lines"
 }

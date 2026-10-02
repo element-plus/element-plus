@@ -18,7 +18,7 @@ transitions/fade
 
 ## Zoom
 
-:::demo `el-zoom-in-center`, `el-zoom-in-top` and `el-zoom-in-bottom` are provided.
+:::demo `el-zoom-in-left`, `el-zoom-in-center`, `el-zoom-in-top` and `el-zoom-in-bottom` are provided.
 
 transitions/zoom
 
@@ -36,11 +36,11 @@ transitions/collapse
 
 ## On-demand import
 
-```ts
+```ts [main.ts]
 // collapse
 import { ElCollapseTransition } from 'element-plus'
 // fade/zoom
-import 'element-plus/lib/theme-chalk/base.css'
+import 'element-plus/theme-chalk/base.css'
 import App from './App.vue'
 
 const app = createApp(App)

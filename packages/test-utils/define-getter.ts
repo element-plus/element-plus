@@ -1,4 +1,4 @@
-import { isFunction, isUndefined } from 'lodash'
+import { isFunction, isUndefined } from 'lodash-unified'
 
 /**
  *

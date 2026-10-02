@@ -18,7 +18,7 @@ const TableV2HeaderRow = defineComponent({
           column,
           columnIndex,
           headerIndex,
-          style: columnsStyles[column.key],
+          style: columnsStyles[column.key!],
         })
       })
 

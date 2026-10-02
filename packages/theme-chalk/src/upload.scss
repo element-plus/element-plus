@@ -28,6 +28,34 @@
 
   cursor: pointer;
   outline: none;
+
+  @include when(disabled) {
+    cursor: not-allowed;
+    &:focus {
+      border-color: getCssVar('border-color', 'darker');
+      color: inherit;
+      .#{$namespace}-upload-dragger {
+        border-color: getCssVar('border-color', 'darker');
+      }
+    }
+    .#{$namespace}-upload-dragger {
+      cursor: not-allowed;
+      background-color: getCssVar('disabled-bg-color');
+
+      .#{bem('upload', 'text')} {
+        color: getCssVar('text-color-placeholder');
+
+        em {
+          color: getCssVar('disabled-text-color');
+        }
+      }
+
+      &:hover {
+        border-color: getCssVar('border-color', 'darker');
+      }
+    }
+  }
+
   @include e(input) {
     display: none;
   }
@@ -49,8 +77,6 @@
 
   /* Picture Card for Wall */
   @include m(picture-card) {
-    @include set-css-var-value(('upload', 'picture-card', 'size'), 148px);
-
     background-color: getCssVar('fill-color', 'lighter');
     border: 1px dashed getCssVar('border-color', 'darker');
     border-radius: 6px;
@@ -62,7 +88,7 @@
 
     @include utils-inline-flex-center;
 
-    i {
+    > i {
       font-size: 28px;
       color: getCssVar('text-color', 'secondary');
     }
@@ -88,8 +114,8 @@
 }
 
 @include b(upload-dragger) {
-  padding: getCssVar('upload-dragger-padding-horizontal')
-    getCssVar('upload-dragger-padding-vertical');
+  padding: getCssVar('upload-dragger-padding-vertical')
+    getCssVar('upload-dragger-padding-horizontal');
   background-color: getCssVar('fill-color', 'blank');
   border: 1px dashed getCssVar('border-color');
   border-radius: 6px;
@@ -132,11 +158,15 @@
   }
 
   @include when(dragover) {
-    padding: calc(#{getCssVar('upload-dragger-padding-horizontal')} - 1px)
-      calc(#{getCssVar('upload-dragger-padding-vertical')} - 1px);
+    padding: calc(#{getCssVar('upload-dragger-padding-vertical')} - 1px)
+      calc(#{getCssVar('upload-dragger-padding-horizontal')} - 1px);
     background-color: getCssVar('color', 'primary', 'light-9');
     border: 2px dashed getCssVar('color-primary');
   }
+}
+
+@include b(upload-list) {
+  @include set-component-css-var('upload', $upload);
 }
 
 @include b(upload-list) {
@@ -144,6 +174,7 @@
   padding: 0;
   list-style: none;
   position: relative;
+
   @include e(item) {
     transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
     font-size: 14px;
@@ -204,11 +235,16 @@
       font-style: normal;
     }
 
-    &:hover {
+    &:hover,
+    &:focus-within {
       background-color: getCssVar('fill-color', 'light');
 
       .#{bem('icon', '', 'close')} {
         display: inline-flex;
+      }
+
+      .#{bem('icon', '', 'close-tip')} {
+        right: 24px;
       }
 
       .#{bem('progress', 'text')} {
@@ -246,13 +282,15 @@
       &:active {
         /* click时 */
         outline-width: 0;
+
         .#{bem('icon', '', 'close-tip')} {
           display: none;
         }
       }
 
       &:hover,
-      &:focus {
+      &:focus,
+      &:focus-within {
         .#{bem('upload-list', 'item-status-label')} {
           display: none;
           opacity: 0;
@@ -313,8 +351,6 @@
 
   // upload-list
   @include m(picture-card) {
-    @include set-css-var-value(('upload-list', 'picture-card', 'size'), 148px);
-
     display: inline-flex;
     flex-wrap: wrap;
     margin: 0;
@@ -340,6 +376,7 @@
       .#{bem('icon', '', 'close')} {
         display: none;
       }
+
       &:hover {
         .#{bem('upload-list', 'item-status-label')} {
           opacity: 0;
@@ -393,7 +430,7 @@
       }
 
       span + span {
-        margin-left: 1rem;
+        margin-left: 16px;
       }
 
       .#{bem('upload-list', 'item-delete')} {
@@ -404,6 +441,7 @@
 
       &:hover {
         opacity: 1;
+
         span {
           display: inline-flex;
         }

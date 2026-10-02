@@ -1,67 +1,86 @@
 import { buildProps, isBoolean } from '@element-plus/utils'
 import {
-  useTooltipContentProps,
-  useTooltipTriggerProps,
+  useTooltipContentPropsDefaults,
+  useTooltipProps,
+  useTooltipTriggerPropsDefaults,
 } from '@element-plus/components/tooltip'
 import { dropdownProps } from '@element-plus/components/dropdown'
-import type { ExtractPropTypes, PropType } from 'vue'
+import { popperArrowPropsDefaults } from '@element-plus/components/popper'
+import { omit } from 'lodash-unified'
+
+import type { UseTooltipProps } from '@element-plus/components/tooltip'
+import type { ExtractPublicPropTypes } from 'vue'
 import type Popover from './popover.vue'
 
+export interface PopoverProps extends Omit<
+  UseTooltipProps,
+  'ariaLabel' | 'gpuAcceleration' | 'rawContent'
+> {
+  /**
+   * @description [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) of Popover
+   */
+  tabindex?: string | number
+  /**
+   * @description popover title
+   */
+  title?: string
+  /**
+   * @description popover width
+   */
+  width?: string | number
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `PopoverProps` instead.
+ */
 export const popoverProps = buildProps({
-  trigger: useTooltipTriggerProps.trigger,
+  ...omit(useTooltipProps, ['ariaLabel', 'gpuAcceleration', 'rawContent']),
+  /**
+   * @description popover placement
+   */
   placement: dropdownProps.placement,
-  disabled: useTooltipTriggerProps.disabled,
-  visible: useTooltipContentProps.visible,
-  transition: useTooltipContentProps.transition,
-  popperOptions: dropdownProps.popperOptions,
+  /**
+   * @description [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) of Popover
+   */
   tabindex: dropdownProps.tabindex,
-  content: useTooltipContentProps.content,
-  popperStyle: useTooltipContentProps.popperStyle,
-  popperClass: useTooltipContentProps.popperClass,
-  enterable: {
-    ...useTooltipContentProps.enterable,
-    default: true,
-  },
+  /**
+   * @description Tooltip theme, built-in theme: `dark` / `light`
+   */
   effect: {
-    ...useTooltipContentProps.effect,
+    ...useTooltipProps.effect,
     default: 'light',
   },
-  teleported: useTooltipContentProps.teleported,
+  /**
+   * @description popover title
+   */
   title: String,
-
+  /**
+   * @description popover width
+   */
   width: {
     type: [String, Number],
     default: 150,
   },
+  /**
+   * @description popover offset
+   */
   offset: {
-    type: Number,
+    ...useTooltipProps.offset,
     default: undefined,
   },
-  showAfter: {
-    type: Number,
-    default: 0,
-  },
-  hideAfter: {
-    type: Number,
-    default: 200,
-  },
-  autoClose: {
-    type: Number,
-    default: 0,
-  },
-  showArrow: {
-    type: Boolean,
-    default: true,
-  },
+  /**
+   * @description when popover inactive and `persistent` is `false` , popover will be destroyed
+   */
   persistent: {
-    type: Boolean,
+    ...useTooltipProps.persistent,
     default: true,
-  },
-  'onUpdate:visible': {
-    type: Function as PropType<(visible: boolean) => void>,
   },
 } as const)
-export type PopoverProps = ExtractPropTypes<typeof popoverProps>
+
+/**
+ * @deprecated Removed after 3.0.0, Use `PopoverProps` instead.
+ */
+export type PopoverPropsPublic = ExtractPublicPropTypes<typeof popoverProps>
 
 export const popoverEmits = {
   'update:visible': (value: boolean) => isBoolean(value),
@@ -72,4 +91,20 @@ export const popoverEmits = {
 }
 export type PopoverEmits = typeof popoverEmits
 
-export type PopoverInstance = InstanceType<typeof Popover>
+export type PopoverInstance = InstanceType<typeof Popover> & unknown
+
+/**
+ * @description default values for PopoverProps
+ */
+export const popoverPropsDefaults = {
+  ...omit(useTooltipContentPropsDefaults, ['gpuAcceleration']),
+  ...useTooltipTriggerPropsDefaults,
+  ...popperArrowPropsDefaults,
+  title: undefined,
+  tabindex: 0,
+  effect: 'light',
+  width: 150,
+  offset: undefined,
+  showArrow: true,
+  persistent: true,
+} as const

@@ -18,6 +18,7 @@
 <script lang="ts" setup>
 import { Calendar } from '@element-plus/icons-vue'
 </script>
+
 <style>
 .demo-tabs > .el-tabs__content {
   padding: 32px;

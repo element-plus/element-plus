@@ -1,7 +1,7 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import { column } from './common'
 
-import type { ExtractPropTypes, StyleValue } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes, StyleValue } from 'vue'
 
 export const tableV2CellProps = buildProps({
   class: String,
@@ -11,7 +11,8 @@ export const tableV2CellProps = buildProps({
   column,
   columnIndex: Number,
   style: {
-    type: definePropType<StyleValue>([String, Array, Object]),
+    type: definePropType<StyleValue>([String, Array, Object, Boolean]),
+    default: undefined,
   },
   rowData: {
     type: definePropType<any>(Object),
@@ -20,3 +21,6 @@ export const tableV2CellProps = buildProps({
 } as const)
 
 export type TableV2CellProps = ExtractPropTypes<typeof tableV2CellProps>
+export type TableV2CellPropsPublic = ExtractPublicPropTypes<
+  typeof tableV2CellProps
+>

@@ -83,20 +83,23 @@
 }
 
 .collapse-transition {
-  transition: getCssVar('transition-duration') height ease-in-out,
+  transition:
+    getCssVar('transition-duration') height ease-in-out,
     getCssVar('transition-duration') padding-top ease-in-out,
     getCssVar('transition-duration') padding-bottom ease-in-out;
 }
 
 .#{$namespace}-collapse-transition-leave-active,
 .#{$namespace}-collapse-transition-enter-active {
-  transition: getCssVar('transition-duration') max-height ease-in-out,
+  transition:
+    getCssVar('transition-duration') max-height ease-in-out,
     getCssVar('transition-duration') padding-top ease-in-out,
     getCssVar('transition-duration') padding-bottom ease-in-out;
 }
 
 .horizontal-collapse-transition {
-  transition: getCssVar('transition-duration') width ease-in-out,
+  transition:
+    getCssVar('transition-duration') width ease-in-out,
     getCssVar('transition-duration') padding-left ease-in-out,
     getCssVar('transition-duration') padding-right ease-in-out;
 }

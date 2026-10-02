@@ -2,7 +2,9 @@
 import { computed } from 'vue'
 import { useClipboard } from '@vueuse/core'
 import { ElMessage } from 'element-plus'
+
 import type { CSSProperties } from 'vue'
+
 import { getColorValue } from '~/utils'
 
 // import type { HSV } from '@ctrl/tinycolor'

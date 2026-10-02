@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { useThemeStore } from '~/store/theme'
+
 const tStore = useThemeStore()
 const themeFile = ref<HTMLInputElement>()
 

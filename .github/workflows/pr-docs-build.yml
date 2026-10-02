@@ -2,6 +2,9 @@ name: PR Docs Build
 
 on: pull_request
 
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
   cancel-in-progress: true
@@ -13,13 +16,11 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16, 18]
+        node-version: [24]
         os: [ubuntu-latest, windows-latest]
         include:
-          - node-version: 16
+          - node-version: 24
             node-name: LTS
-          - node-version: 18
-            node-name: Current
 
       fail-fast: false
 
@@ -28,29 +29,18 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
 
       - name: Setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: ${{ matrix.node-version }}
-
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        run: |
-          echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
-          echo "pnpm_cache_dir=$(pnpm store path)" >> $env:GITHUB_OUTPUT
-
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
-        with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
@@ -63,7 +53,10 @@ jobs:
         env:
           FORCE_COLOR: 2
           NODE_OPTIONS: --max-old-space-size=4096
-
+      - name: Build Metadata
+        run: cd internal/metadata && pnpm build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Build website
         run: pnpm docs:build
         env:
@@ -72,12 +65,12 @@ jobs:
 
       - name: Move bundle to docs dist
         if: matrix.os == 'ubuntu-latest'
-        run: mkdir docs/.vitepress/dist/bundle && mv dist/element-plus/dist/*.* docs/.vitepress/dist/bundle
+        run: mkdir docs/.vitepress/dist/bundle && mv dist/element-plus/* docs/.vitepress/dist/bundle
 
       # share website dist
       - name: Upload artifact
         if: matrix.os == 'ubuntu-latest'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: docs
           path: docs/.vitepress/dist/
@@ -91,7 +84,7 @@ jobs:
       # share pr number
       - name: Upload pr number
         if: matrix.os == 'ubuntu-latest'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: pr
           path: ./pr.txt

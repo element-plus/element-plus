@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import axios from 'axios'
 import VPLink from '../common/vp-link.vue'
 import VPMarkdown from '../common/vp-markdown.vue'
 import { useLang } from '../../composables/lang'
@@ -25,11 +24,17 @@ const onVersionChange = (val) => {
 
 onMounted(async () => {
   try {
-    const { data } = await axios.get<Release[]>(
+    const response = await fetch(
       'https://api.github.com/repos/element-plus/element-plus/releases'
     )
-    releases.value = data
-    currentRelease.value = data[0]
+    const data: Release[] = await response.json()
+    if (response.ok) {
+      releases.value = data
+      currentRelease.value = data[0]
+    } else {
+      releases.value = []
+      currentRelease.value = undefined
+    }
   } catch {
     releases.value = []
     currentRelease.value = undefined
@@ -49,7 +54,7 @@ onMounted(async () => {
           <ElSelect
             :model-value="currentRelease.name"
             :placeholder="changelog['select-version']"
-            style="min-width: 200px"
+            style="width: 200px"
             @change="onVersionChange"
           >
             <ElOption

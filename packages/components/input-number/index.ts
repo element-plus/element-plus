@@ -1,7 +1,10 @@
 import { withInstall } from '@element-plus/utils'
 import InputNumber from './src/input-number.vue'
 
-export const ElInputNumber = withInstall(InputNumber)
+import type { SFCWithInstall } from '@element-plus/utils'
+
+export const ElInputNumber: SFCWithInstall<typeof InputNumber> =
+  withInstall(InputNumber)
 
 export default ElInputNumber
 export * from './src/input-number'

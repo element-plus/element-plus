@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { computed, unref } from 'vue'
 import { isObject } from '@element-plus/utils'
 import { SortOrder, oppositeOrderMap } from '../constants'
@@ -14,8 +13,15 @@ function useColumns(
   columns: Ref<AnyColumns>,
   fixed: Ref<boolean>
 ) {
+  const _columns = computed(() =>
+    unref(columns).map((column, index) => ({
+      ...column,
+      key: column.key ?? column.dataKey ?? index,
+    }))
+  )
+
   const visibleColumns = computed(() => {
-    return unref(columns).filter((column) => !column.hidden)
+    return unref(_columns).filter((column) => !column.hidden)
   })
 
   const fixedColumnsOnLeft = computed(() =>
@@ -61,9 +67,7 @@ function useColumns(
   })
 
   const columnsStyles = computed(() => {
-    const _columns = unref(columns)
-
-    return _columns.reduce<Record<Column<any>['key'], CSSProperties>>(
+    return unref(_columns).reduce<Record<KeyType, CSSProperties>>(
       (style, column) => {
         style[column.key] = calcColumnStyle(column, unref(fixed), props.fixed)
         return style
@@ -80,7 +84,7 @@ function useColumns(
   })
 
   const getColumn = (key: KeyType) => {
-    return unref(columns).find((column) => column.key === key)
+    return unref(_columns).find((column) => column.key === key)
   }
 
   const getColumnStyle = (key: KeyType) => {
@@ -108,7 +112,7 @@ function useColumns(
   }
 
   return {
-    columns,
+    columns: _columns,
     columnsStyles,
     columnsTotalWidth,
     fixedColumnsOnLeft,

@@ -1,76 +1,86 @@
 <script lang="ts" setup>
-import { useI18n } from 'vue-i18n'
+import { computed } from 'vue'
+import { useLang } from '../../composables/lang'
+import homeLocale from '../../../i18n/pages/home.json'
 
 defineProps<{
   isHome?: boolean
 }>()
 
-const { t } = useI18n()
+const lang = useLang()
+const homeLang = computed(() => homeLocale[lang.value])
 </script>
 
 <template>
   <footer class="footer" :class="{ 'is-home': isHome }">
     <div class="footer-main">
-      <h4>{{ t('home.links') }}</h4>
+      <h4>{{ homeLang['10'] }}</h4>
       <a
-        href="https://github.com/element-plus/element-plus"
+        href="https://cn.element-plus.org/zh-CN/"
         class="footer-main-link"
         target="_blank"
       >
-        GitHub
-      </a>
-      <a
-        href="https://element-plus.gitee.io/zh-CN/"
-        class="footer-main-link"
-        target="_blank"
-      >
-        {{ t('home.china_mirror') }}
+        {{ homeLang['china_mirror'] }}
       </a>
       <a
         href="https://github.com/element-plus/element-plus/releases"
         class="footer-main-link"
         target="_blank"
       >
-        {{ t('home.changelog') }}
+        {{ homeLang['12'] }}
       </a>
       <a
         href="https://element.eleme.io/"
         class="footer-main-link"
         target="_blank"
       >
-        {{ t['home.element_ui'] }}
+        {{ homeLang['13'] }}
+      </a>
+      <a
+        href="https://element-plus.org/sitemap.xml"
+        class="footer-main-link"
+        target="_blank"
+      >
+        {{ homeLang['site_map'] }}
       </a>
     </div>
 
     <div class="footer-main">
-      <h4>{{ t('home.community') }}</h4>
+      <h4>{{ homeLang['19'] }}</h4>
+      <a
+        href="https://github.com/element-plus/element-plus"
+        class="footer-main-link"
+        target="_blank"
+      >
+        {{ homeLang['11'] }}
+      </a>
       <a
         href="https://discord.com/invite/gXK9XNzW3X"
         class="footer-main-link"
         target="_blank"
       >
-        Discord
+        {{ homeLang['discord'] }}
       </a>
       <a
         href="https://github.com/element-plus/element-plus/issues"
         class="footer-main-link"
         target="_blank"
       >
-        {{ t('home.feedback') }}
+        {{ homeLang['16'] }}
       </a>
       <a
         href="https://github.com/element-plus/element-plus/blob/dev/.github/CONTRIBUTING.en-US.md"
         class="footer-main-link"
         target="_blank"
       >
-        {{ t('home.contribution') }}
+        {{ homeLang['17'] }}
       </a>
       <a
         href="https://segmentfault.com/t/element-plus"
         class="footer-main-link"
         target="_blank"
       >
-        {{ t('home.segmentfault') }}
+        {{ homeLang['18'] }}
       </a>
     </div>
   </footer>
@@ -84,13 +94,12 @@ const { t } = useI18n()
   background-color: #f5f7fa;
   box-sizing: border-box;
   padding: 42px 64px 64px;
-  // height: 340px;
 
   &.is-home {
     background-color: var(--bg-color);
-    max-width: 900px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 40px 19px;
+    padding: 40px 0;
   }
 
   .container {

@@ -84,7 +84,6 @@ $descriptions-cell-font-size: map.merge(
       .#{$namespace}-descriptions__cell {
         box-sizing: border-box;
         text-align: left;
-        font-weight: normal;
         line-height: 23px;
         font-size: map.get($descriptions-cell-font-size, 'default');
 

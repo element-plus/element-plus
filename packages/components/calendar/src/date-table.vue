@@ -5,7 +5,9 @@
     cellpadding="0"
   >
     <thead v-if="!hideHeader">
-      <th v-for="day in weekDays" :key="day">{{ day }}</th>
+      <tr>
+        <th v-for="day in weekDays" :key="day" scope="col">{{ day }}</th>
+      </tr>
     </thead>
 
     <tbody>
@@ -36,16 +38,16 @@
 
 <script lang="ts" setup>
 import { useNamespace } from '@element-plus/hooks'
-import { dateTableEmits, dateTableProps } from './date-table'
+import { dateTableEmits } from './date-table'
 import { useDateTable } from './use-date-table'
 
-import type { CalendarDateCell } from './date-table'
+import type { CalendarDateCell, DateTableProps } from './date-table'
 
 defineOptions({
   name: 'DateTable',
 })
 
-const props = defineProps(dateTableProps)
+const props = defineProps<DateTableProps>()
 const emit = defineEmits(dateTableEmits)
 
 const {

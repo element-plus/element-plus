@@ -2,47 +2,46 @@ name: Lint Commit Message
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, edited, reopened]
+
+permissions:
+  contents: read
 
 jobs:
   lint:
     runs-on: ubuntu-latest
+    # if pull request title is D2M, then skip this job
+    if: ${{ !contains(github.event.pull_request.title, 'D2M') }}
     continue-on-error: true
     outputs:
       failed: ${{ steps.lint_commit.outputs.failed == 'true' }}
     env:
       PULL_REQUEST_NUMBER: ${{ github.event.number }}
+      PULL_REQUEST_AUTHOR: ${{ github.event.pull_request.user.login }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
 
       - name: Setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: 16
-
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        run: |
-          echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
-
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
-        with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+          node-version: 24
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
 
       - name: Lint commit
         id: lint_commit
-        run: pnpm lint:commit || echo "failed=true" >> $GITHUB_OUTPUT
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          printf '%s\n' "$PR_TITLE" | pnpm run lint:commit || echo "failed=true" >> "$GITHUB_OUTPUT"
 
       - name: Set success result
         if: ${{ steps.lint_commit.outputs.failed != 'true' }}
@@ -53,19 +52,22 @@ jobs:
         run: echo 'false' > ./lint-result.txt
 
       - name: Set PR number
-        run: echo $PULL_REQUEST_NUMBER > pr.txt
+        run: echo "$PULL_REQUEST_NUMBER" > ./pr.txt
 
-      - uses: actions/upload-artifact@v3
-        with:
-          name: commit-lint-report
-          path: ./commit-lint.txt
+      - name: Set PR author
+        run: echo "$PULL_REQUEST_AUTHOR" > ./author.txt
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: commit-lint-result
           path: ./lint-result.txt
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: pr-number
           path: ./pr.txt
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: pr-author
+          path: ./author.txt

@@ -1,15 +1,14 @@
 import type { Dayjs } from 'dayjs'
-
 import type {
-  GetDisabledHoursState,
-  GetDisabledMinutesState,
-  GetDisabledSecondsState,
-} from '../types'
+  GetDisabledHours,
+  GetDisabledMinutes,
+  GetDisabledSeconds,
+} from '../common/props'
 
 type UseTimePanelProps = {
-  getAvailableHours: GetDisabledHoursState
-  getAvailableMinutes: GetDisabledMinutesState
-  getAvailableSeconds: GetDisabledSecondsState
+  getAvailableHours: GetDisabledHours
+  getAvailableMinutes: GetDisabledMinutes
+  getAvailableSeconds: GetDisabledSeconds
 }
 
 export const useTimePanel = ({

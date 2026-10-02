@@ -2,7 +2,7 @@
   <div
     ref="breadcrumb"
     :class="ns.b()"
-    aria-label="Breadcrumb"
+    :aria-label="t('el.breadcrumb.label')"
     role="navigation"
   >
     <slot />
@@ -11,15 +11,19 @@
 
 <script lang="ts" setup>
 import { onMounted, provide, ref } from 'vue'
-import { useNamespace } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { breadcrumbKey } from './constants'
-import { breadcrumbProps } from './breadcrumb'
+
+import type { BreadcrumbProps } from './breadcrumb'
 
 defineOptions({
   name: 'ElBreadcrumb',
 })
 
-const props = defineProps(breadcrumbProps)
+const { t } = useLocale()
+const props = withDefaults(defineProps<BreadcrumbProps>(), {
+  separator: '/',
+})
 
 const ns = useNamespace('breadcrumb')
 const breadcrumb = ref<HTMLDivElement>()

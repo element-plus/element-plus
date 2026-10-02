@@ -1,6 +1,6 @@
 import { Teleport, h, onUnmounted, ref } from 'vue'
-import { NOOP } from '@vue/shared'
 import {
+  NOOP,
   createGlobalNode,
   isClient,
   removeGlobalNode,
@@ -46,8 +46,8 @@ export const useTeleport = (
     return appendToBody.value !== true
       ? contentRenderer()
       : isTeleportVisible.value
-      ? [h(Teleport, { to: $el }, contentRenderer())]
-      : undefined
+        ? [h(Teleport, { to: $el }, contentRenderer())]
+        : undefined
   }
 
   onUnmounted(hideTeleport)

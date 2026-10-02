@@ -3,6 +3,7 @@
 
 @include b(steps) {
   display: flex;
+  line-height: normal;
 
   @include m(simple) {
     padding: 13px 8%;

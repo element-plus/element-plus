@@ -143,10 +143,14 @@ describe('<ElTooltipContent />', () => {
         const enterEvent = new MouseEvent('mouseenter')
         vm.onContentEnter(enterEvent)
         expect(onOpen).toHaveBeenCalled()
+        expect(onBeforeShow).toHaveBeenCalled()
         const leaveEvent = new MouseEvent('mouseleave')
         expect(onClose).not.toHaveBeenCalled()
         vm.onContentLeave(leaveEvent)
         expect(onClose).toHaveBeenCalled()
+        open.value = false
+        await nextTick()
+        expect(onBeforeHide).toHaveBeenCalled()
       })
 
       it('should not trigger close event when the trigger is not hover', async () => {

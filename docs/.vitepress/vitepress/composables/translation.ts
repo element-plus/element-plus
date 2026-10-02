@@ -1,18 +1,16 @@
 import { computed } from 'vue'
-import { useRoute, useRouter } from 'vitepress'
-import { isClient, useStorage } from '@vueuse/core'
-import { useI18n } from 'vue-i18n'
+import { useData, useRoute, useRouter, withBase } from 'vitepress'
+import { useStorage } from '@vueuse/core'
 import { PREFERRED_LANG_KEY } from '../constant'
-
 import langs from '../../i18n/lang.json'
+import translationLocale from '../../i18n/component/translation.json'
 import { useLang } from './lang'
 
 export const useTranslation = () => {
-  const { locale } = useI18n()
-
   const route = useRoute()
   const router = useRouter()
   const lang = useLang()
+  const { site } = useData()
 
   const languageMap = {
     'en-US': 'English',
@@ -22,6 +20,7 @@ export const useTranslation = () => {
     'ja-JP': '日本語',
   }
 
+  const locale = computed(() => translationLocale[lang.value])
   const langsRef = computed(() => {
     const currentLang = lang.value
 
@@ -41,24 +40,19 @@ export const useTranslation = () => {
 
   const language = useStorage(PREFERRED_LANG_KEY, 'en-US')
 
+  const getTargetUrl = (lang: string) => {
+    const firstSlash = route.path.indexOf('/', site.value.base.length)
+    return firstSlash === -1
+      ? `/${lang}/`
+      : `/${lang}/${route.path.slice(firstSlash + 1)}`
+  }
+
   const switchLang = (targetLang: string) => {
     if (lang.value === targetLang) return
-
-    locale.value = targetLang
     language.value = targetLang
 
-    const firstSlash = route.path.indexOf('/', 1)
-
-    const goTo = `/${targetLang}/${route.path.slice(firstSlash + 1)}`
-
-    router.go(goTo)
-
-    if (isClient) {
-      navigator?.serviceWorker.controller?.postMessage({
-        type: 'LANG',
-        lang: targetLang,
-      })
-    }
+    const goTo: string = getTargetUrl(targetLang)
+    router.go(withBase(goTo))
   }
 
   return {
@@ -66,6 +60,7 @@ export const useTranslation = () => {
     languageMap,
     langs: langsRef,
     lang,
+    getTargetUrl,
     switchLang,
   }
 }

@@ -1,6 +1,7 @@
 import fs from 'fs'
 import path from 'path'
-import glob from 'fast-glob'
+import { camelize } from '@vue/shared'
+import { glob } from 'tinyglobby'
 import { docRoot, docsDirName, projRoot } from '@element-plus/build-utils'
 import { REPO_BRANCH, REPO_PATH } from '@element-plus/build-constants'
 import { getLang, languages } from '../utils/lang'
@@ -35,9 +36,7 @@ export function MarkdownTransform(): Plugin {
       const append: Append = {
         headers: [],
         footers: [],
-        scriptSetups: [
-          `const demos = import.meta.globEager('../../examples/${componentId}/*.vue')`,
-        ],
+        scriptSetups: getExampleImports(componentId),
       }
 
       code = transformVpScriptSetup(code, append)
@@ -95,6 +94,9 @@ const transformVpScriptSetup = (code: string, append: Append) => {
 
 const GITHUB_BLOB_URL = `https://github.com/${REPO_PATH}/blob/${REPO_BRANCH}`
 const GITHUB_TREE_URL = `https://github.com/${REPO_PATH}/tree/${REPO_BRANCH}`
+
+const EXCLUDE_CHANGELOG_COMPONENTS = new Set(['overview'])
+
 const transformComponentMarkdown = (
   id: string,
   componentId: string,
@@ -104,14 +106,37 @@ const transformComponentMarkdown = (
   const lang = getLang(id)
   const docUrl = `${GITHUB_BLOB_URL}/${docsDirName}/en-US/component/${componentId}.md`
   const componentUrl = `${GITHUB_TREE_URL}/packages/components/${componentId}`
+  const styleUrl = `${GITHUB_TREE_URL}/packages/theme-chalk/src/${componentId}.scss`
+
   const componentPath = path.resolve(
     projRoot,
     `packages/components/${componentId}`
   )
+  const stylePath = path.resolve(
+    projRoot,
+    `packages/theme-chalk/src/${componentId}.scss`
+  )
+
   const isComponent = fs.existsSync(componentPath)
+  const isHaveComponentStyle = fs.existsSync(stylePath)
+
+  // Inject changelog component after H1 title
+  if (!EXCLUDE_CHANGELOG_COMPONENTS.has(componentId)) {
+    const h1Match = code.match(/^#\s+.+$/m)
+    if (h1Match) {
+      const h1End = code.indexOf(h1Match[0]) + h1Match[0].length
+      const componentMetaTag = `\n\n<VpComponentMeta component="${componentId}" />\n`
+      code = code.slice(0, h1End) + componentMetaTag + code.slice(h1End)
+    }
+  }
 
   const links = [[footerLocale[lang].docs, docUrl]]
+
+  if (isComponent && isHaveComponentStyle)
+    links.unshift([footerLocale[lang].style, styleUrl])
+
   if (isComponent) links.unshift([footerLocale[lang].component, componentUrl])
+
   const linksText = links
     .filter((i) => i)
     .map(([text, link]) => `[${text}](${link})`)
@@ -130,4 +155,23 @@ ${linksText}`
   append.footers.push(sourceSection, isComponent ? contributorsSection : '')
 
   return code
+}
+
+const getExampleImports = (componentId: string) => {
+  const examplePath = path.resolve(docRoot, 'examples', componentId)
+  if (!fs.existsSync(examplePath)) return []
+  const files = fs.readdirSync(examplePath)
+  const imports: string[] = []
+
+  for (const item of files) {
+    if (!/\.vue$/.test(item)) continue
+    const file = item.replace(/\.vue$/, '')
+    const name = camelize(`Ep-${componentId}-${file}`)
+
+    imports.push(
+      `import ${name} from '../../examples/${componentId}/${file}.vue'`
+    )
+  }
+
+  return imports
 }

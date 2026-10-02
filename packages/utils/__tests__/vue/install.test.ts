@@ -1,0 +1,174 @@
+import { createApp } from 'vue'
+import { describe, expect, it } from 'vitest'
+import {
+  withInstall,
+  withInstallDirective,
+  withPropsDefaultsSetter,
+} from '../..'
+
+describe('withInstall', () => {
+  it('it should add an install method to the main component', () => {
+    const mainComponent = {
+      name: 'MainComponent',
+      render: () => null,
+    }
+
+    const componentWithInstall = withInstall(mainComponent)
+    expect(typeof componentWithInstall.install).toBe('function')
+  })
+
+  it('it should register the main component and extra components when calling install', () => {
+    const mainComponent = {
+      name: 'MainComponent',
+      render: () => null,
+    }
+
+    const extraComponents = {
+      ExtraComponent: {
+        name: 'ExtraComponent',
+        render: () => null,
+      },
+    }
+
+    // eslint-disable-next-line vue/one-component-per-file
+    const app = createApp({})
+    const componentWithInstall = withInstall(mainComponent, extraComponents)
+
+    componentWithInstall.install?.(app)
+
+    expect(app.component('MainComponent')).toBeTruthy()
+    expect(app.component('ExtraComponent')).toBeTruthy()
+  })
+
+  it('it should add extra components to the main component when provided', () => {
+    const mainComponent = {
+      name: 'MainComponent',
+      render: () => null,
+    }
+
+    const extraComponents = {
+      ExtraComponent: {
+        name: 'ExtraComponent',
+        render: () => null,
+      },
+    }
+
+    const componentWithInstall = withInstall(mainComponent, extraComponents)
+
+    expect(componentWithInstall.ExtraComponent).toBeTruthy()
+  })
+
+  it('it should not add extra components if none provided', () => {
+    const mainComponent = {
+      name: 'MainComponent',
+      render: () => null,
+    }
+
+    const componentWithInstall = withInstall(mainComponent)
+
+    expect(componentWithInstall.ExtraComponent).toBeFalsy()
+  })
+})
+
+describe('withInstallDirective', () => {
+  it('it should add an install method to the directive', () => {
+    const directive = {
+      mounted: () => null,
+      unmounted: () => null,
+    }
+
+    const directiveWithInstall = withInstallDirective(
+      directive,
+      'test-directive'
+    )
+    expect(typeof directiveWithInstall.install).toBe('function')
+  })
+
+  it('it should register the directive when calling install', () => {
+    const directive = {
+      mounted: () => null,
+      unmounted: () => null,
+    }
+
+    // eslint-disable-next-line vue/one-component-per-file
+    const app = createApp({})
+    const directiveWithInstall = withInstallDirective(
+      directive,
+      'test-directive'
+    )
+
+    directiveWithInstall.install?.(app)
+
+    expect(app.directive('test-directive')).toBeTruthy()
+  })
+})
+
+describe('withPropsDefaultsSetter', () => {
+  it('basic', () => {
+    const component: Record<string, any> = {
+      name: 'MainComponent',
+      props: {
+        foo: String,
+        bar: Boolean,
+        baz: {
+          type: Number,
+          default: 0,
+        },
+      },
+      render: () => null,
+    }
+
+    withPropsDefaultsSetter(component)
+
+    component.setPropsDefaults({
+      foo: 'default',
+      bar: true,
+      baz: 1,
+      nonExist: true,
+    })
+
+    expect(component.props).toStrictEqual({
+      foo: {
+        type: String,
+        default: 'default',
+      },
+      bar: {
+        type: Boolean,
+        default: true,
+      },
+      baz: {
+        type: Number,
+        default: 1,
+      },
+    })
+  })
+
+  it('array props', () => {
+    const component: Record<string, any> = {
+      name: 'MainComponent',
+      props: ['foo', 'bar', 'baz'],
+      render: () => null,
+    }
+
+    withPropsDefaultsSetter(component)
+
+    component.setPropsDefaults({
+      foo: 'default',
+      bar: true,
+      baz: 1,
+      nonExist: true,
+    })
+
+    expect(component.props).toStrictEqual({
+      foo: {
+        default: 'default',
+      },
+      bar: {
+        default: true,
+      },
+      baz: {
+        default: 1,
+      },
+    })
+  })
+})

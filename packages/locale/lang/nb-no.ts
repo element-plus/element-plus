@@ -1,9 +1,23 @@
 export default {
   name: 'nb-no',
   el: {
+    breadcrumb: {
+      label: 'Brødsmulesti',
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Tøm',
+      defaultLabel: 'fargevelger',
+      description:
+        'gjeldende farge er {color}. trykk enter for å velge en ny farge.',
+      alphaLabel: 'velg alfaverdi',
+      alphaDescription: 'alfa {alpha}, gjeldende farge er {color}',
+      hueLabel: 'velg fargetone',
+      hueDescription: 'fargetone {hue}, gjeldende farge er {color}',
+      svLabel: 'velg metning og lysstyrke',
+      svDescription:
+        'metning {saturation}, lysstyrke {brightness}, gjeldende farge er {color}',
+      predefineDescription: 'velg {value} som farge',
     },
     datepicker: {
       now: 'Nå',
@@ -11,6 +25,11 @@ export default {
       cancel: 'Avbryt',
       clear: 'Tøm',
       confirm: 'OK',
+      dateTablePrompt: 'Bruk piltastene og enter for å velge dag i måneden',
+      monthTablePrompt: 'Bruk piltastene og enter for å velge måned',
+      quarterTablePrompt: 'Bruk piltastene og enter for å velge kvartal',
+      yearTablePrompt: 'Bruk piltastene og enter for å velge år',
+      selectedDate: 'Valgt dato',
       selectDate: 'Velg dato',
       selectTime: 'Velg tidspunkt',
       startDate: 'Startdato',
@@ -34,7 +53,6 @@ export default {
       month10: 'Oktober',
       month11: 'November',
       month12: 'Desember',
-      week: 'uke',
       weeks: {
         sun: 'Søn',
         mon: 'Man',
@@ -43,6 +61,15 @@ export default {
         thu: 'Tor',
         fri: 'Fre',
         sat: 'Lør',
+      },
+      weeksFull: {
+        sun: 'Søndag',
+        mon: 'Mandag',
+        tue: 'Tirsdag',
+        wed: 'Onsdag',
+        thu: 'Torsdag',
+        fri: 'Fredag',
+        sat: 'Lørdag',
       },
       months: {
         jan: 'Jan',
@@ -59,11 +86,24 @@ export default {
         dec: 'Des',
       },
     },
+    input: {
+      characters: '{count} / {max} tegn',
+    },
+    inputNumber: {
+      decrease: 'reduser tall',
+      increase: 'øk tall',
+    },
     select: {
       loading: 'Laster',
       noMatch: 'Ingen samsvarende resulater',
       noData: 'Ingen resulater',
       placeholder: 'Velg',
+    },
+    mention: {
+      loading: 'Laster',
+    },
+    dropdown: {
+      toggleDropdown: 'Veksle nedtrekksmeny',
     },
     cascader: {
       noMatch: 'Ingen samsvarende resultater',
@@ -76,17 +116,27 @@ export default {
       pagesize: '/side',
       total: 'Total {total}',
       pageClassifier: '',
-      page: 'Page', // to be translated
-      prev: 'Go to previous page', // to be translated
-      next: 'Go to next page', // to be translated
-      currentPage: 'page {pager}', // to be translated
-      prevPages: 'Previous {pager} pages', // to be translated
-      nextPages: 'Next {pager} pages', // to be translated
+      page: 'Side',
+      prev: 'Gå til forrige side',
+      next: 'Gå til neste side',
+      currentPage: 'side {pager}',
+      prevPages: 'Forrige {pager} sider',
+      nextPages: 'Neste {pager} sider',
+      deprecationWarning:
+        'Utdatert bruk oppdaget, se el-pagination-dokumentasjonen for flere detaljer',
+    },
+    dialog: {
+      close: 'Lukk denne dialogen',
+    },
+    drawer: {
+      close: 'Lukk denne dialogen',
     },
     messagebox: {
+      title: 'Melding',
       confirm: 'OK',
       cancel: 'Avbryt',
       error: 'Ugyldig input',
+      close: 'Lukk denne dialogen',
     },
     upload: {
       deleteTip: 'trykk på x for å slette',
@@ -94,12 +144,32 @@ export default {
       preview: 'Forhåndsvisning',
       continue: 'Fortsett',
     },
+    slider: {
+      defaultLabel: 'glidebryter mellom {min} og {max}',
+      defaultRangeStartLabel: 'velg startverdi',
+      defaultRangeEndLabel: 'velg sluttverdi',
+    },
     table: {
       emptyText: 'Ingen Data',
       confirmFilter: 'Bekreft',
       resetFilter: 'Tilbakestill',
       clearFilter: 'Alle',
       sumText: 'Sum',
+      selectAllLabel: 'Velg alle rader',
+      selectRowLabel: 'Velg denne raden',
+      expandRowLabel: 'Utvid denne raden',
+      collapseRowLabel: 'Skjul denne raden',
+      sortLabel: 'Sorter etter {column}',
+      filterLabel: 'Filtrer etter {column}',
+    },
+    tag: {
+      close: 'Lukk denne taggen',
+    },
+    tour: {
+      next: 'Neste',
+      previous: 'Forrige',
+      finish: 'Fullfør',
+      close: 'Lukk denne dialogen',
     },
     tree: {
       emptyText: 'Ingen Data',
@@ -121,6 +191,15 @@ export default {
     popconfirm: {
       confirmButtonText: 'Ja',
       cancelButtonText: 'Nei',
+    },
+    carousel: {
+      leftArrow: 'Karusellpil venstre',
+      rightArrow: 'Karusellpil høyre',
+      indicator: 'Karusell bytt til indeks {index}',
+    },
+    inputOTP: {
+      groupLabel: 'OTP-inndata',
+      defaultLabel: 'Skriv inn OTP-tegn {index}',
     },
   },
 }

@@ -1,5 +1,4 @@
 @use 'mixins/mixins' as *;
-@use 'mixins/utils' as *;
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 
@@ -71,16 +70,14 @@
     -moz-appearance: textfield;
   }
 
-  .#{$namespace}-select .#{$namespace}-input {
+  .#{$namespace}-select {
     width: 128px;
-  }
-
-  button {
-    @include pagination-button;
   }
 
   .btn-prev,
   .btn-next {
+    @include pagination-button;
+
     .#{$namespace}-icon {
       display: block;
       font-size: 12px;
@@ -204,8 +201,21 @@
       font-size: getCssVar('pagination-font-size-small');
     }
 
-    .#{$namespace}-select .#{$namespace}-input {
+    .#{$namespace}-select {
       width: 100px;
+    }
+  }
+  @include m(large) {
+    .btn-prev,
+    .btn-next,
+    .#{$namespace}-pager li {
+      height: getCssVar('pagination-button-height-large');
+      line-height: getCssVar('pagination-button-height-large');
+      min-width: getCssVar('pagination-button-width-large');
+    }
+
+    .#{$namespace}-select .#{$namespace}-input {
+      width: 160px;
     }
   }
 }

@@ -34,6 +34,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+
 import type { DropdownInstance } from 'element-plus'
 
 const dropdown1 = ref<DropdownInstance>()
@@ -50,6 +51,7 @@ function showClick() {
   dropdown1.value.handleOpen()
 }
 </script>
+
 <style scoped>
 .example-showcase .el-dropdown-link {
   cursor: pointer;

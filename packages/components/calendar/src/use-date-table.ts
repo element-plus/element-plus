@@ -2,7 +2,10 @@ import { computed } from 'vue'
 import dayjs from 'dayjs'
 import localeData from 'dayjs/plugin/localeData.js'
 import { useLocale } from '@element-plus/hooks'
-import { rangeArr } from '@element-plus/components/time-picker'
+import {
+  DEFAULT_FORMATS_DATE,
+  rangeArr,
+} from '@element-plus/components/time-picker'
 import { WEEK_DAYS } from '@element-plus/constants'
 import { getMonthDays, getPrevMonthLastDays, toNestedArr } from './date-table'
 
@@ -108,7 +111,7 @@ export const useDateTable = (
     return {
       isSelected: day.isSame(props.selectedDay),
       type: `${type}-month`,
-      day: day.format('YYYY-MM-DD'),
+      day: day.format(DEFAULT_FORMATS_DATE),
       date: day.toDate(),
     }
   }

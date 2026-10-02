@@ -1,0 +1,14 @@
+@use '../mixins/mixins' as *;
+@use '../common/var' as *;
+
+@mixin disable {
+  color: getCssVar('text-color-disabled');
+
+  &:hover {
+    cursor: not-allowed;
+  }
+
+  & .#{$namespace}-icon {
+    cursor: inherit;
+  }
+}
