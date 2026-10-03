@@ -4,6 +4,7 @@ import UnoCSS from 'unocss/vite'
 import mkcert from 'vite-plugin-mkcert'
 import { glob } from 'tinyglobby'
 import vueJsx from '@vitejs/plugin-vue-jsx'
+import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 import Components from 'unplugin-vue-components/vite'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
@@ -112,6 +113,12 @@ export const getViteConfig = ({ mode }: { mode: string }) => {
       UnoCSS({
         inspector: false,
       }),
+
+      VueI18n({
+        runtimeOnly: true,
+        compositionOnly: true,
+        include: [path.resolve(__dirname, '../locales/**')],
+      }) as Plugin,
 
       MarkdownTransform() as Plugin,
       ComponentChangelogPlugin() as Plugin,

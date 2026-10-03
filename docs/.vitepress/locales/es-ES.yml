@@ -1,0 +1,19 @@
+home:
+  title: Element Plus
+  title_sub: una biblioteca de componentes basada en Vue 3 para diseñadores y desarrolladores
+  china_mirror: China Mirror 🇨🇳
+  links: Links
+  changelog: Changelog
+  element_ui: Element UI para Vue 2
+  contact_us: Por favor, contáctanos en
+  become_sponsor: ¡Conviértete en un patrocinador!
+  contribution: Contribuciones
+  segmentfault: SegmentFault
+  feedback: Feedback
+  view_detail: Ver detalles
+  guide: Guía
+  guide_desc: Entender las pautas de diseño, ayudando a los diseñadores a crear un producto que sea lógicamente sólido, razonablemente estructurado y fácil de usar.
+  component: Component
+  component_desc: Experience interaction details by strolling through component demos. Use encapsulated code to improve developing efficiency.
+  resource: Recursos
+  resource_desc: Descargue recursos de diseño relevantes para dar forma a prototipos de páginas o borrador visual, aumentando la eficiencia del diseño.
