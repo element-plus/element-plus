@@ -1143,6 +1143,81 @@ describe('table column', () => {
       wrapper.unmount()
     })
 
+    it('should works with a custom recursive column component', async () => {
+      // A user land component that builds the column tree from a config
+      // object. `__isTableColumn` marks it as a column provider so that it is
+      // rendered into the hidden columns, see #22230.
+      const RecursiveColumn = {
+        name: 'RecursiveColumn',
+        __isTableColumn: true,
+        components: {
+          ElTableColumn,
+        },
+        props: {
+          columns: {
+            type: Array,
+            default: () => [],
+          },
+        },
+        template: `
+          <el-table-column
+            v-for="col in columns"
+            :key="col.prop || col.label"
+            :prop="col.prop"
+            :label="col.label"
+          >
+            <recursive-column v-if="col.children" :columns="col.children" />
+          </el-table-column>
+        `,
+      }
+      const wrapper = mount({
+        components: {
+          ElTable,
+          RecursiveColumn,
+        },
+        template: `
+          <el-table :data="testData">
+            <recursive-column :columns="columns" />
+          </el-table>
+        `,
+
+        created() {
+          this.testData = null
+          this.columns = [
+            { prop: 'name', label: 'name' },
+            {
+              label: 'group',
+              children: [
+                { prop: 'release', label: 'release' },
+                {
+                  label: "group's group",
+                  children: [
+                    { prop: 'director', label: 'director' },
+                    { prop: 'runtime', label: 'runtime' },
+                  ],
+                },
+              ],
+            },
+          ]
+        },
+      })
+
+      await doubleWait()
+      const trs = wrapper.findAll('.el-table__header tr')
+      expect(trs.length).toEqual(3)
+      expect(trs[0].findAll('th .cell').length).toEqual(2)
+      expect(trs[1].findAll('th .cell').length).toEqual(2)
+      expect(trs[2].findAll('th .cell').length).toEqual(2)
+
+      expect(trs[0].find('th:first-child').attributes('rowspan')).toEqual('3')
+      expect(trs[0].find('th:nth-child(2)').attributes('colspan')).toEqual('3')
+      expect(trs[1].find('th:first-child').attributes('rowspan')).toEqual('2')
+      expect(trs[1].find('th:nth-child(2)').attributes('colspan')).toEqual('2')
+
+      expect(wrapper.find('.el-table__header').text()).toContain('director')
+      wrapper.unmount()
+    })
+
     it('should work with fixed', async () => {
       const wrapper = mount({
         components: {
