@@ -53,6 +53,7 @@ interface SelectProps {
   fitInputWidth?: boolean
   size?: 'small' | 'default' | 'large'
   debounce?: number
+  persistent?: boolean
 }
 
 const _mount = (template: string, data: any = () => ({}), otherObj?) =>
@@ -154,6 +155,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
       :loading="loading"
       :remoteMethod="remoteMethod"
       :automatic-dropdown="automaticDropdown"
+      :persistent="persistent"
       :size="size"
       :fit-input-width="fitInputWidth">
       <el-option
@@ -177,6 +179,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
       popperClass: configs.popperClass,
       popperStyle: configs.popperStyle,
       automaticDropdown: configs.automaticDropdown,
+      persistent: configs.persistent,
       fitInputWidth: configs.fitInputWidth,
       loading: false,
       filterMethod: configs.filterMethod,
@@ -1334,6 +1337,154 @@ describe('Select', () => {
     const target = options.find((option) => option.textContent === 'new')
     target.click()
     expect((wrapper.vm as any).value).toBe('new')
+  })
+
+  test.each([false, true])(
+    'keeps a created option in the dropdown after selection (multiple: %s)',
+    async (multiple) => {
+      wrapper = getSelectVm({ filterable: true, allowCreate: true, multiple })
+      const select = wrapper.findComponent({ name: 'ElSelect' })
+      const selectVm = select.vm as any
+      const input = wrapper.find('input')
+
+      await input.trigger('click')
+      await input.setValue('new')
+      selectVm.debouncedOnInputChange()
+      await nextTick()
+      getOptions()
+        .find((option) => option.textContent === 'new')!
+        .click()
+      await nextTick()
+
+      expect(getOptions().some((option) => option.textContent === 'new')).toBe(
+        true
+      )
+
+      await input.setValue('new')
+      selectVm.debouncedOnInputChange()
+      await nextTick()
+      expect(
+        wrapper
+          .findAllComponents(Option)
+          .filter((option) => option.props('value') === 'new')
+      ).toHaveLength(1)
+
+      await input.setValue('another')
+      selectVm.debouncedOnInputChange()
+      await nextTick()
+      expect(
+        getOptions().find((option) => option.textContent === 'new')?.style
+          .display
+      ).toBe('none')
+      getOptions()
+        .find((option) => option.textContent === 'another')!
+        .click()
+      await nextTick()
+      expect(getOptions().some((option) => option.textContent === 'new')).toBe(
+        true
+      )
+      expect(
+        getOptions().some((option) => option.textContent === 'another')
+      ).toBe(true)
+    }
+  )
+
+  test('does not duplicate a created option when it is added to the provided options', async () => {
+    wrapper = getSelectVm({ filterable: true, allowCreate: true })
+    const selectVm = wrapper.findComponent({ name: 'ElSelect' }).vm as any
+    const input = wrapper.find('input')
+
+    await input.trigger('click')
+    await input.setValue('new')
+    selectVm.debouncedOnInputChange()
+    await nextTick()
+    getOptions()
+      .find((option) => option.textContent === 'new')!
+      .click()
+    await nextTick()
+
+    ;(wrapper.vm as any).options.push({ value: 'new', label: 'New label' })
+    await nextTick()
+    await input.trigger('click')
+    await nextTick()
+
+    expect(
+      getOptions().some((option) => option.textContent === 'New label')
+    ).toBe(true)
+    expect(
+      getOptions().filter((option) =>
+        option.textContent?.toLowerCase().includes('new')
+      )
+    ).toHaveLength(1)
+    expect(
+      wrapper
+        .findAllComponents(Option)
+        .filter((option) => option.props('value') === 'new')
+    ).toHaveLength(1)
+    expect(selectVm.states.selectedLabel).toBe('New label')
+
+    ;(wrapper.vm as any).options = (wrapper.vm as any).options.slice(0, -1)
+    await nextTick()
+    await nextTick()
+
+    expect(
+      wrapper
+        .findAllComponents(Option)
+        .filter((option) => option.props('value') === 'new')
+    ).toHaveLength(1)
+    expect(getOptions().some((option) => option.textContent === 'new')).toBe(
+      true
+    )
+  })
+
+  test('does not create an option with the value of an existing option', async () => {
+    wrapper = getSelectVm({ filterable: true, allowCreate: true }, [
+      { value: 'new', label: 'Existing label' },
+    ])
+    const selectVm = wrapper.findComponent({ name: 'ElSelect' }).vm as any
+    const input = wrapper.find('input')
+
+    await input.trigger('click')
+    await input.setValue('new')
+    selectVm.debouncedOnInputChange()
+    await nextTick()
+
+    expect(selectVm.showNewOption).toBe(false)
+    expect(
+      wrapper
+        .findAllComponents(Option)
+        .filter((option) => option.props('value') === 'new')
+    ).toHaveLength(1)
+    expect(selectVm.states.options.get('new')?.created).toBe(false)
+  })
+
+  test('keeps a created option when a non-persistent dropdown is reopened', async () => {
+    wrapper = getSelectVm({
+      filterable: true,
+      allowCreate: true,
+      multiple: true,
+      persistent: false,
+    })
+    const selectVm = wrapper.findComponent({ name: 'ElSelect' }).vm as any
+    const input = wrapper.find('input')
+
+    await input.trigger('click')
+    await input.setValue('new')
+    selectVm.debouncedOnInputChange()
+    await nextTick()
+    getOptions()
+      .find((option) => option.textContent === 'new')!
+      .click()
+    await nextTick()
+
+    selectVm.expanded = false
+    await nextTick()
+    selectVm.expanded = true
+    await nextTick()
+
+    expect(getOptions().some((option) => option.textContent === 'new')).toBe(
+      true
+    )
   })
 
   test('allow create should clear input after creating a tag with reserveKeyword', async () => {
