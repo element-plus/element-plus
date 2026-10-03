@@ -73,6 +73,22 @@ const _mount = (render: () => VNode) =>
     attachTo: document.body,
   })
 
+// Renders the tooltip content lazily like in production, so tests with
+// persistent={false} cover the fallback path without a mounted panel.
+const withRealPersistent = async (run: () => Promise<void>) => {
+  const previousValue = process.env.RUN_TEST_WITH_PERSISTENT
+  process.env.RUN_TEST_WITH_PERSISTENT = 'true'
+  try {
+    await run()
+  } finally {
+    if (previousValue === undefined) {
+      delete process.env.RUN_TEST_WITH_PERSISTENT
+    } else {
+      process.env.RUN_TEST_WITH_PERSISTENT = previousValue
+    }
+  }
+}
+
 afterEach(() => {
   document.body.innerHTML = ''
 })
@@ -140,6 +156,292 @@ describe('Cascader.vue', () => {
     value.value = ['zhejiang', 'ningbo']
     await nextTick()
     expect(wrapper.find('input').element.value).toBe('Zhejiang / Ningbo')
+  })
+
+  test('persistent false should still display label', async () => {
+    await withRealPersistent(async () => {
+      const value = ref(['zhejiang', 'hangzhou'])
+      const wrapper = _mount(() => (
+        <Cascader v-model={value.value} options={OPTIONS} persistent={false} />
+      ))
+
+      await nextTick()
+      expect(wrapper.find('input').element.value).toBe('Zhejiang / Hangzhou')
+    })
+  })
+
+  test('persistent false should still display tags in multiple mode', async () => {
+    await withRealPersistent(async () => {
+      const value = ref([
+        ['zhejiang', 'hangzhou'],
+        ['zhejiang', 'ningbo'],
+      ])
+      const cascaderProps = { multiple: true }
+      const wrapper = _mount(() => (
+        <Cascader
+          v-model={value.value}
+          options={OPTIONS}
+          props={cascaderProps}
+          persistent={false}
+        />
+      ))
+
+      await nextTick()
+      const tags = wrapper.findAll(TAG)
+      expect(tags.length).toBe(2)
+      expect(tags[0].text()).toBe('Zhejiang / Hangzhou')
+      expect(tags[1].text()).toBe('Zhejiang / Ningbo')
+    })
+  })
+
+  test('persistent false should collapse fully checked nodes in parent strategy', async () => {
+    await withRealPersistent(async () => {
+      const value = ref([
+        ['zhejiang', 'hangzhou'],
+        ['zhejiang', 'ningbo'],
+        ['zhejiang', 'wenzhou'],
+      ])
+      const cascaderProps = { multiple: true }
+      const wrapper = _mount(() => (
+        <Cascader
+          v-model={value.value}
+          options={OPTIONS}
+          props={cascaderProps}
+          persistent={false}
+          showCheckedStrategy="parent"
+        />
+      ))
+
+      await nextTick()
+      // All leaves of "Zhejiang" are selected, collapse to the top node
+      expect(wrapper.findAll(TAG).map((tag) => tag.text())).toEqual([
+        'Zhejiang',
+      ])
+
+      value.value = [
+        ['zhejiang', 'hangzhou'],
+        ['zhejiang', 'ningbo'],
+      ]
+      await nextTick()
+      // Partial selection keeps the leaf tags
+      expect(wrapper.findAll(TAG).map((tag) => tag.text())).toEqual([
+        'Zhejiang / Hangzhou',
+        'Zhejiang / Ningbo',
+      ])
+    })
+  })
+
+  test('persistent false should remove collapsed subtree when deleting a parent tag', async () => {
+    await withRealPersistent(async () => {
+      const value = ref([
+        ['zhejiang', 'hangzhou'],
+        ['zhejiang', 'ningbo'],
+        ['zhejiang', 'wenzhou'],
+      ])
+      const cascaderProps = { multiple: true }
+      const wrapper = _mount(() => (
+        <Cascader
+          v-model={value.value}
+          options={OPTIONS}
+          props={cascaderProps}
+          persistent={false}
+          showCheckedStrategy="parent"
+        />
+      ))
+
+      await nextTick()
+      const tags = wrapper.findAll(TAG)
+      expect(tags.length).toBe(1)
+
+      await tags[0].find('.el-tag__close').trigger('click')
+      expect(value.value).toEqual([])
+      expect(wrapper.findAll(TAG).length).toBe(0)
+    })
+  })
+
+  test('persistent false should drop invalid values when deleting a tag', async () => {
+    await withRealPersistent(async () => {
+      const value = ref([['zhejiang', 'hangzhou'], ['not-exist']])
+      const cascaderProps = { multiple: true }
+      const wrapper = _mount(() => (
+        <Cascader
+          v-model={value.value}
+          options={OPTIONS}
+          props={cascaderProps}
+          persistent={false}
+        />
+      ))
+
+      await nextTick()
+      // Only the value matching an option gets a tag
+      expect(wrapper.findAll(TAG).map((tag) => tag.text())).toEqual([
+        'Zhejiang / Hangzhou',
+      ])
+
+      const tags = wrapper.findAll(TAG)
+      await tags[0].find('.el-tag__close').trigger('click')
+      // The leftover value without a matching option is dropped as well
+      expect(value.value).toEqual([])
+      expect(wrapper.findAll(TAG).length).toBe(0)
+    })
+  })
+
+  test('persistent false should keep the label after the lazy panel closes', async () => {
+    await withRealPersistent(async () => {
+      const value = ref(['asia', 'china', 'beijing'])
+      const lazyData: Record<string, any> = {
+        root: [{ value: 'asia', label: 'Asia' }],
+        asia: [{ value: 'china', label: 'China' }],
+        china: [
+          { value: 'beijing', label: 'Beijing' },
+          { value: 'shenzhen', label: 'Shenzhen' },
+        ],
+      }
+      const cascaderProps = {
+        lazy: true,
+        lazyLoad: (node: any, resolve: (data: any[]) => void) => {
+          setTimeout(() => resolve(lazyData[node?.value ?? 'root'] ?? []), 0)
+        },
+      }
+      const wrapper = _mount(() => (
+        <Cascader
+          v-model={value.value}
+          props={cascaderProps}
+          persistent={false}
+        />
+      ))
+
+      await nextTick()
+      expect(wrapper.find('input').element.value).toBe('')
+
+      // Open the dropdown so the panel mounts and lazy loads the value path
+      await wrapper.find(TRIGGER).trigger('click')
+      for (let i = 0; i < 10; i++) {
+        await nextTick()
+      }
+      await new Promise((resolve) => setTimeout(resolve, 20))
+      for (let i = 0; i < 10; i++) {
+        await nextTick()
+      }
+      expect(wrapper.find('input').element.value).toBe('Asia / China / Beijing')
+
+      // Close the dropdown, the panel unmounts but the label stays
+      await wrapper.find(TRIGGER).trigger('click')
+      for (let i = 0; i < 5; i++) {
+        await rAF()
+        await nextTick()
+      }
+      expect(wrapper.find('input').element.value).toBe('Asia / China / Beijing')
+
+      // Any loaded leaf value can be resolved while closed, while
+      // non-leaf values are dropped like the mounted panel does
+      value.value = ['asia']
+      await nextTick()
+      expect(wrapper.find('input').element.value).toBe('')
+
+      value.value = ['asia', 'china', 'shenzhen']
+      await nextTick()
+      expect(wrapper.find('input').element.value).toBe(
+        'Asia / China / Shenzhen'
+      )
+
+      // Reopen with updated lazy data, the newest loaded node wins
+      lazyData.china = [{ value: 'beijing', label: 'Beijing II' }]
+      value.value = ['asia', 'china', 'beijing']
+      await nextTick()
+      expect(wrapper.find('input').element.value).toBe('Asia / China / Beijing')
+
+      await wrapper.find(TRIGGER).trigger('click')
+      for (let i = 0; i < 10; i++) {
+        await nextTick()
+      }
+      await new Promise((resolve) => setTimeout(resolve, 20))
+      for (let i = 0; i < 10; i++) {
+        await nextTick()
+      }
+      expect(wrapper.find('input').element.value).toBe(
+        'Asia / China / Beijing II'
+      )
+
+      await wrapper.find(TRIGGER).trigger('click')
+      for (let i = 0; i < 5; i++) {
+        await rAF()
+        await nextTick()
+      }
+      expect(wrapper.find('input').element.value).toBe(
+        'Asia / China / Beijing II'
+      )
+    })
+  })
+
+  test('lazy cascader should not duplicate lazy load requests when opening', async () => {
+    const value = ref(['asia', 'china', 'beijing'])
+    const lazyData: Record<string, any> = {
+      asia: [{ value: 'china', label: 'China' }],
+      china: [{ value: 'beijing', label: 'Beijing' }],
+    }
+    const lazyLoadSpy = vi.fn((node: any, resolve: (data: any[]) => void) => {
+      setTimeout(() => resolve(lazyData[node?.value] ?? []), 0)
+    })
+    const cascaderProps = { lazy: true, lazyLoad: lazyLoadSpy }
+    const options = [{ value: 'asia', label: 'Asia' }]
+    const wrapper = _mount(() => (
+      <Cascader v-model={value.value} options={options} props={cascaderProps} />
+    ))
+
+    for (let i = 0; i < 10; i++) {
+      await nextTick()
+    }
+    await new Promise((resolve) => setTimeout(resolve, 20))
+    for (let i = 0; i < 10; i++) {
+      await nextTick()
+    }
+    expect(wrapper.find('input').element.value).toBe('Asia / China / Beijing')
+
+    const callsBeforeOpen = lazyLoadSpy.mock.calls.length
+    await wrapper.find(TRIGGER).trigger('click')
+    for (let i = 0; i < 10; i++) {
+      await nextTick()
+    }
+    await new Promise((resolve) => setTimeout(resolve, 20))
+    for (let i = 0; i < 10; i++) {
+      await nextTick()
+    }
+    // Only the pending ancestors are requested once more
+    const requestedValues = lazyLoadSpy.mock.calls
+      .slice(callsBeforeOpen)
+      .map((call) => call[0]?.value)
+    expect(requestedValues).toEqual(['asia', 'china', 'beijing'])
+  })
+
+  test('persistent false should not show a label after options are emptied', async () => {
+    await withRealPersistent(async () => {
+      const value = ref(['zhejiang', 'hangzhou'])
+      const options = ref(OPTIONS)
+      const wrapper = _mount(() => (
+        <Cascader
+          v-model={value.value}
+          options={options.value}
+          persistent={false}
+        />
+      ))
+
+      await nextTick()
+      expect(wrapper.find('input').element.value).toBe('Zhejiang / Hangzhou')
+
+      // Open and close so the panel gets mounted and unmounted once
+      await wrapper.find(TRIGGER).trigger('click')
+      await nextTick()
+      await wrapper.find(TRIGGER).trigger('click')
+      for (let i = 0; i < 5; i++) {
+        await rAF()
+        await nextTick()
+      }
+
+      options.value = []
+      await nextTick()
+      expect(wrapper.find('input').element.value).toBe('')
+    })
   })
 
   test('options change', async () => {
