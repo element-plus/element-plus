@@ -9,6 +9,8 @@
   }
   @include e(icon) {
     margin-right: 5px;
+    align-self: flex-start;
+    margin-top: 2px;
   }
   @include e(action) {
     text-align: right;
