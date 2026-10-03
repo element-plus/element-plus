@@ -27,16 +27,27 @@ backtop/custom
 
 :::
 
+## Progress
+
+Set `show-progress` to display the current scroll progress around the button edge.
+
+:::demo
+
+backtop/progress
+
+:::
+
 ## API
 
 ### Attributes
 
-| Name              | Description                                                          | Type      | Default |
-| ----------------- | -------------------------------------------------------------------- | --------- | ------- |
-| target            | the target to trigger scroll.                                        | ^[string] | —       |
-| visibility-height | the button will not show until the scroll height reaches this value. | ^[number] | 200     |
-| right             | right distance.                                                      | ^[number] | 40      |
-| bottom            | bottom distance.                                                     | ^[number] | 40      |
+| Name                    | Description                                                          | Type       | Default |
+| ----------------------- | -------------------------------------------------------------------- | ---------- | ------- |
+| target                  | the target to trigger scroll.                                        | ^[string]  | —       |
+| visibility-height       | the button will not show until the scroll height reaches this value. | ^[number]  | 200     |
+| right                   | right distance.                                                      | ^[number]  | 40      |
+| bottom                  | bottom distance.                                                     | ^[number]  | 40      |
+| show-progress ^(2.14.6) | whether to show scroll progress around the button.                   | ^[boolean] | false   |
 
 ### Events
 
