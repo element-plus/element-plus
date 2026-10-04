@@ -33,7 +33,16 @@ editor:
   import-success: Tema importado
   import-error: Importa un archivo CSS o JSON con colores de tema válidos.
   invalid-color: Introduce un color opaco válido, por ejemplo «#409eff».
-  apca: APCA sobre blanco
+  dark-mode: Modo oscuro
+  contrast: Contraste del texto
+  contrast-current: 'La tarjeta usa {color} · {ratio}:1'
+  contrast-pass: Cumple AA
+  contrast-fail: No cumple AA
+  contrast-help: 'El texto normal sobre este fondo necesita al menos 4.5:1 (WCAG AA).'
+  text-black: Texto negro
+  text-white: Texto blanco
+  apca: APCA · texto del color del tema sobre blanco
+  apca-help: '{value} Lc · Color del tema como texto y blanco como fondo. Se evalúa por separado del contraste de la tarjeta.'
   copied: 'Se ha copiado {color}'
   copy-color: 'Copiar {name}'
   copy-error: No se pudo copiar el color.

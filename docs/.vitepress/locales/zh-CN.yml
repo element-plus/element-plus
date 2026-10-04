@@ -34,7 +34,16 @@ editor:
   import-success: 主题导入成功
   import-error: 请导入包含有效主题颜色的 CSS 或 JSON 文件。
   invalid-color: 请输入有效的不透明颜色，例如「#409eff」。
-  apca: 白底 APCA
+  dark-mode: 深色模式
+  contrast: 文字对比度
+  contrast-current: '信息卡使用{color} · {ratio}:1'
+  contrast-pass: AA 达标
+  contrast-fail: 未达 AA
+  contrast-help: '此背景上的普通文字需至少达到 4.5:1（WCAG AA）。'
+  text-black: 黑色文字
+  text-white: 白色文字
+  apca: APCA · 主题色文字／白底
+  apca-help: '{value} Lc · 以主题色为文字、白色为背景计算，与上方信息卡的文字对比度分别评估。'
   copied: '已复制 {color}'
   copy-color: '复制 {name}'
   copy-error: 颜色复制失败。

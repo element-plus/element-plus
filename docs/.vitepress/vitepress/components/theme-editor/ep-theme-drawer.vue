@@ -1,13 +1,24 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { nextTick, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { Brush } from '@element-plus/icons-vue'
+import CommonThemeToggler from '../common/vp-theme-toggler.vue'
+
+import type { ButtonInstance } from 'element-plus'
+
 import { useThemeStore } from '~/store/theme'
 import { downloadTheme } from '~/utils/theme'
 
 const drawerOpen = ref(false)
+const trigger = ref<ButtonInstance>()
 const store = useThemeStore()
 const { t } = useI18n()
+
+async function restoreFocus() {
+  // Drawer emits the model update after `closed`.
+  await nextTick()
+  if (!drawerOpen.value) trigger.value?.ref?.focus({ preventScroll: true })
+}
 </script>
 
 <template>
@@ -17,8 +28,18 @@ const { t } = useI18n()
     size="var(--theme-editor-width)"
     :title="t('editor.desc')"
     direction="rtl"
+    @closed="restoreFocus"
   >
-    <p class="text-sm mb-5 text-$el-text-color-secondary">
+    <template #header="{ titleId, titleClass }">
+      <div class="theme-editor-heading">
+        <h2 :id="titleId" :class="titleClass">{{ t('editor.desc') }}</h2>
+        <CommonThemeToggler
+          class="theme-editor-appearance"
+          :aria-label="t('editor.dark-mode')"
+        />
+      </div>
+    </template>
+    <p class="text-sm mb-5 text-$el-text-color-regular">
       {{ t('editor.help') }}
     </p>
     <EpThemePrimaryColors />
@@ -40,8 +61,13 @@ const { t } = useI18n()
       </div>
     </template>
   </el-drawer>
-  <el-tooltip v-if="!drawerOpen" :content="t('editor.desc')">
+  <el-tooltip
+    :content="t('editor.desc')"
+    :disabled="drawerOpen"
+    :trigger-keys="[]"
+  >
     <el-button
+      ref="trigger"
       class="theme-editor-trigger"
       :aria-label="t('editor.desc')"
       :icon="Brush"
@@ -73,6 +99,23 @@ const { t } = useI18n()
   flex-shrink: 0;
   padding-bottom: max(20px, env(safe-area-inset-bottom));
   border-top: 1px solid var(--el-border-color-lighter);
+}
+
+.theme-editor-heading {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.theme-editor-heading h2 {
+  margin: 0;
+  flex: 1;
+}
+
+:global(.theme-editor-drawer .theme-editor-appearance) {
+  flex-shrink: 0;
 }
 
 .theme-editor-actions {
@@ -114,6 +157,10 @@ const { t } = useI18n()
   z-index: 30;
 }
 @media (pointer: coarse) {
+  :global(.theme-editor-drawer .theme-editor-appearance) {
+    min-height: 44px;
+  }
+
   .theme-editor-actions :deep(.el-button) {
     height: 44px;
   }

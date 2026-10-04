@@ -24,6 +24,10 @@ Add `?themeEditor=true` to a documentation page URL, then open **Theme Editor** 
 
 Choose a preset or edit the primary, success, warning, danger, and info colors. Changes are previewed on the page and saved in your browser. Click a shade to copy its value, or use **Restore defaults** to reset the palette.
 
+Use the switch in the drawer header to preview light and dark modes. Press **Enter** to apply a typed color. Closing the drawer returns keyboard focus to the brush button.
+
+**Text contrast** compares black and white text on the primary color against the [WCAG AA minimum of 4.5:1 for normal text](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html). The info card automatically uses the more readable foreground. Inspect component states in the page preview when choosing application colors. The separate **APCA** section evaluates theme-colored text on a white background.
+
 **Export CSS** downloads the base colors and their light/dark variants. Load this file after Element Plus styles in your application; dark variants use the `html.dark` selector.
 
 **Import theme** accepts exported CSS or a JSON file with a `colors` object, for example:

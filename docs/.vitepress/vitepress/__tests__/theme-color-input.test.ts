@@ -42,6 +42,16 @@ afterEach(() => {
 })
 
 describe('theme color input', () => {
+  it('applies a typed color on Enter without requiring blur', async () => {
+    const input = wrapper.get('input')
+    input.element.value = '#123'
+    await input.trigger('input')
+    expect(useThemeStore().fullTheme.colors.primary).toBe('#409eff')
+    await input.trigger('keydown', { key: 'Enter' })
+    expect(useThemeStore().fullTheme.colors.primary).toBe('#112233')
+    expect(input.element.value).toBe('#112233')
+  })
+
   it('keeps incomplete input out of the preview and reports invalid colors', async () => {
     const input = wrapper.get('input')
     await input.setValue('invalid')

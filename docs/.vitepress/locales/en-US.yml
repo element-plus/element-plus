@@ -35,7 +35,16 @@ editor:
   import-success: Theme imported
   import-error: Import a CSS or JSON file containing valid theme colors.
   invalid-color: Enter a valid opaque color, for example "#409eff".
-  apca: APCA on white
+  dark-mode: Dark mode
+  contrast: Text contrast
+  contrast-current: 'Info card uses {color} · {ratio}:1'
+  contrast-pass: AA pass
+  contrast-fail: Below AA
+  contrast-help: 'Normal text on this background needs at least 4.5:1 (WCAG AA).'
+  text-black: Black text
+  text-white: White text
+  apca: APCA · theme-colored text on white
+  apca-help: '{value} Lc · Theme color as text, white as background. This is separate from the info card contrast above.'
   copied: 'Copied {color}'
   copy-color: 'Copy {name}'
   copy-error: Unable to copy this color.

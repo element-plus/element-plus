@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { useThemeStore } from '~/store/theme'
+import { useThemeStore } from '../../store/theme'
 
 const { t } = useI18n()
 const store = useThemeStore()
 const primaryColors = [
   { name: 'blue', color: '#409eff' },
-  { name: 'contrast', color: '#0075eb' },
+  { name: 'contrast', color: '#0066cc' },
   { name: 'gold', color: '#f3b814' },
   { name: 'turquoise', color: '#13c2c2' },
 ]

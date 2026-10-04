@@ -1,12 +1,10 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { TinyColor, mostReadable } from '@ctrl/tinycolor'
-import { computedAsync } from '@vueuse/core'
-import { useI18n } from 'vue-i18n'
 import { useThemeStore } from '../../store/theme'
+import EpThemeContrast from './ep-theme-contrast.vue'
 
 const store = useThemeStore()
-const { t } = useI18n()
 const primaryColor = computed(() => store.fullTheme.colors.primary)
 const pColor = computed(() => new TinyColor(primaryColor.value))
 const previewTextColor = computed(() =>
@@ -16,11 +14,6 @@ const hsbString = computed(() => {
   const hsb = pColor.value.toHsv()
   return `${Math.round(hsb.h)}, ${Math.round(hsb.s * 100)}, ${Math.round(hsb.v * 100)}`
 })
-const apca = computedAsync(async () => {
-  const color = primaryColor.value
-  const { calcAPCA } = await import('apca-w3')
-  return Number(calcAPCA(color, '#fff')).toFixed(1)
-}, '—')
 </script>
 
 <template>
@@ -32,7 +25,7 @@ const apca = computedAsync(async () => {
     <div>HEX: {{ primaryColor }}</div>
     <div>RGB: {{ pColor.toRgbString() }}</div>
     <div>HSB: {{ hsbString }}</div>
-    <div>{{ t('editor.apca') }}: {{ apca }}</div>
   </div>
   <EpThemeColorBar class="my-2" name="primary" />
+  <EpThemeContrast :color="primaryColor" :foreground="previewTextColor" />
 </template>

@@ -51,7 +51,10 @@ function apply(value: string | null) {
         size="large"
         :aria-invalid="invalid"
         :aria-describedby="invalid ? `theme-color-${name}-error` : undefined"
+        autocomplete="off"
+        :spellcheck="false"
         @change="apply"
+        @keydown.enter.prevent="apply(draft)"
       />
     </div>
     <p
