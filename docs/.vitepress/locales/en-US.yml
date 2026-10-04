@@ -23,3 +23,25 @@ editor:
   desc: Theme Editor
   primary-color: Primary Color
   secondary-color: Secondary Color
+  help: Preview colors on this page. Changes are saved in this browser. Click a shade to copy it.
+  presets: Presets
+  presets-blue: Classic blue
+  presets-contrast: High contrast
+  presets-gold: Gold
+  presets-turquoise: Turquoise
+  reset: Restore defaults
+  import: Import theme
+  export: Export CSS
+  import-success: Theme imported
+  import-error: Import a CSS or JSON file containing valid theme colors.
+  invalid-color: Enter a valid opaque color, for example "#409eff".
+  apca: APCA on white
+  copied: 'Copied {color}'
+  copy-color: 'Copy {name}'
+  copy-error: Unable to copy this color.
+  colors:
+    primary: Primary
+    success: Success
+    warning: Warning
+    danger: Danger
+    info: Info

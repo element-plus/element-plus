@@ -19,3 +19,13 @@ export interface EpTheme {
   namespace?: string
   colors: Partial<EpThemeColors>
 }
+
+export type EpThemeColor = keyof EpThemeColors
+
+export const themeColorNames: EpThemeColor[] = [
+  'primary',
+  'success',
+  'warning',
+  'danger',
+  'info',
+]

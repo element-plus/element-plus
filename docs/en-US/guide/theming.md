@@ -18,6 +18,27 @@ These are examples about custom theme.
 - Full import: [element-plus-vite-starter](https://github.com/element-plus/element-plus-vite-starter)
 - On demand: [unplugin-element-plus/examples/vite](https://github.com/element-plus/unplugin-element-plus)
 
+### Preview with the theme editor
+
+Add `?themeEditor=true` to a documentation page URL, then open **Theme Editor** using the brush button in the bottom-right corner. The editor is also enabled during local development.
+
+Choose a preset or edit the primary, success, warning, danger, and info colors. Changes are previewed on the page and saved in your browser. Click a shade to copy its value, or use **Restore defaults** to reset the palette.
+
+**Export CSS** downloads the base colors and their light/dark variants. Load this file after Element Plus styles in your application; dark variants use the `html.dark` selector.
+
+**Import theme** accepts exported CSS or a JSON file with a `colors` object, for example:
+
+```json
+{
+  "colors": {
+    "primary": "#0075eb",
+    "success": "#67c23a"
+  }
+}
+```
+
+Missing colors use Element Plus defaults. Invalid imports leave the current theme unchanged. Use `?themeEditor=false` to hide the editor, including during local development.
+
 ### By SCSS variables
 
 `theme-chalk` is written in SCSS.

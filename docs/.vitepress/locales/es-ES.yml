@@ -17,3 +17,29 @@ home:
   component_desc: Experience interaction details by strolling through component demos. Use encapsulated code to improve developing efficiency.
   resource: Recursos
   resource_desc: Descargue recursos de diseño relevantes para dar forma a prototipos de páginas o borrador visual, aumentando la eficiencia del diseño.
+editor:
+  desc: Editor de temas
+  primary-color: Color principal
+  secondary-color: Colores secundarios
+  help: Previsualiza los colores en esta página. Los cambios se guardan en este navegador. Haz clic en un tono para copiarlo.
+  presets: Preajustes
+  presets-blue: Azul clásico
+  presets-contrast: Alto contraste
+  presets-gold: Dorado
+  presets-turquoise: Turquesa
+  reset: Restaurar valores predeterminados
+  import: Importar tema
+  export: Exportar CSS
+  import-success: Tema importado
+  import-error: Importa un archivo CSS o JSON con colores de tema válidos.
+  invalid-color: Introduce un color opaco válido, por ejemplo «#409eff».
+  apca: APCA sobre blanco
+  copied: 'Se ha copiado {color}'
+  copy-color: 'Copiar {name}'
+  copy-error: No se pudo copiar el color.
+  colors:
+    primary: Principal
+    success: Éxito
+    warning: Advertencia
+    danger: Peligro
+    info: Información

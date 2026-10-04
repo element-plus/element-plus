@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 
-const secondaryColors = ['success', 'warning', 'danger', 'info']
+const secondaryColors = ['success', 'warning', 'danger', 'info'] as const
 const { t } = useI18n()
 </script>
 

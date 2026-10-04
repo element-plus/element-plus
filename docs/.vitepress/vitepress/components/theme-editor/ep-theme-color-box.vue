@@ -1,68 +1,48 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useClipboard } from '@vueuse/core'
+import { useI18n } from 'vue-i18n'
 import { ElMessage } from 'element-plus'
+import { getColorValue } from '~/utils/colors/var'
 
-import type { CSSProperties } from 'vue'
-
-import { getColorValue } from '~/utils'
-
-// import type { HSV } from '@ctrl/tinycolor'
-
-const props = defineProps<{
-  name: string
-  // color: string
-  // hsb
-  // hsv?: HSV
-}>()
-
+const props = defineProps<{ name: string }>()
 const cssVarName = computed(() => `--el-color-${props.name}`)
+const { copy, isSupported } = useClipboard({ legacy: true })
+const { t } = useI18n()
 
-const styles = computed(() => {
-  return {
-    '--ep-c-bg': `var(${cssVarName.value})`,
-  } as CSSProperties
-})
-
-const { copy } = useClipboard()
-
-const copyHex = () => {
-  const color = getColorValue(props.name)
-  copy(color)
-
-  ElMessage.success({
-    dangerouslyUseHTMLString: true,
-    message: `<div class="flex justify-center items-center">Copy ${color}
-      <span
-      m="l-2"
-      class="shadow-md inline-flex w-4 h-4 rounded-full" style="background-color: ${color}" />
-</div>`,
-    grouping: true,
-    type: 'success',
-    showClose: true,
-  })
+async function copyHex() {
+  try {
+    if (!isSupported.value) throw new Error('Clipboard unavailable')
+    const color = getColorValue(props.name).trim()
+    await copy(color)
+    ElMessage.success({
+      message: t('editor.copied', { color }),
+      grouping: true,
+    })
+  } catch {
+    ElMessage.error(t('editor.copy-error'))
+  }
 }
 </script>
 
 <template>
-  <div
-    class="color-box cursor-pointer"
-    w="1/7"
-    h="8"
-    :style="styles"
-    text="xs white"
-    font="mono"
-    @click="copyHex()"
+  <button
+    type="button"
+    class="color-box cursor-pointer h-8 flex-1"
+    :style="{ backgroundColor: `var(${cssVarName})` }"
+    :aria-label="t('editor.copy-color', { name: cssVarName })"
+    :title="cssVarName"
+    @click="copyHex"
   />
 </template>
 
 <style scoped>
 .color-box {
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  background-color: var(--ep-c-bg);
+  border: 0;
+  padding: 0;
+}
+.color-box:focus-visible {
+  outline: 2px solid var(--el-text-color-primary);
+  outline-offset: -2px;
 }
 </style>

@@ -1,91 +1,83 @@
 import { computed, watch } from 'vue'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { useStorage } from '@vueuse/core'
+import defaultTheme from '../utils/theme/store/default'
+import {
+  normalizeColor,
+  normalizeTheme,
+  parseFromCss,
+} from '../utils/theme/parse'
+import { generateCssFromTheme } from '../utils/theme/helper'
+import { themeColorNames } from '../utils/theme/types'
 
-import type { EpTheme } from '../utils/theme'
+import type { EpTheme, EpThemeColor } from '../utils/theme/types'
 
-import { parseFromCss, themes } from '~/utils/theme'
-import { generateColorsFromBase, setCssVarValue } from '~/utils'
-import { isColor } from '~/utils/colors/helper'
+const styleId = 'ep-custom-theme'
 
 export const useThemeStore = defineStore('theme', () => {
-  const theme = useStorage<Partial<EpTheme>>('ep-custom-theme', themes.default)
-  const fullTheme = computed<EpTheme>(() =>
-    Object.assign({}, themes.default, theme.value)
+  const theme = useStorage<EpTheme>(
+    'ep-custom-theme',
+    normalizeTheme(defaultTheme)
   )
-
-  if (JSON.stringify(theme.value) !== JSON.stringify(themes.default)) {
-    init()
-  }
-
-  watch(
-    () => theme.value,
-    () => {
-      init()
+  const fullTheme = computed(() => {
+    try {
+      return normalizeTheme(theme.value)
+    } catch {
+      return normalizeTheme(defaultTheme)
     }
-  )
+  })
 
-  /**
-   * init and load theme
-   */
+  // Keep editor styles separate so reset never removes the site's inline styles.
+  watch(fullTheme, init, { immediate: true, flush: 'sync' })
+
   function init() {
-    if (typeof theme.value.colors === 'object') {
-      Object.keys(theme.value.colors).forEach((name) => {
-        updateColor(name, theme.value.colors![name])
-      })
+    if (typeof document === 'undefined') return
+    let style = document.querySelector<HTMLStyleElement>(`#${styleId}`)
+    if (
+      themeColorNames.every(
+        (name) => fullTheme.value.colors[name] === defaultTheme.colors[name]
+      )
+    ) {
+      style?.remove()
+      return
     }
-  }
-
-  /**
-   * update main color & generated colors
-   * @param name
-   * @param value
-   */
-  function updateColor(name: string, value: string) {
-    if (!theme.value.colors) theme.value.colors = {}
-    theme.value.colors[name] = value
-    if (!isColor(value)) return
-    setCssVarValue(`--el-color-${name}`, value)
-
-    const colors = generateColorsFromBase(value)
-    Object.keys(colors).forEach((key) => {
-      if (key === 'base') return
-      setCssVarValue(`--el-color-${name}-${key}`, colors[key])
+    if (!style) {
+      style = document.createElement('style')
+      style.id = styleId
+      document.head.appendChild(style)
+    }
+    style.textContent = generateCssFromTheme({
+      ...fullTheme.value,
+      namespace: 'el',
     })
   }
 
-  /**
-   * parse css or json
-   * @param text
-   * @param type
-   */
-  function parse(text: string, type: 'css' | 'json') {
-    let data: Partial<EpTheme> = {}
-    if (type === 'css') {
-      data = parseFromCss(text)
-    } else if (type === 'json') {
-      data = JSON.parse(text)
+  function updateColor(name: EpThemeColor, value: string | null) {
+    if (!themeColorNames.includes(name)) return false
+    try {
+      const color = normalizeColor(value)
+      theme.value = {
+        ...fullTheme.value,
+        colors: { ...fullTheme.value.colors, [name]: color },
+      }
+      return true
+    } catch {
+      return false
     }
+  }
+
+  function parse(text: string, type: 'css' | 'json') {
+    const data =
+      type === 'css' ? parseFromCss(text) : normalizeTheme(JSON.parse(text))
     theme.value = data
     return data
   }
 
   function reset() {
-    theme.value = JSON.parse(JSON.stringify(themes.default))
-    document.documentElement.removeAttribute('style')
+    theme.value = normalizeTheme(defaultTheme)
   }
 
-  return {
-    theme,
-    /**
-     * theme with default theme
-     */
-    fullTheme,
-    init,
-    updateColor,
-    parse,
-    reset,
-  }
+  return { theme, fullTheme, init, updateColor, parse, reset }
 })
 
 if (import.meta.hot)

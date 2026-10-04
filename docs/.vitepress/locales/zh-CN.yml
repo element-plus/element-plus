@@ -22,3 +22,25 @@ editor:
   desc: 主题编辑器
   primary-color: 主题色
   secondary-color: 辅助色
+  help: 颜色实时应用到当前页面，并保存在此浏览器中。点击色阶可复制颜色。
+  presets: 预设配色
+  presets-blue: 经典蓝
+  presets-contrast: 高对比度
+  presets-gold: 金盏黄
+  presets-turquoise: 绿松石
+  reset: 恢复默认配色
+  import: 导入主题
+  export: 导出 CSS
+  import-success: 主题导入成功
+  import-error: 请导入包含有效主题颜色的 CSS 或 JSON 文件。
+  invalid-color: 请输入有效的不透明颜色，例如「#409eff」。
+  apca: 白底 APCA
+  copied: '已复制 {color}'
+  copy-color: '复制 {name}'
+  copy-error: 颜色复制失败。
+  colors:
+    primary: 主题色
+    success: 成功色
+    warning: 警告色
+    danger: 危险色
+    info: 信息色

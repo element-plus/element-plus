@@ -5,55 +5,56 @@ import { Brush } from '@element-plus/icons-vue'
 import { useThemeStore } from '~/store/theme'
 import { downloadTheme } from '~/utils/theme'
 
-// const drawer = ref(import.meta.env.DEV)
 const drawerOpen = ref(false)
-
-const tStore = useThemeStore()
+const store = useThemeStore()
 const { t } = useI18n()
 </script>
 
 <template>
-  <div>
-    <el-drawer
-      v-model="drawerOpen"
-      :size="'350px'"
-      :lock-scroll="false"
-      direction="rtl"
-    >
-      <template #header>
-        <span class="flex-1" text="sm">Theme Editor</span>
-      </template>
-      <div class="-mt-4">
-        <EpThemePrimaryColors />
-        <EpThemePrimary />
-        <EpThemeSecondaryColors />
-
-        <el-button class="flex" w="full" @click="tStore.reset()">
-          <i-ep-refresh />
-          全部恢复默认配置
+  <el-drawer
+    v-model="drawerOpen"
+    size="min(100vw, 380px)"
+    :title="t('editor.desc')"
+    direction="rtl"
+  >
+    <p class="text-sm mb-5 text-$el-text-color-secondary">
+      {{ t('editor.help') }}
+    </p>
+    <EpThemePrimaryColors />
+    <EpThemePrimary />
+    <EpThemeSecondaryColors />
+    <template #footer>
+      <div class="flex flex-wrap gap-2">
+        <el-button class="w-full mb-1" @click="store.reset()">
+          <i-ep-refresh class="mr-1" />
+          {{ t('editor.reset') }}
         </el-button>
-
-        <div m="t-2" class="flex justify-between">
-          <EpThemeUploadTheme />
-          <el-button
-            class="inline-flex flex-1"
-            m="l-2"
-            @click="downloadTheme('el-custom-theme.css', tStore.fullTheme)"
-          >
-            <i-ep-download />
-            导出
-          </el-button>
-        </div>
+        <EpThemeUploadTheme />
+        <el-button
+          @click="downloadTheme('el-custom-theme.css', store.fullTheme)"
+        >
+          <i-ep-download class="mr-1" />
+          {{ t('editor.export') }}
+        </el-button>
       </div>
-    </el-drawer>
-
-    <el-tooltip v-if="!drawerOpen" :content="t('editor.desc')">
-      <el-button
-        class="fixed right-10 bottom-10"
-        :icon="Brush"
-        circle
-        @click="drawerOpen = true"
-      />
-    </el-tooltip>
-  </div>
+    </template>
+  </el-drawer>
+  <el-tooltip v-if="!drawerOpen" :content="t('editor.desc')">
+    <el-button
+      class="theme-editor-trigger"
+      :aria-label="t('editor.desc')"
+      :icon="Brush"
+      circle
+      @click="drawerOpen = true"
+    />
+  </el-tooltip>
 </template>
+
+<style scoped>
+.theme-editor-trigger {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 30;
+}
+</style>

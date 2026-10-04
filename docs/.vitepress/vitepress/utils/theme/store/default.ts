@@ -3,10 +3,10 @@ import type { EpTheme } from '../types'
 const theme: EpTheme = {
   colors: {
     primary: '#409eff',
-    success: '#53c213',
-    warning: '#f09600',
-    danger: '#f55858',
-    info: '#86898f',
+    success: '#67c23a',
+    warning: '#e6a23c',
+    danger: '#f56c6c',
+    info: '#909399',
   },
 }
 

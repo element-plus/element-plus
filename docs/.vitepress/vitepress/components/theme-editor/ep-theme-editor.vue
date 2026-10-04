@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { isClient } from '@vueuse/core'
+import { onMounted, ref } from 'vue'
 
-const showDrawer = computed(() => {
-  if (!isClient) return false
+const showDrawer = ref(false)
+onMounted(() => {
   const params = new URLSearchParams(location.search)
-  return params.get('themeEditor') || import.meta.env.DEV
+  showDrawer.value =
+    params.get('themeEditor') !== 'false' &&
+    (params.has('themeEditor') || import.meta.env.DEV)
 })
 </script>
 

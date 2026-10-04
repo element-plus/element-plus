@@ -85,6 +85,9 @@ export const getViteConfig = ({ mode }: { mode: string }) => {
     resolve: {
       alias,
     },
+    ssr: {
+      noExternal: ['vue-i18n'],
+    },
     plugins: [
       vueJsx(),
 

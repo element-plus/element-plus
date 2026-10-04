@@ -1,37 +1,44 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { ElMessage } from 'element-plus'
 import { useThemeStore } from '~/store/theme'
 
-const tStore = useThemeStore()
+const store = useThemeStore()
+const { t } = useI18n()
 const themeFile = ref<HTMLInputElement>()
+const loading = ref(false)
 
-const uploadTheme = () => {
-  themeFile.value?.click()
-  themeFile.value?.addEventListener('change', (e) => {
-    const file = (e.target as HTMLInputElement).files?.[0]
-    if (file) {
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        const result = e.target?.result
-        if (typeof result === 'string' && result) {
-          const themeText = result
-          const inlineStyle = themeText.replace(':root', '').replace('}', '')
-          document.documentElement.setAttribute('style', inlineStyle)
-
-          const ext = file.name.split('.').pop()
-          tStore.parse(themeText, ext === 'json' ? 'json' : 'css')
-        }
-      }
-      reader.readAsText(file)
-    }
-  })
+async function uploadTheme(event: Event) {
+  const input = event.target as HTMLInputElement
+  const file = input.files?.[0]
+  if (!file) return
+  loading.value = true
+  try {
+    const ext = file.name.split('.').pop()?.toLowerCase()
+    if (ext !== 'css' && ext !== 'json')
+      throw new Error('Unsupported file type')
+    store.parse(await file.text(), ext)
+    ElMessage.success(t('editor.import-success'))
+  } catch {
+    ElMessage.error(t('editor.import-error'))
+  } finally {
+    loading.value = false
+    input.value = ''
+  }
 }
 </script>
 
 <template>
-  <el-button class="inline-flex flex-1" @click="uploadTheme">
-    <i-ep-upload />
-    导入
+  <el-button :loading="loading" @click="themeFile?.click()">
+    <i-ep-upload class="mr-1" />
+    {{ t('editor.import') }}
   </el-button>
-  <input ref="themeFile" type="file" style="display: none" />
+  <input
+    ref="themeFile"
+    type="file"
+    accept=".css,.json"
+    hidden
+    @change="uploadTheme"
+  />
 </template>

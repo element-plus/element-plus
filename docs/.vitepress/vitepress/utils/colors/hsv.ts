@@ -1,5 +1,5 @@
 import { TinyColor } from '@ctrl/tinycolor'
-import { COLOR_DARK_LEVEL, COLOR_LIGHT_LEVEL } from '../theme'
+import { COLOR_DARK_LEVEL, COLOR_LIGHT_LEVEL } from '../theme/color'
 
 import type { HSV, Numberify } from '@ctrl/tinycolor'
 
@@ -106,17 +106,21 @@ export function generateHsvColors(
  * @param hex
  * @returns
  */
-export function generateColorsFromBase(hex: string) {
-  const colors = {
+export function generateColorsFromBase(hex: string, dark = false) {
+  const colors: Record<string, string> = {
     base: hex,
   }
 
   const baseColor = new TinyColor(colors.base)
   COLOR_LIGHT_LEVEL.forEach((level) => {
-    colors[`light-${level}`] = baseColor.mix('#fff', level * 10).toHexString()
+    colors[`light-${level}`] = baseColor
+      .mix(dark ? '#141414' : '#fff', level * 10)
+      .toHexString()
   })
   COLOR_DARK_LEVEL.forEach((level) => {
-    colors[`dark-${level}`] = baseColor.mix('#000', level * 10).toHexString()
+    colors[`dark-${level}`] = baseColor
+      .mix(dark ? '#fff' : '#000', level * 10)
+      .toHexString()
   })
 
   return colors
