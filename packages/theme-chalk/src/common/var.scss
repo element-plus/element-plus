@@ -1376,6 +1376,10 @@ $scrollbar: map.merge(
     'bg-color': getCssVar('text-color-secondary'),
     'hover-opacity': 0.5,
     'hover-bg-color': getCssVar('text-color-secondary'),
+    'top-mask-height': 40px,
+    'top-mask-color': getCssVar('bg-color'),
+    'bottom-mask-height': 40px,
+    'bottom-mask-color': getCssVar('bg-color'),
   ),
   $scrollbar
 );

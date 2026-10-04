@@ -22,6 +22,14 @@
         <slot />
       </component>
     </div>
+    <transition :name="ns.b('mask-fade')">
+      <scrollbar-mask
+        v-if="mask"
+        ref="maskRef"
+        :top="mask === true || mask === 'top'"
+        :bottom="mask === true || mask === 'bottom'"
+      />
+    </transition>
     <template v-if="!native">
       <bar ref="barRef" :always="always" :min-size="minSize" />
     </template>
@@ -50,6 +58,7 @@ import {
 } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import Bar from './bar.vue'
+import ScrollbarMask from './mask.vue'
 import { scrollbarContextKey } from './constants'
 import { scrollbarEmits } from './scrollbar'
 
@@ -72,6 +81,7 @@ const props = withDefaults(defineProps<ScrollbarProps>(), {
   viewStyle: '',
   viewClass: '',
   tag: 'div',
+  mask: false,
   minSize: 20,
   tabindex: undefined,
 })
@@ -97,6 +107,7 @@ const scrollbarRef = ref<HTMLDivElement>()
 const wrapRef = ref<HTMLDivElement>()
 const resizeRef = ref<HTMLElement>()
 const barRef = ref<BarInstance>()
+const maskRef = ref<InstanceType<typeof ScrollbarMask>>()
 
 const wrapStyle = computed<StyleValue>(() => {
   const style: CSSProperties = {}
@@ -148,6 +159,7 @@ const updateTriggerStatus = (arrivedStates: Record<string, boolean>) => {
 const handleScroll = () => {
   if (wrapRef.value) {
     barRef.value?.handleScroll(wrapRef.value)
+    maskRef.value?.handleScroll()
     const prevTop = wrapScrollTop
     const prevLeft = wrapScrollLeft
     wrapScrollTop = wrapRef.value.scrollTop
@@ -216,6 +228,7 @@ const setScrollLeft = (value: number) => {
 
 const update = () => {
   barRef.value?.update()
+  maskRef.value?.update()
   distanceScrollState[direction] = false
   if (wrapRef.value) barRef.value?.handleScroll(wrapRef.value)
 }
@@ -234,6 +247,7 @@ const updateBar = () => {
     // overflow mid-transition), so always refresh the bar here.
     barRef.value?.update()
     barRef.value?.handleScroll(wrapRef.value)
+    maskRef.value?.update()
   })
 }
 
@@ -256,7 +270,7 @@ watch(
 watch(
   () => [props.maxHeight, props.height],
   () => {
-    if (!props.native)
+    if (!props.native || props.mask)
       nextTick(() => {
         update()
       })
@@ -275,11 +289,12 @@ onActivated(() => {
   if (wrapRef.value) {
     wrapRef.value.scrollTop = wrapScrollTop
     wrapRef.value.scrollLeft = wrapScrollLeft
+    maskRef.value?.update()
   }
 })
 
 onMounted(() => {
-  if (!props.native)
+  if (!props.native || props.mask)
     nextTick(() => {
       update()
     })
