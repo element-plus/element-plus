@@ -45,4 +45,9 @@ async function copyHex() {
   outline: 2px solid var(--el-text-color-primary);
   outline-offset: -2px;
 }
+@media (pointer: coarse) {
+  .color-box {
+    min-height: 44px;
+  }
+}
 </style>

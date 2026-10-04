@@ -1,16 +1,16 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { TinyColor } from '@ctrl/tinycolor'
+import { TinyColor, mostReadable } from '@ctrl/tinycolor'
 import { computedAsync } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
-import { useThemeStore } from '~/store/theme'
+import { useThemeStore } from '../../store/theme'
 
 const store = useThemeStore()
 const { t } = useI18n()
 const primaryColor = computed(() => store.fullTheme.colors.primary)
 const pColor = computed(() => new TinyColor(primaryColor.value))
 const previewTextColor = computed(() =>
-  pColor.value.isLight() ? '#000' : '#fff'
+  mostReadable(primaryColor.value, ['#000', '#fff'])!.toHexString()
 )
 const hsbString = computed(() => {
   const hsb = pColor.value.toHsv()

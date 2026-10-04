@@ -13,7 +13,8 @@ const { t } = useI18n()
 <template>
   <el-drawer
     v-model="drawerOpen"
-    size="min(100vw, 380px)"
+    class="theme-editor-drawer"
+    size="var(--theme-editor-width)"
     :title="t('editor.desc')"
     direction="rtl"
   >
@@ -24,8 +25,8 @@ const { t } = useI18n()
     <EpThemePrimary />
     <EpThemeSecondaryColors />
     <template #footer>
-      <div class="flex flex-wrap gap-2">
-        <el-button class="w-full mb-1" @click="store.reset()">
+      <div class="theme-editor-actions">
+        <el-button class="theme-editor-reset" @click="store.reset()">
           <i-ep-refresh class="mr-1" />
           {{ t('editor.reset') }}
         </el-button>
@@ -51,10 +52,74 @@ const { t } = useI18n()
 </template>
 
 <style scoped>
+/* The drawer is teleported, so target its own class instead of an ancestor. */
+:global(.theme-editor-drawer.el-drawer) {
+  --theme-editor-width: min(100vw, 380px);
+  height: 100dvh;
+  left: calc(100vw - var(--theme-editor-width));
+  right: auto;
+}
+
+:global(.theme-editor-drawer .el-drawer__header) {
+  margin-bottom: 0;
+  flex-shrink: 0;
+}
+
+:global(.theme-editor-drawer .el-drawer__body) {
+  min-height: 0;
+}
+
+:global(.theme-editor-drawer .el-drawer__footer) {
+  flex-shrink: 0;
+  padding-bottom: max(20px, env(safe-area-inset-bottom));
+  border-top: 1px solid var(--el-border-color-lighter);
+}
+
+.theme-editor-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.theme-editor-actions :deep(.el-button) {
+  width: 100%;
+  min-width: 0;
+  height: 40px;
+  margin: 0;
+}
+
+.theme-editor-reset {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 767px) {
+  :global(.theme-editor-drawer.el-drawer) {
+    --theme-editor-width: 100vw;
+  }
+}
+
 .theme-editor-trigger {
   position: fixed;
-  right: 24px;
-  bottom: 24px;
+  --theme-editor-trigger-size: 40px;
+  width: var(--theme-editor-trigger-size);
+  height: var(--theme-editor-trigger-size);
+  left: calc(
+    100vw - max(24px, env(safe-area-inset-right)) -
+      var(--theme-editor-trigger-size)
+  );
+  top: calc(
+    100dvh - max(24px, env(safe-area-inset-bottom)) -
+      var(--theme-editor-trigger-size)
+  );
   z-index: 30;
+}
+@media (pointer: coarse) {
+  .theme-editor-actions :deep(.el-button) {
+    height: 44px;
+  }
+
+  .theme-editor-trigger {
+    --theme-editor-trigger-size: 44px;
+  }
 }
 </style>
