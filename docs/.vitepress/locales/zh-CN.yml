@@ -22,7 +22,7 @@ editor:
   desc: 主题编辑器
   primary-color: 主题色
   secondary-color: 辅助色
-  help: 颜色实时应用到当前页面，并保存在此浏览器中。点击色阶可复制颜色。
+  help: 颜色实时应用到当前页面，并保存在此浏览器中。点击颜色值或色阶可复制。
   presets: 预设配色
   presets-blue: 经典蓝
   presets-contrast: 高对比度
@@ -31,6 +31,9 @@ editor:
   reset: 恢复默认配色
   import: 导入主题
   export: 导出 CSS
+  copy-css: 复制 CSS
+  copy-css-success: 主题 CSS 已复制
+  copy-css-error: 主题 CSS 复制失败，请尝试导出 CSS。
   import-success: 主题导入成功
   import-error: 请导入包含有效主题颜色的 CSS 或 JSON 文件。
   invalid-color: 请输入有效的不透明颜色，例如「#409eff」。

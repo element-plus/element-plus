@@ -21,7 +21,7 @@ editor:
   desc: Editor de temas
   primary-color: Color principal
   secondary-color: Colores secundarios
-  help: Previsualiza los colores en esta página. Los cambios se guardan en este navegador. Haz clic en un tono para copiarlo.
+  help: Previsualiza los colores en esta página. Los cambios se guardan en este navegador. Haz clic en un valor de color o tono para copiarlo.
   presets: Preajustes
   presets-blue: Azul clásico
   presets-contrast: Alto contraste
@@ -30,6 +30,9 @@ editor:
   reset: Restaurar valores predeterminados
   import: Importar tema
   export: Exportar CSS
+  copy-css: Copiar CSS
+  copy-css-success: CSS del tema copiado
+  copy-css-error: No se pudo copiar el CSS del tema. Prueba con Exportar CSS.
   import-success: Tema importado
   import-error: Importa un archivo CSS o JSON con colores de tema válidos.
   invalid-color: Introduce un color opaco válido, por ejemplo «#409eff».

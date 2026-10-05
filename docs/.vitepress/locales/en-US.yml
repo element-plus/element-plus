@@ -23,7 +23,7 @@ editor:
   desc: Theme Editor
   primary-color: Primary Color
   secondary-color: Secondary Color
-  help: Preview colors on this page. Changes are saved in this browser. Click a shade to copy it.
+  help: Preview colors on this page. Changes are saved in this browser. Click a color value or shade to copy it.
   presets: Presets
   presets-blue: Classic blue
   presets-contrast: High contrast
@@ -32,6 +32,9 @@ editor:
   reset: Restore defaults
   import: Import theme
   export: Export CSS
+  copy-css: Copy CSS
+  copy-css-success: Theme CSS copied
+  copy-css-error: Unable to copy the theme CSS. Try Export CSS instead.
   import-success: Theme imported
   import-error: Import a CSS or JSON file containing valid theme colors.
   invalid-color: Enter a valid opaque color, for example "#409eff".

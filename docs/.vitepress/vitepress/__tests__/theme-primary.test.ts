@@ -1,18 +1,22 @@
 import { nextTick } from 'vue'
-import { mount } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
+import clipboardCopy from 'clipboard-copy'
 import { readability } from '@ctrl/tinycolor'
 import { createPinia, disposePinia, setActivePinia } from 'pinia'
 import { createI18n } from 'vue-i18n'
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { ElButton } from '@element-plus/components/button'
 import { ElCard } from '@element-plus/components/card'
 import { ElCollapse, ElCollapseItem } from '@element-plus/components/collapse'
 import { ElIcon } from '@element-plus/components/icon'
 import { ElLink } from '@element-plus/components/link'
 import { ElTag } from '@element-plus/components/tag'
+import { ElMessage } from 'element-plus'
 import Primary from '../components/theme-editor/ep-theme-primary.vue'
 import Presets from '../components/theme-editor/ep-theme-primary-colors.vue'
 import { useThemeStore } from '../store/theme'
+
+vi.mock('clipboard-copy', () => ({ default: vi.fn() }))
 
 const components = {
   ElButton,
@@ -33,6 +37,9 @@ const i18n = () =>
     messages: {
       en: {
         editor: {
+          copied: 'Copied {color}',
+          'copy-color': 'Copy {name}',
+          'copy-error': 'Unable to copy this color.',
           contrast: 'Text contrast',
           'contrast-current': 'Info card uses {color} · {ratio}:1',
           'contrast-pass': 'AA pass',
@@ -52,6 +59,9 @@ const i18n = () =>
     },
   })
 beforeEach(() => {
+  vi.mocked(clipboardCopy).mockReset().mockResolvedValue(undefined)
+  vi.spyOn(ElMessage, 'success').mockReturnValue({ close: vi.fn() })
+  vi.spyOn(ElMessage, 'error').mockReturnValue({ close: vi.fn() })
   localStorage.clear()
   document.querySelector('#ep-custom-theme')?.remove()
   pinia = createPinia()
@@ -67,6 +77,7 @@ beforeEach(() => {
 afterEach(() => {
   wrapper.unmount()
   disposePinia(pinia)
+  vi.restoreAllMocks()
 })
 
 describe('theme preview text', () => {
@@ -133,5 +144,43 @@ describe('theme preview text', () => {
     expect(
       readability(useThemeStore().fullTheme.colors.primary, '#fff')
     ).toBeGreaterThanOrEqual(4.5)
+  })
+})
+
+describe('copy primary color values', () => {
+  it.each([
+    ['HEX', '#409eff'],
+    ['RGB', 'rgb(64, 158, 255)'],
+    ['HSB', '210, 75, 100'],
+  ])('copies the displayed %s value', async (format, value) => {
+    const button = wrapper.get(`button[aria-label^="Copy ${format}:"]`)
+    expect(button.attributes('type')).toBe('button')
+    expect(button.attributes('aria-label')).toBe(`Copy ${format}: ${value}`)
+    await button.trigger('click')
+    await flushPromises()
+    expect(clipboardCopy).toHaveBeenCalledWith(value)
+    expect(ElMessage.success).toHaveBeenCalledWith({
+      message: `Copied ${value}`,
+      grouping: true,
+    })
+  })
+
+  it('copies the latest edited color', async () => {
+    useThemeStore().updateColor('primary', '#ff0000')
+    await nextTick()
+    await wrapper.get('button[aria-label^="Copy RGB:"]').trigger('click')
+    await flushPromises()
+    expect(clipboardCopy).toHaveBeenCalledWith('rgb(255, 0, 0)')
+  })
+
+  it('reports copy failures without showing a success message', async () => {
+    vi.mocked(clipboardCopy).mockRejectedValue(new Error('Clipboard denied'))
+    await wrapper.get('button[aria-label^="Copy HEX:"]').trigger('click')
+    await flushPromises()
+    expect(ElMessage.error).toHaveBeenCalledWith({
+      message: 'Unable to copy this color.',
+      grouping: true,
+    })
+    expect(ElMessage.success).not.toHaveBeenCalled()
   })
 })

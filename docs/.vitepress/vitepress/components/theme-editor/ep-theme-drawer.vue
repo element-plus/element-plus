@@ -2,10 +2,11 @@
 import { computed, nextTick, ref } from 'vue'
 import { mostReadable } from '@ctrl/tinycolor'
 import { useI18n } from 'vue-i18n'
-import { Brush } from '@element-plus/icons-vue'
+import { Brush, DocumentCopy } from '@element-plus/icons-vue'
 import { isDark } from '../../composables/dark'
 import { useThemeStore } from '../../store/theme'
-import { downloadTheme } from '../../utils/theme/helper'
+import { downloadTheme, generateCssFromTheme } from '../../utils/theme/helper'
+import { copyThemeText } from '../../utils/theme/copy'
 import { generateColorsFromBase } from '../../utils/colors/hsv'
 import CommonThemeToggler from '../common/vp-theme-toggler.vue'
 
@@ -16,7 +17,7 @@ const trigger = ref<ButtonInstance>()
 const store = useThemeStore()
 const { t } = useI18n()
 
-const exportButtonStyle = computed(() => {
+const copyButtonStyle = computed(() => {
   const colors = generateColorsFromBase(
     store.fullTheme.colors.primary,
     isDark.value
@@ -29,6 +30,13 @@ const exportButtonStyle = computed(() => {
     '--el-button-active-text-color': foreground('dark-2'),
   }
 })
+
+function copyCss() {
+  return copyThemeText(generateCssFromTheme(store.fullTheme), {
+    success: t('editor.copy-css-success'),
+    error: t('editor.copy-css-error'),
+  })
+}
 
 async function restoreFocus() {
   // Drawer emits the model update after `closed`.
@@ -69,13 +77,20 @@ async function restoreFocus() {
         </el-button>
         <EpThemeUploadTheme />
         <el-button
-          type="primary"
           class="theme-editor-export"
-          :style="exportButtonStyle"
           @click="downloadTheme('el-custom-theme.css', store.fullTheme)"
         >
           <i-ep-download class="mr-1" />
           {{ t('editor.export') }}
+        </el-button>
+        <el-button
+          type="primary"
+          class="theme-editor-copy"
+          :icon="DocumentCopy"
+          :style="copyButtonStyle"
+          @click="copyCss"
+        >
+          {{ t('editor.copy-css') }}
         </el-button>
       </div>
     </template>
@@ -170,12 +185,20 @@ async function restoreFocus() {
 .theme-editor-actions :deep(.el-button) {
   width: 100%;
   min-width: 0;
-  height: 40px;
+  height: auto;
+  min-height: 40px;
   margin: 0;
+  padding: 8px 12px;
+  white-space: normal;
+  line-height: 20px;
+}
+
+.theme-editor-actions :deep(.el-button > span) {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .theme-editor-actions .theme-editor-reset {
-  grid-column: 1 / -1;
   justify-self: start;
   width: auto;
   max-width: 100%;

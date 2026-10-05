@@ -1,27 +1,19 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { useClipboard } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
-import { ElMessage } from 'element-plus'
+import { copyThemeText } from '../../utils/theme/copy'
 import { getColorValue } from '~/utils/colors/var'
 
 const props = defineProps<{ name: string }>()
 const cssVarName = computed(() => `--el-color-${props.name}`)
-const { copy, isSupported } = useClipboard({ legacy: true })
 const { t } = useI18n()
 
-async function copyHex() {
-  try {
-    if (!isSupported.value) throw new Error('Clipboard unavailable')
-    const color = getColorValue(props.name).trim()
-    await copy(color)
-    ElMessage.success({
-      message: t('editor.copied', { color }),
-      grouping: true,
-    })
-  } catch {
-    ElMessage.error(t('editor.copy-error'))
-  }
+function copyHex() {
+  const color = getColorValue(props.name).trim()
+  return copyThemeText(color, {
+    success: t('editor.copied', { color }),
+    error: t('editor.copy-error'),
+  })
 }
 </script>
 
