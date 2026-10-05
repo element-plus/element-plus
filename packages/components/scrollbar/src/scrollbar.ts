@@ -59,10 +59,10 @@ export interface ScrollbarProps {
    */
   always?: boolean
   /**
-   * @description show gradient masks at both edges or at the specified edge while more content can be scrolled to
+   * @description show gradient masks at all edges or at the specified edge while more content can be scrolled to
    * @default false
    */
-  mask?: boolean | 'top' | 'bottom'
+  mask?: boolean | ScrollbarDirection
   /**
    * @description minimum size of scrollbar
    * @default 20
@@ -164,11 +164,11 @@ export const scrollbarProps = buildProps({
    */
   always: Boolean,
   /**
-   * @description show gradient masks at both edges or at the specified edge while more content can be scrolled to
+   * @description show gradient masks at all edges or at the specified edge while more content can be scrolled to
    */
   mask: {
     type: [Boolean, String],
-    values: [true, false, 'top', 'bottom'],
+    values: [true, false, 'top', 'bottom', 'left', 'right'],
     default: false,
   },
   /**

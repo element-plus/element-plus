@@ -18,14 +18,22 @@ const createScrollbar = (props: ScrollbarProps = {}) => {
     global: { stubs: { transition: true } },
   })
   const wrap = wrapper.find<HTMLDivElement>('.el-scrollbar__wrap')
-  const dimensions = { height: 200, contentHeight: 500 }
+  const dimensions = {
+    height: 200,
+    contentHeight: 500,
+    width: 200,
+    contentWidth: 200,
+  }
   defineGetter(wrap.element, 'clientHeight', () => dimensions.height)
-  defineGetter(wrap.element, 'clientWidth', 200)
+  defineGetter(wrap.element, 'clientWidth', () => dimensions.width)
+  defineGetter(wrap.element, 'scrollWidth', () => dimensions.contentWidth)
   defineGetter(wrap.element, 'scrollHeight', () => dimensions.contentHeight)
   defineGetter(wrapper.element, 'clientHeight', 200)
+  defineGetter(wrapper.element, 'clientWidth', 200)
 
-  const scrollTo = async (top: number) => {
+  const scrollTo = async (top: number, left = wrap.element.scrollLeft) => {
     wrap.element.scrollTop = top
+    wrap.element.scrollLeft = left
     await wrap.trigger('scroll')
   }
 
@@ -33,7 +41,7 @@ const createScrollbar = (props: ScrollbarProps = {}) => {
 }
 
 describe('Scrollbar masks', () => {
-  test('enables both masks with a bare mask attribute', async () => {
+  test('enables all four masks with a bare mask attribute', async () => {
     const wrapper = mount(
       {
         components: { Scrollbar },
@@ -45,12 +53,17 @@ describe('Scrollbar masks', () => {
     const wrap = scrollbar.find<HTMLDivElement>('.el-scrollbar__wrap')
     defineGetter(wrap.element, 'clientHeight', 200)
     defineGetter(wrap.element, 'scrollHeight', 500)
+    defineGetter(wrap.element, 'clientWidth', 200)
+    defineGetter(wrap.element, 'scrollWidth', 500)
     wrap.element.scrollTop = 150
+    wrap.element.scrollLeft = 150
     await wrap.trigger('scroll')
 
     expect(scrollbar.props('mask')).toBe(true)
     expect(wrapper.find('.el-scrollbar__top-mask').isVisible()).toBe(true)
     expect(wrapper.find('.el-scrollbar__bottom-mask').isVisible()).toBe(true)
+    expect(wrapper.find('.el-scrollbar__left-mask').isVisible()).toBe(true)
+    expect(wrapper.find('.el-scrollbar__right-mask').isVisible()).toBe(true)
   })
 
   test('is disabled by default and can be toggled at runtime', async () => {
@@ -98,7 +111,7 @@ describe('Scrollbar masks', () => {
     }
   )
 
-  test('tracks both edges and switches between all mask modes', async () => {
+  test('tracks vertical edges and switches between vertical mask modes', async () => {
     const { wrapper, scrollTo } = createScrollbar({ mask: true })
     await flushPromises()
     const top = wrapper.find('.el-scrollbar__top-mask')
@@ -126,6 +139,132 @@ describe('Scrollbar masks', () => {
     await scrollTo(0)
     expect(wrapper.find('.el-scrollbar__top-mask').isVisible()).toBe(false)
     expect(wrapper.find('.el-scrollbar__bottom-mask').isVisible()).toBe(true)
+  })
+
+  test.each([false, true])(
+    'tracks horizontal edges and switches mask modes with native=%s',
+    async (native) => {
+      const { wrapper, dimensions, scrollTo } = createScrollbar({
+        native,
+        mask: true,
+      })
+      dimensions.contentHeight = 200
+      dimensions.contentWidth = 500
+      await flushPromises()
+      const left = wrapper.find('.el-scrollbar__left-mask')
+      const right = wrapper.find('.el-scrollbar__right-mask')
+      expect(left.isVisible()).toBe(false)
+      expect(right.isVisible()).toBe(true)
+      expect(right.attributes('aria-hidden')).toBe('true')
+      expect(wrapper.find('.el-scrollbar__top-mask').isVisible()).toBe(false)
+      expect(wrapper.find('.el-scrollbar__bottom-mask').isVisible()).toBe(false)
+
+      await scrollTo(0, 150)
+      expect(left.isVisible()).toBe(true)
+      expect(right.isVisible()).toBe(true)
+      await wrapper.setProps({ mask: 'left' })
+      expect(left.isVisible()).toBe(true)
+      expect(wrapper.find('.el-scrollbar__right-mask').exists()).toBe(false)
+      expect(wrapper.find('.el-scrollbar__top-mask').exists()).toBe(false)
+      expect(wrapper.find('.el-scrollbar__bottom-mask').exists()).toBe(false)
+      await wrapper.setProps({ mask: 'right' })
+      expect(wrapper.find('.el-scrollbar__left-mask').exists()).toBe(false)
+      expect(wrapper.find('.el-scrollbar__right-mask').isVisible()).toBe(true)
+      await wrapper.setProps({ mask: false })
+      expect(wrapper.find('.el-scrollbar__mask').exists()).toBe(false)
+      await wrapper.setProps({ mask: true })
+      await nextTick()
+      const nextLeft = wrapper.find('.el-scrollbar__left-mask')
+      const nextRight = wrapper.find('.el-scrollbar__right-mask')
+      expect(nextLeft.isVisible()).toBe(true)
+      expect(nextRight.isVisible()).toBe(true)
+
+      for (const offset of [299.5, 300, 310]) {
+        await scrollTo(0, offset)
+        expect(nextLeft.isVisible()).toBe(true)
+        expect(nextRight.isVisible()).toBe(false)
+      }
+      for (const offset of [0.5, 0, -10]) {
+        await scrollTo(0, offset)
+        expect(nextLeft.isVisible()).toBe(false)
+        expect(nextRight.isVisible()).toBe(true)
+      }
+    }
+  )
+
+  test.each([false, true])(
+    'supports RTL horizontal masks with native=%s',
+    async (native) => {
+      const { wrapper, dimensions, scrollTo } = createScrollbar({
+        native,
+        mask: true,
+        wrapStyle: { direction: 'rtl' },
+      })
+      dimensions.contentWidth = 500
+      await flushPromises()
+      const left = wrapper.find('.el-scrollbar__left-mask')
+      const right = wrapper.find('.el-scrollbar__right-mask')
+      expect(left.isVisible()).toBe(true)
+      expect(right.isVisible()).toBe(false)
+      await scrollTo(0, -150)
+      expect(left.isVisible()).toBe(true)
+      expect(right.isVisible()).toBe(true)
+      for (const offset of [-299.5, -300, -310]) {
+        await scrollTo(0, offset)
+        expect(left.isVisible()).toBe(false)
+        expect(right.isVisible()).toBe(true)
+      }
+      for (const offset of [-0.5, 0, 10]) {
+        await scrollTo(0, offset)
+        expect(left.isVisible()).toBe(true)
+        expect(right.isVisible()).toBe(false)
+      }
+    }
+  )
+
+  test.each([0, 100, 200, 201])(
+    'hides horizontal masks without overflow (scrollWidth=%s)',
+    async (contentWidth) => {
+      const { wrapper, dimensions, scrollTo } = createScrollbar({ mask: true })
+      dimensions.contentWidth = contentWidth
+      await flushPromises()
+      await scrollTo(100, 10)
+      expect(wrapper.find('.el-scrollbar__left-mask').isVisible()).toBe(false)
+      expect(wrapper.find('.el-scrollbar__right-mask').isVisible()).toBe(false)
+      expect(wrapper.find('.el-scrollbar__top-mask').isVisible()).toBe(true)
+      expect(wrapper.find('.el-scrollbar__bottom-mask').isVisible()).toBe(true)
+    }
+  )
+
+  test('hides horizontal masks when the viewport has no width', async () => {
+    const { wrapper, dimensions } = createScrollbar({ mask: true })
+    dimensions.width = 0
+    dimensions.contentWidth = 500
+    await flushPromises()
+    expect(wrapper.find('.el-scrollbar__left-mask').isVisible()).toBe(false)
+    expect(wrapper.find('.el-scrollbar__right-mask').isVisible()).toBe(false)
+  })
+
+  test('does not reset horizontal end-reached state when masks hide', async () => {
+    const { wrapper, dimensions, scrollTo } = createScrollbar({
+      mask: true,
+      distance: 50,
+    })
+    dimensions.contentWidth = 500
+    await flushPromises()
+    await scrollTo(0, 260)
+    expect(wrapper.find('.el-scrollbar__right-mask').isVisible()).toBe(true)
+    await scrollTo(0, 300)
+    expect(wrapper.find('.el-scrollbar__right-mask').isVisible()).toBe(false)
+    await scrollTo(0, 299.5)
+    await scrollTo(0, 300)
+    expect(wrapper.emitted('end-reached')).toEqual([['right']])
+    await scrollTo(0, 40)
+    expect(wrapper.find('.el-scrollbar__left-mask').isVisible()).toBe(true)
+    await scrollTo(0, 0.5)
+    await scrollTo(0, 0)
+    expect(wrapper.find('.el-scrollbar__left-mask').isVisible()).toBe(false)
+    expect(wrapper.emitted('end-reached')).toEqual([['right'], ['left']])
   })
 
   test.each([false, true])(
@@ -198,22 +337,29 @@ describe('Scrollbar masks', () => {
     const { wrapper, wrap, dimensions, scrollTo } = createScrollbar({
       mask: true,
     })
+    dimensions.contentWidth = 500
     await flushPromises()
     const mask = wrapper.find('.el-scrollbar__bottom-mask')
 
-    await scrollTo(300)
+    await scrollTo(300, 300)
+    expect(wrapper.find('.el-scrollbar__right-mask').isVisible()).toBe(false)
     expect(mask.isVisible()).toBe(false)
     expect(wrapper.find('.el-scrollbar__top-mask').isVisible()).toBe(true)
     dimensions.contentHeight = 700
+    dimensions.contentWidth = 700
     observers.get(wrapper.find('.el-scrollbar__view').element)!()
     await nextTick()
     expect(mask.isVisible()).toBe(true)
+    expect(wrapper.find('.el-scrollbar__right-mask').isVisible()).toBe(true)
 
     dimensions.height = 700
+    dimensions.width = 700
     observers.get(wrap.element)!()
     await nextTick()
     expect(mask.isVisible()).toBe(false)
     expect(wrapper.find('.el-scrollbar__top-mask').isVisible()).toBe(false)
+    expect(wrapper.find('.el-scrollbar__left-mask').isVisible()).toBe(false)
+    expect(wrapper.find('.el-scrollbar__right-mask').isVisible()).toBe(false)
   })
 
   test('does not reset end-reached state when the top mask hides', async () => {
@@ -238,22 +384,29 @@ describe('Scrollbar masks', () => {
       noresize: true,
       mask: true,
     })
+    dimensions.contentWidth = 500
     await flushPromises()
-    await scrollTo(100)
+    await scrollTo(100, 100)
     const mask = wrapper.find('.el-scrollbar__bottom-mask')
     expect(mask.isVisible()).toBe(true)
     expect(wrapper.find('.el-scrollbar__top-mask').isVisible()).toBe(true)
 
     dimensions.contentHeight = 100
+    dimensions.contentWidth = 100
     wrapper.vm.update()
     await nextTick()
     expect(mask.isVisible()).toBe(false)
     expect(wrapper.find('.el-scrollbar__top-mask').isVisible()).toBe(false)
+    expect(wrapper.find('.el-scrollbar__left-mask').isVisible()).toBe(false)
+    expect(wrapper.find('.el-scrollbar__right-mask').isVisible()).toBe(false)
     dimensions.contentHeight = 500
+    dimensions.contentWidth = 500
     wrapper.vm.update()
     await nextTick()
     expect(mask.isVisible()).toBe(true)
     expect(wrapper.find('.el-scrollbar__top-mask').isVisible()).toBe(true)
+    expect(wrapper.find('.el-scrollbar__left-mask').isVisible()).toBe(true)
+    expect(wrapper.find('.el-scrollbar__right-mask').isVisible()).toBe(true)
   })
 
   test.each(['transitionend', 'animationend'])(
@@ -289,5 +442,25 @@ describe('Scrollbar masks', () => {
     const topMask = wrapper.find<HTMLElement>('.el-scrollbar__top-mask')
     expect(topMask.element.style.width).toBe('185px')
     expect(topMask.element.style.top).toBe('0px')
+    const leftMask = wrapper.find<HTMLElement>('.el-scrollbar__left-mask')
+    const rightMask = wrapper.find<HTMLElement>('.el-scrollbar__right-mask')
+    expect(leftMask.element.style.height).toBe('185px')
+    expect(leftMask.element.style.left).toBe('0px')
+    expect(rightMask.element.style.height).toBe('185px')
+    expect(rightMask.element.style.right).toBe('15px')
+
+    // A native RTL scrollbar can occupy the left side; account for wrap borders too.
+    defineGetter(wrap.element, 'clientLeft', 17)
+    defineGetter(wrap.element, 'clientTop', 2)
+    defineGetter(wrap.element, 'clientWidth', 181)
+    defineGetter(wrap.element, 'clientHeight', 181)
+    wrapper.vm.update()
+    await nextTick()
+    expect(leftMask.element.style.left).toBe('17px')
+    expect(rightMask.element.style.right).toBe('2px')
+    expect(leftMask.element.style.top).toBe('2px')
+    expect(leftMask.element.style.height).toBe('181px')
+    expect(topMask.element.style.left).toBe('17px')
+    expect(topMask.element.style.width).toBe('181px')
   })
 })

@@ -25,7 +25,7 @@
     }
   }
 
-  @include e((mask, top-mask, bottom-mask)) {
+  @include e((mask, top-mask, bottom-mask, left-mask, right-mask)) {
     position: absolute;
     z-index: 1;
     pointer-events: none;
@@ -50,6 +50,24 @@
       to bottom,
       transparent,
       getCssVar('scrollbar-bottom-mask-color')
+    );
+  }
+
+  @include e(left-mask) {
+    width: getCssVar('scrollbar-left-mask-width');
+    background: linear-gradient(
+      to left,
+      transparent,
+      getCssVar('scrollbar-left-mask-color')
+    );
+  }
+
+  @include e(right-mask) {
+    width: getCssVar('scrollbar-right-mask-width');
+    background: linear-gradient(
+      to right,
+      transparent,
+      getCssVar('scrollbar-right-mask-color')
     );
   }
 

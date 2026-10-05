@@ -28,6 +28,8 @@
         ref="maskRef"
         :top="mask === true || mask === 'top'"
         :bottom="mask === true || mask === 'bottom'"
+        :left="mask === true || mask === 'left'"
+        :right="mask === true || mask === 'right'"
       />
     </transition>
     <template v-if="!native">

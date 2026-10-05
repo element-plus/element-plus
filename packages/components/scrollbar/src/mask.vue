@@ -1,20 +1,11 @@
 <template>
   <div :class="ns.e('mask')" aria-hidden="true">
-    <transition :name="ns.b('mask-fade')">
+    <transition v-for="edge in edges" :key="edge" :name="ns.b('mask-fade')">
       <div
-        v-if="top"
-        v-show="topVisible"
-        :class="ns.e('top-mask')"
-        :style="topStyle"
-        aria-hidden="true"
-      />
-    </transition>
-    <transition :name="ns.b('mask-fade')">
-      <div
-        v-if="bottom"
-        v-show="bottomVisible"
-        :class="ns.e('bottom-mask')"
-        :style="bottomStyle"
+        v-if="props[edge]"
+        v-show="visible[edge]"
+        :class="ns.e(`${edge}-mask`)"
+        :style="styles[edge]"
         aria-hidden="true"
       />
     </transition>
@@ -22,35 +13,61 @@
 </template>
 
 <script lang="ts" setup>
-import { inject, shallowRef } from 'vue'
+import { inject, shallowReactive, shallowRef } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
+import { getStyle } from '@element-plus/utils'
 import { scrollbarContextKey } from './constants'
 
 import type { CSSProperties } from 'vue'
+import type { ScrollbarDirection } from './scrollbar'
 
-defineProps<{
+const props = defineProps<{
   top?: boolean
   bottom?: boolean
+  left?: boolean
+  right?: boolean
 }>()
 
 const ns = useNamespace('scrollbar')
 const scrollbar = inject(scrollbarContextKey)!
-const topVisible = shallowRef(false)
-const bottomVisible = shallowRef(false)
-const topStyle = shallowRef<CSSProperties>({})
-const bottomStyle = shallowRef<CSSProperties>({})
+const edges = ['top', 'bottom', 'left', 'right'] as const
+const visible = shallowReactive({
+  top: false,
+  bottom: false,
+  left: false,
+  right: false,
+})
+const styles = shallowRef<Partial<Record<ScrollbarDirection, CSSProperties>>>(
+  {}
+)
 
 const handleScroll = () => {
   const wrap = scrollbar.wrapElement
   if (!wrap) return
 
-  // scrollTop may be fractional, whereas scrollHeight and clientHeight are rounded.
-  const hasOverflow =
-    wrap.clientHeight > 0 && wrap.scrollHeight - wrap.clientHeight > 1
-  topVisible.value = hasOverflow && wrap.scrollTop > 1
-  bottomVisible.value =
-    hasOverflow &&
-    wrap.scrollHeight - wrap.clientHeight - Math.max(0, wrap.scrollTop) > 1
+  const {
+    clientHeight,
+    scrollHeight,
+    scrollTop,
+    clientWidth,
+    scrollWidth,
+    scrollLeft,
+  } = wrap
+  // Scroll offsets may be fractional, whereas scroll and client sizes are rounded.
+  const maxTop = scrollHeight - clientHeight
+  const maxLeft = scrollWidth - clientWidth
+  const hasVerticalOverflow = clientHeight > 0 && maxTop > 1
+  const hasHorizontalOverflow = clientWidth > 0 && maxLeft > 1
+  // In RTL, scrollLeft starts at zero on the right and becomes negative to the left.
+  const left =
+    hasHorizontalOverflow && getStyle(wrap, 'direction') === 'rtl'
+      ? maxLeft + scrollLeft
+      : scrollLeft
+
+  visible.top = hasVerticalOverflow && scrollTop > 1
+  visible.bottom = hasVerticalOverflow && maxTop - scrollTop > 1
+  visible.left = hasHorizontalOverflow && left > 1
+  visible.right = hasHorizontalOverflow && maxLeft - left > 1
 }
 
 const update = () => {
@@ -58,16 +75,37 @@ const update = () => {
   if (!wrap || !scrollbarElement) return
 
   // Align with the viewport, excluding native scrollbars and any wrap border.
-  const style = {
-    left: `${wrap.offsetLeft + wrap.clientLeft}px`,
-    width: `${wrap.clientWidth}px`,
-    maxHeight: `${wrap.clientHeight}px`,
+  const {
+    offsetLeft,
+    offsetTop,
+    clientLeft,
+    clientTop,
+    clientWidth,
+    clientHeight,
+  } = wrap
+  const left = offsetLeft + clientLeft
+  const top = offsetTop + clientTop
+  const verticalStyle = {
+    left: `${left}px`,
+    width: `${clientWidth}px`,
+    maxHeight: `${clientHeight}px`,
   }
-  const top = wrap.offsetTop + wrap.clientTop
-  topStyle.value = { ...style, top: `${top}px` }
-  bottomStyle.value = {
-    ...style,
-    bottom: `${scrollbarElement.clientHeight - top - wrap.clientHeight}px`,
+  const horizontalStyle = {
+    top: `${top}px`,
+    height: `${clientHeight}px`,
+    maxWidth: `${clientWidth}px`,
+  }
+  styles.value = {
+    top: { ...verticalStyle, top: `${top}px` },
+    bottom: {
+      ...verticalStyle,
+      bottom: `${scrollbarElement.clientHeight - top - clientHeight}px`,
+    },
+    left: { ...horizontalStyle, left: `${left}px` },
+    right: {
+      ...horizontalStyle,
+      right: `${scrollbarElement.clientWidth - left - clientWidth}px`,
+    },
   }
   handleScroll()
 }
