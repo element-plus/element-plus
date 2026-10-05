@@ -18,14 +18,51 @@ const hsbString = computed(() => {
 
 <template>
   <EpThemeColorInput name="primary" />
-  <div
-    class="rounded p-3 mt-3 text-xs font-mono leading-6"
-    :style="{ backgroundColor: primaryColor, color: previewTextColor }"
+  <el-card
+    class="theme-color-preview"
+    shadow="never"
+    :body-style="{ backgroundColor: primaryColor, color: previewTextColor }"
   >
-    <div>HEX: {{ primaryColor }}</div>
-    <div>RGB: {{ pColor.toRgbString() }}</div>
-    <div>HSB: {{ hsbString }}</div>
-  </div>
-  <EpThemeColorBar class="my-2" name="primary" />
+    <dl class="theme-color-values">
+      <div>
+        <dt>HEX</dt>
+        <dd>{{ primaryColor }}</dd>
+      </div>
+      <div>
+        <dt>RGB</dt>
+        <dd>{{ pColor.toRgbString() }}</dd>
+      </div>
+      <div>
+        <dt>HSB</dt>
+        <dd>{{ hsbString }}</dd>
+      </div>
+    </dl>
+  </el-card>
+  <EpThemeColorBar class="theme-primary-shades" name="primary" />
   <EpThemeContrast :color="primaryColor" :foreground="previewTextColor" />
 </template>
+
+<style scoped>
+.theme-color-preview {
+  --el-card-padding: 12px;
+  margin-top: 12px;
+}
+.theme-color-values {
+  margin: 0;
+  font-size: var(--el-font-size-small);
+  line-height: 24px;
+}
+.theme-color-values > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.theme-color-values dd {
+  margin: 0;
+  font-family: var(--font-family-mono);
+  text-align: right;
+}
+.theme-primary-shades {
+  margin: 8px 0 20px;
+}
+</style>

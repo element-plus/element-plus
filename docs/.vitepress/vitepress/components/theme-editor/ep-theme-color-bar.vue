@@ -14,10 +14,7 @@ COLOR_LIGHT_LEVEL.forEach((l) => {
 </script>
 
 <template>
-  <div
-    class="ep-primary-colors-container overflow-hidden rounded"
-    flex="~ row-reverse"
-  >
+  <div class="theme-color-bar">
     <ep-theme-color-box
       v-for="(colorName, i) in colorNames"
       :key="i"
@@ -25,3 +22,12 @@ COLOR_LIGHT_LEVEL.forEach((l) => {
     />
   </div>
 </template>
+
+<style scoped>
+.theme-color-bar {
+  display: flex;
+  flex-direction: row-reverse;
+  overflow: hidden;
+  border-radius: var(--el-border-radius-base);
+}
+</style>

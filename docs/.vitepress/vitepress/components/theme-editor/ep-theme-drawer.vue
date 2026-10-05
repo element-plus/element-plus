@@ -1,18 +1,34 @@
 <script lang="ts" setup>
-import { nextTick, ref } from 'vue'
+import { computed, nextTick, ref } from 'vue'
+import { mostReadable } from '@ctrl/tinycolor'
 import { useI18n } from 'vue-i18n'
 import { Brush } from '@element-plus/icons-vue'
+import { isDark } from '../../composables/dark'
+import { useThemeStore } from '../../store/theme'
+import { downloadTheme } from '../../utils/theme/helper'
+import { generateColorsFromBase } from '../../utils/colors/hsv'
 import CommonThemeToggler from '../common/vp-theme-toggler.vue'
 
 import type { ButtonInstance } from 'element-plus'
-
-import { useThemeStore } from '~/store/theme'
-import { downloadTheme } from '~/utils/theme'
 
 const drawerOpen = ref(false)
 const trigger = ref<ButtonInstance>()
 const store = useThemeStore()
 const { t } = useI18n()
+
+const exportButtonStyle = computed(() => {
+  const colors = generateColorsFromBase(
+    store.fullTheme.colors.primary,
+    isDark.value
+  )
+  const foreground = (level: string) =>
+    mostReadable(colors[level], ['#000', '#fff'])!.toHexString()
+  return {
+    '--el-button-text-color': foreground('base'),
+    '--el-button-hover-text-color': foreground('light-3'),
+    '--el-button-active-text-color': foreground('dark-2'),
+  }
+})
 
 async function restoreFocus() {
   // Drawer emits the model update after `closed`.
@@ -39,7 +55,7 @@ async function restoreFocus() {
         />
       </div>
     </template>
-    <p class="text-sm mb-5 text-$el-text-color-regular">
+    <p class="theme-editor-help">
       {{ t('editor.help') }}
     </p>
     <EpThemePrimaryColors />
@@ -47,12 +63,15 @@ async function restoreFocus() {
     <EpThemeSecondaryColors />
     <template #footer>
       <div class="theme-editor-actions">
-        <el-button class="theme-editor-reset" @click="store.reset()">
+        <el-button text class="theme-editor-reset" @click="store.reset()">
           <i-ep-refresh class="mr-1" />
           {{ t('editor.reset') }}
         </el-button>
         <EpThemeUploadTheme />
         <el-button
+          type="primary"
+          class="theme-editor-export"
+          :style="exportButtonStyle"
           @click="downloadTheme('el-custom-theme.css', store.fullTheme)"
         >
           <i-ep-download class="mr-1" />
@@ -80,7 +99,10 @@ async function restoreFocus() {
 <style scoped>
 /* The drawer is teleported, so target its own class instead of an ancestor. */
 :global(.theme-editor-drawer.el-drawer) {
-  --theme-editor-width: min(100vw, 380px);
+  --theme-editor-width: min(100vw, 420px);
+  font-family: var(--el-font-family);
+  font-size: var(--el-font-size-base);
+  line-height: 1.5;
   height: 100dvh;
   left: calc(100vw - var(--theme-editor-width));
   right: auto;
@@ -88,6 +110,9 @@ async function restoreFocus() {
 
 :global(.theme-editor-drawer .el-drawer__header) {
   margin-bottom: 0;
+  padding-bottom: 16px;
+  align-items: center;
+  border-bottom: 1px solid var(--el-border-color-lighter);
   flex-shrink: 0;
 }
 
@@ -112,6 +137,24 @@ async function restoreFocus() {
 .theme-editor-heading h2 {
   margin: 0;
   flex: 1;
+  color: var(--el-text-color-primary);
+  font-size: var(--el-font-size-large);
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.theme-editor-help {
+  margin: 0 0 24px;
+  color: var(--el-text-color-regular);
+  font-size: var(--el-font-size-base);
+}
+
+:global(.theme-editor-drawer .theme-editor-section-title) {
+  margin: 0 0 12px;
+  color: var(--el-text-color-primary);
+  font-size: var(--el-font-size-medium);
+  font-weight: 500;
+  line-height: 24px;
 }
 
 :global(.theme-editor-drawer .theme-editor-appearance) {
@@ -131,8 +174,16 @@ async function restoreFocus() {
   margin: 0;
 }
 
-.theme-editor-reset {
+.theme-editor-actions .theme-editor-reset {
   grid-column: 1 / -1;
+  justify-self: start;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  min-height: 40px;
+  white-space: normal;
+  text-align: left;
+  line-height: 20px;
 }
 
 @media (max-width: 767px) {
@@ -162,7 +213,7 @@ async function restoreFocus() {
   }
 
   .theme-editor-actions :deep(.el-button) {
-    height: 44px;
+    min-height: 44px;
   }
 
   .theme-editor-trigger {

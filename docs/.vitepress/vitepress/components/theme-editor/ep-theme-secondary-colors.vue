@@ -6,12 +6,25 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <div m="t-6">
-    <h3 class="text-lg">{{ t('editor.secondary-color') }}</h3>
+  <section
+    class="theme-secondary-colors"
+    :aria-label="t('editor.secondary-color')"
+  >
+    <h3 class="theme-editor-section-title">
+      {{ t('editor.secondary-color') }}
+    </h3>
     <ep-theme-secondary-color
       v-for="colorName in secondaryColors"
       :key="colorName"
       :name="colorName"
     />
-  </div>
+  </section>
 </template>
+
+<style scoped>
+.theme-secondary-colors {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--el-border-color-lighter);
+}
+</style>

@@ -27,8 +27,8 @@ const apca = computedAsync(async () => {
 
 <template>
   <section class="theme-contrast" :aria-label="t('editor.contrast')">
-    <h4 class="text-sm font-medium">{{ t('editor.contrast') }}</h4>
-    <p class="text-xs mt-1">
+    <h3 class="theme-editor-section-title">{{ t('editor.contrast') }}</h3>
+    <p class="theme-contrast-current">
       {{
         t('editor.contrast-current', {
           color: t(`editor.text-${current.name}`),
@@ -36,11 +36,13 @@ const apca = computedAsync(async () => {
         })
       }}
     </p>
-    <div class="theme-contrast-samples mt-2">
-      <div
+    <div class="theme-contrast-samples">
+      <el-card
         v-for="sample in samples"
         :key="sample.name"
         class="theme-contrast-sample"
+        shadow="never"
+        :body-style="{ padding: '0' }"
       >
         <div
           class="theme-contrast-preview"
@@ -49,10 +51,18 @@ const apca = computedAsync(async () => {
         >
           Aa
         </div>
-        <div class="p-2 text-xs leading-5">
-          <div>{{ t(`editor.text-${sample.name}`) }}</div>
-          <div class="font-mono">{{ sample.ratio.toFixed(2) }}:1</div>
-          <div>
+        <div class="theme-contrast-meta">
+          <div class="theme-contrast-line">
+            <span>{{ t(`editor.text-${sample.name}`) }}</span>
+            <strong class="theme-contrast-ratio"
+              >{{ sample.ratio.toFixed(2) }}:1</strong
+            >
+          </div>
+          <el-tag
+            :type="sample.ratio >= 4.5 ? 'success' : 'danger'"
+            effect="plain"
+            size="small"
+          >
             {{
               t(
                 sample.ratio >= 4.5
@@ -60,68 +70,90 @@ const apca = computedAsync(async () => {
                   : 'editor.contrast-fail'
               )
             }}
-          </div>
+          </el-tag>
         </div>
-      </div>
+      </el-card>
     </div>
-    <p class="text-xs mt-2 leading-5">
-      <a
+    <p class="theme-contrast-help">
+      <el-link
         class="theme-contrast-guide"
         href="https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
         target="_blank"
         rel="noopener noreferrer"
-        >{{ t('editor.contrast-help') }}</a
+        underline="always"
+        >{{ t('editor.contrast-help') }}</el-link
       >
     </p>
-    <details class="theme-contrast-details text-xs mt-2 leading-5">
-      <summary>{{ t('editor.apca') }}</summary>
-      <p>{{ t('editor.apca-help', { value: apca }) }}</p>
-    </details>
+    <el-collapse class="theme-contrast-details">
+      <el-collapse-item name="apca" :title="t('editor.apca')">
+        <p class="theme-contrast-help">
+          {{ t('editor.apca-help', { value: apca }) }}
+        </p>
+      </el-collapse-item>
+    </el-collapse>
   </section>
 </template>
 
 <style scoped>
 .theme-contrast {
   color: var(--el-text-color-regular);
+  font-size: var(--el-font-size-extra-small);
 }
-
+.theme-contrast-current {
+  margin: -4px 0 12px;
+  line-height: 1.5;
+}
 .theme-contrast-samples {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
 }
-
-.theme-contrast-sample {
-  overflow: hidden;
-  border: 1px solid var(--el-border-color);
-  border-radius: var(--el-border-radius-base);
-  background: var(--el-bg-color);
-}
-
 .theme-contrast-preview {
   padding: 8px;
-  font-size: 20px;
-  line-height: 28px;
+  font-size: var(--el-font-size-extra-large);
+  line-height: 24px;
   text-align: center;
 }
-
+.theme-contrast-meta {
+  padding: 12px;
+}
+.theme-contrast-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  margin-bottom: 8px;
+  font-size: var(--el-font-size-small);
+}
+.theme-contrast-ratio {
+  font-family: var(--font-family-mono);
+  font-weight: 500;
+}
+.theme-contrast-help {
+  margin: 12px 0;
+  color: var(--el-text-color-regular);
+  line-height: 1.5;
+}
 .theme-contrast-guide {
-  color: inherit;
-  text-decoration: underline;
-  text-underline-offset: 3px;
+  font-size: var(--el-font-size-extra-small);
+  line-height: 1.5;
+  text-align: left;
 }
-
-.theme-contrast-details summary {
-  cursor: pointer;
-  margin: 0;
+.theme-contrast-details {
+  --el-collapse-header-font-size: var(--el-font-size-small);
+  --el-collapse-content-font-size: var(--el-font-size-extra-small);
+}
+.theme-contrast-details :deep(.el-collapse-item__header) {
+  height: auto;
+  min-height: 48px;
+}
+.theme-contrast-details :deep(.el-collapse-item__title) {
+  flex: 1;
   padding: 8px 0;
-  font-size: inherit;
-  font-weight: normal;
+  line-height: 1.5;
 }
-
-@media (pointer: coarse) {
-  .theme-contrast-details summary {
-    padding: 12px 0;
-  }
+.theme-contrast-details .theme-contrast-help {
+  margin: 0;
 }
 </style>

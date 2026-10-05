@@ -33,10 +33,10 @@ function apply(value: string | null) {
 
 <template>
   <div>
-    <label :for="`theme-color-${name}`" class="block text-sm mb-2">{{
+    <label :for="`theme-color-${name}`" class="theme-color-label">{{
       label
     }}</label>
-    <div class="flex items-center gap-2">
+    <div class="theme-color-controls">
       <el-color-picker
         :model-value="color"
         size="large"
@@ -60,7 +60,7 @@ function apply(value: string | null) {
     <p
       v-if="invalid"
       :id="`theme-color-${name}-error`"
-      class="text-xs text-$el-color-danger mt-1"
+      class="theme-color-error"
       role="alert"
     >
       {{ t('editor.invalid-color') }}
@@ -69,6 +69,25 @@ function apply(value: string | null) {
 </template>
 
 <style scoped>
+.theme-color-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--el-text-color-regular);
+  font-size: var(--el-font-size-base);
+  line-height: 22px;
+}
+.theme-color-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.theme-color-error {
+  margin: 4px 0 0;
+  color: var(--el-color-danger);
+  font-size: var(--el-font-size-extra-small);
+  line-height: 1.5;
+}
+
 @media (max-width: 359px) {
   :global(.theme-editor-color-picker .el-color-picker-panel) {
     width: calc(100vw - 48px);

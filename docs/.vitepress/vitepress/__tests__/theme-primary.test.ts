@@ -4,9 +4,25 @@ import { readability } from '@ctrl/tinycolor'
 import { createPinia, disposePinia, setActivePinia } from 'pinia'
 import { createI18n } from 'vue-i18n'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { ElButton } from '@element-plus/components/button'
+import { ElCard } from '@element-plus/components/card'
+import { ElCollapse, ElCollapseItem } from '@element-plus/components/collapse'
+import { ElIcon } from '@element-plus/components/icon'
+import { ElLink } from '@element-plus/components/link'
+import { ElTag } from '@element-plus/components/tag'
 import Primary from '../components/theme-editor/ep-theme-primary.vue'
 import Presets from '../components/theme-editor/ep-theme-primary-colors.vue'
 import { useThemeStore } from '../store/theme'
+
+const components = {
+  ElButton,
+  ElCard,
+  ElCollapse,
+  ElCollapseItem,
+  ElIcon,
+  ElLink,
+  ElTag,
+}
 
 let wrapper: ReturnType<typeof mount>
 let pinia: ReturnType<typeof createPinia>
@@ -42,6 +58,7 @@ beforeEach(() => {
   setActivePinia(pinia)
   wrapper = mount(Primary, {
     global: {
+      components,
       plugins: [pinia, i18n()],
       stubs: { EpThemeColorInput: true, EpThemeColorBar: true },
     },
@@ -61,17 +78,20 @@ describe('theme preview text', () => {
   ])('uses the higher contrast text color on %s', async (color, foreground) => {
     useThemeStore().updateColor('primary', color)
     await nextTick()
-    expect(wrapper.get<HTMLDivElement>('.font-mono').element.style.color).toBe(
-      foreground
-    )
+    expect(
+      wrapper.get<HTMLDivElement>('.theme-color-preview .el-card__body').element
+        .style.color
+    ).toBe(foreground)
   })
 
   it('identifies the actual foreground/background pair and normal text contrast', () => {
     expect(wrapper.text()).toContain('Info card uses Black text · 7.55:1')
     const samples = wrapper.findAll('.theme-contrast-sample')
-    expect(samples[0].text()).toContain('7.55:1AA pass')
-    expect(samples[1].text()).toContain('2.78:1Below AA')
-    expect(wrapper.get('summary').text()).toBe(
+    expect(samples[0].get('.theme-contrast-ratio').text()).toBe('7.55:1')
+    expect(samples[0].getComponent(ElTag).text()).toBe('AA pass')
+    expect(samples[1].get('.theme-contrast-ratio').text()).toBe('2.78:1')
+    expect(samples[1].getComponent(ElTag).text()).toBe('Below AA')
+    expect(wrapper.get('.el-collapse-item__header').text()).toBe(
       'APCA · theme-colored text on white'
     )
   })
@@ -80,9 +100,9 @@ describe('theme preview text', () => {
     const store = useThemeStore()
     store.updateColor('primary', '#0075eb')
     await nextTick()
-    expect(wrapper.findAll('.theme-contrast-sample')[1].text()).toContain(
-      '4.43:1Below AA'
-    )
+    const whiteSample = wrapper.findAll('.theme-contrast-sample')[1]
+    expect(whiteSample.get('.theme-contrast-ratio').text()).toBe('4.43:1')
+    expect(whiteSample.getComponent(ElTag).text()).toBe('Below AA')
     store.updateColor('primary', '#141414')
     await nextTick()
     expect(wrapper.text()).toContain('Info card uses White text · 18.42:1')
@@ -91,9 +111,20 @@ describe('theme preview text', () => {
     expect(wrapper.text()).toContain('Info card uses Black text · 7.55:1')
   })
 
+  it('expands and collapses the APCA explanation with the keyboard', async () => {
+    const header = wrapper.get('.el-collapse-item__header')
+    expect(header.attributes('aria-expanded')).toBe('false')
+    await header.trigger('keydown', { key: 'Enter', code: 'Enter' })
+    expect(header.attributes('aria-expanded')).toBe('true')
+    await header.trigger('keydown', { key: ' ', code: 'Space' })
+    expect(header.attributes('aria-expanded')).toBe('false')
+  })
+
   it('provides a high contrast preset that supports normal white text', async () => {
     wrapper.unmount()
-    wrapper = mount(Presets, { global: { plugins: [pinia, i18n()] } })
+    wrapper = mount(Presets, {
+      global: { components, plugins: [pinia, i18n()] },
+    })
     const preset = wrapper
       .findAll('button')
       .find((button) => button.text() === 'High contrast')!
