@@ -23,7 +23,7 @@ image/placeholder
 
 :::
 
-## Viewer Placeholder ^(2.14.7)
+## Viewer Placeholder ^(2.14.8)
 
 :::demo Custom placeholder content when the preview image hasn't loaded yet by `slot = viewer-placeholder`.
 
@@ -174,7 +174,7 @@ image/custom-progress
 | default                      | custom content                                                         | -                                                                                                                                                                                                                   |
 | progress ^(2.9.4)            | custom progress content (Priority is higher than `show-progress` prop) | ^[object]`{ activeIndex: number, total: number }`                                                                                                                                                                   |
 | toolbar ^(2.9.4)             | custom toolbar content                                                 | ^[object]`{ actions: (action: ImageViewerAction, options?: ImageViewerActionOptions) => void, prev: () => void, next: () => void, reset: () => void, activeIndex: number, setActiveItem: (index: number) => void }` |
-| viewer-placeholder ^(2.14.7) | custom placeholder content when the image hasn't loaded yet.           | ^[object]`{ activeIndex: number, src: string }`                                                                                                                                                                     |
+| viewer-placeholder ^(2.14.8) | custom placeholder content when the image hasn't loaded yet.           | ^[object]`{ activeIndex: number, src: string }`                                                                                                                                                                     |
 | viewer-error ^(2.11.3)       | custom image load failed content.                                      | ^[object]`{ activeIndex: number, src: string }`                                                                                                                                                                     |
 
 ### Image Viewer Exposes
