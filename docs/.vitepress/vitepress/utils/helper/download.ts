@@ -1,11 +1,15 @@
 /**
- * download txt file
+ * Download a text file with the requested content type.
  * @param name
  * @param content
  */
-export function downloadFile(name: string, content: string) {
+export function downloadFile(
+  name: string,
+  content: string,
+  contentType = 'text/plain'
+) {
   const link = document.createElement('a')
-  link.href = `data:text/plain;charset=utf-8,${encodeURIComponent(content)}`
+  link.href = `data:${contentType};charset=utf-8,${encodeURIComponent(content)}`
   link.setAttribute('download', name || 'ep-custom-theme.css')
   link.style.display = 'none'
 

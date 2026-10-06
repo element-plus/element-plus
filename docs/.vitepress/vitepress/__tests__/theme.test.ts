@@ -1,8 +1,8 @@
 import { nextTick } from 'vue'
 import { createPinia, disposePinia, setActivePinia } from 'pinia'
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { useThemeStore } from '../store/theme'
-import { generateCssFromTheme } from '../utils/theme/helper'
+import { downloadTheme, generateCssFromTheme } from '../utils/theme/helper'
 import { normalizeTheme, parseFromCss } from '../utils/theme/parse'
 import defaultTheme from '../utils/theme/store/default'
 
@@ -20,6 +20,7 @@ beforeEach(() => {
 afterEach(() => {
   disposePinia(pinia)
   document.documentElement.removeAttribute('style')
+  vi.restoreAllMocks()
 })
 
 describe('theme editor', () => {
@@ -120,6 +121,27 @@ describe('theme editor', () => {
 })
 
 describe('theme CSS', () => {
+  it('downloads CSS with a matching content type and file name', () => {
+    const theme = normalizeTheme({ colors: { primary: '#0075eb' } })
+    let href = ''
+    let fileName = ''
+    vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(
+      function () {
+        href = this.href
+        fileName = this.download
+      }
+    )
+
+    downloadTheme('el-custom-theme.css', theme)
+
+    expect(fileName).toBe('el-custom-theme.css')
+    expect(href).toMatch(/^data:text\/css;charset=utf-8,/)
+    expect(decodeURIComponent(href.slice(href.indexOf(',') + 1))).toBe(
+      generateCssFromTheme(theme)
+    )
+    expect(document.querySelector('a[download]')).toBeNull()
+  })
+
   it('imports compact declarations and comments without applying arbitrary CSS', () => {
     const store = useThemeStore()
     store.parse(

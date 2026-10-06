@@ -23,5 +23,5 @@ export function generateCssFromTheme(theme: EpTheme) {
 }
 
 export function downloadTheme(name: string, theme: EpTheme) {
-  downloadFile(name, generateCssFromTheme(theme))
+  downloadFile(name, generateCssFromTheme(theme), 'text/css')
 }
