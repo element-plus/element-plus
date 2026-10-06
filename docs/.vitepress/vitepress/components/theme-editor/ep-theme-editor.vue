@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { defineAsyncComponent, onMounted, ref } from 'vue'
+
+const EpThemeDrawer = defineAsyncComponent(
+  () => import('./ep-theme-drawer.vue')
+)
 
 const showDrawer = ref(false)
 onMounted(() => {
