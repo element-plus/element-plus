@@ -159,7 +159,7 @@ $form-item-label-top-margin-bottom: map.merge(
   }
 
   @include e(error) {
-    color: getCssVar('color-danger');
+    color: getCssVar('color-danger', 'dark-2');
     font-size: 12px;
     line-height: 1;
     padding-top: #{map.get($form-item-error-padding-top, 'default')};
