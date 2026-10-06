@@ -125,12 +125,12 @@ describe('theme CSS', () => {
     const theme = normalizeTheme({ colors: { primary: '#0075eb' } })
     let href = ''
     let fileName = ''
-    vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(
-      function () {
-        href = this.href
-        fileName = this.download
-      }
-    )
+    vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(function (
+      this: HTMLAnchorElement
+    ) {
+      href = this.href
+      fileName = this.download
+    })
 
     downloadTheme('el-custom-theme.css', theme)
 
