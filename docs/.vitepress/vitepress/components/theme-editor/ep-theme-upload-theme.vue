@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ElMessage } from 'element-plus'
-import { useThemeStore } from '~/store/theme'
+import { useThemeStore } from '../../store/theme'
 
 const store = useThemeStore()
 const { t } = useI18n()
