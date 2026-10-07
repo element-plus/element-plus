@@ -15,8 +15,9 @@
 <script lang="ts" setup>
 import { inject, shallowReactive, shallowRef } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { getRTLOffsetType, getStyle } from '@element-plus/utils'
+import { getStyle } from '@element-plus/utils'
 import { scrollbarContextKey } from './constants'
+import { getRTLOffsetType } from './mask-utils'
 
 import type { CSSProperties } from 'vue'
 import type { ScrollbarDirection, ScrollbarProps } from './scrollbar'

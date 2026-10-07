@@ -1,13 +1,14 @@
 import type { BACKWARD, FORWARD } from './defaults'
 import type { CSSProperties, ComponentInternalInstance, Ref } from 'vue'
 
-export type { RTLOffsetType } from '@element-plus/utils'
-
 export type Instance = ComponentInternalInstance
 export type Alignment = 'auto' | 'smart' | 'center' | 'start' | 'end'
 export type ItemSize = (idx: number) => number
 export type Direction = 'ltr' | 'rtl'
 export type LayoutDirection = 'horizontal' | 'vertical'
+export type RTLOffsetType =
+  'negative' | 'positive-descending' | 'positive-ascending'
+
 export type ItemProps<T> = {
   data: T
   style: CSSProperties

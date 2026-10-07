@@ -1,15 +1,15 @@
 import { nextTick } from 'vue'
 import { enableAutoUnmount, flushPromises, mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import * as scrollUtils from '@element-plus/utils/dom/scroll'
 import defineGetter from '@element-plus/test-utils/define-getter'
 import Scrollbar from '../src/scrollbar.vue'
+import * as maskUtils from '../src/mask-utils'
 
 import type { ScrollbarProps } from '../src/scrollbar'
 
 enableAutoUnmount(afterEach)
 beforeEach(() => {
-  vi.spyOn(scrollUtils, 'getRTLOffsetType').mockReturnValue('negative')
+  vi.spyOn(maskUtils, 'getRTLOffsetType').mockReturnValue('negative')
 })
 afterEach(() => {
   vi.restoreAllMocks()
@@ -232,7 +232,7 @@ describe('Scrollbar masks', () => {
       test.each(['positive-descending', 'positive-ascending'] as const)(
         'tracks physical edges with %s offsets',
         async (type) => {
-          vi.mocked(scrollUtils.getRTLOffsetType).mockReturnValue(type)
+          vi.mocked(maskUtils.getRTLOffsetType).mockReturnValue(type)
           const { wrapper, wrap, dimensions, scrollTo } = createScrollbar({
             native,
             mask: true,

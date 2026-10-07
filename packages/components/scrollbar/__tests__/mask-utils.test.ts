@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, test, vi } from 'vitest'
-import { getRTLOffsetType } from '../../dom/scroll'
+import { getRTLOffsetType } from '../src/mask-utils'
 
 afterEach(() => {
   vi.restoreAllMocks()
