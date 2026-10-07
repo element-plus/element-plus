@@ -2,7 +2,7 @@
   <div :class="ns.e('mask')" aria-hidden="true">
     <transition v-for="edge in edges" :key="edge" :name="ns.b('mask-fade')">
       <div
-        v-if="props[edge]"
+        v-if="mask === true || mask === edge"
         v-show="visible[edge]"
         :class="ns.e(`${edge}-mask`)"
         :style="styles[edge]"
@@ -19,13 +19,10 @@ import { getStyle } from '@element-plus/utils'
 import { scrollbarContextKey } from './constants'
 
 import type { CSSProperties } from 'vue'
-import type { ScrollbarDirection } from './scrollbar'
+import type { ScrollbarDirection, ScrollbarProps } from './scrollbar'
 
-const props = defineProps<{
-  top?: boolean
-  bottom?: boolean
-  left?: boolean
-  right?: boolean
+defineProps<{
+  mask: ScrollbarProps['mask']
 }>()
 
 const ns = useNamespace('scrollbar')

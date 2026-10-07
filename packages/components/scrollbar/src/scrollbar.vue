@@ -23,14 +23,7 @@
       </component>
     </div>
     <transition :name="ns.b('mask-fade')">
-      <scrollbar-mask
-        v-if="mask"
-        ref="maskRef"
-        :top="mask === true || mask === 'top'"
-        :bottom="mask === true || mask === 'bottom'"
-        :left="mask === true || mask === 'left'"
-        :right="mask === true || mask === 'right'"
-      />
+      <scrollbar-mask v-if="mask" ref="maskRef" :mask="mask" />
     </transition>
     <template v-if="!native">
       <bar ref="barRef" :always="always" :min-size="minSize" />
