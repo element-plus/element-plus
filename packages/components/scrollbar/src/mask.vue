@@ -15,7 +15,7 @@
 <script lang="ts" setup>
 import { inject, shallowReactive, shallowRef } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { getStyle } from '@element-plus/utils'
+import { getRTLOffsetType, getStyle } from '@element-plus/utils'
 import { scrollbarContextKey } from './constants'
 
 import type { CSSProperties } from 'vue'
@@ -55,11 +55,18 @@ const handleScroll = () => {
   const maxLeft = scrollWidth - clientWidth
   const hasVerticalOverflow = clientHeight > 0 && maxTop > 1
   const hasHorizontalOverflow = clientWidth > 0 && maxLeft > 1
-  // In RTL, scrollLeft starts at zero on the right and becomes negative to the left.
-  const left =
-    hasHorizontalOverflow && getStyle(wrap, 'direction') === 'rtl'
-      ? maxLeft + scrollLeft
-      : scrollLeft
+  let left = scrollLeft
+  if (hasHorizontalOverflow && getStyle(wrap, 'direction') === 'rtl') {
+    // Normalize the browser's RTL offset to the distance from the physical left.
+    switch (getRTLOffsetType()) {
+      case 'negative':
+        left = maxLeft + scrollLeft
+        break
+      case 'positive-ascending':
+        left = maxLeft - scrollLeft
+        break
+    }
+  }
 
   visible.top = hasVerticalOverflow && scrollTop > 1
   visible.bottom = hasVerticalOverflow && maxTop - scrollTop > 1

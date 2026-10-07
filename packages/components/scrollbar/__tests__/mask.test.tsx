@@ -1,12 +1,16 @@
 import { nextTick } from 'vue'
 import { enableAutoUnmount, flushPromises, mount } from '@vue/test-utils'
-import { afterEach, describe, expect, test, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import * as scrollUtils from '@element-plus/utils/dom/scroll'
 import defineGetter from '@element-plus/test-utils/define-getter'
 import Scrollbar from '../src/scrollbar.vue'
 
 import type { ScrollbarProps } from '../src/scrollbar'
 
 enableAutoUnmount(afterEach)
+beforeEach(() => {
+  vi.spyOn(scrollUtils, 'getRTLOffsetType').mockReturnValue('negative')
+})
 afterEach(() => {
   vi.restoreAllMocks()
   vi.unstubAllGlobals()
@@ -219,6 +223,48 @@ describe('Scrollbar masks', () => {
         expect(left.isVisible()).toBe(true)
         expect(right.isVisible()).toBe(false)
       }
+    }
+  )
+
+  describe.each([false, true])(
+    'positive RTL offsets with native=%s',
+    (native) => {
+      test.each(['positive-descending', 'positive-ascending'] as const)(
+        'tracks physical edges with %s offsets',
+        async (type) => {
+          vi.mocked(scrollUtils.getRTLOffsetType).mockReturnValue(type)
+          const { wrapper, wrap, dimensions, scrollTo } = createScrollbar({
+            native,
+            mask: true,
+            wrapStyle: { direction: 'rtl' },
+          })
+          dimensions.contentWidth = 500
+          wrap.element.scrollLeft = type === 'positive-descending' ? 300 : 0
+          await flushPromises()
+          const left = wrapper.find('.el-scrollbar__left-mask')
+          const right = wrapper.find('.el-scrollbar__right-mask')
+          expect(left.isVisible()).toBe(true)
+          expect(right.isVisible()).toBe(false)
+
+          await scrollTo(0, 150)
+          expect(left.isVisible()).toBe(true)
+          expect(right.isVisible()).toBe(true)
+          const leftOffsets =
+            type === 'positive-descending' ? [0.5, 0, -10] : [299.5, 300, 310]
+          for (const offset of leftOffsets) {
+            await scrollTo(0, offset)
+            expect(left.isVisible()).toBe(false)
+            expect(right.isVisible()).toBe(true)
+          }
+          const rightOffsets =
+            type === 'positive-descending' ? [299.5, 300, 310] : [0.5, 0, -10]
+          for (const offset of rightOffsets) {
+            await scrollTo(0, offset)
+            expect(left.isVisible()).toBe(true)
+            expect(right.isVisible()).toBe(false)
+          }
+        }
+      )
     }
   )
 
