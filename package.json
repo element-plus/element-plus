@@ -99,7 +99,7 @@
     "vitest": "^5.0.3",
     "vue": "catalog:",
     "vue-router": "^5.3.1",
-    "vue-tsc": "=3.1.5"
+    "vue-tsc": "=3.3.12"
   },
   "engines": {
     "node": ">= 22.13.0"
