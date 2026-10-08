@@ -71,7 +71,7 @@
     "@pnpm/logger": "^5.2.0",
     "@pnpm/types": "^12.2.0",
     "@types/jsdom": "^30.0.0",
-    "@types/node": "^24.19.0",
+    "@types/node": "^24.19.1",
     "@vitejs/plugin-vue": "catalog:",
     "@vitejs/plugin-vue-jsx": "catalog:",
     "@vitest/coverage-v8": "^5.0.3",
