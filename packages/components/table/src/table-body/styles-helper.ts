@@ -56,7 +56,8 @@ function useStyles<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     rowIndex: number,
     columnIndex: number,
     row: T,
-    column: TableColumnCtx<T>
+    column: TableColumnCtx<T>,
+    colspanIndex: number
   ) => {
     const cellStyle = parent?.props.cellStyle
     let cellStyles = cellStyle ?? {}
@@ -68,11 +69,13 @@ function useStyles<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
         column,
       })
     }
+
     const fixedStyle = getFixedColumnOffset(
-      columnIndex,
-      props?.fixed,
+      colspanIndex,
+      column.fixed,
       props.store
     )
+
     ensurePosition(fixedStyle, 'left')
     ensurePosition(fixedStyle, 'right')
     return Object.assign({}, cellStyles, fixedStyle)
@@ -139,17 +142,19 @@ function useStyles<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
   const getColspanRealWidth = (
     columns: TableColumnCtx<T>[],
     colspan: number,
-    index: number
+    colspanIndex: number
   ): number => {
-    if (colspan < 1) {
-      return columns[index].realWidth!
+    let totalWidth = 0
+    for (let i = 0; i < colspan; i++) {
+      const physicalIndex = colspanIndex + i
+      if (physicalIndex >= columns.length) {
+        break
+      }
+      const column = columns[physicalIndex]
+      totalWidth += Number(column.realWidth || column.width)
     }
-    const widthArr = columns
-      .map(({ realWidth, width }) => realWidth || width)
-      .slice(index, index + colspan)
-    return Number(
-      widthArr.reduce((acc, width) => Number(acc) + Number(width), -1)
-    )
+
+    return totalWidth
   }
 
   return {
