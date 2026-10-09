@@ -15,7 +15,7 @@ import { throwError } from '@element-plus/utils'
 import { getCollapsible, isCollapsible } from './hooks/usePanel'
 import SplitBar from './split-bar.vue'
 import { splitterPanelEmits } from './split-panel'
-import { getPct, getPx, isPct, isPx } from './hooks'
+import { getPct, getPx, isFixedSize, isPct, isPx, isZeroSize } from './hooks'
 import { splitterRootContextKey } from './type'
 
 import type { SplitterPanelProps } from './split-panel'
@@ -49,6 +49,21 @@ const {
   onMoveStart,
   onMoving,
 } = splitterContext
+
+// A "0px" panel has no width to hold on to - `min` is what it expands to, so
+// it is left unpinned like the other zero-size declarations. Anything else is
+// pinned to its width *after* `min`/`max`, so the pin can't smuggle a value
+// past the limits the size watcher enforces.
+const pinnedPxSize = (size: string | number | undefined) => {
+  if (!isFixedSize(size) || isZeroSize(size)) return undefined
+  return clampToLimits(getPx(size as string))
+}
+
+const clampToLimits = (px: number) => {
+  const maxSize = sizeToPx(props.max)
+  const minSize = sizeToPx(props.min)
+  return Math.min(Math.max(px, Number(minSize) || 0), Number(maxSize) || px)
+}
 
 const panelEl = ref<HTMLDivElement>()
 const instance = getCurrentInstance()!
@@ -112,11 +127,46 @@ function sizeToPx(str: string | number | undefined) {
   return str ?? 0
 }
 
+// `v-model:size` writes the internal pixel snapshots emitted below straight
+// back into `props.size`, which would make an authored "50%" look like an
+// authored `500`. Track what was actually declared by ignoring the values we
+// emitted ourselves, so the panel's size mode survives a collapse cycle.
+// Only a write-back within the same tick counts as that echo - an emit the
+// parent debounced or ignored must not shadow a real `size` change later on.
+// A separate flag rather than just comparing against `lastEmittedSize`: at
+// rest that value is `undefined`, so a parent genuinely clearing `size` would
+// otherwise look like an echo of an emit that never happened.
+let hasPendingEcho = false
+let lastEmittedSize: number | undefined
+const declaredSize = ref<string | number | undefined | null>(props.size)
+
+const rememberEmittedSize = (val: number) => {
+  hasPendingEcho = true
+  lastEmittedSize = val
+  nextTick(() => {
+    hasPendingEcho = false
+    lastEmittedSize = undefined
+  })
+}
+
 // Two-way binding for size
 let isSizeUpdating = false
 watch(
   () => props.size,
   () => {
+    if (hasPendingEcho && props.size === lastEmittedSize) {
+      hasPendingEcho = false
+      lastEmittedSize = undefined
+    } else {
+      declaredSize.value = props.size
+      if (panel.value) {
+        panel.value.fixedPxSize = pinnedPxSize(props.size)
+        if (!isZeroSize(props.size)) {
+          panel.value.isCollapsed = false
+        }
+      }
+    }
+
     if (!isSizeUpdating && panel.value) {
       if (!containerSize.value) {
         panel.value.size = props.size
@@ -131,6 +181,7 @@ watch(
       const finalSize = Math.min(Math.max(size, minSize || 0), maxSize || size)
 
       if (finalSize !== size) {
+        rememberEmittedSize(finalSize)
         emits('update:size', finalSize)
       }
 
@@ -144,6 +195,7 @@ watch(
   (val) => {
     if (val !== props.size) {
       isSizeUpdating = true
+      rememberEmittedSize(val as number)
       emits('update:size', val as number)
       nextTick(() => (isSizeUpdating = false))
     }
@@ -165,6 +217,15 @@ const _panel = reactive({
   setIndex,
   ...props,
   collapsible: computed(() => getCollapsible(props.collapsible)),
+  // Tied to the declared size (not the internal `size` below, which useResize
+  // overwrites with a live raw px number while dragging/collapsing) so a
+  // panel's declared size mode survives those internal mutations.
+  isFixedSize: computed(() => isFixedSize(declaredSize.value)),
+  // Seeded from the declared "Npx" width and kept up to date by drags (see
+  // useResize) - collapsing a neighbour must not redefine what this panel is
+  // pinned to, but the user dragging it deliberately must.
+  fixedPxSize: pinnedPxSize(props.size),
+  isZeroSize: computed(() => isZeroSize(declaredSize.value)),
 })
 
 registerPanel(_panel)
