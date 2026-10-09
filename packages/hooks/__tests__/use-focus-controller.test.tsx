@@ -256,8 +256,9 @@ describe('useFocusController', () => {
     expect(wrapper.find('span').text()).toBe('true')
   })
 
-  it('it will reset the focus state when the target is disabled while focused', async () => {
+  it('it will reset the focus state and emit blur when the target is disabled while focused', async () => {
     const disabled = ref(false)
+    const afterBlur = vi.fn()
     const wrapper = mount({
       emits: ['focus', 'blur'],
       setup() {
@@ -267,7 +268,7 @@ describe('useFocusController', () => {
           {
             disabled,
             afterFocus: vi.fn(),
-            afterBlur: vi.fn(),
+            afterBlur,
           }
         )
 
@@ -283,11 +284,13 @@ describe('useFocusController', () => {
     await wrapper.find('input').trigger('focus')
     expect(wrapper.find('span').text()).toBe('true')
 
-    // a disabled element loses focus in the browser without a blur event
+    // the native blur fired after disabling is ignored by handleBlur, so the
+    // controller has to emit blur itself
     disabled.value = true
     await nextTick()
     expect(wrapper.find('span').text()).toBe('false')
-    expect(wrapper.emitted()).not.toHaveProperty('blur')
+    expect(wrapper.emitted('blur')).toHaveLength(1)
+    expect(afterBlur).toHaveBeenCalledTimes(1)
 
     // re-enabling does not restore the stale focus state
     disabled.value = false

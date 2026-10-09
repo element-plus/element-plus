@@ -79,6 +79,15 @@ export function useFocusController<T extends { focus: () => void }>(
   }
 
   watch([wrapperRef, () => unref(disabled)], ([el, disabled]) => {
+    // Becoming disabled while focused makes the browser drop focus, but the
+    // resulting native blur is ignored by handleBlur because `disabled` is
+    // already true, so clear the state and emit blur here instead.
+    if (disabled && isFocused.value) {
+      isFocused.value = false
+      emit('blur', new FocusEvent('blur'))
+      afterBlur?.()
+    }
+
     if (!el) return
     if (disabled) {
       el.removeAttribute('tabindex')
@@ -86,17 +95,6 @@ export function useFocusController<T extends { focus: () => void }>(
       el.setAttribute('tabindex', '-1')
     }
   })
-
-  // The browser drops focus from a focused element without dispatching a
-  // blur event when it becomes disabled, so isFocused has to be cleared here.
-  watch(
-    () => unref(disabled),
-    (disabled) => {
-      if (disabled && isFocused.value) {
-        isFocused.value = false
-      }
-    }
-  )
 
   useEventListener(wrapperRef, 'focus', handleFocus, true)
   useEventListener(wrapperRef, 'blur', handleBlur, true)
