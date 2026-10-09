@@ -5,11 +5,77 @@
 @use 'common/var' as *;
 
 @include b(input-number) {
+  $input-border-radius: getCssVarWithDefault(
+    'input-border-radius',
+    map.get($input, 'border-radius')
+  );
+
   position: relative;
   display: inline-flex;
   width: map.get($input-number-width, 'default');
   line-height: #{map.get($input-height, 'default') - 2};
   vertical-align: middle;
+
+  .#{$namespace}-input::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    border-radius: $input-border-radius;
+    box-sizing: border-box;
+    box-shadow: 0 0 0 1px
+      var(
+        #{getCssVarName('input-border-color')},
+        map.get($input, 'border-color')
+      )
+      inset;
+    transition: getCssVar('transition-box-shadow');
+  }
+
+  &:hover .#{$namespace}-input::after {
+    box-shadow: 0 0 0 1px
+      getCssVarWithDefault(
+        ('input', 'hover-border-color'),
+        map.get($input, 'hover-border-color')
+      )
+      inset;
+  }
+
+  &:focus-within .#{$namespace}-input::after {
+    box-shadow: 0 0 0 1px
+      getCssVarWithDefault(
+        ('input', 'focus-border-color'),
+        map.get($input, 'focus-border-color')
+      )
+      inset;
+  }
+
+  @include when(controls-hover) {
+    .#{$namespace}-input::after {
+      box-shadow: 0 0 0 1px
+        getCssVarWithDefault(
+          ('input', 'focus-border-color'),
+          map.get($input, 'focus-border-color')
+        )
+        inset;
+    }
+  }
+
+  @include when(disabled) {
+    .#{$namespace}-input::after,
+    &:hover .#{$namespace}-input::after,
+    &:focus-within .#{$namespace}-input::after,
+    &.is-controls-hover .#{$namespace}-input::after {
+      box-shadow: 0 0 0 1px getCssVar('disabled-border-color') inset;
+    }
+  }
+
+  .#{$namespace}-input__wrapper,
+  .#{$namespace}-input:hover .#{$namespace}-input__wrapper,
+  .#{$namespace}-input.is-focus .#{$namespace}-input__wrapper {
+    box-shadow: none !important;
+  }
 
   .#{$namespace}-input {
     &__wrapper {
@@ -44,8 +110,8 @@
 
     position: absolute;
     z-index: 1;
-    top: 1px;
-    bottom: 1px;
+    top: 0;
+    bottom: 0;
 
     width: map.get($input-height, 'default');
     background: getCssVar('fill-color', 'light');
@@ -74,16 +140,14 @@
   }
 
   @include e(increase) {
-    right: 1px;
-    border-radius: 0 getCssVar('border-radius-base')
-      getCssVar('border-radius-base') 0;
+    right: 0;
+    border-radius: 0 $input-border-radius $input-border-radius 0;
     border-left: getCssVar('border');
   }
 
   @include e(decrease) {
-    left: 1px;
-    border-radius: getCssVar('border-radius-base') 0 0
-      getCssVar('border-radius-base');
+    left: 0;
+    border-radius: $input-border-radius 0 0 $input-border-radius;
     border-right: getCssVar('border');
   }
 
@@ -148,13 +212,9 @@
     }
 
     @include e((increase, decrease)) {
-      @include set-css-var-value(
-        ('input', 'number-controls-height'),
-        math.div(map.get($input-height, 'default') - 2, 2)
-      );
+      @include set-css-var-value(('input', 'number-controls-height'), 50%);
 
       height: getCssVar('input-number-controls-height');
-      line-height: getCssVar('input-number-controls-height');
 
       [class*='#{$namespace}-icon'] {
         transform: scale(0.8);
@@ -164,17 +224,17 @@
     @include e(increase) {
       bottom: auto;
       left: auto;
-      border-radius: 0 getCssVar('border-radius-base') 0 0;
+      border-radius: 0 $input-border-radius 0 0;
       border-bottom: getCssVar('border');
     }
 
     @include e(decrease) {
-      right: 1px;
+      right: 0;
       top: auto;
       left: auto;
       border-right: none;
       border-left: getCssVar('border');
-      border-radius: 0 0 getCssVar('border-radius-base') 0;
+      border-radius: 0 0 $input-border-radius 0;
     }
 
     @each $size in (large, small) {
@@ -183,7 +243,7 @@
         [class*='decrease'] {
           @include set-css-var-value(
             ('input', 'number-controls-height'),
-            math.div(map.get($input-height, $size) - 2, 2)
+            math.div(map.get($input-height, $size), 2)
           );
         }
       }
