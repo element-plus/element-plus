@@ -53,8 +53,10 @@ export function useFocusController<T extends { focus: () => void }>(
 
   const handleBlur = (event: FocusEvent) => {
     const cancelBlur = isFunction(beforeBlur) ? beforeBlur(event) : false
+    // Not guarded by `disabled`: disabling a focused target makes the browser
+    // fire a native blur after `disabled` is already true, and that blur must
+    // still clear the focus state and be emitted.
     if (
-      unref(disabled) ||
       (event.relatedTarget &&
         wrapperRef.value?.contains(event.relatedTarget as Node)) ||
       cancelBlur
@@ -79,15 +81,6 @@ export function useFocusController<T extends { focus: () => void }>(
   }
 
   watch([wrapperRef, () => unref(disabled)], ([el, disabled]) => {
-    // Becoming disabled while focused makes the browser drop focus, but the
-    // resulting native blur is ignored by handleBlur because `disabled` is
-    // already true, so clear the state and emit blur here instead.
-    if (disabled && isFocused.value) {
-      isFocused.value = false
-      emit('blur', new FocusEvent('blur'))
-      afterBlur?.()
-    }
-
     if (!el) return
     if (disabled) {
       el.removeAttribute('tabindex')

@@ -256,25 +256,22 @@ describe('useFocusController', () => {
     expect(wrapper.find('span').text()).toBe('true')
   })
 
-  it('it will reset the focus state and emit blur when the target is disabled while focused', async () => {
+  it('it will reset the focus state and emit blur when the target blurs after being disabled', async () => {
     const disabled = ref(false)
     const afterBlur = vi.fn()
     const wrapper = mount({
       emits: ['focus', 'blur'],
       setup() {
         const targetRef = ref()
-        const { isFocused, handleFocus, handleBlur } = useFocusController(
-          targetRef,
-          {
-            disabled,
-            afterFocus: vi.fn(),
-            afterBlur,
-          }
-        )
+        const { isFocused } = useFocusController(targetRef, {
+          disabled,
+          afterFocus: vi.fn(),
+          afterBlur,
+        })
 
         return () => (
           <div>
-            <input ref={targetRef} onFocus={handleFocus} onBlur={handleBlur} />
+            <input ref={targetRef} />
             <span>{String(isFocused.value)}</span>
           </div>
         )
@@ -284,12 +281,17 @@ describe('useFocusController', () => {
     await wrapper.find('input').trigger('focus')
     expect(wrapper.find('span').text()).toBe('true')
 
-    // the native blur fired after disabling is ignored by handleBlur, so the
-    // controller has to emit blur itself
+    // disabling a focused input makes the browser fire a native blur while
+    // `disabled` is already true; jsdom does not, so dispatch it here
     disabled.value = true
     await nextTick()
+    await wrapper.find('input').trigger('blur')
     expect(wrapper.find('span').text()).toBe('false')
-    expect(wrapper.emitted('blur')).toHaveLength(1)
+    const blurEvents = wrapper.emitted('blur')
+    expect(blurEvents).toHaveLength(1)
+    expect((blurEvents![0][0] as FocusEvent).target).toBe(
+      wrapper.find('input').element
+    )
     expect(afterBlur).toHaveBeenCalledTimes(1)
 
     // re-enabling does not restore the stale focus state
