@@ -7,6 +7,7 @@ import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { ElFormItem } from '@element-plus/components/form'
 import DatePicker from '../src/date-picker'
 import DatePickerRange from '../../date-picker-panel/src/date-picker-com/panel-date-range.vue'
+import { TimePickPanel } from '@element-plus/components/time-picker'
 
 import type { VNode } from 'vue'
 import type { DatePickerType } from '../../date-picker-panel/src/types'
@@ -679,6 +680,135 @@ describe('Datetimerange', () => {
     await nextTick()
     expect(value.value).not.toBe('')
   })
+
+  it('select time should honor disabledDate when auto filling dates', async () => {
+    const value = ref<string[]>([])
+    const minValidDate = dayjs().startOf('day').add(3, 'day')
+    const disabledDate = (time: Date) =>
+      dayjs(time).isBefore(minValidDate, 'day')
+    const wrapper = _mount(() => (
+      <DatePicker
+        v-model={value.value}
+        type="datetimerange"
+        disabledDate={disabledDate}
+      />
+    ))
+
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const timeInput = document.querySelectorAll(
+      '.el-date-range-picker__editors-wrap input'
+    )[1] as HTMLInputElement
+    timeInput.blur()
+    timeInput.focus()
+    timeInput.blur()
+    await nextTick()
+    const button: HTMLElement = document.querySelector(
+      '.el-date-range-picker__time-picker-wrap .el-time-panel .confirm'
+    )!
+    button.click()
+    await nextTick()
+    const btn = document.querySelectorAll(
+      '.el-picker-panel__footer .el-button'
+    )[1] as HTMLElement
+    btn.click()
+    await nextTick()
+    expect(value.value).toHaveLength(2)
+    // dates auto-filled by time selection should never be disabled ones
+    value.value.forEach((date) => {
+      expect(disabledDate(dayjs(date).toDate())).toBe(false)
+      expect(dayjs(date).isSame(minValidDate, 'day')).toBe(true)
+    })
+  })
+
+  it('select time should not auto fill dates when all nearby dates are disabled', async () => {
+    const value = ref<string[]>([])
+    // every date within the 730-day search window is disabled
+    const disabledDate = (time: Date) =>
+      dayjs(time).isBefore(dayjs().add(3, 'year'), 'day')
+    const wrapper = _mount(() => (
+      <DatePicker
+        v-model={value.value}
+        type="datetimerange"
+        disabledDate={disabledDate}
+      />
+    ))
+
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const rangePicker = wrapper.findComponent(DatePickerRange)
+    const timeInput = document.querySelectorAll(
+      '.el-date-range-picker__editors-wrap input'
+    )[1] as HTMLInputElement
+    timeInput.blur()
+    timeInput.focus()
+    timeInput.blur()
+    await nextTick()
+    const button: HTMLElement = document.querySelector(
+      '.el-date-range-picker__time-picker-wrap .el-time-panel .confirm'
+    )!
+    button.click()
+    await nextTick()
+    // the time popover should be closed even when no valid date is found
+    const timePanel = rangePicker.findComponent(TimePickPanel)
+    expect(timePanel.props('visible')).toBe(false)
+    const btn = document.querySelectorAll(
+      '.el-picker-panel__footer .el-button'
+    )[1] as HTMLElement
+    btn.click()
+    await nextTick()
+    // nothing should be auto filled when no valid date exists nearby
+    expect(value.value).toEqual([])
+  })
+
+  it.each(['start', 'end'])(
+    'closes the %s time panel when typed time has no selectable date',
+    async (type) => {
+      const value = ref<Date[]>([])
+      const wrapper = _mount(() => (
+        <DatePicker
+          v-model={value.value}
+          type="datetimerange"
+          unlinkPanels
+          defaultValue={new Date(2026, 8, 9)}
+          disabledDate={(date: Date) => date.getHours() === 9}
+        />
+      ))
+
+      try {
+        await wrapper.find('input').trigger('focus')
+        const rangePicker = wrapper.findComponent(DatePickerRange)
+        const inputs = rangePicker.findAll<HTMLInputElement>(
+          '.el-date-range-picker__editors-wrap input'
+        )
+        const panelIndex = type === 'start' ? 0 : 1
+        if (type === 'end') {
+          // Make the end-time input editable without selecting an end date.
+          inputs[0].element.value = '2026-09-09'
+          await inputs[0].trigger('input')
+        }
+        const timeInput = inputs[panelIndex * 2 + 1]
+        expect(timeInput.element.readOnly).toBe(false)
+        await timeInput.trigger('focus')
+        const timePanel =
+          rangePicker.findAllComponents(TimePickPanel)[panelIndex]
+        expect(timePanel.props('visible')).toBe(true)
+
+        // Input alone must close the panel, without a change or blur event.
+        timeInput.element.value = '09:00:00'
+        await timeInput.trigger('input')
+
+        expect(timePanel.props('visible')).toBe(false)
+        expect(value.value).toEqual([])
+      } finally {
+        wrapper.unmount()
+      }
+    }
+  )
 
   it('clear button should empty the input value', async () => {
     const value = ref([])
