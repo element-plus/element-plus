@@ -1,11 +1,6 @@
 {
   "private": true,
-  "packageManager": "pnpm@12.8.1",
-  "workspaces": [
-    "packages/*",
-    "play",
-    "docs"
-  ],
+  "packageManager": "pnpm@12.10.1",
   "scripts": {
     "cz": "czg",
     "test": "vitest",
@@ -76,11 +71,11 @@
     "@pnpm/logger": "^5.2.0",
     "@pnpm/types": "^12.2.0",
     "@types/jsdom": "^30.0.0",
-    "@types/node": "^24.19.0",
+    "@types/node": "^24.19.1",
     "@vitejs/plugin-vue": "catalog:",
     "@vitejs/plugin-vue-jsx": "catalog:",
-    "@vitest/coverage-v8": "^5.0.2",
-    "@vitest/ui": "^5.0.2",
+    "@vitest/coverage-v8": "^5.0.3",
+    "@vitest/ui": "^5.0.3",
     "@vue/server-renderer": "catalog:",
     "@vue/shared": "catalog:",
     "@vue/test-utils": "catalog:",
@@ -88,7 +83,7 @@
     "csstype": "^3.2.3",
     "cz-git": "^1.14.0",
     "czg": "^1.14.0",
-    "eslint": "^10.11.0",
+    "eslint": "^10.12.0",
     "expect-type": "^1.4.0",
     "happy-dom": "^20.14.5",
     "husky": "^9.1.7",
@@ -101,7 +96,7 @@
     "tinyglobby": "^0.2.17",
     "tsx": "catalog:",
     "typescript": "catalog:",
-    "vitest": "^5.0.2",
+    "vitest": "^5.0.3",
     "vue": "catalog:",
     "vue-router": "^5.3.1",
     "vue-tsc": "=3.1.5"
