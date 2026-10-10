@@ -38,7 +38,10 @@ const component = defineComponent({
       }
     )
 
-    return result
+    return {
+      isTreeOption: true,
+      ...result,
+    }
   },
   methods: {
     selectOptionClick() {
