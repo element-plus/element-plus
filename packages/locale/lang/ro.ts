@@ -2,22 +2,22 @@ export default {
   name: 'ro',
   el: {
     breadcrumb: {
-      label: 'Breadcrumb', // to be translated
+      label: 'Cale de navigare',
     },
     colorpicker: {
       confirm: 'OK',
       clear: 'Șterge',
-      defaultLabel: 'color picker', // to be translated
+      defaultLabel: 'Selector de culori',
       description:
-        'current color is {color}. press enter to select a new color.', // to be translated
-      alphaLabel: 'pick alpha value', // to be translated
-      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
-      hueLabel: 'pick hue value', // to be translated
-      hueDescription: 'hue {hue}, current color is {color}', // to be translated
-      svLabel: 'pick saturation and brightness value', // to be translated
+        'Culoarea curentă este {color}. Apăsați Enter pentru a selecta o culoare nouă.',
+      alphaLabel: 'Selectează valoarea alfa',
+      alphaDescription: 'Alfa {alpha}, culoarea curentă este {color}',
+      hueLabel: 'Selectează valoarea nuanței',
+      hueDescription: 'Nuanță {hue}, culoarea curentă este {color}',
+      svLabel: 'Selectează saturația și luminozitatea',
       svDescription:
-        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
-      predefineDescription: 'select {value} as the color', // to be translated
+        'Saturație {saturation}, luminozitate {brightness}, culoarea curentă este {color}',
+      predefineDescription: 'Selectează culoarea {value}',
     },
     datepicker: {
       now: 'Acum',
@@ -26,11 +26,14 @@ export default {
       clear: 'Șterge',
       confirm: 'OK',
       dateTablePrompt:
-        'Use the arrow keys and enter to select the day of the month', // to be translated
-      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
-      quarterTablePrompt: 'Use the arrow keys and enter to select the quarter', // to be translated
-      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
-      selectedDate: 'Selected date', // to be translated
+        'Folosiți tastele cu săgeți și Enter pentru a selecta ziua din lună',
+      monthTablePrompt:
+        'Folosiți tastele cu săgeți și Enter pentru a selecta luna',
+      quarterTablePrompt:
+        'Folosiți tastele cu săgeți și Enter pentru a selecta trimestrul',
+      yearTablePrompt:
+        'Folosiți tastele cu săgeți și Enter pentru a selecta anul',
+      selectedDate: 'Data selectată',
       selectDate: 'Selectează data',
       selectTime: 'Selectează ora',
       startDate: 'Data de început',
@@ -64,13 +67,13 @@ export default {
         sat: 'Sâ',
       },
       weeksFull: {
-        sun: 'Sunday', // to be translated
-        mon: 'Monday', // to be translated
-        tue: 'Tuesday', // to be translated
-        wed: 'Wednesday', // to be translated
-        thu: 'Thursday', // to be translated
-        fri: 'Friday', // to be translated
-        sat: 'Saturday', // to be translated
+        sun: 'Duminică',
+        mon: 'Luni',
+        tue: 'Marți',
+        wed: 'Miercuri',
+        thu: 'Joi',
+        fri: 'Vineri',
+        sat: 'Sâmbătă',
       },
       months: {
         jan: 'Ian',
@@ -91,8 +94,8 @@ export default {
       characters: '{count} / {max} caractere',
     },
     inputNumber: {
-      decrease: 'decrease number', // to be translated
-      increase: 'increase number', // to be translated
+      decrease: 'Micșorează valoarea',
+      increase: 'Mărește valoarea',
     },
     select: {
       loading: 'Se încarcă',
@@ -104,7 +107,7 @@ export default {
       loading: 'Se încarcă',
     },
     dropdown: {
-      toggleDropdown: 'Toggle Dropdown', // to be translated
+      toggleDropdown: 'Comută meniul derulant',
     },
     cascader: {
       noMatch: 'Nu există date potrivite',
@@ -113,31 +116,31 @@ export default {
       noData: 'Nu există date',
     },
     pagination: {
-      goto: 'Go to',
-      pagesize: '/pagina',
+      goto: 'Mergi la',
+      pagesize: '/pagină',
       total: 'Total {total}',
       pageClassifier: '',
-      page: 'Page', // to be translated
-      prev: 'Go to previous page', // to be translated
-      next: 'Go to next page', // to be translated
-      currentPage: 'page {pager}', // to be translated
-      prevPages: 'Previous {pager} pages', // to be translated
-      nextPages: 'Next {pager} pages', // to be translated
+      page: 'Pagina',
+      prev: 'Mergi la pagina anterioară',
+      next: 'Mergi la pagina următoare',
+      currentPage: 'Pagina {pager}',
+      prevPages: '{pager} pagini anterioare',
+      nextPages: '{pager} pagini următoare',
       deprecationWarning:
-        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
+        'Au fost detectate utilizări învechite, consultați documentația el-pagination pentru mai multe detalii',
     },
     dialog: {
-      close: 'Close this dialog', // to be translated
+      close: 'Închide această fereastră de dialog',
     },
     drawer: {
-      close: 'Close this dialog', // to be translated
+      close: 'Închide această fereastră de dialog',
     },
     messagebox: {
       title: 'Mesaj',
       confirm: 'OK',
       cancel: 'Anulează',
       error: 'Date introduse eronate',
-      close: 'Close this dialog', // to be translated
+      close: 'Închide această fereastră de dialog',
     },
     upload: {
       deleteTip: 'apăsați pe ștergeți pentru a elimina',
@@ -146,9 +149,9 @@ export default {
       continue: 'continuă',
     },
     slider: {
-      defaultLabel: 'slider between {min} and {max}', // to be translated
-      defaultRangeStartLabel: 'pick start value', // to be translated
-      defaultRangeEndLabel: 'pick end value', // to be translated
+      defaultLabel: 'Glisor între {min} și {max}',
+      defaultRangeStartLabel: 'Selectează valoarea de început',
+      defaultRangeEndLabel: 'Selectează valoarea de sfârșit',
     },
     table: {
       emptyText: 'Nu există date',
@@ -156,21 +159,21 @@ export default {
       resetFilter: 'Resetează',
       clearFilter: 'Tot',
       sumText: 'Suma',
-      selectAllLabel: 'Select all rows', // to be translated
-      selectRowLabel: 'Select this row', // to be translated
-      expandRowLabel: 'Expand this row', // to be translated
-      collapseRowLabel: 'Collapse this row', // to be translated
-      sortLabel: 'Sort by {column}', // to be translated
-      filterLabel: 'Filter by {column}', // to be translated
+      selectAllLabel: 'Selectează toate rândurile',
+      selectRowLabel: 'Selectează acest rând',
+      expandRowLabel: 'Extinde acest rând',
+      collapseRowLabel: 'Restrânge acest rând',
+      sortLabel: 'Sortează după {column}',
+      filterLabel: 'Filtrează după {column}',
     },
     tag: {
-      close: 'Close this tag', // to be translated
+      close: 'Închide această etichetă',
     },
     tour: {
-      next: 'Next', // to be translated
-      previous: 'Previous', // to be translated
-      finish: 'Finish', // to be translated
-      close: 'Close this dialog', // to be translated
+      next: 'Următorul',
+      previous: 'Anterior',
+      finish: 'Finalizează',
+      close: 'Închide această fereastră de dialog',
     },
     tree: {
       emptyText: 'Nu există date',
@@ -184,23 +187,23 @@ export default {
       hasCheckedFormat: '{checked}/{total} verificate',
     },
     image: {
-      error: 'FAILED', // to be translated
+      error: 'Eroare',
     },
     pageHeader: {
-      title: 'Back', // to be translated
+      title: 'Înapoi',
     },
     popconfirm: {
-      confirmButtonText: 'Yes', // to be translated
-      cancelButtonText: 'No', // to be translated
+      confirmButtonText: 'Da',
+      cancelButtonText: 'Nu',
     },
     carousel: {
-      leftArrow: 'Carousel arrow left', // to be translated
-      rightArrow: 'Carousel arrow right', // to be translated
-      indicator: 'Carousel switch to index {index}', // to be translated
+      leftArrow: 'Săgeata din stânga a caruselului',
+      rightArrow: 'Săgeata din dreapta a caruselului',
+      indicator: 'Comută caruselul la poziția {index}',
     },
     inputOTP: {
-      groupLabel: 'OTP Input', // to be translated
-      defaultLabel: 'Please enter OTP character {index}', // to be translated
+      groupLabel: 'Introducere cod OTP',
+      defaultLabel: 'Introduceți caracterul {index} al codului OTP',
     },
   },
 }
