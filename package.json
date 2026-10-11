@@ -98,7 +98,7 @@
     "typescript": "catalog:",
     "vitest": "^5.0.3",
     "vue": "catalog:",
-    "vue-router": "^5.3.1",
+    "vue-router": "^5.4.0",
     "vue-tsc": "=3.1.5"
   },
   "engines": {
