@@ -142,7 +142,7 @@ export const getColumnById = function <T extends DefaultRow>(
   },
   columnId: string
 ): null | TableColumnCtx<T> {
-  let column = null
+  let column: TableColumnCtx<T> | null = null
   table.columns.forEach((item) => {
     if (item.id === columnId) {
       column = item
@@ -157,7 +157,7 @@ export const getColumnByKey = function <T extends DefaultRow>(
   },
   columnKey: string
 ): TableColumnCtx<T> {
-  let column = null
+  let column: TableColumnCtx<T> | null = null
   for (let i = 0; i < table.columns.length; i++) {
     const item = table.columns[i]
     if (item.columnKey === columnKey) {
@@ -539,12 +539,16 @@ function getColSpan<T extends DefaultRow>(
   return colSpan + column.colSpan
 }
 
+type FixedColumn =
+  | { direction: 'left' | 'right'; start: number; after: number }
+  | { direction?: undefined; start?: undefined; after?: undefined }
+
 export const isFixedColumn = <T extends DefaultRow>(
   index: number,
   fixed: string | boolean | undefined,
   store: any,
   realColumns?: TableColumnCtx<T>[]
-) => {
+): FixedColumn => {
   let start = 0
   let after = index
   const columns = store.states.columns.value
@@ -558,7 +562,7 @@ export const isFixedColumn = <T extends DefaultRow>(
   } else {
     start = index
   }
-  let fixedLayout
+  let fixedLayout: 'left' | 'right' | undefined
   switch (fixed) {
     case 'left':
       if (after < store.states.fixedLeafColumnsLength.value) {
