@@ -51,6 +51,7 @@
               :disabled="dateDisabled"
               :readonly="!editable"
               @focus="onTimePickerInputFocus"
+              @keydown.tab="handleTimePickClose"
               @input="(val) => (userInputTime = val)"
               @change="handleVisibleTimeChange"
             />

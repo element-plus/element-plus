@@ -55,6 +55,7 @@
                 :validate-event="false"
                 :readonly="!editable"
                 @focus="minTimePickerVisible = true"
+                @keydown.tab="handleMinTimeClose"
                 @input="(val) => handleTimeInput(val, 'min')"
                 @change="(val) => handleTimeChange(val, 'min')"
               />
@@ -97,6 +98,7 @@
                 :readonly="!minDate || !editable"
                 :validate-event="false"
                 @focus="minDate && (maxTimePickerVisible = true)"
+                @keydown.tab="handleMaxTimeClose"
                 @input="(val) => handleTimeInput(val, 'max')"
                 @change="(val) => handleTimeChange(val, 'max')"
               />

@@ -45,6 +45,73 @@ const types: DatePickerType[] = [
 ]
 
 describe('DatePickerPanel', () => {
+  it.each([
+    ['datetime', 1, false],
+    ['datetime', 1, true],
+    ['datetimerange', 1, false],
+    ['datetimerange', 1, true],
+    ['datetimerange', 3, false],
+    ['datetimerange', 3, true],
+  ] as const)(
+    'closes the %s time popup at input %i on Tab (shift: %s)',
+    async (type, inputIndex, shiftKey) => {
+      const start = new Date(2026, 9, 12, 10, 30)
+      const end = new Date(2026, 9, 13, 11, 30)
+      const onUpdateModelValue = vi.fn()
+      const wrapper = mount(
+        () => (
+          <DatePickerPanel
+            type={type}
+            modelValue={type === 'datetime' ? start : [start, end]}
+            onUpdate:modelValue={onUpdateModelValue}
+          />
+        ),
+        { attachTo: document.body, global: { stubs: { transition: false } } }
+      )
+      try {
+        const input = wrapper.findAll('input')[inputIndex]
+        input.element.focus()
+        await nextTick()
+        expect(document.activeElement).toBe(input.element)
+        const timePanel = wrapper.find('.el-time-panel')
+        expect(timePanel.find('button').element.tabIndex).toBe(0)
+        await input.trigger('keydown', { key: 'ArrowLeft' })
+        expect(wrapper.find('.el-time-panel').exists()).toBe(true)
+        const event = new KeyboardEvent('keydown', {
+          key: 'Tab',
+          shiftKey,
+          bubbles: true,
+          cancelable: true,
+        })
+        input.element.dispatchEvent(event)
+        await nextTick()
+        timePanel.findAll('button, .el-scrollbar__wrap').forEach((element) => {
+          expect(element.attributes('tabindex')).toBe('-1')
+        })
+        expect(event.defaultPrevented).toBe(false)
+        // The DOM test environment does not perform Tab's default focus action.
+        const nextTarget = shiftKey
+          ? wrapper.findAll('input')[inputIndex - 1]
+          : type === 'datetimerange' && inputIndex === 1
+            ? wrapper.findAll('input')[2]
+            : wrapper.find('button[aria-label="Previous Year"]')
+        ;(nextTarget.element as HTMLElement).focus()
+        await vi.waitFor(() => {
+          expect(timePanel.element.isConnected).toBe(false)
+        })
+        expect(document.activeElement).toBe(nextTarget.element)
+        expect(onUpdateModelValue).not.toHaveBeenCalled()
+        input.element.focus()
+        await nextTick()
+        expect(
+          wrapper.find('.el-time-panel').find('button').element.tabIndex
+        ).toBe(0)
+      } finally {
+        wrapper.unmount()
+      }
+    }
+  )
+
   it('should have border', async () => {
     const wrapper = mount(() => <DatePickerPanel />)
     expect(wrapper.classes().includes('is-border'))
