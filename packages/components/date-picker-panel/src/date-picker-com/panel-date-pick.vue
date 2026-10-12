@@ -40,6 +40,7 @@
             />
           </span>
           <span
+            ref="timePickerWrapperRef"
             v-click-outside="handleTimePickClose"
             :class="dpNs.e('editor-wrap')"
           >
@@ -51,7 +52,6 @@
               :disabled="dateDisabled"
               :readonly="!editable"
               @focus="onTimePickerInputFocus"
-              @keydown.tab="handleTimePickClose"
               @input="(val) => (userInputTime = val)"
               @change="handleVisibleTimeChange"
             />
@@ -241,6 +241,7 @@ import {
   watch,
 } from 'vue'
 import dayjs from 'dayjs'
+import { useActiveElement } from '@vueuse/core'
 import ElButton from '@element-plus/components/button'
 import { ClickOutside as vClickOutside } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
@@ -690,6 +691,21 @@ const onTimePickerInputFocus = () => {
 const handleTimePickClose = () => {
   timePickerVisible.value = false
 }
+const timePickerWrapperRef = ref<HTMLElement>()
+const activeElement = useActiveElement()
+watch(activeElement, (target) => {
+  const wrapper = timePickerWrapperRef.value
+  // Clicking a time item can move focus to the ancestor popper's focus trap.
+  if (
+    timePickerVisible.value &&
+    wrapper &&
+    target &&
+    !wrapper.contains(target) &&
+    !target.contains(wrapper)
+  ) {
+    handleTimePickClose()
+  }
+})
 
 const getUnits = (date: Dayjs) => {
   return {

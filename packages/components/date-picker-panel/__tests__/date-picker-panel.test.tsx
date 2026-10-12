@@ -46,15 +46,21 @@ const types: DatePickerType[] = [
 
 describe('DatePickerPanel', () => {
   it.each([
-    ['datetime', 1, false],
-    ['datetime', 1, true],
-    ['datetimerange', 1, false],
-    ['datetimerange', 1, true],
-    ['datetimerange', 3, false],
-    ['datetimerange', 3, true],
+    ['datetime', 1, false, true],
+    ['datetime', 1, true, true],
+    ['datetimerange', 1, false, true],
+    ['datetimerange', 1, true, true],
+    ['datetimerange', 3, false, true],
+    ['datetimerange', 3, true, true],
+    ['datetime', 1, false, false],
+    ['datetime', 1, true, false],
+    ['datetimerange', 1, false, false],
+    ['datetimerange', 1, true, false],
+    ['datetimerange', 3, false, false],
+    ['datetimerange', 3, true, false],
   ] as const)(
-    'closes the %s time popup at input %i on Tab (shift: %s)',
-    async (type, inputIndex, shiftKey) => {
+    'closes the %s time popup at input %i when focus leaves (shift: %s, editable: %s)',
+    async (type, inputIndex, shiftKey, editable) => {
       const start = new Date(2026, 9, 12, 10, 30)
       const end = new Date(2026, 9, 13, 11, 30)
       const onUpdateModelValue = vi.fn()
@@ -62,6 +68,7 @@ describe('DatePickerPanel', () => {
         () => (
           <DatePickerPanel
             type={type}
+            editable={editable}
             modelValue={type === 'datetime' ? start : [start, end]}
             onUpdate:modelValue={onUpdateModelValue}
           />
@@ -72,11 +79,9 @@ describe('DatePickerPanel', () => {
         const input = wrapper.findAll('input')[inputIndex]
         input.element.focus()
         await nextTick()
+        expect(input.element.readOnly).toBe(!editable)
         expect(document.activeElement).toBe(input.element)
         const timePanel = wrapper.find('.el-time-panel')
-        expect(timePanel.find('button').element.tabIndex).toBe(0)
-        await input.trigger('keydown', { key: 'ArrowLeft' })
-        expect(wrapper.find('.el-time-panel').exists()).toBe(true)
         const event = new KeyboardEvent('keydown', {
           key: 'Tab',
           shiftKey,
@@ -85,17 +90,29 @@ describe('DatePickerPanel', () => {
         })
         input.element.dispatchEvent(event)
         await nextTick()
-        timePanel.findAll('button, .el-scrollbar__wrap').forEach((element) => {
-          expect(element.attributes('tabindex')).toBe('-1')
-        })
         expect(event.defaultPrevented).toBe(false)
+        expect(timePanel.find('button').element.tabIndex).toBe(0)
+
         // The DOM test environment does not perform Tab's default focus action.
+        if (!shiftKey) {
+          for (const button of timePanel.findAll('button')) {
+            button.element.focus()
+            await nextTick()
+            expect(document.activeElement).toBe(button.element)
+            expect(button.element.tabIndex).toBe(0)
+            expect(timePanel.element.isConnected).toBe(true)
+          }
+        }
         const nextTarget = shiftKey
           ? wrapper.findAll('input')[inputIndex - 1]
           : type === 'datetimerange' && inputIndex === 1
             ? wrapper.findAll('input')[2]
             : wrapper.find('button[aria-label="Previous Year"]')
         ;(nextTarget.element as HTMLElement).focus()
+        await nextTick()
+        timePanel.findAll('button, .el-scrollbar__wrap').forEach((element) => {
+          expect(element.attributes('tabindex')).toBe('-1')
+        })
         await vi.waitFor(() => {
           expect(timePanel.element.isConnected).toBe(false)
         })
@@ -106,6 +123,77 @@ describe('DatePickerPanel', () => {
         expect(
           wrapper.find('.el-time-panel').find('button').element.tabIndex
         ).toBe(0)
+      } finally {
+        wrapper.unmount()
+      }
+    }
+  )
+
+  it.each([
+    ['datetime', 1, false],
+    ['datetime', 1, true],
+    ['datetimerange', 1, false],
+    ['datetimerange', 1, true],
+    ['datetimerange', 3, false],
+    ['datetimerange', 3, true],
+  ] as const)(
+    'closes the %s time popup at input %i after leaving a clicked time item (shift: %s)',
+    async (type, inputIndex, shiftKey) => {
+      const start = new Date(2026, 9, 12, 10, 30)
+      const end = new Date(2026, 9, 13, 11, 30)
+      const modelValue = ref(type === 'datetime' ? start : [start, end])
+      const wrapper = mount(
+        () => (
+          <div tabindex={-1}>
+            <input class="previous-input" />
+            <DatePickerPanel
+              type={type}
+              editable={false}
+              v-model={modelValue.value}
+            />
+          </div>
+        ),
+        { attachTo: document.body, global: { stubs: { transition: false } } }
+      )
+      try {
+        const panel = wrapper.findComponent(DatePickerPanel)
+        const input = panel.findAll('input')[inputIndex]
+        input.element.focus()
+        await nextTick()
+        const timePanel = wrapper.find('.el-time-panel')
+        const timeItem = timePanel
+          .findAll('.el-time-spinner__list')[0]
+          .findAll('li')[12]
+        await timeItem.trigger('mousedown')
+        // The focus trap focuses the outer popper for non-focusable time items.
+        ;(wrapper.element as HTMLElement).focus()
+        await nextTick()
+        expect(timePanel.find('button').element.tabIndex).toBe(0)
+        await timeItem.trigger('mouseup')
+        await timeItem.trigger('click')
+        expect(input.element.value).toBe('12:30:00')
+        expect(timePanel.element.isConnected).toBe(true)
+        expect(document.activeElement).toBe(wrapper.element)
+
+        const event = new KeyboardEvent('keydown', {
+          key: 'Tab',
+          shiftKey,
+          bubbles: true,
+          cancelable: true,
+        })
+        wrapper.element.dispatchEvent(event)
+        // Mimic native Tab from the popper to the date input or outer input.
+        const nextTarget = shiftKey
+          ? wrapper.find<HTMLInputElement>('.previous-input')
+          : panel.find('input')
+        nextTarget.element.focus()
+        await nextTick()
+        expect(event.defaultPrevented).toBe(false)
+        expect(timePanel.find('button').element.tabIndex).toBe(-1)
+        await vi.waitFor(() => {
+          expect(timePanel.element.isConnected).toBe(false)
+        })
+        expect(document.activeElement).toBe(nextTarget.element)
       } finally {
         wrapper.unmount()
       }
