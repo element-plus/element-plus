@@ -172,7 +172,7 @@ describe('CascaderPanel.vue', () => {
       expect(hangzhou.find(CHECKBOX).classes('is-checked')).toBe(true)
       expect(ningbo.find(CHECKBOX).classes('is-checked')).toBe(false)
 
-      await ningbo.find('input[type="checkbox"]').setValue(true)
+      await ningbo.find('input[type="checkbox"]').trigger('click')
       expect(panelValue.value).toEqual([
         ['zhejiang', 'hangzhou'],
         ['zhejiang', 'ningbo'],
@@ -181,7 +181,7 @@ describe('CascaderPanel.vue', () => {
       expect(groupValue.value).toEqual(['outer'])
       expect(onGroupChange).not.toHaveBeenCalled()
 
-      await hangzhou.find('input[type="checkbox"]').setValue(false)
+      await hangzhou.find('input[type="checkbox"]').trigger('click')
       expect(panelValue.value).toEqual([['zhejiang', 'ningbo']])
       expect(hangzhou.find(CHECKBOX).classes('is-checked')).toBe(false)
 
