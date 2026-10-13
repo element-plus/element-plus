@@ -94,10 +94,20 @@ useResizeObserver(
       const borderBox = Array.isArray(borderBoxSize)
         ? borderBoxSize[0]
         : borderBoxSize
-      itemHeights.set(
-        entry.target,
-        borderBox?.blockSize ?? entry.contentRect.height
-      )
+      let itemHeight = borderBox?.blockSize
+      if (itemHeight === undefined) {
+        const style = getComputedStyle(entry.target)
+        itemHeight = [
+          style.paddingTop,
+          style.paddingBottom,
+          style.borderTopWidth,
+          style.borderBottomWidth,
+        ].reduce(
+          (height, value) => height + (Number.parseFloat(value) || 0),
+          entry.contentRect.height
+        )
+      }
+      itemHeights.set(entry.target, itemHeight)
     }
     scheduleLayout()
   },

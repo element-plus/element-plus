@@ -31,8 +31,12 @@ const getHeight = (element: Element) =>
 
 type BorderBoxShape = 'array' | 'object' | 'missing' | 'empty'
 
-const resize = (target: Element, shape: BorderBoxShape = 'array') => {
-  const boxSize = { inlineSize: containerWidth, blockSize: getHeight(target) }
+const resize = (
+  target: Element,
+  shape: BorderBoxShape = 'array',
+  borderHeight = getHeight(target)
+) => {
+  const boxSize = { inlineSize: containerWidth, blockSize: borderHeight }
   for (const observer of observers) {
     if (!observer.targets.has(target)) continue
     observer.callback(
@@ -211,6 +215,40 @@ describe('Masonry', () => {
       expect(positions()[1]).toEqual(['0px', '20.75px', '620px'])
       expect(positions()[2]).toEqual(['0px', '31px', '620px'])
       expect((instance.element as HTMLElement).style.height).toBe('41.25px')
+    }
+  )
+
+  it.each(['array', 'object', 'missing', 'empty'] as const)(
+    'includes fractional padding and borders with %s borderBoxSize',
+    async (shape) => {
+      const instance = mountMasonry(
+        [10.25, 10.25].map((height, id) => ({ id, height })),
+        { columns: 1, gutter: 3.5 }
+      )
+      await settle()
+      const elements = instance.findAll<HTMLElement>('.el-masonry__item')
+      for (const { element } of elements) {
+        Object.assign(element.style, {
+          paddingTop: '1.25px',
+          paddingBottom: '2.5px',
+          borderTop: '0.5px solid',
+          borderBottom: '0.75px solid',
+        })
+        resize(element, shape, 15.25)
+      }
+      vi.advanceTimersByTime(16)
+      await nextTick()
+
+      expect(positions()[1]).toEqual(['0px', '18.75px', '620px'])
+      expect((instance.element as HTMLElement).style.height).toBe('34px')
+
+      elements[0].element.style.paddingBottom = '4.75px'
+      resize(elements[0].element, shape, 17.5)
+      vi.advanceTimersByTime(16)
+      await nextTick()
+
+      expect(positions()[1]).toEqual(['0px', '21px', '620px'])
+      expect((instance.element as HTMLElement).style.height).toBe('36.25px')
     }
   )
 
