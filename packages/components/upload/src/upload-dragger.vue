@@ -56,6 +56,11 @@ const getAllFiles = async (
       const file = (await getFile(
         entry as FileSystemFileEntry
       )) as UploadRawFile
+      if (entry.fullPath && !file.webkitRelativePath) {
+        Object.defineProperty(file, 'webkitRelativePath', {
+          value: entry.fullPath.replace(/^\//, ''),
+        })
+      }
       file.isDirectory = false
       return [file]
     }

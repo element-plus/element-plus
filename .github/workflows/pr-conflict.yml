@@ -13,23 +13,26 @@ jobs:
     permissions:
       pull-requests: write
     steps:
-      - name: Check for specific label
+      - name: Maintain conflict pending comment
         if: |
           contains(github.event.pull_request.labels.*.name, 'conflict pending') &&
           github.repository_owner == 'element-plus'
-        uses: actions-cool/maintain-one-comment-backup@17f644ff1665b05890083f7c1091fef135bce5e4
+        uses: actions-awesome/pr-helper@48f7641b8b2feebab7d6a2fbc22812fd0bfee829 # v1.1.1
         with:
-          body: |
+          actions: 'maintain-comment'
+          comment-body: |
             @${{ github.event.pull_request.user.login }} This PR has conflicts, please resolve them.
             <!-- ELEMENT_PLUS_CONFLICT_COMMENT -->
-          body-include: '<!-- ELEMENT_PLUS_CONFLICT_COMMENT -->'
-          number: ${{ github.event.pull_request.number }}
+          body-filter: '<!-- ELEMENT_PLUS_CONFLICT_COMMENT -->'
+          pr-number: ${{ github.event.pull_request.number }}
 
   remove-label:
+    needs: comment
+    if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
     permissions:
       issues: write
-      pull-requests: read
+      pull-requests: write
     steps:
       - name: Poll mergeable until ready
         id: poll
@@ -61,24 +64,14 @@ jobs:
           echo "Timeout: mergeable never resolved."
           exit 0
 
-      # Log final values (debug)
-      - name: Log mergeable results
-        env:
-          MERGEABLE: ${{ steps.poll.outputs.mergeable }}
-          PR_MERGEABLE: ${{ github.event.pull_request.mergeable }}
-          PR_MERGEABLE_STATE: ${{ github.event.pull_request.mergeable_state }}
-        run: |
-          echo "mergeable: $MERGEABLE"
-          echo "pull_request.mergeable: $PR_MERGEABLE"
-          echo "pull_request.mergeable_state: $PR_MERGEABLE_STATE"
-
-      - name: Remove conflict pending label
+      - name: Remove conflict pending label and comment
         if: |
           github.repository_owner == 'element-plus' &&
           contains(github.event.pull_request.labels.*.name, 'conflict pending') &&
           steps.poll.outputs.mergeable == 'true'
-        uses: actions-cool/issues-helper-backup@d65454423c6fbbd20026b9b499d403f79422ac69
+        uses: actions-awesome/pr-helper@48f7641b8b2feebab7d6a2fbc22812fd0bfee829 # v1.1.1
         with:
-          actions: 'remove-labels'
-          labels: 'conflict pending'
-          issue-number: ${{ github.event.pull_request.number }}
+          actions: 'remove-labels, maintain-comment'
+          labels-to-remove: 'conflict pending'
+          body-filter: '<!-- ELEMENT_PLUS_CONFLICT_COMMENT -->'
+          pr-number: ${{ github.event.pull_request.number }}

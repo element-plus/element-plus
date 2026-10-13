@@ -30,7 +30,6 @@ export type SelectStates = {
   selected: OptionBasic[]
   hoveringIndex: number
   inputHovering: boolean
-  selectionWidth: number
   collapseItemWidth: number
   previousQuery: string | null
   selectedLabel: string
