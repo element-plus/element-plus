@@ -89,10 +89,14 @@ useResizeObserver(
   itemRefs,
   (entries) => {
     for (const entry of entries) {
+      const borderBoxSize = entry.borderBoxSize as
+        ResizeObserverSize[] | ResizeObserverSize | undefined
+      const borderBox = Array.isArray(borderBoxSize)
+        ? borderBoxSize[0]
+        : borderBoxSize
       itemHeights.set(
         entry.target,
-        entry.borderBoxSize?.[0]?.blockSize ??
-          (entry.target as HTMLElement).offsetHeight
+        borderBox?.blockSize ?? entry.contentRect.height
       )
     }
     scheduleLayout()

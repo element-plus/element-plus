@@ -29,7 +29,10 @@ const getHeight = (element: Element) =>
   Number.parseFloat((element.firstElementChild as HTMLElement)?.style.height) ||
   0
 
-const resize = (target: Element) => {
+type BorderBoxShape = 'array' | 'object' | 'missing' | 'empty'
+
+const resize = (target: Element, shape: BorderBoxShape = 'array') => {
+  const boxSize = { inlineSize: containerWidth, blockSize: getHeight(target) }
   for (const observer of observers) {
     if (!observer.targets.has(target)) continue
     observer.callback(
@@ -40,9 +43,14 @@ const resize = (target: Element) => {
           contentBoxSize: [
             { inlineSize: containerWidth, blockSize: getHeight(target) },
           ],
-          borderBoxSize: [
-            { inlineSize: containerWidth, blockSize: getHeight(target) },
-          ],
+          borderBoxSize:
+            shape === 'object'
+              ? boxSize
+              : shape === 'missing'
+                ? undefined
+                : shape === 'empty'
+                  ? []
+                  : [boxSize],
         } as unknown as ResizeObserverEntry,
       ],
       observer as unknown as ResizeObserver
@@ -50,14 +58,14 @@ const resize = (target: Element) => {
   }
 }
 
-const settle = async () => {
+const settle = async (shape: BorderBoxShape = 'array') => {
   await nextTick()
   // Deliver resize notifications after Vue has updated the DOM.
   if (wrapper) {
-    resize(wrapper.element)
+    resize(wrapper.element, shape)
     wrapper
       .findAll('.el-masonry__item')
-      .forEach(({ element }) => resize(element))
+      .forEach(({ element }) => resize(element, shape))
   }
   await nextTick()
   vi.advanceTimersByTime(16)
@@ -176,16 +184,35 @@ describe('Masonry', () => {
     }
   )
 
-  it('preserves fractional heights without overlapping items', async () => {
-    const instance = mountMasonry(
-      [10.25, 20.5].map((height, id) => ({ id, height })),
-      { columns: 1, gutter: 0 }
-    )
-    await settle()
+  it.each(['array', 'object', 'missing', 'empty'] as const)(
+    'preserves fractional heights with %s borderBoxSize',
+    async (shape) => {
+      vi.spyOn(
+        HTMLElement.prototype,
+        'getBoundingClientRect'
+      ).mockImplementation(function (this: HTMLElement) {
+        return { height: getHeight(this) * 0.5 } as DOMRect
+      })
+      const items = reactive(
+        [10.25, 10.25, 10.25].map((height, id) => ({ id, height }))
+      )
+      const instance = mountMasonry(items, { columns: 1, gutter: 0 })
+      await settle(shape)
 
-    expect(positions()[1]).toEqual(['0px', '10.25px', '620px'])
-    expect((instance.element as HTMLElement).style.height).toBe('30.75px')
-  })
+      expect(positions()).toEqual([
+        ['0px', '0px', '620px'],
+        ['0px', '10.25px', '620px'],
+        ['0px', '20.5px', '620px'],
+      ])
+      expect((instance.element as HTMLElement).style.height).toBe('30.75px')
+
+      items[0].height = 20.75
+      await settle(shape)
+      expect(positions()[1]).toEqual(['0px', '20.75px', '620px'])
+      expect(positions()[2]).toEqual(['0px', '31px', '620px'])
+      expect((instance.element as HTMLElement).style.height).toBe('41.25px')
+    }
+  )
 
   it('uses layout heights before the first resize notification', async () => {
     vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(
