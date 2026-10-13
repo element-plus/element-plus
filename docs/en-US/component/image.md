@@ -23,6 +23,14 @@ image/placeholder
 
 :::
 
+## Viewer Placeholder ^(2.14.8)
+
+:::demo Custom placeholder content when the preview image hasn't loaded yet by `slot = viewer-placeholder`.
+
+image/viewer-placeholder
+
+:::
+
 ## Load Failed
 
 :::demo Custom failed content when error occurs to image load by `slot = error` and `slot = viewer-error`.
@@ -118,11 +126,12 @@ image/custom-progress
 
 ### Image Slots
 
-| Name                                      | Description                                                           | Type |
-| ----------------------------------------- | --------------------------------------------------------------------- | ---- |
-| placeholder                               | custom placeholder content when image hasn't loaded yet.              | -    |
-| error                                     | custom image load failed content.                                     | -    |
-| [image viewer slots](#image-viewer-slots) | when you allow big image preview, image viewer slots all can be used. | -    |
+| Name                                      | Description                                                                             | Type |
+| ----------------------------------------- | --------------------------------------------------------------------------------------- | ---- |
+| placeholder                               | custom placeholder content when image hasn't loaded yet.                                | -    |
+| error                                     | custom image load failed content.                                                       | -    |
+| viewer                                    | custom content when image preview.                                                      | -    |
+| [image viewer slots](#image-viewer-slots) | when you allow big image preview, image viewer slots all can be used, except `default`. | -    |
 
 ### Image Exposes
 
@@ -160,12 +169,13 @@ image/custom-progress
 
 ### Image Viewer Slots
 
-| Name                   | Description                                                            | Type                                                                                                                                                                                                                |
-| ---------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| viewer                 | custom content                                                         | -                                                                                                                                                                                                                   |
-| progress ^(2.9.4)      | custom progress content (Priority is higher than `show-progress` prop) | ^[object]`{ activeIndex: number, total: number }`                                                                                                                                                                   |
-| toolbar ^(2.9.4)       | custom toolbar content                                                 | ^[object]`{ actions: (action: ImageViewerAction, options?: ImageViewerActionOptions) => void, prev: () => void, next: () => void, reset: () => void, activeIndex: number, setActiveItem: (index: number) => void }` |
-| viewer-error ^(2.11.3) | custom image load failed content.                                      | ^[object]`{ activeIndex: number, src: string }`                                                                                                                                                                     |
+| Name                         | Description                                                            | Type                                                                                                                                                                                                                |
+| ---------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| default                      | custom content                                                         | -                                                                                                                                                                                                                   |
+| progress ^(2.9.4)            | custom progress content (Priority is higher than `show-progress` prop) | ^[object]`{ activeIndex: number, total: number }`                                                                                                                                                                   |
+| toolbar ^(2.9.4)             | custom toolbar content                                                 | ^[object]`{ actions: (action: ImageViewerAction, options?: ImageViewerActionOptions) => void, prev: () => void, next: () => void, reset: () => void, activeIndex: number, setActiveItem: (index: number) => void }` |
+| viewer-placeholder ^(2.14.8) | custom placeholder content when the image hasn't loaded yet.           | ^[object]`{ activeIndex: number, src: string }`                                                                                                                                                                     |
+| viewer-error ^(2.11.3)       | custom image load failed content.                                      | ^[object]`{ activeIndex: number, src: string }`                                                                                                                                                                     |
 
 ### Image Viewer Exposes
 

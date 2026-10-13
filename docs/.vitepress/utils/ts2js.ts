@@ -1,12 +1,30 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import prettierSync from '@prettier/sync'
-import { JsxEmit, ModuleKind, ScriptTarget, transpileModule } from 'typescript'
+import {
+  JsxEmit,
+  ModuleKind,
+  ScriptTarget,
+  factory,
+  isExportDeclaration,
+  transpileModule,
+} from 'typescript'
 import { projRoot } from '@element-plus/build-utils'
+
+import type { SourceFile, TransformerFactory } from 'typescript'
 
 const prettierOptions = JSON.parse(
   readFileSync(resolve(projRoot, '.prettierrc'), 'utf-8')
 )
+
+const removeExportDeclarations: TransformerFactory<SourceFile> =
+  () => (sourceFile) =>
+    factory.updateSourceFile(
+      sourceFile,
+      sourceFile.statements.filter(
+        (statement) => !isExportDeclaration(statement)
+      )
+    )
 
 export function sfcTs2js(content: string): string {
   const scriptReg =
@@ -32,9 +50,13 @@ function ts2Js(content: string): string {
     compilerOptions: {
       module: ModuleKind.ESNext,
       target: ScriptTarget.ESNext,
+      alwaysStrict: false,
       // Ensures the import is not removed or changed
       verbatimModuleSyntax: true,
       jsx: JsxEmit.Preserve,
+    },
+    transformers: {
+      after: [removeExportDeclarations],
     },
   })
   const formatted = prettierSync.format(result.outputText, {
