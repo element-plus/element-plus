@@ -53,6 +53,11 @@
         "text": "Space"
       },
       {
+        "link": "/masonry",
+        "text": "Masonry",
+        "promotion": "2.14.8"
+      },
+      {
         "link": "/splitter",
         "text": "Splitter",
         "promotion": "2.10.0"

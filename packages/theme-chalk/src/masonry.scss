@@ -1,0 +1,9 @@
+@use 'mixins/mixins' as *;
+
+@include b(masonry) {
+  position: relative;
+
+  @include e(item) {
+    position: absolute;
+  }
+}
