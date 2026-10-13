@@ -67,8 +67,9 @@ it('keeps menu spacing stable across collapse states', async () => {
             submenu.style.display = 'none'
             const closed = spacing()
             submenu.style.maxHeight = '0px'
-            submenu.style.overflow = 'hidden'
             submenu.style.display = ''
+            const beforeEnter = spacing()
+            submenu.style.overflow = 'hidden'
             const entering = spacing()
             submenu.style.maxHeight = ''
             submenu.style.overflow = ''
@@ -90,7 +91,16 @@ it('keeps menu spacing stable across collapse states', async () => {
             submenu.style.overflow = ''
             const hidden = spacing()
 
-            return { closed, entering, before, during, after, leaving, hidden }
+            return {
+              closed,
+              beforeEnter,
+              entering,
+              before,
+              during,
+              after,
+              leaving,
+              hidden,
+            }
           }, namespace)
 
           for (const [stage, actual] of Object.entries(measurements)) {
