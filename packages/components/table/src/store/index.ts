@@ -79,7 +79,7 @@ function useStore<T extends DefaultRow>() {
       updateColumnOrder: () => void
     ) {
       const array = unref(states._columns)
-      let newColumns = []
+      let newColumns: TableColumnCtx<T>[] = []
       if (!parent) {
         array.push(column)
         newColumns = array
