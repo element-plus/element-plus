@@ -80,9 +80,15 @@ async function traverseDir(
 
         await Promise.all(
           paths.map(async (p) => {
-            const content = require(path.resolve(p.pathname, c.name))
-
-            contentToWrite[p.name] = content
+            const localeFile = path.resolve(p.pathname, c.name)
+            if (fs.existsSync(localeFile)) {
+              contentToWrite[p.name] = require(localeFile)
+            } else {
+              consola.warn(
+                `Missing locale file: ${localeFile}. Falling back to en-US.`
+              )
+              contentToWrite[p.name] = content
+            }
           })
         )
 
