@@ -13,6 +13,10 @@ import {
 import { rAF } from '@element-plus/test-utils/tick'
 import sleep from '@element-plus/test-utils/sleep'
 import Input from '@element-plus/components/input'
+import {
+  ElCheckbox as Checkbox,
+  ElCheckboxGroup as CheckboxGroup,
+} from '@element-plus/components/checkbox'
 import Form from '../src/form.vue'
 import FormItem from '../src/form-item.vue'
 import DynamicFormItem from './mock-data'
@@ -171,6 +175,48 @@ describe('ElFormItem', () => {
     expect(name).toBe('label')
     expect(email).toBe('div')
     expect(address).toBe('label')
+  })
+
+  it('form-item label for with non-labelable control keeps explicit for', async () => {
+    const wrapper = mount({
+      setup() {
+        return () => (
+          <FormItem label="type" for="custom-id">
+            <CheckboxGroup modelValue={[]}>
+              <Checkbox label="Foo" value="Foo" />
+              <Checkbox label="Bar" value="Bar" />
+            </CheckboxGroup>
+          </FormItem>
+        )
+      },
+    })
+
+    await sleep()
+    const label = wrapper.find('.el-form-item__label')
+    expect(label.element.tagName.toLowerCase()).toBe('label')
+    expect(label.attributes('for')).toBe('custom-id')
+  })
+
+  it('form-item label associates dynamically rendered input', async () => {
+    const visible = ref(false)
+    const wrapper = mount({
+      setup() {
+        return () => (
+          <FormItem label="name">{visible.value && <Input />}</FormItem>
+        )
+      },
+    })
+
+    await sleep()
+    expect(wrapper.find('.el-form-item__label').attributes('for')).toBeFalsy()
+    expect(wrapper.find('.el-form-item').attributes('role')).toBe('group')
+
+    visible.value = true
+    await sleep()
+    const label = wrapper.find('.el-form-item__label')
+    const input = wrapper.find('input')
+    expect(label.element.tagName.toLowerCase()).toBe('label')
+    expect(label.attributes('for')).toBe(input.attributes('id'))
   })
 
   it('form-item label position', () => {

@@ -178,14 +178,16 @@ const labelFor = computed<string | undefined>(() => {
 
 const associatedElement = () => {
   const id = inputIds.value[0]
-  const el = formItemRef.value?.querySelector(`#${id}`)
+  if (!id || !formItemRef.value) return
+  const el = Array.from(formItemRef.value.querySelectorAll('*')).find(
+    (node) => node.id === id
+  )
   if (el) {
-    const tag = el.tagName.toLowerCase()
-    if (tag !== 'div') {
-      isShouldAssociated.value = true
-    }
+    isShouldAssociated.value = el.tagName.toLowerCase() !== 'div'
   }
 }
+
+watch(() => inputIds.value.join(','), associatedElement, { flush: 'post' })
 
 const isGroup = computed<boolean>(() => {
   return !labelFor.value && hasLabel.value
