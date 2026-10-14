@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { useSidebar } from '../composables/sidebar'
-
 import VPSidebarLink from './sidebar/vp-sidebar-link.vue'
 
 defineProps<{ open: boolean }>()

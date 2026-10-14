@@ -3,10 +3,13 @@ import MenuItem from './menu-item'
 import type { RendererNode } from 'vue'
 
 class Menu {
-  constructor(public domNode: RendererNode, namespace: string) {
+  constructor(
+    public domNode: RendererNode,
+    namespace: string
+  ) {
     this.init(namespace)
   }
-  init(namespace: string): void {
+  init(namespace: string) {
     const menuChildren = this.domNode.childNodes
     Array.from<Node>(menuChildren).forEach((child) => {
       if (child.nodeType === 1) {

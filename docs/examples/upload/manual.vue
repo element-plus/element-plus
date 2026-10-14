@@ -20,8 +20,10 @@
     </template>
   </el-upload>
 </template>
+
 <script lang="ts" setup>
 import { ref } from 'vue'
+
 import type { UploadInstance } from 'element-plus'
 
 const uploadRef = ref<UploadInstance>()

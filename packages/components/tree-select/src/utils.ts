@@ -1,3 +1,5 @@
+import { isArray } from '@element-plus/utils'
+
 import type { TreeNodeData } from '@element-plus/components/tree/src/tree.type'
 
 export function isValidValue(val: any) {
@@ -5,11 +7,11 @@ export function isValidValue(val: any) {
 }
 
 export function isValidArray(val: any) {
-  return Array.isArray(val) && val.length
+  return isArray(val) && val.length
 }
 
 export function toValidArray(val: any) {
-  return Array.isArray(val) ? val : isValidValue(val) ? [val] : []
+  return isArray(val) ? val : isValidValue(val) ? [val] : []
 }
 
 type TreeCallback<T extends TreeNodeData, R> = (

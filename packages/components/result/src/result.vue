@@ -24,16 +24,23 @@
     </div>
   </div>
 </template>
+
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { IconComponentMap, IconMap, resultProps } from './result'
+import { IconComponentMap, IconMap } from './result'
+
+import type { ResultProps } from './result'
 
 defineOptions({
   name: 'ElResult',
 })
 
-const props = defineProps(resultProps)
+const props = withDefaults(defineProps<ResultProps>(), {
+  title: '',
+  subTitle: '',
+  icon: 'info',
+})
 
 const ns = useNamespace('result')
 

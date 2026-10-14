@@ -2,8 +2,10 @@
   <slot />
 </template>
 
-<script lang="ts" setup>
-defineOptions({
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
   inheritAttrs: false,
 })
 </script>

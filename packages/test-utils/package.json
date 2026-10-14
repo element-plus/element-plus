@@ -3,5 +3,10 @@
   "version": "0.0.5",
   "private": true,
   "license": "MIT",
-  "main": "dist/index.js"
+  "main": "index.ts",
+  "dependencies": {
+    "@vue/test-utils": "catalog:",
+    "lodash-unified": "catalog:",
+    "vue": "catalog:"
+  }
 }

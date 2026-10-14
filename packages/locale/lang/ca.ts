@@ -1,9 +1,23 @@
 export default {
   name: 'ca',
   el: {
+    breadcrumb: {
+      label: 'Ruta de navegació',
+    },
     colorpicker: {
       confirm: 'Confirmar',
       clear: 'Netejar',
+      defaultLabel: 'selector de color',
+      description:
+        'el color actual és {color}. Premeu Retorn per seleccionar un color nou.',
+      alphaLabel: 'seleccionar el valor alfa',
+      alphaDescription: 'alfa {alpha}, el color actual és {color}',
+      hueLabel: 'seleccionar el valor de to',
+      hueDescription: 'to {hue}, el color actual és {color}',
+      svLabel: 'seleccionar el valor de saturació i brillantor',
+      svDescription:
+        'saturació {saturation}, brillantor {brightness}, el color actual és {color}',
+      predefineDescription: 'seleccionar {value} com a color',
     },
     datepicker: {
       now: 'Ara',
@@ -11,6 +25,15 @@ export default {
       cancel: 'Cancel·lar',
       clear: 'Netejar',
       confirm: 'Confirmar',
+      dateTablePrompt:
+        'Utilitzeu les tecles de fletxa i Retorn per seleccionar el dia del mes',
+      monthTablePrompt:
+        'Utilitzeu les tecles de fletxa i Retorn per seleccionar el mes',
+      quarterTablePrompt:
+        'Utilitzeu les tecles de fletxa i Retorn per seleccionar el trimestre',
+      yearTablePrompt:
+        "Utilitzeu les tecles de fletxa i Retorn per seleccionar l'any",
+      selectedDate: 'Data seleccionada',
       selectDate: 'Seleccionar data',
       selectTime: 'Seleccionar hora',
       startDate: 'Data Inici',
@@ -34,7 +57,6 @@ export default {
       month10: 'Octubre',
       month11: 'Novembre',
       month12: 'Desembre',
-      // week: 'setmana',
       weeks: {
         sun: 'Dg',
         mon: 'Dl',
@@ -43,6 +65,15 @@ export default {
         thu: 'Dj',
         fri: 'Dv',
         sat: 'Ds',
+      },
+      weeksFull: {
+        sun: 'Diumenge',
+        mon: 'Dilluns',
+        tue: 'Dimarts',
+        wed: 'Dimecres',
+        thu: 'Dijous',
+        fri: 'Divendres',
+        sat: 'Dissabte',
       },
       months: {
         jan: 'Gen',
@@ -59,11 +90,24 @@ export default {
         dec: 'Des',
       },
     },
+    input: {
+      characters: '{count} / {max} caràcters',
+    },
+    inputNumber: {
+      decrease: 'disminuir el número',
+      increase: 'augmentar el número',
+    },
     select: {
       loading: 'Carregant',
       noMatch: 'No hi ha dades que coincideixin',
       noData: 'Sense Dades',
       placeholder: 'Seleccionar',
+    },
+    mention: {
+      loading: 'Carregant',
+    },
+    dropdown: {
+      toggleDropdown: 'Mostrar o amagar el menú desplegable',
     },
     cascader: {
       noMatch: 'No hi ha dades que coincideixin',
@@ -76,17 +120,27 @@ export default {
       pagesize: '/pàgina',
       total: 'Total {total}',
       pageClassifier: '',
-      page: 'Page', // to be translated
-      prev: 'Go to previous page', // to be translated
-      next: 'Go to next page', // to be translated
-      currentPage: 'page {pager}', // to be translated
-      prevPages: 'Previous {pager} pages', // to be translated
-      nextPages: 'Next {pager} pages', // to be translated
+      page: 'Pàgina',
+      prev: 'Anar a la pàgina anterior',
+      next: 'Anar a la pàgina següent',
+      currentPage: 'pàgina {pager}',
+      prevPages: '{pager} pàgines anteriors',
+      nextPages: '{pager} pàgines següents',
+      deprecationWarning:
+        "S'han detectat usos obsolets, consulteu la documentació d'el-pagination per a més detalls",
+    },
+    dialog: {
+      close: 'Tancar aquest diàleg',
+    },
+    drawer: {
+      close: 'Tancar aquest diàleg',
     },
     messagebox: {
+      title: 'Missatge',
       confirm: 'Acceptar',
       cancel: 'Cancel·lar',
       error: 'Entrada invàlida',
+      close: 'Tancar aquest diàleg',
     },
     upload: {
       deleteTip: 'premi eliminar per descartar',
@@ -94,12 +148,32 @@ export default {
       preview: 'Vista Prèvia',
       continue: 'Continuar',
     },
+    slider: {
+      defaultLabel: 'control lliscant entre {min} i {max}',
+      defaultRangeStartLabel: 'seleccionar el valor inicial',
+      defaultRangeEndLabel: 'seleccionar el valor final',
+    },
     table: {
       emptyText: 'Sense Dades',
       confirmFilter: 'Confirmar',
       resetFilter: 'Netejar',
       clearFilter: 'Tot',
       sumText: 'Tot',
+      selectAllLabel: 'Seleccionar totes les files',
+      selectRowLabel: 'Seleccionar aquesta fila',
+      expandRowLabel: 'Expandir aquesta fila',
+      collapseRowLabel: 'Replegar aquesta fila',
+      sortLabel: 'Ordenar per {column}',
+      filterLabel: 'Filtrar per {column}',
+    },
+    tag: {
+      close: 'Tancar aquesta etiqueta',
+    },
+    tour: {
+      next: 'Següent',
+      previous: 'Anterior',
+      finish: 'Finalitzar',
+      close: 'Tancar aquest diàleg',
     },
     tree: {
       emptyText: 'Sense Dades',
@@ -121,6 +195,15 @@ export default {
     popconfirm: {
       confirmButtonText: 'Sí',
       cancelButtonText: 'No',
+    },
+    carousel: {
+      leftArrow: 'Fletxa esquerra del carrusel',
+      rightArrow: 'Fletxa dreta del carrusel',
+      indicator: "Canviar el carrusel a l'índex {index}",
+    },
+    inputOTP: {
+      groupLabel: 'Entrada de codi OTP',
+      defaultLabel: 'Introduïu el caràcter {index} del codi OTP',
     },
   },
 }

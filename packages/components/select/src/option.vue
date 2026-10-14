@@ -1,8 +1,13 @@
 <template>
   <li
     v-show="visible"
+    :id="id"
     :class="containerKls"
-    @mouseenter="hoverItem"
+    role="option"
+    :aria-disabled="isDisabled || undefined"
+    :aria-selected="itemSelected"
+    @[mouseMoveEventName]="hoverItem"
+    @mousedown="handleMousedown"
     @click.stop="selectOptionClick"
   >
     <slot>
@@ -12,7 +17,6 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
 import {
   computed,
   defineComponent,
@@ -23,91 +27,110 @@ import {
   toRefs,
   unref,
 } from 'vue'
-import { useNamespace } from '@element-plus/hooks'
+import { useId, useNamespace } from '@element-plus/hooks'
 import { useOption } from './useOption'
-import type { SelectOptionProxy } from './token'
+import { COMPONENT_NAME, optionProps } from './option'
+import { isFocusable, isIOS } from '@element-plus/utils'
+
+import type {
+  OptionExposed,
+  OptionInternalInstance,
+  OptionStates,
+} from './type'
 
 export default defineComponent({
-  name: 'ElOption',
-  componentName: 'ElOption',
+  name: COMPONENT_NAME,
+  componentName: COMPONENT_NAME,
 
-  props: {
-    value: {
-      required: true,
-      type: [String, Number, Boolean, Object],
-    },
-    label: [String, Number],
-    created: Boolean,
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-  },
+  props: optionProps,
 
   setup(props) {
     const ns = useNamespace('select')
+    const id = useId()
 
     const containerKls = computed(() => [
       ns.be('dropdown', 'item'),
       ns.is('disabled', unref(isDisabled)),
-      {
-        selected: unref(itemSelected),
-        hover: unref(hover),
-      },
+      ns.is('selected', unref(itemSelected)),
+      ns.is('hovering', unref(hover)),
     ])
 
-    const states = reactive({
+    const states = reactive<OptionStates>({
       index: -1,
       groupDisabled: false,
       visible: true,
-      hitState: false,
       hover: false,
     })
 
-    const { currentLabel, itemSelected, isDisabled, select, hoverItem } =
-      useOption(props, states)
+    const mouseMoveEventName = isIOS ? null : 'mousemove'
+    const {
+      currentLabel,
+      itemSelected,
+      isDisabled,
+      select,
+      hoverItem,
+      updateOption,
+    } = useOption(props, states)
 
     const { visible, hover } = toRefs(states)
 
-    const vm = getCurrentInstance().proxy
+    const vm = (getCurrentInstance()! as OptionInternalInstance).proxy
 
-    select.onOptionCreate(vm as unknown as SelectOptionProxy)
+    select.onOptionCreate(vm)
 
     onBeforeUnmount(() => {
-      const key = (vm as unknown as SelectOptionProxy).value
-      const { selected } = select
-      const selectedOptions = select.props.multiple ? selected : [selected]
-      const doesSelected = selectedOptions.some((item) => {
-        return item.value === (vm as unknown as SelectOptionProxy).value
-      })
+      const key = vm.value
+
       // if option is not selected, remove it from cache
       nextTick(() => {
-        if (select.cachedOptions.get(key) === vm && !doesSelected) {
-          select.cachedOptions.delete(key)
+        const { selected: selectedOptions } = select.states
+        const doesSelected = selectedOptions.some((item) => {
+          return item.value === vm.value
+        })
+        if (select.states.cachedOptions.get(key) === vm && !doesSelected) {
+          select.states.cachedOptions.delete(key)
         }
       })
       select.onOptionDestroy(key, vm)
     })
 
     function selectOptionClick() {
-      if (props.disabled !== true && states.groupDisabled !== true) {
+      if (!isDisabled.value) {
         select.handleOptionSelect(vm)
       }
     }
 
+    const handleMousedown = (event: MouseEvent) => {
+      let target = event.target as HTMLElement | null
+      const currentTarget = event.currentTarget as HTMLElement
+
+      while (target && target !== currentTarget) {
+        if (isFocusable(target)) {
+          return
+        }
+        target = target.parentElement
+      }
+
+      event.preventDefault()
+    }
+
     return {
       ns,
+      id,
       containerKls,
       currentLabel,
       itemSelected,
       isDisabled,
       select,
-      hoverItem,
       visible,
       hover,
-      selectOptionClick,
       states,
-    }
+      mouseMoveEventName,
+      hoverItem,
+      handleMousedown,
+      updateOption,
+      selectOptionClick,
+    } satisfies OptionExposed
   },
 })
 </script>

@@ -37,8 +37,8 @@ const querySearch = (queryString: string, cb) => {
   // call callback function to return suggestion objects
   cb(results)
 }
-const createFilter = (queryString) => {
-  return (restaurant) => {
+const createFilter = (queryString: string) => {
+  return (restaurant: LinkItem) => {
     return (
       restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
     )
@@ -55,7 +55,7 @@ const loadAll = () => {
     { value: 'babel', link: 'https://github.com/babel/babel' },
   ]
 }
-const handleSelect = (item: LinkItem) => {
+const handleSelect = (item: Record<string, any>) => {
   console.log(item)
 }
 

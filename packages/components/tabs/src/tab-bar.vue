@@ -1,28 +1,34 @@
 <template>
   <div
     ref="barRef"
-    :class="[ns.e('active-bar'), ns.is(rootTabs.props.tabPosition)]"
-    :style="barStyle"
+    :class="[
+      ns.e('active-bar'),
+      ns.is(rootTabs!.props.tabPosition),
+      ns.is('hidden', !barVisible),
+    ]"
+    :style="mergedBarStyle"
   />
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance, inject, nextTick, ref, watch } from 'vue'
+import { computed, inject, nextTick, onBeforeUnmount, ref, watch } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
-import { capitalize, throwError } from '@element-plus/utils'
+import { capitalize, isUndefined, rAF, throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { tabsRootContextKey } from './constants'
-import { tabBarProps } from './tab-bar'
 
+import type { TabBarProps } from './tab-bar'
 import type { CSSProperties } from 'vue'
 
 const COMPONENT_NAME = 'ElTabBar'
 defineOptions({
   name: COMPONENT_NAME,
 })
-const props = defineProps(tabBarProps)
+const props = withDefaults(defineProps<TabBarProps>(), {
+  tabs: () => [],
+  tabRefs: () => ({}),
+})
 
-const instance = getCurrentInstance()!
 const rootTabs = inject(tabsRootContextKey)
 if (!rootTabs) throwError(COMPONENT_NAME, '<el-tabs><el-tab-bar /></el-tabs>')
 
@@ -30,6 +36,24 @@ const ns = useNamespace('tabs')
 
 const barRef = ref<HTMLDivElement>()
 const barStyle = ref<CSSProperties>()
+const barReady = ref(false)
+const mergedBarStyle = computed(() => {
+  if (barReady.value) {
+    return barStyle.value
+  }
+  return { ...barStyle.value, transition: 'none' }
+})
+/**
+ * when defaultValue is not set, the bar is always shown.
+ *
+ * when defaultValue is set, the bar will be hidden until style is calculated
+ * to avoid the bar showing in the wrong position on initial render.
+ */
+const barVisible = computed(
+  () =>
+    isUndefined(rootTabs.props.defaultValue) ||
+    Boolean(barStyle.value?.transform)
+)
 
 const getBarStyle = (): CSSProperties => {
   let offset = 0
@@ -42,7 +66,8 @@ const getBarStyle = (): CSSProperties => {
   const position = sizeDir === 'x' ? 'left' : 'top'
 
   props.tabs.every((tab) => {
-    const $el = instance.parent?.refs?.[`tab-${tab.uid}`] as HTMLElement
+    if (isUndefined(tab.paneName)) return false
+    const $el = props.tabRefs[tab.paneName]
     if (!$el) return false
 
     if (!tab.active) {
@@ -55,11 +80,9 @@ const getBarStyle = (): CSSProperties => {
     const tabStyles = window.getComputedStyle($el)
 
     if (sizeName === 'width') {
-      if (props.tabs.length > 1) {
-        tabSize -=
-          Number.parseFloat(tabStyles.paddingLeft) +
-          Number.parseFloat(tabStyles.paddingRight)
-      }
+      tabSize -=
+        Number.parseFloat(tabStyles.paddingLeft) +
+        Number.parseFloat(tabStyles.paddingRight)
       offset += Number.parseFloat(tabStyles.paddingLeft)
     }
     return false
@@ -71,22 +94,49 @@ const getBarStyle = (): CSSProperties => {
   }
 }
 
-const update = () => (barStyle.value = getBarStyle())
+const update = () => {
+  barStyle.value = getBarStyle()
+  if (!barReady.value) {
+    rAF(() =>
+      rAF(() => {
+        barReady.value = true
+      })
+    )
+  }
+}
+
+const tabObservers = [] as ReturnType<typeof useResizeObserver>[]
+const observerTabs = () => {
+  tabObservers.forEach((observer) => observer.stop())
+  tabObservers.length = 0
+
+  Object.values(props.tabRefs).forEach((tab) => {
+    tabObservers.push(useResizeObserver(tab, update))
+  })
+}
 
 watch(
   () => props.tabs,
   async () => {
     await nextTick()
     update()
+
+    observerTabs()
   },
   { immediate: true }
 )
-useResizeObserver(barRef, () => update())
+const barObserver = useResizeObserver(barRef, () => update())
+
+onBeforeUnmount(() => {
+  tabObservers.forEach((observer) => observer.stop())
+  tabObservers.length = 0
+  barObserver.stop()
+})
 
 defineExpose({
   /** @description tab root html element */
   ref: barRef,
-  /** @description method to manually update tab bar style */
+  /** @description method to manually update tab bar style, return the updated style */
   update,
 })
 </script>

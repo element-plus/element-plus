@@ -20,8 +20,8 @@ describe('Countdown.vue', () => {
     wrapper.unmount()
   })
 
-  it('render test', () => {
-    wrapper = mount(() => (
+  it('render test', async () => {
+    wrapper = await mount(() => (
       <Countdown title="test" value={Date.now() + 1000 * 60} />
     ))
 
@@ -35,7 +35,7 @@ describe('Countdown.vue', () => {
       ['DD [days] HH [hours] mm:ss', '02 days 02 hours 02:02'],
       ['HH:mm:ss', '50:02:02'],
       ['HH:mm:ss:SSS', '50:02:02:002'],
-    ])('should work with %s', (format, expected) => {
+    ])('should work with %s', async (format, expected) => {
       const value = dayjs()
         .add(2, 'd')
         .add(2, 'h')
@@ -43,7 +43,7 @@ describe('Countdown.vue', () => {
         .add(2, 's')
         .add(2, 'ms')
 
-      wrapper = mount(() => <Countdown value={value} format={format} />)
+      wrapper = await mount(() => <Countdown value={value} format={format} />)
 
       expect(wrapper.find(CONTENT_CLASS).text()).toBe(expected)
     })

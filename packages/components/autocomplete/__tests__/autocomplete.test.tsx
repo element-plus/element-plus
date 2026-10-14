@@ -1,11 +1,23 @@
-import { defineComponent, nextTick, reactive } from 'vue'
+/**
+ * @vitest-environment happy-dom
+ */
+
+import { DefineComponent, defineComponent, nextTick, reactive } from 'vue'
 import { mount } from '@vue/test-utils'
-import { NOOP } from '@vue/shared'
 import { beforeEach, describe, expect, it, test, vi } from 'vitest'
+import { NOOP } from '@element-plus/utils'
 import { usePopperContainerId } from '@element-plus/hooks'
 import { ElFormItem as FormItem } from '@element-plus/components/form'
 import sleep from '@element-plus/test-utils/sleep'
 import Autocomplete from '../src/autocomplete.vue'
+import {
+  AutocompleteFetchSuggestionsCallback,
+  AutocompleteInstance,
+  AutocompletePropsPublic,
+} from '../src/autocomplete'
+import { EVENT_CODE } from '@element-plus/constants'
+
+import type { VueWrapper } from '@vue/test-utils'
 
 vi.unmock('lodash')
 
@@ -13,13 +25,15 @@ vi.useFakeTimers()
 
 const _mount = (
   payload = {},
-  type: 'fn-cb' | 'fn-promise' | 'fn-arr' | 'fn-async' | 'arr' = 'fn-cb'
+  type: 'fn-cb' | 'fn-promise' | 'fn-arr' | 'fn-async' | 'arr' = 'fn-cb',
+  defaultValue = '',
+  slots: Record<string, any> = {}
 ) =>
   mount(
     defineComponent({
       setup(_, { expose }) {
         const state = reactive({
-          value: '',
+          value: defaultValue,
           list: [
             { value: 'Java', tag: 'java' },
             { value: 'Go', tag: 'go' },
@@ -70,10 +84,14 @@ const _mount = (
             v-model={state.value}
             fetch-suggestions={querySearch}
             {...state.payload}
+            v-slots={slots}
           />
         )
       },
-    }),
+    }) as DefineComponent<
+      AutocompletePropsPublic,
+      ReturnType<typeof usePopperContainerId>
+    >,
     {
       global: {
         provide: {
@@ -82,6 +100,9 @@ const _mount = (
       },
     }
   )
+
+const getAutocompleteVm = (wrapper: VueWrapper<any>) =>
+  wrapper.findComponent({ name: 'ElAutocomplete' }).vm as AutocompleteInstance
 
 describe('Autocomplete.vue', () => {
   beforeEach(() => {
@@ -120,6 +141,40 @@ describe('Autocomplete.vue', () => {
     vi.runAllTimers()
     await nextTick()
     expect(fetchSuggestions).toHaveBeenCalledTimes(1)
+  })
+
+  test('triggerOnEnter', async () => {
+    const fetchSuggestions = vi.fn()
+    const wrapper = _mount({
+      debounce: 0,
+      fetchSuggestions,
+    })
+    await nextTick()
+    const target = getAutocompleteVm(wrapper)
+
+    await nextTick()
+
+    target.handleKeyEnter()
+    vi.runAllTimers()
+    await nextTick()
+    expect(fetchSuggestions).toHaveBeenCalledTimes(1)
+  })
+
+  test('focus triggerOnEnter', async () => {
+    const fetchSuggestions = vi.fn()
+    const wrapper = _mount({
+      debounce: 0,
+      fetchSuggestions,
+    })
+    await nextTick()
+    const target = getAutocompleteVm(wrapper)
+    await wrapper.find('input').trigger('focus')
+    await nextTick()
+    target.handleKeyEnter()
+    vi.runAllTimers()
+
+    await nextTick()
+    expect(fetchSuggestions).toHaveBeenCalledTimes(2)
   })
 
   test('popperClass', async () => {
@@ -178,9 +233,7 @@ describe('Autocomplete.vue', () => {
     vi.runAllTimers()
     await nextTick()
 
-    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
-      typeof Autocomplete
-    >
+    const target = getAutocompleteVm(wrapper)
 
     expect(target.suggestions.length).toBe(4)
   })
@@ -193,9 +246,7 @@ describe('Autocomplete.vue', () => {
     await nextTick()
     await nextTick()
 
-    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
-      typeof Autocomplete
-    >
+    const target = getAutocompleteVm(wrapper)
 
     expect(target.suggestions.length).toBe(4)
   })
@@ -207,9 +258,7 @@ describe('Autocomplete.vue', () => {
     vi.runAllTimers()
     await nextTick()
 
-    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
-      typeof Autocomplete
-    >
+    const target = getAutocompleteVm(wrapper)
 
     expect(target.suggestions.length).toBe(4)
   })
@@ -221,9 +270,7 @@ describe('Autocomplete.vue', () => {
     vi.runAllTimers()
     await nextTick()
 
-    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
-      typeof Autocomplete
-    >
+    const target = getAutocompleteVm(wrapper)
 
     expect(target.suggestions.length).toBe(4)
   })
@@ -232,9 +279,7 @@ describe('Autocomplete.vue', () => {
     const wrapper = _mount()
     await nextTick()
 
-    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
-      typeof Autocomplete
-    >
+    const target = getAutocompleteVm(wrapper)
 
     await target.handleSelect({ value: 'Go', tag: 'go' })
 
@@ -244,6 +289,23 @@ describe('Autocomplete.vue', () => {
 
     await target.handleSelect({ value: 'Go', tag: 'go' })
     expect(target.modelValue).toBe('go')
+  })
+  test('modelValue default null', async () => {
+    let qs = ''
+    const fetchSuggestions = (
+      queryString: string,
+      cb: AutocompleteFetchSuggestionsCallback
+    ) => {
+      qs = queryString
+      cb([])
+    }
+    const wrapper = _mount({ fetchSuggestions }, 'fn-cb', null as any)
+
+    await nextTick()
+    await wrapper.find('input').trigger('focus')
+    vi.runAllTimers()
+    await nextTick()
+    expect(qs).toBe('')
   })
 
   test('hideLoading', async () => {
@@ -257,9 +319,9 @@ describe('Autocomplete.vue', () => {
     vi.runAllTimers()
     await nextTick()
 
-    expect(document.body.querySelector('.el-icon-loading')).toBeDefined()
+    expect(document.body.querySelector('.el-icon.is-loading')).toBeDefined()
     await wrapper.setProps({ hideLoading: true })
-    expect(document.body.querySelector('.el-icon-loading')).toBeNull()
+    expect(document.body.querySelector('.el-icon.is-loading')).toBeNull()
   })
 
   test('selectWhenUnmatched', async () => {
@@ -268,9 +330,7 @@ describe('Autocomplete.vue', () => {
       debounce: 10,
     })
     await nextTick()
-    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
-      typeof Autocomplete
-    >
+    const target = getAutocompleteVm(wrapper)
 
     target.highlightedIndex = 0
     target.handleKeyEnter()
@@ -300,6 +360,141 @@ describe('Autocomplete.vue', () => {
     await nextTick()
 
     expect(document.body.querySelector('.highlighted')).toBeDefined()
+  })
+
+  test('keyboard navigation should loop when loopNavigation is true', async () => {
+    const wrapper = _mount({ debounce: 10, loopNavigation: true }, 'arr')
+    await nextTick()
+
+    const target = getAutocompleteVm(wrapper)
+    const input = wrapper.find('input')
+
+    await input.trigger('focus')
+    vi.runAllTimers()
+    await nextTick()
+
+    const length = target.suggestions.length
+
+    for (let i = 0; i < length; i++) {
+      await input.trigger('keydown', { code: EVENT_CODE.down })
+      expect(target.highlightedIndex).toBe(i)
+    }
+
+    await input.trigger('keydown', { code: EVENT_CODE.down })
+    expect(target.highlightedIndex).toBe(0)
+
+    await input.trigger('keydown', { code: EVENT_CODE.up })
+    expect(target.highlightedIndex).toBe(length - 1)
+  })
+
+  test('keyboard navigation should not loop when loopNavigation is false', async () => {
+    const wrapper = _mount({ debounce: 10, loopNavigation: false }, 'arr')
+    await nextTick()
+
+    const target = getAutocompleteVm(wrapper)
+    const input = wrapper.find('input')
+
+    await input.trigger('focus')
+    vi.runAllTimers()
+    await nextTick()
+
+    const length = target.suggestions.length
+
+    await input.trigger('keydown', { code: EVENT_CODE.down })
+    expect(target.highlightedIndex).toBe(0)
+
+    await input.trigger('keydown', { code: EVENT_CODE.up })
+    expect(target.highlightedIndex).toBe(-1)
+
+    for (let i = 0; i < length; i++) {
+      await input.trigger('keydown', { code: EVENT_CODE.down })
+      expect(target.highlightedIndex).toBe(i)
+    }
+
+    await input.trigger('keydown', { code: EVENT_CODE.down })
+    expect(target.highlightedIndex).toBe(length - 1)
+  })
+
+  test('keyboard navigation with Home, End, PageUp, PageDown', async () => {
+    const wrapper = mount(
+      defineComponent({
+        setup(_, { expose }) {
+          const state = reactive({
+            value: '',
+            list: Array.from({ length: 21 }).map((_, i) => ({
+              value: `Item ${i}`,
+              tag: `tag-${i}`,
+            })),
+            payload: { debounce: 10 },
+          })
+
+          function filterList(queryString: string) {
+            return queryString
+              ? state.list.filter(
+                  (i) => i.value.indexOf(queryString.toLowerCase()) === 0
+                )
+              : state.list
+          }
+
+          const querySearch = (
+            queryString: string,
+            cb: (arg: typeof state.list) => void
+          ) => {
+            cb(filterList(queryString))
+          }
+
+          const containerExposes = usePopperContainerId()
+          expose(containerExposes)
+
+          return () => (
+            <Autocomplete
+              ref="autocomplete"
+              v-model={state.value}
+              fetch-suggestions={querySearch}
+              {...state.payload}
+            />
+          )
+        },
+      }),
+      {
+        global: {
+          provide: {
+            namespace: 'el',
+          },
+        },
+      }
+    )
+    await nextTick()
+
+    const target = getAutocompleteVm(wrapper)
+    const input = wrapper.find('input')
+    await nextTick()
+    await input.trigger('focus')
+    vi.runAllTimers()
+    await nextTick()
+    // Expected behavior reference: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
+    await input.trigger('keydown', { code: EVENT_CODE.home })
+    expect(target.highlightedIndex).toBe(0)
+    await input.trigger('keydown', { code: EVENT_CODE.end })
+    expect(target.highlightedIndex).toBe(target.suggestions.length - 1)
+    await input.trigger('keydown', { code: EVENT_CODE.home })
+    expect(target.highlightedIndex).toBe(0)
+
+    await input.trigger('keydown', { code: EVENT_CODE.pageDown })
+    expect(target.highlightedIndex).toBe(10)
+    await input.trigger('keydown', { code: EVENT_CODE.pageDown })
+    expect(target.highlightedIndex).toBe(target.suggestions.length - 1)
+    //  If focus is in the last row of the grid, focus does not move.
+    await input.trigger('keydown', { code: EVENT_CODE.pageDown })
+    expect(target.highlightedIndex).toBe(target.suggestions.length - 1)
+
+    await input.trigger('keydown', { code: EVENT_CODE.pageUp })
+    expect(target.highlightedIndex).toBe(10)
+    await input.trigger('keydown', { code: EVENT_CODE.pageUp })
+    expect(target.highlightedIndex).toBe(0)
+    // If focus is in the first row of the grid, focus does not move.
+    await input.trigger('keydown', { code: EVENT_CODE.pageUp })
+    expect(target.highlightedIndex).toBe(0)
   })
 
   test('fitInputWidth', async () => {
@@ -371,6 +566,7 @@ describe('Autocomplete.vue', () => {
     test('specified id attachment', async () => {
       const wrapper = mount(() => (
         <FormItem label="Foobar" data-test-ref="item">
+          {/* @ts-ignore */}
           <Autocomplete id="foobar" data-test-ref="input" />
         </FormItem>
       ))
@@ -403,23 +599,23 @@ describe('Autocomplete.vue', () => {
   test('event:focus', async () => {
     const onFocus = vi.fn()
     const wrapper = _mount({ onFocus })
-    vi.useRealTimers()
-    await sleep()
+    await nextTick()
 
-    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
-      typeof Autocomplete
-    >
+    const target = getAutocompleteVm(wrapper)
 
     await wrapper.find('input').trigger('focus')
+    vi.runAllTimers()
     await nextTick()
     expect(onFocus).toHaveBeenCalledTimes(1)
 
     await target.handleSelect({ value: 'Go', tag: 'go' })
     expect(target.modelValue).toBe('Go')
+    vi.runAllTimers()
     await nextTick()
     expect(onFocus).toHaveBeenCalledTimes(1)
 
     await wrapper.find('input').trigger('blur')
+    vi.runAllTimers()
     await nextTick()
     expect(onFocus).toHaveBeenCalledTimes(1)
   })
@@ -427,12 +623,9 @@ describe('Autocomplete.vue', () => {
   test('event:blur', async () => {
     const onBlur = vi.fn()
     const wrapper = _mount({ onBlur })
-    vi.useRealTimers()
-    await sleep()
+    await nextTick()
 
-    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
-      typeof Autocomplete
-    >
+    const target = getAutocompleteVm(wrapper)
 
     await wrapper.find('input').trigger('focus')
     await target.handleSelect({ value: 'Go', tag: 'go' })
@@ -440,7 +633,113 @@ describe('Autocomplete.vue', () => {
     expect(onBlur).toHaveBeenCalledTimes(0)
 
     await wrapper.find('input').trigger('blur')
-    await sleep()
-    expect(onBlur).toHaveBeenCalledTimes(1)
+    vi.runAllTimers()
+    await nextTick()
+    expect(onBlur).toHaveBeenCalled()
+  })
+
+  describe('test a11y supports', () => {
+    test('test a11y attributes', async () => {
+      const wrapper = _mount()
+      await nextTick()
+
+      const container = wrapper.find('.el-autocomplete')
+      expect(container.attributes('role')).toBe('combobox')
+      expect(container.attributes('aria-haspopup')).toBe('listbox')
+      expect(container.attributes('aria-expanded')).toBe('false')
+
+      await wrapper.find('input').trigger('focus')
+      vi.runAllTimers()
+      await nextTick()
+
+      expect(container.attributes('aria-expanded')).toBe('true')
+    })
+  })
+
+  describe('new slots: header & footer', () => {
+    test('header slot renders', async () => {
+      const wrapper = _mount({ debounce: 0 }, 'fn-cb', '', {
+        header: () => 'Custom Header',
+      })
+      await wrapper.find('input').trigger('focus')
+      vi.runAllTimers()
+      await nextTick()
+
+      const headerEl = document.body.querySelector(
+        '.el-autocomplete-suggestion__header'
+      )
+      expect(headerEl).not.toBeNull()
+      expect(headerEl!.textContent).toBe('Custom Header')
+    })
+
+    test('should render footer slot', async () => {
+      const wrapper = _mount({ debounce: 0 }, 'fn-cb', '', {
+        footer: () => 'Custom Footer',
+      })
+      await nextTick()
+      await wrapper.find('input').trigger('focus')
+      vi.runAllTimers()
+      await nextTick()
+
+      const footerEl = document.body.querySelector(
+        '.el-autocomplete-suggestion__footer'
+      )
+      expect(footerEl).not.toBeNull()
+      expect(footerEl!.textContent).toBe('Custom Footer')
+    })
+  })
+
+  describe('should select the option when using Enter or Numpad Enter', () => {
+    test('use Enter', async () => {
+      const wrapper = _mount()
+      await nextTick()
+
+      const target = getAutocompleteVm(wrapper)
+      const input = wrapper.find('input')
+
+      await input.trigger('focus')
+      vi.runAllTimers()
+      await nextTick()
+
+      await input.trigger('keydown', { code: EVENT_CODE.down })
+      await input.trigger('keydown', { code: EVENT_CODE.enter })
+      expect(target.modelValue).toBe('Java')
+    })
+
+    test('use Numpad Enter', async () => {
+      const wrapper = _mount()
+      await nextTick()
+
+      const target = getAutocompleteVm(wrapper)
+      const input = wrapper.find('input')
+
+      await input.trigger('focus')
+      vi.runAllTimers()
+      await nextTick()
+
+      await input.trigger('keydown', { code: EVENT_CODE.down })
+      await input.trigger('keydown', { code: EVENT_CODE.numpadEnter })
+      expect(target.modelValue).toBe('Java')
+    })
+
+    test('clears stale suggestions on refocus before debounce completes', async () => {
+      const wrapper = _mount({ debounce: 300 })
+      const input = wrapper.find('input')
+      const target = getAutocompleteVm(wrapper)
+
+      await input.trigger('focus')
+      vi.runAllTimers()
+      await nextTick()
+      await input.trigger('keydown', { code: EVENT_CODE.down })
+
+      expect(target.suggestions).toHaveLength(4)
+      expect(target.highlightedIndex).toBe(0)
+
+      await input.trigger('blur')
+      await input.trigger('focus')
+
+      expect(target.suggestions).toHaveLength(0)
+      expect(target.highlightedIndex).toBe(-1)
+    })
   })
 })

@@ -2,6 +2,7 @@ import { computed } from 'vue'
 import { TinyColor } from '@ctrl/tinycolor'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormDisabled } from '@element-plus/components/form'
+
 import type { ButtonProps } from './button'
 
 export function darken(color: TinyColor, amount = 20) {
@@ -17,9 +18,15 @@ export function useButtonCustomStyle(props: ButtonProps) {
   return computed(() => {
     let styles: Record<string, string> = {}
 
-    const buttonColor = props.color
+    let buttonColor = props.color
 
     if (buttonColor) {
+      const match = (buttonColor as string).match(/var\((.*?)\)/)
+      if (match) {
+        buttonColor = window
+          .getComputedStyle(window.document.documentElement)
+          .getPropertyValue(match[1])
+      }
       const color = new TinyColor(buttonColor)
       const activeBgColor = props.dark
         ? color.tint(20).toString()
@@ -52,6 +59,30 @@ export function useButtonCustomStyle(props: ButtonProps) {
           styles[ns.cssVarBlockName('disabled-border-color')] = props.dark
             ? darken(color, 80)
             : color.tint(80).toString()
+        }
+      } else if (props.link || props.text) {
+        const hoverColor = props.dark
+          ? darken(color, 30)
+          : color.tint(30).toString()
+
+        styles = ns.cssVarBlock({
+          'text-color': buttonColor,
+          'hover-text-color': hoverColor,
+          'active-text-color': activeBgColor,
+        })
+
+        if (props.link) {
+          styles[ns.cssVarBlockName('hover-link-text-color')] = hoverColor
+          styles[ns.cssVarBlockName('active-color')] = activeBgColor
+        }
+
+        if (_disabled.value) {
+          const disabledColor = props.dark
+            ? darken(color, 50)
+            : color.tint(50).toString()
+          styles[ns.cssVarBlockName('disabled-bg-color')] = 'transparent'
+          styles[ns.cssVarBlockName('disabled-text-color')] = disabledColor
+          styles[ns.cssVarBlockName('disabled-border-color')] = 'transparent'
         }
       } else {
         const hoverBgColor = props.dark

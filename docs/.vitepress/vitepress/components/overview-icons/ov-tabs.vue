@@ -1,0 +1,121 @@
+<template>
+  <svg
+    width="280"
+    height="180"
+    viewBox="0 0 280 180"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect width="280" height="180" fill="var(--el-fill-color-light)" />
+    <g filter="url(#filter0_d_13637_231174)">
+      <rect
+        x="60"
+        y="68"
+        width="160"
+        height="64"
+        rx="2"
+        fill="var(--el-fill-color-blank)"
+      />
+      <rect
+        x="59.7"
+        y="67.7"
+        width="160.6"
+        height="64.6"
+        rx="2.3"
+        stroke="var(--el-border-color-dark)"
+        stroke-width="0.6"
+      />
+    </g>
+    <rect
+      x="70"
+      y="102"
+      width="68"
+      height="4"
+      rx="2"
+      fill="var(--el-border-color-dark)"
+    />
+    <rect
+      x="70"
+      y="115"
+      width="42"
+      height="4"
+      rx="2"
+      fill="var(--el-border-color-dark)"
+    />
+    <rect
+      x="60"
+      y="91"
+      width="160"
+      height="0.6"
+      fill="var(--el-border-color-dark)"
+    />
+    <rect
+      x="60"
+      y="90.5996"
+      width="45"
+      height="1"
+      fill="var(--el-color-primary)"
+    />
+    <rect
+      x="70"
+      y="78"
+      width="24"
+      height="4"
+      rx="2"
+      fill="var(--el-color-primary)"
+    />
+    <rect
+      x="127"
+      y="78"
+      width="24"
+      height="4"
+      rx="2"
+      fill="var(--el-border-color-dark)"
+    />
+    <rect
+      x="184"
+      y="78"
+      width="24"
+      height="4"
+      rx="2"
+      fill="var(--el-border-color-dark)"
+    />
+    <defs>
+      <filter
+        id="filter0_d_13637_231174"
+        x="46.0666"
+        y="54.0671"
+        width="187.867"
+        height="91.8659"
+        filterUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feColorMatrix
+          in="SourceAlpha"
+          type="matrix"
+          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+          result="hardAlpha"
+        />
+        <feOffset />
+        <feGaussianBlur stdDeviation="6.66667" />
+        <feComposite in2="hardAlpha" operator="out" />
+        <feColorMatrix
+          type="matrix"
+          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0"
+        />
+        <feBlend
+          mode="normal"
+          in2="BackgroundImageFix"
+          result="effect1_dropShadow_13637_231174"
+        />
+        <feBlend
+          mode="normal"
+          in="SourceGraphic"
+          in2="effect1_dropShadow_13637_231174"
+          result="shape"
+        />
+      </filter>
+    </defs>
+  </svg>
+</template>

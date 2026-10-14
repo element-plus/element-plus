@@ -78,4 +78,9 @@ import {
   font-size: 14px;
   margin-bottom: 20px;
 }
+
+.block-col-2 .el-dropdown-link {
+  display: flex;
+  align-items: center;
+}
 </style>

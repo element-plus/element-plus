@@ -9,7 +9,6 @@ import type { PopperArrowInstance } from '../src/arrow'
 
 const popperContentInjection = {
   arrowRef: ref(null),
-  arrowOffset: ref(0),
 }
 
 const mountArrow = () =>
@@ -19,7 +18,7 @@ const mountArrow = () =>
         [POPPER_CONTENT_INJECTION_KEY as symbol]: popperContentInjection,
       },
     },
-  })
+  }) as unknown as VueWrapper<PopperArrowInstance>
 
 describe('<ElPopperArrow />', () => {
   let wrapper: VueWrapper<PopperArrowInstance>
@@ -32,22 +31,10 @@ describe('<ElPopperArrow />', () => {
   afterEach(() => {
     wrapper?.unmount()
     popperContentInjection.arrowRef.value = null
-    popperContentInjection.arrowOffset.value = 0
   })
 
   it('should set the arrowRef after mounted', async () => {
     expect(popperContentInjection.arrowRef.value).toBe(wrapper.vm.arrowRef)
-    expect(popperContentInjection.arrowOffset.value).toBe(0)
-  })
-
-  it('should update the offset after props changed', async () => {
-    expect(popperContentInjection.arrowOffset.value).toBe(0)
-
-    await wrapper.setProps({
-      arrowOffset: 10,
-    })
-
-    expect(popperContentInjection.arrowOffset.value).toBe(10)
   })
 
   it('should unset arrowRef before unmount', async () => {

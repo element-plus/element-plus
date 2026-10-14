@@ -56,9 +56,9 @@
     content="this is content, this is content, this is content"
   >
     <template #reference>
-      <el-button class="m-2" @click="visible = !visible"
-        >Manual to activate</el-button
-      >
+      <el-button class="m-2" @click="visible = !visible">
+        Manual to activate
+      </el-button>
     </template>
   </el-popover>
 </template>

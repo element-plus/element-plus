@@ -9,14 +9,14 @@
   </div>
   <div class="mt-4">
     <el-checkbox-group v-model="checkboxGroup1" size="small">
-      <el-checkbox label="Option1" border />
-      <el-checkbox label="Option2" border />
+      <el-checkbox label="Option1" value="Value1" border />
+      <el-checkbox label="Option2" value="Value2" border />
     </el-checkbox-group>
   </div>
   <div class="mt-4">
     <el-checkbox-group v-model="checkboxGroup1" size="small">
-      <el-checkbox label="Option1" border disabled />
-      <el-checkbox label="Option2" border disabled />
+      <el-checkbox label="Option1" value="Value1" border disabled />
+      <el-checkbox label="Option2" value="Value2" border disabled />
     </el-checkbox-group>
   </div>
 </template>
@@ -28,5 +28,5 @@ const checked1 = ref(true)
 const checked2 = ref(false)
 const checked3 = ref(false)
 const checked4 = ref(true)
-const checkboxGroup1 = ref(['Option1'])
+const checkboxGroup1 = ref(['Value1'])
 </script>

@@ -22,17 +22,25 @@
     </div>
   </div>
 </template>
+
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { isFunction, isNumber } from '@element-plus/utils'
-import { statisticProps } from './statistic'
+
+import type { StatisticProps } from './statistic'
 
 defineOptions({
   name: 'ElStatistic',
 })
 
-const props = defineProps(statisticProps)
+const props = withDefaults(defineProps<StatisticProps>(), {
+  decimalSeparator: '.',
+  groupSeparator: ',',
+  precision: 0,
+  value: 0,
+  valueStyle: undefined,
+})
 const ns = useNamespace('statistic')
 
 const displayValue = computed(() => {
@@ -41,7 +49,8 @@ const displayValue = computed(() => {
 
   if (isFunction(formatter)) return formatter(value)
 
-  if (!isNumber(value)) return value
+  // https://github.com/element-plus/element-plus/issues/17784
+  if (!isNumber(value) || Number.isNaN(value)) return value
 
   let [integer, decimal = ''] = String(value).split('.')
   decimal = decimal

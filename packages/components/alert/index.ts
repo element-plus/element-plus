@@ -1,8 +1,9 @@
 import { withInstall } from '@element-plus/utils'
-
 import Alert from './src/alert.vue'
 
-export const ElAlert = withInstall(Alert)
+import type { SFCWithInstall } from '@element-plus/utils'
+
+export const ElAlert: SFCWithInstall<typeof Alert> = withInstall(Alert)
 export default ElAlert
 
 export * from './src/alert'

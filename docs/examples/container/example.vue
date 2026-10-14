@@ -62,9 +62,9 @@
       <el-header style="text-align: right; font-size: 12px">
         <div class="toolbar">
           <el-dropdown>
-            <el-icon style="margin-right: 8px; margin-top: 1px"
-              ><setting
-            /></el-icon>
+            <el-icon style="margin-right: 8px; margin-top: 1px">
+              <setting />
+            </el-icon>
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item>View</el-dropdown-item>
@@ -99,7 +99,7 @@ const item = {
   name: 'Tom',
   address: 'No. 189, Grove St, Los Angeles',
 }
-const tableData = ref(Array.from({ length: 20 }).fill(item))
+const tableData = ref(Array.from({ length: 20 }, () => item))
 </script>
 
 <style scoped>

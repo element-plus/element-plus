@@ -5,18 +5,23 @@
       :class="[ns.b(), ns.m(type), ns.is('center', center), ns.is(effect)]"
       role="alert"
     >
-      <el-icon v-if="showIcon && iconComponent" :class="iconClass">
-        <component :is="iconComponent" />
+      <el-icon
+        v-if="showIcon && ($slots.icon || iconComponent)"
+        :class="[ns.e('icon'), ns.is('big', hasDesc)]"
+      >
+        <slot name="icon">
+          <component :is="iconComponent" />
+        </slot>
       </el-icon>
 
       <div :class="ns.e('content')">
         <span
           v-if="title || $slots.title"
-          :class="[ns.e('title'), isBoldTitle]"
+          :class="[ns.e('title'), { 'with-description': hasDesc }]"
         >
           <slot name="title">{{ title }}</slot>
         </span>
-        <p v-if="$slots.default || description" :class="ns.e('description')">
+        <p v-if="hasDesc" :class="ns.e('description')">
           <slot>
             {{ description }}
           </slot>
@@ -37,12 +42,20 @@
     </div>
   </transition>
 </template>
+
 <script lang="ts" setup>
 import { computed, ref, useSlots } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
-import { TypeComponents, TypeComponentsMap } from '@element-plus/utils'
+import {
+  TypeComponents,
+  TypeComponentsMap,
+  flattedChildren,
+  isComment,
+} from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import { alertEmits, alertProps } from './alert'
+import { alertEmits } from './alert'
+
+import type { AlertProps } from './alert'
 
 const { Close } = TypeComponents
 
@@ -50,7 +63,14 @@ defineOptions({
   name: 'ElAlert',
 })
 
-const props = defineProps(alertProps)
+const props = withDefaults(defineProps<AlertProps>(), {
+  title: '',
+  description: '',
+  type: 'info',
+  closable: true,
+  closeText: '',
+  effect: 'light',
+})
 const emit = defineEmits(alertEmits)
 const slots = useSlots()
 
@@ -60,13 +80,13 @@ const visible = ref(true)
 
 const iconComponent = computed(() => TypeComponentsMap[props.type])
 
-const iconClass = computed(() => [
-  ns.e('icon'),
-  { [ns.is('big')]: !!props.description || !!slots.default },
-])
+const hasDesc = computed(() => {
+  if (props.description) return true
+  const slotContent = slots.default?.()
+  if (!slotContent) return false
 
-const isBoldTitle = computed(() => {
-  return { [ns.is('bold')]: props.description || slots.default }
+  const children = flattedChildren(slotContent)
+  return children.some((child) => !isComment(child))
 })
 
 const close = (evt: MouseEvent) => {

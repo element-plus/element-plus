@@ -6,11 +6,20 @@
     </div>
   </div>
 </template>
+
 <script lang="ts" setup>
 import { reactive, toRefs } from 'vue'
 
+import type { CSSProperties } from 'vue'
+
 const state = reactive({
-  fits: ['fill', 'contain', 'cover', 'none', 'scale-down'],
+  fits: [
+    'fill',
+    'contain',
+    'cover',
+    'none',
+    'scale-down',
+  ] as CSSProperties['object-fit'][],
   url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
 })
 

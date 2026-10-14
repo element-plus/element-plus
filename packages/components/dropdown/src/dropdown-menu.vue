@@ -6,33 +6,30 @@
     :tabindex="-1"
     :role="role"
     :aria-labelledby="triggerId"
-    @blur="onBlur"
-    @focus="onFocus"
+    @focusin="handleFocus"
+    @focusout="onBlur"
     @keydown.self="handleKeydown"
     @mousedown.self="onMousedown"
   >
     <slot />
   </ul>
 </template>
+
 <script lang="ts">
-// @ts-nocheck
-import { computed, defineComponent, inject, unref } from 'vue'
-import { composeEventHandlers, composeRefs } from '@element-plus/utils'
+import { computed, defineComponent, inject } from 'vue'
+import {
+  composeEventHandlers,
+  composeRefs,
+  getEventCode,
+} from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
-import { FOCUS_TRAP_INJECTION_KEY } from '@element-plus/components/focus-trap'
 import {
   ROVING_FOCUS_COLLECTION_INJECTION_KEY,
   ROVING_FOCUS_GROUP_INJECTION_KEY,
-  focusFirst,
 } from '@element-plus/components/roving-focus-group'
 import { useNamespace } from '@element-plus/hooks'
 import { DROPDOWN_INJECTION_KEY } from './tokens'
-import {
-  DROPDOWN_COLLECTION_INJECTION_KEY,
-  FIRST_LAST_KEYS,
-  LAST_KEYS,
-  dropdownMenuProps,
-} from './dropdown'
+import { dropdownMenuProps } from './dropdown'
 import { useDropdown } from './useDropdown'
 
 export default defineComponent({
@@ -43,27 +40,15 @@ export default defineComponent({
     const { _elDropdownSize } = useDropdown()
     const size = _elDropdownSize.value
 
-    const { focusTrapRef, onKeydown } = inject(
-      FOCUS_TRAP_INJECTION_KEY,
-      undefined
-    )!
-
-    const { contentRef, role, triggerId } = inject(
-      DROPDOWN_INJECTION_KEY,
-      undefined
-    )!
-
-    const { collectionRef: dropdownCollectionRef, getItems } = inject(
-      DROPDOWN_COLLECTION_INJECTION_KEY,
-      undefined
-    )!
+    const { contentRef, role, triggerId, isUsingKeyboard, handleClose } =
+      inject(DROPDOWN_INJECTION_KEY, undefined)!
 
     const {
       rovingFocusGroupRef,
       rovingFocusGroupRootStyle,
-      tabIndex,
       onBlur,
       onFocus,
+      onKeydown,
       onMousedown,
     } = inject(ROVING_FOCUS_GROUP_INJECTION_KEY, undefined)!
 
@@ -78,18 +63,18 @@ export default defineComponent({
 
     const dropdownListWrapperRef = composeRefs(
       contentRef,
-      dropdownCollectionRef,
-      focusTrapRef,
       rovingFocusGroupRef,
       rovingFocusGroupCollectionRef
     )
 
-    const composedKeydown = composeEventHandlers(
+    const handleKeydown = composeEventHandlers(
       (e: KeyboardEvent) => {
         props.onKeydown?.(e)
       },
       (e) => {
-        const { currentTarget, code, target } = e
+        const { currentTarget, target } = e
+        const code = getEventCode(e)
+
         const isKeydownContained = (currentTarget as Node).contains(
           target as Node
         )
@@ -99,40 +84,27 @@ export default defineComponent({
         }
 
         if (EVENT_CODE.tab === code) {
-          e.stopImmediatePropagation()
+          return handleClose()
         }
 
-        e.preventDefault()
-
-        if (target !== unref(contentRef)) return
-        if (!FIRST_LAST_KEYS.includes(code)) return
-        const items = getItems<{ disabled: boolean }>().filter(
-          (item) => !item.disabled
-        )
-        const targets = items.map((item) => item.ref!)
-        if (LAST_KEYS.includes(code)) {
-          targets.reverse()
-        }
-        focusFirst(targets)
+        onKeydown(e)
       }
     )
 
-    const handleKeydown = (e: KeyboardEvent) => {
-      composedKeydown(e)
-      onKeydown(e)
+    function handleFocus(e: FocusEvent) {
+      isUsingKeyboard.value && onFocus(e)
     }
 
     return {
       size,
       rovingFocusGroupRootStyle,
-      tabIndex,
       dropdownKls,
       role,
       triggerId,
       dropdownListWrapperRef,
       handleKeydown,
       onBlur,
-      onFocus,
+      handleFocus,
       onMousedown,
     }
   },

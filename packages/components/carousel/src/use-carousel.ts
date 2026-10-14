@@ -1,28 +1,32 @@
 import {
   computed,
   getCurrentInstance,
+  isVNode,
   onBeforeUnmount,
   onMounted,
   provide,
   ref,
   shallowRef,
   unref,
+  useSlots,
   watch,
 } from 'vue'
 import { throttle } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
-import { debugWarn, isString } from '@element-plus/utils'
+import { debugWarn, flattedChildren, isString } from '@element-plus/utils'
 import { useOrderedChildren } from '@element-plus/hooks'
-import { carouselContextKey } from './constants'
+import { CHANGE_EVENT } from '@element-plus/constants'
+import { CAROUSEL_ITEM_NAME, carouselContextKey } from './constants'
 
 import type { SetupContext } from 'vue'
+import type { DebouncedFunc } from 'lodash-unified'
 import type { CarouselItemContext } from './constants'
 import type { CarouselEmits, CarouselProps } from './carousel'
 
 const THROTTLE_TIME = 300
 
 export const useCarousel = (
-  props: CarouselProps,
+  props: Required<CarouselProps>,
   emit: SetupContext<CarouselEmits>['emit'],
   componentName: string
 ) => {
@@ -30,10 +34,13 @@ export const useCarousel = (
     children: items,
     addChild: addItem,
     removeChild: removeItem,
+    ChildrenSorter: ItemsSorter,
   } = useOrderedChildren<CarouselItemContext>(
     getCurrentInstance()!,
-    'ElCarouselItem'
+    CAROUSEL_ITEM_NAME
   )
+
+  const slots = useSlots()
 
   // refs
   const activeIndex = ref(-1)
@@ -41,6 +48,7 @@ export const useCarousel = (
   const hover = ref(false)
   const root = ref<HTMLDivElement>()
   const containerHeight = ref<number>(0)
+  const isItemsTwoLength = ref(true)
 
   // computed
   const arrowDisplay = computed(
@@ -67,7 +75,7 @@ export const useCarousel = (
   })
 
   // methods
-  const throttledArrowClick = throttle(
+  const throttledArrowClick: DebouncedFunc<(index: number) => void> = throttle(
     (index: number) => {
       setActiveItem(index)
     },
@@ -75,9 +83,15 @@ export const useCarousel = (
     { trailing: true }
   )
 
-  const throttledIndicatorHover = throttle((index: number) => {
-    handleIndicatorHover(index)
-  }, THROTTLE_TIME)
+  const throttledIndicatorHover: DebouncedFunc<(index: number) => void> =
+    throttle((index: number) => {
+      handleIndicatorHover(index)
+    }, THROTTLE_TIME)
+
+  const isTwoLengthShow = (index: number) => {
+    if (!isItemsTwoLength.value) return true
+    return activeIndex.value <= 1 ? index <= 1 : index > 1
+  }
 
   function pauseTimer() {
     if (timer.value) {
@@ -202,7 +216,7 @@ export const useCarousel = (
 
   function resetTimer() {
     pauseTimer()
-    startTimer()
+    if (!props.pauseOnHover || !hover.value) startTimer()
   }
 
   function setContainerHeight(height: number) {
@@ -210,16 +224,47 @@ export const useCarousel = (
     containerHeight.value = height
   }
 
+  function PlaceholderItem() {
+    // fix: https://github.com/element-plus/element-plus/issues/12139
+    const defaultSlots = slots.default?.()
+    if (!defaultSlots) return null
+
+    const flatSlots = flattedChildren(defaultSlots)
+
+    const normalizeSlots = flatSlots.filter((slot) => {
+      return isVNode(slot) && (slot.type as any).name === CAROUSEL_ITEM_NAME
+    })
+
+    if (normalizeSlots?.length === 2 && props.loop && !isCardType.value) {
+      isItemsTwoLength.value = true
+      return normalizeSlots
+    }
+    isItemsTwoLength.value = false
+    return null
+  }
+
   // watch
   watch(
     () => activeIndex.value,
     (current, prev) => {
       resetItemPosition(prev)
+      if (isItemsTwoLength.value) {
+        current = current % 2
+        prev = prev % 2
+      }
       if (prev > -1) {
-        emit('change', current, prev)
+        emit(CHANGE_EVENT, current, prev)
       }
     }
   )
+
+  const exposeActiveIndex = computed({
+    get: () => {
+      return isItemsTwoLength.value ? activeIndex.value % 2 : activeIndex.value
+    },
+    set: (value) => (activeIndex.value = value),
+  })
+
   watch(
     () => props.autoplay,
     (autoplay) => {
@@ -240,16 +285,19 @@ export const useCarousel = (
     }
   )
 
-  watch(
-    () => items.value,
-    () => {
-      if (items.value.length > 0) setActiveItem(props.initialIndex)
-    }
-  )
-
   const resizeObserver = shallowRef<ReturnType<typeof useResizeObserver>>()
   // lifecycle
   onMounted(() => {
+    watch(
+      () => items.value,
+      () => {
+        if (items.value.length > 0) setActiveItem(props.initialIndex)
+      },
+      {
+        immediate: true,
+      }
+    )
+
     resizeObserver.value = useResizeObserver(root.value, () => {
       resetItemPosition()
     })
@@ -268,6 +316,7 @@ export const useCarousel = (
     isVertical,
     items,
     loop: props.loop,
+    cardScale: props.cardScale,
     addItem,
     removeItem,
     setActiveItem,
@@ -277,6 +326,7 @@ export const useCarousel = (
   return {
     root,
     activeIndex,
+    exposeActiveIndex,
     arrowDisplay,
     hasLabel,
     hover,
@@ -284,6 +334,7 @@ export const useCarousel = (
     items,
     isVertical,
     containerStyle,
+    isItemsTwoLength,
     handleButtonEnter,
     handleButtonLeave,
     handleIndicatorClick,
@@ -292,6 +343,9 @@ export const useCarousel = (
     setActiveItem,
     prev,
     next,
+    PlaceholderItem,
+    isTwoLengthShow,
+    ItemsSorter,
     throttledArrowClick,
     throttledIndicatorHover,
   }

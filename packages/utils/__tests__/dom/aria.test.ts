@@ -1,9 +1,17 @@
 import { describe, expect, it, vi } from 'vitest'
-import { isFocusable, triggerEvent } from '../..'
+import { focusElement, isFocusable, isShadowRoot, triggerEvent } from '../..'
 
 const CE = (tag: string) => document.createElement(tag)
 
 describe('Aria Utils', () => {
+  describe('isShadowRoot', () => {
+    it('should return true when element is a shadow root', () => {
+      const $el = CE('div')
+      const shadowRoot = $el.attachShadow({ mode: 'open' })
+      expect(isShadowRoot(shadowRoot)).toBe(true)
+    })
+  })
+
   describe('Trigger Event', () => {
     it('Util trigger event to trigger event correctly', () => {
       const div = document.createElement('div')
@@ -60,6 +68,39 @@ describe('Aria Utils', () => {
       expect(isFocusable($el)).toBe(true)
       $el = CE('textarea')
       expect(isFocusable($el)).toBe(true)
+    })
+  })
+
+  describe('focusElement', () => {
+    it('should be able to focus on the element', () => {
+      const input = CE('input')
+      document.body.appendChild(input)
+      focusElement(input)
+      expect(document.activeElement).toBe(input)
+      document.body.removeChild(input)
+    })
+
+    it('should be able to focus on the element with options', () => {
+      const input = CE('input')
+      document.body.appendChild(input)
+      focusElement(input, { preventScroll: true })
+      expect(document.activeElement).toBe(input)
+      document.body.removeChild(input)
+    })
+
+    it('should be focus the document body', () => {
+      const input = CE('input')
+      document.body.appendChild(input)
+      focusElement(input)
+      expect(document.activeElement).toBe(input)
+      focusElement(document.body)
+      expect(document.activeElement).toBe(document.body)
+      document.body.removeChild(input)
+    })
+
+    it('should not throw error when the element is null or undefined', () => {
+      expect(() => focusElement(null)).not.toThrow()
+      expect(() => focusElement(undefined)).not.toThrow()
     })
   })
 })

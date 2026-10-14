@@ -1,6 +1,6 @@
 <template>
   <el-row :gutter="16">
-    <el-col :span="8">
+    <el-col :xs="24" :sm="12" :md="8" class="mb-4">
       <div class="statistic-card">
         <el-statistic :value="98500">
           <template #title>
@@ -31,7 +31,7 @@
         </div>
       </div>
     </el-col>
-    <el-col :span="8">
+    <el-col :xs="24" :sm="12" :md="8" class="mb-4">
       <div class="statistic-card">
         <el-statistic :value="693700">
           <template #title>
@@ -62,7 +62,7 @@
         </div>
       </div>
     </el-col>
-    <el-col :span="8">
+    <el-col :xs="24" :sm="12" :md="8" class="mb-4">
       <div class="statistic-card">
         <el-statistic :value="72000" title="New transactions today">
           <template #title>

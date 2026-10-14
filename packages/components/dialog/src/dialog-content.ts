@@ -1,42 +1,156 @@
-import { buildProps, iconPropType } from '@element-plus/utils'
+import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 
+import type { ClassValue, IconPropType } from '@element-plus/utils'
+
+/**
+ * @description dialog-content component props
+ */
+export interface DialogContentProps {
+  /**
+   * @description whether to align the header and footer in center
+   */
+  center?: boolean
+  /**
+   * @description whether to align the dialog both horizontally and vertically
+   */
+  alignCenter?: boolean
+  /**
+   * @description custom close icon, default is Close
+   */
+  closeIcon?: IconPropType
+  /**
+   * @description enable dragging feature for Dialog
+   */
+  draggable?: boolean
+  /**
+   * @description draggable Dialog can overflow the viewport
+   */
+  overflow?: boolean
+  /**
+   * @description whether the Dialog takes up full screen
+   */
+  fullscreen?: boolean
+  /**
+   * @description custom class names for header wrapper
+   */
+  headerClass?: ClassValue
+  /**
+   * @description custom class names for body wrapper
+   */
+  bodyClass?: ClassValue
+  /**
+   * @description custom class names for footer wrapper
+   */
+  footerClass?: ClassValue
+  /**
+   * @description whether to show a close button
+   */
+  showClose?: boolean
+  /**
+   * @description title of Dialog. Can also be passed with a named slot (see the following table)
+   */
+  title?: string
+  /**
+   * @description header's aria-level attribute
+   */
+  ariaLevel?: string
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `DialogContentProps` instead.
+ */
 export const dialogContentProps = buildProps({
-  center: {
-    type: Boolean,
-    default: false,
-  },
+  /**
+   * @description whether to align the header and footer in center
+   */
+  center: Boolean,
+  /**
+   * @description whether to align the dialog both horizontally and vertically
+   */
   alignCenter: {
     type: Boolean,
-    default: false,
+    default: undefined,
   },
+  /**
+   * @description custom close icon, default is Close
+   */
   closeIcon: {
     type: iconPropType,
   },
   /**
-   * @deprecated will be removed in version 2.4.0, please use class
+   * @description enable dragging feature for Dialog
    */
-  customClass: {
-    type: String,
-    default: '',
-  },
   draggable: {
     type: Boolean,
-    default: false,
+    default: undefined,
   },
-  fullscreen: {
+  /**
+   * @description draggable Dialog can overflow the viewport
+   */
+  overflow: {
     type: Boolean,
-    default: false,
+    default: undefined,
   },
+  /**
+   * @description whether the Dialog takes up full screen
+   */
+  fullscreen: Boolean,
+  /**
+   * @description custom class names for header wrapper
+   */
+  headerClass: {
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
+    default: undefined,
+  },
+  /**
+   * @description custom class names for body wrapper
+   */
+  bodyClass: {
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
+    default: undefined,
+  },
+  /**
+   * @description custom class names for footer wrapper
+   */
+  footerClass: {
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
+    default: undefined,
+  },
+  /**
+   * @description whether to show a close button
+   */
   showClose: {
     type: Boolean,
     default: true,
   },
+  /**
+   * @description title of Dialog. Can also be passed with a named slot (see the following table)
+   */
   title: {
     type: String,
     default: '',
+  },
+  /**
+   * @description header's aria-level attribute
+   */
+  ariaLevel: {
+    type: String,
+    default: '2',
   },
 } as const)
 
 export const dialogContentEmits = {
   close: () => true,
 }
+
+export const dialogContentPropsDefaults = {
+  alignCenter: undefined,
+  draggable: undefined,
+  overflow: undefined,
+  showClose: true,
+  title: '',
+  ariaLevel: '2',
+  headerClass: undefined,
+  bodyClass: undefined,
+  footerClass: undefined,
+} as const

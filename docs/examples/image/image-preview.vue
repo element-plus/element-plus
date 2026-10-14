@@ -4,7 +4,10 @@
       style="width: 100px; height: 100px"
       :src="url"
       :zoom-rate="1.2"
+      :max-scale="7"
+      :min-scale="0.2"
       :preview-src-list="srcList"
+      show-progress
       :initial-index="4"
       fit="cover"
     />

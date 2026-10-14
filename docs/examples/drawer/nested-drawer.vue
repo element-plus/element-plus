@@ -1,7 +1,5 @@
 <template>
-  <el-button type="primary" style="margin-left: 16px" @click="drawer = true">
-    open
-  </el-button>
+  <el-button type="primary" @click="drawer = true"> open </el-button>
 
   <el-drawer v-model="drawer" title="I'm outer Drawer" size="50%">
     <div>

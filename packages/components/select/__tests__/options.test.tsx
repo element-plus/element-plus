@@ -1,19 +1,22 @@
 import { defineComponent, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { flatten } from 'lodash-unified'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import Options from '../src/options'
+import Select from '../src/select.vue'
 
+import type { PropType, Slots } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
 
 describe('options', () => {
   let wrapper: ReturnType<typeof mount>
-  const onOptionsChange = vi.fn()
 
   const ElOptionStub = defineComponent({
     name: 'ElOption',
     props: {
       label: String,
+      value: [String, Number, Boolean, Object] as PropType<
+        string | number | boolean | object
+      >,
     },
     template: '<div></div>',
   })
@@ -22,6 +25,9 @@ describe('options', () => {
 
   const ElOptionGroupStub = defineComponent({
     name: 'ElOptionGroup',
+    props: {
+      label: String,
+    },
     template: '<div><slot /></div>',
   })
 
@@ -29,10 +35,10 @@ describe('options', () => {
 
   const createWrapper = (slots = {}) => {
     wrapper = mount(
-      (_, { slots }) => (
-        <Options onUpdate-options={onOptionsChange}>
-          {slots?.default?.()}
-        </Options>
+      (_: unknown, { slots }: { slots: Slots }) => (
+        <Select>
+          <Options>{slots?.default?.()}</Options>
+        </Select>
       ),
       {
         global: {
@@ -48,23 +54,21 @@ describe('options', () => {
 
   afterEach(() => {
     wrapper.unmount()
-    onOptionsChange.mockClear()
   })
 
   it('renders emit correct options', async () => {
+    const mockWarn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     createWrapper({
       default: () =>
         samples.map((_, i) => <ElOptionStub label={getLabel(i)} />),
     })
-
+    expect(mockWarn).not.toHaveBeenCalled()
+    vi.resetAllMocks()
     await nextTick()
-
-    expect(onOptionsChange).toHaveBeenCalledWith(
-      ...[...[samples.map((_, i) => getLabel(i))]]
-    )
   })
 
   it('renders emit correct options with option group', async () => {
+    const spy = vi.spyOn(console, 'warn').mockImplementation(() => {})
     createWrapper({
       default: () =>
         samples.map((_, i) => (
@@ -81,11 +85,7 @@ describe('options', () => {
           </ElOptionGroupStub>
         )),
     })
-
-    expect(onOptionsChange).toHaveBeenCalledWith(
-      flatten(
-        samples.map((_, i) => samples.map((_, j) => getLabel(`${i}-${j}`)))
-      )
-    )
+    expect(spy).not.toHaveBeenCalled()
+    vi.resetAllMocks()
   })
 })

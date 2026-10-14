@@ -14,11 +14,16 @@ import {
 import { removeClass } from '@element-plus/utils'
 import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
 
+import type { AppContext, VNode } from 'vue'
 import type { UseNamespaceReturn } from '@element-plus/hooks'
 import type { LoadingOptionsResolved } from './types'
 
-export function createLoadingComponent(options: LoadingOptionsResolved) {
-  let afterLeaveTimer: number
+export function createLoadingComponent(
+  options: LoadingOptionsResolved,
+  appContext: AppContext | null
+) {
+  let afterLeaveTimer: ReturnType<typeof setTimeout>
+  let destroyed = false
   // IMPORTANT NOTE: this is only a hacking way to expose the injections on an
   // instance, DO NOT FOLLOW this pattern in your own code.
   const afterLeaveFlag = ref(false)
@@ -29,13 +34,17 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
     visible: false,
   })
 
-  function setText(text: string) {
+  function setText(text: string | VNode | VNode[]) {
     data.text = text
   }
 
   function destroySelf() {
+    if (destroyed) return
+    destroyed = true
     const target = data.parent
-    const ns = (vm as any).ns as UseNamespaceReturn
+    // Compatible with the instance data format of vue@3.2.12 and earlier versions #12351
+    const ns =
+      ((vm as any).ns as UseNamespaceReturn) || (vm as any)._.exposed.ns
     if (!target.vLoadingAddClassList) {
       let loadingNumber: number | string | null =
         target.getAttribute('loading-number')
@@ -50,6 +59,11 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
     }
     removeElLoadingChild()
     loadingInstance.unmount()
+
+    const internalInstance = vm.$ as any
+    internalInstance.vnode.el = null
+    internalInstance.subTree = null
+    loadingInstance._container = null
   }
   function removeElLoadingChild(): void {
     vm.$el?.parentNode?.removeChild(vm.$el)
@@ -60,7 +74,7 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
     afterLeaveFlag.value = true
     clearTimeout(afterLeaveTimer)
 
-    afterLeaveTimer = window.setTimeout(handleAfterLeave, 400)
+    afterLeaveTimer = setTimeout(handleAfterLeave, 400)
     data.visible = false
 
     options.closed?.()
@@ -93,15 +107,17 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
             viewBox: data.svgViewBox ? data.svgViewBox : '0 0 50 50',
             ...(svg ? { innerHTML: svg } : {}),
           },
-          [
-            h('circle', {
-              class: 'path',
-              cx: '25',
-              cy: '25',
-              r: '20',
-              fill: 'none',
-            }),
-          ]
+          svg
+            ? undefined
+            : [
+                h('circle', {
+                  class: 'path',
+                  cx: '25',
+                  cy: '25',
+                  r: '20',
+                  fill: 'none',
+                }),
+              ]
         )
 
         const spinnerText = data.text
@@ -126,7 +142,7 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
                     class: [
                       ns.b('mask'),
                       data.customClass,
-                      data.fullscreen ? 'is-fullscreen' : '',
+                      ns.is('fullscreen', data.fullscreen),
                     ],
                   },
                   [
@@ -149,6 +165,7 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
   })
 
   const loadingInstance = createApp(elLoadingComponent)
+  Object.assign(loadingInstance._context, appContext ?? {})
   const vm = loadingInstance.mount(document.createElement('div'))
 
   return {
@@ -158,8 +175,8 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
     close,
     handleAfterLeave,
     vm,
-    get $el(): HTMLElement {
-      return vm.$el
+    get $el(): HTMLElement | null {
+      return destroyed ? null : vm.$el
     },
   }
 }

@@ -1,53 +1,69 @@
-// @ts-nocheck
 import { h, inject, ref } from 'vue'
 import { debounce } from 'lodash-unified'
-import { hasClass } from '@element-plus/utils'
-import { useZIndex } from '@element-plus/hooks'
-import { createTablePopper, getCell, getColumnByCell } from '../util'
+import {
+  addClass,
+  hasClass,
+  isGreaterThan,
+  removeClass,
+} from '@element-plus/utils'
+import {
+  createTablePopper,
+  getCell,
+  getColumnByCell,
+  removePopper,
+} from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'
+
 import type { TableColumnCtx } from '../table-column/defaults'
 import type { TableBodyProps } from './defaults'
 import type { TableOverflowTooltipOptions } from '../util'
+import type { DefaultRow, Table } from '../table/defaults'
 
-function useEvents<T>(props: Partial<TableBodyProps<T>>) {
-  const parent = inject(TABLE_INJECTION_KEY)
+interface HandleEvent<T> {
+  (event: PointerEvent, row: T, name: 'click' | 'contextmenu'): void
+  (event: MouseEvent, row: T, name: 'dblclick'): void
+}
+
+function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
+  const parent = inject(TABLE_INJECTION_KEY) as Table<T>
   const tooltipContent = ref('')
   const tooltipTrigger = ref(h('div'))
-  const { nextZIndex } = useZIndex()
-  const handleEvent = (event: Event, row: T, name: string) => {
+  const handleEvent: HandleEvent<T> = (event, row, name) => {
     const table = parent
     const cell = getCell(event)
-    let column: TableColumnCtx<T>
+    let column: TableColumnCtx<T> | null = null
     const namespace = table?.vnode.el?.dataset.prefix
     if (cell) {
       column = getColumnByCell(
         {
-          columns: props.store.states.columns.value,
+          columns: props.store?.states.columns.value ?? [],
         },
         cell,
         namespace
       )
       if (column) {
+        // @ts-expect-error
         table?.emit(`cell-${name}`, row, column, cell, event)
       }
     }
+    // @ts-expect-error
     table?.emit(`row-${name}`, row, column, event)
   }
-  const handleDoubleClick = (event: Event, row: T) => {
+  const handleDoubleClick = (event: MouseEvent, row: T) => {
     handleEvent(event, row, 'dblclick')
   }
-  const handleClick = (event: Event, row: T) => {
-    props.store.commit('setCurrentRow', row)
+  const handleClick = (event: PointerEvent, row: T) => {
+    props.store?.commit('setCurrentRow', row)
     handleEvent(event, row, 'click')
   }
-  const handleContextMenu = (event: Event, row: T) => {
+  const handleContextMenu = (event: PointerEvent, row: T) => {
     handleEvent(event, row, 'contextmenu')
   }
   const handleMouseEnter = debounce((index: number) => {
-    props.store.commit('setHoverRow', index)
+    props.store?.commit('setHoverRow', index)
   }, 30)
   const handleMouseLeave = debounce(() => {
-    props.store.commit('setHoverRow', null)
+    props.store?.commit('setHoverRow', null)
   }, 30)
   const getPadding = (el: HTMLElement) => {
     const style = window.getComputedStyle(el, null)
@@ -62,23 +78,51 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
       bottom: paddingBottom,
     }
   }
+
+  const toggleRowClassByCell = (
+    rowSpan: number,
+    event: MouseEvent,
+    toggle: (el: Element, cls: string) => void
+  ) => {
+    let node: Node | null | undefined = (event?.target as Element | null)
+      ?.parentNode
+    while (rowSpan > 1) {
+      node = node?.nextSibling
+      if (!node || node.nodeName !== 'TR') break
+      toggle(node as Element, 'hover-row hover-fixed-row')
+      rowSpan--
+    }
+  }
+
   const handleCellMouseEnter = (
     event: MouseEvent,
     row: T,
     tooltipOptions: TableOverflowTooltipOptions
   ) => {
+    if (!parent) return
     const table = parent
     const cell = getCell(event)
     const namespace = table?.vnode.el?.dataset.prefix
+    let column: TableColumnCtx<T> | null = null
     if (cell) {
-      const column = getColumnByCell(
+      column = getColumnByCell(
         {
-          columns: props.store.states.columns.value,
+          columns: props.store?.states.columns.value ?? [],
         },
         cell,
         namespace
       )
-      const hoverState = (table.hoverState = { cell, column, row })
+      if (!column) {
+        return
+      }
+      if (cell.rowSpan > 1) {
+        toggleRowClassByCell(cell.rowSpan, event, addClass)
+      }
+      const hoverState = (table.hoverState = {
+        cell,
+        column: column as any,
+        row,
+      })
       table?.emit(
         'cell-mouse-enter',
         hoverState.row,
@@ -89,6 +133,9 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
     }
 
     if (!tooltipOptions) {
+      if (removePopper?.trigger === cell) {
+        removePopper?.()
+      }
       return
     }
 
@@ -96,12 +143,11 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
     const cellChild = (event.target as HTMLElement).querySelector(
       '.cell'
     ) as HTMLElement
-    if (
-      !(
-        hasClass(cellChild, `${namespace}-tooltip`) &&
-        cellChild.childNodes.length
-      )
-    ) {
+    if (!(
+      hasClass(cellChild, `${namespace}-tooltip`) &&
+      cellChild.childNodes.length &&
+      cellChild.textContent?.trim()
+    )) {
       return
     }
     // use range width instead of scrollWidth to determine whether the text is overflowing
@@ -115,35 +161,46 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
      *    - Expected: 188
      *    - Actual: 188.00000762939453
      */
-    const rangeWidth = Math.round(range.getBoundingClientRect().width)
-    const rangeHeight = Math.round(range.getBoundingClientRect().height)
+    const { width: rangeWidth, height: rangeHeight } =
+      range.getBoundingClientRect()
+    const { width: cellChildWidth, height: cellChildHeight } =
+      cellChild.getBoundingClientRect()
+
     const { top, left, right, bottom } = getPadding(cellChild)
     const horizontalPadding = left + right
     const verticalPadding = top + bottom
     if (
-      rangeWidth + horizontalPadding > cellChild.offsetWidth ||
-      rangeHeight + verticalPadding > cellChild.offsetHeight ||
-      cellChild.scrollWidth > cellChild.offsetWidth
+      isGreaterThan(rangeWidth + horizontalPadding, cellChildWidth) ||
+      isGreaterThan(rangeHeight + verticalPadding, cellChildHeight) ||
+      // When using a high-resolution screen, it is possible that a returns cellChild.scrollWidth value of 1921 and
+      // cellChildWidth returns a value of 1920.994140625. #16856 #16673
+      isGreaterThan(cellChild.scrollWidth, cellChildWidth)
     ) {
       createTablePopper(
-        parent?.refs.tableWrapper,
+        tooltipOptions,
+        (cell?.innerText || cell?.textContent) ?? '',
+        row,
+        column,
         cell,
-        cell.innerText || cell.textContent,
-        nextZIndex,
-        tooltipOptions
+        table
       )
+    } else if (removePopper?.trigger === cell) {
+      removePopper?.()
     }
   }
-  const handleCellMouseLeave = (event) => {
+  const handleCellMouseLeave = (event: MouseEvent) => {
     const cell = getCell(event)
     if (!cell) return
-
-    const oldHoverState = parent?.hoverState
+    if (cell.rowSpan > 1) {
+      toggleRowClassByCell(cell.rowSpan, event, removeClass)
+    }
+    // From the normal user interaction flow, it should never be empty. However, to avoid potential runtime errors, we still keep this defensive optional handling.
+    const oldHoverState = parent?.hoverState as NonNullable<Table['hoverState']>
     parent?.emit(
       'cell-mouse-leave',
       oldHoverState?.row,
       oldHoverState?.column,
-      oldHoverState?.cell,
+      oldHoverState?.cell as HTMLTableCellElement,
       event
     )
   }

@@ -1,9 +1,23 @@
 export default {
   name: 'ro',
   el: {
+    breadcrumb: {
+      label: 'Cale de navigare',
+    },
     colorpicker: {
       confirm: 'OK',
       clear: 'Șterge',
+      defaultLabel: 'Selector de culori',
+      description:
+        'Culoarea curentă este {color}. Apăsați Enter pentru a selecta o culoare nouă.',
+      alphaLabel: 'Selectează valoarea alfa',
+      alphaDescription: 'Alfa {alpha}, culoarea curentă este {color}',
+      hueLabel: 'Selectează valoarea nuanței',
+      hueDescription: 'Nuanță {hue}, culoarea curentă este {color}',
+      svLabel: 'Selectează saturația și luminozitatea',
+      svDescription:
+        'Saturație {saturation}, luminozitate {brightness}, culoarea curentă este {color}',
+      predefineDescription: 'Selectează culoarea {value}',
     },
     datepicker: {
       now: 'Acum',
@@ -11,6 +25,15 @@ export default {
       cancel: 'Anulează',
       clear: 'Șterge',
       confirm: 'OK',
+      dateTablePrompt:
+        'Folosiți tastele cu săgeți și Enter pentru a selecta ziua din lună',
+      monthTablePrompt:
+        'Folosiți tastele cu săgeți și Enter pentru a selecta luna',
+      quarterTablePrompt:
+        'Folosiți tastele cu săgeți și Enter pentru a selecta trimestrul',
+      yearTablePrompt:
+        'Folosiți tastele cu săgeți și Enter pentru a selecta anul',
+      selectedDate: 'Data selectată',
       selectDate: 'Selectează data',
       selectTime: 'Selectează ora',
       startDate: 'Data de început',
@@ -34,7 +57,6 @@ export default {
       month10: 'Octombrie',
       month11: 'Noiembrie',
       month12: 'Decembrie',
-      // week: 'week',
       weeks: {
         sun: 'Du',
         mon: 'Lu',
@@ -43,6 +65,15 @@ export default {
         thu: 'Jo',
         fri: 'Vi',
         sat: 'Sâ',
+      },
+      weeksFull: {
+        sun: 'Duminică',
+        mon: 'Luni',
+        tue: 'Marți',
+        wed: 'Miercuri',
+        thu: 'Joi',
+        fri: 'Vineri',
+        sat: 'Sâmbătă',
       },
       months: {
         jan: 'Ian',
@@ -59,11 +90,24 @@ export default {
         dec: 'Dec',
       },
     },
+    input: {
+      characters: '{count} / {max} caractere',
+    },
+    inputNumber: {
+      decrease: 'Micșorează valoarea',
+      increase: 'Mărește valoarea',
+    },
     select: {
       loading: 'Se încarcă',
       noMatch: 'Nu există date potrivite',
       noData: 'Nu există date',
       placeholder: 'Selectează',
+    },
+    mention: {
+      loading: 'Se încarcă',
+    },
+    dropdown: {
+      toggleDropdown: 'Comută meniul derulant',
     },
     cascader: {
       noMatch: 'Nu există date potrivite',
@@ -72,22 +116,31 @@ export default {
       noData: 'Nu există date',
     },
     pagination: {
-      goto: 'Go to',
-      pagesize: '/pagina',
+      goto: 'Mergi la',
+      pagesize: '/pagină',
       total: 'Total {total}',
       pageClassifier: '',
-      page: 'Page', // to be translated
-      prev: 'Go to previous page', // to be translated
-      next: 'Go to next page', // to be translated
-      currentPage: 'page {pager}', // to be translated
-      prevPages: 'Previous {pager} pages', // to be translated
-      nextPages: 'Next {pager} pages', // to be translated
+      page: 'Pagina',
+      prev: 'Mergi la pagina anterioară',
+      next: 'Mergi la pagina următoare',
+      currentPage: 'Pagina {pager}',
+      prevPages: '{pager} pagini anterioare',
+      nextPages: '{pager} pagini următoare',
+      deprecationWarning:
+        'Au fost detectate utilizări învechite, consultați documentația el-pagination pentru mai multe detalii',
+    },
+    dialog: {
+      close: 'Închide această fereastră de dialog',
+    },
+    drawer: {
+      close: 'Închide această fereastră de dialog',
     },
     messagebox: {
       title: 'Mesaj',
       confirm: 'OK',
       cancel: 'Anulează',
       error: 'Date introduse eronate',
+      close: 'Închide această fereastră de dialog',
     },
     upload: {
       deleteTip: 'apăsați pe ștergeți pentru a elimina',
@@ -95,12 +148,32 @@ export default {
       preview: 'previzualizare',
       continue: 'continuă',
     },
+    slider: {
+      defaultLabel: 'Glisor între {min} și {max}',
+      defaultRangeStartLabel: 'Selectează valoarea de început',
+      defaultRangeEndLabel: 'Selectează valoarea de sfârșit',
+    },
     table: {
       emptyText: 'Nu există date',
       confirmFilter: 'Confirmă',
       resetFilter: 'Resetează',
       clearFilter: 'Tot',
       sumText: 'Suma',
+      selectAllLabel: 'Selectează toate rândurile',
+      selectRowLabel: 'Selectează acest rând',
+      expandRowLabel: 'Extinde acest rând',
+      collapseRowLabel: 'Restrânge acest rând',
+      sortLabel: 'Sortează după {column}',
+      filterLabel: 'Filtrează după {column}',
+    },
+    tag: {
+      close: 'Închide această etichetă',
+    },
+    tour: {
+      next: 'Următorul',
+      previous: 'Anterior',
+      finish: 'Finalizează',
+      close: 'Închide această fereastră de dialog',
     },
     tree: {
       emptyText: 'Nu există date',
@@ -114,14 +187,23 @@ export default {
       hasCheckedFormat: '{checked}/{total} verificate',
     },
     image: {
-      error: 'FAILED', // to be translated
+      error: 'Eroare',
     },
     pageHeader: {
-      title: 'Back', // to be translated
+      title: 'Înapoi',
     },
     popconfirm: {
-      confirmButtonText: 'Yes', // to be translated
-      cancelButtonText: 'No', // to be translated
+      confirmButtonText: 'Da',
+      cancelButtonText: 'Nu',
+    },
+    carousel: {
+      leftArrow: 'Săgeata din stânga a caruselului',
+      rightArrow: 'Săgeata din dreapta a caruselului',
+      indicator: 'Comută caruselul la poziția {index}',
+    },
+    inputOTP: {
+      groupLabel: 'Introducere cod OTP',
+      defaultLabel: 'Introduceți caracterul {index} al codului OTP',
     },
   },
 }

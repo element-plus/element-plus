@@ -7,14 +7,16 @@
     :height="400"
   />
 </template>
+
 <script lang="tsx" setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import {
   ElButton,
   ElCheckbox,
   ElIcon,
   ElPopover,
   TableV2FixedDir,
+  useLocale,
 } from 'element-plus'
 import { Filter } from '@element-plus/icons-vue'
 
@@ -49,8 +51,13 @@ const generateData = (
 const columns = generateColumns(10)
 const data = ref(generateData(columns, 200))
 
+const { t } = useLocale()
 const shouldFilter = ref(false)
 const popoverRef = ref()
+
+const ariaLabel = computed(() => {
+  return t('el.table.filterLabel', { column: columns[0].title })
+})
 
 const onFilter = () => {
   popoverRef.value.hide()
@@ -66,11 +73,21 @@ const onReset = () => {
   onFilter()
 }
 
+const handleShowPopover = () => {
+  const button = document.querySelector('.el-table-v2__demo-filter button')
+  ;(button as HTMLElement)?.focus()
+}
+
 columns[0].headerCellRenderer = (props: HeaderCellSlotProps) => {
   return (
     <div class="flex items-center justify-center">
       <span class="mr-2 text-xs">{props.column.title}</span>
-      <ElPopover ref={popoverRef} trigger="click" {...{ width: 200 }}>
+      <ElPopover
+        ref={popoverRef}
+        trigger="click"
+        width={200}
+        onAfter-enter={handleShowPopover}
+      >
         {{
           default: () => (
             <div class="filter-wrapper">
@@ -90,9 +107,15 @@ columns[0].headerCellRenderer = (props: HeaderCellSlotProps) => {
             </div>
           ),
           reference: () => (
-            <ElIcon class="cursor-pointer">
-              <Filter />
-            </ElIcon>
+            <button
+              type="button"
+              aria-label={ariaLabel.value}
+              class="el-table-v2__demo-filter-btn"
+            >
+              <ElIcon size={14}>
+                <Filter />
+              </ElIcon>
+            </button>
           ),
         }}
       </ElPopover>
@@ -115,5 +138,14 @@ const fixedColumns = columns.map((column, columnIndex) => {
   padding: 0 12px;
   display: flex;
   justify-content: space-between;
+}
+.el-table-v2__demo-filter-btn {
+  display: flex;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  appearance: none;
+  border: none;
 }
 </style>

@@ -4,8 +4,11 @@
       :model-value="innerPageSize"
       :disabled="disabled"
       :popper-class="popperClass"
+      :popper-style="popperStyle"
       :size="size"
+      :teleported="teleported"
       :validate-event="false"
+      :append-to="appendSizeTo"
       @change="handleChange"
     >
       <el-option
@@ -23,6 +26,7 @@ import { computed, ref, watch } from 'vue'
 import { isEqual } from 'lodash-unified'
 import { ElOption, ElSelect } from '@element-plus/components/select'
 import { useLocale, useNamespace } from '@element-plus/hooks'
+import { isArray } from '@element-plus/utils'
 import { usePagination } from '../usePagination'
 import { paginationSizesProps } from './sizes'
 
@@ -41,7 +45,7 @@ watch(
   () => props.pageSizes,
   (newVal, oldVal) => {
     if (isEqual(newVal, oldVal)) return
-    if (Array.isArray(newVal)) {
+    if (isArray(newVal)) {
       const pageSize = newVal.includes(props.pageSize!)
         ? props.pageSize
         : props.pageSizes[0]

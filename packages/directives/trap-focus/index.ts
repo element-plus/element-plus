@@ -1,6 +1,7 @@
 import { nextTick } from 'vue'
-import { obtainAllFocusableElements } from '@element-plus/utils'
+import { getEventCode, obtainAllFocusableElements } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
+
 import type { ObjectDirective } from 'vue'
 
 export const FOCUSABLE_CHILDREN = '_trap-focus-children'
@@ -16,9 +17,10 @@ const FOCUS_STACK: TrapFocusElement[] = []
 const FOCUS_HANDLER = (e: KeyboardEvent) => {
   // Getting the top layer.
   if (FOCUS_STACK.length === 0) return
+  const code = getEventCode(e)
   const focusableElement =
     FOCUS_STACK[FOCUS_STACK.length - 1][FOCUSABLE_CHILDREN]
-  if (focusableElement.length > 0 && e.code === EVENT_CODE.tab) {
+  if (focusableElement.length > 0 && code === EVENT_CODE.tab) {
     if (focusableElement.length === 1) {
       e.preventDefault()
       if (document.activeElement !== focusableElement[0]) {

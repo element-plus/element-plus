@@ -1,6 +1,8 @@
 import { computed, inject, nextTick, ref, watch } from 'vue'
-import { debounce } from 'lodash-unified'
+import { clamp, debounce } from 'lodash-unified'
+import { useEventListener } from '@vueuse/core'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { getEventCode, isNumber } from '@element-plus/utils'
 import { sliderContextKey } from '../constants'
 
 import type { CSSProperties, ComputedRef, Ref, SetupContext } from 'vue'
@@ -10,16 +12,14 @@ import type {
   SliderButtonInitData,
   SliderButtonProps,
 } from '../button'
-
-const { left, down, right, up, home, end, pageUp, pageDown } = EVENT_CODE
+import type { TooltipInstance } from '@element-plus/components/tooltip'
 
 const useTooltip = (
   props: SliderButtonProps,
   formatTooltip: Ref<SliderProps['formatTooltip']>,
   showTooltip: Ref<SliderProps['showTooltip']>
 ) => {
-  // TODO any is temporary, replace with `TooltipInstance` later
-  const tooltip = ref<any>()
+  const tooltip = ref<TooltipInstance>()
 
   const tooltipVisible = ref(false)
 
@@ -62,12 +62,14 @@ export const useSliderButton = (
     max,
     step,
     showTooltip,
+    persistent,
     precision,
     sliderSize,
     formatTooltip,
     emitChange,
     resetSize,
     updateDragging,
+    markList,
   } = inject(sliderContextKey)!
 
   const { tooltip, tooltipVisible, formatValue, displayTooltip, hideTooltip } =
@@ -85,6 +87,10 @@ export const useSliderButton = (
     return props.vertical
       ? { bottom: currentPosition.value }
       : { left: currentPosition.value }
+  })
+
+  const shouldMoveToMark = computed(() => {
+    return step.value === 'mark' && markList.value.length > 0
   })
 
   const handleMouseEnter = () => {
@@ -120,20 +126,77 @@ export const useSliderButton = (
     emitChange()
   }
 
+  const moveToMark = (amount: number) => {
+    if (disabled.value || !markList.value.length) return
+
+    const current = props.modelValue
+    const epsilon = Number.EPSILON
+    const stride = Math.abs(amount)
+    let target: number | undefined
+
+    if (amount > 0) {
+      const startIndex = markList.value.findIndex(
+        (m) => m.point > current + epsilon
+      )
+      if (startIndex !== -1) {
+        const targetIndex = Math.min(
+          startIndex + stride - 1,
+          markList.value.length - 1
+        )
+        target = markList.value[targetIndex].point
+      }
+    } else {
+      let startIndex = -1
+      for (let i = markList.value.length - 1; i >= 0; i--) {
+        if (markList.value[i].point < current - epsilon) {
+          startIndex = i
+          break
+        }
+      }
+
+      if (startIndex !== -1) {
+        const targetIndex = Math.max(startIndex - (stride - 1), 0)
+        target = markList.value[targetIndex].point
+      }
+    }
+
+    if (target !== undefined && target !== current) {
+      const newPos = ((target - min.value) / (max.value - min.value)) * 100
+      setPosition(newPos)
+      emitChange()
+    }
+  }
+
   const onLeftKeyDown = () => {
-    incrementPosition(-step.value)
+    if (shouldMoveToMark.value) {
+      moveToMark(-1)
+    } else if (isNumber(step.value)) {
+      incrementPosition(-step.value)
+    }
   }
 
   const onRightKeyDown = () => {
-    incrementPosition(step.value)
+    if (shouldMoveToMark.value) {
+      moveToMark(1)
+    } else if (isNumber(step.value)) {
+      incrementPosition(step.value)
+    }
   }
 
   const onPageDownKeyDown = () => {
-    incrementPosition(-step.value * 4)
+    if (shouldMoveToMark.value) {
+      moveToMark(-4)
+    } else if (isNumber(step.value)) {
+      incrementPosition(-step.value * 4)
+    }
   }
 
   const onPageUpKeyDown = () => {
-    incrementPosition(step.value * 4)
+    if (shouldMoveToMark.value) {
+      moveToMark(4)
+    } else if (isNumber(step.value)) {
+      incrementPosition(step.value * 4)
+    }
   }
 
   const onHomeKeyDown = () => {
@@ -149,22 +212,35 @@ export const useSliderButton = (
   }
 
   const onKeyDown = (event: KeyboardEvent) => {
+    const code = getEventCode(event)
     let isPreventDefault = true
-    if ([left, down].includes(event.key)) {
-      onLeftKeyDown()
-    } else if ([right, up].includes(event.key)) {
-      onRightKeyDown()
-    } else if (event.key === home) {
-      onHomeKeyDown()
-    } else if (event.key === end) {
-      onEndKeyDown()
-    } else if (event.key === pageDown) {
-      onPageDownKeyDown()
-    } else if (event.key === pageUp) {
-      onPageUpKeyDown()
-    } else {
-      isPreventDefault = false
+
+    switch (code) {
+      case EVENT_CODE.left:
+      case EVENT_CODE.down:
+        onLeftKeyDown()
+        break
+      case EVENT_CODE.right:
+      case EVENT_CODE.up:
+        onRightKeyDown()
+        break
+      case EVENT_CODE.home:
+        onHomeKeyDown()
+        break
+      case EVENT_CODE.end:
+        onEndKeyDown()
+        break
+      case EVENT_CODE.pageDown:
+        onPageDownKeyDown()
+        break
+      case EVENT_CODE.pageUp:
+        onPageUpKeyDown()
+        break
+      default:
+        isPreventDefault = false
+        break
     }
+
     isPreventDefault && event.preventDefault()
   }
 
@@ -242,16 +318,38 @@ export const useSliderButton = (
 
   const setPosition = async (newPosition: number) => {
     if (newPosition === null || Number.isNaN(+newPosition)) return
-    if (newPosition < 0) {
-      newPosition = 0
-    } else if (newPosition > 100) {
-      newPosition = 100
+
+    newPosition = clamp(newPosition, 0, 100)
+    let value: number
+
+    if (step.value === 'mark') {
+      if (markList.value.length === 0) {
+        value = newPosition <= 50 ? min.value : max.value
+      } else {
+        const closestMark = markList.value.reduce((prev, curr) => {
+          return Math.abs(curr.position - newPosition) <
+            Math.abs(prev.position - newPosition)
+            ? curr
+            : prev
+        })
+        value = closestMark.point
+      }
+    } else {
+      const fullSteps = Math.floor((max.value - min.value) / step.value)
+      const fullRangePercentage =
+        ((fullSteps * step.value) / (max.value - min.value)) * 100
+      const threshold = fullRangePercentage + (100 - fullRangePercentage) / 2
+      if (newPosition < fullRangePercentage) {
+        const valueBetween = fullRangePercentage / fullSteps
+        const steps = Math.round(newPosition / valueBetween)
+        value = min.value + steps * step.value
+      } else if (newPosition < threshold) {
+        value = min.value + fullSteps * step.value
+      } else {
+        value = max.value
+      }
+      value = Number.parseFloat(value.toFixed(precision.value))
     }
-    const lengthPerStep = 100 / ((max.value - min.value) / step.value)
-    const steps = Math.round(newPosition / lengthPerStep)
-    let value =
-      steps * lengthPerStep * (max.value - min.value) * 0.01 + min.value
-    value = Number.parseFloat(value.toFixed(precision.value))
 
     if (value !== props.modelValue) {
       emit(UPDATE_MODEL_EVENT, value)
@@ -273,12 +371,15 @@ export const useSliderButton = (
     }
   )
 
+  useEventListener(button, 'touchstart', onButtonDown, { passive: false })
+
   return {
     disabled,
     button,
     tooltip,
     tooltipVisible,
     showTooltip,
+    persistent,
     wrapperStyle,
     formatValue,
     handleMouseEnter,

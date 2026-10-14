@@ -27,6 +27,10 @@ describe('Tag.vue', () => {
     const wrapper = mount(() => <Tag type="success" />)
     const vm = wrapper.vm
     expect(vm.$el.classList.contains('el-tag--success')).toEqual(true)
+    expect(vm.$el.classList.contains('el-tag--primary')).toEqual(false)
+    expect(vm.$el.classList.contains('el-tag--danger')).toEqual(false)
+    expect(vm.$el.classList.contains('el-tag--info')).toEqual(false)
+    expect(vm.$el.classList.contains('el-tag--warning')).toEqual(false)
   })
 
   test('hit', () => {
@@ -45,9 +49,10 @@ describe('Tag.vue', () => {
     expect(comp.emitted().close).toBeTruthy()
   })
 
-  test('closeTransition', () => {
-    const wrapper = mount(() => <Tag closeTransition={true} />)
+  test('disableTransitions', () => {
+    const wrapper = mount(() => <Tag disableTransitions={true} />)
     const vm = wrapper.vm
+    // FIXME: This check actually is useless as there is no the class `md-fade-center` in the code.
     expect(vm.$el.classList.contains('md-fade-center')).toEqual(false)
   })
 

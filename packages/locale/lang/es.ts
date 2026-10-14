@@ -1,9 +1,23 @@
 export default {
   name: 'es',
   el: {
+    breadcrumb: {
+      label: 'Ruta de navegación',
+    },
     colorpicker: {
       confirm: 'Confirmar',
       clear: 'Despejar',
+      defaultLabel: 'selector de color',
+      description:
+        'el color actual es {color}. Pulse Intro para seleccionar un nuevo color.',
+      alphaLabel: 'seleccionar valor alfa',
+      alphaDescription: 'alfa {alpha}, el color actual es {color}',
+      hueLabel: 'seleccionar valor de tono',
+      hueDescription: 'tono {hue}, el color actual es {color}',
+      svLabel: 'seleccionar valor de saturación y brillo',
+      svDescription:
+        'saturación {saturation}, brillo {brightness}, el color actual es {color}',
+      predefineDescription: 'seleccionar {value} como color',
     },
     datepicker: {
       now: 'Ahora',
@@ -11,6 +25,15 @@ export default {
       cancel: 'Cancelar',
       clear: 'Despejar',
       confirm: 'Confirmar',
+      dateTablePrompt:
+        'Use las teclas de flecha e Intro para seleccionar el día del mes',
+      monthTablePrompt:
+        'Use las teclas de flecha e Intro para seleccionar el mes',
+      quarterTablePrompt:
+        'Use las teclas de flecha e Intro para seleccionar el trimestre',
+      yearTablePrompt:
+        'Use las teclas de flecha e Intro para seleccionar el año',
+      selectedDate: 'Fecha seleccionada',
       selectDate: 'Seleccionar fecha',
       selectTime: 'Seleccionar hora',
       startDate: 'Fecha Incial',
@@ -34,7 +57,6 @@ export default {
       month10: 'octubre',
       month11: 'noviembre',
       month12: 'diciembre',
-      // week: 'semana',
       weeks: {
         sun: 'dom',
         mon: 'lun',
@@ -43,6 +65,15 @@ export default {
         thu: 'jue',
         fri: 'vie',
         sat: 'sáb',
+      },
+      weeksFull: {
+        sun: 'domingo',
+        mon: 'lunes',
+        tue: 'martes',
+        wed: 'miércoles',
+        thu: 'jueves',
+        fri: 'viernes',
+        sat: 'sábado',
       },
       months: {
         jan: 'ene',
@@ -59,11 +90,24 @@ export default {
         dec: 'dic',
       },
     },
+    input: {
+      characters: '{count} / {max} caracteres',
+    },
+    inputNumber: {
+      decrease: 'disminuir número',
+      increase: 'aumentar número',
+    },
     select: {
       loading: 'Cargando',
       noMatch: 'No hay datos que coincidan',
       noData: 'Sin datos',
       placeholder: 'Seleccionar',
+    },
+    mention: {
+      loading: 'Cargando',
+    },
+    dropdown: {
+      toggleDropdown: 'Mostrar u ocultar menú desplegable',
     },
     cascader: {
       noMatch: 'No hay datos que coincidan',
@@ -76,17 +120,27 @@ export default {
       pagesize: '/página',
       total: 'Total {total}',
       pageClassifier: '',
-      page: 'Page', // to be translated
-      prev: 'Go to previous page', // to be translated
-      next: 'Go to next page', // to be translated
-      currentPage: 'page {pager}', // to be translated
-      prevPages: 'Previous {pager} pages', // to be translated
-      nextPages: 'Next {pager} pages', // to be translated
+      page: 'Página',
+      prev: 'Ir a la página anterior',
+      next: 'Ir a la página siguiente',
+      currentPage: 'página {pager}',
+      prevPages: '{pager} páginas anteriores',
+      nextPages: '{pager} páginas siguientes',
+      deprecationWarning:
+        'Se han detectado usos obsoletos, consulte la documentación de el-pagination para más detalles',
+    },
+    dialog: {
+      close: 'Cerrar este diálogo',
+    },
+    drawer: {
+      close: 'Cerrar este diálogo',
     },
     messagebox: {
+      title: 'Mensaje',
       confirm: 'Aceptar',
       cancel: 'Cancelar',
       error: 'Entrada inválida',
+      close: 'Cerrar este diálogo',
     },
     upload: {
       deleteTip: 'Pulse Eliminar para retirar',
@@ -94,12 +148,32 @@ export default {
       preview: 'Vista Previa',
       continue: 'Continuar',
     },
+    slider: {
+      defaultLabel: 'control deslizante entre {min} y {max}',
+      defaultRangeStartLabel: 'seleccionar valor inicial',
+      defaultRangeEndLabel: 'seleccionar valor final',
+    },
     table: {
       emptyText: 'Sin Datos',
       confirmFilter: 'Confirmar',
       resetFilter: 'Reiniciar',
       clearFilter: 'Despejar',
       sumText: 'Suma',
+      selectAllLabel: 'Seleccionar todas las filas',
+      selectRowLabel: 'Seleccionar esta fila',
+      expandRowLabel: 'Expandir esta fila',
+      collapseRowLabel: 'Contraer esta fila',
+      sortLabel: 'Ordenar por {column}',
+      filterLabel: 'Filtrar por {column}',
+    },
+    tag: {
+      close: 'Cerrar esta etiqueta',
+    },
+    tour: {
+      next: 'Siguiente',
+      previous: 'Anterior',
+      finish: 'Finalizar',
+      close: 'Cerrar este diálogo',
     },
     tree: {
       emptyText: 'Sin Datos',
@@ -121,6 +195,15 @@ export default {
     popconfirm: {
       confirmButtonText: 'Si',
       cancelButtonText: 'No',
+    },
+    carousel: {
+      leftArrow: 'Flecha izquierda del carrusel',
+      rightArrow: 'Flecha derecha del carrusel',
+      indicator: 'Cambiar el carrusel al índice {index}',
+    },
+    inputOTP: {
+      groupLabel: 'Entrada de código OTP',
+      defaultLabel: 'Introduzca el carácter {index} del código OTP',
     },
   },
 }

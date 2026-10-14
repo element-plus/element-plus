@@ -50,7 +50,7 @@ export default defineComponent({
 
     const updateLabelWidth = (action: 'update' | 'remove' = 'update') => {
       nextTick(() => {
-        if (slots.default && props.isAutoWidth) {
+        if (formItemContext.hasLabel && props.isAutoWidth) {
           if (action === 'update') {
             computedWidth.value = getLabelWidth()
           } else if (action === 'remove') {
@@ -95,8 +95,12 @@ export default defineComponent({
             0,
             Number.parseInt(autoLabelWidth, 10) - computedWidth.value
           )
+          const labelPosition =
+            formItemContext.labelPosition || formContext.labelPosition
+
           const marginPosition =
-            formContext.labelPosition === 'left' ? 'marginRight' : 'marginLeft'
+            labelPosition === 'left' ? 'marginRight' : 'marginLeft'
+
           if (marginWidth) {
             style[marginPosition] = `${marginWidth}px`
           }

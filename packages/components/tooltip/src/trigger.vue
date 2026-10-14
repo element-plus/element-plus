@@ -16,21 +16,31 @@
     <slot />
   </el-popper-trigger>
 </template>
+
 <script lang="ts" setup>
-import { inject, ref, toRef, unref } from 'vue'
+import { inject, nextTick, ref, toRef, unref } from 'vue'
 import { ElPopperTrigger } from '@element-plus/components/popper'
-import { composeEventHandlers } from '@element-plus/utils'
+import {
+  composeEventHandlers,
+  focusElement,
+  getEventCode,
+} from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { TOOLTIP_INJECTION_KEY } from './constants'
-import { useTooltipTriggerProps } from './trigger'
 import { whenTrigger } from './utils'
+import { useTooltipTriggerPropsDefaults } from './trigger'
+
+import type { UseTooltipTriggerProps } from './trigger'
 import type { OnlyChildExpose } from '@element-plus/components/slot'
 
 defineOptions({
   name: 'ElTooltipTrigger',
 })
 
-const props = defineProps(useTooltipTriggerProps)
+const props = withDefaults(
+  defineProps<UseTooltipTriggerProps>(),
+  useTooltipTriggerPropsDefaults
+)
 
 const ns = useNamespace('tooltip')
 const { controlled, id, open, onOpen, onClose, onToggle } = inject(
@@ -48,7 +58,15 @@ const stopWhenControlledOrDisabled = () => {
 const trigger = toRef(props, 'trigger')
 const onMouseenter = composeEventHandlers(
   stopWhenControlledOrDisabled,
-  whenTrigger(trigger, 'hover', onOpen)
+  whenTrigger(trigger, 'hover', (e) => {
+    onOpen(e)
+
+    if (props.focusOnTarget && e.target) {
+      nextTick(() => {
+        focusElement(e.target as HTMLElement, { preventScroll: true })
+      })
+    }
+  })
 )
 const onMouseleave = composeEventHandlers(
   stopWhenControlledOrDisabled,
@@ -84,8 +102,8 @@ const onContextMenu = composeEventHandlers(
 
 const onKeydown = composeEventHandlers(
   stopWhenControlledOrDisabled,
-  (e: KeyboardEvent) => {
-    const { code } = e
+  (e: Event) => {
+    const code = getEventCode(e as KeyboardEvent)
     if (props.triggerKeys.includes(code)) {
       e.preventDefault()
       onToggle(e)

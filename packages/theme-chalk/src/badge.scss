@@ -45,6 +45,10 @@
       border-radius: 50%;
     }
 
+    @include when(hide-zero) {
+      display: none;
+    }
+
     @each $type in (primary, success, warning, info, danger) {
       @include m($type) {
         background-color: getCssVar('color', $type);

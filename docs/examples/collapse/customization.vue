@@ -2,10 +2,13 @@
   <div class="demo-collapse">
     <el-collapse accordion>
       <el-collapse-item name="1">
-        <template #title>
-          Consistency<el-icon class="header-icon">
-            <info-filled />
-          </el-icon>
+        <template #title="{ isActive }">
+          <div :class="['title-wrapper', { 'is-active': isActive }]">
+            Consistency
+            <el-icon class="header-icon">
+              <info-filled />
+            </el-icon>
+          </div>
         </template>
         <div>
           Consistent with real life: in line with the process and logic of real
@@ -57,3 +60,15 @@
 <script setup lang="ts">
 import { InfoFilled } from '@element-plus/icons-vue'
 </script>
+
+<style scoped>
+.title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.title-wrapper.is-active {
+  color: var(--el-color-primary);
+}
+</style>

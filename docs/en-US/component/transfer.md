@@ -33,6 +33,16 @@ transfer/customizable
 
 :::
 
+## Custom empty content ^(2.9.0)
+
+You can customize the content when the list is empty or when no filtering results are found.
+
+:::demo Use `left-empty` and `right-empty` slots to customize the empty content for each panel.
+
+transfer/empty-content
+
+:::
+
 ## Prop aliases
 
 By default, Transfer looks for `key`, `label` and `disabled` in a data item. If your data items have different key names, you can use the `props` attribute to define aliases.
@@ -43,43 +53,102 @@ transfer/prop-alias
 
 :::
 
-## Attributes
+## Virtual Scroll ^(2.14.3)
 
-| Name                  | Description                                                                                                                                                                                                                                                                        | Type                              | Accepted Values           | Default                                                                   |
-| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- | ------------------------- | ------------------------------------------------------------------------- |
-| model-value / v-model | binding value                                                                                                                                                                                                                                                                      | array                             | —                         | —                                                                         |
-| data                  | data source                                                                                                                                                                                                                                                                        | `Array<{ key, label, disabled }>` | —                         | [ ]                                                                       |
-| filterable            | whether Transfer is filterable                                                                                                                                                                                                                                                     | boolean                           | —                         | false                                                                     |
-| filter-placeholder    | placeholder for the filter input                                                                                                                                                                                                                                                   | string                            | —                         | Enter keyword                                                             |
-| filter-method         | custom filter method                                                                                                                                                                                                                                                               | function                          | —                         | —                                                                         |
-| target-order          | order strategy for elements in the target list. If set to `original`, the elements will keep the same order as the data source. If set to `push`, the newly added elements will be pushed to the bottom. If set to `unshift`, the newly added elements will be inserted on the top | string                            | original / push / unshift | original                                                                  |
-| titles                | custom list titles                                                                                                                                                                                                                                                                 | array                             | —                         | ['List 1', 'List 2']                                                      |
-| button-texts          | custom button texts                                                                                                                                                                                                                                                                | array                             | —                         | [ ]                                                                       |
-| render-content        | custom render function for data items                                                                                                                                                                                                                                              | function(h, option)               | —                         | —                                                                         |
-| format                | texts for checking status in list header                                                                                                                                                                                                                                           | `{ noChecked, hasChecked }`       | —                         | `{ noChecked: '${checked}/${total}', hasChecked: '${checked}/${total}' }` |
-| props                 | prop aliases for data source                                                                                                                                                                                                                                                       | `{ key, label, disabled }`        | —                         | —                                                                         |
-| left-default-checked  | key array of initially checked data items of the left list                                                                                                                                                                                                                         | array                             | —                         | [ ]                                                                       |
-| right-default-checked | key array of initially checked data items of the right list                                                                                                                                                                                                                        | array                             | —                         | [ ]                                                                       |
-| validate-event        | whether to trigger form validation                                                                                                                                                                                                                                                 | boolean                           | -                         | true                                                                      |
+When dealing with large amounts of data, you can enable virtual scrolling to improve performance.
 
-## Slots
+:::demo Set `virtual-scroll` to `true` to enable virtual scrolling. You can also customize the item height with `item-size`. Default item size is 30px.
 
-| Name         | Description                                                      |
-| ------------ | ---------------------------------------------------------------- |
-| —            | Custom content for data items. The scope parameter is { option } |
-| left-footer  | content of left list footer                                      |
-| right-footer | content of right list footer                                     |
+transfer/virtual-scroll
 
-## Methods
+:::
 
-| Method     | Description                                 | Parameters       |
-| ---------- | ------------------------------------------- | ---------------- |
-| clearQuery | clear the filter keyword of a certain panel | 'left' / 'right' |
+## Transfer API
 
-## Events
+### Transfer Attributes
 
-| Name               | Description                                                                         | Parameters                                                                                             |
-| ------------------ | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| change             | triggers when data items change in the right list                                   | key array of current data items in the right list, transfer direction (left or right), moved item keys |
-| left-check-change  | triggers when end user changes the checked state of any data item in the left list  | key array of currently checked items, key array of items whose checked state have changed              |
-| right-check-change | triggers when end user changes the checked state of any data item in the right list | key array of currently checked items, key array of items whose checked state have changed              |
+| Name                        | Description                                                                                                                                                                                                                                                                        | Type                                                               | Default  |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | -------- |
+| model-value / v-model       | binding value                                                                                                                                                                                                                                                                      | ^[array]`Array<string \| number>`                                  | []       |
+| data                        | data source                                                                                                                                                                                                                                                                        | ^[array]`Record<string, any>[]`                                    | []       |
+| filterable                  | whether Transfer is filterable                                                                                                                                                                                                                                                     | ^[boolean]                                                         | false    |
+| filter-placeholder          | placeholder for the filter input                                                                                                                                                                                                                                                   | ^[string]                                                          | —        |
+| filter-method               | custom filter method                                                                                                                                                                                                                                                               | ^[Function]`(query: string, item: Record<string, any>) => boolean` | —        |
+| target-order                | order strategy for elements in the target list. If set to `original`, the elements will keep the same order as the data source. If set to `push`, the newly added elements will be pushed to the bottom. If set to `unshift`, the newly added elements will be inserted on the top | ^[enum]`'original' \| 'push' \| 'unshift'`                         | original |
+| titles                      | custom list titles                                                                                                                                                                                                                                                                 | ^[array]`[string, string]`                                         | []       |
+| button-texts                | custom button texts                                                                                                                                                                                                                                                                | ^[array]`[string, string]`                                         | []       |
+| render-content              | custom render function for data items                                                                                                                                                                                                                                              | ^[object]`renderContent`                                           | —        |
+| format                      | texts for checking status in list header                                                                                                                                                                                                                                           | ^[object]`TransferFormat`                                          | {}       |
+| [props](#type-declarations) | prop aliases for data source                                                                                                                                                                                                                                                       | ^[object]`TransferPropsAlias`                                      | —        |
+| left-default-checked        | key array of initially checked data items of the left list                                                                                                                                                                                                                         | ^[array]`Array<string \| number>`                                  | []       |
+| right-default-checked       | key array of initially checked data items of the right list                                                                                                                                                                                                                        | ^[array]`Array<string \| number>`                                  | []       |
+| validate-event              | whether to trigger form validation                                                                                                                                                                                                                                                 | ^[boolean]                                                         | true     |
+| virtual-scroll ^(2.14.3)    | whether to enable virtual scrolling                                                                                                                                                                                                                                                | ^[boolean]                                                         | false    |
+| item-size ^(2.14.3)         | item height for virtual scrolling                                                                                                                                                                                                                                                  | ^[number]                                                          | 30       |
+
+### Transfer Events
+
+| Name               | Description                                                                         | Type                                                                                                |
+| ------------------ | ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| change             | triggers when data items change in the right list                                   | ^[Function]`(value: TransferKey[], direction: TransferDirection, movedKeys: TransferKey[]) => void` |
+| left-check-change  | triggers when end user changes the checked state of any data item in the left list  | ^[Function]`(value: TransferKey[], movedKeys?: TransferKey[]) => void`                              |
+| right-check-change | triggers when end user changes the checked state of any data item in the right list | ^[Function]`(value: TransferKey[], movedKeys?: TransferKey[]) => void`                              |
+
+### Transfer Slots
+
+| Name                 | Description                                                          | Type                                    |
+| -------------------- | -------------------------------------------------------------------- | --------------------------------------- |
+| default              | Custom content for data items.                                       | ^[object]`{ option: TransferDataItem }` |
+| left-footer          | content of left list footer                                          | —                                       |
+| right-footer         | content of right list footer                                         | —                                       |
+| left-empty ^(2.9.0)  | content when left panel is empty or when no data matches the filter  | —                                       |
+| right-empty ^(2.9.0) | content when right panel is empty or when no data matches the filter | —                                       |
+
+### Transfer Exposes
+
+| Name       | Description                                 | Type                                            |
+| ---------- | ------------------------------------------- | ----------------------------------------------- |
+| clearQuery | clear the filter keyword of a certain panel | ^[Function]`(which: TransferDirection) => void` |
+| leftPanel  | left panel ref                              | ^[object]`Ref<TransferPanelInstance>`           |
+| rightPanel | right panel ref                             | ^[object]`Ref<TransferPanelInstance>`           |
+
+## Transfer Panel API
+
+### Transfer Panel Exposes
+
+| Name  | Description    | Type      |
+| ----- | -------------- | --------- |
+| query | filter keyword | ^[string] |
+
+## Type Declarations
+
+<details>
+  <summary>Show declarations</summary>
+
+```ts
+import type { h as H, VNode } from 'vue'
+
+type TransferKey = string | number
+
+type TransferDirection = 'left' | 'right'
+
+type TransferDataItem = Record<string, any>
+
+type renderContent<T extends TransferDataItem = TransferDataItem> = (
+  h: typeof H,
+  option: T
+) => VNode | VNode[]
+
+interface TransferFormat {
+  noChecked?: string
+  hasChecked?: string
+}
+
+interface TransferPropsAlias {
+  label?: string
+  key?: string
+  disabled?: string
+}
+```
+
+</details>

@@ -1,7 +1,9 @@
-// @ts-nocheck
-import type { IOptionProps } from './token'
+import type { OptionV2EmitFn, OptionV2Props } from './defaults'
 
-export function useOption(props: IOptionProps, { emit }) {
+export function useOption(
+  props: OptionV2Props,
+  { emit }: { emit: OptionV2EmitFn }
+) {
   return {
     hoverItem: () => {
       if (!props.disabled) {

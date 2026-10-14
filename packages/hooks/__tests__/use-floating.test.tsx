@@ -1,4 +1,4 @@
-import { computed, nextTick, reactive, ref, watch } from 'vue'
+import { computed, defineComponent, nextTick, reactive, ref, watch } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
@@ -9,59 +9,61 @@ import type { Middleware, Placement, Strategy } from '@floating-ui/dom'
 
 describe('useFloating', () => {
   const createComponent = (arrow = false) => {
-    return mount({
-      setup() {
-        const placement = ref<Placement>('bottom')
-        const strategy = ref<Strategy>('fixed')
-        const arrowRef = ref<HTMLElement>()
-        const middleware = ref<Array<Middleware>>(
-          arrow
-            ? [
-                arrowMiddleware({
-                  arrowRef,
-                }),
-              ]
-            : []
-        )
+    return mount(
+      defineComponent({
+        setup() {
+          const placement = ref<Placement>('bottom')
+          const strategy = ref<Strategy>('fixed')
+          const arrowRef = ref<HTMLElement>()
+          const middleware = ref<Array<Middleware>>(
+            arrow
+              ? [
+                  arrowMiddleware({
+                    arrowRef,
+                  }),
+                ]
+              : []
+          )
 
-        const { referenceRef, contentRef, x, y, update, middlewareData } =
-          useFloating({
-            placement,
-            strategy,
-            middleware,
+          const { referenceRef, contentRef, x, y, update, middlewareData } =
+            useFloating({
+              placement,
+              strategy,
+              middleware,
+            })
+
+          const contentStyle = computed<CSSProperties>(() => {
+            return reactive({
+              position: strategy,
+              x,
+              y,
+            })
           })
 
-        const contentStyle = computed<CSSProperties>(() => {
-          return reactive({
-            position: strategy,
-            x,
-            y,
-          })
-        })
+          watch(arrowRef, () => update())
 
-        watch(arrowRef, () => update())
-
-        return {
-          arrowRef,
-          contentRef,
-          contentStyle,
-          referenceRef,
-          middlewareData,
-        }
-      },
-      render() {
-        const { contentStyle } = this
-        return (
-          <div>
-            <button ref="referenceRef">My button</button>
-            <div ref="contentRef" style={contentStyle}>
-              My tooltip
-              <div ref="arrowRef" />
+          return {
+            arrowRef,
+            contentRef,
+            contentStyle,
+            referenceRef,
+            middlewareData,
+          }
+        },
+        render() {
+          const { contentStyle } = this
+          return (
+            <div>
+              <button ref="referenceRef">My button</button>
+              <div ref="contentRef" style={contentStyle}>
+                My tooltip
+                <div ref="arrowRef" />
+              </div>
             </div>
-          </div>
-        )
-      },
-    })
+          )
+        },
+      })
+    )
   }
 
   let wrapper: ReturnType<typeof createComponent>

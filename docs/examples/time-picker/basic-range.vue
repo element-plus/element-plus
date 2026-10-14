@@ -32,11 +32,13 @@ const disabledMinutes = (hour: number) => {
   if (hour === 18) {
     return makeRange(31, 59)
   }
+  return []
 }
 const disabledSeconds = (hour: number, minute: number) => {
   if (hour === 18 && minute === 30) {
     return makeRange(1, 59)
   }
+  return []
 }
 </script>
 

@@ -1,9 +1,23 @@
 export default {
   name: 'eu',
   el: {
+    breadcrumb: {
+      label: 'Nabigazio-bidea',
+    },
     colorpicker: {
       confirm: 'Ados',
       clear: 'Garbitu',
+      defaultLabel: 'kolore-hautatzailea',
+      description:
+        'uneko kolorea {color} da. Sakatu Sartu kolore berri bat hautatzeko.',
+      alphaLabel: 'hautatu alfa balioa',
+      alphaDescription: 'alfa {alpha}, uneko kolorea {color} da',
+      hueLabel: 'hautatu ñabardura-balioa',
+      hueDescription: 'ñabardura {hue}, uneko kolorea {color} da',
+      svLabel: 'hautatu saturazio- eta distira-balioa',
+      svDescription:
+        'saturazioa {saturation}, distira {brightness}, uneko kolorea {color} da',
+      predefineDescription: 'hautatu {value} kolore gisa',
     },
     datepicker: {
       now: 'Orain',
@@ -11,6 +25,13 @@ export default {
       cancel: 'Utzi',
       clear: 'Garbitu',
       confirm: 'Ados',
+      dateTablePrompt:
+        'Erabili gezi-teklak eta Sartu hilabeteko eguna hautatzeko',
+      monthTablePrompt: 'Erabili gezi-teklak eta Sartu hilabetea hautatzeko',
+      quarterTablePrompt:
+        'Erabili gezi-teklak eta Sartu hiruhilekoa hautatzeko',
+      yearTablePrompt: 'Erabili gezi-teklak eta Sartu urtea hautatzeko',
+      selectedDate: 'Hautatutako data',
       selectDate: 'Hautatu data',
       selectTime: 'Hautatu ordua',
       startDate: 'Hasierako data',
@@ -34,7 +55,6 @@ export default {
       month10: 'Urria',
       month11: 'Azaroa',
       month12: 'Abendua',
-      // week: 'astea',
       weeks: {
         sun: 'ig.',
         mon: 'al.',
@@ -43,6 +63,15 @@ export default {
         thu: 'og.',
         fri: 'ol.',
         sat: 'lr.',
+      },
+      weeksFull: {
+        sun: 'Igandea',
+        mon: 'Astelehena',
+        tue: 'Asteartea',
+        wed: 'Asteazkena',
+        thu: 'Osteguna',
+        fri: 'Ostirala',
+        sat: 'Larunbata',
       },
       months: {
         jan: 'urt',
@@ -59,11 +88,24 @@ export default {
         dec: 'abe',
       },
     },
+    input: {
+      characters: '{count} / {max} karaktere',
+    },
+    inputNumber: {
+      decrease: 'txikitu zenbakia',
+      increase: 'handitu zenbakia',
+    },
     select: {
       loading: 'Kargatzen',
       noMatch: 'Bat datorren daturik ez',
       noData: 'Daturik ez',
       placeholder: 'Hautatu',
+    },
+    mention: {
+      loading: 'Kargatzen',
+    },
+    dropdown: {
+      toggleDropdown: 'Erakutsi edo ezkutatu goitibeherako menua',
     },
     cascader: {
       noMatch: 'Bat datorren daturik ez',
@@ -76,18 +118,27 @@ export default {
       pagesize: '/orria',
       total: 'Guztira {total}',
       pageClassifier: '',
-      page: 'Page', // to be translated
-      prev: 'Go to previous page', // to be translated
-      next: 'Go to next page', // to be translated
-      currentPage: 'page {pager}', // to be translated
-      prevPages: 'Previous {pager} pages', // to be translated
-      nextPages: 'Next {pager} pages', // to be translated
+      page: 'Orria',
+      prev: 'Joan aurreko orrira',
+      next: 'Joan hurrengo orrira',
+      currentPage: '{pager}. orria',
+      prevPages: 'Aurreko {pager} orriak',
+      nextPages: 'Hurrengo {pager} orriak',
+      deprecationWarning:
+        'Zaharkitutako erabilerak detektatu dira; xehetasun gehiagorako, ikusi el-pagination dokumentazioa',
+    },
+    dialog: {
+      close: 'Itxi elkarrizketa-koadro hau',
+    },
+    drawer: {
+      close: 'Itxi elkarrizketa-koadro hau',
     },
     messagebox: {
       title: 'Mezua',
       confirm: 'Ados',
       cancel: 'Utzi',
       error: 'Sarrera baliogabea',
+      close: 'Itxi elkarrizketa-koadro hau',
     },
     upload: {
       deleteTip: 'sakatu Ezabatu kentzeko',
@@ -95,12 +146,32 @@ export default {
       preview: 'Aurrebista',
       continue: 'Jarraitu',
     },
+    slider: {
+      defaultLabel: 'graduatzailea {min} eta {max} artean',
+      defaultRangeStartLabel: 'hautatu hasierako balioa',
+      defaultRangeEndLabel: 'hautatu amaierako balioa',
+    },
     table: {
       emptyText: 'Daturik ez',
       confirmFilter: 'Baieztatu',
       resetFilter: 'Berrezarri',
       clearFilter: 'Guztia',
       sumText: 'Batura',
+      selectAllLabel: 'Hautatu errenkada guztiak',
+      selectRowLabel: 'Hautatu errenkada hau',
+      expandRowLabel: 'Zabaldu errenkada hau',
+      collapseRowLabel: 'Tolestu errenkada hau',
+      sortLabel: 'Ordenatu {column} zutabearen arabera',
+      filterLabel: 'Iragazi {column} zutabearen arabera',
+    },
+    tag: {
+      close: 'Itxi etiketa hau',
+    },
+    tour: {
+      next: 'Hurrengoa',
+      previous: 'Aurrekoa',
+      finish: 'Bukatu',
+      close: 'Itxi elkarrizketa-koadro hau',
     },
     tree: {
       emptyText: 'Daturik ez',
@@ -108,20 +179,29 @@ export default {
     transfer: {
       noMatch: 'Bat datorren daturik ez',
       noData: 'Daturik ez',
-      titles: ['Zerrenda 1', 'Zerrenda 2'], // to be translated
-      filterPlaceholder: 'Sartu gako-hitza', // to be translated
-      noCheckedFormat: '{total} elementu', // to be translated
-      hasCheckedFormat: '{checked}/{total} hautatuta', // to be translated
+      titles: ['Zerrenda 1', 'Zerrenda 2'],
+      filterPlaceholder: 'Sartu gako-hitza',
+      noCheckedFormat: '{total} elementu',
+      hasCheckedFormat: '{checked}/{total} hautatuta',
     },
     image: {
-      error: 'FAILED', // to be translated
+      error: 'HUTS EGIN DU',
     },
     pageHeader: {
-      title: 'Back', // to be translated
+      title: 'Atzera',
     },
     popconfirm: {
-      confirmButtonText: 'Yes', // to be translated
-      cancelButtonText: 'No', // to be translated
+      confirmButtonText: 'Bai',
+      cancelButtonText: 'Ez',
+    },
+    carousel: {
+      leftArrow: 'Karruselaren ezkerreko gezia',
+      rightArrow: 'Karruselaren eskuineko gezia',
+      indicator: 'Aldatu karrusela {index}. indizera',
+    },
+    inputOTP: {
+      groupLabel: 'OTP sarrera',
+      defaultLabel: 'Sartu OTP kodearen {index}. karakterea',
     },
   },
 }

@@ -1,12 +1,14 @@
-import { nextTick, ref } from 'vue'
+import { createVNode, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
-import { Loading } from '../src/service'
-import { vLoading } from '../src/directive'
+import Loading from '../src/service'
+import vLoading from '../src/directive'
 import ElInput from '../../input'
 
 import type { VNode } from 'vue'
 import type { LoadingInstance } from '../src/loading'
+
+const AXIOM = 'Rem is the best girl'
 
 function destroyLoadingInstance(loadingInstance: LoadingInstance) {
   if (!loadingInstance) return
@@ -74,12 +76,12 @@ describe('Loading', () => {
 
   test('body directive', async () => {
     const loading = ref(true)
-    const wrapper = _mount(() => <div v-loading_body={loading.value} />)
+    _mount(() => <div v-loading_body={loading.value} />)
 
     await nextTick()
     const mask = document.querySelector('.el-loading-mask')!
     expect(mask.parentNode === document.body).toBeTruthy()
-    wrapper.vm.loading = false
+    loading.value = false
     document.body.removeChild(mask)
   })
 
@@ -141,15 +143,73 @@ describe('Loading', () => {
     expect(wrapper.find('.custom-path').attributes().d).toEqual('M 30 15')
   })
 
+  test('switch between default and custom spinner', async () => {
+    const spinner = ref<string>()
+    const wrapper = _mount(() => (
+      <div v-loading={true} element-loading-spinner={spinner.value} />
+    ))
+
+    await nextTick()
+    expect(wrapper.find('svg circle.path').exists()).toBe(true)
+
+    spinner.value = '<path class="custom-spinner" d="M 30 15"/>'
+    await nextTick()
+    expect(wrapper.find('svg .custom-spinner').exists()).toBe(true)
+    expect(wrapper.find('svg circle.path').exists()).toBe(false)
+
+    spinner.value = undefined
+    await nextTick()
+    expect(wrapper.find('svg .custom-spinner').exists()).toBe(false)
+    expect(wrapper.find('svg circle.path').exists()).toBe(true)
+  })
+
   test('create service', async () => {
     loadingInstance = Loading()
     expect(document.querySelector('.el-loading-mask')).toBeTruthy()
+  })
+
+  test('accept VNode as text', async () => {
+    loadingInstance = Loading({
+      text: createVNode('div', { 'data-testid': 'my-loading' }, AXIOM),
+    })
+    const loadingText = document.querySelector('[data-testid="my-loading"]')
+    expect(loadingText).not.toBeNull()
+    expect(loadingText?.textContent).toBe(AXIOM)
+
+    loadingInstance.setText(
+      createVNode('div', { 'data-testid': 'set-text' }, AXIOM)
+    )
+    await nextTick()
+    const setTextLoading = document.querySelector('[data-testid="set-text"]')
+    expect(setTextLoading).not.toBeNull()
+    expect(setTextLoading?.textContent).toBe(AXIOM)
   })
 
   test('close service', async () => {
     loadingInstance = Loading()
     loadingInstance.close()
     expect(loadingInstance.visible.value).toBeFalsy()
+  })
+
+  test('close service should release detached dom', async () => {
+    loadingInstance = Loading()
+    const mask = document.querySelector('.el-loading-mask') as HTMLElement
+    expect(mask).toBeTruthy()
+
+    vi.useFakeTimers()
+    loadingInstance.close()
+    vi.runAllTimers()
+    vi.useRealTimers()
+    await nextTick()
+
+    // the mask is removed from the document ...
+    expect(mask.parentNode).toBeNull()
+    // ... and no reference on the instance keeps it alive anymore
+    expect(loadingInstance.$el).toBeNull()
+    const internalInstance = loadingInstance.vm.$
+    expect(internalInstance.vnode.el).toBeNull()
+    expect(internalInstance.subTree).toBeNull()
+    expect(internalInstance.appContext.app._container).toBeNull()
   })
 
   test('target service', async () => {
@@ -254,5 +314,49 @@ describe('Loading', () => {
       wrapper.find('.el-loading-mask').element
     ).display
     expect(maskDisplay).toBe('block')
+  })
+
+  test('the reactivity of element-loading-* attributes', async () => {
+    const loading = ref(true)
+    const text = ref()
+    const spinner = ref()
+    const svgViewBox = ref()
+    const background = ref()
+    const customClass = ref()
+
+    const wrapper = _mount(() => (
+      <div
+        v-loading={loading.value}
+        element-loading-text={text.value}
+        element-loading-spinner={spinner.value}
+        element-loading-svg-view-box={svgViewBox.value}
+        element-loading-background={background.value}
+        element-loading-custom-class={customClass.value}
+      />
+    ))
+
+    text.value = 'foo'
+    await nextTick()
+    expect(wrapper.find('.el-loading-text').text()).toEqual('foo')
+
+    spinner.value = 'foo'
+    await nextTick()
+    expect(wrapper.find('svg').text()).toEqual('foo')
+
+    svgViewBox.value = 'foo'
+    await nextTick()
+    expect(wrapper.find('svg').attributes('viewBox')).toEqual('foo')
+
+    background.value = 'rgba(255, 255, 255, 0.5)'
+    await nextTick()
+    expect(
+      getComputedStyle(wrapper.find('.el-loading-mask').element).background
+    ).toEqual('rgba(255, 255, 255, 0.5)')
+
+    customClass.value = 'foo'
+    await nextTick()
+    expect(
+      wrapper.find('.el-loading-mask').element.classList.contains('foo')
+    ).toEqual(true)
   })
 })

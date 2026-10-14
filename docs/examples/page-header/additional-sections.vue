@@ -1,5 +1,5 @@
 <template>
-  <el-page-header :icon="null">
+  <el-page-header icon="">
     <template #content>
       <div class="flex items-center">
         <el-avatar

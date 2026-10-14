@@ -1,5 +1,9 @@
-import { describe, expect, it } from 'vitest'
-import { addClass, hasClass, removeClass } from '../..'
+import { afterEach, describe, expect, it, vi } from 'vitest'
+import { addClass, addUnit, debugWarn, hasClass, removeClass } from '../..'
+
+vi.mock('@element-plus/utils/error', () => ({
+  debugWarn: vi.fn(),
+}))
 
 const getClass = (el: Element) => {
   if (!el) return ''
@@ -7,6 +11,10 @@ const getClass = (el: Element) => {
 }
 
 describe('dom style', () => {
+  afterEach(() => {
+    vi.clearAllMocks()
+  })
+
   describe('hasClass', () => {
     it('Judge whether a Element has a class', () => {
       const div = document.createElement('div')
@@ -177,6 +185,48 @@ describe('dom style', () => {
       expect(getClass(path)).toEqual('path-abc path-1 path2')
       removeClass(path, 'path-abc path-1 path2')
       expect(getClass(path)).toEqual('')
+    })
+  })
+
+  describe('addUnit', () => {
+    it('should return empty string when value is undefined or empty string', () => {
+      expect(addUnit()).toBe('')
+      expect(addUnit('')).toBe('')
+      expect(addUnit(undefined)).toBe('')
+    })
+
+    it('should append default unit to number', () => {
+      expect(addUnit(10)).toBe('10px')
+      expect(addUnit(0)).toBe('0px')
+      expect(addUnit(-5)).toBe('-5px')
+    })
+
+    it('should append custom unit to number', () => {
+      expect(addUnit(10, 'em')).toBe('10em')
+      expect(addUnit(5, '%')).toBe('5%')
+    })
+
+    it('should append default unit to string number', () => {
+      expect(addUnit('10')).toBe('10px')
+      expect(addUnit('0')).toBe('0px')
+      expect(addUnit('-5')).toBe('-5px')
+    })
+
+    it('should append custom unit to string number', () => {
+      expect(addUnit('10', 'em')).toBe('10em')
+      expect(addUnit('5', '%')).toBe('5%')
+    })
+
+    it('should return string value as is if not a number', () => {
+      expect(addUnit('10px')).toBe('10px')
+      expect(addUnit('auto')).toBe('auto')
+      expect(addUnit('inherit')).toBe('inherit')
+      expect(addUnit('50%')).toBe('50%')
+    })
+
+    it('should warn if value is not string or number', () => {
+      addUnit({} as any)
+      expect(debugWarn).toHaveBeenCalled()
     })
   })
 })

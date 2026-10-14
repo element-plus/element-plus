@@ -4,8 +4,8 @@
   "compilerOptions": {
     "isolatedModules": false,
     "module": "ESNext",
-    "target": "ES5",
-    "lib": ["ES5", "DOM"],
+    "target": "ESNext",
+    "lib": ["ESNext", "DOM"],
     "jsx": "preserve",
     "esModuleInterop": true
   }
