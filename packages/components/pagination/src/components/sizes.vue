@@ -1,6 +1,7 @@
 <template>
   <span :class="ns.e('sizes')">
     <el-select
+      :class="ns.is('in-pagination')"
       :model-value="innerPageSize"
       :disabled="disabled"
       :popper-class="popperClass"
@@ -22,9 +23,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue'
+import { computed, provide, ref, watch } from 'vue'
 import { isEqual } from 'lodash-unified'
 import { ElOption, ElSelect } from '@element-plus/components/select'
+import { formItemContextKey, useFormSize } from '@element-plus/components/form'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { isArray } from '@element-plus/utils'
 import { usePagination } from '../usePagination'
@@ -38,6 +40,9 @@ const props = defineProps(paginationSizesProps)
 const emit = defineEmits(['page-size-change'])
 const { t } = useLocale()
 const ns = useNamespace('pagination')
+const size = useFormSize()
+// Pagination controls do not belong to the surrounding form field.
+provide(formItemContextKey, undefined)
 const pagination = usePagination()
 const innerPageSize = ref<number>(props.pageSize!)
 
