@@ -3,7 +3,7 @@ title: Masonry
 lang: en-US
 ---
 
-# Masonry ^(2.14.8)
+# Masonry ^(2.15.0)
 
 Arrange content of different heights in equal-width columns. Each item is placed in the shortest column, following the order of `items`.
 
@@ -25,15 +25,15 @@ For responsive layouts, update `columns` from the parent component. Keep item sp
 
 ### Attributes
 
-| Name               | Description                                                     | Type                                                   | Default |
-| ------------------ | --------------------------------------------------------------- | ------------------------------------------------------ | ------- |
-| items ^(2.14.8)    | Items to lay out                                                | ^[array]`T[]`                                          | []      |
-| item-key ^(2.14.8) | Required field name or function returning a stable unique key   | ^[string] / ^[Function]`(item: T) => string \| number` | —       |
-| columns ^(2.14.8)  | Number of columns, a positive integer                           | ^[number]                                              | 3       |
-| gutter ^(2.14.8)   | Horizontal and vertical spacing in pixels, a nonnegative number | ^[number]                                              | 0       |
+| Name     | Description                                                     | Type                                                   | Default |
+| -------- | --------------------------------------------------------------- | ------------------------------------------------------ | ------- |
+| items    | Items to lay out                                                | ^[array]`T[]`                                          | []      |
+| item-key | Required field name or function returning a stable unique key   | ^[string] / ^[Function]`(item: T) => string \| number` | —       |
+| columns  | Number of columns, a positive integer                           | ^[number]                                              | 3       |
+| gutter   | Horizontal and vertical spacing in pixels, a nonnegative number | ^[number]                                              | 0       |
 
 ### Slots
 
-| Name              | Description             | Scope                                 |
-| ----------------- | ----------------------- | ------------------------------------- |
-| default ^(2.14.8) | Custom content per item | ^[object]`{ item: T, index: number }` |
+| Name    | Description             | Scope                                 |
+| ------- | ----------------------- | ------------------------------------- |
+| default | Custom content per item | ^[object]`{ item: T, index: number }` |
