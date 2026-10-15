@@ -3200,6 +3200,49 @@ describe('Table.vue', () => {
     mockCellRect2.mockRestore()
   })
 
+  it('preserves line breaks in plain-text overflow tooltips', async () => {
+    const value = 'First line\r\nSecond line'
+    const wrapper = mount({
+      components: { ElTable, ElTableColumn },
+      template: `
+        <el-table :data="rows" show-overflow-tooltip>
+          <el-table-column prop="text" label="text" />
+        </el-table>
+      `,
+      data: () => ({ rows: [{ text: value }] }),
+    })
+
+    await doubleWait()
+    const td = wrapper.find('.el-table__body td').element as HTMLElement
+    const cell = td.querySelector('.cell') as HTMLElement
+    const originalInnerText = Object.getOwnPropertyDescriptor(td, 'innerText')
+    Object.defineProperty(td, 'innerText', {
+      configurable: true,
+      value: 'First line Second line',
+    })
+    const rangeRect = vi
+      .spyOn(Range.prototype, 'getBoundingClientRect')
+      .mockReturnValue({ width: 150, height: 30 } as DOMRect)
+    const cellRect = vi
+      .spyOn(cell, 'getBoundingClientRect')
+      .mockReturnValue({ width: 100, height: 30 } as DOMRect)
+
+    try {
+      await wrapper.find('.el-table__body td').trigger('mouseenter')
+      await rAF()
+      expect(document.querySelector('.el-popper span')?.textContent).toBe(value)
+    } finally {
+      rangeRect.mockRestore()
+      cellRect.mockRestore()
+      if (originalInnerText) {
+        Object.defineProperty(td, 'innerText', originalInnerText)
+      } else {
+        Reflect.deleteProperty(td, 'innerText')
+      }
+      wrapper.unmount()
+    }
+  })
+
   it('should not show tooltip when cell content is empty', async () => {
     const testData = [
       {

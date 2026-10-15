@@ -176,9 +176,16 @@ function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
       // cellChildWidth returns a value of 1920.994140625. #16856 #16673
       isGreaterThan(cellChild.scrollWidth, cellChildWidth)
     ) {
+      // innerText collapses line breaks inside nowrap cells. Plain-text cells
+      // can retain their source text without changing rich cell content.
+      const textContent = cellChild.textContent ?? ''
+      const tooltipContent =
+        cellChild.children.length === 0 && textContent.includes('\n')
+          ? textContent
+          : ((cell?.innerText || cell?.textContent) ?? '')
       createTablePopper(
         tooltipOptions,
-        (cell?.innerText || cell?.textContent) ?? '',
+        tooltipContent,
         row,
         column,
         cell,
