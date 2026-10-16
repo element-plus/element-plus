@@ -28,9 +28,18 @@ export const parseTime = (time: string): null | Time => {
 export const isValidTime = (time: null | Time): time is Time =>
   !!time &&
   time.hours >= 0 &&
+  time.hours <= 23 &&
   time.minutes >= 0 &&
+  time.minutes <= 59 &&
   !Number.isNaN(time.hours) &&
   !Number.isNaN(time.minutes)
+
+export const isEndOfDay = (time: null | Time): time is Time =>
+  !!time &&
+  !Number.isNaN(time.hours) &&
+  !Number.isNaN(time.minutes) &&
+  time.hours === 24 &&
+  time.minutes === 0
 
 export const compareTime = (time1: string, time2: string): number => {
   const value1 = parseTime(time1)
