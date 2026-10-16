@@ -1,3 +1,5 @@
+import { TreeSelectOptionExposed } from '@element-plus/components/tree-select/src'
+
 import type {
   ComponentInternalInstance,
   ComponentPublicInstance,
@@ -63,7 +65,7 @@ export interface OptionExposed {
 }
 export type OptionPublicInstance = ComponentPublicInstance<
   OptionProps,
-  OptionExposed
+  OptionExposed & Partial<Exclude<TreeSelectOptionExposed, keyof OptionExposed>>
 >
 export type OptionInternalInstance = ComponentInternalInstance & {
   proxy: OptionPublicInstance
