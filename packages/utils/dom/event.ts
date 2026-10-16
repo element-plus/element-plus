@@ -21,6 +21,10 @@ export const whenMouse = (handler: WhenMouseHandler): WhenMouseHandler => {
   return (e: PointerEvent) =>
     e.pointerType === 'mouse' ? handler(e) : undefined
 }
+export const whenTouch = (handler: WhenMouseHandler): WhenMouseHandler => {
+  return (e: PointerEvent) =>
+    ['touch', 'pen'].includes(e.pointerType) ? handler(e) : undefined
+}
 
 export const getEventCode = (event: KeyboardEvent): string => {
   if (event.code && event.code !== 'Unidentified') return event.code
