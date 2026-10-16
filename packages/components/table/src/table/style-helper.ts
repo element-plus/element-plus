@@ -287,7 +287,7 @@ function useStyle<T extends DefaultRow>(
   const emptyBlockStyle = computed(() => {
     if (props.data && props.data.length) return
     let height = '100%'
-    if (props.height && bodyScrollHeight.value) {
+    if (bodyScrollHeight.value) {
       height = `${bodyScrollHeight.value}px`
     }
     const width = tableWidth.value
