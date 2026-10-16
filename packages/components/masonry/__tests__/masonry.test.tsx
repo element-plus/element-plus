@@ -12,7 +12,9 @@ interface Item {
 }
 
 const observers: ResizeObserverMock[] = []
+const mediaQueries: MediaQueryList[] = []
 let containerWidth = 620
+let viewportWidth = 1024
 let wrapper: VueWrapper | undefined
 
 class ResizeObserverMock {
@@ -100,11 +102,42 @@ const positions = () =>
       element.style.width,
     ])
 
+const setViewportWidth = (width: number) => {
+  viewportWidth = width
+  for (const query of mediaQueries) {
+    query.dispatchEvent(
+      Object.assign(new Event('change'), { matches: query.matches })
+    )
+  }
+}
+
 describe('Masonry', () => {
   beforeEach(() => {
     containerWidth = 620
+    viewportWidth = 1024
     observers.length = 0
+    mediaQueries.length = 0
     vi.useFakeTimers()
+    vi.stubGlobal(
+      'matchMedia',
+      vi.fn((media: string) => {
+        const query = Object.defineProperties(new EventTarget(), {
+          media: { value: media },
+          matches: {
+            get: () => {
+              const min = media.match(/min-width:\s*([\d.]+)px/)
+              const max = media.match(/max-width:\s*([\d.]+)px/)
+              return (
+                (!min || viewportWidth >= Number(min[1])) &&
+                (!max || viewportWidth <= Number(max[1]))
+              )
+            },
+          },
+        }) as MediaQueryList
+        mediaQueries.push(query)
+        return query
+      })
+    )
     vi.stubGlobal('ResizeObserver', ResizeObserverMock)
     vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) =>
       setTimeout(() => callback(0), 16)
@@ -166,6 +199,120 @@ describe('Masonry', () => {
       ['0px', '0px', '100px'],
       ['110px', '0px', '100px'],
     ])
+  })
+
+  it.each([
+    [767, 1, '640px', '0px', '100px', '600px'],
+    [768, 2, '315px', '325px', '110px', '320px'],
+    [991, 2, '315px', '325px', '110px', '320px'],
+    [992, 3, '200px', '220px', '120px', '220px'],
+    [1199, 3, '200px', '220px', '120px', '220px'],
+    [1200, 4, '137.5px', '167.5px', '130px', '230px'],
+    [1919, 4, '137.5px', '167.5px', '130px', '230px'],
+    [1920, 5, '96px', '136px', '140px', '240px'],
+  ] as const)(
+    'uses Element Plus viewport breakpoints at %ipx',
+    async (viewport, columns, width, left, top, height) => {
+      viewportWidth = viewport
+      containerWidth = 640
+      const instance = mountMasonry(
+        Array.from({ length: 6 }, (_, id) => ({ id, height: 100 })),
+        {
+          columns: { xs: 1, sm: 2, md: 3, lg: 4, xl: 5 },
+          gutter: { xs: 0, sm: 10, md: 20, lg: 30, xl: 40 },
+        }
+      )
+      await settle()
+
+      expect(positions()[0]).toEqual(['0px', '0px', width])
+      expect(positions()[1][0]).toBe(left)
+      expect(positions()[columns][1]).toBe(top)
+      expect((instance.element as HTMLElement).style.height).toBe(height)
+    }
+  )
+
+  it('reflows on viewport changes with sparse breakpoint configurations', async () => {
+    viewportWidth = 1200
+    const instance = mountMasonry(
+      [100, 100, 100].map((height, id) => ({ id, height })),
+      { columns: { md: 2 }, gutter: { sm: 20 } }
+    )
+    await settle()
+    expect(positions()).toEqual([
+      ['0px', '0px', '300px'],
+      ['320px', '0px', '300px'],
+      ['0px', '120px', '300px'],
+    ])
+
+    setViewportWidth(767)
+    await settle()
+    expect(positions()).toEqual([
+      ['0px', '0px', '620px'],
+      ['0px', '100px', '620px'],
+      ['0px', '200px', '620px'],
+    ])
+    expect((instance.element as HTMLElement).style.height).toBe('300px')
+
+    setViewportWidth(1920)
+    await settle()
+    expect(positions()[2]).toEqual(['0px', '120px', '300px'])
+    expect((instance.element as HTMLElement).style.height).toBe('220px')
+  })
+
+  it('falls back to xs columns while matching xs gutter only on small screens', async () => {
+    viewportWidth = 1200
+    const instance = mountMasonry(
+      [100, 100, 100].map((height, id) => ({ id, height })),
+      { columns: { xs: 2 }, gutter: { xs: 20 } }
+    )
+    await settle()
+    expect(positions()[1]).toEqual(['310px', '0px', '310px'])
+    expect(positions()[2]).toEqual(['0px', '100px', '310px'])
+
+    setViewportWidth(767)
+    await settle()
+    expect(positions()[1]).toEqual(['320px', '0px', '300px'])
+    expect((instance.element as HTMLElement).style.height).toBe('220px')
+  })
+
+  it('uses defaults for empty responsive objects and omitted props', async () => {
+    containerWidth = 600
+    const instance = mountMasonry(
+      [100, 100, 100].map((height, id) => ({ id, height })),
+      { columns: {}, gutter: {} }
+    )
+    await settle()
+    expect(positions()[2]).toEqual(['0px', '200px', '600px'])
+
+    await instance.setProps({ columns: undefined, gutter: undefined })
+    await settle()
+    expect(positions()[2]).toEqual(['400px', '0px', '200px'])
+    expect((instance.element as HTMLElement).style.height).toBe('100px')
+  })
+
+  it('reacts to breakpoint value changes and switching to numeric props', async () => {
+    containerWidth = 640
+    const columns = reactive({ sm: 2, md: 3 })
+    const gutter = reactive({ sm: 10, md: 20 })
+    const instance = mountMasonry(
+      [100, 100, 100].map((height, id) => ({ id, height })),
+      { columns, gutter }
+    )
+    await settle()
+    expect(positions()[2]).toEqual(['440px', '0px', '200px'])
+
+    columns.md = 2
+    gutter.md = 0
+    await settle()
+    expect(positions()[2]).toEqual(['0px', '100px', '320px'])
+
+    await instance.setProps({ columns: 1, gutter: 5 })
+    await settle()
+    expect(positions()[2]).toEqual(['0px', '210px', '640px'])
+
+    setViewportWidth(767)
+    await settle()
+    expect((instance.element as HTMLElement).style.height).toBe('310px')
   })
 
   it.each([0.5, 2])(
@@ -357,20 +504,28 @@ describe('Masonry', () => {
   it('disconnects observers and cancels pending layout on unmount', async () => {
     const instance = mountMasonry([{ id: 0, height: 100 }])
     await nextTick()
+    const removeListeners = mediaQueries.map((query) =>
+      vi.spyOn(query, 'removeEventListener')
+    )
     instance.unmount()
     wrapper = undefined
 
     expect(observers.every((observer) => observer.targets.size === 0)).toBe(
       true
     )
+    expect(removeListeners).toHaveLength(5)
+    removeListeners.forEach((remove) => expect(remove).toHaveBeenCalledOnce())
     expect(vi.getTimerCount()).toBe(0)
   })
 
-  it('renders on the server', async () => {
+  it.each([
+    { columns: 3, gutter: 0 },
+    { columns: { xs: 1, md: 3 }, gutter: { xs: 8, md: 20 } },
+  ])('renders on the server with %o', async (props) => {
     const html = await renderToString(
       h(
         ElMasonry<Item>,
-        { items: [{ id: 0, height: 100 }], itemKey: 'id' },
+        { items: [{ id: 0, height: 100 }], itemKey: 'id', ...props },
         { default: () => h('p', 'Content') }
       )
     )

@@ -25,11 +25,16 @@ import {
   shallowRef,
   watch,
 } from 'vue'
-import { useElementSize, useResizeObserver } from '@vueuse/core'
+import {
+  breakpointsElement,
+  useBreakpoints,
+  useElementSize,
+  useResizeObserver,
+} from '@vueuse/core'
 import { useNamespace } from '@element-plus/hooks'
 
 import type { VNode } from 'vue'
-import type { MasonryProps } from './masonry'
+import type { MasonryProps, MasonryResponsiveValue } from './masonry'
 
 defineOptions({ name: 'ElMasonry' })
 
@@ -47,11 +52,42 @@ const ns = useNamespace('masonry')
 const masonryRef = ref<HTMLDivElement>()
 const itemRefs = ref<HTMLElement[]>([])
 const { width } = useElementSize(masonryRef)
-const columns = computed(() => Math.max(1, Math.floor(props.columns)))
+const matchedBreakpoints = useBreakpoints(breakpointsElement, {
+  ssrWidth: 0,
+}).current()
+
+const resolveResponsiveValue = (
+  value: MasonryResponsiveValue,
+  fallback = 0
+) => {
+  if (typeof value === 'number') return value
+
+  const matches = matchedBreakpoints.value
+  // Layout's xs breakpoint only matches below sm.
+  const breakpoint = [...matches]
+    .reverse()
+    .find(
+      (key) =>
+        (key !== 'xs' || matches.length === 1) && value[key] !== undefined
+    )
+  return (breakpoint ? value[breakpoint] : undefined) ?? fallback
+}
+const columns = computed(() => {
+  const value = props.columns
+  return Math.max(
+    1,
+    Math.floor(
+      typeof value === 'number'
+        ? value
+        : resolveResponsiveValue(value, value.xs ?? 1)
+    )
+  )
+})
+const gutter = computed(() => resolveResponsiveValue(props.gutter))
 const itemWidth = computed(() =>
   Math.max(
     0,
-    (width.value - props.gutter * (columns.value - 1)) / columns.value
+    (width.value - gutter.value * (columns.value - 1)) / columns.value
   )
 )
 const height = ref(0)
@@ -74,10 +110,10 @@ const layout = () => {
     const top = columnHeights[column]
     columnHeights[column] +=
       (itemHeights.get(element) ?? (element as HTMLElement).offsetHeight) +
-      props.gutter
-    return { left: column * (itemWidth.value + props.gutter), top }
+      gutter.value
+    return { left: column * (itemWidth.value + gutter.value), top }
   })
-  height.value = Math.max(0, Math.max(...columnHeights) - props.gutter)
+  height.value = Math.max(0, Math.max(...columnHeights) - gutter.value)
 }
 
 const scheduleLayout = () => {
@@ -113,11 +149,9 @@ useResizeObserver(
   },
   { box: 'border-box' }
 )
-watch(
-  [width, columns, () => props.gutter, () => props.items.map(getKey)],
-  scheduleLayout,
-  { flush: 'post' }
-)
+watch([width, columns, gutter, () => props.items.map(getKey)], scheduleLayout, {
+  flush: 'post',
+})
 onMounted(scheduleLayout)
 onBeforeUnmount(() => cancelAnimationFrame(frame))
 </script>
