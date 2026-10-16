@@ -81,4 +81,12 @@ export interface ElCascaderPanelContext {
 }
 
 export const CASCADER_PANEL_INJECTION_KEY: InjectionKey<ElCascaderPanelContext> =
-  Symbol()
+  Symbol('cascaderPanelInjectionKey')
+
+export interface ElCascaderContext {
+  shouldRenderContent: boolean
+}
+
+export const CASCADER_INJECTION_KEY: InjectionKey<ElCascaderContext> = Symbol(
+  'cascaderInjectionKey'
+)
