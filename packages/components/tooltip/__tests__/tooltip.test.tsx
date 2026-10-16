@@ -237,6 +237,35 @@ describe('<ElTooltip />', () => {
       expect(wrapper.emitted()).toHaveProperty('show')
     })
 
+    it('should not trigger :focus-visible when focusing the trigger on hover', async () => {
+      wrapper = createComponent(
+        {
+          trigger: 'hover',
+          focusOnTarget: true,
+        },
+        content
+      )
+      await nextTick()
+
+      const trigger$ = findTrigger()
+      const triggerEl = trigger$.find('.el-tooltip__trigger')
+      const focusSpy = vi.spyOn(triggerEl.element as HTMLElement, 'focus')
+
+      vi.useFakeTimers()
+      await triggerEl.trigger('mouseenter')
+      vi.runAllTimers()
+      vi.useRealTimers()
+      await rAF()
+
+      // pointer-initiated focus must not paint the keyboard focus ring
+      expect(focusSpy).toHaveBeenCalledTimes(1)
+      expect(focusSpy).toHaveBeenCalledWith({
+        preventScroll: true,
+        focusVisible: false,
+      })
+      focusSpy.mockRestore()
+    })
+
     it('should resync visibility when disabled toggles in controlled mode', async () => {
       wrapper = createComponent(
         {
