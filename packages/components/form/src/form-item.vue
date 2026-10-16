@@ -94,6 +94,7 @@ const _size = useFormSize(undefined, { formItem: false })
 const ns = useNamespace('form-item')
 
 const labelId = useId().value
+const hasLabel = ref<boolean>(false)
 const inputIds = ref<string[]>([])
 
 const validateState = ref<FormItemValidateState>('')
@@ -162,10 +163,6 @@ const validateClasses = computed(() => [
 const propString = computed(() => {
   if (!props.prop) return ''
   return isArray(props.prop) ? props.prop.join('.') : props.prop
-})
-
-const hasLabel = computed<boolean>(() => {
-  return !!(props.label || slots.label)
 })
 
 const labelFor = computed<string | undefined>(() => {
@@ -373,6 +370,13 @@ const setInitialValue: FormItemContext['setInitialValue'] = (value: any) => {
 const getInitialValue: FormItemContext['getInitialValue'] = () => initialValue
 
 watch(
+  () => [props.label, slots.label],
+  () => {
+    hasLabel.value = !!(props.label || slots.label)
+  }
+)
+
+watch(
   () => props.error,
   (val) => {
     validateMessage.value = val || ''
@@ -423,6 +427,7 @@ onMounted(() => {
     setInitialValue(fieldValue.value)
     formContext?.addField(context)
   }
+  hasLabel.value = !!(props.label || slots.label)
 })
 
 onBeforeUnmount(() => {
