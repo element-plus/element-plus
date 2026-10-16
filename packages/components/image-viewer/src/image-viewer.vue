@@ -100,6 +100,7 @@
                 ns.is('loading', loading && !!$slots['viewer-placeholder']),
               ]"
               :crossorigin="crossorigin"
+              :referrerpolicy="referrerpolicy"
               @load="handleImgLoad"
               @error="handleImgError"
               @mousedown="handleMouseDown"
