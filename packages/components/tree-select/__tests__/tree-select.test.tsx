@@ -1088,6 +1088,332 @@ describe('TreeSelect.vue', () => {
     expect(spy2).toBeCalledWith(2)
   })
 
+  test('reset checked keys when data is restored after clearing both data and v-model', async () => {
+    const treeData = [
+      {
+        value: '1',
+        label: '1',
+        children: [
+          { value: '1-1', label: '1-1' },
+          { value: '1-2', label: '1-2' },
+        ],
+      },
+    ]
+    const modelValue = ref<string[]>(['1-1'])
+    const data = ref<any[]>(treeData)
+
+    const { tree } = createComponent({
+      props: {
+        modelValue,
+        data,
+        multiple: true,
+        showCheckbox: true,
+        defaultExpandAll: true,
+      },
+    })
+
+    await nextTick()
+    expect(tree.vm.getCheckedKeys()).toEqual(['1-1'])
+
+    // clear the model value and the data in the same tick
+    modelValue.value = []
+    data.value = []
+    await nextTick()
+    await nextTick()
+
+    // then restore the same data
+    data.value = treeData
+    await nextTick()
+    await nextTick()
+    await nextTick()
+
+    expect(tree.vm.getCheckedKeys()).toEqual([])
+    expect(tree.findAll('.el-checkbox.is-checked')).toHaveLength(0)
+    expect(modelValue.value).toEqual([])
+  })
+
+  test('editing data in place keeps imperatively checked keys', async () => {
+    const treeData = [
+      {
+        value: '1',
+        label: '1',
+        children: [
+          { value: '1-1', label: '1-1' },
+          { value: '1-2', label: '1-2' },
+        ],
+      },
+    ]
+    const modelValue = ref<string[]>([])
+    const data = ref<any[]>(treeData)
+
+    const { getWrapperRef, tree } = createComponent({
+      props: {
+        modelValue,
+        data,
+        multiple: true,
+        showCheckbox: true,
+        defaultExpandAll: true,
+      },
+    })
+
+    const wrapperRef = await getWrapperRef()
+    wrapperRef.setCheckedKeys(['1-2'])
+    await nextTick()
+    expect(tree.vm.getCheckedKeys()).toEqual(['1-2'])
+
+    // editing the nodes in place must not reconcile the tree back to `modelValue`
+    data.value[0].children[0].label = 'renamed'
+    await nextTick()
+    await nextTick()
+
+    expect(tree.vm.getCheckedKeys()).toEqual(['1-2'])
+    expect(modelValue.value).toEqual([])
+  })
+
+  test('reset checked keys when the node was checked through the UI', async () => {
+    const makeData = () => [
+      {
+        value: '1',
+        label: '1',
+        children: [
+          { value: '1-1', label: '1-1' },
+          { value: '1-2', label: '1-2' },
+        ],
+      },
+    ]
+    const modelValue = ref<string[]>([])
+    const data = ref<any[]>(makeData())
+
+    const { tree } = createComponent({
+      props: {
+        modelValue,
+        data,
+        multiple: true,
+        showCheckbox: true,
+        defaultExpandAll: true,
+      },
+    })
+
+    await nextTick()
+    await tree
+      .findAll('.el-tree-node .el-checkbox__original')[1]
+      .trigger('click')
+    await nextTick()
+    expect(tree.vm.getCheckedKeys()).toEqual(['1-1'])
+    expect(modelValue.value).toEqual(['1-1'])
+
+    modelValue.value = []
+    data.value = []
+    await nextTick()
+    await nextTick()
+
+    data.value = makeData()
+    await nextTick()
+    await nextTick()
+    await nextTick()
+
+    expect(tree.vm.getCheckedKeys()).toEqual([])
+    expect(tree.findAll('.el-checkbox.is-checked')).toHaveLength(0)
+  })
+
+  test('async data still applies default-checked-keys', async () => {
+    const modelValue = ref<string[]>([])
+    const data = ref<any[]>([])
+
+    const { tree } = createComponent({
+      props: {
+        modelValue,
+        data,
+        multiple: true,
+        showCheckbox: true,
+        defaultExpandAll: true,
+        defaultCheckedKeys: ['1-1'],
+      },
+    })
+
+    await nextTick()
+    data.value = [
+      {
+        value: '1',
+        label: '1',
+        children: [
+          { value: '1-1', label: '1-1' },
+          { value: '1-2', label: '1-2' },
+        ],
+      },
+    ]
+    await nextTick()
+    await nextTick()
+    await nextTick()
+
+    expect(tree.vm.getCheckedKeys()).toEqual(['1-1'])
+  })
+
+  test('async data keeps default-checked-keys through an empty model reset', async () => {
+    const modelValue = ref<string[]>([])
+    const data = ref<any[]>([])
+
+    const { tree } = createComponent({
+      props: {
+        modelValue,
+        data,
+        multiple: true,
+        showCheckbox: true,
+        defaultExpandAll: true,
+        defaultCheckedKeys: ['1-1'],
+      },
+    })
+
+    await nextTick()
+    // a parent form reset assigns a brand new, value-equivalent empty array
+    modelValue.value = []
+    await nextTick()
+
+    data.value = [
+      {
+        value: '1',
+        label: '1',
+        children: [
+          { value: '1-1', label: '1-1' },
+          { value: '1-2', label: '1-2' },
+        ],
+      },
+    ]
+    await nextTick()
+    await nextTick()
+    await nextTick()
+
+    expect(tree.vm.getCheckedKeys()).toEqual(['1-1'])
+  })
+
+  test('reset checked keys when the restored data reorders siblings', async () => {
+    const modelValue = ref<string[]>(['1-1', '1-2'])
+    const data = ref<any[]>([
+      {
+        value: '1',
+        label: '1',
+        children: [
+          { value: '1-1', label: '1-1' },
+          { value: '1-2', label: '1-2' },
+        ],
+      },
+    ])
+
+    const { tree } = createComponent({
+      props: {
+        modelValue,
+        data,
+        multiple: true,
+        showCheckbox: true,
+        defaultExpandAll: true,
+      },
+    })
+
+    await nextTick()
+    modelValue.value = []
+    data.value = []
+    await nextTick()
+    await nextTick()
+
+    data.value = [
+      {
+        value: '1',
+        label: '1',
+        children: [
+          { value: '1-2', label: '1-2' },
+          { value: '1-1', label: '1-1' },
+        ],
+      },
+    ]
+    await nextTick()
+    await nextTick()
+    await nextTick()
+
+    expect(tree.vm.getCheckedKeys()).toEqual([])
+    expect(tree.findAll('.el-checkbox.is-checked')).toHaveLength(0)
+  })
+
+  test('reset checked keys when every child of a node is checked', async () => {
+    const makeData = () => [
+      {
+        value: '1',
+        label: '1',
+        children: [
+          { value: '1-1', label: '1-1' },
+          { value: '1-2', label: '1-2' },
+        ],
+      },
+    ]
+    const modelValue = ref<string[]>(['1-1', '1-2'])
+    const data = ref<any[]>(makeData())
+
+    const { tree } = createComponent({
+      props: {
+        modelValue,
+        data,
+        multiple: true,
+        showCheckbox: true,
+        defaultExpandAll: true,
+      },
+    })
+
+    await nextTick()
+    // with cascading checks the tree reports the fully checked parent as well
+    expect(tree.vm.getCheckedKeys()).toEqual(['1', '1-1', '1-2'])
+
+    modelValue.value = []
+    data.value = []
+    await nextTick()
+    await nextTick()
+
+    data.value = makeData()
+    await nextTick()
+    await nextTick()
+    await nextTick()
+
+    expect(tree.vm.getCheckedKeys()).toEqual([])
+    expect(tree.findAll('.el-checkbox.is-checked')).toHaveLength(0)
+  })
+
+  test('refreshing data keeps imperatively checked keys', async () => {
+    const makeData = () => [
+      {
+        value: '1',
+        label: '1',
+        children: [
+          { value: '1-1', label: '1-1' },
+          { value: '1-2', label: '1-2' },
+        ],
+      },
+    ]
+    const modelValue = ref<string[]>([])
+    const data = ref<any[]>(makeData())
+
+    const { getWrapperRef, tree } = createComponent({
+      props: {
+        modelValue,
+        data,
+        multiple: true,
+        showCheckbox: true,
+        defaultExpandAll: true,
+      },
+    })
+
+    const wrapperRef = await getWrapperRef()
+    wrapperRef.setCheckedKeys(['1-2'])
+    await nextTick()
+    expect(tree.vm.getCheckedKeys()).toEqual(['1-2'])
+
+    // a plain data refresh must not clear checks the consumer set itself
+    data.value = makeData()
+    await nextTick()
+    await nextTick()
+    await nextTick()
+
+    expect(tree.vm.getCheckedKeys()).toEqual(['1-2'])
+    expect(modelValue.value).toEqual([])
+  })
+
   test('always focus when using filters', async () => {
     const { tree, select } = createComponent({
       props: {
