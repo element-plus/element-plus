@@ -45,6 +45,7 @@ const {
   registerPanel,
   unregisterPanel,
   onCollapse,
+  onLimitChange,
   onMoveEnd,
   onMoveStart,
   onMoving,
@@ -150,6 +151,11 @@ watch(
   }
 )
 
+// Post flush so the sizes already include a `size` changed in the same tick
+watch([() => props.min, () => props.max], () => onLimitChange(index.value), {
+  flush: 'post',
+})
+
 watch(
   () => props.resizable,
   (val) => {
@@ -164,6 +170,8 @@ const _panel = reactive({
   getVnode: () => instance.vnode,
   setIndex,
   ...props,
+  min: computed(() => props.min),
+  max: computed(() => props.max),
   collapsible: computed(() => getCollapsible(props.collapsible)),
 })
 
