@@ -30,7 +30,7 @@ function getCellTooltipText(
 ): string {
   // innerText collapses line breaks inside nowrap cells. Plain-text cells
   // can retain their source text without changing rich cell content.
-  const textContent = cellChild.textContent ?? ''
+  const textContent = cellChild?.textContent ?? ''
   if (cellChild.children.length === 0 && textContent.includes('\n')) {
     return textContent
   }
