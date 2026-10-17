@@ -49,6 +49,7 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
+import { checkboxGroupContextKey } from '@element-plus/components/checkbox'
 import ElCascaderMenu from './menu.vue'
 import Store from './store'
 import Node from './node'
@@ -90,6 +91,9 @@ let manualChecked = false
 const ns = useNamespace('cascader')
 const config = useCascaderConfig(props)
 const slots = useSlots()
+
+// The panel manages its own checkboxes independently of any ancestor group.
+provide(checkboxGroupContextKey, undefined)
 
 let store: Store
 const initialLoaded = ref(true)
