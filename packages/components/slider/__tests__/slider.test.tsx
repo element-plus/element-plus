@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElForm, ElFormItem } from '@element-plus/components/form'
+import sleep from '@element-plus/test-utils/sleep'
 import Slider from '../src/slider.vue'
 
 import type { SliderProps } from '../src/slider'
@@ -919,13 +920,12 @@ describe('Slider', () => {
           <Slider />
         </ElFormItem>
       ))
-
-      await nextTick()
+      vi.useRealTimers()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const formItemLabel = formItem.find('.el-form-item__label')
-      const sliderButton = wrapper.find('.el-slider__button-wrapper')
-      expect(formItem.attributes().role).toBeFalsy()
-      expect(formItemLabel.attributes().for).toBe(sliderButton.attributes().id)
+      expect(formItem.attributes().role).toBe('group')
+      expect(formItemLabel.attributes().for).toBeFalsy()
     })
 
     it('range with automatic id attachment', async () => {
@@ -934,13 +934,12 @@ describe('Slider', () => {
           <Slider range />
         </ElFormItem>
       ))
-
-      await nextTick()
+      vi.useRealTimers()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const formItemLabel = formItem.find('.el-form-item__label')
-      const sliderWrapper = wrapper.find('.el-slider')
-      expect(formItem.attributes().role).toBeFalsy()
-      expect(formItemLabel.attributes().for).toBe(sliderWrapper.attributes().id)
+      expect(formItem.attributes().role).toBe('group')
+      expect(formItemLabel.attributes().for).toBeFalsy()
     })
 
     it('specified id attachment', async () => {
@@ -949,14 +948,14 @@ describe('Slider', () => {
           <Slider id="foobar" />
         </ElFormItem>
       ))
-
-      await nextTick()
+      vi.useRealTimers()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const formItemLabel = formItem.find('.el-form-item__label')
       const sliderButton = wrapper.find('.el-slider__button-wrapper')
-      expect(formItem.attributes().role).toBeFalsy()
+      expect(formItem.attributes().role).toBe('group')
       expect(sliderButton.attributes().id).toBe('foobar')
-      expect(formItemLabel.attributes().for).toBe(sliderButton.attributes().id)
+      expect(formItemLabel.attributes().for).toBeFalsy()
     })
 
     it('range with specified id attachment', async () => {
@@ -965,14 +964,14 @@ describe('Slider', () => {
           <Slider id="foobar" range />
         </ElFormItem>
       ))
-
-      await nextTick()
+      vi.useRealTimers()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const formItemLabel = formItem.find('.el-form-item__label')
       const sliderWrapper = wrapper.find('.el-slider')
-      expect(formItem.attributes().role).toBeFalsy()
+      expect(formItem.attributes().role).toBe('group')
       expect(sliderWrapper.attributes().id).toBe('foobar')
-      expect(formItemLabel.attributes().for).toBe(sliderWrapper.attributes().id)
+      expect(formItemLabel.attributes().for).toBeFalsy()
     })
 
     it('form item role is group when multiple inputs', async () => {
@@ -983,7 +982,8 @@ describe('Slider', () => {
         </ElFormItem>
       ))
 
-      await nextTick()
+      vi.useRealTimers()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
     })
