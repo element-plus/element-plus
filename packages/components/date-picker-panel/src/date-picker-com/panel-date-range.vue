@@ -43,6 +43,7 @@
               />
             </span>
             <span
+              ref="minTimePickerWrapperRef"
               v-clickoutside="handleMinTimeClose"
               :class="drpNs.e('time-picker-wrap')"
             >
@@ -85,6 +86,7 @@
               />
             </span>
             <span
+              ref="maxTimePickerWrapperRef"
               v-clickoutside="handleMaxTimeClose"
               :class="drpNs.e('time-picker-wrap')"
             >
@@ -418,6 +420,7 @@
 <script lang="ts" setup>
 import { computed, inject, nextTick, ref, toRef, unref, watch } from 'vue'
 import dayjs from 'dayjs'
+import { useActiveElement } from '@vueuse/core'
 import { ClickOutside as vClickoutside } from '@element-plus/directives'
 import { useLocale } from '@element-plus/hooks'
 import ElButton from '@element-plus/components/button'
@@ -759,6 +762,32 @@ const handleMinTimeClose = () => {
 const handleMaxTimeClose = () => {
   maxTimePickerVisible.value = false
 }
+
+const minTimePickerWrapperRef = ref<HTMLElement>()
+const maxTimePickerWrapperRef = ref<HTMLElement>()
+const activeElement = useActiveElement()
+watch(activeElement, (target) => {
+  const closeOnOutsideFocus = (
+    wrapper: HTMLElement | undefined,
+    close: () => void
+  ) => {
+    // Clicking a time item can move focus to the ancestor popper's focus trap.
+    if (
+      wrapper &&
+      target &&
+      !wrapper.contains(target) &&
+      !target.contains(wrapper)
+    ) {
+      close()
+    }
+  }
+  if (minTimePickerVisible.value) {
+    closeOnOutsideFocus(minTimePickerWrapperRef.value, handleMinTimeClose)
+  }
+  if (maxTimePickerVisible.value) {
+    closeOnOutsideFocus(maxTimePickerWrapperRef.value, handleMaxTimeClose)
+  }
+})
 
 const findValidDateToward = (from: Dayjs, toward: Dayjs): Dayjs => {
   if (!disabledDate.value || !disabledDate.value(from.toDate())) return from
