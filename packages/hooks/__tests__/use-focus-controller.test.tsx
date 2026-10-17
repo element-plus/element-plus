@@ -255,4 +255,48 @@ describe('useFocusController', () => {
     expect(wrapper.emitted()).toHaveProperty('focus')
     expect(wrapper.find('span').text()).toBe('true')
   })
+
+  it('it will reset the focus state and emit blur when the target blurs after being disabled', async () => {
+    const disabled = ref(false)
+    const afterBlur = vi.fn()
+    const wrapper = mount({
+      emits: ['focus', 'blur'],
+      setup() {
+        const targetRef = ref()
+        const { isFocused } = useFocusController(targetRef, {
+          disabled,
+          afterFocus: vi.fn(),
+          afterBlur,
+        })
+
+        return () => (
+          <div>
+            <input ref={targetRef} />
+            <span>{String(isFocused.value)}</span>
+          </div>
+        )
+      },
+    })
+
+    await wrapper.find('input').trigger('focus')
+    expect(wrapper.find('span').text()).toBe('true')
+
+    // disabling a focused input makes the browser fire a native blur while
+    // `disabled` is already true; jsdom does not, so dispatch it here
+    disabled.value = true
+    await nextTick()
+    await wrapper.find('input').trigger('blur')
+    expect(wrapper.find('span').text()).toBe('false')
+    const blurEvents = wrapper.emitted('blur')
+    expect(blurEvents).toHaveLength(1)
+    expect((blurEvents![0][0] as FocusEvent).target).toBe(
+      wrapper.find('input').element
+    )
+    expect(afterBlur).toHaveBeenCalledTimes(1)
+
+    // re-enabling does not restore the stale focus state
+    disabled.value = false
+    await nextTick()
+    expect(wrapper.find('span').text()).toBe('false')
+  })
 })
