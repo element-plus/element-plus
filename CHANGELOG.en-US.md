@@ -1,6 +1,16 @@
 ## Changelog
 
 
+### 2.14.7
+
+_2026-09-30_
+
+#### Bug fixes
+
+- Build restore workspace context for package publishing (#24934 by @rzzf)
+- Components [time-picker] avoid triggering `change` twice when clearing (#24841 by @patienry)
+- Improvement(components): [image-viewer] add grab cursor to image viewer (#24903 by @ixyzorg)
+
 ### 2.14.6
 
 _2026-09-18_

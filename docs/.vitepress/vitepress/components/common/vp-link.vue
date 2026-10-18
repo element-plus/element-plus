@@ -14,11 +14,11 @@ defineProps<{
     class="link-item"
     :class="{ link: href }"
     :href="withBase(href ?? '')"
-    :target="isExternal(href) ? '_blank' : undefined"
-    :rel="isExternal(href) ? 'noopener noreferrer' : undefined"
+    :target="isExternal(href ?? '') ? '_blank' : undefined"
+    :rel="isExternal(href ?? '') ? 'noopener noreferrer' : undefined"
   >
     <slot />
-    <ElIcon v-if="isExternal(href) && !noIcon">
+    <ElIcon v-if="isExternal(href ?? '') && !noIcon">
       <i-ri-external-link-line class="link-icon" />
     </ElIcon>
   </component>
