@@ -6,6 +6,7 @@ import { CircleClose } from '@element-plus/icons-vue'
 import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 import Select from '@element-plus/components/select'
 import { ElForm, ElFormItem } from '@element-plus/components/form'
+import sleep from '@element-plus/test-utils/sleep'
 import TimeSelect from '../src/time-select.vue'
 
 dayjs.extend(customParseFormat)
@@ -332,7 +333,7 @@ describe('TimeSelect', () => {
         </ElFormItem>
       ))
 
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const formItemLabel = formItem.find('.el-form-item__label')
       const timeSelectInput = wrapper.find('input')
@@ -353,7 +354,7 @@ describe('TimeSelect', () => {
         </ElFormItem>
       ))
 
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const formItemLabel = formItem.find('.el-form-item__label')
       const timeSelectInput = wrapper.find('input')
@@ -372,7 +373,7 @@ describe('TimeSelect', () => {
         </ElFormItem>
       ))
 
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
     })
