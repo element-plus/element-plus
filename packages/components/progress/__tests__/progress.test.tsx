@@ -161,4 +161,21 @@ describe('Progress.vue', () => {
 
     expect(wrapper.find('.el-progress__text').text()).toBe('自定义内容')
   })
+
+  test('reverse', () => {
+    const wrapper = mount(() => <Progress percentage={66} reverse />)
+
+    expect(wrapper.classes()).toContain('is-reverse')
+    expect(
+      wrapper.find('.el-progress-bar__inner').attributes('style')
+    ).toContain('right: 0')
+  })
+
+  test('reverse circle', () => {
+    const wrapper = mount(() => (
+      <Progress type="circle" percentage={66} reverse />
+    ))
+
+    expect(wrapper.classes()).toContain('is-reverse')
+  })
 })

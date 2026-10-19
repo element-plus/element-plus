@@ -63,6 +63,10 @@ export interface ProgressProps {
    * @description custom text format
    */
   format?: ProgressFn
+  /**
+   * @description whether to reverse the progress direction
+   */
+  reverse?: boolean
 }
 
 /**
@@ -162,6 +166,10 @@ export const progressProps = buildProps({
     type: definePropType<ProgressFn>(Function),
     default: (percentage: number): string => `${percentage}%`,
   },
+  /**
+   * @description whether to reverse the progress direction
+   */
+  reverse: Boolean,
 } as const)
 
 /**

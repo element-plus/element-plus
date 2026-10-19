@@ -77,6 +77,14 @@ progress/striped-progress
 
 :::
 
+## Reversed progress
+
+:::demo Use `reverse` attribute to reverse the progress direction. Works with both line and circle/dashboard types.
+
+progress/reversed-progress
+
+:::
+
 ## API
 
 ### Attributes
@@ -97,6 +105,7 @@ progress/striped-progress
 | format                 | custom text format                                                                    | ^[Function]`(percentage: number) => string`                                                                 | —       |
 | striped ^(2.3.4)       | stripe over the progress bar's color                                                  | ^[boolean]                                                                                                  | false   |
 | striped-flow ^(2.3.4)  | get the stripes to flow                                                               | ^[boolean]                                                                                                  | false   |
+| reverse ^(2.8.4)       | whether to reverse the progress direction                                             | ^[boolean]                                                                                                  | false   |
 
 ### Slots
 

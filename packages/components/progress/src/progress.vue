@@ -7,6 +7,7 @@
       {
         [ns.m('without-text')]: !showText,
         [ns.m('text-inside')]: textInside,
+        [ns.is('reverse')]: reverse,
       },
     ]"
     role="progressbar"
@@ -118,6 +119,7 @@ const props = withDefaults(defineProps<ProgressProps>(), {
   width: 126,
   showText: true,
   color: '',
+  reverse: false,
   format: (percentage: number): string => `${percentage}%`,
 })
 
@@ -133,6 +135,10 @@ const barStyle = computed<CSSProperties>(() => {
     barStyle.background = color
   } else {
     barStyle.backgroundColor = color
+  }
+  if (props.reverse) {
+    barStyle.left = 'auto'
+    barStyle.right = '0'
   }
   return barStyle
 })
@@ -154,11 +160,12 @@ const radius = computed(() => {
 const trackPath = computed(() => {
   const r = radius.value
   const isDashboard = props.type === 'dashboard'
+  const sweepFlag = props.reverse ? 0 : 1
   return `
           M 50 50
           m 0 ${isDashboard ? '' : '-'}${r}
-          a ${r} ${r} 0 1 1 0 ${isDashboard ? '-' : ''}${r * 2}
-          a ${r} ${r} 0 1 1 0 ${isDashboard ? '' : '-'}${r * 2}
+          a ${r} ${r} 0 1 ${sweepFlag} 0 ${isDashboard ? '-' : ''}${r * 2}
+          a ${r} ${r} 0 1 ${sweepFlag} 0 ${isDashboard ? '' : '-'}${r * 2}
           `
 })
 

@@ -21,6 +21,15 @@
     }
   }
 
+  @include when(reverse) {
+    flex-direction: row-reverse;
+
+    .#{$namespace}-progress__text {
+      margin-left: 0;
+      margin-right: 5px;
+    }
+  }
+
   @include m((circle, dashboard)) {
     display: inline-block;
 
@@ -139,6 +148,22 @@
     }
   }
 
+  @include when(reverse) {
+    .#{$namespace}-progress-bar__inner {
+      left: auto;
+      right: 0;
+      text-align: left;
+
+      &.#{$namespace}-progress-bar__inner--indeterminate {
+        animation: indeterminate-reverse 3s infinite;
+      }
+
+      &.#{$namespace}-progress-bar__inner--striped-flow {
+        animation: striped-flow-reverse 3s linear infinite;
+      }
+    }
+  }
+
   @include e(innerText) {
     display: inline-block;
     vertical-align: middle;
@@ -168,6 +193,16 @@
   }
 }
 
+@keyframes indeterminate-reverse {
+  0% {
+    right: -100%;
+  }
+
+  100% {
+    right: 100%;
+  }
+}
+
 @keyframes striped-flow {
   0% {
     background-position: -100%;
@@ -175,5 +210,15 @@
 
   100% {
     background-position: 100%;
+  }
+}
+
+@keyframes striped-flow-reverse {
+  0% {
+    background-position: 100%;
+  }
+
+  100% {
+    background-position: -100%;
   }
 }
