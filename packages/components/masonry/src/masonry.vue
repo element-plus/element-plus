@@ -40,6 +40,7 @@ import {
 import { useNamespace } from '@element-plus/hooks'
 import {
   cAF,
+  isArray,
   isFunction,
   isNumber,
   isUndefined,
@@ -70,10 +71,10 @@ const matchedBreakpoints = useBreakpoints(breakpointsElement, {
 }).current()
 
 const resolveResponsiveValue = (
-  value: MasonryResponsiveValue,
+  value: MasonryResponsiveValue<number | [number, number]>,
   fallback = 0
 ) => {
-  if (isNumber(value)) return value
+  if (isNumber(value) || isArray(value)) return value
 
   const breakpoint = [...matchedBreakpoints.value]
     .reverse()
@@ -81,13 +82,16 @@ const resolveResponsiveValue = (
   return breakpoint ? value[breakpoint]! : fallback
 }
 const columns = computed(() =>
-  Math.max(1, Math.floor(resolveResponsiveValue(props.columns, 1)))
+  Math.max(1, Math.floor(resolveResponsiveValue(props.columns, 1) as number))
 )
-const gutter = computed(() => resolveResponsiveValue(props.gutter))
+const gutter = computed<[number, number]>(() => {
+  const value = resolveResponsiveValue(props.gutter, 0)
+  return isArray(value) ? [value[0], value[1]] : [value, value]
+})
 const itemWidth = computed(() =>
   Math.max(
     0,
-    (width.value - gutter.value * (columns.value - 1)) / columns.value
+    (width.value - gutter.value[0] * (columns.value - 1)) / columns.value
   )
 )
 const height = ref(0)
@@ -107,6 +111,7 @@ const getKey = (item: T, index: number) => {
 const layout = () => {
   if (!contentRef.value) return
 
+  const [horizontalGutter, verticalGutter] = gutter.value
   const columnHeights = Array.from({ length: columns.value }, () => 0)
   // Read children in DOM order; template ref arrays do not guarantee item order.
   positions.value = Array.from(contentRef.value.children).map((element) => {
@@ -114,10 +119,10 @@ const layout = () => {
     const top = columnHeights[column]
     columnHeights[column] +=
       (itemHeights.get(element) ?? (element as HTMLElement).offsetHeight) +
-      gutter.value
-    return { left: column * (itemWidth.value + gutter.value), top }
+      verticalGutter
+    return { left: column * (itemWidth.value + horizontalGutter), top }
   })
-  height.value = Math.max(0, Math.max(...columnHeights) - gutter.value)
+  height.value = Math.max(0, Math.max(...columnHeights) - verticalGutter)
 }
 
 const scheduleLayout = () => {

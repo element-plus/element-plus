@@ -203,6 +203,142 @@ describe('Masonry', () => {
     ])
   })
 
+  it('uses separate horizontal and vertical gutters', async () => {
+    const instance = mountMasonry(
+      [100, 200, 50, 150, 80].map((height, id) => ({ id, height })),
+      { gutter: [10, 20] }
+    )
+    await settle()
+
+    expect(positions()).toEqual([
+      ['0px', '0px', '200px'],
+      ['210px', '0px', '200px'],
+      ['420px', '0px', '200px'],
+      ['420px', '70px', '200px'],
+      ['0px', '120px', '200px'],
+    ])
+    expect(
+      instance.get<HTMLElement>('.el-masonry__content').element.style.height
+    ).toBe('220px')
+  })
+
+  it.each([
+    [0, 20, '300px', '300px', '120px', '220px'],
+    [20, 0, '290px', '310px', '100px', '200px'],
+    [0, 0, '300px', '300px', '100px', '200px'],
+  ] as const)(
+    'supports zero spacing with gutter [%i, %i]',
+    async (x, y, width, left, top, height) => {
+      containerWidth = 600
+      const instance = mountMasonry(
+        [100, 100, 100].map((height, id) => ({ id, height })),
+        { columns: 2, gutter: [x, y] }
+      )
+      await settle()
+
+      expect(positions()).toEqual([
+        ['0px', '0px', width],
+        [left, '0px', width],
+        ['0px', top, width],
+      ])
+      expect(
+        instance.get<HTMLElement>('.el-masonry__content').element.style.height
+      ).toBe(height)
+    }
+  )
+
+  it.each(['direct', 'responsive'])(
+    'reflows when a %s gutter tuple is mutated in place',
+    async (type) => {
+      const gutter = reactive<[number, number]>([10, 20])
+      const instance = mountMasonry(
+        [100, 100, 100].map((height, id) => ({ id, height })),
+        { columns: 2, gutter: type === 'direct' ? gutter : { md: gutter } }
+      )
+      await settle()
+
+      // No resize notifications: only the spacing changes.
+      gutter[1] = 30
+      await nextTick()
+      vi.advanceTimersByTime(16)
+      await nextTick()
+
+      expect(positions()[2]).toEqual(['0px', '130px', '305px'])
+      expect(
+        instance.get<HTMLElement>('.el-masonry__content').element.style.height
+      ).toBe('230px')
+
+      gutter[0] = 20
+      await nextTick()
+      vi.advanceTimersByTime(16)
+      await nextTick()
+
+      expect(positions()).toEqual([
+        ['0px', '0px', '300px'],
+        ['320px', '0px', '300px'],
+        ['0px', '130px', '300px'],
+      ])
+      expect(
+        instance.get<HTMLElement>('.el-masonry__content').element.style.height
+      ).toBe('230px')
+    }
+  )
+
+  it('resolves responsive gutter tuples and switches between gutter formats', async () => {
+    viewportWidth = 767
+    const instance = mountMasonry(
+      [100, 100, 100].map((height, id) => ({ id, height })),
+      { columns: 2, gutter: { md: [10, 20] } }
+    )
+    await settle()
+    expect(positions()[2]).toEqual(['0px', '100px', '310px'])
+
+    setViewportWidth(992)
+    await settle()
+    expect(positions()[1]).toEqual(['315px', '0px', '305px'])
+    expect(positions()[2]).toEqual(['0px', '120px', '305px'])
+
+    await instance.setProps({ gutter: { xs: [20, 30], lg: 0 } })
+    await settle()
+    expect(positions()[1]).toEqual(['320px', '0px', '300px'])
+    expect(positions()[2]).toEqual(['0px', '130px', '300px'])
+
+    setViewportWidth(1200)
+    await settle()
+    expect(positions()[2]).toEqual(['0px', '100px', '310px'])
+
+    await instance.setProps({ gutter: [10, 0] })
+    await settle()
+    expect(positions()[2]).toEqual(['0px', '100px', '305px'])
+
+    await instance.setProps({ gutter: 10 })
+    await settle()
+    expect(positions()[2]).toEqual(['0px', '110px', '305px'])
+  })
+
+  it('supports tuple gutters with an empty list and one column', async () => {
+    const instance = mountMasonry([], { columns: 1, gutter: [40, 20] })
+    await settle()
+    expect(
+      instance.get<HTMLElement>('.el-masonry__content').element.style.height
+    ).toBe('0px')
+
+    await instance.setProps({
+      items: [
+        { id: 0, height: 100 },
+        { id: 1, height: 50 },
+      ],
+    })
+    await settle()
+    expect(positions()).toEqual([
+      ['0px', '0px', '620px'],
+      ['0px', '120px', '620px'],
+    ])
+    expect(
+      instance.get<HTMLElement>('.el-masonry__content').element.style.height
+    ).toBe('170px')
+  })
+
   it('preserves outer box styles while measuring the content width', async () => {
     containerWidth = 610
     const instance = mountMasonry(
@@ -679,6 +815,14 @@ describe('Masonry', () => {
   it.each([
     { columns: 3, gutter: 0 },
     { columns: { xs: 1, md: 3 }, gutter: { xs: 8, md: 20 } },
+    { columns: 3, gutter: [10, 20] as [number, number] },
+    {
+      columns: { xs: 1, md: 3 },
+      gutter: {
+        xs: [8, 12] as [number, number],
+        md: [10, 20] as [number, number],
+      },
+    },
   ])('renders on the server with %o', async (props) => {
     const html = await renderToString(
       h(

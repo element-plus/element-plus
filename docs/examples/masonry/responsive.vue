@@ -3,7 +3,7 @@
     :items="items"
     item-key="id"
     :columns="{ xs: 1, sm: 2, md: 3, lg: 4, xl: 5 }"
-    :gutter="{ xs: 8, sm: 12, md: 16, lg: 20, xl: 24 }"
+    :gutter="{ xs: 8, sm: [12, 8], md: [16, 12], lg: [20, 16], xl: 24 }"
   >
     <template #default="{ item }">
       <div class="masonry-demo-item" :style="{ height: `${item.height}px` }">

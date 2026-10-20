@@ -23,7 +23,7 @@ Keep item spacing in `gutter` rather than applying margins to the layout wrapper
 
 ## Responsive layout
 
-Set `columns` and `gutter` to objects to adjust the layout according to the viewport width. Breakpoints follow [Layout](./layout#col-attributes): `xs` <768px, `sm` ≥768px, `md` ≥992px, `lg` ≥1200px, and `xl` ≥1920px.
+Set `columns` and `gutter` to objects to adjust the layout according to the viewport width. Each `gutter` breakpoint can be a number or a `[horizontal, vertical]` tuple. Breakpoints follow [Layout](./layout#col-attributes): `xs` <768px, `sm` ≥768px, `md` ≥992px, `lg` ≥1200px, and `xl` ≥1920px.
 
 The largest matching breakpoint with a configured value takes precedence. The `xs` value serves as the fallback at larger viewport widths. If no configured breakpoint matches, `columns` falls back to `1`, and `gutter` falls back to `0`. Omitting `columns` keeps the default of `3`.
 
@@ -37,12 +37,12 @@ masonry/responsive
 
 ### Attributes
 
-| Name     | Description                                                                                   | Type                                                                                 | Default |
-| -------- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ | ------- |
-| items    | Items to lay out                                                                              | ^[array]`T[]`                                                                        | []      |
-| item-key | Field name or function returning a stable unique string, number, or symbol key                | ^[string] / ^[Function]`(item: T) => PropertyKey`                                    | —       |
-| columns  | Number of columns, a positive integer or a responsive configuration                           | ^[number] / ^[object]`Partial<Record<'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl', number>>` | 3       |
-| gutter   | Horizontal and vertical spacing in pixels, a nonnegative number or a responsive configuration | ^[number] / ^[object]`Partial<Record<'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl', number>>` | 0       |
+| Name     | Description                                                                                                                      | Type                                                                                                                                  | Default |
+| -------- | -------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| items    | Items to lay out                                                                                                                 | ^[array]`T[]`                                                                                                                         | []      |
+| item-key | Field name or function returning a stable unique string, number, or symbol key                                                   | ^[string] / ^[Function]`(item: T) => PropertyKey`                                                                                     | —       |
+| columns  | Number of columns, a positive integer or a responsive configuration                                                              | ^[number] / ^[object]`Partial<Record<'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl', number>>`                                                  | 3       |
+| gutter   | Horizontal and vertical spacing in pixels, a nonnegative number, a `[horizontal, vertical]` tuple, or a responsive configuration | ^[number] / ^[array]`[number, number]` / ^[object]`Partial<Record<'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl', number \| [number, number]>>` | 0       |
 
 ### Slots
 
