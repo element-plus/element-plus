@@ -68,7 +68,7 @@ const settle = async (shape: BorderBoxShape = 'array') => {
   await nextTick()
   // Deliver resize notifications after Vue has updated the DOM.
   if (wrapper) {
-    resize(wrapper.element, shape)
+    resize(wrapper.find('.el-masonry__content').element, shape)
     wrapper
       .findAll('.el-masonry__item')
       .forEach(({ element }) => resize(element, shape))
@@ -182,7 +182,9 @@ describe('Masonry', () => {
       ['420px', '60px', '200px'],
       ['0px', '110px', '200px'],
     ])
-    expect((instance.element as HTMLElement).style.height).toBe('210px')
+    expect(
+      instance.get<HTMLElement>('.el-masonry__content').element.style.height
+    ).toBe('210px')
   })
 
   it('recalculates widths when the container resizes', async () => {
@@ -192,13 +194,57 @@ describe('Masonry', () => {
     ])
     await settle()
     containerWidth = 320
-    resize(instance.element)
+    resize(instance.find('.el-masonry__content').element)
     await settle()
 
     expect(positions()).toEqual([
       ['0px', '0px', '100px'],
       ['110px', '0px', '100px'],
     ])
+  })
+
+  it('preserves outer box styles while measuring the content width', async () => {
+    containerWidth = 610
+    const instance = mountMasonry(
+      [100, 200, 50, 150].map((height, id) => ({ id, height })),
+      {
+        style: {
+          boxSizing: 'border-box',
+          padding: '20px',
+          border: '5px solid',
+        },
+      }
+    )
+    await settle()
+
+    const outer = instance.element as HTMLElement
+    expect(outer.style.height).toBe('')
+    expect(outer.style.padding).toBe('20px')
+    expect(outer.style.border).toBe('5px solid')
+    expect(
+      wrapper!.get<HTMLElement>('.el-masonry__content').element.style.height
+    ).toBe('210px')
+
+    await instance.setProps({
+      style: {
+        boxSizing: 'border-box',
+        height: '400px',
+        padding: '30px',
+        border: '5px solid',
+        overflow: 'auto',
+      },
+    })
+    containerWidth = 590
+    resize(wrapper!.get<HTMLElement>('.el-masonry__content').element)
+    await settle()
+
+    expect(outer.style.height).toBe('400px')
+    expect(outer.style.padding).toBe('30px')
+    expect(outer.style.overflow).toBe('auto')
+    expect(
+      wrapper!.get<HTMLElement>('.el-masonry__content').element.style.height
+    ).toBe('210px')
+    expect(positions()[0][2]).toBe('190px')
   })
 
   it.each([
@@ -227,7 +273,9 @@ describe('Masonry', () => {
       expect(positions()[0]).toEqual(['0px', '0px', width])
       expect(positions()[1][0]).toBe(left)
       expect(positions()[columns][1]).toBe(top)
-      expect((instance.element as HTMLElement).style.height).toBe(height)
+      expect(
+        instance.get<HTMLElement>('.el-masonry__content').element.style.height
+      ).toBe(height)
     }
   )
 
@@ -251,12 +299,16 @@ describe('Masonry', () => {
       ['0px', '100px', '620px'],
       ['0px', '200px', '620px'],
     ])
-    expect((instance.element as HTMLElement).style.height).toBe('300px')
+    expect(
+      instance.get<HTMLElement>('.el-masonry__content').element.style.height
+    ).toBe('300px')
 
     setViewportWidth(1920)
     await settle()
     expect(positions()[2]).toEqual(['0px', '120px', '300px'])
-    expect((instance.element as HTMLElement).style.height).toBe('220px')
+    expect(
+      instance.get<HTMLElement>('.el-masonry__content').element.style.height
+    ).toBe('220px')
   })
 
   it('keeps xs columns and gutter as fallbacks across viewport changes', async () => {
@@ -271,7 +323,9 @@ describe('Masonry', () => {
       await settle()
       expect(positions()[1]).toEqual(['320px', '0px', '300px'])
       expect(positions()[2]).toEqual(['0px', '120px', '300px'])
-      expect((instance.element as HTMLElement).style.height).toBe('220px')
+      expect(
+        instance.get<HTMLElement>('.el-masonry__content').element.style.height
+      ).toBe('220px')
     }
   })
 
@@ -287,7 +341,9 @@ describe('Masonry', () => {
     setViewportWidth(992)
     await settle()
     expect(positions()[2]).toEqual(['0px', '100px', '310px'])
-    expect((instance.element as HTMLElement).style.height).toBe('200px')
+    expect(
+      instance.get<HTMLElement>('.el-masonry__content').element.style.height
+    ).toBe('200px')
   })
 
   it('uses defaults for empty responsive objects and omitted props', async () => {
@@ -302,7 +358,9 @@ describe('Masonry', () => {
     await instance.setProps({ columns: undefined, gutter: undefined })
     await settle()
     expect(positions()[2]).toEqual(['400px', '0px', '200px'])
-    expect((instance.element as HTMLElement).style.height).toBe('100px')
+    expect(
+      instance.get<HTMLElement>('.el-masonry__content').element.style.height
+    ).toBe('100px')
   })
 
   it('reacts to breakpoint value changes and switching to numeric props', async () => {
@@ -327,7 +385,9 @@ describe('Masonry', () => {
 
     setViewportWidth(767)
     await settle()
-    expect((instance.element as HTMLElement).style.height).toBe('310px')
+    expect(
+      instance.get<HTMLElement>('.el-masonry__content').element.style.height
+    ).toBe('310px')
   })
 
   it.each([0.5, 2])(
@@ -346,7 +406,9 @@ describe('Masonry', () => {
 
       expect(positions()[3]).toEqual(['420px', '60px', '200px'])
       expect(positions()[4]).toEqual(['0px', '110px', '200px'])
-      expect((instance.element as HTMLElement).style.height).toBe('210px')
+      expect(
+        instance.get<HTMLElement>('.el-masonry__content').element.style.height
+      ).toBe('210px')
     }
   )
 
@@ -370,13 +432,17 @@ describe('Masonry', () => {
         ['0px', '10.25px', '620px'],
         ['0px', '20.5px', '620px'],
       ])
-      expect((instance.element as HTMLElement).style.height).toBe('30.75px')
+      expect(
+        instance.get<HTMLElement>('.el-masonry__content').element.style.height
+      ).toBe('30.75px')
 
       items[0].height = 20.75
       await settle(shape)
       expect(positions()[1]).toEqual(['0px', '20.75px', '620px'])
       expect(positions()[2]).toEqual(['0px', '31px', '620px'])
-      expect((instance.element as HTMLElement).style.height).toBe('41.25px')
+      expect(
+        instance.get<HTMLElement>('.el-masonry__content').element.style.height
+      ).toBe('41.25px')
     }
   )
 
@@ -402,7 +468,9 @@ describe('Masonry', () => {
       await nextTick()
 
       expect(positions()[1]).toEqual(['0px', '18.75px', '620px'])
-      expect((instance.element as HTMLElement).style.height).toBe('34px')
+      expect(
+        instance.get<HTMLElement>('.el-masonry__content').element.style.height
+      ).toBe('34px')
 
       elements[0].element.style.paddingBottom = '4.75px'
       resize(elements[0].element, shape, 17.5)
@@ -410,7 +478,9 @@ describe('Masonry', () => {
       await nextTick()
 
       expect(positions()[1]).toEqual(['0px', '21px', '620px'])
-      expect((instance.element as HTMLElement).style.height).toBe('36.25px')
+      expect(
+        instance.get<HTMLElement>('.el-masonry__content').element.style.height
+      ).toBe('36.25px')
     }
   )
 
@@ -430,7 +500,9 @@ describe('Masonry', () => {
     expect(
       instance.findAll<HTMLElement>('.el-masonry__item')[3].element.style.top
     ).toBe('60px')
-    expect((instance.element as HTMLElement).style.height).toBe('210px')
+    expect(
+      instance.get<HTMLElement>('.el-masonry__content').element.style.height
+    ).toBe('210px')
   })
 
   it('recalculates when columns or gutter change', async () => {
@@ -446,7 +518,9 @@ describe('Masonry', () => {
       ['320px', '0px', '300px'],
       ['0px', '120px', '300px'],
     ])
-    expect((instance.element as HTMLElement).style.height).toBe('200px')
+    expect(
+      instance.get<HTMLElement>('.el-masonry__content').element.style.height
+    ).toBe('200px')
   })
 
   it('reflows when existing content changes height', async () => {
@@ -461,7 +535,9 @@ describe('Masonry', () => {
     await settle()
 
     expect(positions()[3]).toEqual(['0px', '110px', '200px'])
-    expect((instance.element as HTMLElement).style.height).toBe('300px')
+    expect(
+      instance.get<HTMLElement>('.el-masonry__content').element.style.height
+    ).toBe('300px')
   })
 
   it('handles in-place insertion, deletion and reordering with stable keys', async () => {
@@ -486,7 +562,9 @@ describe('Masonry', () => {
     items.splice(1, 1)
     await settle()
     expect(positions()).toHaveLength(2)
-    expect((instance.element as HTMLElement).style.height).toBe('100px')
+    expect(
+      instance.get<HTMLElement>('.el-masonry__content').element.style.height
+    ).toBe('100px')
   })
 
   it('uses index keys for primitive items when item-key is omitted', async () => {
@@ -510,7 +588,9 @@ describe('Masonry', () => {
       wrapper.findAll('.el-masonry__item').map((item) => item.text())
     ).toEqual(['50:0', '100:1', '100:2'])
     expect(positions()[2]).toEqual(['0px', '60px', '305px'])
-    expect((wrapper.element as HTMLElement).style.height).toBe('160px')
+    expect(
+      wrapper.get<HTMLElement>('.el-masonry__content').element.style.height
+    ).toBe('160px')
     expect(warn).not.toHaveBeenCalled()
   })
 
@@ -540,7 +620,9 @@ describe('Masonry', () => {
       items.reverse()
       await settle()
       expect(wrapper.findAll('.el-masonry__item')[1].element).toBe(first)
-      expect((wrapper.element as HTMLElement).style.height).toBe('100px')
+      expect(
+        wrapper.get<HTMLElement>('.el-masonry__content').element.style.height
+      ).toBe('100px')
     }
   )
 
@@ -551,7 +633,9 @@ describe('Masonry', () => {
     })
     await settle()
     expect(positions()).toEqual([])
-    expect((instance.element as HTMLElement).style.height).toBe('0px')
+    expect(
+      instance.get<HTMLElement>('.el-masonry__content').element.style.height
+    ).toBe('0px')
 
     await instance.setProps({
       items: [
@@ -564,11 +648,15 @@ describe('Masonry', () => {
       ['0px', '0px', '620px'],
       ['0px', '110px', '620px'],
     ])
-    expect((instance.element as HTMLElement).style.height).toBe('160px')
+    expect(
+      instance.get<HTMLElement>('.el-masonry__content').element.style.height
+    ).toBe('160px')
 
     await instance.setProps({ items: [] })
     await settle()
-    expect((instance.element as HTMLElement).style.height).toBe('0px')
+    expect(
+      instance.get<HTMLElement>('.el-masonry__content').element.style.height
+    ).toBe('0px')
   })
 
   it('disconnects observers and cancels pending layout on unmount', async () => {

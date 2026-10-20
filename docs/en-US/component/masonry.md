@@ -9,7 +9,7 @@ Arrange content of different heights in equal-width columns. Each item is placed
 
 ## Basic usage
 
-Set `columns` and `gutter` to control the layout. Use the default slot to render any content. `item-key` defaults to the item index. Set a field name or key function to provide a unique, stable key matching Vue's `ReservedProps['key']` type.
+Set `columns` and `gutter` to control the layout. Use the default slot to render any content. `item-key` defaults to the item index. Set a field name or key function to provide a unique, stable string, number, or symbol key. The field must exist on every item and its value, or the function's return value, must not be `null` or `undefined`.
 
 :::demo
 
@@ -40,7 +40,7 @@ masonry/responsive
 | Name     | Description                                                                                   | Type                                                                                 | Default |
 | -------- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ | ------- |
 | items    | Items to lay out                                                                              | ^[array]`T[]`                                                                        | []      |
-| item-key | Field name or function returning a stable unique key                                          | ^[string] / ^[Function]`(item: T) => ReservedProps['key']`                           | index   |
+| item-key | Field name or function returning a stable unique string, number, or symbol key                | ^[string] / ^[Function]`(item: T) => PropertyKey`                                    | —       |
 | columns  | Number of columns, a positive integer or a responsive configuration                           | ^[number] / ^[object]`Partial<Record<'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl', number>>` | 3       |
 | gutter   | Horizontal and vertical spacing in pixels, a nonnegative number or a responsive configuration | ^[number] / ^[object]`Partial<Record<'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl', number>>` | 0       |
 

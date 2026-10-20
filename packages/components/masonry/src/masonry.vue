@@ -1,17 +1,23 @@
 <template>
-  <div ref="masonryRef" :class="ns.b()" :style="{ height: `${height}px` }">
+  <div :class="ns.b()">
     <div
-      v-for="(item, index) in items"
-      :key="getKey(item, index)"
-      ref="itemRefs"
-      :class="ns.e('item')"
-      :style="{
-        width: `${itemWidth}px`,
-        left: `${positions[index]?.left ?? 0}px`,
-        top: `${positions[index]?.top ?? 0}px`,
-      }"
+      ref="contentRef"
+      :class="ns.e('content')"
+      :style="{ height: `${height}px` }"
     >
-      <slot :item="item" :index="index" />
+      <div
+        v-for="(item, index) in items"
+        :key="getKey(item, index)"
+        ref="itemRefs"
+        :class="ns.e('item')"
+        :style="{
+          width: `${itemWidth}px`,
+          left: `${positions[index]?.left ?? 0}px`,
+          top: `${positions[index]?.top ?? 0}px`,
+        }"
+      >
+        <slot :item="item" :index="index" />
+      </div>
     </div>
   </div>
 </template>
@@ -32,8 +38,15 @@ import {
   useResizeObserver,
 } from '@vueuse/core'
 import { useNamespace } from '@element-plus/hooks'
+import {
+  cAF,
+  isFunction,
+  isNumber,
+  isUndefined,
+  rAF,
+} from '@element-plus/utils'
 
-import type { ReservedProps, VNode } from 'vue'
+import type { VNode } from 'vue'
 import type { MasonryProps, MasonryResponsiveValue } from './masonry'
 
 defineOptions({ name: 'ElMasonry' })
@@ -49,9 +62,9 @@ defineSlots<{
 }>()
 
 const ns = useNamespace('masonry')
-const masonryRef = ref<HTMLDivElement>()
+const contentRef = ref<HTMLDivElement>()
 const itemRefs = ref<HTMLElement[]>([])
-const { width } = useElementSize(masonryRef)
+const { width } = useElementSize(contentRef)
 const matchedBreakpoints = useBreakpoints(breakpointsElement, {
   ssrWidth: 0,
 }).current()
@@ -60,12 +73,12 @@ const resolveResponsiveValue = (
   value: MasonryResponsiveValue,
   fallback = 0
 ) => {
-  if (typeof value === 'number') return value
+  if (isNumber(value)) return value
 
   const breakpoint = [...matchedBreakpoints.value]
     .reverse()
-    .find((key) => value[key] !== undefined)
-  return (breakpoint ? value[breakpoint] : undefined) ?? fallback
+    .find((key) => !isUndefined(value[key]))
+  return breakpoint ? value[breakpoint]! : fallback
 }
 const columns = computed(() =>
   Math.max(1, Math.floor(resolveResponsiveValue(props.columns, 1)))
@@ -80,21 +93,23 @@ const itemWidth = computed(() =>
 const height = ref(0)
 const positions = shallowRef<{ left: number; top: number }[]>([])
 const itemHeights = new WeakMap<Element, number>()
-let frame = 0
+let rAFId = 0
 
-const getKey = (item: T, index: number) =>
-  props.itemKey === undefined
-    ? index
-    : typeof props.itemKey === 'function'
-      ? props.itemKey(item)
-      : (item[props.itemKey] as ReservedProps['key'])
+const getKey = (item: T, index: number) => {
+  const key = isFunction(props.itemKey)
+    ? props.itemKey(item)
+    : props.itemKey
+      ? (item?.[props.itemKey] as PropertyKey)
+      : index
+  return key ?? index
+}
 
 const layout = () => {
-  if (!masonryRef.value) return
+  if (!contentRef.value) return
 
   const columnHeights = Array.from({ length: columns.value }, () => 0)
   // Read children in DOM order; template ref arrays do not guarantee item order.
-  positions.value = Array.from(masonryRef.value.children).map((element) => {
+  positions.value = Array.from(contentRef.value.children).map((element) => {
     const column = columnHeights.indexOf(Math.min(...columnHeights))
     const top = columnHeights[column]
     columnHeights[column] +=
@@ -106,8 +121,8 @@ const layout = () => {
 }
 
 const scheduleLayout = () => {
-  cancelAnimationFrame(frame)
-  frame = requestAnimationFrame(layout)
+  cAF(rAFId)
+  rAFId = rAF(layout)
 }
 
 useResizeObserver(
@@ -138,9 +153,11 @@ useResizeObserver(
   },
   { box: 'border-box' }
 )
+
 watch([width, columns, gutter, () => props.items.map(getKey)], scheduleLayout, {
   flush: 'post',
 })
+
 onMounted(scheduleLayout)
-onBeforeUnmount(() => cancelAnimationFrame(frame))
+onBeforeUnmount(() => cAF(rAFId))
 </script>
