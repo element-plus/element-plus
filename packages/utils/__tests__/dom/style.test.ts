@@ -1,5 +1,15 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { addClass, addUnit, debugWarn, hasClass, removeClass } from '../..'
+import {
+  addClass,
+  addUnit,
+  debugWarn,
+  hasClass,
+  isPercent,
+  isPx,
+  parsePx,
+  percentToRatio,
+  removeClass,
+} from '../..'
 
 vi.mock('@element-plus/utils/error', () => ({
   debugWarn: vi.fn(),
@@ -227,6 +237,86 @@ describe('dom style', () => {
     it('should warn if value is not string or number', () => {
       addUnit({} as any)
       expect(debugWarn).toHaveBeenCalled()
+    })
+  })
+
+  describe('percentToRatio', () => {
+    it('should convert percentage strings to ratios without clamping', () => {
+      expect(percentToRatio('0%')).toBe(0)
+      expect(percentToRatio('50%')).toBe(0.5)
+      expect(percentToRatio('100%')).toBe(1)
+      expect(percentToRatio('12.5%')).toBe(0.125)
+      expect(percentToRatio('-25%')).toBe(-0.25)
+      expect(percentToRatio('150%')).toBe(1.5)
+    })
+
+    it('should return NaN when the numeric part is invalid', () => {
+      expect(percentToRatio('abc%')).toBeNaN()
+      expect(percentToRatio('12foo%')).toBeNaN()
+    })
+  })
+
+  describe('parsePx', () => {
+    it('should parse pixel strings while preserving decimals and signs', () => {
+      expect(parsePx('0px')).toBe(0)
+      expect(parsePx('100px')).toBe(100)
+      expect(parsePx('12.5px')).toBe(12.5)
+      expect(parsePx('-5.25px')).toBe(-5.25)
+    })
+
+    it('should return NaN when the numeric part is invalid', () => {
+      expect(parsePx('abcpx')).toBeNaN()
+      expect(parsePx('12foopx')).toBeNaN()
+    })
+  })
+
+  describe('isPercent', () => {
+    it('should recognize percentage strings', () => {
+      expect(isPercent('0%')).toBe(true)
+      expect(isPercent('50%')).toBe(true)
+      expect(isPercent('-12.5%')).toBe(true)
+    })
+
+    it('should check the suffix without validating the numeric part', () => {
+      expect(isPercent('abc%')).toBe(true)
+      expect(isPercent('%')).toBe(true)
+    })
+
+    it('should reject values without a trailing percent unit', () => {
+      expect(isPercent(undefined)).toBe(false)
+      expect(isPercent(0)).toBe(false)
+      expect(isPercent(50)).toBe(false)
+      expect(isPercent('')).toBe(false)
+      expect(isPercent('50')).toBe(false)
+      expect(isPercent('50px')).toBe(false)
+      expect(isPercent('50% ')).toBe(false)
+      expect(isPercent('50%foo')).toBe(false)
+    })
+  })
+
+  describe('isPx', () => {
+    it('should recognize pixel strings', () => {
+      expect(isPx('0px')).toBe(true)
+      expect(isPx('100px')).toBe(true)
+      expect(isPx('-12.5px')).toBe(true)
+    })
+
+    it('should check the suffix without validating the numeric part', () => {
+      expect(isPx('abcpx')).toBe(true)
+      expect(isPx('px')).toBe(true)
+    })
+
+    it('should reject values without a trailing lowercase px unit', () => {
+      expect(isPx(undefined)).toBe(false)
+      expect(isPx(0)).toBe(false)
+      expect(isPx(100)).toBe(false)
+      expect(isPx('')).toBe(false)
+      expect(isPx('100')).toBe(false)
+      expect(isPx('50%')).toBe(false)
+      expect(isPx('1em')).toBe(false)
+      expect(isPx('100PX')).toBe(false)
+      expect(isPx('100px ')).toBe(false)
+      expect(isPx('100pxfoo')).toBe(false)
     })
   })
 })
