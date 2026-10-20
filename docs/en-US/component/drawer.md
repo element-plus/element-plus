@@ -141,8 +141,8 @@ Configuration options for resizing the drawer.
 
 | Attribute | Description                                          | Type                  | Default |
 | --------- | ---------------------------------------------------- | --------------------- | ------- |
-| minSize   | Minimum size of the drawer (in pixels or percentage) | ^[number] / ^[string] | —       |
-| maxSize   | Maximum size of the drawer (in pixels or percentage) | ^[number] / ^[string] | —       |
+| min-size  | Minimum size of the drawer (in pixels or percentage) | ^[number] / ^[string] | 4px     |
+| max-size  | Maximum size of the drawer (in pixels or percentage) | ^[number] / ^[string] | 100%    |
 
 ### Events
 
