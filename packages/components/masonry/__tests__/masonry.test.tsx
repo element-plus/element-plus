@@ -259,20 +259,35 @@ describe('Masonry', () => {
     expect((instance.element as HTMLElement).style.height).toBe('220px')
   })
 
-  it('falls back to xs columns while matching xs gutter only on small screens', async () => {
-    viewportWidth = 1200
+  it('keeps xs columns and gutter as fallbacks across viewport changes', async () => {
+    viewportWidth = 767
     const instance = mountMasonry(
       [100, 100, 100].map((height, id) => ({ id, height })),
       { columns: { xs: 2 }, gutter: { xs: 20 } }
     )
     await settle()
-    expect(positions()[1]).toEqual(['310px', '0px', '310px'])
-    expect(positions()[2]).toEqual(['0px', '100px', '310px'])
+    for (const viewport of [767, 768, 769, 1024, 1920, 767]) {
+      setViewportWidth(viewport)
+      await settle()
+      expect(positions()[1]).toEqual(['320px', '0px', '300px'])
+      expect(positions()[2]).toEqual(['0px', '120px', '300px'])
+      expect((instance.element as HTMLElement).style.height).toBe('220px')
+    }
+  })
 
-    setViewportWidth(767)
+  it('lets a larger breakpoint override the xs gutter with zero', async () => {
+    viewportWidth = 768
+    const instance = mountMasonry(
+      [100, 100, 100].map((height, id) => ({ id, height })),
+      { columns: 2, gutter: { xs: 20, md: 0 } }
+    )
     await settle()
-    expect(positions()[1]).toEqual(['320px', '0px', '300px'])
-    expect((instance.element as HTMLElement).style.height).toBe('220px')
+    expect(positions()[2]).toEqual(['0px', '120px', '300px'])
+
+    setViewportWidth(992)
+    await settle()
+    expect(positions()[2]).toEqual(['0px', '100px', '310px'])
+    expect((instance.element as HTMLElement).style.height).toBe('200px')
   })
 
   it('uses defaults for empty responsive objects and omitted props', async () => {
@@ -473,6 +488,61 @@ describe('Masonry', () => {
     expect(positions()).toHaveLength(2)
     expect((instance.element as HTMLElement).style.height).toBe('100px')
   })
+
+  it('uses index keys for primitive items when item-key is omitted', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const items = reactive([100, 100, 50])
+    wrapper = mount(ElMasonry<number>, {
+      props: { items, columns: 2, gutter: 10 },
+      slots: {
+        default: ({ item, index }: { item: number; index: number }) =>
+          h('div', { style: { height: `${item}px` } }, `${item}:${index}`),
+      },
+    })
+    await settle()
+    const first = wrapper.find('.el-masonry__item').element
+    expect(positions()[2]).toEqual(['0px', '110px', '305px'])
+
+    items.reverse()
+    await settle()
+    expect(wrapper.find('.el-masonry__item').element).toBe(first)
+    expect(
+      wrapper.findAll('.el-masonry__item').map((item) => item.text())
+    ).toEqual(['50:0', '100:1', '100:2'])
+    expect(positions()[2]).toEqual(['0px', '60px', '305px'])
+    expect((wrapper.element as HTMLElement).style.height).toBe('160px')
+    expect(warn).not.toHaveBeenCalled()
+  })
+
+  it.each(['field', 'function'] as const)(
+    'supports symbol keys from a %s',
+    async (type) => {
+      const items = reactive([
+        { id: Symbol('first'), height: 100 },
+        { id: Symbol('second'), height: 50 },
+      ])
+      type SymbolItem = (typeof items)[number]
+      wrapper = mount(ElMasonry<SymbolItem>, {
+        props: {
+          items,
+          itemKey: type === 'field' ? 'id' : (item: SymbolItem) => item.id,
+          columns: 2,
+          gutter: 10,
+        },
+        slots: {
+          default: ({ item }: { item: SymbolItem }) =>
+            h('div', { style: { height: `${item.height}px` } }, item.height),
+        },
+      })
+      await settle()
+      const first = wrapper.find('.el-masonry__item').element
+
+      items.reverse()
+      await settle()
+      expect(wrapper.findAll('.el-masonry__item')[1].element).toBe(first)
+      expect((wrapper.element as HTMLElement).style.height).toBe('100px')
+    }
+  )
 
   it('supports an empty list, one column and a key function', async () => {
     const instance = mountMasonry([], {

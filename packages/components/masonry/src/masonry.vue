@@ -2,7 +2,7 @@
   <div ref="masonryRef" :class="ns.b()" :style="{ height: `${height}px` }">
     <div
       v-for="(item, index) in items"
-      :key="getKey(item)"
+      :key="getKey(item, index)"
       ref="itemRefs"
       :class="ns.e('item')"
       :style="{
@@ -33,7 +33,7 @@ import {
 } from '@vueuse/core'
 import { useNamespace } from '@element-plus/hooks'
 
-import type { VNode } from 'vue'
+import type { ReservedProps, VNode } from 'vue'
 import type { MasonryProps, MasonryResponsiveValue } from './masonry'
 
 defineOptions({ name: 'ElMasonry' })
@@ -62,27 +62,14 @@ const resolveResponsiveValue = (
 ) => {
   if (typeof value === 'number') return value
 
-  const matches = matchedBreakpoints.value
-  // Layout's xs breakpoint only matches below sm.
-  const breakpoint = [...matches]
+  const breakpoint = [...matchedBreakpoints.value]
     .reverse()
-    .find(
-      (key) =>
-        (key !== 'xs' || matches.length === 1) && value[key] !== undefined
-    )
+    .find((key) => value[key] !== undefined)
   return (breakpoint ? value[breakpoint] : undefined) ?? fallback
 }
-const columns = computed(() => {
-  const value = props.columns
-  return Math.max(
-    1,
-    Math.floor(
-      typeof value === 'number'
-        ? value
-        : resolveResponsiveValue(value, value.xs ?? 1)
-    )
-  )
-})
+const columns = computed(() =>
+  Math.max(1, Math.floor(resolveResponsiveValue(props.columns, 1)))
+)
 const gutter = computed(() => resolveResponsiveValue(props.gutter))
 const itemWidth = computed(() =>
   Math.max(
@@ -95,10 +82,12 @@ const positions = shallowRef<{ left: number; top: number }[]>([])
 const itemHeights = new WeakMap<Element, number>()
 let frame = 0
 
-const getKey = (item: T) =>
-  typeof props.itemKey === 'function'
-    ? props.itemKey(item)
-    : (item[props.itemKey] as string | number)
+const getKey = (item: T, index: number) =>
+  props.itemKey === undefined
+    ? index
+    : typeof props.itemKey === 'function'
+      ? props.itemKey(item)
+      : (item[props.itemKey] as ReservedProps['key'])
 
 const layout = () => {
   if (!masonryRef.value) return
