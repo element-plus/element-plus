@@ -6,7 +6,7 @@
     <el-radio-button value="ltr">left</el-radio-button>
   </el-radio-group>
 
-  <el-drawer v-model="drawer" :direction="direction" resizable>
+  <el-drawer v-model="drawer" :direction="direction" :resizable="resizable">
     This is drawer content.
   </el-drawer>
 </template>
@@ -15,6 +15,11 @@
 import { ref } from 'vue'
 
 import type { DrawerProps } from 'element-plus'
+
+const resizable = {
+  minSize: '20%',
+  maxSize: '80%',
+}
 
 const direction = ref<DrawerProps['direction']>()
 const drawer = ref(false)
