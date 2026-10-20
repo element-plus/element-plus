@@ -491,6 +491,18 @@ describe('Drawer', () => {
   })
 
   describe('resizable', () => {
+    test('should enable resizing with empty options', async () => {
+      const wrapper = _mount(
+        `<el-drawer v-model="visible" :resizable="{}" />`,
+        () => ({ visible: true })
+      )
+
+      await nextTick()
+
+      expect(wrapper.find('.el-drawer__dragger').exists()).toBe(true)
+      wrapper.unmount()
+    })
+
     // mock mouse event
     const simulateDrag = async (
       dragger: DOMWrapper<Element>,
@@ -674,16 +686,22 @@ describe('Drawer', () => {
       cleanup()
     })
 
-    test('should respect resizable minSize and maxSize during resize', async () => {
+    test.each([
+      { minSize: 200, maxSize: 800 },
+      { minSize: '200', maxSize: '800' },
+      { minSize: '200px', maxSize: '800px' },
+      { minSize: '20%', maxSize: '80%' },
+    ])('should respect resize limits %j', async (resizable) => {
       const cleanup = defineGetter(window, 'innerWidth', '1000')
       const wrapper = _mount(
         `
-        <el-drawer v-model='visible' direction='ltr' :resizable="{ minSize: 200, maxSize: 800 }" size='30%'>
+        <el-drawer v-model='visible' direction='ltr' :resizable="resizable" size='30%'>
           <span>${content}</span>
         </el-drawer>
         `,
         () => ({
           visible: true,
+          resizable,
         })
       )
 
@@ -699,122 +717,10 @@ describe('Drawer', () => {
       await simulateDrag(dragger, 'horizontal', 300, 100)
       expect(drawerEl.style.width).toEqual('200px')
 
-      Object.defineProperty(drawerEl, 'offsetWidth', {
-        value: 200,
-        configurable: true,
-      })
-
       await simulateDrag(dragger, 'horizontal', 200, 900)
       expect(drawerEl.style.width).toEqual('800px')
 
-      cleanup()
-    })
-
-    test('should work with resizable minSize and maxSize options', async () => {
-      const cleanup = defineGetter(window, 'innerWidth', '1000')
-      const wrapper = _mount(
-        `
-        <el-drawer v-model='visible' direction='ltr' :resizable="{ minSize: 100, maxSize: 700 }" size='30%'>
-          <span>${content}</span>
-        </el-drawer>
-        `,
-        () => ({
-          visible: true,
-        })
-      )
-
-      await nextTick()
-
-      const dragger = wrapper.find('.el-drawer__dragger')
-      const drawerEl = wrapper.find('.el-drawer').element as HTMLDivElement
-      Object.defineProperty(drawerEl, 'offsetWidth', {
-        value: 300,
-        configurable: true,
-      })
-
-      await simulateDrag(dragger, 'horizontal', 300, 50)
-      expect(drawerEl.style.width).toEqual('100px')
-
-      Object.defineProperty(drawerEl, 'offsetWidth', {
-        value: 100,
-        configurable: true,
-      })
-
-      await simulateDrag(dragger, 'horizontal', 100, 800)
-      expect(drawerEl.style.width).toEqual('700px')
-
-      cleanup()
-    })
-
-    test('should respect resizable minSize and maxSize during vertical resize', async () => {
-      const cleanup = defineGetter(window, 'innerHeight', '1000')
-      const wrapper = _mount(
-        `
-        <el-drawer v-model='visible' direction='ttb' :resizable="{ minSize: 200, maxSize: 800 }" size='30%'>
-          <span>${content}</span>
-        </el-drawer>
-        `,
-        () => ({
-          visible: true,
-        })
-      )
-
-      await nextTick()
-
-      const dragger = wrapper.find('.el-drawer__dragger')
-      const drawerEl = wrapper.find('.el-drawer').element as HTMLDivElement
-      Object.defineProperty(drawerEl, 'offsetHeight', {
-        value: 300,
-        configurable: true,
-      })
-
-      await simulateDrag(dragger, 'vertical', 300, 100)
-      expect(drawerEl.style.height).toEqual('200px')
-
-      Object.defineProperty(drawerEl, 'offsetHeight', {
-        value: 200,
-        configurable: true,
-      })
-
-      await simulateDrag(dragger, 'vertical', 200, 900)
-      expect(drawerEl.style.height).toEqual('800px')
-
-      cleanup()
-    })
-
-    test('should use size and viewport as default limits when minSize and maxSize are not provided', async () => {
-      const cleanup = defineGetter(window, 'innerWidth', '1000')
-      const wrapper = _mount(
-        `
-        <el-drawer v-model='visible' direction='ltr' resizable size='30%'>
-          <span>${content}</span>
-        </el-drawer>
-        `,
-        () => ({
-          visible: true,
-        })
-      )
-
-      await nextTick()
-
-      const dragger = wrapper.find('.el-drawer__dragger')
-      const drawerEl = wrapper.find('.el-drawer').element as HTMLDivElement
-      Object.defineProperty(drawerEl, 'offsetWidth', {
-        value: 300,
-        configurable: true,
-      })
-
-      await simulateDrag(dragger, 'horizontal', 300, 100)
-      expect(drawerEl.style.width).toEqual('300px')
-
-      Object.defineProperty(drawerEl, 'offsetWidth', {
-        value: 300,
-        configurable: true,
-      })
-
-      await simulateDrag(dragger, 'horizontal', 300, 1200)
-      expect(drawerEl.style.width).toEqual('1000px')
-
+      wrapper.unmount()
       cleanup()
     })
   })

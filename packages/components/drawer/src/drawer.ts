@@ -3,6 +3,7 @@ import {
   definePropType,
   isBoolean,
   isNumber,
+  isString,
 } from '@element-plus/utils'
 import { dialogEmits, dialogProps } from '@element-plus/components/dialog'
 
@@ -11,8 +12,8 @@ import type Drawer from './drawer.vue'
 import type { DialogProps } from '@element-plus/components/dialog'
 
 export interface DrawerResizableOptions {
-  minSize?: number
-  maxSize?: number
+  minSize?: number | string
+  maxSize?: number | string
 }
 
 export interface DrawerProps extends DialogProps {
@@ -21,7 +22,7 @@ export interface DrawerProps extends DialogProps {
    */
   direction?: 'ltr' | 'rtl' | 'ttb' | 'btt'
   /**
-   * @description Whether to enable the resizable function for the Drawer. Use an object to configure min and max size constraints in pixels.
+   * @description Whether to enable resizing for the Drawer. The object form allows more fine-grained control.
    */
   resizable?: boolean | DrawerResizableOptions
   /**
@@ -58,8 +59,12 @@ export const drawerProps = buildProps({
     validator: (val: boolean | DrawerResizableOptions) => {
       if (isBoolean(val)) return true
       return (
-        (val.minSize === undefined || isNumber(val.minSize)) &&
-        (val.maxSize === undefined || isNumber(val.maxSize))
+        (val.minSize === undefined ||
+          isNumber(val.minSize) ||
+          isString(val.minSize)) &&
+        (val.maxSize === undefined ||
+          isNumber(val.maxSize) ||
+          isString(val.maxSize))
       )
     },
   },

@@ -1,5 +1,5 @@
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
-import { addUnit } from '@element-plus/utils'
+import { addUnit, isObject } from '@element-plus/utils'
 import {
   getPct,
   getPx,
@@ -26,43 +26,30 @@ export function useResizable(
     isHorizontal.value ? width.value : height.value
   )
   const resizableOptions = computed(() =>
-    typeof props.resizable === 'object' ? props.resizable : undefined
+    isObject(props.resizable) ? props.resizable : {}
   )
 
   /**
    * Parse size string/number to pixels using splitter utilities.
    */
   const parseSizeToPixels = (
-    size: string | number | null | undefined,
+    size: string | number | undefined,
     fallback: number
   ): number => {
-    if (size == null) return fallback
-    if (typeof size === 'number') return size
-
     if (isPct(size)) {
       return getPct(size) * windowSize.value
-    }
-    if (isPx(size)) {
+    } else if (isPx(size)) {
       return getPx(size)
     }
-
-    return Number(size) || fallback
+    return Number(size ?? fallback)
   }
 
-  const sizePixels = computed(() => parseSizeToPixels(props.size, 200))
-
-  const minSizePixels = computed(() =>
-    parseSizeToPixels(resizableOptions.value?.minSize, sizePixels.value)
-  )
-  const maxSizePixels = computed(() =>
-    parseSizeToPixels(resizableOptions.value?.maxSize, windowSize.value)
-  )
-
   const getSize = computed(() => {
-    const min = Math.min(minSizePixels.value, maxSizePixels.value)
-    const max = Math.max(minSizePixels.value, maxSizePixels.value)
-
-    return clamp(startSize.value + sign.value * offset.value, min, max)
+    return clamp(
+      startSize.value + sign.value * offset.value,
+      parseSizeToPixels(resizableOptions.value.minSize, 4),
+      parseSizeToPixels(resizableOptions.value.maxSize, windowSize.value)
+    )
   })
 
   const startSize = ref(0)
