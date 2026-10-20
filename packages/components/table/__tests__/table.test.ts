@@ -3600,8 +3600,10 @@ describe('cleanup', () => {
     wrapper.unmount()
     const listeners = (spy: typeof add) =>
       spy.mock.calls.filter(([type]) => type === 'resize').map(([, fn]) => fn)
+    const added = listeners(add)
     const removed = listeners(remove)
-    expect(listeners(add).every((fn) => removed.includes(fn))).toBe(true)
+    expect(added.length).toBeGreaterThan(0)
+    expect(added.every((fn) => removed.includes(fn))).toBe(true)
     add.mockRestore()
     remove.mockRestore()
   })
