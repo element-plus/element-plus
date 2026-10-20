@@ -134,7 +134,8 @@ const { lang } = useLocale()
 const leftDate = ref(dayjs().locale(lang.value))
 const rightDate = ref(dayjs().locale(lang.value).add(step, unit))
 const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
-const { shortcuts, cellClassName } = pickerBase.props
+const { cellClassName } = pickerBase.props
+const shortcuts = toRef(pickerBase.props, 'shortcuts')
 const disabledDate = toRef(pickerBase.props, 'disabledDate')
 const format = toRef(pickerBase.props, 'format')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
@@ -177,7 +178,7 @@ const {
 
 const yearRangeDisabled = useFormDisabled()
 
-const hasShortcuts = computed(() => !!shortcuts.length)
+const hasShortcuts = computed(() => !!shortcuts.value.length)
 
 const panelKls = computed(() => [
   ppNs.b(),
