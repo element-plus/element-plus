@@ -3556,3 +3556,53 @@ describe('Table.vue', () => {
     vi.useRealTimers()
   })
 })
+
+describe('cleanup', () => {
+  const createTable = (fit: boolean) =>
+    mount({
+      components: { ElTable, ElTableColumn },
+      template: `
+        <el-table :data="testData" :fit="fit">
+          <el-table-column prop="name" label="片名" />
+        </el-table>
+      `,
+      data: () => ({ testData: getTestData(), fit }),
+    })
+
+  // https://github.com/element-plus/element-plus/issues/24914
+  it('disconnects resize observers on unmount', async () => {
+    const observed = new Set<ResizeObserver>()
+    const disconnected = new Set<ResizeObserver>()
+    const observe = vi
+      .spyOn(ResizeObserver.prototype, 'observe')
+      .mockImplementation(function (this: ResizeObserver) {
+        observed.add(this)
+      })
+    const disconnect = vi
+      .spyOn(ResizeObserver.prototype, 'disconnect')
+      .mockImplementation(function (this: ResizeObserver) {
+        disconnected.add(this)
+      })
+    const wrapper = createTable(true)
+    await doubleWait()
+    wrapper.unmount()
+    expect(observed.size).toBeGreaterThan(0)
+    expect([...observed].every((o) => disconnected.has(o))).toBe(true)
+    observe.mockRestore()
+    disconnect.mockRestore()
+  })
+
+  it('removes window resize listener on unmount', async () => {
+    const add = vi.spyOn(window, 'addEventListener')
+    const remove = vi.spyOn(window, 'removeEventListener')
+    const wrapper = createTable(false)
+    await doubleWait()
+    wrapper.unmount()
+    const listeners = (spy: typeof add) =>
+      spy.mock.calls.filter(([type]) => type === 'resize').map(([, fn]) => fn)
+    const removed = listeners(remove)
+    expect(listeners(add).every((fn) => removed.includes(fn))).toBe(true)
+    add.mockRestore()
+    remove.mockRestore()
+  })
+})
