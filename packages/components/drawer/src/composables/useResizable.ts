@@ -1,11 +1,12 @@
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
-import { addUnit, isObject } from '@element-plus/utils'
 import {
-  getPct,
-  getPx,
-  isPct,
+  addUnit,
+  isObject,
+  isPercent,
   isPx,
-} from '@element-plus/components/splitter/src/hooks'
+  parsePx,
+  percentToRatio,
+} from '@element-plus/utils'
 import { clamp, useEventListener, useWindowSize } from '@vueuse/core'
 
 import type { Ref, SetupContext } from 'vue'
@@ -30,16 +31,16 @@ export function useResizable(
   )
 
   /**
-   * Parse size string/number to pixels using splitter utilities.
+   * Parse size string/number to pixels.
    */
   const parseSizeToPixels = (
     size: string | number | undefined,
     fallback: number
   ): number => {
-    if (isPct(size)) {
-      return getPct(size) * windowSize.value
+    if (isPercent(size)) {
+      return percentToRatio(size) * windowSize.value
     } else if (isPx(size)) {
-      return getPx(size)
+      return parsePx(size)
     }
     return Number(size ?? fallback)
   }
