@@ -17,6 +17,10 @@ export interface BacktopProps {
    * @description bottom distance.
    */
   bottom?: number
+  /**
+   * @description whether to show scroll progress around the button.
+   */
+  showProgress?: boolean
 }
 
 /**
@@ -51,6 +55,10 @@ export const backtopProps = {
     type: Number,
     default: 40,
   },
+  /**
+   * @description whether to show scroll progress around the button.
+   */
+  showProgress: Boolean,
 } as const
 
 /**
