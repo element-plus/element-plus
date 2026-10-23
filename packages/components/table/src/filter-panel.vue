@@ -281,7 +281,7 @@ export default defineComponent({
             handleSelect(null, 0)
           } else {
             const item = (filters.value || [])[index - 1]
-            item.value && handleSelect(item.value, index)
+            item && handleSelect(item.value, index)
           }
           break
         default:
