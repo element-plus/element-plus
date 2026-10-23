@@ -180,15 +180,17 @@ export function useResize(
 
       // The limits may have changed while the panel was collapsed
       const [minSize, maxSize] = getLimits(targetIndex)
-      const targetCacheCollapsedSize = clamp(
-        clamp(cacheCollapsedSize[index], minSize, maxSize),
-        0,
-        totalSize
-      )
-      const currentCacheCollapsedSize = totalSize - targetCacheCollapsedSize
+      const restoredSize = clamp(cacheCollapsedSize[index], minSize, maxSize)
 
-      currentSizes[targetIndex] = targetCacheCollapsedSize
-      currentSizes[currentIndex] = currentCacheCollapsedSize
+      if (restoredSize <= totalSize) {
+        currentSizes[targetIndex] = restoredSize
+        currentSizes[currentIndex] = totalSize - restoredSize
+      } else {
+        // Not enough room next to it, so take the rest from the other panels too
+        currentSizes[targetIndex] = 0
+        currentSizes[currentIndex] = totalSize
+        shiftSize(targetIndex, restoredSize, currentSizes, currentIndex)
+      }
     }
 
     panels.value.forEach((panel, index) => {
@@ -196,7 +198,39 @@ export function useResize(
     })
   }
 
-  // Clamp the given panels to their min/max, taking the offset from the nearest panels
+  // Grow (or shrink) a panel by `offset`, taking it from the nearest
+  // non-collapsed panels within their limits, starting with `first` if given
+  function shiftSize(
+    index: number,
+    offset: number,
+    sizes: number[],
+    first = index + 1
+  ) {
+    const order = new Set([first])
+    for (let step = 1; step < sizes.length; step += 1) {
+      order.add(index + step).add(index - step)
+    }
+
+    let rest = offset
+    for (const i of order) {
+      const size = sizes[i]
+      if (!rest) break
+      if (i === index || !size) continue
+
+      const [min, max] = getLimits(i)
+      const nextSize = clamp(
+        size - rest,
+        Math.min(min, size),
+        Math.max(max, size)
+      )
+      rest -= size - nextSize
+      sizes[i] = nextSize
+    }
+
+    sizes[index]! += offset - rest
+  }
+
+  // Clamp the given panels to their min/max
   function applyLimits(indexes: number[], sizes: number[]) {
     let changed = false
 
@@ -209,25 +243,7 @@ export function useResize(
       const targetSize = clamp(currentSize, minSize, maxSize)
       if (targetSize === currentSize) return
 
-      // Start with the next panel
-      let rest = targetSize - currentSize
-      for (let step = 1; rest && step < sizes.length; step += 1) {
-        for (const i of [index + step, index - step]) {
-          const size = sizes[i]
-          if (!rest || !size) continue
-
-          const [min, max] = getLimits(i)
-          const nextSize = clamp(
-            size - rest,
-            Math.min(min, size),
-            Math.max(max, size)
-          )
-          rest -= size - nextSize
-          sizes[i] = nextSize
-        }
-      }
-
-      sizes[index] = targetSize - rest
+      shiftSize(index, targetSize - currentSize, sizes)
       changed = true
     })
 

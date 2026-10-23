@@ -319,6 +319,38 @@ describe('Splitter', () => {
     expect(panels[1].attributes('style')).toContain('flex-basis: 280px;')
   })
 
+  it('should take the missing space from other panels when expanding to an updated min', async () => {
+    const min = ref(40)
+    const wrapper = mount(() => (
+      <div style={{ width: '400px', height: '400px' }}>
+        <ElSplitter>
+          <ElSplitterPanel size={60} min={min.value} collapsible>
+            1
+          </ElSplitterPanel>
+          <ElSplitterPanel size={80} min={20}>
+            2
+          </ElSplitterPanel>
+          <ElSplitterPanel min={100}>3</ElSplitterPanel>
+        </ElSplitter>
+      </div>
+    ))
+    await nextTick()
+    const panels = wrapper.findAll('.el-splitter-panel')
+
+    await wrapper.find('.el-splitter-bar__collapse-icon').trigger('click')
+    expect(panels[0].attributes('style')).toContain('flex-basis: 0px;')
+    expect(panels[1].attributes('style')).toContain('flex-basis: 140px;')
+
+    // The first two panels only have 140px together
+    min.value = 200
+    await nextTick()
+    const icons = wrapper.findAll('.el-splitter-bar__collapse-icon')
+    await icons[icons.length - 1].trigger('click')
+    expect(panels[0].attributes('style')).toContain('flex-basis: 200px;')
+    expect(panels[1].attributes('style')).toContain('flex-basis: 20px;')
+    expect(panels[2].attributes('style')).toContain('flex-basis: 180px;')
+  })
+
   it('should keep a size updated in the same tick as min', async () => {
     const size = ref(40)
     const min = ref(40)
