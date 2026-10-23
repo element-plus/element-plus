@@ -13,6 +13,7 @@ export const genTooltipProvides = () => {
   const open = ref(false)
   const controlled = ref(false)
   const trigger = ref('hover')
+  const toggleByHover = ref(false)
 
   return {
     onToggle,
@@ -26,5 +27,6 @@ export const genTooltipProvides = () => {
     open,
     controlled,
     trigger,
+    toggleByHover,
   }
 }
