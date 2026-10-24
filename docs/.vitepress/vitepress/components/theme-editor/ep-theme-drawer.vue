@@ -71,7 +71,7 @@ async function restoreFocus() {
     <EpThemeSecondaryColors />
     <template #footer>
       <div class="theme-editor-actions">
-        <el-button text class="theme-editor-reset" @click="store.reset()">
+        <el-button class="theme-editor-reset" @click="store.reset()">
           <i-ep-refresh class="mr-1" />
           {{ t('editor.reset') }}
         </el-button>
@@ -179,6 +179,7 @@ async function restoreFocus() {
 .theme-editor-actions {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
   gap: 8px;
 }
 
@@ -196,17 +197,6 @@ async function restoreFocus() {
 .theme-editor-actions :deep(.el-button > span) {
   min-width: 0;
   overflow-wrap: anywhere;
-}
-
-.theme-editor-actions .theme-editor-reset {
-  justify-self: start;
-  width: auto;
-  max-width: 100%;
-  height: auto;
-  min-height: 40px;
-  white-space: normal;
-  text-align: left;
-  line-height: 20px;
 }
 
 @media (max-width: 767px) {
