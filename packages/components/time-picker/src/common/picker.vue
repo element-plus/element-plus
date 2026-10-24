@@ -19,6 +19,7 @@
     :hide-after="0"
     persistent
     @before-show="onBeforeShow"
+    @before-hide="onBeforeHide"
     @show="onShow"
     @hide="onHide"
   >
@@ -405,6 +406,10 @@ const onShow = () => {
   emit('visible-change', true)
 }
 
+const onBeforeHide = () => {
+  blur()
+}
+
 const onHide = () => {
   pickerActualVisible.value = false
   pickerVisible.value = false
@@ -562,8 +567,8 @@ const handleChange = () => {
     if (value) {
       if (isValidValue(value)) {
         emitInput(dayOrDaysToDate(value))
+        userInput.value = null
       }
-      userInput.value = null
     }
   }
   if (userInput.value === '' || isRangeEmpty) {
