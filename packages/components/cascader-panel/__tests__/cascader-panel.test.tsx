@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
 import { Check, Loading } from '@element-plus/icons-vue'
+import { ElCheckbox, ElCheckboxGroup } from '@element-plus/components/checkbox'
 import CascaderPanel from '../src/index.vue'
 import Node from '../src/node.vue'
 
@@ -149,6 +150,50 @@ describe('avoid other test case affecting this test case', () => {
 })
 
 describe('CascaderPanel.vue', () => {
+  test('keeps multiple selection independent of an ancestor checkbox group', async () => {
+    const groupValue = ref(['outer'])
+    const panelValue = ref<CascaderValue>([['zhejiang', 'hangzhou']])
+    const onGroupChange = vi.fn()
+    const wrapper = mount(() => (
+      <ElCheckboxGroup v-model={groupValue.value} onChange={onGroupChange}>
+        <ElCheckbox value="outer">Outer option</ElCheckbox>
+        <CascaderPanel
+          v-model={panelValue.value}
+          options={NORMAL_OPTIONS}
+          props={{ multiple: true }}
+        />
+      </ElCheckboxGroup>
+    ))
+
+    try {
+      await nextTick()
+      const panel = wrapper.findComponent(CascaderPanel)
+      const [hangzhou, ningbo] = panel.findAll(MENU)[1].findAll(NODE)
+      expect(hangzhou.find(CHECKBOX).classes('is-checked')).toBe(true)
+      expect(ningbo.find(CHECKBOX).classes('is-checked')).toBe(false)
+
+      await ningbo.find('input[type="checkbox"]').trigger('click')
+      expect(panelValue.value).toEqual([
+        ['zhejiang', 'hangzhou'],
+        ['zhejiang', 'ningbo'],
+      ])
+      expect(ningbo.find(CHECKBOX).classes('is-checked')).toBe(true)
+      expect(groupValue.value).toEqual(['outer'])
+      expect(onGroupChange).not.toHaveBeenCalled()
+
+      await hangzhou.find('input[type="checkbox"]').trigger('click')
+      expect(panelValue.value).toEqual([['zhejiang', 'ningbo']])
+      expect(hangzhou.find(CHECKBOX).classes('is-checked')).toBe(false)
+
+      await wrapper.findComponent(ElCheckbox).find('input').setValue(false)
+      expect(groupValue.value).toEqual([])
+      expect(panelValue.value).toEqual([['zhejiang', 'ningbo']])
+      expect(ningbo.find(CHECKBOX).classes('is-checked')).toBe(true)
+    } finally {
+      wrapper.unmount()
+    }
+  })
+
   beforeEach(() => {
     id = 0
   })
