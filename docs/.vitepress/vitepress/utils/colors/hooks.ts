@@ -12,8 +12,9 @@ export const useCopyColor = () => {
     const colorValue = getColorValue(colorType)
     source.value = colorValue
     const { $message } = vm.appContext.config.globalProperties
-    if (!isSupported) {
+    if (!isSupported.value) {
       $message.error('Copy failed')
+      return
     }
     try {
       await copy()
