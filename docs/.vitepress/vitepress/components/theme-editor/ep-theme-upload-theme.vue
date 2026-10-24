@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { Upload } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { useThemeStore } from '../../store/theme'
 
@@ -30,8 +31,7 @@ async function uploadTheme(event: Event) {
 </script>
 
 <template>
-  <el-button :loading="loading" @click="themeFile?.click()">
-    <i-ep-upload class="mr-1" />
+  <el-button :icon="Upload" :loading="loading" @click="themeFile?.click()">
     {{ t('editor.import') }}
   </el-button>
   <input

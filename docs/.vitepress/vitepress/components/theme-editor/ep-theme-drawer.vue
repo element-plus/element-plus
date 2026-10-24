@@ -2,7 +2,7 @@
 import { computed, nextTick, ref } from 'vue'
 import { mostReadable } from '@ctrl/tinycolor'
 import { useI18n } from 'vue-i18n'
-import { Brush, DocumentCopy } from '@element-plus/icons-vue'
+import { Brush, DocumentCopy, Download, Refresh } from '@element-plus/icons-vue'
 import { isDark } from '../../composables/dark'
 import { useThemeStore } from '../../store/theme'
 import { downloadTheme, generateCssFromTheme } from '../../utils/theme/helper'
@@ -71,16 +71,19 @@ async function restoreFocus() {
     <EpThemeSecondaryColors />
     <template #footer>
       <div class="theme-editor-actions">
-        <el-button class="theme-editor-reset" @click="store.reset()">
-          <i-ep-refresh class="mr-1" />
+        <el-button
+          class="theme-editor-reset"
+          :icon="Refresh"
+          @click="store.reset()"
+        >
           {{ t('editor.reset') }}
         </el-button>
         <EpThemeUploadTheme />
         <el-button
           class="theme-editor-export"
+          :icon="Download"
           @click="downloadTheme('el-custom-theme.css', store.fullTheme)"
         >
-          <i-ep-download class="mr-1" />
           {{ t('editor.export') }}
         </el-button>
         <el-button
