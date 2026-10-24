@@ -1,6 +1,6 @@
 {
   "private": true,
-  "packageManager": "pnpm@12.8.1",
+  "packageManager": "pnpm@12.15.0",
   "scripts": {
     "cz": "czg",
     "test": "vitest",
@@ -61,8 +61,8 @@
     "normalize-wheel-es": "^1.2.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^21.2.3",
-    "@commitlint/config-conventional": "^21.2.3",
+    "@commitlint/cli": "^21.2.4",
+    "@commitlint/config-conventional": "^21.2.4",
     "@ctrl/tinycolor": "catalog:",
     "@element-plus/build": "workspace:^0.0.1",
     "@element-plus/build-utils": "workspace:^0.0.1",
@@ -71,11 +71,11 @@
     "@pnpm/logger": "^5.2.0",
     "@pnpm/types": "^12.2.0",
     "@types/jsdom": "^30.0.0",
-    "@types/node": "^24.19.0",
+    "@types/node": "^24.19.2",
     "@vitejs/plugin-vue": "catalog:",
     "@vitejs/plugin-vue-jsx": "catalog:",
-    "@vitest/coverage-v8": "^5.0.3",
-    "@vitest/ui": "^5.0.3",
+    "@vitest/coverage-v8": "^5.0.5",
+    "@vitest/ui": "^5.0.5",
     "@vue/server-renderer": "catalog:",
     "@vue/shared": "catalog:",
     "@vue/test-utils": "catalog:",
@@ -83,9 +83,9 @@
     "csstype": "^3.2.3",
     "cz-git": "^1.14.0",
     "czg": "^1.14.0",
-    "eslint": "^10.11.0",
+    "eslint": "^10.13.0",
     "expect-type": "^1.4.0",
-    "happy-dom": "^20.14.5",
+    "happy-dom": "^21.0.4",
     "husky": "^9.1.7",
     "jsdom": "16.4.0",
     "lint-staged": "17.6.0",
@@ -96,9 +96,9 @@
     "tinyglobby": "^0.2.17",
     "tsx": "catalog:",
     "typescript": "catalog:",
-    "vitest": "^5.0.3",
+    "vitest": "^5.0.5",
     "vue": "catalog:",
-    "vue-router": "^5.3.1",
+    "vue-router": "^5.4.0",
     "vue-tsc": "=3.1.5"
   },
   "engines": {

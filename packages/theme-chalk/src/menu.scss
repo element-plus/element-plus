@@ -59,6 +59,18 @@
   background-color: getCssVar('menu-bg-color');
   box-sizing: border-box;
 
+  @include m(inline) {
+    display: flow-root;
+  }
+
+  @include m((inline, vertical)) {
+    // Prevent title margin collapse when submenu lists are shown or hidden.
+    > .#{$namespace}-sub-menu,
+    > .#{$namespace}-menu-item-group > ul > .#{$namespace}-sub-menu {
+      display: flow-root;
+    }
+  }
+
   @include m(vertical) {
     &:not(.#{$namespace}-menu--collapse):not(
         .#{$namespace}-menu--popup-container

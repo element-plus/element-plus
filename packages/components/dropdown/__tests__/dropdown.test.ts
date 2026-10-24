@@ -15,8 +15,10 @@ const MOUSE_ENTER_EVENT = 'mouseenter'
 const MOUSE_LEAVE_EVENT = 'mouseleave'
 const CONTEXTMENU = 'contextmenu'
 
-const _mount = (template: string, data, otherObj?) =>
-  mount({
+const wrappers: ReturnType<typeof mount>[] = []
+
+const _mount = (template: string, data, otherObj?) => {
+  const wrapper = mount({
     components: {
       [Button.name]: Button,
       [Dropdown.name]: Dropdown,
@@ -27,9 +29,14 @@ const _mount = (template: string, data, otherObj?) =>
     data,
     ...otherObj,
   })
+  wrappers.push(wrapper)
+  return wrapper
+}
 
 describe('Dropdown', () => {
   afterEach(() => {
+    wrappers.forEach((wrapper) => wrapper.unmount())
+    wrappers.length = 0
     document.body.innerHTML = ''
   })
 

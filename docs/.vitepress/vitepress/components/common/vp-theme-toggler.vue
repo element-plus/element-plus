@@ -31,8 +31,7 @@ watch(
 const beforeChange = () => {
   return new Promise<boolean>((resolve) => {
     const isAppearanceTransition =
-      // @ts-expect-error
-      document.startViewTransition &&
+      typeof document.startViewTransition === 'function' &&
       !window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (!isAppearanceTransition) {
       resolve(true)
@@ -61,7 +60,6 @@ const beforeChange = () => {
     root.style.setProperty('--theme-transition-y', `${ratioY}%`)
     root.style.setProperty('--theme-transition-radius', `${ratioR}%`)
 
-    // @ts-expect-error: Transition API
     const transition = document.startViewTransition(async () => {
       resolve(true)
       await nextTick()

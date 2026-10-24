@@ -307,7 +307,8 @@ const slots = useSlots()
 
 const { t, lang } = useLocale()
 const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
-const { shortcuts, cellClassName, defaultTime } = pickerBase.props
+const { cellClassName, defaultTime } = pickerBase.props
+const shortcuts = toRef(pickerBase.props, 'shortcuts')
 const disabledDate = toRef(pickerBase.props, 'disabledDate')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 
@@ -488,7 +489,7 @@ const keyboardMode = computed<string>(() => {
     : selectionMode.value
 })
 
-const hasShortcuts = computed(() => !!shortcuts.length)
+const hasShortcuts = computed(() => !!shortcuts.value.length)
 
 const handleMonthPick = async (
   month: number | MonthsPickerEmits,
