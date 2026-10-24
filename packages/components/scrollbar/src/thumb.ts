@@ -7,7 +7,10 @@ export interface ThumbProps {
   vertical?: boolean
   size?: string
   move?: number
-  ratio: number
+  /**
+   * @deprecated no longer used, the thumb is sized and positioned relative to the track
+   */
+  ratio?: number
   always?: boolean
 }
 
@@ -18,10 +21,7 @@ export const thumbProps = buildProps({
   vertical: Boolean,
   size: String,
   move: Number,
-  ratio: {
-    type: Number,
-    required: true,
-  },
+  ratio: Number,
   always: Boolean,
 } as const)
 
