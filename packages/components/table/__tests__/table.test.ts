@@ -3266,6 +3266,53 @@ describe('Table.vue', () => {
     }
   )
 
+  it('preserves existing whitespace for rich overflow cells with line breaks', async () => {
+    const wrapper = mount({
+      components: { ElTable, ElTableColumn },
+      template: `
+        <el-table :data="[{}]" show-overflow-tooltip>
+          <el-table-column>
+            <template #default><span>First line</span><br /><span>Second line</span></template>
+          </el-table-column>
+        </el-table>
+      `,
+    })
+
+    await doubleWait()
+    const td = wrapper.find('.el-table__body td').element as HTMLElement
+    const cell = td.querySelector('.cell') as HTMLElement
+    const originalInnerText = Object.getOwnPropertyDescriptor(td, 'innerText')
+    Object.defineProperty(td, 'innerText', {
+      configurable: true,
+      value: 'First line\nSecond line',
+    })
+    const rangeRect = vi
+      .spyOn(Range.prototype, 'getBoundingClientRect')
+      .mockReturnValue({ width: 150, height: 30 } as DOMRect)
+    const cellRect = vi
+      .spyOn(cell, 'getBoundingClientRect')
+      .mockReturnValue({ width: 100, height: 30 } as DOMRect)
+
+    try {
+      await wrapper.find('.el-table__body td').trigger('mouseenter')
+      await rAF()
+      const tooltip = document.querySelector('.el-popper span') as HTMLElement
+      expect(tooltip.textContent).toBe('First line\nSecond line')
+      expect(getComputedStyle(tooltip.parentElement!).whiteSpace).not.toBe(
+        'pre-line'
+      )
+    } finally {
+      rangeRect.mockRestore()
+      cellRect.mockRestore()
+      if (originalInnerText) {
+        Object.defineProperty(td, 'innerText', originalInnerText)
+      } else {
+        Reflect.deleteProperty(td, 'innerText')
+      }
+      wrapper.unmount()
+    }
+  })
+
   it('should not show tooltip when cell content is empty', async () => {
     const testData = [
       {

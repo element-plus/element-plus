@@ -425,7 +425,8 @@ const getTableOverflowTooltipProps = <T extends DefaultRow>(
   props: TableOverflowTooltipOptions,
   innerText: string,
   row: T,
-  column: TableColumnCtx<T> | null
+  column: TableColumnCtx<T> | null,
+  isPlainText: boolean
 ) => {
   const tooltipFormatterContent = isFunction(column?.tooltipFormatter)
     ? column.tooltipFormatter({
@@ -450,7 +451,7 @@ const getTableOverflowTooltipProps = <T extends DefaultRow>(
     strategy: 'fixed',
     ...props,
     popperStyle:
-      tooltipFormatterContent == null
+      isPlainText && tooltipFormatterContent == null
         ? [{ whiteSpace: 'pre-line' } as CSSProperties, props.popperStyle]
         : props.popperStyle,
   }
@@ -464,13 +465,15 @@ export function createTablePopper<T extends DefaultRow>(
   row: T,
   column: TableColumnCtx<T> | null,
   trigger: HTMLElement | null,
-  table: Table<DefaultRow>
+  table: Table<DefaultRow>,
+  isPlainText = false
 ) {
   const tableOverflowTooltipProps = getTableOverflowTooltipProps(
     props,
     popperContent,
     row,
-    column
+    column,
+    isPlainText
   )
   const mergedProps = {
     ...tableOverflowTooltipProps,

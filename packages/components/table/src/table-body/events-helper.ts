@@ -195,7 +195,8 @@ function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
         row,
         column,
         cell,
-        table
+        table,
+        cellChild.children.length === 0
       )
     } else if (removePopper?.trigger === cell) {
       removePopper?.()
