@@ -449,6 +449,10 @@ const getTableOverflowTooltipProps = <T extends DefaultRow>(
     content: tooltipFormatterContent ?? innerText,
     strategy: 'fixed',
     ...props,
+    popperStyle:
+      tooltipFormatterContent == null
+        ? [{ whiteSpace: 'pre-line' } as CSSProperties, props.popperStyle]
+        : props.popperStyle,
   }
 }
 

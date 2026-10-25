@@ -3200,48 +3200,71 @@ describe('Table.vue', () => {
     mockCellRect2.mockRestore()
   })
 
-  it('preserves line breaks in plain-text overflow tooltips', async () => {
-    const value = 'First line\r\nSecond line'
-    const wrapper = mount({
-      components: { ElTable, ElTableColumn },
-      template: `
-        <el-table :data="rows" show-overflow-tooltip>
+  it.each([
+    { name: 'LF', value: 'First line\nSecond line', whiteSpace: 'pre-line' },
+    {
+      name: 'CRLF',
+      value: 'First line\r\nSecond line',
+      whiteSpace: 'pre-line',
+    },
+    ...[
+      { whiteSpace: 'normal' },
+      'white-space: normal',
+      [{ whiteSpace: 'normal' }],
+    ].map((popperStyle, index) => ({
+      name: `custom popper style ${index}`,
+      value: 'First line\nSecond line',
+      tooltipOptions: { popperStyle },
+      whiteSpace: 'normal',
+    })),
+  ])(
+    'preserves rendered line breaks in plain-text overflow tooltips ($name)',
+    async ({ value, tooltipOptions, whiteSpace }) => {
+      const wrapper = mount({
+        components: { ElTable, ElTableColumn },
+        template: `
+        <el-table :data="rows" show-overflow-tooltip :tooltip-options="tooltipOptions">
           <el-table-column prop="text" label="text" />
         </el-table>
       `,
-      data: () => ({ rows: [{ text: value }] }),
-    })
+        data: () => ({ rows: [{ text: value }], tooltipOptions }),
+      })
 
-    await doubleWait()
-    const td = wrapper.find('.el-table__body td').element as HTMLElement
-    const cell = td.querySelector('.cell') as HTMLElement
-    const originalInnerText = Object.getOwnPropertyDescriptor(td, 'innerText')
-    Object.defineProperty(td, 'innerText', {
-      configurable: true,
-      value: 'First line Second line',
-    })
-    const rangeRect = vi
-      .spyOn(Range.prototype, 'getBoundingClientRect')
-      .mockReturnValue({ width: 150, height: 30 } as DOMRect)
-    const cellRect = vi
-      .spyOn(cell, 'getBoundingClientRect')
-      .mockReturnValue({ width: 100, height: 30 } as DOMRect)
+      await doubleWait()
+      const td = wrapper.find('.el-table__body td').element as HTMLElement
+      const cell = td.querySelector('.cell') as HTMLElement
+      const originalInnerText = Object.getOwnPropertyDescriptor(td, 'innerText')
+      Object.defineProperty(td, 'innerText', {
+        configurable: true,
+        value: 'First line Second line',
+      })
+      const rangeRect = vi
+        .spyOn(Range.prototype, 'getBoundingClientRect')
+        .mockReturnValue({ width: 150, height: 30 } as DOMRect)
+      const cellRect = vi
+        .spyOn(cell, 'getBoundingClientRect')
+        .mockReturnValue({ width: 100, height: 30 } as DOMRect)
 
-    try {
-      await wrapper.find('.el-table__body td').trigger('mouseenter')
-      await rAF()
-      expect(document.querySelector('.el-popper span')?.textContent).toBe(value)
-    } finally {
-      rangeRect.mockRestore()
-      cellRect.mockRestore()
-      if (originalInnerText) {
-        Object.defineProperty(td, 'innerText', originalInnerText)
-      } else {
-        Reflect.deleteProperty(td, 'innerText')
+      try {
+        await wrapper.find('.el-table__body td').trigger('mouseenter')
+        await rAF()
+        const tooltip = document.querySelector('.el-popper span') as HTMLElement
+        expect(tooltip.textContent).toBe(value)
+        expect(getComputedStyle(tooltip.parentElement!).whiteSpace).toBe(
+          whiteSpace
+        )
+      } finally {
+        rangeRect.mockRestore()
+        cellRect.mockRestore()
+        if (originalInnerText) {
+          Object.defineProperty(td, 'innerText', originalInnerText)
+        } else {
+          Reflect.deleteProperty(td, 'innerText')
+        }
+        wrapper.unmount()
       }
-      wrapper.unmount()
     }
-  })
+  )
 
   it('should not show tooltip when cell content is empty', async () => {
     const testData = [
@@ -3461,6 +3484,9 @@ describe('Table.vue', () => {
     expect(document.querySelector('.el-popper span')?.innerHTML).equals(
       `${testData[0].name}:formattered`
     )
+    expect(
+      getComputedStyle(document.querySelector('.el-popper')!).whiteSpace
+    ).not.toBe('pre-line')
 
     // From cell1 to cell2
     await childFormatterTds[1].trigger('mouseenter')
@@ -3480,6 +3506,9 @@ describe('Table.vue', () => {
     expect(document.querySelector('.el-popper a')?.getAttribute('href')).equals(
       `http://www.baidu.com?q=${testData[0].runtime}`
     )
+    expect(
+      getComputedStyle(document.querySelector('.el-popper')!).whiteSpace
+    ).not.toBe('pre-line')
 
     // leave and enter again
     vi.useFakeTimers()
