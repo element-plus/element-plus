@@ -1,0 +1,59 @@
+home:
+  title: Element Plus
+  title_sub: a Vue 3 based component library for designers and developers
+  china_mirror: China Mirror 🇨🇳
+  links: Links
+  changelog: Changelog
+  element_ui: Element UI for Vue 2
+  contact_us: Please contact us via
+  become_sponsor: Become a Sponsor!
+  community: Community
+  contribution: Contribution
+  segmentfault: SegmentFault
+  feedback: Feedback
+  view_detail: View Detail
+  guide: Guide
+  guide_desc: Understand the design guidelines, helping designers build product that's logically sound, reasonably structured and easy to use.
+  component: Component
+  component_desc: Experience interaction details by strolling through component demos. Use encapsulated code to improve developing efficiency.
+  resource: Resource
+  resource_desc: Download relevant design resources for shaping page prototype or visual draft, increasing design efficiency.
+not-found: Not found
+editor:
+  desc: Theme Editor
+  primary-color: Primary Color
+  secondary-color: Secondary Color
+  help: Preview colors on this page. Changes are saved in this browser. Click a color value or shade to copy it.
+  presets: Presets
+  presets-blue: Classic blue
+  presets-contrast: High contrast
+  presets-gold: Gold
+  presets-turquoise: Turquoise
+  reset: Restore defaults
+  import: Import theme
+  export: Export CSS
+  copy-css: Copy CSS
+  copy-css-success: Theme CSS copied
+  copy-css-error: Unable to copy the theme CSS. Try Export CSS instead.
+  import-success: Theme imported
+  import-error: Import a CSS or JSON file containing valid theme colors.
+  invalid-color: Enter a valid opaque color, for example "#409eff".
+  dark-mode: Dark mode
+  contrast: Text contrast
+  contrast-current: 'Info card uses {color} · {ratio}:1'
+  contrast-pass: AA pass
+  contrast-fail: Below AA
+  contrast-help: 'Normal text on this background needs at least 4.5:1 (WCAG AA).'
+  text-black: Black text
+  text-white: White text
+  apca: APCA · theme-colored text on white
+  apca-help: '{value} Lc · Theme color as text, white as background. This is separate from the info card contrast above.'
+  copied: 'Copied {color}'
+  copy-color: 'Copy {name}'
+  copy-error: Unable to copy this color.
+  colors:
+    primary: Primary
+    success: Success
+    warning: Warning
+    danger: Danger
+    info: Info

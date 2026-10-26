@@ -1,0 +1,57 @@
+home:
+  title: Element Plus
+  title_sub: una biblioteca de componentes basada en Vue 3 para diseñadores y desarrolladores
+  china_mirror: China Mirror 🇨🇳
+  links: Links
+  changelog: Changelog
+  element_ui: Element UI para Vue 2
+  contact_us: Por favor, contáctanos en
+  become_sponsor: ¡Conviértete en un patrocinador!
+  contribution: Contribuciones
+  segmentfault: SegmentFault
+  feedback: Feedback
+  view_detail: Ver detalles
+  guide: Guía
+  guide_desc: Entender las pautas de diseño, ayudando a los diseñadores a crear un producto que sea lógicamente sólido, razonablemente estructurado y fácil de usar.
+  component: Component
+  component_desc: Experience interaction details by strolling through component demos. Use encapsulated code to improve developing efficiency.
+  resource: Recursos
+  resource_desc: Descargue recursos de diseño relevantes para dar forma a prototipos de páginas o borrador visual, aumentando la eficiencia del diseño.
+editor:
+  desc: Editor de temas
+  primary-color: Color principal
+  secondary-color: Colores secundarios
+  help: Previsualiza los colores en esta página. Los cambios se guardan en este navegador. Haz clic en un valor de color o tono para copiarlo.
+  presets: Preajustes
+  presets-blue: Azul clásico
+  presets-contrast: Alto contraste
+  presets-gold: Dorado
+  presets-turquoise: Turquesa
+  reset: Restaurar valores predeterminados
+  import: Importar tema
+  export: Exportar CSS
+  copy-css: Copiar CSS
+  copy-css-success: CSS del tema copiado
+  copy-css-error: No se pudo copiar el CSS del tema. Prueba con Exportar CSS.
+  import-success: Tema importado
+  import-error: Importa un archivo CSS o JSON con colores de tema válidos.
+  invalid-color: Introduce un color opaco válido, por ejemplo «#409eff».
+  dark-mode: Modo oscuro
+  contrast: Contraste del texto
+  contrast-current: 'La tarjeta usa {color} · {ratio}:1'
+  contrast-pass: Cumple AA
+  contrast-fail: No cumple AA
+  contrast-help: 'El texto normal sobre este fondo necesita al menos 4.5:1 (WCAG AA).'
+  text-black: Texto negro
+  text-white: Texto blanco
+  apca: APCA · texto del color del tema sobre blanco
+  apca-help: '{value} Lc · Color del tema como texto y blanco como fondo. Se evalúa por separado del contraste de la tarjeta.'
+  copied: 'Se ha copiado {color}'
+  copy-color: 'Copiar {name}'
+  copy-error: No se pudo copiar el color.
+  colors:
+    primary: Principal
+    success: Éxito
+    warning: Advertencia
+    danger: Peligro
+    info: Información

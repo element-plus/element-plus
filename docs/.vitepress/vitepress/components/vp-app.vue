@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { onMounted, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 // import { ElMessageBox } from 'element-plus'
 // import dayjs from 'dayjs'
 import { isClient, useEventListener, useToggle } from '@vueuse/core'
 import { EVENT_CODE } from 'element-plus'
 import { useSidebar } from '../composables/sidebar'
 import { useToggleWidgets } from '../composables/toggle-widgets'
-// import { useLang } from '../composables/lang'
+import { useLang } from '../composables/lang'
 import { breakpoints } from '../constant'
 import VPOverlay from './vp-overlay.vue'
 import VPSkipLink from './vp-skip-link.vue'
@@ -19,7 +20,9 @@ import VPSponsors from './vp-sponsors.vue'
 // const USER_PREFER_GITHUB_PAGE = 'USER_PREFER_GITHUB_PAGE'
 const [isSidebarOpen, toggleSidebar] = useToggle(false)
 const { hasSidebar } = useSidebar()
-// const lang = useLang()
+const lang = useLang()
+const { locale } = useI18n()
+watch(lang, (value) => (locale.value = value), { immediate: true })
 
 // const mirrorUrl = 'element-plus.gitee.io'
 // const isMirrorUrl = () => {
@@ -126,4 +129,5 @@ onMounted(async () => {
       </template>
     </VPContent>
   </div>
+  <EpThemeEditor />
 </template>
