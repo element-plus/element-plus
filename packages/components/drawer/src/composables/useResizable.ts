@@ -1,5 +1,12 @@
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
-import { addUnit } from '@element-plus/utils'
+import {
+  addUnit,
+  isObject,
+  isPercent,
+  isPx,
+  parsePx,
+  percentToRatio,
+} from '@element-plus/utils'
 import { clamp, useEventListener, useWindowSize } from '@vueuse/core'
 
 import type { Ref, SetupContext } from 'vue'
@@ -19,11 +26,30 @@ export function useResizable(
   const windowSize = computed(() =>
     isHorizontal.value ? width.value : height.value
   )
+  const resizableOptions = computed(() =>
+    isObject(props.resizable) ? props.resizable : {}
+  )
+
+  /**
+   * Parse size string/number to pixels.
+   */
+  const parseSizeToPixels = (
+    size: string | number | undefined,
+    fallback: number
+  ): number => {
+    if (isPercent(size)) {
+      return percentToRatio(size) * windowSize.value
+    } else if (isPx(size)) {
+      return parsePx(size)
+    }
+    return Number(size ?? fallback)
+  }
+
   const getSize = computed(() => {
     return clamp(
       startSize.value + sign.value * offset.value,
-      4,
-      windowSize.value
+      parseSizeToPixels(resizableOptions.value.minSize, 4),
+      parseSizeToPixels(resizableOptions.value.maxSize, windowSize.value)
     )
   })
 

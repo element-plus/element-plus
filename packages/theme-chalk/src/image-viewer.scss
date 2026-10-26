@@ -59,10 +59,31 @@
   }
 
   @include e(img) {
+    opacity: 1;
     cursor: grab;
 
     &:active {
       cursor: grabbing;
+    }
+
+    @include when(loading) {
+      opacity: 0;
+    }
+  }
+
+  @include e(placeholder) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+
+    > * {
+      pointer-events: auto;
     }
   }
 

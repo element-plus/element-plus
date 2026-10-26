@@ -8,7 +8,7 @@ pnpm update:version
 pnpm build
 
 cd dist/element-plus
-pnpm publish --access public --no-git-checks
+NPM_CONFIG_WORKSPACE_DIR="$(pwd)/../.." pnpm publish --access public --no-git-checks
 cd -
 
 cd internal/eslint-config

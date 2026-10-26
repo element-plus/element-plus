@@ -27,14 +27,18 @@ import { ElementPlus } from '@element-plus/icons-vue'
 
 import type { TagProps } from 'element-plus'
 
-const type: Array<TagProps['type']> = [
+const type: Array<NonNullable<TagProps['type']>> = [
   'primary',
   'success',
   'info',
   'warning',
   'danger',
 ]
-const effect: Array<TagProps['effect']> = ['light', 'dark', 'plain']
+const effect: Array<NonNullable<TagProps['effect']>> = [
+  'light',
+  'dark',
+  'plain',
+]
 
 const tagType = ref<TagProps['type']>('primary')
 const tagEffect = ref<TagProps['effect']>('plain')

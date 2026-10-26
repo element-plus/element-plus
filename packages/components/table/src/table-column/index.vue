@@ -204,7 +204,7 @@ const TableColumnRenderer = () => {
       column: {} as TableColumnCtx<T>,
       $index: -1,
     })
-    const children = []
+    const children: VNode[] = []
     if (isArray(renderDefault)) {
       for (const childNode of renderDefault) {
         if (
