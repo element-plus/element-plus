@@ -157,6 +157,9 @@ describe('useLockscreen', () => {
     await nextTick()
     vi.advanceTimersByTime(100)
 
+    // the pending cleanup must not unlock the screen that was just locked
+    expect(hasClass(document.body, kls)).toBe(true)
+
     trigger.value = false
     await nextTick()
     vi.advanceTimersByTime(250)
