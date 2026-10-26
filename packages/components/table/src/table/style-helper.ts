@@ -130,10 +130,12 @@ function useStyle<T extends DefaultRow>(
     // When the test case is running, the context environment simulated by jsdom may have been destroyed,
     // and window.requestAnimationFrame does not exist at this time.
     if (typeof window === 'undefined') return
-    syncFrame = requestAnimationFrame(() => {
-      syncFrame = null
-      if (!isUnmounted) syncPosition()
-    })
+    if (syncFrame === null) {
+      syncFrame = requestAnimationFrame(() => {
+        syncFrame = null
+        if (!isUnmounted) syncPosition()
+      })
+    }
   }
   onMounted(async () => {
     await nextTick()
