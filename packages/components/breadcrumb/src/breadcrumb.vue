@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, provide, ref } from 'vue'
+import { onMounted, onUpdated, provide, ref } from 'vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { breadcrumbKey } from './constants'
 
@@ -30,10 +30,17 @@ const breadcrumb = ref<HTMLDivElement>()
 
 provide(breadcrumbKey, props)
 
-onMounted(() => {
-  const items = breadcrumb.value!.querySelectorAll(`.${ns.e('item')}`)
-  if (items.length) {
-    items[items.length - 1].setAttribute('aria-current', 'page')
-  }
-})
+const markCurrentItem = () => {
+  const items = breadcrumb.value?.querySelectorAll(`.${ns.e('item')}`)
+  if (!items?.length) return
+
+  items.forEach((item) => item.removeAttribute('aria-current'))
+  items[items.length - 1].setAttribute('aria-current', 'page')
+}
+
+onMounted(markCurrentItem)
+
+// `aria-current` must follow the last item when the slot content changes,
+// e.g. a route change appends or removes a breadcrumb item.
+onUpdated(markCurrentItem)
 </script>
