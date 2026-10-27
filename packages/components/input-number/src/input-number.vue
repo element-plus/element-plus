@@ -401,10 +401,11 @@ watch(
     data.currentValue = verifyValue(props.modelValue)
   }
 )
-onMounted(() => {
-  const { min, max, modelValue } = props
-  const innerInput = input.value?.input as HTMLInputElement
-  innerInput.setAttribute('role', 'spinbutton')
+const updateAriaAttributes = () => {
+  const innerInput = input.value?.input as HTMLInputElement | undefined
+  if (!innerInput) return
+
+  const { min, max } = props
   if (Number.isFinite(max)) {
     innerInput.setAttribute('aria-valuemax', String(max))
   } else {
@@ -422,6 +423,13 @@ onMounted(() => {
       : ''
   )
   innerInput.setAttribute('aria-disabled', String(inputNumberDisabled.value))
+}
+
+onMounted(() => {
+  const { modelValue } = props
+  const innerInput = input.value?.input as HTMLInputElement
+  innerInput.setAttribute('role', 'spinbutton')
+  updateAriaAttributes()
   if (!isNumber(modelValue) && modelValue != null) {
     let val: number | null = Number(modelValue)
     if (Number.isNaN(val)) {
@@ -432,8 +440,7 @@ onMounted(() => {
   innerInput.addEventListener('wheel', handleWheel, { passive: false })
 })
 onUpdated(() => {
-  const innerInput = input.value?.input
-  innerInput?.setAttribute('aria-valuenow', `${data.currentValue ?? ''}`)
+  updateAriaAttributes()
 })
 defineExpose({
   /** @description get focus the input component */
