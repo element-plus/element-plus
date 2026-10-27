@@ -30,12 +30,16 @@ const breadcrumb = ref<HTMLDivElement>()
 
 provide(breadcrumbKey, props)
 
+let currentItem: Element | undefined
+
 const markCurrentItem = () => {
   const items = breadcrumb.value?.querySelectorAll(`.${ns.e('item')}`)
-  if (!items?.length) return
+  const lastItem = items?.[items.length - 1]
+  if (lastItem === currentItem) return
 
-  items.forEach((item) => item.removeAttribute('aria-current'))
-  items[items.length - 1].setAttribute('aria-current', 'page')
+  currentItem?.removeAttribute('aria-current')
+  lastItem?.setAttribute('aria-current', 'page')
+  currentItem = lastItem
 }
 
 onMounted(markCurrentItem)
