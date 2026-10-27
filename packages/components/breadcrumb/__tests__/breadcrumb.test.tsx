@@ -123,6 +123,29 @@ describe('Breadcrumb.vue', () => {
       expect(rendered.at(0)!.attributes('aria-current')).toBe('page')
     })
 
+    it('should re-mark when the current item is removed outside a Vue update', async () => {
+      // A TransitionGroup removes the leaving item directly from the DOM after
+      // the leave transition; no parent update follows, so onUpdated alone
+      // would leave the remaining last item without aria-current.
+      const items = ref(['A', 'B', 'C'])
+      const wrapper = _mount(() => (
+        <Breadcrumb>
+          {items.value.map((item) => (
+            <BreadcrumbItem key={item}>{item}</BreadcrumbItem>
+          ))}
+        </Breadcrumb>
+      ))
+
+      await nextTick()
+      const rendered = wrapper.findAll('.el-breadcrumb__item')
+      expect(rendered.at(2)!.attributes('aria-current')).toBe('page')
+
+      rendered.at(2)!.element.remove()
+      await new Promise((resolve) => setTimeout(resolve, 0))
+
+      expect(rendered.at(1)!.attributes('aria-current')).toBe('page')
+    })
+
     it('click event', async () => {
       const replace = vi.fn()
       const push = vi.fn()
