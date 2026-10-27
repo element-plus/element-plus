@@ -1,4 +1,4 @@
-import { computed, inject, nextTick, ref, watch } from 'vue'
+import { computed, inject, nextTick, onBeforeUnmount, ref, watch } from 'vue'
 import { clamp, debounce } from 'lodash-unified'
 import { useEventListener } from '@vueuse/core'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
@@ -308,13 +308,23 @@ export const useSliderButton = (
         }
         emitChange()
       }, 0)
-      window.removeEventListener('mousemove', onDragging)
-      window.removeEventListener('touchmove', onDragging)
-      window.removeEventListener('mouseup', onDragEnd)
-      window.removeEventListener('touchend', onDragEnd)
-      window.removeEventListener('contextmenu', onDragEnd)
+      stopDragging()
     }
   }
+
+  const stopDragging = () => {
+    window.removeEventListener('mousemove', onDragging)
+    window.removeEventListener('touchmove', onDragging)
+    window.removeEventListener('mouseup', onDragEnd)
+    window.removeEventListener('touchend', onDragEnd)
+    window.removeEventListener('contextmenu', onDragEnd)
+  }
+
+  // `onButtonDown` binds the drag handlers to `window`, so they have to be
+  // released when the button goes away: a slider removed while its button is
+  // still pressed (v-if, closing dialog, ...) would otherwise keep handling
+  // every subsequent mouse move of the page.
+  onBeforeUnmount(stopDragging)
 
   const setPosition = async (newPosition: number) => {
     if (newPosition === null || Number.isNaN(+newPosition)) return
