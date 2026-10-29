@@ -166,8 +166,8 @@ settings:
 catalogs:
   default:
     '@ctrl/tinycolor':
-      specifier: ^4.2.1
-      version: 4.2.1
+      specifier: ^4.2.2
+      version: 4.2.2
     '@element-plus/icons-vue':
       specifier: ^2.3.2
       version: 2.3.2
@@ -297,7 +297,7 @@ importers:
         version: 21.2.4
       '@ctrl/tinycolor':
         specifier: 'catalog:'
-        version: 4.2.1
+        version: 4.2.2
       '@element-plus/build':
         specifier: workspace:^0.0.1
         version: link:internal/build
@@ -676,7 +676,7 @@ importers:
     dependencies:
       '@ctrl/tinycolor':
         specifier: 'catalog:'
-        version: 4.2.1
+        version: 4.2.2
       '@element-plus/constants':
         specifier: workspace:^
         version: link:../constants
@@ -740,7 +740,7 @@ importers:
     dependencies:
       '@ctrl/tinycolor':
         specifier: 'catalog:'
-        version: 4.2.1
+        version: 4.2.2
       '@element-plus/icons-vue':
         specifier: ^2.3.2
         version: 2.3.2(vue@3.5.25)
@@ -1332,8 +1332,8 @@ packages:
     engines: {node: '>=20'}
     hasBin: true
 
-  '@ctrl/tinycolor@4.2.1':
-    resolution: {integrity: sha512-Vh5uy9Y1JBMId6J1f68TMXnZrTCvNdo9Fu2k0d1YnJngR+sM5kWTKl441c/3TFs+cG0NWOjRWgQ/iaWhbYx+7A==}
+  '@ctrl/tinycolor@4.2.2':
+    resolution: {integrity: sha512-9rQHijqB2Rq6qOEC/xHaA6aPlsKGi5kmCQW50O1asn9g63XFeD5NmBwysriistW5Xx0JPafyD/TA7yk2S3pXGQ==}
     engines: {node: '>=14'}
 
   '@docsearch/css@3.8.2':
@@ -7957,7 +7957,7 @@ snapshots:
       '@crowdin/cli-linux-x64-musl': 5.5.0
       '@crowdin/cli-win32-x64': 5.5.0
 
-  '@ctrl/tinycolor@4.2.1': {}
+  '@ctrl/tinycolor@4.2.2': {}
 
   '@docsearch/css@3.8.2': {}
 
@@ -10740,7 +10740,7 @@ snapshots:
 
   element-plus@2.14.7(vue@3.5.25):
     dependencies:
-      '@ctrl/tinycolor': 4.2.1
+      '@ctrl/tinycolor': 4.2.2
       '@element-plus/icons-vue': 2.3.2(vue@3.5.25)
       '@floating-ui/dom': 1.8.0
       '@popperjs/core': '@sxzz/popperjs-es@2.11.8'
