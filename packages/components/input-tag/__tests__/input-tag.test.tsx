@@ -4,6 +4,7 @@ import { afterAll, describe, expect, test, vi } from 'vitest'
 import { ComponentSize, EVENT_CODE } from '@element-plus/constants'
 import { InputTagInstance } from '@element-plus/components/input-tag'
 import FormItem from '@element-plus/components/form/src/form-item.vue'
+import sleep from '@element-plus/test-utils/sleep'
 import InputTag from '../src/input-tag.vue'
 
 const AXIOM = 'Rem is the best girl'
@@ -496,7 +497,7 @@ describe('InputTag.vue', () => {
         </FormItem>
       ))
 
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const input = wrapper.find('[data-test-ref="input"]')
       const formItemLabel = formItem.find('.el-form-item__label')
@@ -511,7 +512,7 @@ describe('InputTag.vue', () => {
         </FormItem>
       ))
 
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const input = wrapper.find('[data-test-ref="input"]')
       const formItemLabel = formItem.find('.el-form-item__label')
