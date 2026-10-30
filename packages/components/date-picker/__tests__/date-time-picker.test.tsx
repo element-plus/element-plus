@@ -804,7 +804,8 @@ describe('Datetimerange', () => {
     ) as HTMLInputElement
     leftDateInput.blur()
     leftDateInput.focus()
-    await nextTick()
+    // Wait for the popper's initial focus trap before choosing another input.
+    await flushPromises()
     const listLeft = document.querySelectorAll(
       '.el-date-range-picker__editors-wrap .el-time-spinner__list'
     )
