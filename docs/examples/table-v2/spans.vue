@@ -1,5 +1,13 @@
 <template>
-  <el-table-v2 fixed :columns="columns" :data="data" :width="700" :height="400">
+  <el-table-v2
+    fixed
+    :columns="columns"
+    :data="data"
+    :width="700"
+    :height="400"
+    :cache="2"
+    :column-cache="4"
+  >
     <template #row="props">
       <Row v-bind="props" />
     </template>
@@ -49,33 +57,37 @@ columns[rowSpanIndex].rowSpan = ({ rowIndex }) =>
 
 const Row = ({ rowData, rowIndex, cells, columns }) => {
   const colSpan = columns[colSpanIndex].colSpan({ rowData, rowIndex })
-  if (colSpan > 1) {
-    let width = Number.parseInt(cells[colSpanIndex].props.style.width)
+  const firstColSpanCell = cells[colSpanIndex]
+  if (colSpan > 1 && firstColSpanCell) {
+    let width = Number.parseInt(firstColSpanCell.props.style.width)
     for (let i = 1; i < colSpan; i++) {
-      width += Number.parseInt(cells[colSpanIndex + i].props.style.width)
+      const curCell = cells[colSpanIndex + i]
+      if (curCell) {
+        width += Number.parseInt(curCell.props.style.width)
+      }
       cells[colSpanIndex + i] = null
     }
     const style = {
-      ...cells[colSpanIndex].props.style,
+      ...firstColSpanCell.props.style,
       width: `${width}px`,
       backgroundColor: 'var(--el-color-primary-light-3)',
     }
-    cells[colSpanIndex] = cloneVNode(cells[colSpanIndex], { style })
+    cells[colSpanIndex] = cloneVNode(firstColSpanCell, { style })
   }
 
   const rowSpan = columns[rowSpanIndex].rowSpan({ rowData, rowIndex })
-  if (rowSpan > 1) {
-    const cell = cells[rowSpanIndex]
+  const firstRowSpanCell = cells[rowSpanIndex]
+  if (rowSpan > 1 && firstRowSpanCell) {
     const style = {
-      ...cell.props.style,
+      ...firstRowSpanCell.props.style,
       backgroundColor: 'var(--el-color-danger-light-3)',
       height: `${rowSpan * 50}px`,
       alignSelf: 'flex-start',
       zIndex: 1,
     }
-    cells[rowSpanIndex] = cloneVNode(cell, { style })
-  } else {
-    const style = cells[rowSpanIndex].props.style
+    cells[rowSpanIndex] = cloneVNode(firstRowSpanCell, { style })
+  } else if (firstRowSpanCell) {
+    const style = firstRowSpanCell.props.style
     // override the cell here for creating a pure node without pollute the style
     cells[rowSpanIndex] = (
       <div style={{ ...style, width: `${style.width}px` }} />
