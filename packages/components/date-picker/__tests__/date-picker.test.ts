@@ -776,6 +776,7 @@ describe('DatePicker', () => {
       'date',
       'dates',
       'week',
+      'weeks',
       'quarter',
       'quarters',
       'quarterrange',
@@ -1751,6 +1752,255 @@ describe('WeekPicker', () => {
       )
       expect(dayjs(vm.value).locale(loObj.locale.name).day()).toBe(loObj.value) // Sunday or Monday
     })
+  })
+})
+
+describe('WeeksPicker', () => {
+  const getRows = () =>
+    document.querySelectorAll(
+      '.el-date-table__row'
+    ) as NodeListOf<HTMLTableRowElement>
+
+  const clickRow = async (index: number) => {
+    const cell = getRows()[index].querySelector('td.available') as HTMLElement
+    cell.click()
+    await nextTick()
+  }
+
+  it('should be readonly', () => {
+    const wrapper = _mount(
+      `<el-date-picker type="weeks" v-model="value" />`,
+      () => ({ value: [] })
+    )
+    expect(wrapper.find('input').attributes('readonly')).not.toBeUndefined()
+  })
+
+  it('should select multiple weeks', async () => {
+    const wrapper = _mount(
+      `<el-date-picker type="weeks" v-model="value" />`,
+      () => ({ value: [] as Date[] })
+    )
+    await wrapper.find('input').trigger('focus')
+    await nextTick()
+
+    await clickRow(1)
+    await clickRow(2)
+
+    const vm = wrapper.vm as any
+    expect(vm.value).toHaveLength(2)
+    vm.value.forEach((date: Date) => {
+      expect(dayjs(date).isSame(dayjs(date).startOf('week'), 'day')).toBe(true)
+    })
+  })
+
+  it('should toggle weeks on keyboard enter and space', async () => {
+    const wrapper = _mount(
+      `<el-date-picker type="weeks" v-model="value" />`,
+      () => ({ value: [] as Date[] })
+    )
+    await wrapper.find('input').trigger('focus')
+    await nextTick()
+
+    const cell = getRows()[1].querySelector('td.available') as HTMLElement
+    cell.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        key: 'Enter',
+        code: EVENT_CODE.enter,
+        bubbles: true,
+      })
+    )
+    await nextTick()
+
+    const vm = wrapper.vm as any
+    expect(vm.value).toHaveLength(1)
+    expect(
+      dayjs(vm.value[0]).isSame(dayjs(vm.value[0]).startOf('week'), 'day')
+    ).toBe(true)
+
+    cell.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        key: ' ',
+        code: EVENT_CODE.space,
+        bubbles: true,
+      })
+    )
+    await nextTick()
+    expect(vm.value).toHaveLength(0)
+  })
+
+  it('should cancel a selected week when clicking it again', async () => {
+    const wrapper = _mount(
+      `<el-date-picker type="weeks" v-model="value" />`,
+      () => ({ value: [] as Date[] })
+    )
+    await wrapper.find('input').trigger('focus')
+    await nextTick()
+
+    await clickRow(1)
+    await clickRow(2)
+    const firstWeek = +(wrapper.vm as any).value[0]
+    await clickRow(1)
+
+    const vm = wrapper.vm as any
+    expect(vm.value).toHaveLength(1)
+    expect(+vm.value[0]).not.toBe(firstWeek)
+  })
+
+  it('should highlight every selected week', async () => {
+    const wrapper = _mount(
+      `<el-date-picker type="weeks" v-model="value" />`,
+      () => ({ value: [] as Date[] })
+    )
+    await wrapper.find('input').trigger('focus')
+    await nextTick()
+
+    await clickRow(1)
+    await clickRow(2)
+    expect(
+      document.querySelectorAll('.el-date-table__row.current')
+    ).toHaveLength(2)
+
+    await clickRow(1)
+    expect(
+      document.querySelectorAll('.el-date-table__row.current')
+    ).toHaveLength(1)
+  })
+
+  it('should display multiple weeks with the default format', async () => {
+    const wrapper = _mount(
+      `<el-date-picker type="weeks" v-model="value" />`,
+      () => ({ value: [] as Date[] })
+    )
+    const input = wrapper.find('input')
+    await input.trigger('focus')
+    await nextTick()
+
+    await clickRow(1)
+    await clickRow(2)
+
+    const expected = (wrapper.vm as any).value
+      .map((date: Date) => dayjs(date).format('gggg[w]ww'))
+      .join(', ')
+    expect(input.element.value).toBe(expected)
+  })
+
+  it('should support value-format', async () => {
+    const wrapper = _mount(
+      `<el-date-picker type="weeks" v-model="value" value-format="YYYY-MM-DD" />`,
+      () => ({ value: [] as string[] })
+    )
+    await wrapper.find('input').trigger('focus')
+    await nextTick()
+
+    await clickRow(1)
+    await clickRow(2)
+
+    const vm = wrapper.vm as any
+    expect(vm.value).toHaveLength(2)
+    expect(
+      vm.value.every((value: string) => /^\d{4}-\d{2}-\d{2}$/.test(value))
+    ).toBe(true)
+  })
+
+  it('should select a week across years', async () => {
+    vi.useFakeTimers()
+    try {
+      vi.setSystemTime(new Date('2025-01-01'))
+      const wrapper = _mount(
+        `<el-date-picker type="weeks" v-model="value" />`,
+        () => ({ value: [] as Date[] })
+      )
+      const input = wrapper.find('input')
+      await input.trigger('focus')
+      await nextTick()
+
+      const firstDayOfJanuary = Array.from(
+        document.querySelectorAll('.el-date-table td.available')
+      ).find((cell) => cell.textContent?.trim() === '1') as HTMLElement
+      firstDayOfJanuary.click()
+      await nextTick()
+
+      const vm = wrapper.vm as any
+      expect(vm.value).toHaveLength(1)
+      expect(dayjs(vm.value[0]).year()).toBe(2024)
+      expect(input.element.value).toBe('2025w01')
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
+  it('should emit the locale first day of each selected week', async () => {
+    const wrapper = mount(
+      {
+        components: {
+          'el-date-picker': DatePicker,
+          'el-config-provider': ConfigProvider,
+        },
+        template: `
+          <el-config-provider :locale="locale">
+            <el-date-picker type="weeks" v-model="value" />
+          </el-config-provider>
+        `,
+        data() {
+          return {
+            locale: zhCn,
+            value: [] as Date[],
+          }
+        },
+      },
+      { attachTo: 'body' }
+    )
+    await wrapper.find('input').trigger('focus')
+    await nextTick()
+
+    await clickRow(1)
+    await clickRow(2)
+
+    const vm = wrapper.vm as any
+    expect(vm.value).toHaveLength(2)
+    expect(vm.value.every((date: Date) => dayjs(date).day() === 1)).toBe(true)
+  })
+
+  it('should show footer when show-confirm is enabled', async () => {
+    const wrapper = _mount(
+      `<el-date-picker type="weeks" v-model="value" show-confirm />`,
+      () => ({ value: [] as Date[] })
+    )
+    await wrapper.find('input').trigger('focus')
+    await nextTick()
+
+    expect(document.querySelector('.el-picker-panel__footer')).not.toBeNull()
+    await clickRow(1)
+    expect(document.querySelector('.el-picker-panel__footer')).not.toBeNull()
+  })
+
+  it('should not select a disabled date', async () => {
+    const wrapper = _mount(
+      `<el-date-picker type="weeks" v-model="value" :disabled-date="disabledDate" />`,
+      () => ({
+        value: [] as Date[],
+        disabledDate: () => true,
+      })
+    )
+    await wrapper.find('input').trigger('focus')
+    await nextTick()
+
+    ;(
+      document.querySelector('.el-date-table td.disabled') as HTMLElement
+    ).click()
+    await nextTick()
+    expect((wrapper.vm as any).value).toHaveLength(0)
+  })
+
+  it('should clear selected weeks', async () => {
+    const wrapper = _mount(
+      `<el-date-picker type="weeks" v-model="value" />`,
+      () => ({ value: [new Date(2020, 7, 2), new Date(2020, 7, 9)] })
+    )
+    await wrapper.find('.el-input').trigger('mouseenter')
+    await rAF()
+    await wrapper.find('.clear-icon').trigger('click')
+    expect((wrapper.vm as any).value).toBeNull()
   })
 })
 
