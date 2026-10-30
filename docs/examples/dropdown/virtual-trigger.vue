@@ -54,8 +54,8 @@ const triggerRef = ref({
   getBoundingClientRect: () => position.value,
 })
 
-const handleClick = () => {
-  dropdownRef.value?.handleClose()
+const handleClick = (event: Event) => {
+  dropdownRef.value?.handleClose(event)
 }
 
 const handleContextmenu = (event: MouseEvent) => {
@@ -65,7 +65,7 @@ const handleContextmenu = (event: MouseEvent) => {
     y: clientY,
   })
   event.preventDefault()
-  dropdownRef.value?.handleOpen()
+  dropdownRef.value?.handleOpen(event)
 }
 </script>
 
