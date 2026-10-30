@@ -384,6 +384,30 @@ const handleWheel = (e: WheelEvent) => {
   if (document.activeElement === e.target) e.preventDefault()
 }
 
+const updateAriaAttributes = () => {
+  const innerInput = input.value?.input as HTMLInputElement | undefined
+  if (!innerInput) return
+
+  const { min, max } = props
+  if (Number.isFinite(max)) {
+    innerInput.setAttribute('aria-valuemax', String(max))
+  } else {
+    innerInput.removeAttribute('aria-valuemax')
+  }
+  if (Number.isFinite(min)) {
+    innerInput.setAttribute('aria-valuemin', String(min))
+  } else {
+    innerInput.removeAttribute('aria-valuemin')
+  }
+  innerInput.setAttribute(
+    'aria-valuenow',
+    data.currentValue || data.currentValue === 0
+      ? String(data.currentValue)
+      : ''
+  )
+  innerInput.setAttribute('aria-disabled', String(inputNumberDisabled.value))
+}
+
 watch(
   () => props.modelValue,
   (value, oldValue) => {
@@ -402,26 +426,10 @@ watch(
   }
 )
 onMounted(() => {
-  const { min, max, modelValue } = props
+  const { modelValue } = props
   const innerInput = input.value?.input as HTMLInputElement
   innerInput.setAttribute('role', 'spinbutton')
-  if (Number.isFinite(max)) {
-    innerInput.setAttribute('aria-valuemax', String(max))
-  } else {
-    innerInput.removeAttribute('aria-valuemax')
-  }
-  if (Number.isFinite(min)) {
-    innerInput.setAttribute('aria-valuemin', String(min))
-  } else {
-    innerInput.removeAttribute('aria-valuemin')
-  }
-  innerInput.setAttribute(
-    'aria-valuenow',
-    data.currentValue || data.currentValue === 0
-      ? String(data.currentValue)
-      : ''
-  )
-  innerInput.setAttribute('aria-disabled', String(inputNumberDisabled.value))
+  updateAriaAttributes()
   if (!isNumber(modelValue) && modelValue != null) {
     let val: number | null = Number(modelValue)
     if (Number.isNaN(val)) {
@@ -432,8 +440,7 @@ onMounted(() => {
   innerInput.addEventListener('wheel', handleWheel, { passive: false })
 })
 onUpdated(() => {
-  const innerInput = input.value?.input
-  innerInput?.setAttribute('aria-valuenow', `${data.currentValue ?? ''}`)
+  updateAriaAttributes()
 })
 defineExpose({
   /** @description get focus the input component */
