@@ -85,7 +85,7 @@ export function SupplyValidator(): Plugin {
       filter: {
         id: {
           include: /\.vue.*type=script/,
-          exclude: /input-otp\.vue/,
+          exclude: /(input-otp|masonry)\.vue/,
         },
       },
       handler(code, id) {
