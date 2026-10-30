@@ -425,7 +425,6 @@ watch(
     data.currentValue = verifyValue(props.modelValue)
   }
 )
-
 onMounted(() => {
   const { modelValue } = props
   const innerInput = input.value?.input as HTMLInputElement
