@@ -384,23 +384,6 @@ const handleWheel = (e: WheelEvent) => {
   if (document.activeElement === e.target) e.preventDefault()
 }
 
-watch(
-  () => props.modelValue,
-  (value, oldValue) => {
-    const newValue = verifyValue(value, true)
-    if (data.userInput === null && newValue !== oldValue) {
-      data.currentValue = newValue
-    }
-  },
-  { immediate: true }
-)
-
-watch(
-  () => props.precision,
-  () => {
-    data.currentValue = verifyValue(props.modelValue)
-  }
-)
 const updateAriaAttributes = () => {
   const innerInput = input.value?.input as HTMLInputElement | undefined
   if (!innerInput) return
@@ -424,6 +407,24 @@ const updateAriaAttributes = () => {
   )
   innerInput.setAttribute('aria-disabled', String(inputNumberDisabled.value))
 }
+
+watch(
+  () => props.modelValue,
+  (value, oldValue) => {
+    const newValue = verifyValue(value, true)
+    if (data.userInput === null && newValue !== oldValue) {
+      data.currentValue = newValue
+    }
+  },
+  { immediate: true }
+)
+
+watch(
+  () => props.precision,
+  () => {
+    data.currentValue = verifyValue(props.modelValue)
+  }
+)
 
 onMounted(() => {
   const { modelValue } = props
