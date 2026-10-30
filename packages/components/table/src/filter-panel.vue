@@ -41,12 +41,7 @@
           </el-scrollbar>
         </div>
         <div :class="ns.e('bottom')">
-          <button
-            :class="ns.is('disabled', filteredValue.length === 0)"
-            :disabled="filteredValue.length === 0"
-            type="button"
-            @click="handleConfirm"
-          >
+          <button type="button" @click="handleConfirm">
             {{ t('el.table.confirmFilter') }}
           </button>
           <button type="button" @click="handleReset">
