@@ -41,12 +41,14 @@ export const useLockscreen = (
   let withoutHiddenClass = false
   let bodyWidth = '0'
   let cleaned = false
+  let unlockTimer: ReturnType<typeof setTimeout> | null = null
 
   const cleanup = () => {
     if (cleaned) return
 
     cleaned = true
-    setTimeout(() => {
+    unlockTimer = setTimeout(() => {
+      unlockTimer = null
       // When the test case is running, the context environment simulated by jsdom may have been destroyed,
       // and the document does not exist at this time.
       if (typeof document === 'undefined') return
@@ -63,6 +65,14 @@ export const useLockscreen = (
     }
 
     cleaned = false
+    if (unlockTimer !== null) {
+      // The trigger was re-enabled before the delayed unlock ran. Keep the
+      // hidden class - and the ownership of it - instead of unlocking while
+      // the screen is locked again
+      clearTimeout(unlockTimer)
+      unlockTimer = null
+      return
+    }
     withoutHiddenClass = !hasClass(document.body, hiddenCls.value)
     if (withoutHiddenClass) {
       bodyWidth = document.body.style.width
