@@ -207,6 +207,49 @@ describe('Slider', () => {
       mockRect.mockRestore()
     })
 
+    it('should release the window drag listeners when unmounted mid-drag', async () => {
+      vi.useRealTimers()
+      const value = ref(0)
+      const wrapper = mount(
+        () => (
+          <div style="width: 200px;">
+            <Slider v-model={value.value} />
+          </div>
+        ),
+        {
+          attachTo: document.body,
+        }
+      )
+
+      const slider = wrapper.findComponent({ name: 'ElSliderButton' })
+
+      const mockRect = mockBoundingClientRect(
+        wrapper.find('.el-slider__runway').element,
+        { width: 200 }
+      )
+
+      const removeListener = vi.spyOn(window, 'removeEventListener')
+
+      // The drag starts and the slider is removed from the tree while the mouse
+      // button is still down, so no `mouseup` ever releases the listeners.
+      slider.trigger('mousedown', { clientX: 0 })
+      await nextTick()
+      wrapper.unmount()
+
+      expect(removeListener.mock.calls.map(([type]) => type)).toEqual(
+        expect.arrayContaining([
+          'mousemove',
+          'mouseup',
+          'touchmove',
+          'touchend',
+          'contextmenu',
+        ])
+      )
+
+      removeListener.mockRestore()
+      mockRect.mockRestore()
+    })
+
     it('should correctly handle uneven step sizes', async () => {
       vi.useRealTimers()
       const value = ref(0)
