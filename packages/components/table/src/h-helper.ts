@@ -7,6 +7,7 @@ import type { DefaultRow } from './table/defaults'
 type Props = {
   tableLayout: 'fixed' | 'auto'
   columns?: TableColumnCtx<DefaultRow>[]
+  nativeScrollbar?: boolean
 }
 
 export function hColgroup(props: Props) {
@@ -36,8 +37,9 @@ export function hColgroup(props: Props) {
   return h(
     'colgroup',
     {},
-    columns.map((column) => h('col', getPropsData(column)))
+    ...columns.map((column) => h('col', getPropsData(column))),
+    props.nativeScrollbar && h('col', { name: 'gutter' })
   )
 }
 
-hColgroup.props = ['columns', 'tableLayout']
+hColgroup.props = ['columns', 'tableLayout', 'nativeScrollbar']
