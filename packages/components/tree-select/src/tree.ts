@@ -187,7 +187,7 @@ export const useTree = (
           )
           select.value?.handleOptionSelect(option)
         }
-      } else if (props.expandOnClickNode) {
+      } else if (props.expandOnClickNode && !node.expanded) {
         e.proxy.handleExpandIconClick()
       }
     },
