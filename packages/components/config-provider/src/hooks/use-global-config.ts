@@ -67,7 +67,6 @@ export function useGlobalComponentSettings(
     })
   )
   const size = computed(() => unref(sizeFallback) || config.value?.size || '')
-  provideGlobalConfig(computed(() => unref(config) || {}))
 
   return {
     ns,
