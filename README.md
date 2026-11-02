@@ -50,7 +50,7 @@ You can also try out Element Plus with its built-in component playground.
 
 #### Try it with our built-in playground
 
-[Playground](https://element-plus.run/)
+[Playground](https://run.element-plus.org/)
 
 #### Try it with CodeSandbox
 
