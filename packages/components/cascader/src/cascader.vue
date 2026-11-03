@@ -323,7 +323,7 @@ import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
 import { cascaderEmits } from './cascader'
 
 import type { Options } from '@element-plus/components/popper'
-import type { ComputedRef, StyleValue } from 'vue'
+import type { StyleValue } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { InputInstance } from '@element-plus/components/input'
 import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
@@ -477,8 +477,18 @@ const readonly = computed(() => !props.filterable || multiple.value)
 const searchKeyword = computed(() =>
   multiple.value ? searchInputValue.value : inputValue.value
 )
-const checkedNodes: ComputedRef<CascaderNode[]> = computed(
-  () => cascaderPanelRef.value?.checkedNodes || []
+const lastCheckedNodes = ref<CascaderNode[]>([])
+const checkedNodes = computed(() => {
+  const nodes = cascaderPanelRef.value?.checkedNodes
+  return nodes ?? lastCheckedNodes.value
+})
+watch(
+  () => cascaderPanelRef.value?.checkedNodes,
+  (nodes) => {
+    if (nodes) {
+      lastCheckedNodes.value = nodes
+    }
+  }
 )
 
 const { wrapperRef, isFocused, handleBlur } = useFocusController(inputRef, {

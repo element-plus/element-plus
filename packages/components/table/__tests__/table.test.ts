@@ -705,7 +705,7 @@ describe('Table.vue', () => {
       ).toEqual([])
       expect([
         ...filter.querySelector('.el-table-filter__bottom button').classList,
-      ]).toContain('is-disabled')
+      ]).not.toContain('is-disabled')
       filter.parentNode.removeChild(filter)
       wrapper.unmount()
     })
