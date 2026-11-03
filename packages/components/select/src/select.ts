@@ -124,6 +124,19 @@ export const selectProps = buildProps({
     default: undefined,
   },
   /**
+   * @description custom class name for Select's wrapper
+   */
+  wrapperClass: {
+    type: [String, Array, Object, Boolean],
+    default: false,
+  },
+  /**
+   * @description custom style for Select's wrapper
+   */
+  wrapperStyle: {
+    type: definePropType<string | CSSProperties>([String, Object]),
+  },
+  /**
    * @description [popper.js](https://popper.js.org/docs/v2/) parameters
    */
   popperOptions: {
