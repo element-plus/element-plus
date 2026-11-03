@@ -14,6 +14,7 @@ import { rAF } from '@element-plus/test-utils/tick'
 import Input from '@element-plus/components/input'
 import Form from '../src/form.vue'
 import FormItem from '../src/form-item.vue'
+import { useFormLabelWidth } from '../src/utils'
 import DynamicFormItem from './mock-data'
 
 import type { VueWrapper } from '@vue/test-utils'
@@ -337,5 +338,44 @@ describe('ElFormItem', () => {
     expect(console.warn).not.toHaveBeenCalledWith(
       expect.objectContaining({ message: '[ElForm] unexpected width 0' })
     )
+
+    it('should not warn when a label-width="auto" form is unmounted', async () => {
+      const wrapper = mount({
+        setup() {
+          return () => (
+            <Form labelWidth="auto">
+              <FormItem label="Name">
+                <Input />
+              </FormItem>
+              <FormItem label="Remember me for thirty days">
+                <Input />
+              </FormItem>
+            </Form>
+          )
+        },
+      })
+
+      await nextTick()
+      wrapper.unmount()
+      await nextTick()
+
+      expect(console.warn).not.toHaveBeenCalledWith(
+        expect.objectContaining({
+          message: expect.stringContaining('[ElForm] unexpected width'),
+        })
+      )
+    })
+
+    it('should still warn when the width is out of sync with the others', () => {
+      const { registerLabelWidth, deregisterLabelWidth } = useFormLabelWidth()
+
+      registerLabelWidth(214, 0)
+      // 214 is still registered, so deregistering 96 is a real mismatch
+      deregisterLabelWidth(96)
+
+      expect(console.warn).toHaveBeenCalledWith(
+        expect.objectContaining({ message: '[ElForm] unexpected width 96' })
+      )
+    })
   })
 })
