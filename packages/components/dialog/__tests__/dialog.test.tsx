@@ -537,6 +537,31 @@ describe('Dialog.vue', () => {
         dialogBody.attributes().id
       )
     })
+
+    test('missing title without a header slot should not reference a missing label', async () => {
+      const wrapper = mount(<Dialog modelValue={true}>{AXIOM}</Dialog>)
+      await nextTick()
+      const dialog = wrapper.find('[role="dialog"]')
+      expect(dialog.attributes()['aria-label']).toBeFalsy()
+      expect(dialog.attributes()['aria-labelledby']).toBeFalsy()
+    })
+
+    test('a title slot should not reference a missing label', async () => {
+      const wrapper = mount(
+        <Dialog
+          modelValue={true}
+          v-slots={{
+            header: () => <h5 />,
+            title: () => <span>Title</span>,
+          }}
+        >
+          {AXIOM}
+        </Dialog>
+      )
+      await nextTick()
+      const dialog = wrapper.find('[role="dialog"]')
+      expect(dialog.attributes()['aria-labelledby']).toBeFalsy()
+    })
   })
 
   describe('transition', () => {
