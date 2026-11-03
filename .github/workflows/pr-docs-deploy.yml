@@ -61,7 +61,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           body: |
-            🧪 Playground Preview: https://element-plus.run/?pr=${{ steps.pr.outputs.id }}
+            🧪 Playground Preview: https://run.element-plus.org/?pr=${{ steps.pr.outputs.id }}
             Please comment the example via this playground if needed.
 
             _🔖 Commit: ${{ github.event.workflow_run.head_sha }}_

@@ -578,6 +578,7 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   }
 
   const handleOptionSelect = (option: OptionPublicInstance) => {
+    if (selectDisabled.value) return
     if (props.multiple) {
       const value = ensureArray(props.modelValue ?? []).slice()
       const optionIndex = getValueIndex(value, option)

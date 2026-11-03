@@ -46,7 +46,12 @@ export function useOption(props: OptionProps, states: OptionStates) {
   })
 
   const isDisabled = computed(() => {
-    return props.disabled || states.groupDisabled || limitReached.value
+    return (
+      select.selectDisabled ||
+      props.disabled ||
+      states.groupDisabled ||
+      limitReached.value
+    )
   })
 
   const instance = getCurrentInstance()! as OptionInternalInstance
