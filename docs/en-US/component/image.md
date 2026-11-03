@@ -130,14 +130,14 @@ image/custom-progress
 | ----------------------------------------- | --------------------------------------------------------------------------------------- | ---- |
 | placeholder                               | custom placeholder content when image hasn't loaded yet.                                | -    |
 | error                                     | custom image load failed content.                                                       | -    |
-| viewer                                    | custom content inside the built-in image viewer's canvas when previewing.               | -    |
+| viewer                                    | custom content rendered in the built-in image viewer when previewing.                    | -    |
 | [image viewer slots](#image-viewer-slots) | when you allow big image preview, image viewer slots all can be used, except `default`. | -    |
 
 :::warning
 
 The preview is always rendered by the built-in `el-image-viewer`. Viewer attributes such as
 `hide-on-click-modal` must be set on `el-image` itself, and the `viewer` slot only injects content
-into that viewer's canvas. Placing an `<el-image-viewer>` inside the `viewer` slot does not replace
+into that viewer. Placing an `<el-image-viewer>` inside the `viewer` slot does not replace
 the built-in viewer — it renders a second, nested viewer that is not connected to the preview
 lifecycle.
 
