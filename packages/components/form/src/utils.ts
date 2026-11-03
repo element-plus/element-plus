@@ -18,7 +18,11 @@ export function useFormLabelWidth() {
 
   function getLabelWidthIndex(width: number) {
     const index = potentialLabelWidthArr.value.indexOf(width)
-    if (index === -1 && autoLabelWidth.value === '0') {
+    // An empty list is a valid state: items unregister one by one, so the
+    // first item can remove the last entry and every following item would
+    // then look "unexpected". Only warn when other widths are still
+    // registered, which means this value really is out of sync.
+    if (index === -1 && potentialLabelWidthArr.value.length > 0) {
       debugWarn(SCOPE, `unexpected width ${width}`)
     }
     return index
