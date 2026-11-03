@@ -329,9 +329,7 @@ function useStyle<T extends DefaultRow>(
       cancelAnimationFrame(syncFrame)
       syncFrame = null
     }
-    for (const stop of stopFns.splice(0)) {
-      stop()
-    }
+    stopFns.forEach((stop) => stop())
   })
 
   const scrollbarStyle = computed(() => {
