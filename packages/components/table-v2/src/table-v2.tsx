@@ -122,6 +122,7 @@ const TableV2 = defineComponent({
     return () => {
       const {
         cache,
+        columnCache,
         cellProps,
         estimatedRowHeight,
         expandColumnKey,
@@ -149,6 +150,7 @@ const TableV2 = defineComponent({
 
       const mainTableProps = {
         cache,
+        columnCache,
         class: ns.e('main'),
         columns: unref(mainColumns),
         data: _data,
@@ -176,6 +178,7 @@ const TableV2 = defineComponent({
 
       const leftTableProps = {
         cache,
+        columnCache,
         class: ns.e('left'),
         columns: unref(fixedColumnsOnLeft),
         data: _data,
@@ -201,6 +204,7 @@ const TableV2 = defineComponent({
 
       const rightTableProps = {
         cache,
+        columnCache,
         class: ns.e('right'),
         columns: unref(fixedColumnsOnRight),
         data: _data,
@@ -276,8 +280,8 @@ const TableV2 = defineComponent({
           <Row {...props} {...tableRowProps}>
             {{
               row: slots.row,
-              cell: (props: TableV2RowCellRenderParam) =>
-                slots.cell ? (
+              cell: (props: TableV2RowCellRenderParam) => {
+                return slots.cell ? (
                   <Cell
                     {...props}
                     {...tableCellProps}
@@ -291,33 +295,36 @@ const TableV2 = defineComponent({
                     {...tableCellProps}
                     style={_columnsStyles[props.column.key as KeyType]}
                   />
-                ),
+                )
+              },
             }}
           </Row>
         ),
-        header: (props: TableV2HeaderRendererParams) => (
-          <Header {...props} {...tableHeaderProps}>
-            {{
-              header: slots.header,
-              cell: (props: TableV2HeaderRowCellRendererParams) =>
-                slots['header-cell'] ? (
-                  <HeaderCell
-                    {...props}
-                    {...tableHeaderCellProps}
-                    style={_columnsStyles[props.column.key as KeyType]}
-                  >
-                    {slots['header-cell'](props)}
-                  </HeaderCell>
-                ) : (
-                  <HeaderCell
-                    {...props}
-                    {...tableHeaderCellProps}
-                    style={_columnsStyles[props.column.key as KeyType]}
-                  />
-                ),
-            }}
-          </Header>
-        ),
+        header: (props: TableV2HeaderRendererParams) => {
+          return (
+            <Header {...props} {...tableHeaderProps}>
+              {{
+                header: slots.header,
+                cell: (props: TableV2HeaderRowCellRendererParams) =>
+                  slots['header-cell'] ? (
+                    <HeaderCell
+                      {...props}
+                      {...tableHeaderCellProps}
+                      style={_columnsStyles[props.column.key as KeyType]}
+                    >
+                      {slots['header-cell'](props)}
+                    </HeaderCell>
+                  ) : (
+                    <HeaderCell
+                      {...props}
+                      {...tableHeaderCellProps}
+                      style={_columnsStyles[props.column.key as KeyType]}
+                    />
+                  ),
+              }}
+            </Header>
+          )
+        },
       }
 
       const rootKls = [
