@@ -24,6 +24,27 @@ interface HandleEvent<T> {
   (event: MouseEvent, row: T, name: 'dblclick'): void
 }
 
+/**
+ * Paddings read from getComputedStyle live in layout space, while
+ * getBoundingClientRect results are affected by ancestor CSS transforms
+ * (e.g. the scale() autofit.js applies to the page). Dividing the visual
+ * width by the layout width yields the accumulated transform scale, allowing
+ * values from the two spaces to be compared. #25034
+ *
+ * offsetWidth is rounded to whole pixels, so without any transform the ratio
+ * is `1 ± 0.5px / offsetWidth` instead of exactly 1. The deviation only
+ * shifts the padding term below by at most `padding * 0.5px / offsetWidth`
+ * (about 0.1px for typical cells), never a visually perceptible overflow
+ * verdict. getComputedStyle().width is deliberately not used here: its value
+ * follows the element's box-sizing (border-box widths are returned as-is),
+ * which would double-count paddings in the ratio.
+ */
+function getScaleFactor(el: HTMLElement) {
+  const offsetWidth = el.offsetWidth
+  if (offsetWidth <= 0) return 1
+  return el.getBoundingClientRect().width / offsetWidth
+}
+
 function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
   const parent = inject(TABLE_INJECTION_KEY) as Table<T>
   const tooltipContent = ref('')
@@ -169,12 +190,25 @@ function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     const { top, left, right, bottom } = getPadding(cellChild)
     const horizontalPadding = left + right
     const verticalPadding = top + bottom
+    // The paddings above are layout-space values while the rect measurements
+    // are affected by ancestor CSS transforms, so scale the paddings into the
+    // same space before comparing. #25034
+    const scaleFactor = getScaleFactor(cellChild)
     if (
-      isGreaterThan(rangeWidth + horizontalPadding, cellChildWidth) ||
-      isGreaterThan(rangeHeight + verticalPadding, cellChildHeight) ||
-      // When using a high-resolution screen, it is possible that a returns cellChild.scrollWidth value of 1921 and
-      // cellChildWidth returns a value of 1920.994140625. #16856 #16673
-      isGreaterThan(cellChild.scrollWidth, cellChildWidth)
+      isGreaterThan(
+        rangeWidth + horizontalPadding * scaleFactor,
+        cellChildWidth
+      ) ||
+      isGreaterThan(
+        rangeHeight + verticalPadding * scaleFactor,
+        cellChildHeight
+      ) ||
+      // scrollWidth and clientWidth are both layout measurements and, unlike
+      // the rect-based cellChildWidth above, are unaffected by ancestor CSS
+      // transforms, so they must be compared with each other instead of with
+      // cellChildWidth. #25034 Both round to integers the same way, which also
+      // avoids the sub-pixel mismatch seen in #16856 #16673
+      isGreaterThan(cellChild.scrollWidth, cellChild.clientWidth)
     ) {
       createTablePopper(
         tooltipOptions,

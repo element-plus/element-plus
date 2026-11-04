@@ -3200,6 +3200,102 @@ describe('Table.vue', () => {
     mockCellRect2.mockRestore()
   })
 
+  // https://github.com/element-plus/element-plus/issues/25034
+  // A container scaled down via CSS transform (e.g. autofit.js) shrinks
+  // getBoundingClientRect values but leaves scrollWidth/clientWidth and
+  // computed paddings in layout space, which used to make every cell look
+  // overflowing.
+  const mountOverflowTooltipTable = () =>
+    mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+
+      template: `
+    <el-table :data="testData" show-overflow-tooltip>
+      <el-table-column class-name="overflow_tooltip" prop="name" label="name"/>
+    </el-table>
+  `,
+
+      data() {
+        return {
+          testData: getTestData() as any,
+        }
+      },
+    })
+
+  // Simulate a cell laid out at 200px (176px content + 2 * 12px padding)
+  // inside a container scaled to 80%, so the visual (rect) width is 160px.
+  const mockScaledCell = (cellEl: HTMLElement) => {
+    cellEl.style.paddingLeft = '12px'
+    cellEl.style.paddingRight = '12px'
+    const mocks = [
+      vi.spyOn(cellEl, 'getBoundingClientRect').mockReturnValue({
+        width: 160,
+        height: 23,
+      } as DOMRect),
+      vi.spyOn(cellEl, 'offsetWidth', 'get').mockReturnValue(200),
+      vi.spyOn(cellEl, 'scrollWidth', 'get').mockReturnValue(200),
+      vi.spyOn(cellEl, 'clientWidth', 'get').mockReturnValue(200),
+    ]
+    return mocks
+  }
+
+  it('show-overflow-tooltip should not show when scaled container makes rect smaller than scrollWidth', async () => {
+    // text laid out at 173px (< 176px content) fits, visual width 138.4px;
+    // picked so the tooltip would also wrongly appear if the padding was not
+    // shrunk by the 0.8 scale factor (138.4 + 24 > 160 but 138.4 + 19.2 < 160)
+    const mockRangeRect = vi
+      .spyOn(Range.prototype, 'getBoundingClientRect')
+      .mockReturnValue({
+        width: 138.4,
+        height: 23,
+      } as DOMRect)
+    const wrapper = mountOverflowTooltipTable()
+
+    await doubleWait()
+    const tr = wrapper.findAll('.overflow_tooltip')
+    const cellEl = tr[1].find('.cell').element as HTMLElement
+    const mocks = mockScaledCell(cellEl)
+
+    await tr[1].trigger('mouseenter')
+    await rAF()
+
+    expect(wrapper.find('.el-popper').exists()).toBeFalsy()
+
+    mockRangeRect.mockRestore()
+    mocks.forEach((mock) => mock.mockRestore())
+    wrapper.unmount()
+  })
+
+  it('show-overflow-tooltip should still show overflowing text in scaled container', async () => {
+    // text laid out at 200px (> 176px content) overflows, its visual width is 160px
+    const mockRangeRect = vi
+      .spyOn(Range.prototype, 'getBoundingClientRect')
+      .mockReturnValue({
+        width: 160,
+        height: 23,
+      } as DOMRect)
+    const wrapper = mountOverflowTooltipTable()
+
+    await doubleWait()
+    const tr = wrapper.findAll('.overflow_tooltip')
+    const cellEl = tr[1].find('.cell').element as HTMLElement
+    const mocks = mockScaledCell(cellEl)
+
+    await tr[1].trigger('mouseenter')
+    await rAF()
+
+    expect(wrapper.find('.el-popper span').text()).toContain(
+      (getTestData() as any)[0].name
+    )
+
+    mockRangeRect.mockRestore()
+    mocks.forEach((mock) => mock.mockRestore())
+    wrapper.unmount()
+  })
+
   it('should not show tooltip when cell content is empty', async () => {
     const testData = [
       {
