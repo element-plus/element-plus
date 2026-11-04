@@ -172,7 +172,7 @@ describe('<ElRovingFocusItem />', () => {
       const getItems = () => [...itemMap.values()]
       const wrapper = mount(
         {
-          template: `<el-roving-focus-group-impl current-tab-id="test_id" orientation="horizontal">
+          template: `<el-roving-focus-group-impl current-tab-id="test_id" orientation="vertical">
         <el-roving-focus-item v-bind="$attrs">
           <focus-item />
         </el-roving-focus-item>
