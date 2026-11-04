@@ -27,29 +27,37 @@ interface HandleEvent<T> {
 // Keep in sync with the default epsilon of isGreaterThan (@element-plus/utils).
 const SIZE_EPSILON = 0.03
 
-/**
- * Paddings read from getComputedStyle live in layout space, while
- * getBoundingClientRect results are affected by ancestor CSS transforms
- * (e.g. the scale() autofit.js applies to the page). Dividing the visual size
- * by the layout size yields the accumulated transform scale of a single axis,
- * allowing values from the two spaces to be compared. Width and height are
- * resolved separately because such tools can also scale non-uniformly. #25034
- *
- * offsetWidth/offsetHeight are rounded to whole pixels, so without any
- * transform the ratio is `1 ± 0.5px / offset size` instead of exactly 1,
- * which inflates a scaled padding below by up to `padding * maxScaleError`
- * (up to ~0.3px on narrow cells). The callers widen their comparison epsilon
- * by that bound so rounding alone never flips an overflow verdict.
- * getComputedStyle().width is deliberately not used here: its value follows
- * the element's box-sizing (border-box widths are returned as-is), which
- * would double-count paddings in the ratio.
- */
+// Use the fractional layout size when available; offsetWidth/offsetHeight round to integers.
 function getScaleFactor(el: HTMLElement, axis: 'width' | 'height') {
   const offsetSize = axis === 'width' ? el.offsetWidth : el.offsetHeight
   if (offsetSize <= 0) return { scale: 1, maxScaleError: 0 }
+
+  const style = window.getComputedStyle(el)
+  const computedSize = style[axis]
+  let layoutSize =
+    computedSize.endsWith('px') && Number.parseFloat(computedSize)
+      ? Number.parseFloat(computedSize)
+      : 0
+  if (layoutSize > 0 && style.boxSizing !== 'border-box') {
+    const start = axis === 'width' ? 'Left' : 'Top'
+    const end = axis === 'width' ? 'Right' : 'Bottom'
+    layoutSize +=
+      (Number.parseFloat(style[`padding${start}`]) || 0) +
+      (Number.parseFloat(style[`padding${end}`]) || 0) +
+      (Number.parseFloat(style[`border${start}Width`]) || 0) +
+      (Number.parseFloat(style[`border${end}Width`]) || 0)
+  }
+  const usesRoundedSize =
+    layoutSize <= 0 || Math.abs(layoutSize - offsetSize) > 0.5
+  if (usesRoundedSize) layoutSize = offsetSize
+
   const rect = el.getBoundingClientRect()
-  const scale = (axis === 'width' ? rect.width : rect.height) / offsetSize
-  return { scale, maxScaleError: 0.5 / offsetSize }
+  const visualSize = axis === 'width' ? rect.width : rect.height
+  const scale = visualSize / layoutSize
+  return {
+    scale,
+    maxScaleError: usesRoundedSize ? (0.5 / layoutSize) * scale : 0,
+  }
 }
 
 function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
@@ -197,10 +205,7 @@ function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     const { top, left, right, bottom } = getPadding(cellChild)
     const horizontalPadding = left + right
     const verticalPadding = top + bottom
-    // The paddings above are layout-space values while the rect measurements
-    // are affected by ancestor CSS transforms, so scale the paddings into the
-    // same space before comparing. The extra epsilon term per check absorbs
-    // the worst-case padding inflation caused by offset size rounding. #25034
+    // Scale layout-space padding to match the visual rect measurements.
     const { scale: horizontalScale, maxScaleError: horizontalScaleError } =
       getScaleFactor(cellChild, 'width')
     const { scale: verticalScale, maxScaleError: verticalScaleError } =

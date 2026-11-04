@@ -3296,9 +3296,7 @@ describe('Table.vue', () => {
     wrapper.unmount()
   })
 
-  // PR #25049 review feedback: offsetWidth rounds 40.49px down to 40px, so the
-  // ratio is 1.01225 without any transform; fitting text (16.3px inside a
-  // 16.49px content box) must not be reported as overflowing.
+  // Fractional layout width must not be mistaken for a CSS transform.
   it('show-overflow-tooltip should not show on narrow cells due to offsetWidth rounding', async () => {
     const mockRangeRect = vi
       .spyOn(Range.prototype, 'getBoundingClientRect')
@@ -3311,6 +3309,8 @@ describe('Table.vue', () => {
     await doubleWait()
     const tr = wrapper.findAll('.overflow_tooltip')
     const cellEl = tr[1].find('.cell').element as HTMLElement
+    cellEl.style.width = '40.49px'
+    cellEl.style.boxSizing = 'border-box'
     cellEl.style.paddingLeft = '12px'
     cellEl.style.paddingRight = '12px'
     const mocks = [
@@ -3327,6 +3327,42 @@ describe('Table.vue', () => {
     await rAF()
 
     expect(wrapper.find('.el-popper').exists()).toBeFalsy()
+
+    mockRangeRect.mockRestore()
+    mocks.forEach((mock) => mock.mockRestore())
+    wrapper.unmount()
+  })
+
+  it('show-overflow-tooltip should detect overflow under a subtle transform', async () => {
+    const mockRangeRect = vi
+      .spyOn(Range.prototype, 'getBoundingClientRect')
+      .mockReturnValue({
+        width: 36.2805, // 36.1px text at 1.005x
+        height: 23,
+      } as DOMRect)
+    const wrapper = mountOverflowTooltipTable()
+
+    await doubleWait()
+    const tr = wrapper.findAll('.overflow_tooltip')
+    const cellEl = tr[1].find('.cell').element as HTMLElement
+    cellEl.style.width = '60px'
+    cellEl.style.boxSizing = 'border-box'
+    cellEl.style.paddingLeft = '12px'
+    cellEl.style.paddingRight = '12px'
+    const mocks = [
+      vi.spyOn(cellEl, 'getBoundingClientRect').mockReturnValue({
+        width: 60.3, // 60px layout width at 1.005x
+        height: 23,
+      } as DOMRect),
+      vi.spyOn(cellEl, 'offsetWidth', 'get').mockReturnValue(60),
+      vi.spyOn(cellEl, 'scrollWidth', 'get').mockReturnValue(60),
+      vi.spyOn(cellEl, 'clientWidth', 'get').mockReturnValue(60),
+    ]
+
+    await tr[1].trigger('mouseenter')
+    await rAF()
+
+    expect(wrapper.find('.el-popper').exists()).toBe(true)
 
     mockRangeRect.mockRestore()
     mocks.forEach((mock) => mock.mockRestore())
