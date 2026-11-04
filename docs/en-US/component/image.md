@@ -135,11 +135,8 @@ image/custom-progress
 
 :::warning
 
-The preview is always rendered by the built-in `el-image-viewer`. Viewer attributes such as
-`hide-on-click-modal` must be set on `el-image` itself, and the `viewer` slot only injects content
-into that viewer. Placing an `<el-image-viewer>` inside the `viewer` slot does not replace
-the built-in viewer — it renders a second, nested viewer that is not connected to the preview
-lifecycle.
+The `viewer` slot only injects content into the built-in image viewer — placing an
+`<el-image-viewer>` inside the `viewer` slot does not replace it.
 
 :::
 
