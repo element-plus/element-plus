@@ -1,5 +1,5 @@
 <template>
-  <transition :name="transitionName">
+  <transition :name="transitionName" @before-leave="handleBeforeLeave">
     <div v-if="actualVisible || visible" :class="ns.b('panel')">
       <div :class="[ns.be('panel', 'content'), { 'has-seconds': showSeconds }]">
         <time-spinner
@@ -99,6 +99,13 @@ const amPmMode = computed(() => {
   return ''
 })
 // method
+const handleBeforeLeave = (el: Element) => {
+  // Scroll containers can also be tab stops without an explicit tabindex.
+  el.querySelectorAll('*').forEach((child) => {
+    child.setAttribute('tabindex', '-1')
+  })
+}
+
 const isValidValue = (_date: Dayjs) => {
   const parsedDate = dayjs(_date).locale(lang.value)
   const result = getRangeAvailableTime(parsedDate)
