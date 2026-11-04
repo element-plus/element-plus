@@ -367,6 +367,65 @@ describe('submenu', () => {
   })
 })
 
+describe('top-level menu-item, issue 18071', () => {
+  const setup = (attrs = '') => {
+    const onOpen = vi.fn()
+    const onSelect = vi.fn()
+    const wrapper = _mount(
+      `<el-menu ${attrs} @open="onOpen" @select="onSelect">
+        <el-sub-menu index="1" ref="submenu">
+          <template #title>Navigator One</template>
+          <el-menu-item index="1-1">Item One</el-menu-item>
+        </el-sub-menu>
+        <el-menu-item index="2" ref="item2">Navigator Two</el-menu-item>
+      </el-menu>`,
+      {
+        methods: {
+          onOpen,
+          onSelect,
+        },
+      }
+    )
+    const submenu = wrapper.findComponent({ ref: 'submenu' })
+    const item2 = wrapper.findComponent({ ref: 'item2' })
+    return { wrapper, submenu, item2, onOpen, onSelect }
+  }
+
+  test('clicking it should not emit open', async () => {
+    const { item2, onOpen, onSelect } = setup()
+    await nextTick()
+
+    await item2.trigger('click')
+    await nextTick()
+    expect(onSelect).toHaveBeenCalledTimes(1)
+    expect(onOpen).not.toHaveBeenCalled()
+  })
+
+  test('using it as default-active should not emit open', async () => {
+    const { item2, onOpen } = setup('default-active="2"')
+    await nextTick()
+
+    expect(item2.classes()).toContain('is-active')
+    expect(onOpen).not.toHaveBeenCalled()
+  })
+
+  test('clicking it should keep sub-menus open with unique-opened', async () => {
+    const { submenu, item2, onOpen } = setup('unique-opened')
+    await nextTick()
+
+    submenu.vm.$el.querySelector('.el-sub-menu__title').click()
+    await nextTick()
+    expect(submenu.classes()).toContain('is-opened')
+    expect(onOpen).toHaveBeenCalledTimes(1)
+    expect(onOpen).toHaveBeenLastCalledWith('1', ['1'])
+
+    await item2.trigger('click')
+    await nextTick()
+    expect(submenu.classes()).toContain('is-opened')
+    expect(onOpen).toHaveBeenCalledTimes(1)
+  })
+})
+
 describe('other', () => {
   test('disabled', async () => {
     const wrapper = _mount(
