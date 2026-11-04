@@ -9,7 +9,7 @@
   background-color: getCssVar('backtop', 'bg-color');
   width: 40px;
   height: 40px;
-  border-radius: 50%;
+  border-radius: 0;
   color: getCssVar('backtop', 'text-color');
   display: flex;
   align-items: center;
@@ -21,9 +21,32 @@
 
   &:hover {
     background-color: getCssVar('backtop', 'hover-bg-color');
+    --el-backtop-progress-bg-color: #{getCssVar('backtop', 'hover-bg-color')};
   }
 
   @include e(icon) {
     font-size: 20px;
+  }
+
+  @include m(circle) {
+    border-radius: 50%;
+  }
+
+  @include m(progress) {
+    --el-backtop-progress-bg-color: #{getCssVar('backtop', 'bg-color')};
+
+    box-sizing: border-box;
+    border: 2px solid transparent;
+    background-image:
+      linear-gradient(
+        var(--el-backtop-progress-bg-color),
+        var(--el-backtop-progress-bg-color)
+      ),
+      conic-gradient(
+        getCssVar('backtop', 'text-color') var(--el-backtop-progress, 0turn),
+        getCssVar('border-color-light') 0
+      );
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
   }
 }
