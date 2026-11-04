@@ -3296,6 +3296,85 @@ describe('Table.vue', () => {
     wrapper.unmount()
   })
 
+  // PR #25049 review feedback: offsetWidth rounds 40.49px down to 40px, so the
+  // ratio is 1.01225 without any transform; fitting text (16.3px inside a
+  // 16.49px content box) must not be reported as overflowing.
+  it('show-overflow-tooltip should not show on narrow cells due to offsetWidth rounding', async () => {
+    const mockRangeRect = vi
+      .spyOn(Range.prototype, 'getBoundingClientRect')
+      .mockReturnValue({
+        width: 16.3,
+        height: 23,
+      } as DOMRect)
+    const wrapper = mountOverflowTooltipTable()
+
+    await doubleWait()
+    const tr = wrapper.findAll('.overflow_tooltip')
+    const cellEl = tr[1].find('.cell').element as HTMLElement
+    cellEl.style.paddingLeft = '12px'
+    cellEl.style.paddingRight = '12px'
+    const mocks = [
+      vi.spyOn(cellEl, 'getBoundingClientRect').mockReturnValue({
+        width: 40.49,
+        height: 23,
+      } as DOMRect),
+      vi.spyOn(cellEl, 'offsetWidth', 'get').mockReturnValue(40),
+      vi.spyOn(cellEl, 'scrollWidth', 'get').mockReturnValue(40),
+      vi.spyOn(cellEl, 'clientWidth', 'get').mockReturnValue(40),
+    ]
+
+    await tr[1].trigger('mouseenter')
+    await rAF()
+
+    expect(wrapper.find('.el-popper').exists()).toBeFalsy()
+
+    mockRangeRect.mockRestore()
+    mocks.forEach((mock) => mock.mockRestore())
+    wrapper.unmount()
+  })
+
+  // PR #25049 review feedback: non-uniform ancestor scale (width 0.8,
+  // height 1.5) must scale the vertical padding by the vertical ratio. The
+  // mocked text is 16.67px tall (visual 25px) inside a 15px content box, so
+  // it is clipped vertically and the tooltip must appear; applying the
+  // horizontal ratio (0.8) instead would hide it.
+  it('show-overflow-tooltip should show vertically clipped text under non-uniform scale', async () => {
+    const mockRangeRect = vi
+      .spyOn(Range.prototype, 'getBoundingClientRect')
+      .mockReturnValue({
+        width: 138.4,
+        height: 25,
+      } as DOMRect)
+    const wrapper = mountOverflowTooltipTable()
+
+    await doubleWait()
+    const tr = wrapper.findAll('.overflow_tooltip')
+    const cellEl = tr[1].find('.cell').element as HTMLElement
+    cellEl.style.paddingLeft = '12px'
+    cellEl.style.paddingRight = '12px'
+    cellEl.style.paddingTop = '4px'
+    cellEl.style.paddingBottom = '4px'
+    const mocks = [
+      vi.spyOn(cellEl, 'getBoundingClientRect').mockReturnValue({
+        width: 160, // 200px layout width * 0.8
+        height: 34.5, // 23px layout height * 1.5
+      } as DOMRect),
+      vi.spyOn(cellEl, 'offsetWidth', 'get').mockReturnValue(200),
+      vi.spyOn(cellEl, 'offsetHeight', 'get').mockReturnValue(23),
+      vi.spyOn(cellEl, 'scrollWidth', 'get').mockReturnValue(200),
+      vi.spyOn(cellEl, 'clientWidth', 'get').mockReturnValue(200),
+    ]
+
+    await tr[1].trigger('mouseenter')
+    await rAF()
+
+    expect(wrapper.find('.el-popper').exists()).toBe(true)
+
+    mockRangeRect.mockRestore()
+    mocks.forEach((mock) => mock.mockRestore())
+    wrapper.unmount()
+  })
+
   it('should not show tooltip when cell content is empty', async () => {
     const testData = [
       {
