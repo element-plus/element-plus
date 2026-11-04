@@ -126,6 +126,7 @@ import {
   onMounted,
   ref,
   useAttrs as useRawAttrs,
+  watch,
 } from 'vue'
 import { pick } from 'lodash-unified'
 import { onClickOutside, useDebounceFn } from '@vueuse/core'
@@ -398,10 +399,6 @@ const highlight = (index: number) => {
     suggestion.scrollTop = offsetTop
   }
   highlightedIndex.value = index
-  inputRef.value?.ref?.setAttribute(
-    'aria-activedescendant',
-    `${listboxId.value}-item-${highlightedIndex.value}`
-  )
 }
 const getSuggestionContext = () => {
   const suggestion = regionRef.value!.querySelector(
@@ -473,6 +470,20 @@ onBeforeUnmount(() => {
   stopHandle?.()
 })
 
+watch([highlightedIndex, suggestions], ([index, list]) => {
+  const inputElement = inputRef.value?.ref
+  if (!inputElement) return
+  const highlightsAnOption = index >= 0 && index < list.length
+  if (highlightsAnOption) {
+    inputElement.setAttribute(
+      'aria-activedescendant',
+      `${listboxId.value}-item-${index}`
+    )
+  } else {
+    inputElement.removeAttribute('aria-activedescendant')
+  }
+})
+
 onMounted(() => {
   const inputElement = inputRef.value?.ref
   if (!inputElement) return
@@ -480,10 +491,6 @@ onMounted(() => {
     { key: 'role', value: 'textbox' },
     { key: 'aria-autocomplete', value: 'list' },
     { key: 'aria-controls', value: listboxId.value },
-    {
-      key: 'aria-activedescendant',
-      value: `${listboxId.value}-item-${highlightedIndex.value}`,
-    },
   ].forEach(({ key, value }) => inputElement.setAttribute(key, value))
   // get readonly attr
   readonly = inputElement.hasAttribute('readonly')
