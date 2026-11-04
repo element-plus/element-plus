@@ -1,5 +1,6 @@
 import {
   computed,
+  getCurrentScope,
   nextTick,
   onMounted,
   ref,
@@ -126,10 +127,13 @@ function useStyle<T extends DefaultRow>(
     if (typeof window === 'undefined') return
     requestAnimationFrame(syncPosition)
   }
+  // listeners bound after `await` must run in the component scope to be disposed on unmount
+  const scope = getCurrentScope()
   onMounted(async () => {
     await nextTick()
+    if (!scope?.active) return
     store.updateColumns()
-    bindEvents()
+    scope.run(bindEvents)
     requestAnimationFrame(doLayout)
 
     const el: HTMLElement = table.vnode.el as HTMLElement
