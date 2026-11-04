@@ -101,12 +101,14 @@ defineOptions({
   name: 'ElProgress',
 })
 
-const STATUS_COLOR_MAP: Record<string, string> = {
-  success: '#13ce66',
-  exception: '#ff4949',
-  warning: '#e6a23c',
-  default: '#20a0ff',
-}
+const ns = useNamespace('progress')
+
+const STATUS_COLOR_MAP = computed((): Record<string, string> => ({
+  success: `var(--${ns.namespace.value}-color-success, #13ce66)`,
+  exception: `var(--${ns.namespace.value}-color-danger, #ff4949)`,
+  warning: `var(--${ns.namespace.value}-color-warning, #e6a23c)`,
+  default: `var(--${ns.namespace.value}-color-primary, #20a0ff)`,
+}))
 
 const props = withDefaults(defineProps<ProgressProps>(), {
   type: 'line',
@@ -120,8 +122,6 @@ const props = withDefaults(defineProps<ProgressProps>(), {
   color: '',
   format: (percentage: number): string => `${percentage}%`,
 })
-
-const ns = useNamespace('progress')
 
 const barStyle = computed<CSSProperties>(() => {
   const barStyle: CSSProperties = {
@@ -190,7 +190,7 @@ const stroke = computed(() => {
   if (props.color) {
     ret = getCurrentColor(props.percentage)
   } else {
-    ret = STATUS_COLOR_MAP[props.status] || STATUS_COLOR_MAP.default
+    ret = STATUS_COLOR_MAP.value[props.status] || STATUS_COLOR_MAP.value.default
   }
   return ret
 })
