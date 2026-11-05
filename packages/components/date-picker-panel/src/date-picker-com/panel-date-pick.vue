@@ -307,7 +307,8 @@ const slots = useSlots()
 
 const { t, lang } = useLocale()
 const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
-const { cellClassName, defaultTime } = pickerBase.props
+const cellClassName = toRef(pickerBase.props, 'cellClassName')
+const defaultTime = toRef(pickerBase.props, 'defaultTime')
 const shortcuts = toRef(pickerBase.props, 'shortcuts')
 const disabledDate = toRef(pickerBase.props, 'disabledDate')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
@@ -321,7 +322,7 @@ const isChangeToNow = ref(false)
 let isShortcut = false
 
 const defaultTimeD = computed(() => {
-  return dayjs(defaultTime).locale(lang.value)
+  return dayjs(defaultTime.value).locale(lang.value)
 })
 
 const month = computed(() => {
@@ -347,7 +348,7 @@ const checkDateWithinRange = (date: ConfigType) => {
 }
 const formatEmit = (emitDayjs: Dayjs) => {
   if (
-    defaultTime &&
+    defaultTime.value &&
     !visibleTime.value &&
     !isChangeToNow.value &&
     !isShortcut
@@ -626,7 +627,7 @@ const onConfirm = () => {
     // deal with the scenario where: user opens the date time picker, then confirm without doing anything
     let result = extractFirst(props.parsedValue)
     if (!result) {
-      const defaultTimeD = dayjs(defaultTime).locale(lang.value)
+      const defaultTimeD = dayjs(defaultTime.value).locale(lang.value)
       const defaultValueD = getDefaultValue()
       result = defaultTimeD
         .year(defaultValueD.year())
