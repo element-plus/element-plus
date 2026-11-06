@@ -9408,10 +9408,10 @@ import { reactive } from 'vue'
 
 import type { TableConfigContext } from 'element-plus'
 
-const config = reactive<TableConfigContext>({
+const config = reactive({
   showOverflowTooltip: true,
   tooltipEffect: 'dark',
-})
+} satisfies TableConfigContext)
 
 interface User {
   date: string
@@ -9689,7 +9689,7 @@ const item = {
   name: 'Tom',
   address: 'No. 189, Grove St, Los Angeles',
 }
-const tableData = ref(Array.from({ length: 20 }).fill(item))
+const tableData = ref(Array.from({ length: 20 }, () => item))
 </script>
 
 <style scoped>
@@ -14179,35 +14179,44 @@ Starting from version ^(2.11.7), `modal-penetrable` attribute is added, which ca
 
 ### Attributes
 
-| Name                       | Description                                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                                                           | Default |
-| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| model-value / v-model      | Should Drawer be displayed                                                                                                                                                                                                                                                                                   | ^[boolean]                                                                                                                                                                                     | false   |
-| append-to-body             | Controls should Drawer be inserted to DocumentBody Element, nested Drawer must assign this param to **true**                                                                                                                                                                                                 | ^[boolean]                                                                                                                                                                                     | false   |
-| append-to ^(2.8.0)         | which element the Drawer appends to. Will override `append-to-body`                                                                                                                                                                                                                                          | ^[CSSSelector] / ^[HTMLElement]                                                                                                                                                                | body    |
-| lock-scroll                | whether scroll of body is disabled while Drawer is displayed                                                                                                                                                                                                                                                 | ^[boolean]                                                                                                                                                                                     | true    |
-| before-close               | If set, closing procedure will be halted                                                                                                                                                                                                                                                                     | ^[Function]`(done: (cancel?: boolean) => void) => void(done is function type that accepts a boolean as parameter, calling done with true or without parameter will abort the close procedure)` | —       |
-| close-on-click-modal       | whether the Drawer can be closed by clicking the mask                                                                                                                                                                                                                                                        | ^[boolean]                                                                                                                                                                                     | true    |
-| close-on-press-escape      | Indicates whether Drawer can be closed by pressing ESC                                                                                                                                                                                                                                                       | ^[boolean]                                                                                                                                                                                     | true    |
-| open-delay                 | Time(milliseconds) before open                                                                                                                                                                                                                                                                               | ^[number]                                                                                                                                                                                      | 0       |
-| close-delay                | Time(milliseconds) before close                                                                                                                                                                                                                                                                              | ^[number]                                                                                                                                                                                      | 0       |
-| destroy-on-close           | Indicates whether children should be destroyed after Drawer closed                                                                                                                                                                                                                                           | ^[boolean]                                                                                                                                                                                     | false   |
-| modal                      | Should show shadowing layer                                                                                                                                                                                                                                                                                  | ^[boolean]                                                                                                                                                                                     | true    |
-| modal-penetrable ^(2.11.7) | whether the mask is penetrable. The modal attribute must be `false`.                                                                                                                                                                                                                                         | ^[boolean]                                                                                                                                                                                     | false   |
-| direction                  | Drawer's opening direction                                                                                                                                                                                                                                                                                   | ^[enum]`'rtl' \| 'ltr' \| 'ttb' \| 'btt'`                                                                                                                                                      | rtl     |
-| resizable ^(2.11.0)        | enable resizable feature for Drawer                                                                                                                                                                                                                                                                          | ^[boolean]                                                                                                                                                                                     | false   |
-| show-close                 | Should show close button at the top right of Drawer                                                                                                                                                                                                                                                          | ^[boolean]                                                                                                                                                                                     | true    |
-| size                       | Drawer's size, if Drawer is horizontal mode, it effects the width property, otherwise it effects the height property, when size is `number` type, it describes the size by unit of pixels; when size is `string` type, it should be used with `x%` notation, other wise it will be interpreted to pixel unit | ^[number] / ^[string]                                                                                                                                                                          | 30%     |
-| title                      | Drawer's title, can also be set by named slot, detailed descriptions can be found in the slot form                                                                                                                                                                                                           | ^[string]                                                                                                                                                                                      | —       |
-| with-header                | Flag that controls the header section's existence, default to true, when withHeader set to false, both `title attribute` and `title slot` won't work                                                                                                                                                         | ^[boolean]                                                                                                                                                                                     | true    |
-| modal-class                | Extra class names for shadowing layer                                                                                                                                                                                                                                                                        | ^[string]                                                                                                                                                                                      | —       |
-| header-class ^(2.9.3)      | custom class names for header wrapper                                                                                                                                                                                                                                                                        | ^[string]                                                                                                                                                                                      | —       |
-| body-class ^(2.9.3)        | custom class names for body wrapper                                                                                                                                                                                                                                                                          | ^[string]                                                                                                                                                                                      | —       |
-| footer-class ^(2.9.3)      | custom class names for footer wrapper                                                                                                                                                                                                                                                                        | ^[string]                                                                                                                                                                                      | —       |
-| z-index                    | set z-index                                                                                                                                                                                                                                                                                                  | ^[number]                                                                                                                                                                                      | —       |
-| header-aria-level ^(a11y)  | header's `aria-level` attribute                                                                                                                                                                                                                                                                              | ^[string]                                                                                                                                                                                      | 2       |
-| custom-class ^(deprecated) | Extra class names for Drawer                                                                                                                                                                                                                                                                                 | ^[string]                                                                                                                                                                                      | —       |
+| Name                              | Description                                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                                                           | Default |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| model-value / v-model             | Should Drawer be displayed                                                                                                                                                                                                                                                                                   | ^[boolean]                                                                                                                                                                                     | false   |
+| append-to-body                    | Controls should Drawer be inserted to DocumentBody Element, nested Drawer must assign this param to **true**                                                                                                                                                                                                 | ^[boolean]                                                                                                                                                                                     | false   |
+| append-to ^(2.8.0)                | which element the Drawer appends to. Will override `append-to-body`                                                                                                                                                                                                                                          | ^[CSSSelector] / ^[HTMLElement]                                                                                                                                                                | body    |
+| lock-scroll                       | whether scroll of body is disabled while Drawer is displayed                                                                                                                                                                                                                                                 | ^[boolean]                                                                                                                                                                                     | true    |
+| before-close                      | If set, closing procedure will be halted                                                                                                                                                                                                                                                                     | ^[Function]`(done: (cancel?: boolean) => void) => void(done is function type that accepts a boolean as parameter, calling done with true or without parameter will abort the close procedure)` | —       |
+| close-on-click-modal              | whether the Drawer can be closed by clicking the mask                                                                                                                                                                                                                                                        | ^[boolean]                                                                                                                                                                                     | true    |
+| close-on-press-escape             | Indicates whether Drawer can be closed by pressing ESC                                                                                                                                                                                                                                                       | ^[boolean]                                                                                                                                                                                     | true    |
+| open-delay                        | Time(milliseconds) before open                                                                                                                                                                                                                                                                               | ^[number]                                                                                                                                                                                      | 0       |
+| close-delay                       | Time(milliseconds) before close                                                                                                                                                                                                                                                                              | ^[number]                                                                                                                                                                                      | 0       |
+| destroy-on-close                  | Indicates whether children should be destroyed after Drawer closed                                                                                                                                                                                                                                           | ^[boolean]                                                                                                                                                                                     | false   |
+| modal                             | Should show shadowing layer                                                                                                                                                                                                                                                                                  | ^[boolean]                                                                                                                                                                                     | true    |
+| modal-penetrable ^(2.11.7)        | whether the mask is penetrable. The modal attribute must be `false`.                                                                                                                                                                                                                                         | ^[boolean]                                                                                                                                                                                     | false   |
+| direction                         | Drawer's opening direction                                                                                                                                                                                                                                                                                   | ^[enum]`'rtl' \| 'ltr' \| 'ttb' \| 'btt'`                                                                                                                                                      | rtl     |
+| [resizable](#resizable) ^(2.11.0) | whether to enable resizing for Drawer. The object form ^(2.14.8) allows more fine-grained control                                                                                                                                                                                                            | ^[boolean] / ^[object]                                                                                                                                                                         | false   |
+| show-close                        | Should show close button at the top right of Drawer                                                                                                                                                                                                                                                          | ^[boolean]                                                                                                                                                                                     | true    |
+| size                              | Drawer's size, if Drawer is horizontal mode, it effects the width property, otherwise it effects the height property, when size is `number` type, it describes the size by unit of pixels; when size is `string` type, it should be used with `x%` notation, other wise it will be interpreted to pixel unit | ^[number] / ^[string]                                                                                                                                                                          | 30%     |
+| title                             | Drawer's title, can also be set by named slot, detailed descriptions can be found in the slot form                                                                                                                                                                                                           | ^[string]                                                                                                                                                                                      | —       |
+| with-header                       | Flag that controls the header section's existence, default to true, when withHeader set to false, both `title attribute` and `title slot` won't work                                                                                                                                                         | ^[boolean]                                                                                                                                                                                     | true    |
+| modal-class                       | Extra class names for shadowing layer                                                                                                                                                                                                                                                                        | ^[string]                                                                                                                                                                                      | —       |
+| header-class ^(2.9.3)             | custom class names for header wrapper                                                                                                                                                                                                                                                                        | ^[string]                                                                                                                                                                                      | —       |
+| body-class ^(2.9.3)               | custom class names for body wrapper                                                                                                                                                                                                                                                                          | ^[string]                                                                                                                                                                                      | —       |
+| footer-class ^(2.9.3)             | custom class names for footer wrapper                                                                                                                                                                                                                                                                        | ^[string]                                                                                                                                                                                      | —       |
+| z-index                           | set z-index                                                                                                                                                                                                                                                                                                  | ^[number]                                                                                                                                                                                      | —       |
+| header-aria-level ^(a11y)         | header's `aria-level` attribute                                                                                                                                                                                                                                                                              | ^[string]                                                                                                                                                                                      | 2       |
+| custom-class ^(deprecated)        | Extra class names for Drawer                                                                                                                                                                                                                                                                                 | ^[string]                                                                                                                                                                                      | —       |
 
 
+
+### resizable ^(2.14.8)
+
+Configuration options for resizing the drawer.
+
+| Attribute | Description                                          | Type                  | Default |
+| --------- | ---------------------------------------------------- | --------------------- | ------- |
+| min-size  | Minimum size of the drawer (in pixels or percentage) | ^[number] / ^[string] | 4px     |
+| max-size  | Maximum size of the drawer (in pixels or percentage) | ^[number] / ^[string] | 100%    |
 
 ### Events
 
@@ -14584,7 +14593,7 @@ const drawer = ref(false)
     <el-radio-button value="ltr">left</el-radio-button>
   </el-radio-group>
 
-  <el-drawer v-model="drawer" :direction="direction" resizable>
+  <el-drawer v-model="drawer" :direction="direction" :resizable="resizable">
     This is drawer content.
   </el-drawer>
 </template>
@@ -14593,6 +14602,11 @@ const drawer = ref(false)
 import { ref } from 'vue'
 
 import type { DrawerProps } from 'element-plus'
+
+const resizable = {
+  minSize: '20%',
+  maxSize: '80%',
+}
 
 const direction = ref<DrawerProps['direction']>()
 const drawer = ref(false)
@@ -16730,6 +16744,10 @@ Besides the native features of img, support lazy load, custom placeholder and lo
 
 
 
+## Viewer Placeholder ^(2.14.8)
+
+
+
 ## Load Failed
 
 
@@ -16838,12 +16856,13 @@ Besides the native features of img, support lazy load, custom placeholder and lo
 
 ### Image Viewer Slots
 
-| Name                   | Description                                                            | Type                                                                                                                                                                                                                |
-| ---------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| default                | custom content                                                         | -                                                                                                                                                                                                                   |
-| progress ^(2.9.4)      | custom progress content (Priority is higher than `show-progress` prop) | ^[object]`{ activeIndex: number, total: number }`                                                                                                                                                                   |
-| toolbar ^(2.9.4)       | custom toolbar content                                                 | ^[object]`{ actions: (action: ImageViewerAction, options?: ImageViewerActionOptions) => void, prev: () => void, next: () => void, reset: () => void, activeIndex: number, setActiveItem: (index: number) => void }` |
-| viewer-error ^(2.11.3) | custom image load failed content.                                      | ^[object]`{ activeIndex: number, src: string }`                                                                                                                                                                     |
+| Name                         | Description                                                            | Type                                                                                                                                                                                                                |
+| ---------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| default                      | custom content                                                         | -                                                                                                                                                                                                                   |
+| progress ^(2.9.4)            | custom progress content (Priority is higher than `show-progress` prop) | ^[object]`{ activeIndex: number, total: number }`                                                                                                                                                                   |
+| toolbar ^(2.9.4)             | custom toolbar content                                                 | ^[object]`{ actions: (action: ImageViewerAction, options?: ImageViewerActionOptions) => void, prev: () => void, next: () => void, reset: () => void, activeIndex: number, setActiveItem: (index: number) => void }` |
+| viewer-placeholder ^(2.14.8) | custom placeholder content when the image hasn't loaded yet.           | ^[object]`{ activeIndex: number, src: string }`                                                                                                                                                                     |
+| viewer-error ^(2.11.3)       | custom image load failed content.                                      | ^[object]`{ activeIndex: number, src: string }`                                                                                                                                                                     |
 
 ### Image Viewer Exposes
 
@@ -17284,11 +17303,19 @@ const handleClick = () => {
       </el-image>
     </div>
   </div>
+  <el-button @click="reloadImages">Reload images</el-button>
 </template>
 
 <script lang="ts" setup>
-const src =
+import { ref } from 'vue'
+
+const url =
   'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg'
+const src = ref(url)
+
+const reloadImages = () => {
+  src.value = `${url}?reload=${Date.now()}`
+}
 </script>
 
 <style scoped>
@@ -17313,7 +17340,7 @@ const src =
   max-height: 200px;
 }
 
-.demo-image__placeholder.image-slot {
+.demo-image__placeholder .image-slot {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17326,6 +17353,71 @@ const src =
 .demo-image__placeholder .dot {
   animation: dot 2s infinite steps(3, start);
   overflow: hidden;
+}
+</style>
+
+```
+
+### viewer-placeholder.vue
+```vue
+<template>
+  <el-image
+    ref="imageRef"
+    style="width: 200px; height: 150px"
+    :src="urls[0]"
+    :preview-src-list="srcList"
+    fit="cover"
+  >
+    <template #viewer-placeholder="{ activeIndex, src }">
+      <div class="viewer-placeholder" :title="src">
+        <el-icon class="is-loading" :size="32">
+          <Loading />
+        </el-icon>
+        <span>Loading image {{ activeIndex + 1 }}...</span>
+      </div>
+    </template>
+  </el-image>
+  <div class="viewer-placeholder-controls">
+    <el-button @click="reloadPreview">Reload preview</el-button>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { nextTick, ref } from 'vue'
+import { Loading } from '@element-plus/icons-vue'
+
+import type { ImageInstance } from 'element-plus'
+
+const imageRef = ref<ImageInstance>()
+const urls = [
+  'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
+  'https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg',
+  'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg',
+  'https://fuss10.elemecdn.com/9/bb/e27858e973f5d7d3904835f46abbdjpeg.jpeg',
+  'https://fuss10.elemecdn.com/d/e6/c4d93a3805b3ce3f323f7974e6f78jpeg.jpeg',
+  'https://fuss10.elemecdn.com/3/28/bbf893f792f03a54408b3b7a7ebf0jpeg.jpeg',
+  'https://fuss10.elemecdn.com/2/11/6535bcfb26e4c79b48ddde44f4b6fjpeg.jpeg',
+]
+const srcList = ref(urls)
+
+const reloadPreview = async () => {
+  const timestamp = Date.now()
+  srcList.value = urls.map((url) => `${url}?preview=${timestamp}`)
+  await nextTick()
+  imageRef.value?.showPreview()
+}
+</script>
+
+<style scoped>
+.viewer-placeholder-controls {
+  margin-top: 16px;
+}
+.viewer-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  color: #fff;
 }
 </style>
 
@@ -18546,14 +18638,18 @@ import { ElementPlus } from '@element-plus/icons-vue'
 
 import type { TagProps } from 'element-plus'
 
-const type: Array<TagProps['type']> = [
+const type: Array<NonNullable<TagProps['type']>> = [
   'primary',
   'success',
   'info',
   'warning',
   'danger',
 ]
-const effect: Array<TagProps['effect']> = ['light', 'dark', 'plain']
+const effect: Array<NonNullable<TagProps['effect']>> = [
+  'light',
+  'dark',
+  'plain',
+]
 
 const tagType = ref<TagProps['type']>('primary')
 const tagEffect = ref<TagProps['effect']>('plain')
@@ -25248,6 +25344,54 @@ Used to replace the browser's native scrollbar.
 
 
 
+## Scroll masks ^(2.14.8)
+
+Use `mask` to indicate that more content can be scrolled to above, below, to the left, or to the right of the viewport. Masks are disabled by default.
+
+| Value      | Behavior                                                    |
+| ---------- | ----------------------------------------------------------- |
+| `false`    | Disable all masks (default).                                |
+| `true`     | Enable all four masks, according to the available overflow. |
+| `'top'`    | Enable only the top mask.                                   |
+| `'bottom'` | Enable only the bottom mask.                                |
+| `'left'`   | Enable only the left mask.                                  |
+| `'right'`  | Enable only the right mask.                                 |
+
+```vue
+<template>
+  <el-scrollbar height="240px" mask />
+  <el-scrollbar height="240px" mask="top" />
+  <el-scrollbar height="240px" mask="bottom" />
+  <el-scrollbar mask="left" />
+  <el-scrollbar mask="right" />
+</template>
+```
+
+
+
+Masks fade in and out over `200ms` by default, using `--el-transition-duration-fast`. The animation is disabled when the user prefers reduced motion. Masks do not block pointer events or cover scrollbar controls, and also work with `native`.
+
+`left` and `right` refer to the physical edges of the viewport, including when the scroll container uses `direction: rtl`.
+
+The `distance` attribute only affects the `end-reached` event; it does not change when masks appear. When using `noresize`, call `update()` after changing the content or container size to refresh the masks.
+
+### Customize masks
+
+Use the following CSS variables on the Scrollbar component to customize each mask:
+
+| CSS variable                        | Description                | Default              |
+| ----------------------------------- | -------------------------- | -------------------- |
+| `--el-scrollbar-top-mask-height`    | Height of the top mask.    | `40px`               |
+| `--el-scrollbar-bottom-mask-height` | Height of the bottom mask. | `40px`               |
+| `--el-scrollbar-left-mask-width`    | Width of the left mask.    | `40px`               |
+| `--el-scrollbar-right-mask-width`   | Width of the right mask.   | `40px`               |
+| `--el-scrollbar-top-mask-color`     | Color of the top mask.     | `var(--el-bg-color)` |
+| `--el-scrollbar-bottom-mask-color`  | Color of the bottom mask.  | `var(--el-bg-color)` |
+| `--el-scrollbar-left-mask-color`    | Color of the left mask.    | `var(--el-bg-color)` |
+| `--el-scrollbar-right-mask-color`   | Color of the right mask.   | `var(--el-bg-color)` |
+
+The default color follows the light or dark theme. Set the mask colors to match the container background when using a custom background. The example above sets the vertical mask heights and horizontal mask widths to `48px`.
+
 ## Max height
 
 
@@ -25276,6 +25420,7 @@ Used to replace the browser's native scrollbar.
 | noresize                          | do not respond to container size changes, if the container size does not change, it is better to set it to optimize performance | ^[boolean]                                                          | false   |
 | tag                               | element tag of the view                                                                                                         | ^[string]                                                           | div     |
 | always                            | always show scrollbar                                                                                                           | ^[boolean]                                                          | false   |
+| mask ^(2.14.8)                    | Gradient masks: `true` for all edges, a direction for one edge, and `false` to disable                                          | ^[boolean] / ^[enum]`'top' \| 'bottom' \| 'left' \| 'right'`        | false   |
 | min-size                          | minimum size of scrollbar                                                                                                       | ^[number]                                                           | 20      |
 | id ^(2.4.0)                       | id of view                                                                                                                      | ^[string]                                                           | —       |
 | role ^(2.4.0) ^(a11y)             | role of view                                                                                                                    | ^[string]                                                           | —       |
@@ -25509,6 +25654,79 @@ const onDelete = () => {
   height: 50px;
   margin: 10px;
   text-align: center;
+  border-radius: 4px;
+  background: var(--el-color-primary-light-9);
+  color: var(--el-color-primary);
+}
+</style>
+
+```
+
+### scroll-mask.vue
+```vue
+<template>
+  <el-radio-group v-model="mask" size="small" class="mask-controls">
+    <el-radio-button :value="false">Off</el-radio-button>
+    <el-radio-button :value="true">All</el-radio-button>
+    <el-radio-button value="top">Top</el-radio-button>
+    <el-radio-button value="bottom">Bottom</el-radio-button>
+    <el-radio-button value="left">Left</el-radio-button>
+    <el-radio-button value="right">Right</el-radio-button>
+  </el-radio-group>
+  <p>Vertical scrolling</p>
+  <el-scrollbar height="240px" :mask="mask" class="mask-scrollbar">
+    <p v-for="item in 20" :key="item" class="scrollbar-demo-item">{{ item }}</p>
+  </el-scrollbar>
+  <p>Horizontal scrolling</p>
+  <el-scrollbar :mask="mask" class="mask-scrollbar">
+    <div class="horizontal-content">
+      <p v-for="item in 20" :key="item" class="scrollbar-demo-item">
+        {{ item }}
+      </p>
+    </div>
+  </el-scrollbar>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+import type { ScrollbarProps } from 'element-plus'
+
+const mask = ref<ScrollbarProps['mask']>(true)
+</script>
+
+<style scoped>
+.mask-controls {
+  margin-bottom: 8px;
+}
+
+.mask-scrollbar {
+  --el-scrollbar-top-mask-height: 48px;
+  --el-scrollbar-top-mask-color: var(--el-bg-color);
+  --el-scrollbar-bottom-mask-height: 48px;
+  --el-scrollbar-bottom-mask-color: var(--el-bg-color);
+  --el-scrollbar-left-mask-width: 48px;
+  --el-scrollbar-left-mask-color: var(--el-bg-color);
+  --el-scrollbar-right-mask-width: 48px;
+  --el-scrollbar-right-mask-color: var(--el-bg-color);
+}
+
+.horizontal-content {
+  display: flex;
+  width: max-content;
+}
+
+.horizontal-content .scrollbar-demo-item {
+  flex-shrink: 0;
+  width: 100px;
+}
+
+.scrollbar-demo-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  margin: 10px;
   border-radius: 4px;
   background: var(--el-color-primary-light-9);
   color: var(--el-color-primary);
@@ -34088,6 +34306,7 @@ const data = generateData(columns, 200)
 
 const rowClass = ({ rowIndex }) => {
   if (rowIndex < 0 || (rowIndex + 1) % 5 === 0) return 'sticky-row'
+  return ''
 }
 
 const stickyIndex = ref(0)
@@ -34305,7 +34524,7 @@ When you have huge chunks of data to put in a table, you can fix the header and 
 
 ## Fluid-height Table with fixed header (and columns)
 
-When the the data is dynamically changed, you might want the table to have a maximum height rather than a fixed height and to show the scroll bar if needed.
+When the data is dynamically changed, you might want the table to have a maximum height rather than a fixed height and to show the scroll bar if needed.
 
 
 
@@ -44714,6 +44933,7 @@ For full documentation, refer to: [ConfigProvider](../component/config-provider.
   <li>Hongkong Chinese (zh-hk)</li>
   <li>Macau Chinese (zh-mo)</li>
   <li>Telugu (te)</li>
+  <li>Galician (gl)</li>
 </ul>
 
 If you need any other languages, [PR](https://github.com/element-plus/element-plus/pulls)
@@ -45401,6 +45621,31 @@ These are examples about custom theme.
 
 - Full import: [element-plus-vite-starter](https://github.com/element-plus/element-plus-vite-starter)
 - On demand: [unplugin-element-plus/examples/vite](https://github.com/element-plus/unplugin-element-plus)
+
+### Preview with the theme editor
+
+Add `?themeEditor=true` to a documentation page URL, then open **Theme Editor** using the brush button in the bottom-right corner. The editor is also enabled during local development.
+
+Choose a preset or edit the primary, success, warning, danger, and info colors. Changes are previewed on the page and saved in your browser. Click a shade or a primary color value (HEX, RGB, or HSB) to copy it, or use **Restore defaults** to reset the palette.
+
+Use the switch in the drawer header to preview light and dark modes. Press **Enter** to apply a typed color. Closing the drawer returns keyboard focus to the brush button.
+
+**Text contrast** compares black and white text on the primary color against the [WCAG AA minimum of 4.5:1 for normal text](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html). The info card automatically uses the more readable foreground. Inspect component states in the page preview when choosing application colors. The separate **APCA** section evaluates theme-colored text on a white background.
+
+**Copy CSS** copies the base colors and their light/dark variants to the clipboard, ready to paste into your stylesheet. **Export CSS** downloads the same CSS as a file. Place the CSS after Element Plus styles in your application; dark variants use the `html.dark` selector.
+
+**Import theme** accepts exported CSS or a JSON file with a `colors` object, for example:
+
+```json
+{
+  "colors": {
+    "primary": "#0075eb",
+    "success": "#67c23a"
+  }
+}
+```
+
+Missing colors use Element Plus defaults. Invalid imports leave the current theme unchanged. Use `?themeEditor=false` to hide the editor, including during local development.
 
 ### By SCSS variables
 
