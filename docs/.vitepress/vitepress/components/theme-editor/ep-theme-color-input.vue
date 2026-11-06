@@ -1,0 +1,119 @@
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useThemeStore } from '../../store/theme'
+import defaultTheme from '../../utils/theme/store/default'
+
+import type { EpThemeColor } from '../../utils/theme/types'
+
+const props = defineProps<{ name: EpThemeColor }>()
+const store = useThemeStore()
+const { t } = useI18n()
+const color = computed(() => store.fullTheme.colors[props.name])
+const draft = ref(color.value)
+const invalid = ref(false)
+const label = computed(() => t(`editor.colors.${props.name}`))
+
+watch(
+  () => store.fullTheme,
+  () => {
+    draft.value = color.value
+    invalid.value = false
+  }
+)
+
+function apply(value: string | null) {
+  invalid.value = !store.updateColor(
+    props.name,
+    value ?? defaultTheme.colors[props.name]!
+  )
+  if (!invalid.value) draft.value = color.value
+}
+</script>
+
+<template>
+  <div>
+    <label :for="`theme-color-${name}`" class="theme-color-label">{{
+      label
+    }}</label>
+    <div class="theme-color-controls">
+      <el-color-picker
+        :model-value="color"
+        size="large"
+        popper-class="theme-editor-color-picker"
+        :aria-label="label"
+        @update:model-value="apply"
+      />
+      <el-input
+        :id="`theme-color-${name}`"
+        v-model="draft"
+        class="theme-color-input"
+        size="large"
+        :aria-invalid="invalid"
+        :aria-describedby="invalid ? `theme-color-${name}-error` : undefined"
+        autocomplete="off"
+        :spellcheck="false"
+        @change="apply"
+        @keydown.enter.prevent="apply(draft)"
+      />
+    </div>
+    <p
+      v-if="invalid"
+      :id="`theme-color-${name}-error`"
+      class="theme-color-error"
+      role="alert"
+    >
+      {{ t('editor.invalid-color') }}
+    </p>
+  </div>
+</template>
+
+<style scoped>
+.theme-color-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--el-text-color-regular);
+  font-size: var(--el-font-size-base);
+  line-height: 22px;
+}
+.theme-color-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.theme-color-error {
+  margin: 4px 0 0;
+  color: var(--el-color-danger);
+  font-size: var(--el-font-size-extra-small);
+  line-height: 1.5;
+}
+
+@media (max-width: 359px) {
+  :global(.theme-editor-color-picker .el-color-picker-panel) {
+    width: calc(100vw - 48px);
+  }
+
+  :global(.theme-editor-color-picker .el-color-svpanel) {
+    width: calc(100% - 20px);
+  }
+
+  :global(.theme-editor-color-picker .el-color-picker-panel__footer) {
+    gap: 8px;
+  }
+
+  :global(.theme-editor-color-picker .el-color-picker-panel__footer .el-input) {
+    flex: 1;
+    width: 0;
+  }
+}
+
+@media (pointer: coarse) {
+  .theme-color-input {
+    --el-input-height: 44px;
+  }
+
+  .theme-color-input :deep(.el-input__inner) {
+    font-size: 16px;
+  }
+}
+</style>

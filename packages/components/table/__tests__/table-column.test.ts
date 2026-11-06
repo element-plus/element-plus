@@ -869,6 +869,49 @@ describe('table column', () => {
       await doubleWait()
       expect(wrapper.findAll('.el-table__header-wrapper th').length).toEqual(3)
     })
+
+    it('updates the header slot when the columns are replaced', async () => {
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table :data="data">
+            <el-table-column
+              v-for="col of cols"
+              :key="col.prop"
+              :prop="col.prop"
+            >
+              <template #header>
+                <span class="header-label">{{ col.label }}</span>
+              </template>
+            </el-table-column>
+          </el-table>
+        `,
+        data() {
+          return {
+            cols: [
+              { prop: 'name', label: 'Name' },
+              { prop: 'age', label: 'Age' },
+            ],
+            data: [{ name: 'Tom', age: 20 }],
+          }
+        },
+      })
+
+      await doubleWait()
+      const labels = () =>
+        wrapper.findAll('.header-label').map((label) => label.text())
+      expect(labels()).toEqual(['Name', 'Age'])
+
+      wrapper.vm.cols = wrapper.vm.cols.map((col) => ({
+        ...col,
+        label: `${col.label}!`,
+      }))
+      await doubleWait()
+      expect(labels()).toEqual(['Name!', 'Age!'])
+    })
   })
 
   describe('column expand', () => {

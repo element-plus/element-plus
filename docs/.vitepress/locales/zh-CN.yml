@@ -1,0 +1,58 @@
+home:
+  title: Element Plus
+  title_sub: 基于 Vue 3，面向设计师和开发者的组件库
+  china_mirror: 国内镜像站点 🇨🇳
+  links: 链接
+  changelog: 更新日志
+  element_ui: Element UI for Vue 2
+  contact_us: 请通过此邮箱联系我们
+  become_sponsor: 成为赞助商！
+  contribution: 参与贡献
+  segmentfault: SegmentFault
+  feedback: 建议反馈
+  view_detail: 查看详情
+  guide: 指南
+  guide_desc: 了解设计指南，帮助产品设计人员搭建逻辑清晰、结构合理且高效易用的产品。
+  component: 组件
+  component_desc: 使用组件 Demo 快速体验交互细节；使用前端框架封装的代码帮助工程师快速开发。
+  resource: 资源
+  resource_desc: 下载相关资源，用其快速搭建页面原型或高保真视觉稿，提升产品设计效率。
+not-found: 未找到页面
+editor:
+  desc: 主题编辑器
+  primary-color: 主题色
+  secondary-color: 辅助色
+  help: 颜色实时应用到当前页面，并保存在此浏览器中。点击颜色值或色阶可复制。
+  presets: 预设配色
+  presets-blue: 经典蓝
+  presets-contrast: 高对比度
+  presets-gold: 金盏黄
+  presets-turquoise: 绿松石
+  reset: 恢复默认配色
+  import: 导入主题
+  export: 导出 CSS
+  copy-css: 复制 CSS
+  copy-css-success: 主题 CSS 已复制
+  copy-css-error: 主题 CSS 复制失败，请尝试导出 CSS。
+  import-success: 主题导入成功
+  import-error: 请导入包含有效主题颜色的 CSS 或 JSON 文件。
+  invalid-color: 请输入有效的不透明颜色，例如「#409eff」。
+  dark-mode: 深色模式
+  contrast: 文字对比度
+  contrast-current: '信息卡使用{color} · {ratio}:1'
+  contrast-pass: AA 达标
+  contrast-fail: 未达 AA
+  contrast-help: '此背景上的普通文字需至少达到 4.5:1（WCAG AA）。'
+  text-black: 黑色文字
+  text-white: 白色文字
+  apca: APCA · 主题色文字／白底
+  apca-help: '{value} Lc · 以主题色为文字、白色为背景计算，与上方信息卡的文字对比度分别评估。'
+  copied: '已复制 {color}'
+  copy-color: '复制 {name}'
+  copy-error: 颜色复制失败。
+  colors:
+    primary: 主题色
+    success: 成功色
+    warning: 警告色
+    danger: 危险色
+    info: 信息色

@@ -2,22 +2,22 @@ export default {
   name: 'tr',
   el: {
     breadcrumb: {
-      label: 'Breadcrumb', // to be translated
+      label: 'Gezinti yolu',
     },
     colorpicker: {
       confirm: 'Onayla',
       clear: 'Temizle',
-      defaultLabel: 'color picker', // to be translated
+      defaultLabel: 'renk seçici',
       description:
-        'current color is {color}. press enter to select a new color.', // to be translated
-      alphaLabel: 'pick alpha value', // to be translated
-      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
-      hueLabel: 'pick hue value', // to be translated
-      hueDescription: 'hue {hue}, current color is {color}', // to be translated
-      svLabel: 'pick saturation and brightness value', // to be translated
+        'geçerli renk {color}. yeni bir renk seçmek için Enter tuşuna bas.',
+      alphaLabel: 'alfa değerini seç',
+      alphaDescription: 'alfa {alpha}, geçerli renk {color}',
+      hueLabel: 'ton değerini seç',
+      hueDescription: 'ton {hue}, geçerli renk {color}',
+      svLabel: 'doygunluk ve parlaklık değerini seç',
       svDescription:
-        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
-      predefineDescription: 'select {value} as the color', // to be translated
+        'doygunluk {saturation}, parlaklık {brightness}, geçerli renk {color}',
+      predefineDescription: 'renk olarak {value} değerini seç',
     },
     datepicker: {
       now: 'Şimdi',
@@ -26,11 +26,12 @@ export default {
       clear: 'Temizle',
       confirm: 'Onayla',
       dateTablePrompt:
-        'Use the arrow keys and enter to select the day of the month', // to be translated
-      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
-      quarterTablePrompt: 'Use the arrow keys and enter to select the quarter', // to be translated
-      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
-      selectedDate: 'Selected date', // to be translated
+        'Ayın gününü seçmek için ok tuşlarını ve Enter tuşunu kullan',
+      monthTablePrompt: 'Ayı seçmek için ok tuşlarını ve Enter tuşunu kullan',
+      quarterTablePrompt:
+        'Çeyreği seçmek için ok tuşlarını ve Enter tuşunu kullan',
+      yearTablePrompt: 'Yılı seçmek için ok tuşlarını ve Enter tuşunu kullan',
+      selectedDate: 'Seçili tarih',
       selectDate: 'Tarih seç',
       selectTime: 'Saat seç',
       startDate: 'Başlangıç Tarihi',
@@ -64,13 +65,13 @@ export default {
         sat: 'Cmt',
       },
       weeksFull: {
-        sun: 'Sunday', // to be translated
-        mon: 'Monday', // to be translated
-        tue: 'Tuesday', // to be translated
-        wed: 'Wednesday', // to be translated
-        thu: 'Thursday', // to be translated
-        fri: 'Friday', // to be translated
-        sat: 'Saturday', // to be translated
+        sun: 'Pazar',
+        mon: 'Pazartesi',
+        tue: 'Salı',
+        wed: 'Çarşamba',
+        thu: 'Perşembe',
+        fri: 'Cuma',
+        sat: 'Cumartesi',
       },
       months: {
         jan: 'Oca',
@@ -91,8 +92,8 @@ export default {
       characters: '{count} / {max} karakter',
     },
     inputNumber: {
-      decrease: 'decrease number', // to be translated
-      increase: 'increase number', // to be translated
+      decrease: 'sayıyı azalt',
+      increase: 'sayıyı artır',
     },
     select: {
       loading: 'Yükleniyor',
@@ -104,7 +105,7 @@ export default {
       loading: 'Yükleniyor',
     },
     dropdown: {
-      toggleDropdown: 'Toggle Dropdown', // to be translated
+      toggleDropdown: 'Açılır menüyü aç/kapat',
     },
     cascader: {
       noMatch: 'Eşleşen veri bulunamadı',
@@ -117,27 +118,27 @@ export default {
       pagesize: '/sayfa',
       total: 'Toplam {total}',
       pageClassifier: '',
-      page: 'Page', // to be translated
-      prev: 'Go to previous page', // to be translated
-      next: 'Go to next page', // to be translated
-      currentPage: 'page {pager}', // to be translated
-      prevPages: 'Previous {pager} pages', // to be translated
-      nextPages: 'Next {pager} pages', // to be translated
+      page: 'Sayfa',
+      prev: 'Önceki sayfaya git',
+      next: 'Sonraki sayfaya git',
+      currentPage: 'sayfa {pager}',
+      prevPages: 'Önceki {pager} sayfa',
+      nextPages: 'Sonraki {pager} sayfa',
       deprecationWarning:
-        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
+        'Kullanımdan kaldırılmış kullanım biçimleri algılandı, ayrıntılar için el-pagination belgelerine bak',
     },
     dialog: {
-      close: 'Close this dialog', // to be translated
+      close: 'Bu iletişim kutusunu kapat',
     },
     drawer: {
-      close: 'Close this dialog', // to be translated
+      close: 'Bu iletişim kutusunu kapat',
     },
     messagebox: {
       title: 'Mesaj',
       confirm: 'Onayla',
       cancel: 'İptal',
-      error: 'İllegal giriş',
-      close: 'Close this dialog', // to be translated
+      error: 'Geçersiz giriş',
+      close: 'Bu iletişim kutusunu kapat',
     },
     upload: {
       deleteTip: 'kaldırmak için delete tuşuna bas',
@@ -146,31 +147,31 @@ export default {
       continue: 'Devam',
     },
     slider: {
-      defaultLabel: 'slider between {min} and {max}', // to be translated
-      defaultRangeStartLabel: 'pick start value', // to be translated
-      defaultRangeEndLabel: 'pick end value', // to be translated
+      defaultLabel: '{min} ile {max} arasında kaydırıcı',
+      defaultRangeStartLabel: 'başlangıç değerini seç',
+      defaultRangeEndLabel: 'bitiş değerini seç',
     },
     table: {
       emptyText: 'Veri yok',
       confirmFilter: 'Onayla',
       resetFilter: 'Sıfırla',
       clearFilter: 'Hepsi',
-      sumText: 'Sum',
-      selectAllLabel: 'Select all rows', // to be translated
-      selectRowLabel: 'Select this row', // to be translated
-      expandRowLabel: 'Expand this row', // to be translated
-      collapseRowLabel: 'Collapse this row', // to be translated
-      sortLabel: 'Sort by {column}', // to be translated
-      filterLabel: 'Filter by {column}', // to be translated
+      sumText: 'Toplam',
+      selectAllLabel: 'Tüm satırları seç',
+      selectRowLabel: 'Bu satırı seç',
+      expandRowLabel: 'Bu satırı genişlet',
+      collapseRowLabel: 'Bu satırı daralt',
+      sortLabel: '{column} sütununa göre sırala',
+      filterLabel: '{column} sütununa göre filtrele',
     },
     tag: {
-      close: 'Close this tag', // to be translated
+      close: 'Bu etiketi kapat',
     },
     tour: {
-      next: 'Next', // to be translated
-      previous: 'Previous', // to be translated
-      finish: 'Finish', // to be translated
-      close: 'Close this dialog', // to be translated
+      next: 'Sonraki',
+      previous: 'Önceki',
+      finish: 'Bitir',
+      close: 'Bu iletişim kutusunu kapat',
     },
     tree: {
       emptyText: 'Veri yok',
@@ -194,13 +195,13 @@ export default {
       cancelButtonText: 'Hayır',
     },
     carousel: {
-      leftArrow: 'Carousel arrow left', // to be translated
-      rightArrow: 'Carousel arrow right', // to be translated
-      indicator: 'Carousel switch to index {index}', // to be translated
+      leftArrow: 'Karuselin sol oku',
+      rightArrow: 'Karuselin sağ oku',
+      indicator: 'Karuselde {index}. öğeye geç',
     },
     inputOTP: {
-      groupLabel: 'OTP Input', // to be translated
-      defaultLabel: 'Please enter OTP character {index}', // to be translated
+      groupLabel: 'Tek kullanımlık şifre girişi',
+      defaultLabel: 'Tek kullanımlık şifrenin {index}. karakterini gir',
     },
   },
 }

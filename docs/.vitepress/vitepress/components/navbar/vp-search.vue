@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import '@docsearch/css'
+import '@docsearch/css/dist/style.css'
 import { getCurrentInstance, onMounted, watch } from 'vue'
 import { useRoute, useRouter, withBase } from 'vitepress'
 import docsearch from '@docsearch/js'

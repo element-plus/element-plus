@@ -1,6 +1,6 @@
 import { loadChangelog } from '../utils/changelog-parser'
 
-import type { Plugin } from 'vite'
+import type { Plugin } from 'vitepress'
 
 const VIRTUAL_MODULE_ID = 'virtual:component-changelog-data'
 const RESOLVED_VIRTUAL_MODULE_ID = `\0${VIRTUAL_MODULE_ID}`

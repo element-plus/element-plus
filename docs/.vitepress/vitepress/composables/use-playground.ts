@@ -23,7 +23,7 @@ export const usePlayground = (source: MaybeRefOrGetter<string>) => {
   )
 
   const link = computed(() => {
-    const _link = new URL('https://element-plus.run/')
+    const _link = new URL('https://run.element-plus.org/')
 
     if (usePreview()) {
       _link.searchParams.append('pr', usePreviewPR())

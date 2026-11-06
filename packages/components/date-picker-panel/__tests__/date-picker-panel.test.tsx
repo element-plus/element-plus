@@ -136,6 +136,29 @@ describe('DatePickerPanel', () => {
     )
   })
 
+  describe('shortcuts should be reactive', async () => {
+    it.each(types)(
+      ":type='%s' should react to shortcuts changes",
+      async (type) => {
+        const shortcuts = ref([{ text: 'Today', value: new Date() }])
+        const _wrapper = mount(() => (
+          <DatePickerPanel type={type} shortcuts={shortcuts.value} />
+        ))
+
+        const wrapper = _wrapper.findComponent(DatePickerPanel)
+
+        expect(wrapper.find('.el-picker-panel__shortcut').text()).toBe('Today')
+
+        shortcuts.value = [{ text: 'Yesterday', value: new Date() }]
+        await nextTick()
+
+        expect(wrapper.find('.el-picker-panel__shortcut').text()).toBe(
+          'Yesterday'
+        )
+      }
+    )
+  })
+
   describe('should correctly select a date when weekStart change', () => {
     const weekStarts = Array.from({ length: 7 }, (_, idx) => idx)
 

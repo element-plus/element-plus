@@ -799,4 +799,55 @@ describe('InputNumber.vue', () => {
     await input.trigger('blur')
     expect(input.element.value).toEqual('$ ')
   })
+
+  test('should keep aria attributes in sync with reactive props', async () => {
+    const min = ref(0)
+    const max = ref(10)
+    const disabled = ref(false)
+    const val = ref(1)
+
+    const wrapper = mount(() => (
+      <InputNumber
+        v-model={val.value}
+        min={min.value}
+        max={max.value}
+        disabled={disabled.value}
+      />
+    ))
+
+    const input = wrapper.find<HTMLInputElement>('.el-input__inner')
+    expect(input.element.getAttribute('aria-valuemin')).toBe('0')
+    expect(input.element.getAttribute('aria-valuemax')).toBe('10')
+    expect(input.element.getAttribute('aria-disabled')).toBe('false')
+
+    min.value = -5
+    max.value = 99
+    disabled.value = true
+    await nextTick()
+
+    expect(input.element.getAttribute('aria-valuemin')).toBe('-5')
+    expect(input.element.getAttribute('aria-valuemax')).toBe('99')
+    expect(input.element.getAttribute('aria-disabled')).toBe('true')
+  })
+
+  test('should remove aria-valuemin and aria-valuemax when the bounds become non-finite', async () => {
+    const min = ref(0)
+    const max = ref(10)
+    const val = ref(1)
+
+    const wrapper = mount(() => (
+      <InputNumber v-model={val.value} min={min.value} max={max.value} />
+    ))
+
+    const input = wrapper.find<HTMLInputElement>('.el-input__inner')
+    expect(input.element.getAttribute('aria-valuemin')).toBe('0')
+    expect(input.element.getAttribute('aria-valuemax')).toBe('10')
+
+    min.value = Number.NEGATIVE_INFINITY
+    max.value = Number.POSITIVE_INFINITY
+    await nextTick()
+
+    expect(input.element.hasAttribute('aria-valuemin')).toBe(false)
+    expect(input.element.hasAttribute('aria-valuemax')).toBe(false)
+  })
 })

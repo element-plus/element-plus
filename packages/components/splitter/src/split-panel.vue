@@ -11,11 +11,16 @@ import {
   watch,
 } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { throwError } from '@element-plus/utils'
+import {
+  isPercent,
+  isPx,
+  parsePx,
+  percentToRatio,
+  throwError,
+} from '@element-plus/utils'
 import { getCollapsible, isCollapsible } from './hooks/usePanel'
 import SplitBar from './split-bar.vue'
 import { splitterPanelEmits } from './split-panel'
-import { getPct, getPx, isPct, isPx } from './hooks'
 import { splitterRootContextKey } from './type'
 
 import type { SplitterPanelProps } from './split-panel'
@@ -104,10 +109,10 @@ const endCollapsible = computed(() =>
 )
 
 function sizeToPx(str: string | number | undefined) {
-  if (isPct(str)) {
-    return getPct(str) * containerSize.value || 0
+  if (isPercent(str)) {
+    return percentToRatio(str) * containerSize.value || 0
   } else if (isPx(str)) {
-    return getPx(str)
+    return parsePx(str)
   }
   return str ?? 0
 }

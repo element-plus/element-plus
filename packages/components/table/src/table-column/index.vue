@@ -10,8 +10,10 @@ import {
   h,
   onBeforeMount,
   onBeforeUnmount,
+  onBeforeUpdate,
   onMounted,
   ref,
+  triggerRef,
 } from 'vue'
 import { useGlobalConfig } from '@element-plus/components/config-provider'
 import { isArray, isString, isUndefined } from '@element-plus/utils'
@@ -179,6 +181,15 @@ onMounted(() => {
     )
 })
 
+let headerSlot = slots.header
+onBeforeUpdate(() => {
+  // The header renders in the table header component, which does not track this column's slots.
+  if (slots.header !== headerSlot) {
+    headerSlot = slots.header
+    triggerRef(columnConfig)
+  }
+})
+
 onBeforeUnmount(() => {
   const getColumnIndex = columnConfig.value.getColumnIndex
   const columnIndex = getColumnIndex ? getColumnIndex() : -1
@@ -204,7 +215,7 @@ const TableColumnRenderer = () => {
       column: {} as TableColumnCtx<T>,
       $index: -1,
     })
-    const children = []
+    const children: VNode[] = []
     if (isArray(renderDefault)) {
       for (const childNode of renderDefault) {
         if (

@@ -56,7 +56,7 @@ const yearValue = computed(() => props.date.year())
 const monthValue = computed(() => props.date.month() + 1)
 // Get an array of 20 years
 const yearOptions = computed(() => {
-  const years = []
+  const years: typeof monthOptions = []
   for (let i = -10; i < 10; i++) {
     const year = yearValue.value + i
     if (year > 0) {

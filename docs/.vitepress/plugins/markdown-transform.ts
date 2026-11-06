@@ -7,7 +7,7 @@ import { REPO_BRANCH, REPO_PATH } from '@element-plus/build-constants'
 import { getLang, languages } from '../utils/lang'
 import footerLocale from '../i18n/component/footer.json'
 
-import type { Plugin } from 'vite'
+import type { Plugin } from 'vitepress'
 
 type Append = Record<'headers' | 'footers' | 'scriptSetups', string[]>
 

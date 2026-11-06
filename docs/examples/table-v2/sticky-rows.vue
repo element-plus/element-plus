@@ -46,6 +46,7 @@ const data = generateData(columns, 200)
 
 const rowClass = ({ rowIndex }) => {
   if (rowIndex < 0 || (rowIndex + 1) % 5 === 0) return 'sticky-row'
+  return ''
 }
 
 const stickyIndex = ref(0)

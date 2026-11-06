@@ -85,3 +85,23 @@ export function addUnit(value?: string | number, defaultUnit = 'px') {
   }
   debugWarn(SCOPE, 'binding value must be a string or number')
 }
+
+/** Converts a percentage string to a ratio, e.g. '50%' to 0.5. */
+export function percentToRatio(value: string) {
+  return Number(value.slice(0, -1)) / 100
+}
+
+/** Parses the numeric value of a pixel string, e.g. '100px' to 100. */
+export function parsePx(value: string) {
+  return Number(value.slice(0, -2))
+}
+
+/** Checks for a '%' suffix without validating the numeric value. */
+export function isPercent(value: string | number | undefined): value is string {
+  return isString(value) && value.endsWith('%')
+}
+
+/** Checks for a 'px' suffix without validating the numeric value. */
+export function isPx(value: string | number | undefined): value is string {
+  return isString(value) && value.endsWith('px')
+}

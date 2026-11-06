@@ -23,6 +23,7 @@ const scopes = [
   'border',
   'var',
   'ssr',
+  'theme-editor',
   'types',
   'deps',
 ]

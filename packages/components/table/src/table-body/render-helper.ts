@@ -65,7 +65,7 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
   ) => {
     const { tooltipEffect, tooltipOptions, store } = props
     const { indent, columns } = store!.states
-    const rowClasses = []
+    const rowClasses: string[] = []
     let display = true
     if (treeRowData) {
       rowClasses.push(ns.em('row', `level-${treeRowData.level}`))
@@ -220,7 +220,7 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
       // 在调用 rowRender 函数时，仍然会计算 rowKey，不太好的操作
       const key = getRowIdentity(row, rowKey.value)
       let cur = treeData.value[key]
-      let treeRowData = null
+      let treeRowData: TreeNode | null = null
       if (cur) {
         treeRowData = {
           expanded: cur.expanded,

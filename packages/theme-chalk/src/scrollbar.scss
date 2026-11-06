@@ -25,6 +25,55 @@
     }
   }
 
+  @include e((mask, top-mask, bottom-mask, left-mask, right-mask)) {
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  @include e(mask) {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  @include e(top-mask) {
+    height: getCssVar('scrollbar-top-mask-height');
+    background: linear-gradient(
+      to top,
+      transparent,
+      getCssVar('scrollbar-top-mask-color')
+    );
+  }
+
+  @include e(bottom-mask) {
+    height: getCssVar('scrollbar-bottom-mask-height');
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      getCssVar('scrollbar-bottom-mask-color')
+    );
+  }
+
+  @include e(left-mask) {
+    width: getCssVar('scrollbar-left-mask-width');
+    background: linear-gradient(
+      to left,
+      transparent,
+      getCssVar('scrollbar-left-mask-color')
+    );
+  }
+
+  @include e(right-mask) {
+    width: getCssVar('scrollbar-right-mask-width');
+    background: linear-gradient(
+      to right,
+      transparent,
+      getCssVar('scrollbar-right-mask-color')
+    );
+  }
+
   @include e(thumb) {
     position: relative;
     display: block;
@@ -78,6 +127,22 @@
         height: 100%;
       }
     }
+  }
+}
+
+.#{$namespace}-scrollbar-mask-fade {
+  &-enter-active,
+  &-leave-active {
+    transition: opacity getCssVar('transition-duration-fast') ease-in-out;
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
+
+  &-enter-from,
+  &-leave-to {
+    opacity: 0;
   }
 }
 

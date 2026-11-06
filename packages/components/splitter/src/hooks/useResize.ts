@@ -1,7 +1,12 @@
 import { computed, ref, watch } from 'vue'
 import { clamp } from 'lodash-unified'
-import { getPct, getPx, isPct, isPx } from './useSize'
-import { NOOP } from '@element-plus/utils'
+import {
+  NOOP,
+  isPercent,
+  isPx,
+  parsePx,
+  percentToRatio,
+} from '@element-plus/utils'
 
 import type { ComputedRef, Ref } from 'vue'
 import type { PanelItemState } from '../type'
@@ -18,10 +23,10 @@ export function useResize(
     str: string | number | undefined,
     defaultLimit: number
   ) {
-    if (isPct(str)) {
-      return ptg2px(getPct(str))
+    if (isPercent(str)) {
+      return ptg2px(percentToRatio(str))
     } else if (isPx(str)) {
-      return getPx(str)
+      return parsePx(str)
     }
     return str ?? defaultLimit
   }

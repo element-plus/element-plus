@@ -1,28 +1,8 @@
 import { computed, ref, watch } from 'vue'
-import { isString } from '@element-plus/utils'
+import { isPercent, isPx, parsePx, percentToRatio } from '@element-plus/utils'
 
 import type { ComputedRef, Ref } from 'vue'
 import type { PanelItemState } from '../type'
-
-export function getPct(str: string) {
-  return Number(str.slice(0, -1)) / 100
-}
-
-export function getPx(str: string) {
-  return Number(str.slice(0, -2))
-}
-
-export function isPct(
-  itemSize: string | number | undefined
-): itemSize is string {
-  return isString(itemSize) && itemSize.endsWith('%')
-}
-
-export function isPx(
-  itemSize: string | number | undefined
-): itemSize is string {
-  return isString(itemSize) && itemSize.endsWith('px')
-}
 
 export function useSize(
   panels: Ref<PanelItemState[]>,
@@ -42,10 +22,10 @@ export function useSize(
     for (let i = 0; i < panelCounts.value; i += 1) {
       const itemSize = panels.value[i]?.size
 
-      if (isPct(itemSize)) {
-        ptgList[i] = getPct(itemSize)
+      if (isPercent(itemSize)) {
+        ptgList[i] = percentToRatio(itemSize)
       } else if (isPx(itemSize)) {
-        ptgList[i] = getPx(itemSize) / containerSize.value
+        ptgList[i] = parsePx(itemSize) / containerSize.value
       } else if (itemSize || itemSize === 0) {
         const num = Number(itemSize)
 

@@ -41,10 +41,10 @@ import { reactive } from 'vue'
 
 import type { TableConfigContext } from 'element-plus'
 
-const config = reactive<TableConfigContext>({
+const config = reactive({
   showOverflowTooltip: true,
   tooltipEffect: 'dark',
-})
+} satisfies TableConfigContext)
 
 interface User {
   date: string
