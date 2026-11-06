@@ -1,6 +1,35 @@
 ## Changelog
 
 
+### 2.14.8
+
+_2026-11-06_
+
+#### Features
+
+- Components [image/image-viewer] add `viewer-placeholder` slot (#24910 by @ixyzorg)
+- Locale add Galician and complete ca, es, eu, pt, pt-br (#24957 by @jlancharro)
+- Components [scrollbar] add configurable scroll masks (#24952 by @YunYouJun)
+- Components [drawer] extend `resizable` (#23496 by @Joansitoh)
+- Docs add theme editor (#13530 by @YunYouJun)
+
+#### Bug fixes
+
+- Locale [ro] translate missing strings (#24951 by @vicuts)
+- Docs generate locales before builds and fix type errors (#24968 by @YunYouJun)
+- Theme-chalk [menu] prevent jitter with custom margins (#24972 by @wjkhhh)
+- Components [date-picker] keep `shortcuts` reactive in panels (#24994 by @APX403)
+- Locale [tr] translate missing strings (#25002 by @aozmekik)
+- Hooks [useFocusController] clear `isFocused` when the target gets disabled while focused (#24945 by @ump45nose)
+- Components [input-number] keep aria attributes in sync with props (#25024 by @MindOfqc)
+- Components [select] disable select options with parent (#25041 by @Xapollon430)
+- Components [dialog, drawer] only reference an existing title label (#25040 by @MindOfqc)
+- Components [table-column] update header slot on column replace (#25035 by @dhrupo)
+
+#### Refactors
+
+- Utils extract and rename CSS size helpers from splitter (#24997 by @rzzf)
+
 ### 2.14.7
 
 _2026-09-30_
