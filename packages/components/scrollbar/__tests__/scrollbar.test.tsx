@@ -6,6 +6,15 @@ import defineGetter from '@element-plus/test-utils/define-getter'
 import Scrollbar from '../src/scrollbar.vue'
 import Thumb from '../src/thumb.vue'
 
+import type { VueWrapper } from '@vue/test-utils'
+
+// jsdom drops `max()` from inline styles, so read the size from the prop
+const getThumbSize = (wrapper: VueWrapper, vertical: boolean) =>
+  wrapper
+    .findAllComponents(Thumb)
+    .find((thumb) => thumb.props('vertical') === vertical)!
+    .props('size')
+
 describe('ScrollBar', () => {
   test('vertical', async () => {
     const outerHeight = 204
@@ -23,21 +32,28 @@ describe('ScrollBar', () => {
       'offsetHeight',
       outerHeight
     )
+    const clientHeightRestore = defineGetter(
+      scrollDom,
+      'clientHeight',
+      outerHeight
+    )
     const scrollHeightRestore = defineGetter(
       scrollDom,
       'scrollHeight',
       innerHeight
     )
 
-    await makeScroll(scrollDom, 'scrollTop', 100)
+    await makeScroll(scrollDom, 'scrollTop', 148)
+    expect(getThumbSize(wrapper, true)).toBe('max(20px, 40.8%)')
     expect(wrapper.find('.is-vertical div').attributes('style')).toContain(
-      'transform: translateY(50%); height: 80px;'
+      'top: 50%; transform: translateY(-50%);'
     )
-    await makeScroll(scrollDom, 'scrollTop', 300)
+    await makeScroll(scrollDom, 'scrollTop', 296)
     expect(wrapper.find('.is-vertical div').attributes('style')).toContain(
-      'transform: translateY(150%); height: 80px;'
+      'top: 100%; transform: translateY(-100%);'
     )
     offsetHeightRestore()
+    clientHeightRestore()
     scrollHeightRestore()
   })
 
@@ -57,21 +73,28 @@ describe('ScrollBar', () => {
       'offsetWidth',
       outerWidth
     )
+    const clientWidthRestore = defineGetter(
+      scrollDom,
+      'clientWidth',
+      outerWidth
+    )
     const scrollWidthRestore = defineGetter(
       scrollDom,
       'scrollWidth',
       innerWidth
     )
 
-    await makeScroll(scrollDom, 'scrollLeft', 100)
+    await makeScroll(scrollDom, 'scrollLeft', 148)
+    expect(getThumbSize(wrapper, false)).toBe('max(20px, 40.8%)')
     expect(wrapper.find('.is-horizontal div').attributes('style')).toContain(
-      'transform: translateX(50%); width: 80px;'
+      'left: 50%; transform: translateX(-50%);'
     )
-    await makeScroll(scrollDom, 'scrollLeft', 300)
+    await makeScroll(scrollDom, 'scrollLeft', 296)
     expect(wrapper.find('.is-horizontal div').attributes('style')).toContain(
-      'transform: translateX(150%); width: 80px;'
+      'left: 100%; transform: translateX(-100%);'
     )
     offsetWidthRestore()
+    clientWidthRestore()
     scrollWidthRestore()
   })
 
@@ -93,6 +116,11 @@ describe('ScrollBar', () => {
       'offsetHeight',
       outerHeight
     )
+    const clientHeightRestore = defineGetter(
+      scrollDom,
+      'clientHeight',
+      outerHeight
+    )
     const scrollHeightRestore = defineGetter(
       scrollDom,
       'scrollHeight',
@@ -103,32 +131,39 @@ describe('ScrollBar', () => {
       'offsetWidth',
       outerWidth
     )
+    const clientWidthRestore = defineGetter(
+      scrollDom,
+      'clientWidth',
+      outerWidth
+    )
     const scrollWidthRestore = defineGetter(
       scrollDom,
       'scrollWidth',
       innerWidth
     )
 
-    await makeScroll(scrollDom, 'scrollTop', 100)
-    await makeScroll(scrollDom, 'scrollLeft', 100)
+    await makeScroll(scrollDom, 'scrollTop', 148)
+    await makeScroll(scrollDom, 'scrollLeft', 148)
     expect(wrapper.find('.is-vertical div').attributes('style')).toContain(
-      'transform: translateY(50%); height: 80px;'
+      'top: 50%; transform: translateY(-50%);'
     )
     expect(wrapper.find('.is-horizontal div').attributes('style')).toContain(
-      'transform: translateX(50%); width: 80px;'
+      'left: 50%; transform: translateX(-50%);'
     )
-    await makeScroll(scrollDom, 'scrollTop', 300)
-    await makeScroll(scrollDom, 'scrollLeft', 300)
+    await makeScroll(scrollDom, 'scrollTop', 296)
+    await makeScroll(scrollDom, 'scrollLeft', 296)
     expect(wrapper.find('.is-vertical div').attributes('style')).toContain(
-      'transform: translateY(150%); height: 80px;'
+      'top: 100%; transform: translateY(-100%);'
     )
     expect(wrapper.find('.is-horizontal div').attributes('style')).toContain(
-      'transform: translateX(150%); width: 80px;'
+      'left: 100%; transform: translateX(-100%);'
     )
 
     offsetHeightRestore()
+    clientHeightRestore()
     scrollHeightRestore()
     offsetWidthRestore()
+    clientWidthRestore()
     scrollWidthRestore()
   })
 
@@ -202,6 +237,11 @@ describe('ScrollBar', () => {
       'offsetHeight',
       outerHeight
     )
+    const clientHeightRestore = defineGetter(
+      scrollDom,
+      'clientHeight',
+      outerHeight
+    )
     const scrollHeightRestore = defineGetter(
       scrollDom,
       'scrollHeight',
@@ -212,31 +252,38 @@ describe('ScrollBar', () => {
       'offsetWidth',
       outerWidth
     )
+    const clientWidthRestore = defineGetter(
+      scrollDom,
+      'clientWidth',
+      outerWidth
+    )
     const scrollWidthRestore = defineGetter(
       scrollDom,
       'scrollWidth',
       innerWidth
     )
 
-    scrollbar.setScrollTop(100)
+    scrollbar.setScrollTop(148)
     await nextTick()
     scrollWrap.trigger('scroll')
     await nextTick()
     expect(wrapper.find('.is-vertical div').attributes('style')).toContain(
-      'transform: translateY(50%); height: 80px;'
+      'top: 50%; transform: translateY(-50%);'
     )
 
-    scrollbar.setScrollLeft(100)
+    scrollbar.setScrollLeft(148)
     await nextTick()
     scrollWrap.trigger('scroll')
     await nextTick()
     expect(wrapper.find('.is-horizontal div').attributes('style')).toContain(
-      'transform: translateX(50%); width: 80px;'
+      'left: 50%; transform: translateX(-50%);'
     )
 
     offsetHeightRestore()
+    clientHeightRestore()
     scrollHeightRestore()
     offsetWidthRestore()
+    clientWidthRestore()
     scrollWidthRestore()
   })
 
@@ -256,6 +303,11 @@ describe('ScrollBar', () => {
       'offsetHeight',
       outerHeight
     )
+    const clientHeightRestore = defineGetter(
+      scrollDom,
+      'clientHeight',
+      outerHeight
+    )
     const scrollHeightRestore = defineGetter(
       scrollDom,
       'scrollHeight',
@@ -263,11 +315,131 @@ describe('ScrollBar', () => {
     )
 
     await makeScroll(scrollDom, 'scrollTop', 0)
+    expect(getThumbSize(wrapper, true)).toBe('max(20px, 2.04%)')
     expect(wrapper.find('.is-vertical div').attributes('style')).toContain(
-      'transform: translateY(0%); height: 20px;'
+      'top: 0%; transform: translateY(0%);'
+    )
+    await makeScroll(scrollDom, 'scrollTop', innerHeight - outerHeight)
+    expect(wrapper.find('.is-vertical div').attributes('style')).toContain(
+      'top: 100%; transform: translateY(-100%);'
     )
     offsetHeightRestore()
+    clientHeightRestore()
     scrollHeightRestore()
+  })
+
+  test('should hide the thumb without overflow', async () => {
+    const outerHeight = 204
+    const wrapper = mount(() => (
+      <Scrollbar style={`height: ${outerHeight}px;`}>
+        <div style="height: 100px;"></div>
+      </Scrollbar>
+    ))
+
+    const scrollDom = wrapper.find('.el-scrollbar__wrap').element
+
+    const offsetHeightRestore = defineGetter(
+      scrollDom,
+      'offsetHeight',
+      outerHeight
+    )
+    const clientHeightRestore = defineGetter(
+      scrollDom,
+      'clientHeight',
+      outerHeight
+    )
+    const scrollHeightRestore = defineGetter(
+      scrollDom,
+      'scrollHeight',
+      outerHeight
+    )
+
+    await nextTick()
+    expect(getThumbSize(wrapper, true)).toBe('')
+    expect(wrapper.find('.is-vertical div').attributes('style')).toContain(
+      'top: 0%; transform: translateY(0%);'
+    )
+    offsetHeightRestore()
+    clientHeightRestore()
+    scrollHeightRestore()
+  })
+
+  describe('track shorter than the wrap', () => {
+    const wrapSize = 500
+    const scrollSize = 5000
+    const trackStart = 100
+    const trackSize = 400
+    const thumbSize = 40
+
+    const mountScrollbar = async (vertical: boolean) => {
+      const wrapper = mount(
+        () => (
+          <Scrollbar style={`height: ${wrapSize}px; width: ${wrapSize}px;`}>
+            <div style={`height: ${scrollSize}px; width: ${scrollSize}px;`} />
+          </Scrollbar>
+        ),
+        { attachTo: document.body }
+      )
+      const size = vertical ? 'Height' : 'Width'
+      const rect = { top: trackStart, left: trackStart } as DOMRect
+      const wrap = wrapper.find('.el-scrollbar__wrap').element
+      const track = wrapper.find(
+        `.el-scrollbar__bar.is-${vertical ? 'vertical' : 'horizontal'}`
+      )
+      const thumb = track.find('.el-scrollbar__thumb')
+
+      defineGetter(wrap, `offset${size}`, wrapSize)
+      defineGetter(wrap, `client${size}`, wrapSize)
+      defineGetter(wrap, `scroll${size}`, scrollSize)
+      defineGetter(track.element, `client${size}`, trackSize)
+      defineGetter(thumb.element, `offset${size}`, thumbSize)
+      vi.spyOn(track.element, 'getBoundingClientRect').mockReturnValue(rect)
+      vi.spyOn(thumb.element, 'getBoundingClientRect').mockReturnValue(rect)
+      await nextTick()
+
+      return { wrapper, wrap, track, thumb }
+    }
+
+    test('should keep the thumb under the cursor while dragging', async () => {
+      const { wrapper, wrap, thumb } = await mountScrollbar(true)
+      // max scroll is 4500 and the thumb travels 400 - 40 = 360px
+      await thumb.trigger('mousedown', { clientY: trackStart + 10 })
+
+      document.dispatchEvent(
+        new MouseEvent('mousemove', { clientY: trackStart + 10 + 180 })
+      )
+      expect(wrap.scrollTop).toBe(2250)
+
+      document.dispatchEvent(
+        new MouseEvent('mousemove', { clientY: trackStart + 10 + 360 })
+      )
+      expect(wrap.scrollTop).toBe(4500)
+
+      document.dispatchEvent(
+        new MouseEvent('mousemove', { clientY: trackStart + 10 + 1000 })
+      )
+      expect(wrap.scrollTop).toBe(4500)
+
+      document.dispatchEvent(new MouseEvent('mouseup'))
+      wrapper.unmount()
+    })
+
+    test('should center the thumb on the clicked point of the track', async () => {
+      const { wrapper, wrap, track } = await mountScrollbar(false)
+      // the thumb is laid out in the content box of the track
+      ;(track.element as HTMLElement).style.padding = '0 10px'
+
+      // max scroll is 4500 and the thumb travels 400 - 20 - 40 = 340px
+      await track.trigger('mousedown', {
+        clientX: trackStart + 10 + 170 + thumbSize / 2,
+      })
+      expect(wrap.scrollLeft).toBe(2250)
+
+      await track.trigger('mousedown', { clientX: trackStart })
+      expect(wrap.scrollLeft).toBe(0)
+
+      wrapper.unmount()
+    })
   })
 
   test('should render tag props', async () => {
