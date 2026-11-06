@@ -24,6 +24,19 @@ interface HandleEvent<T> {
   (event: MouseEvent, row: T, name: 'dblclick'): void
 }
 
+function getCellTooltipText(
+  cell: HTMLElement | null,
+  cellChild: HTMLElement
+): string {
+  // innerText collapses line breaks inside nowrap cells. Plain-text cells
+  // can retain their source text without changing rich cell content.
+  const textContent = cellChild?.textContent ?? ''
+  if (cellChild.children.length === 0 && textContent.includes('\n')) {
+    return textContent
+  }
+  return cell?.innerText || cell?.textContent || ''
+}
+
 function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
   const parent = inject(TABLE_INJECTION_KEY) as Table<T>
   const tooltipContent = ref('')
@@ -178,11 +191,12 @@ function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     ) {
       createTablePopper(
         tooltipOptions,
-        (cell?.innerText || cell?.textContent) ?? '',
+        getCellTooltipText(cell, cellChild),
         row,
         column,
         cell,
-        table
+        table,
+        cellChild.children.length === 0
       )
     } else if (removePopper?.trigger === cell) {
       removePopper?.()
