@@ -35,7 +35,9 @@
             ref="drawerRef"
             aria-modal="true"
             :aria-label="title || undefined"
-            :aria-labelledby="!title ? titleId : undefined"
+            :aria-labelledby="
+              !title && withHeader && !$slots.title ? titleId : undefined
+            "
             :aria-describedby="bodyId"
             v-bind="$attrs"
             :class="[

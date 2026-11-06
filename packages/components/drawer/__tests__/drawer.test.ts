@@ -790,5 +790,49 @@ describe('Drawer', () => {
         drawerBody.attributes().id
       )
     })
+
+    test('hidden header without a title should not reference a missing label', async () => {
+      const wrapper = _mount(
+        `
+        <el-drawer
+          v-model='visible'
+          :with-header="false"
+          ref="drawer">
+          <span>${content}</span>
+        </el-drawer>
+        `,
+        () => ({
+          visible: true,
+        })
+      )
+      await nextTick()
+      const drawerDialog = wrapper.find('[role="dialog"]')
+      expect(drawerDialog.attributes()['aria-label']).toBeFalsy()
+      expect(drawerDialog.attributes()['aria-labelledby']).toBeFalsy()
+    })
+
+    test('a title slot should not reference a missing label', async () => {
+      const wrapper = _mount(
+        `
+        <el-drawer
+          v-model='visible'
+          ref="drawer">
+          <template #header>
+            <h5 />
+          </template>
+          <template #title>
+            <span>Title</span>
+          </template>
+          <span>${content}</span>
+        </el-drawer>
+        `,
+        () => ({
+          visible: true,
+        })
+      )
+      await nextTick()
+      const drawerDialog = wrapper.find('[role="dialog"]')
+      expect(drawerDialog.attributes()).not.toHaveProperty('aria-labelledby')
+    })
   })
 })
