@@ -5,6 +5,7 @@ import { debugWarn } from '@element-plus/utils'
 import { Checked, CircleClose, Hide, View } from '@element-plus/icons-vue'
 import { ElForm, ElFormItem } from '@element-plus/components/form'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import sleep from '@element-plus/test-utils/sleep'
 import Switch from '../src/switch.vue'
 
 import type { VueWrapper } from '@vue/test-utils'
@@ -273,7 +274,6 @@ describe('Switch.vue', () => {
         <Switch v-model={value.value} beforeChange={beforeChange} />
       </div>
     ))
-
     const coreWrapper = wrapper.find('.el-switch__core')
 
     await coreWrapper.trigger('click')
@@ -316,13 +316,14 @@ describe('Switch.vue', () => {
   })
   describe('form item accessibility integration', () => {
     test('automatic id attachment', async () => {
+      vi.useRealTimers()
       const wrapper = mount(() => (
         <ElFormItem label="Foobar" data-test-ref="item">
           <Switch />
         </ElFormItem>
       ))
 
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const formItemLabel = formItem.find('.el-form-item__label')
       const switchInput = wrapper.find('.el-switch__input')
@@ -331,13 +332,14 @@ describe('Switch.vue', () => {
     })
 
     test('specified id attachment', async () => {
+      vi.useRealTimers()
       const wrapper = mount(() => (
         <ElFormItem label="Foobar" data-test-ref="item">
           <Switch id="foobar" />
         </ElFormItem>
       ))
 
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const formItemLabel = formItem.find('.el-form-item__label')
       const switchInput = wrapper.find('.el-switch__input')
@@ -347,6 +349,7 @@ describe('Switch.vue', () => {
     })
 
     test('form item role is group when multiple inputs', async () => {
+      vi.useRealTimers()
       const wrapper = mount(() => (
         <ElFormItem label="Foobar" data-test-ref="item">
           <Switch />
@@ -354,7 +357,7 @@ describe('Switch.vue', () => {
         </ElFormItem>
       ))
 
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
     })
