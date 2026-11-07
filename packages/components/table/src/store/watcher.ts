@@ -597,10 +597,21 @@ function useWatcher<T extends DefaultRow>() {
   }
 
   const updateFilters = (column: TableColumnCtx<T>, values: string[]) => {
-    const filters_: Record<string, string[]> = {}
     ensureArray(column).forEach((col) => {
       filters.value[col.id] = values
-      filters_[col.columnKey || col.id] = values
+    })
+
+    const filters_: Record<string, string[]> = {}
+    Object.entries(filters.value).forEach(([columnId, filterValues]) => {
+      const col = getColumnById(
+        {
+          columns: columns.value,
+        },
+        columnId
+      )
+      if (col) {
+        filters_[col.columnKey || col.id] = filterValues
+      }
     })
     return filters_
   }
