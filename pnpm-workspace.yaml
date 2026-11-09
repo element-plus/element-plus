@@ -53,3 +53,5 @@ minimumReleaseAgeExcludePrune: true
 minimumReleaseAgeExclude:
   - 'element-plus'
   - '@element-plus/*'
+  - '@crowdin/cli-darwin-x64@5.6.0'
+  - '@crowdin/cli-win32-x64@5.6.0'
