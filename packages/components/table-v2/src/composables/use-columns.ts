@@ -6,18 +6,24 @@ import { calcColumnStyle } from './utils'
 
 import type { CSSProperties, Ref } from 'vue'
 import type { TableV2Props } from '../table'
-import type { AnyColumns, Column, KeyType } from '../types'
+import type { AnyColumns, KeyType } from '../types'
 
 function useColumns(
   props: TableV2Props,
   columns: Ref<AnyColumns>,
-  fixed: Ref<boolean>
+  fixed: Ref<boolean>,
+  widthOverrides: Ref<Record<KeyType, number>>
 ) {
   const _columns = computed(() =>
-    unref(columns).map((column, index) => ({
-      ...column,
-      key: column.key ?? column.dataKey ?? index,
-    }))
+    unref(columns).map((column, index) => {
+      const key = column.key ?? column.dataKey ?? index
+      const overrides = unref(widthOverrides)
+      return {
+        ...column,
+        key,
+        width: key in overrides ? overrides[key] : column.width,
+      }
+    })
   )
 
   const visibleColumns = computed(() => {
@@ -91,10 +97,6 @@ function useColumns(
     return unref(columnsStyles)[key]
   }
 
-  const updateColumnWidth = (column: Column<any>, width: number) => {
-    column.width = width
-  }
-
   function onColumnSorted(e: MouseEvent) {
     const { key } = (e.currentTarget as HTMLElement).dataset
     if (!key) return
@@ -124,7 +126,6 @@ function useColumns(
 
     getColumn,
     getColumnStyle,
-    updateColumnWidth,
     onColumnSorted,
   }
 }

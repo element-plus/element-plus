@@ -77,6 +77,7 @@ export type Column<T = any> = {
   headerClass?: HeaderClassGetter<T> | string
   maxWidth?: number
   minWidth?: number
+  resizable?: boolean
   style?: CSSProperties
   sortable?: boolean
   width: number

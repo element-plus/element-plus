@@ -170,6 +170,20 @@
           border-left: getCssVar('table-border', '');
         }
       }
+
+      &.is-resizable {
+        cursor: col-resize;
+      }
+    }
+
+    @include e('column-resize-proxy') {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 0;
+      border-left: getCssVar('table-border', '');
+      z-index: 10;
+      pointer-events: none;
     }
 
     @include e('sort-icon') {

@@ -6,10 +6,13 @@
     :height="400"
     border
     fixed
+    @column-resize="onColumnResize"
   />
 </template>
 
 <script lang="ts" setup>
+import type { Column } from 'element-plus'
+
 const generateColumns = (length = 10, prefix = 'column-', props?: any) =>
   Array.from({ length }).map((_, columnIndex) => ({
     ...props,
@@ -17,6 +20,8 @@ const generateColumns = (length = 10, prefix = 'column-', props?: any) =>
     dataKey: `${prefix}${columnIndex}`,
     title: `Column ${columnIndex}`,
     width: 150,
+    minWidth: 100,
+    maxWidth: 300,
     align: 'center',
   }))
 
@@ -40,4 +45,8 @@ const generateData = (
 
 const columns = generateColumns(10)
 const data = generateData(columns, 1000)
+
+const onColumnResize = (column: Column<any>, newWidth: number) => {
+  console.log('column resized', column.key, newWidth)
+}
 </script>

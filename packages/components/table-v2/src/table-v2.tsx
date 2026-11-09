@@ -62,6 +62,8 @@ const TableV2 = defineComponent({
       mainTableRef,
       leftTableRef,
       rightTableRef,
+      rootRef,
+      resizeProxyRef,
       isDynamic,
       isResetting,
       isScrolling,
@@ -72,6 +74,7 @@ const TableV2 = defineComponent({
       footerHeight,
 
       showEmpty,
+      resizeProxyVisible,
 
       // exposes
       scrollTo,
@@ -81,6 +84,9 @@ const TableV2 = defineComponent({
 
       getRowHeight,
       onColumnSorted,
+      handleHeaderCellMousemove,
+      handleHeaderCellMouseout,
+      handleHeaderCellMousedown,
       onRowHeightChange,
       onRowHovered,
       onRowExpanded,
@@ -271,6 +277,9 @@ const TableV2 = defineComponent({
         sortState,
         headerCellProps,
         onColumnSorted,
+        handleHeaderCellMousemove,
+        handleHeaderCellMouseout,
+        handleHeaderCellMousedown,
       }
 
       const tableSlots = {
@@ -335,7 +344,7 @@ const TableV2 = defineComponent({
       }
 
       return (
-        <div class={rootKls} style={unref(rootStyle)}>
+        <div ref={rootRef} class={rootKls} style={unref(rootStyle)}>
           <MainTable {...mainTableProps}>{tableSlots}</MainTable>
           <LeftTable {...leftTableProps}>{tableSlots}</LeftTable>
           <RightTable {...rightTableProps}>{tableSlots}</RightTable>
@@ -352,6 +361,11 @@ const TableV2 = defineComponent({
               {{ default: slots.overlay }}
             </Overlay>
           )}
+          <div
+            ref={resizeProxyRef}
+            style={{ display: unref(resizeProxyVisible) ? '' : 'none' }}
+            class={ns.e('column-resize-proxy')}
+          />
         </div>
       )
     }

@@ -10,6 +10,7 @@ import {
 import { isArray, isNumber } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import {
+  useColumnResize,
   useColumns,
   useData,
   useRow,
@@ -19,11 +20,15 @@ import {
 
 import type { TableV2Props } from './table'
 import type { TableGridInstance } from './table-grid'
+import type { KeyType } from './types'
 
 function useTable(props: TableV2Props) {
   const mainTableRef = ref<TableGridInstance>()
   const leftTableRef = ref<TableGridInstance>()
   const rightTableRef = ref<TableGridInstance>()
+  const rootRef = ref<HTMLElement>()
+  const resizeProxyRef = ref<HTMLElement>()
+  const widthOverrides = shallowRef<Record<KeyType, number>>({})
   const {
     columns,
     columnsStyles,
@@ -32,9 +37,27 @@ function useTable(props: TableV2Props) {
     fixedColumnsOnRight,
     hasFixedColumns,
     mainColumns,
+    visibleColumns,
 
     onColumnSorted,
-  } = useColumns(props, toRef(props, 'columns'), toRef(props, 'fixed'))
+  } = useColumns(
+    props,
+    toRef(props, 'columns'),
+    toRef(props, 'fixed'),
+    widthOverrides
+  )
+
+  const {
+    resizeProxyVisible,
+    handleHeaderCellMousemove,
+    handleHeaderCellMouseout,
+    handleHeaderCellMousedown,
+  } = useColumnResize(props, {
+    visibleColumns,
+    widthOverrides,
+    rootRef,
+    resizeProxyRef,
+  })
 
   const {
     scrollTo,
@@ -181,6 +204,8 @@ function useTable(props: TableV2Props) {
     // models
     columns,
     containerRef,
+    rootRef,
+    resizeProxyRef,
     mainTableRef,
     leftTableRef,
     rightTableRef,
@@ -209,12 +234,16 @@ function useTable(props: TableV2Props) {
     rightTableWidth,
     // flags
     showEmpty,
+    resizeProxyVisible,
 
     // methods
     getRowHeight,
 
     // event handlers
     onColumnSorted,
+    handleHeaderCellMousemove,
+    handleHeaderCellMouseout,
+    handleHeaderCellMousedown,
     onRowHovered,
     onRowExpanded,
     onRowsRendered,

@@ -1,6 +1,5 @@
 import { renderSlot } from 'vue'
 import { HeaderCell, SortIcon } from '../components'
-// import ColumnResizer from '../table-column-resizer'
 import { Alignment, SortOrder, oppositeOrderMap } from '../constants'
 import { placeholderSign } from '../private'
 import { componentToSlot, enforceUnit, tryCall } from '../utils'
@@ -12,7 +11,15 @@ import type { UseTableReturn } from '../use-table'
 import type { TableV2Props } from '../table'
 
 export type HeaderCellRendererProps = TableV2HeaderRowCellRendererParams &
-  UnwrapNestedRefs<Pick<UseTableReturn, 'onColumnSorted'>> &
+  UnwrapNestedRefs<
+    Pick<
+      UseTableReturn,
+      | 'onColumnSorted'
+      | 'handleHeaderCellMousemove'
+      | 'handleHeaderCellMouseout'
+      | 'handleHeaderCellMousedown'
+    >
+  > &
   Pick<TableV2Props, 'sortBy' | 'sortState' | 'headerCellProps' | 'border'> & {
     ns: UseNamespaceReturn
     t: Translator
@@ -22,7 +29,16 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
   props,
   { slots }
 ) => {
-  const { column, ns, t, style, onColumnSorted } = props
+  const {
+    column,
+    ns,
+    t,
+    style,
+    onColumnSorted,
+    handleHeaderCellMousemove,
+    handleHeaderCellMouseout,
+    handleHeaderCellMousedown,
+  } = props
 
   const cellStyle = enforceUnit(style)
 
@@ -83,6 +99,8 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
     sortable && ns.is('sortable'),
   ]
 
+  const resizable = props.border && column.resizable !== false
+
   const cellWrapperProps = {
     ...tryCall(headerCellProps, props),
     onClick: column.sortable ? onColumnSorted : undefined,
@@ -90,9 +108,15 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
     class: cellKls,
     style: cellStyle,
     ['data-key']: column.key,
+    onMousemove: resizable
+      ? (e: MouseEvent) => handleHeaderCellMousemove(e, column)
+      : undefined,
+    onMouseout: resizable ? handleHeaderCellMouseout : undefined,
+    onMousedown: resizable
+      ? (e: MouseEvent) => handleHeaderCellMousedown(e, column)
+      : undefined,
   }
 
-  // For now we don't deliver resizable column feature since it has some UX issue.
   return (
     <div {...cellWrapperProps} role="columnheader">
       {Cell}
