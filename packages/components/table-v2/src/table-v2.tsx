@@ -143,6 +143,7 @@ const TableV2 = defineComponent({
         useIsScrolling,
         vScrollbarSize,
         width,
+        border,
       } = props
 
       const _data = unref(data)
@@ -251,6 +252,7 @@ const TableV2 = defineComponent({
         rowKey,
         expandedRowKeys: unref(expandedRowKeys),
         ns,
+        border,
         t,
       }
 
@@ -264,7 +266,7 @@ const TableV2 = defineComponent({
       const tableHeaderCellProps = {
         ns,
         t,
-
+        border,
         sortBy,
         sortState,
         headerCellProps,

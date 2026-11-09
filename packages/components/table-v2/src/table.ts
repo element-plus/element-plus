@@ -123,6 +123,10 @@ export const tableV2Props = buildProps({
     type: Number,
     default: 50,
   },
+  border: {
+    type: Boolean,
+    default: false,
+  },
 
   /**
    * Cell attributes

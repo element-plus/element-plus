@@ -58,6 +58,16 @@ table-v2/cell-templating
 
 :::
 
+## Table with border
+
+Table with the cell border.
+
+:::demo
+
+table-v2/border
+
+:::
+
 ## Table with selections
 
 Using customized cell renderer to allow selection for your table.

@@ -13,7 +13,7 @@ import type { TableV2Props } from '../table'
 
 export type HeaderCellRendererProps = TableV2HeaderRowCellRendererParams &
   UnwrapNestedRefs<Pick<UseTableReturn, 'onColumnSorted'>> &
-  Pick<TableV2Props, 'sortBy' | 'sortState' | 'headerCellProps'> & {
+  Pick<TableV2Props, 'sortBy' | 'sortState' | 'headerCellProps' | 'border'> & {
     ns: UseNamespaceReturn
     t: Translator
   }
@@ -76,6 +76,7 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
 
   const cellKls = [
     ns.e('header-cell'),
+    props.border && ns.is('bordered'),
     tryCall(headerClass, props, ''),
     column.align === Alignment.CENTER && ns.is('align-center'),
     column.align === Alignment.RIGHT && ns.is('align-right'),

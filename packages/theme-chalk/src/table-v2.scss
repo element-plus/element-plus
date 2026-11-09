@@ -162,6 +162,14 @@
           display: block;
         }
       }
+
+      &.is-bordered {
+        border-top: getCssVar('table-border', '');
+        border-right: getCssVar('table-border', '');
+        &:first-child {
+          border-left: getCssVar('table-border', '');
+        }
+      }
     }
 
     @include e('sort-icon') {
@@ -199,6 +207,13 @@
       @include center-flex;
       @include cell-padding;
       @include cell-alignment;
+
+      &.is-bordered {
+        border-right: getCssVar('table-border', '');
+        &:first-child {
+          border-left: getCssVar('table-border', '');
+        }
+      }
     }
 
     @include e('expand-icon') {
