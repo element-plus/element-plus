@@ -211,8 +211,8 @@ catalogs:
       specifier: 3.5.25
       version: 3.5.25
     vue-component-type-helpers:
-      specifier: ^3.3.11
-      version: 3.3.11
+      specifier: ^3.3.14
+      version: 3.3.14
 
 overrides:
   jwa: ^1.4.2
@@ -713,7 +713,7 @@ importers:
         version: 3.5.25(typescript@6.0.3)
       vue-component-type-helpers:
         specifier: 'catalog:'
-        version: 3.3.11
+        version: 3.3.14
 
   packages/constants: {}
 
@@ -782,7 +782,7 @@ importers:
         version: 1.2.0
       vue-component-type-helpers:
         specifier: 'catalog:'
-        version: 3.3.11
+        version: 3.3.14
     devDependencies:
       '@types/node':
         specifier: '*'
@@ -864,7 +864,7 @@ importers:
         version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.18.1)(lodash@4.18.1)
       vue-component-type-helpers:
         specifier: 'catalog:'
-        version: 3.3.11
+        version: 3.3.14
     devDependencies:
       '@vue/shared':
         specifier: 'catalog:'
@@ -7311,8 +7311,8 @@ packages:
   vue-component-type-helpers@2.0.0:
     resolution: {integrity: sha512-r+lO2aYasxliE6I76dutaY0GBCnqM7Q/c3VO2MPxrJsIUwPZIESLfis9/1EXAMWajnpF+o0syJAIV6Y6/crKNw==}
 
-  vue-component-type-helpers@3.3.11:
-    resolution: {integrity: sha512-LwcxzeliO9fkQcpJG0PoX8X5kmAhKmH9wkpDLxNabwzkQ9Zeib2YVHwFV4pcWmMLfXVfjr/dSV+DaJ3cIPgSNA==}
+  vue-component-type-helpers@3.3.14:
+    resolution: {integrity: sha512-Pq3+OnbCiPCHk0R7KSZrx+j/XXaUn2kSQ1epxq60w8CPbByLjC1EJgV51n4WY851sTXUVzsNMuitywdkdVyKjA==}
 
   vue-demi@0.14.10:
     resolution: {integrity: sha512-nMZBOwuzabUO0nLgIcc6rycZEebF6eeUfaiQx9+WSk8e29IbLvPU9feI6tqW4kTo3hvoYAJkMh8n8D0fuISphg==}
@@ -10103,7 +10103,7 @@ snapshots:
     dependencies:
       '@volar/language-core': 2.4.23
       '@vue/compiler-dom': 3.5.35
-      '@vue/shared': 3.5.35
+      '@vue/shared': 3.5.25
       alien-signals: 3.2.1
       muggle-string: 0.4.1
       path-browserify: 1.0.1
@@ -10115,7 +10115,7 @@ snapshots:
     dependencies:
       '@volar/language-core': 2.4.30
       '@vue/compiler-dom': 3.5.35
-      '@vue/shared': 3.5.35
+      '@vue/shared': 3.5.25
       alien-signals: 3.2.1
       muggle-string: 0.4.1
       path-browserify: 1.0.1
@@ -10961,7 +10961,7 @@ snapshots:
       memoize-one: 6.0.0
       normalize-wheel-es: 1.2.0
       vue: 3.5.25(typescript@6.0.3)
-      vue-component-type-helpers: 3.3.11
+      vue-component-type-helpers: 3.3.14
 
   emoji-regex-xs@1.0.0: {}
 
@@ -14432,7 +14432,7 @@ snapshots:
 
   vue-component-type-helpers@2.0.0: {}
 
-  vue-component-type-helpers@3.3.11: {}
+  vue-component-type-helpers@3.3.14: {}
 
   vue-demi@0.14.10(vue@3.5.25):
     dependencies:
