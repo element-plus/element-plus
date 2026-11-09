@@ -5,7 +5,13 @@ import useWatcher from './watcher'
 
 import type { Ref } from 'vue'
 import type { TableColumnCtx } from '../table-column/defaults'
-import type { DefaultRow, Filter, Sort, Table } from '../table/defaults'
+import type {
+  DefaultRow,
+  Filter,
+  Sort,
+  Table,
+  TableProps,
+} from '../table/defaults'
 
 interface WatcherPropsData<T extends DefaultRow> {
   data: Ref<T[]>
@@ -43,6 +49,11 @@ function useStore<T extends DefaultRow>() {
   const { t } = useLocale()
 
   type StoreStates = typeof watcher.states
+
+  // Once any sorting has taken place, `default-sort` must not be re-applied
+  // when columns are inserted later on.
+  let sortSettled = false
+
   const mutations = {
     setData(states: StoreStates, data: T[]) {
       const dataInstanceChanged = unref(states._data) !== data
@@ -99,6 +110,18 @@ function useStore<T extends DefaultRow>() {
       if (instance.$ready) {
         instance.store.updateColumns() // hack for dynamics insert column
         instance.store.scheduleLayout()
+
+        // the column carrying `default-sort` may be created after the table is
+        // mounted, in which case the initial sorting could not find it
+        const { defaultSort } = instance.props as unknown as TableProps<T>
+        if (
+          defaultSort?.prop &&
+          !sortSettled &&
+          !states.sortingColumn.value &&
+          column.property === defaultSort.prop
+        ) {
+          instance.store.commit('sort', { ...defaultSort, init: true })
+        }
       }
     },
 
@@ -164,6 +187,8 @@ function useStore<T extends DefaultRow>() {
     },
 
     changeSortCondition(states: StoreStates, options: Sort) {
+      // any sorting, including the initial one, settles `default-sort`
+      sortSettled = true
       // 修复 pr https://github.com/ElemeFE/element/pull/15012 导致的 bug
       // https://github.com/element-plus/element-plus/pull/4640
       const { sortingColumn, sortProp, sortOrder } = states
