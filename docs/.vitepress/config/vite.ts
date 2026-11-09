@@ -91,6 +91,19 @@ export const getViteConfig = ({ mode }: { mode: string }) => {
     plugins: [
       vueJsx(),
 
+      {
+        name: 'docs-favicon',
+        configureServer(server) {
+          // Browsers request the default icon before VitePress updates the head.
+          server.middlewares.use('/favicon.ico', (_request, response) => {
+            response.writeHead(302, {
+              Location: '/images/element-plus-logo-small.svg',
+            })
+            response.end()
+          })
+        },
+      } as Plugin,
+
       // https://github.com/antfu/unplugin-vue-components
       Components({
         dirs: ['.vitepress/vitepress/components'],

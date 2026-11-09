@@ -435,11 +435,11 @@ importers:
   docs:
     dependencies:
       '@docsearch/css':
-        specifier: ^4.6.2
-        version: 4.6.2
+        specifier: ^5.2.0
+        version: 5.2.0
       '@docsearch/js':
-        specifier: ^4.6.2
-        version: 4.6.2
+        specifier: ^5.2.0
+        version: 5.2.0
       '@element-plus/icons-vue':
         specifier: ^2.3.2
         version: 2.3.2(vue@3.5.25)
@@ -1369,14 +1369,14 @@ packages:
   '@docsearch/css@3.8.2':
     resolution: {integrity: sha512-y05ayQFyUmCXze79+56v/4HpycYF3uFqB78pLPrSV5ZKAlDuIAAJNhaRi8tTdRNXh05yxX/TyNnzD6LwSM89vQ==}
 
-  '@docsearch/css@4.6.2':
-    resolution: {integrity: sha512-fH/cn8BjEEdM2nJdjNMHIvOVYupG6AIDtFVDgIZrNzdCSj4KXr9kd+hsehqsNGYjpUjObeKYKvgy/IwCb1jZYQ==}
+  '@docsearch/css@5.2.0':
+    resolution: {integrity: sha512-KqJjLYMniiiKgZFdK+f7LTy3ZTL5r13buvxagNjDnYVGfa0NR+bb9BnjZq3FTl3VvsmkeW3aSr9AGIZsiQXY/A==}
 
   '@docsearch/js@3.8.2':
     resolution: {integrity: sha512-Q5wY66qHn0SwA7Taa0aDbHiJvaFJLOJyHmooQ7y8hlwwQLQ/5WwCcoX0g7ii04Qi2DJlHsd0XXzJ8Ypw9+9YmQ==}
 
-  '@docsearch/js@4.6.2':
-    resolution: {integrity: sha512-qj1yoxl3y4GKoK7+VM6fq/rQqPnvUmg3IKzJ9x0VzN14QVzdB/SG/J6VfV1BWT5RcPUFxIcVwoY1fwHM2fSRRw==}
+  '@docsearch/js@5.2.0':
+    resolution: {integrity: sha512-5gIXOpG72MIptdCL40xPRDElWKzIM/gZpCLXN115cOOCWFbUUv+AkXhPPVZv5uRuIqIXygrT2ZpUgSxsD2xifA==}
 
   '@docsearch/react@3.8.2':
     resolution: {integrity: sha512-xCRrJQlTt8N9GU0DG4ptwHRkfnSnD/YpdeaXe02iKfqs97TkZJv60yE+1eq/tjPcVnTW8dP5qLP7itifFVV5eg==}
@@ -8134,7 +8134,7 @@ snapshots:
 
   '@docsearch/css@3.8.2': {}
 
-  '@docsearch/css@4.6.2': {}
+  '@docsearch/css@5.2.0': {}
 
   '@docsearch/js@3.8.2(@algolia/client-search@5.46.0)(search-insights@2.17.3)':
     dependencies:
@@ -8147,7 +8147,7 @@ snapshots:
       - react-dom
       - search-insights
 
-  '@docsearch/js@4.6.2': {}
+  '@docsearch/js@5.2.0': {}
 
   '@docsearch/react@3.8.2(@algolia/client-search@5.46.0)(search-insights@2.17.3)':
     dependencies:
