@@ -22,7 +22,7 @@
         v-clickoutside:[contentRef]="handleClickOutside"
         :class="cascaderKls"
         :style="cascaderStyle"
-        @click="() => togglePopperVisible(readonly ? undefined : true)"
+        @click.prevent="() => togglePopperVisible(readonly ? undefined : true)"
         @keydown="handleKeyDown"
         @mouseenter="inputHover = true"
         @mouseleave="inputHover = false"

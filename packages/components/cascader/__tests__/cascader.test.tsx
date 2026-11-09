@@ -101,6 +101,30 @@ describe('Cascader.vue', () => {
     expect(handleVisibleChange).toHaveBeenNthCalledWith(4, false)
   })
 
+  test('toggle popper visible when wrapped in a label', async () => {
+    const handleVisibleChange = vi.fn()
+    const wrapper = _mount(() => (
+      <label>
+        <span>label text</span>
+        <Cascader onVisibleChange={handleVisibleChange} />
+        <button></button>
+      </label>
+    ))
+
+    // the label must not forward a second click to the inner input
+    await wrapper.find(TRIGGER).trigger('click')
+    expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(1, true)
+
+    await wrapper.find('button').trigger('mousedown')
+    await wrapper.find('button').trigger('mouseup')
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(2, false)
+
+    await wrapper.find(TRIGGER).trigger('click')
+    expect(handleVisibleChange).toHaveBeenCalledTimes(3)
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(3, true)
+  })
+
   test('expand and check', async () => {
     const handleChange = vi.fn()
     const handleExpandChange = vi.fn()
