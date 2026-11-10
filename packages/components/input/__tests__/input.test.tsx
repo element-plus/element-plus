@@ -746,6 +746,32 @@ describe('Input.vue', () => {
       expect(handleTextareaInput).toBeCalled()
     })
 
+    test('clearable only reserves space when there is a value', async () => {
+      const content = ref('')
+      const wrapper = mount(() => (
+        <Input v-model={content.value} clearable placeholder="请输入内容" />
+      ))
+
+      expect(wrapper.find('.el-input__clear').exists()).toBe(false)
+      expect(wrapper.find('.el-input__suffix').exists()).toBe(false)
+
+      content.value = 'test'
+      await nextTick()
+
+      const clearIcon = wrapper.find('.el-input__clear')
+      expect(clearIcon.exists()).toBe(true)
+      expect(clearIcon.attributes('style')).toContain('visibility: hidden')
+
+      await wrapper.find('input').trigger('focus')
+      await nextTick()
+      expect(clearIcon.attributes('style')).toContain('visibility: visible')
+
+      content.value = ''
+      await nextTick()
+      expect(wrapper.find('.el-input__clear').exists()).toBe(false)
+      expect(wrapper.find('.el-input__suffix').exists()).toBe(false)
+    })
+
     test('event:input', async () => {
       const handleInput = vi.fn()
       const content = ref('a')

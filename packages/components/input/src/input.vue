@@ -254,7 +254,10 @@ const containerKls = computed(() => [
     [nsInput.b('group')]: slots.prepend || slots.append,
     [nsInput.m('prefix')]: slots.prefix || props.prefixIcon,
     [nsInput.m('suffix')]:
-      slots.suffix || props.suffixIcon || props.clearable || props.showPassword,
+      slots.suffix ||
+      props.suffixIcon ||
+      renderClear.value ||
+      props.showPassword,
     [nsInput.bm('suffix', 'password-clear')]:
       showClear.value && showPwdVisible.value,
     [nsInput.b('hidden')]: props.type === 'hidden',
@@ -353,13 +356,14 @@ const nativeInputValue = computed(() =>
   isNil(props.modelValue) ? '' : String(props.modelValue)
 )
 const renderClear = computed(
-  () => props.clearable && !inputDisabled.value && !props.readonly
+  () =>
+    props.clearable &&
+    !inputDisabled.value &&
+    !props.readonly &&
+    !!nativeInputValue.value
 )
 const showClear = computed(
-  () =>
-    renderClear.value &&
-    !!nativeInputValue.value &&
-    (isFocused.value || hovering.value)
+  () => renderClear.value && (isFocused.value || hovering.value)
 )
 const showPwdVisible = computed(
   () => props.showPassword && !inputDisabled.value && !!nativeInputValue.value
@@ -394,7 +398,7 @@ const suffixVisible = computed(
   () =>
     !!slots.suffix ||
     !!props.suffixIcon ||
-    props.clearable ||
+    renderClear.value ||
     props.showPassword ||
     isWordLimitVisible.value ||
     (!!validateState.value && needStatusIcon.value)
