@@ -109,6 +109,12 @@ export const useColumnResize = (
     const cellEl = event.currentTarget as HTMLElement
     if (!rootEl || !proxyEl || !cellEl) return
 
+    // Detach any listeners left over from a previous drag whose `upHandler`
+    // never fired (e.g. focus lost before mouseup, or a re-entrant mousedown).
+    // Without this, the reassignments below would orphan the old handlers on
+    // `document` and both closures would keep mutating the same proxy.
+    detachEvents()
+
     dragging.value = true
     resizeProxyVisible.value = true
 
@@ -116,7 +122,9 @@ export const useColumnResize = (
     const columnRect = cellEl.getBoundingClientRect()
     const startColumnLeft = columnRect.left - tableLeft
     const startLeft = columnRect.right - tableLeft
-    const minLeft = startColumnLeft + DEFAULT_MIN_WIDTH
+    // Match the upHandler clamp so the proxy can be dragged down to the
+    // column's own configured minimum, not just the global default.
+    const minLeft = startColumnLeft + (column.minWidth ?? DEFAULT_MIN_WIDTH)
 
     dragState.value = {
       startMouseLeft: event.clientX,
@@ -140,8 +148,13 @@ export const useColumnResize = (
     upHandler = () => {
       if (unref(dragging)) {
         const state = unref(dragState)!
-        const finalLeft = Number.parseInt(proxyEl.style.left, 10)
-        let newWidth = finalLeft - state.startColumnLeft
+        const finalLeft = Number.parseFloat(proxyEl.style.left)
+        // The rendered cell width may differ from the stored column width
+        // (e.g. sub-pixel layout or border adjustments). Subtract that
+        // offset so a drag without pointer movement keeps `column.width`,
+        // while any pointer delta still translates 1:1 into the resize.
+        const widthOffset = columnRect.width - column.width
+        let newWidth = finalLeft - state.startColumnLeft - widthOffset
         const minWidth = column.minWidth ?? DEFAULT_MIN_WIDTH
         const { maxWidth } = column
         if (newWidth < minWidth) newWidth = minWidth
