@@ -165,6 +165,12 @@ export const useColumnResize = (
           setColumnWidth(column.key, newWidth)
         }
         props.onColumnResize?.(column, newWidth, oldWidth)
+        const swallowClick = (e: MouseEvent) => e.stopImmediatePropagation()
+        cellEl.addEventListener('click', swallowClick, true)
+        setTimeout(
+          () => cellEl.removeEventListener('click', swallowClick, true),
+          0
+        )
       }
 
       detachEvents()
