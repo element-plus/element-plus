@@ -18,6 +18,7 @@ export const DEFAULT_FORMATS_DATEPICKER = {
   date: DEFAULT_FORMATS_DATE,
   dates: DEFAULT_FORMATS_DATE,
   week: 'gggg[w]ww',
+  weeks: 'gggg[w]ww',
   year: 'YYYY',
   years: 'YYYY',
   month: 'YYYY-MM',

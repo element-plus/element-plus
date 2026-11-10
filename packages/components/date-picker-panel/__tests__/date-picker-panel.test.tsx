@@ -34,6 +34,7 @@ const types: DatePickerType[] = [
   'date',
   'dates',
   'week',
+  'weeks',
   'quarter',
   'quarters',
   'quarterrange',
