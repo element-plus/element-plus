@@ -49,13 +49,9 @@ shellEmulator: true
 strictPeerDependencies: false
 
 minimumReleaseAge: 1440
+minimumReleaseAgeExcludePrune: true
 minimumReleaseAgeExclude:
   - 'element-plus'
   - '@element-plus/*'
-  - '@vitest/mocker@5.0.0'
-  - '@vitest/spy@5.0.0'
-  - vitest@5.0.0
-  - '@vitest/coverage-v8@5.0.0'
-  - '@vitest/pretty-format@5.0.0'
-  - '@vitest/ui@5.0.0'
-  - '@vitest/utils@5.0.0'
+  - '@crowdin/cli-darwin-x64@5.6.0'
+  - '@crowdin/cli-win32-x64@5.6.0'
