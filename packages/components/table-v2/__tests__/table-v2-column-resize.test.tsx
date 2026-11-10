@@ -60,7 +60,6 @@ const headerCells = (wrapper: ReturnType<typeof mountTable>['wrapper']) =>
 
 describe('TableV2 column resize', () => {
   afterEach(() => {
-    document.body.style.cursor = ''
     vi.restoreAllMocks()
   })
 
@@ -69,7 +68,7 @@ describe('TableV2 column resize', () => {
     const { wrapper } = mountTable()
     const cell = headerCells(wrapper)[0]
     await cell.trigger('mousemove', { clientX: 148 })
-    expect(document.body.style.cursor).toBe('col-resize')
+    expect(cell.classes()).toContain('is-resizable')
     restore.mockRestore()
   })
 
@@ -78,7 +77,7 @@ describe('TableV2 column resize', () => {
     const { wrapper } = mountTable({ columnProps: { resizable: false } })
     const cell = headerCells(wrapper)[0]
     await cell.trigger('mousemove', { clientX: 148 })
-    expect(document.body.style.cursor).not.toBe('col-resize')
+    expect(cell.classes()).not.toContain('is-resizable')
   })
 
   test('does not activate for the last column when disallowed', async () => {
@@ -87,7 +86,7 @@ describe('TableV2 column resize', () => {
     const cells = headerCells(wrapper)
     const last = cells[cells.length - 1]
     await last.trigger('mousemove', { clientX: 148 })
-    expect(document.body.style.cursor).not.toBe('col-resize')
+    expect(last.classes()).not.toContain('is-resizable')
   })
 
   test('resizes column width by dragging and emits column-resize', async () => {
@@ -114,7 +113,7 @@ describe('TableV2 column resize', () => {
     expect((headerCells(wrapper)[0].element as HTMLElement).style.width).toBe(
       '202px'
     )
-    expect(document.body.style.cursor).toBe('')
+    expect(headerCells(wrapper)[0].classes()).not.toContain('is-resizable')
   })
 
   test('clamps the new width to maxWidth', async () => {

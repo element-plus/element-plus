@@ -17,6 +17,7 @@ type UseColumnResizeProps = {
 const DEFAULT_MIN_WIDTH = 30
 const RESIZE_HANDLE_WIDTH = 8
 const MIN_CELL_WIDTH = 12
+const RESIZABLE_CLASS = 'is-resizable'
 
 export const useColumnResize = (
   props: TableV2Props,
@@ -82,13 +83,15 @@ export const useColumnResize = (
       rect.right - event.clientX < RESIZE_HANDLE_WIDTH &&
       allowDrag
 
-    document.body.style.cursor = isResizeHandleActive ? 'col-resize' : ''
+    target.classList.toggle(RESIZABLE_CLASS, isResizeHandleActive)
     draggingColumn.value = isResizeHandleActive ? column : null
   }
 
-  const handleHeaderCellMouseout = () => {
+  const handleHeaderCellMouseout = (event: MouseEvent) => {
     if (!isClient || unref(dragging)) return
-    document.body.style.cursor = ''
+    const target = event.currentTarget as HTMLElement
+    if (!target) return
+    target.classList.remove(RESIZABLE_CLASS)
   }
 
   const handleHeaderCellMousedown = (
@@ -152,7 +155,7 @@ export const useColumnResize = (
       }
 
       detachEvents()
-      document.body.style.cursor = ''
+      cellEl.classList.remove(RESIZABLE_CLASS)
       dragging.value = false
       draggingColumn.value = null
       dragState.value = undefined
