@@ -21,7 +21,9 @@ function useColumns(
       return {
         ...column,
         key,
-        width: key in overrides ? overrides[key] : column.width,
+        width: Object.prototype.hasOwnProperty.call(overrides, key)
+          ? overrides[key]
+          : column.width,
       }
     })
   )
