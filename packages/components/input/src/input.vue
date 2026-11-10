@@ -129,7 +129,7 @@
         :class="[
           nsTextarea.e('inner'),
           nsInput.is('focus', isFocused),
-          nsTextarea.is('clearable', clearable),
+          nsTextarea.is('clearable', renderClear),
         ]"
         v-bind="attrs"
         :name="name"
