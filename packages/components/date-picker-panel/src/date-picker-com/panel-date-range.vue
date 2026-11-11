@@ -420,12 +420,14 @@ import { computed, inject, nextTick, ref, toRef, unref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { ClickOutside as vClickoutside } from '@element-plus/directives'
 import { useLocale } from '@element-plus/hooks'
+import { isArray } from '@element-plus/utils'
 import ElButton from '@element-plus/components/button'
 import ElInput from '@element-plus/components/input'
 import {
   DEFAULT_FORMATS_DATE,
   DEFAULT_FORMATS_TIME,
   PICKER_BASE_INJECTION_KEY,
+  ROOT_COMMON_PICKER_INJECTION_KEY,
   TimePickPanel,
   extractDateFormat,
   extractTimeFormat,
@@ -471,6 +473,7 @@ const emit = defineEmits([
 const unit = 'month'
 // FIXME: fix the type for ep picker
 const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
+const commonPicker = inject(ROOT_COMMON_PICKER_INJECTION_KEY, undefined)
 const { cellClassName, defaultTime, clearable } = pickerBase.props
 const disabledDate = toRef(pickerBase.props, 'disabledDate')
 const format: Ref<string | undefined> = toRef(pickerBase.props, 'format')
@@ -980,6 +983,55 @@ function sortDates(minDate: Dayjs | undefined, maxDate: Dayjs | undefined) {
     }
   }
 }
+
+watch(
+  [
+    () => commonPicker?.userInput.value,
+    () => props.visible,
+    () => props.parsedValue,
+  ],
+  ([input, visible], [previousInput]) => {
+    if (props.type !== 'daterange' || !visible) {
+      return
+    }
+
+    if (!isArray(input)) {
+      if (isArray(previousInput)) {
+        parseValue(props.parsedValue)
+        onSelect(false)
+      }
+      return
+    }
+
+    const committedValue = props.parsedValue
+    const dates = input.map((value, index) => {
+      if (value === null && isArray(committedValue)) {
+        return committedValue[index]
+      }
+      if (!value) return undefined
+      const date = correctlyParseUserInput(
+        value,
+        format.value || '',
+        lang.value
+      ) as Dayjs
+      return date.isValid() && !disabledDate.value?.(date.toDate())
+        ? date
+        : undefined
+    })
+    if (!dates.some(Boolean)) {
+      parseValue(props.parsedValue)
+      onSelect(false)
+      return
+    }
+
+    const [start, end] = dates
+    minDate.value = start
+    maxDate.value = end
+    leftDate.value = (start || end)!
+    sortDates(start, end)
+    rangeState.value = { selecting: !!start && !end, endDate: null }
+  }
+)
 
 emit('set-picker-option', ['isValidValue', isValidValue])
 emit('set-picker-option', ['parseUserInput', parseUserInput])
