@@ -34,8 +34,11 @@ let currentItem: Element | undefined
 let observer: MutationObserver | undefined
 
 const markCurrentItem = () => {
-  const items = breadcrumb.value?.querySelectorAll(`.${ns.e('item')}`)
-  const lastItem = items?.[items.length - 1]
+  const items = breadcrumb.value?.querySelectorAll(`.${ns.e('item')}`) ?? []
+  const ownedItems = Array.from(items).filter(
+    (item) => item.closest(`.${ns.b()}`) === breadcrumb.value
+  )
+  const lastItem = ownedItems[ownedItems.length - 1]
   if (lastItem === currentItem) return
 
   currentItem?.removeAttribute('aria-current')

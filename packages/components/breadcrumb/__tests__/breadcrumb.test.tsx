@@ -58,6 +58,37 @@ describe('Breadcrumb.vue', () => {
   })
 
   describe('BreadcrumbItem', () => {
+    it('keeps nested breadcrumb current items separate from the parent', async () => {
+      const nested = ref(['inner A', 'inner B'])
+      const wrapper = _mount(() => (
+        <Breadcrumb>
+          <BreadcrumbItem>outer A</BreadcrumbItem>
+          <BreadcrumbItem>
+            outer B
+            <Breadcrumb>
+              {nested.value.map((item) => (
+                <BreadcrumbItem key={item}>{item}</BreadcrumbItem>
+              ))}
+            </Breadcrumb>
+          </BreadcrumbItem>
+        </Breadcrumb>
+      ))
+      const navs = wrapper.findAll('[role="navigation"]')
+      const outerLast = navs[0].findAll('.el-breadcrumb__item')[1]
+      expect(outerLast.attributes('aria-current')).toBe('page')
+      expect(
+        navs[1].findAll('.el-breadcrumb__item')[1].attributes('aria-current')
+      ).toBe('page')
+
+      nested.value = ['inner A']
+      await nextTick()
+      await new Promise((resolve) => setTimeout(resolve, 0))
+      expect(outerLast.attributes('aria-current')).toBe('page')
+      expect(
+        navs[1].findAll('.el-breadcrumb__item')[0].attributes('aria-current')
+      ).toBe('page')
+    })
+
     it('should set the last item as current page', () => {
       const wrapper = _mount(() => (
         <Breadcrumb>
