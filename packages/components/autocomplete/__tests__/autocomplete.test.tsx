@@ -737,4 +737,88 @@ describe('Autocomplete.vue', () => {
       expect(target.highlightedIndex).toBe(-1)
     })
   })
+
+  describe('aria-activedescendant', () => {
+    test('is absent while no option is highlighted', async () => {
+      const wrapper = _mount()
+      await nextTick()
+      const input = wrapper.find('input')
+      expect(input.attributes('aria-activedescendant')).toBeUndefined()
+
+      await input.trigger('focus')
+      vi.runAllTimers()
+      await nextTick()
+      expect(input.attributes('aria-activedescendant')).toBeUndefined()
+    })
+
+    test('names the highlighted option', async () => {
+      const wrapper = _mount()
+      await nextTick()
+      const input = wrapper.find('input')
+      await input.trigger('focus')
+      vi.runAllTimers()
+      await nextTick()
+
+      await input.trigger('keydown', { code: EVENT_CODE.down })
+      await nextTick()
+      const activeId = input.attributes('aria-activedescendant')
+      expect(activeId).toBeDefined()
+      expect(document.querySelector(`#${activeId}`)?.textContent).toBe('Java')
+    })
+
+    test('names the first option when highlight-first-item is set', async () => {
+      const wrapper = _mount({ highlightFirstItem: true })
+      await nextTick()
+      const input = wrapper.find('input')
+      await input.trigger('focus')
+      vi.runAllTimers()
+      await nextTick()
+
+      const activeId = input.attributes('aria-activedescendant')
+      expect(activeId).toBeDefined()
+      expect(document.querySelector(`#${activeId}`)?.textContent).toBe('Java')
+    })
+
+    test('is absent when highlight-first-item meets no suggestions', async () => {
+      const wrapper = _mount({
+        highlightFirstItem: true,
+        fetchSuggestions: (_: string, cb: (list: []) => void) => cb([]),
+      })
+      await nextTick()
+      const input = wrapper.find('input')
+      await input.trigger('focus')
+      vi.runAllTimers()
+      await nextTick()
+
+      expect(input.attributes('aria-activedescendant')).toBeUndefined()
+    })
+
+    test('is removed when the highlight moves off the list', async () => {
+      const wrapper = _mount({ loopNavigation: false })
+      await nextTick()
+      const input = wrapper.find('input')
+      await input.trigger('focus')
+      vi.runAllTimers()
+      await nextTick()
+
+      await input.trigger('keydown', { code: EVENT_CODE.down })
+      await input.trigger('keydown', { code: EVENT_CODE.up })
+      await nextTick()
+      expect(input.attributes('aria-activedescendant')).toBeUndefined()
+    })
+
+    test('is removed once an option is selected', async () => {
+      const wrapper = _mount()
+      await nextTick()
+      const input = wrapper.find('input')
+      await input.trigger('focus')
+      vi.runAllTimers()
+      await nextTick()
+
+      await input.trigger('keydown', { code: EVENT_CODE.down })
+      await input.trigger('keydown', { code: EVENT_CODE.enter })
+      await nextTick()
+      expect(input.attributes('aria-activedescendant')).toBeUndefined()
+    })
+  })
 })
