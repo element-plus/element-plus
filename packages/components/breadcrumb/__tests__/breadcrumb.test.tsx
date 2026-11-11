@@ -1,4 +1,4 @@
-import { nextTick, ref } from 'vue'
+import { TransitionGroup, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
 import { Check } from '@element-plus/icons-vue'
@@ -144,6 +144,47 @@ describe('Breadcrumb.vue', () => {
       await new Promise((resolve) => setTimeout(resolve, 0))
 
       expect(rendered.at(1)!.attributes('aria-current')).toBe('page')
+    })
+
+    it('should re-mark after a wrapped TransitionGroup finishes leaving', async () => {
+      const items = ref(['A', 'B'])
+      let finishLeave: (() => void) | undefined
+      const wrapper = mount(
+        () => (
+          <Breadcrumb>
+            <TransitionGroup
+              tag="div"
+              css={false}
+              onLeave={(_element, done) => {
+                finishLeave = done
+              }}
+            >
+              {items.value.map((item) => (
+                <BreadcrumbItem key={item}>{item}</BreadcrumbItem>
+              ))}
+            </TransitionGroup>
+          </Breadcrumb>
+        ),
+        { global: { stubs: { transitionGroup: false } } }
+      )
+      await nextTick()
+      expect(
+        wrapper
+          .findAll('.el-breadcrumb__item')
+          .at(1)!
+          .attributes('aria-current')
+      ).toBe('page')
+      items.value = ['A']
+      await nextTick()
+      expect(finishLeave).toBeTypeOf('function')
+      finishLeave!()
+      await new Promise((resolve) => setTimeout(resolve, 0))
+      expect(
+        wrapper
+          .findAll('.el-breadcrumb__item')
+          .at(0)!
+          .attributes('aria-current')
+      ).toBe('page')
     })
 
     it('click event', async () => {

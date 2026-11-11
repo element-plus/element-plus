@@ -46,11 +46,11 @@ const markCurrentItem = () => {
 onMounted(() => {
   markCurrentItem()
   // A TransitionGroup removes the leaving item from the DOM after its leave
-  // transition, outside of Vue's update cycle. Watch the direct children so
-  // the remaining last item is re-marked once the leaving item is gone.
+  // transition, outside of Vue's update cycle. Items may be wrapped in a
+  // TransitionGroup element, so watch descendants as well.
   if (breadcrumb.value && typeof MutationObserver !== 'undefined') {
     observer = new MutationObserver(markCurrentItem)
-    observer.observe(breadcrumb.value, { childList: true })
+    observer.observe(breadcrumb.value, { childList: true, subtree: true })
   }
 })
 
