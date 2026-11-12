@@ -163,7 +163,9 @@ const dropdownVisible = computed(() => {
 })
 
 const hoveringId = computed(() => {
-  return `${contentId.value}-${dropdownRef.value?.hoveringIndex}`
+  const index = dropdownRef.value?.hoveringIndex
+  if (index === undefined || index < 0) return undefined
+  return `${contentId.value}-${index}`
 })
 
 const handleInputChange = (value: string) => {
