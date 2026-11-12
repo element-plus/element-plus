@@ -108,6 +108,28 @@ describe('Autocomplete.vue', () => {
     document.body.innerHTML = ''
   })
 
+  it('ignores a suggestion click after the open autocomplete is disabled', async () => {
+    const wrapper = mount(Autocomplete, {
+      props: {
+        modelValue: 'apple',
+        teleported: false,
+        fetchSuggestions: () => [{ value: 'orange' }],
+      },
+    })
+
+    await wrapper.get('input').trigger('focus')
+    vi.runAllTimers()
+    await nextTick()
+    const option = wrapper.get('[role="option"]')
+    expect(option.text()).toBe('orange')
+
+    await wrapper.setProps({ disabled: true })
+    await option.trigger('click')
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    expect(wrapper.emitted('select')).toBeUndefined()
+    wrapper.unmount()
+  })
+
   test('placeholder', async () => {
     const wrapper = _mount()
     await nextTick()
