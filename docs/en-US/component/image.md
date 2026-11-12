@@ -126,19 +126,12 @@ image/custom-progress
 
 ### Image Slots
 
-| Name                                      | Description                                                                             | Type |
-| ----------------------------------------- | --------------------------------------------------------------------------------------- | ---- |
-| placeholder                               | custom placeholder content when image hasn't loaded yet.                                | -    |
-| error                                     | custom image load failed content.                                                       | -    |
-| viewer                                    | custom content rendered in the built-in image viewer when previewing.                    | -    |
-| [image viewer slots](#image-viewer-slots) | when you allow big image preview, image viewer slots all can be used, except `default`. | -    |
-
-:::warning
-
-The `viewer` slot only injects content into the built-in image viewer — placing an
-`<el-image-viewer>` inside the `viewer` slot does not replace it.
-
-:::
+| Name                                      | Description                                                                                                                         | Type |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ---- |
+| placeholder                               | custom placeholder content when image hasn't loaded yet.                                                                            | -    |
+| error                                     | custom image load failed content.                                                                                                   | -    |
+| viewer                                    | custom content rendered in the built-in image viewer when previewing; it does not replace the built-in `el-image-viewer` component. | -    |
+| [image viewer slots](#image-viewer-slots) | when you allow big image preview, image viewer slots all can be used, except `default`.                                             | -    |
 
 ### Image Exposes
 
