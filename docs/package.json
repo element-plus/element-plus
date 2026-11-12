@@ -46,7 +46,7 @@
     "vite-plugin-inspect": "^0.8.7",
     "vite-plugin-mkcert": "^2.1.0",
     "vitepress": "^1.6.4",
-    "vitepress-plugin-group-icons": "^1.8.1",
+    "vitepress-plugin-group-icons": "^1.8.2",
     "vue": "catalog:"
   }
 }
