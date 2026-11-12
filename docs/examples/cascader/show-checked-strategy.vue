@@ -5,10 +5,12 @@
       v-model="value1"
       :options="options"
       :props="props"
-      show-checked-strategy="child"
       clearable
-      @change="handleChange1"
+      :show-all-levels="false"
     />
+    <div v-if="value1.length > 0">
+      <pre>{{ JSON.stringify(value1) }}</pre>
+    </div>
   </div>
 
   <div class="m-4">
@@ -21,27 +23,26 @@
       :props="props"
       show-checked-strategy="parent"
       clearable
-      @change="handleChange2"
     />
+    <div v-if="value2.length > 0">
+      <pre>{{ JSON.stringify(value2) }}</pre>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-const value1 = ref([])
-const value2 = ref([])
 const props = {
   multiple: true,
 }
 
-const handleChange1 = (value) => {
-  console.log('Child strategy:', value)
-}
+const value1 = ref([
+  ['guide', 'disciplines', 'consistency'],
+  ['guide', 'navigation', 'side nav'],
+])
 
-const handleChange2 = (value) => {
-  console.log('Parent strategy:', value)
-}
+const value2 = ref([['guide']])
 
 const options = [
   {
