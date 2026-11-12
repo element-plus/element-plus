@@ -6,7 +6,7 @@
       :model-value="modelValue"
       :disabled="disabled"
       :role="dropdownVisible ? 'combobox' : undefined"
-      :aria-activedescendant="dropdownVisible ? hoveringId || '' : undefined"
+      :aria-activedescendant="(dropdownVisible && hoveringId) || undefined"
       :aria-controls="dropdownVisible ? contentId : undefined"
       :aria-expanded="dropdownVisible || undefined"
       :aria-label="ariaLabel"

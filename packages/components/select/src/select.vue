@@ -195,7 +195,7 @@
                 role="combobox"
                 :readonly="!filterable"
                 spellcheck="false"
-                :aria-activedescendant="hoverOption?.id || ''"
+                :aria-activedescendant="hoverOption?.id || undefined"
                 :aria-controls="contentId"
                 :aria-expanded="dropdownMenuVisible"
                 :aria-label="ariaLabel"

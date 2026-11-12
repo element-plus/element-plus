@@ -202,7 +202,7 @@
                 :aria-activedescendant="
                   states.hoveringIndex >= 0
                     ? `${contentId}-${states.hoveringIndex}`
-                    : ''
+                    : undefined
                 "
                 :readonly="!filterable"
                 spellcheck="false"
