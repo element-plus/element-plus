@@ -655,6 +655,78 @@ describe('Table.vue', () => {
       filter.parentNode.removeChild(filter)
     })
 
+    it.each([
+      { value: '', code: 'Enter' },
+      { value: '', code: 'Space' },
+      { value: 'filled', code: 'Enter' },
+      { value: 'filled', code: 'Space' },
+    ])(
+      'selects and clears a single filter with $code (value: "$value")',
+      async ({ value, code }) => {
+        wrapper.unmount()
+        const handleFilterChange = vi.fn()
+        wrapper = mount({
+          components: { ElTable, ElTableColumn },
+          template: `
+          <el-table :data="rows" @filter-change="handleFilterChange">
+            <el-table-column
+              prop="value"
+              column-key="value"
+              :filters="options"
+              :filter-method="filterMethod"
+              :filter-multiple="false"
+            />
+          </el-table>
+        `,
+          setup: () => ({
+            rows: [{ value }, { value: 'other' }],
+            options: [{ text: 'Match', value }],
+            filterMethod: (value, row) => value === row.value,
+            handleFilterChange,
+          }),
+        })
+        await doubleWait()
+        const trigger = wrapper.find('.el-table__column-filter-trigger')
+        await trigger.trigger('click')
+        await doubleWait()
+
+        const filter = document.body.querySelector('.el-table-filter')
+        const list = filter.querySelector('[role="radiogroup"]')
+        const press = async (code: string) => {
+          list.dispatchEvent(
+            new KeyboardEvent('keydown', { code, bubbles: true })
+          )
+          await doubleWait()
+        }
+
+        await press('ArrowDown')
+        await press(code)
+
+        expect(handleFilterChange).toHaveBeenLastCalledWith({ value: [value] })
+        expect(
+          wrapper.findAll('.el-table__body-wrapper tbody tr')
+        ).toHaveLength(1)
+        expect(wrapper.find('thead .cell.highlight').exists()).toBe(true)
+
+        await trigger.trigger('click')
+        await doubleWait()
+        expect(
+          list
+            .querySelectorAll('[role="radio"]')[1]
+            .getAttribute('aria-checked')
+        ).toBe('true')
+        await press('ArrowUp')
+        await press(code)
+
+        expect(handleFilterChange).toHaveBeenLastCalledWith({ value: [] })
+        expect(
+          wrapper.findAll('.el-table__body-wrapper tbody tr')
+        ).toHaveLength(2)
+        expect(wrapper.find('thead .cell.highlight').exists()).toBe(false)
+        filter.parentNode.removeChild(filter)
+      }
+    )
+
     it('clear filter', async () => {
       const btn = wrapper.find('.el-table__column-filter-trigger')
 
