@@ -55,6 +55,7 @@ const {
   onMoving,
   onMoveEnd,
   onCollapse,
+  onLimitChange,
 } = useResize(panels, containerSize, pxSizes, lazy)
 
 const splitterStyles = computed(() => {
@@ -103,6 +104,7 @@ provide(
     onMoving: onResize,
     onMoveEnd: onResizeEnd,
     onCollapse: onCollapsible,
+    onLimitChange,
     registerPanel,
     unregisterPanel,
   })
