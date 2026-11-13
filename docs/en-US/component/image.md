@@ -126,12 +126,12 @@ image/custom-progress
 
 ### Image Slots
 
-| Name                                      | Description                                                                                     | Type |
-| ----------------------------------------- | ----------------------------------------------------------------------------------------------- | ---- |
-| placeholder                               | custom placeholder content when image hasn't loaded yet.                                        | -    |
-| error                                     | custom image load failed content.                                                               | -    |
-| viewer                                    | custom content when image preview (it does not replace the built-in el-image-viewer component). | -    |
-| [image viewer slots](#image-viewer-slots) | when you allow big image preview, image viewer slots all can be used, except `default`.         | -    |
+| Name                                      | Description                                                                                       | Type |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------- | ---- |
+| placeholder                               | custom placeholder content when image hasn't loaded yet.                                          | -    |
+| error                                     | custom image load failed content.                                                                 | -    |
+| viewer                                    | custom content when image preview (it does not replace the built-in `el-image-viewer` component). | -    |
+| [image viewer slots](#image-viewer-slots) | when you allow big image preview, image viewer slots all can be used, except `default`.           | -    |
 
 ### Image Exposes
 
