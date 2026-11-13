@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import defineGetter from '@element-plus/test-utils/define-getter'
 import { ElForm, ElFormItem as FormItem } from '@element-plus/components/form'
+import sleep from '@element-plus/test-utils/sleep'
 import Input from '../src/input.vue'
 
 import type { CSSProperties } from 'vue'
@@ -1142,7 +1143,7 @@ describe('Input.vue', () => {
         </FormItem>
       ))
 
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const input = wrapper.find('[data-test-ref="input"]')
       const formItemLabel = formItem.find('.el-form-item__label')
@@ -1157,7 +1158,7 @@ describe('Input.vue', () => {
         </FormItem>
       ))
 
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const input = wrapper.find('[data-test-ref="input"]')
       const formItemLabel = formItem.find('.el-form-item__label')
@@ -1174,7 +1175,7 @@ describe('Input.vue', () => {
         </FormItem>
       ))
 
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
     })

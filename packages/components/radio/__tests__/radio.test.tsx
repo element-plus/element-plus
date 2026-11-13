@@ -2,6 +2,7 @@ import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, test } from 'vitest'
 import { ElForm, ElFormItem } from '@element-plus/components/form'
+import sleep from '@element-plus/test-utils/sleep'
 import Radio from '../src/radio.vue'
 import RadioGroup from '../src/radio-group.vue'
 import RadioButton from '../src/radio-button.vue'
@@ -457,14 +458,14 @@ describe('Radio Button', () => {
           </RadioGroup>
         </ElFormItem>
       ))
-      await nextTick()
-      const formItem = await wrapper.findComponent(ElFormItem)
-      const radioGroup = await wrapper.findComponent(RadioGroup)
+      await sleep()
+      const formItem = wrapper.findComponent(ElFormItem)
+      const radioGroup = wrapper.findComponent(RadioGroup)
       const formItemLabel = formItem.find('.el-form-item__label')
-      expect(formItem.attributes().role).toBeFalsy()
+      expect(formItem.attributes().role).toBe('group')
       expect(radioGroup.attributes().role).toBe('radiogroup')
-      expect(formItemLabel.attributes().for).toBe(radioGroup.attributes().id)
-      expect(formItemLabel.attributes().id).toBe(
+      expect(formItemLabel.attributes().for).toBeFalsy()
+      expect(formItemLabel.attributes('id')).toBe(
         radioGroup.attributes()['aria-labelledby']
       )
     })
@@ -478,11 +479,11 @@ describe('Radio Button', () => {
           </RadioGroup>
         </ElFormItem>
       ))
-      await nextTick()
-      const formItem = await wrapper.findComponent(ElFormItem)
-      const radioGroup = await wrapper.findComponent(RadioGroup)
+      await sleep()
+      const formItem = wrapper.findComponent(ElFormItem)
+      const radioGroup = wrapper.findComponent(RadioGroup)
       const formItemLabel = formItem.find('.el-form-item__label')
-      expect(formItemLabel.attributes().for).toBe(radioGroup.attributes().id)
+      expect(formItemLabel.attributes().for).toBeFalsy()
       expect(radioGroup.attributes().role).toBe('radiogroup')
       expect(radioGroup.attributes()['aria-label']).toBe('Foo')
       expect(radioGroup.attributes()['aria-labelledby']).toBeFalsy()
@@ -501,10 +502,9 @@ describe('Radio Button', () => {
           </RadioGroup>
         </ElFormItem>
       ))
-      await nextTick()
-      const formItem = await wrapper.findComponent(ElFormItem)
-      const [radioGroup1, radioGroup2] =
-        await wrapper.findAllComponents(RadioGroup)
+      await sleep()
+      const formItem = wrapper.findComponent(ElFormItem)
+      const [radioGroup1, radioGroup2] = wrapper.findAllComponents(RadioGroup)
       const formItemLabel = formItem.find('.el-form-item__label')
       expect(formItem.attributes().role).toBe('group')
       expect(formItem.attributes()['aria-labelledby']).toBe(
