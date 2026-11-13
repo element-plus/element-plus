@@ -135,6 +135,38 @@ describe('useLockscreen', () => {
     expect(hasClass(document.body, kls)).toBe(false)
   })
 
+  it('should unlock when the trigger is re-enabled during the cleanup delay', async () => {
+    const trigger = ref(false)
+    mount({
+      setup() {
+        useLockscreen(trigger)
+        return () => undefined
+      },
+    })
+
+    trigger.value = true
+    await nextTick()
+    expect(hasClass(document.body, kls)).toBe(true)
+
+    trigger.value = false
+    await nextTick()
+    vi.advanceTimersByTime(100)
+
+    // lock again before the delayed unlock runs
+    trigger.value = true
+    await nextTick()
+    vi.advanceTimersByTime(100)
+
+    // the pending cleanup must not unlock the screen that was just locked
+    expect(hasClass(document.body, kls)).toBe(true)
+
+    trigger.value = false
+    await nextTick()
+    vi.advanceTimersByTime(250)
+    await nextTick()
+    expect(hasClass(document.body, kls)).toBe(false)
+  })
+
   it('should clean up body.width only once', async () => {
     const scrollHeightSpy = vi
       .spyOn(document.body, 'scrollHeight', 'get')
