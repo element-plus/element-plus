@@ -22,7 +22,7 @@
         v-clickoutside:[contentRef]="handleClickOutside"
         :class="cascaderKls"
         :style="cascaderStyle"
-        @click="() => togglePopperVisible(readonly ? undefined : true)"
+        @click.prevent="() => togglePopperVisible(readonly ? undefined : true)"
         @keydown="handleKeyDown"
         @mouseenter="inputHover = true"
         @mouseleave="inputHover = false"
@@ -50,7 +50,7 @@
               v-if="clearBtnVisible"
               key="clear"
               :class="[nsInput.e('icon'), 'icon-circle-close']"
-              @click.stop="handleClear"
+              @click.stop.prevent="handleClear"
             >
               <component :is="clearIcon" />
             </el-icon>
@@ -58,7 +58,7 @@
               v-else
               key="arrow-down"
               :class="cascaderIconKls"
-              @click.stop="togglePopperVisible()"
+              @click.stop.prevent="togglePopperVisible()"
             >
               <arrow-down />
             </el-icon>
