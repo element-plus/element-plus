@@ -76,7 +76,11 @@ export type RowClassNameGetter<T> = (
  * Handler types
  */
 export type ColumnSortHandler<T> = (params: ColumnSortParams<T>) => void
-export type ColumnResizeHandler<T> = (column: Column<T>, width: number) => void
+export type ColumnResizeHandler<T> = (
+  column: Column<T>,
+  newWidth: number,
+  oldWidth: number
+) => void
 export type ExpandedRowsChangeHandler = (expandedRowKeys: KeyType[]) => void
 
 export const tableV2Props = buildProps({
@@ -122,6 +126,17 @@ export const tableV2Props = buildProps({
   rowHeight: {
     type: Number,
     default: 50,
+  },
+  border: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * @description whether to allow dragging the last column to resize its width
+   */
+  allowDragLastColumn: {
+    type: Boolean,
+    default: true,
   },
 
   /**
@@ -191,6 +206,9 @@ export const tableV2Props = buildProps({
    */
   onColumnSort: {
     type: definePropType<ColumnSortHandler<any>>(Function),
+  },
+  onColumnResize: {
+    type: definePropType<ColumnResizeHandler<any>>(Function),
   },
   onExpandedRowsChange: {
     type: definePropType<ExpandedRowsChangeHandler>(Function),
