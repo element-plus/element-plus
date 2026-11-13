@@ -202,9 +202,11 @@ $form-item-label-top-margin-bottom: map.merge(
 
   @include when(error) {
     @include e(content) {
-      .#{$namespace}-input__wrapper,
+      > .#{$namespace}-input__wrapper,
+      :not(.is-in-pagination) > .#{$namespace}-input__wrapper,
       .#{$namespace}-textarea__inner,
-      .#{$namespace}-select__wrapper,
+      > .#{$namespace}-select__wrapper,
+      :not(.is-in-pagination) > .#{$namespace}-select__wrapper,
       .#{$namespace}-input-tag__wrapper,
       :not(.#{$namespace}-input-otp--underlined)
         .#{$namespace}-input-otp__input-field {
@@ -231,7 +233,12 @@ $form-item-label-top-margin-bottom: map.merge(
       .#{$namespace}-input-group__append,
       .#{$namespace}-input-group__prepend {
         .#{$namespace}-input__wrapper {
-          box-shadow: 0 0 0 1px transparent inset;
+          &,
+          &:hover,
+          &:focus,
+          &.is-focus {
+            box-shadow: 0 0 0 1px transparent inset;
+          }
         }
 
         .#{$namespace}-input__validateIcon {
