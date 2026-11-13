@@ -78,6 +78,29 @@ afterEach(() => {
 })
 
 describe('Cascader.vue', () => {
+  it('does not select a node after the open cascader is disabled', async () => {
+    const wrapper = mount(Cascader, {
+      props: {
+        options: OPTIONS,
+        modelValue: ['zhejiang', 'hangzhou'],
+        teleported: false,
+      },
+    })
+
+    await wrapper.get(TRIGGER).trigger('click')
+    const option = wrapper
+      .findAll(NODE_LABEL)
+      .find((node) => node.text() === 'Ningbo')!
+    expect(option.exists()).toBe(true)
+    await wrapper.setProps({ disabled: true })
+    await option.trigger('click')
+
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    expect(wrapper.emitted('change')).toBeUndefined()
+    expect(wrapper.emitted('visibleChange')).toEqual([[true], [false]])
+    wrapper.unmount()
+  })
+
   test('toggle popper visible', async () => {
     const handleVisibleChange = vi.fn()
     const wrapper = _mount(() => (
