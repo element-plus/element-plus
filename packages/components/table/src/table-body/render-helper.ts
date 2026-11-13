@@ -44,6 +44,10 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
   } = useStyles(props)
 
   let displayIndex = -1
+  // 按渲染顺序计数的行号与各列被已渲染单元格（rowspan/colspan）覆盖到的行号，
+  // 用于判断单元格是否已被合并（树形表格的行号并非按渲染顺序递增，故单独计数）
+  let renderedRowIndex = 0
+  let occupiedUntilRow: number[] = []
 
   const firstDefaultColumnIndex = computed(() => {
     return props.store?.states.columns.value.findIndex(
@@ -56,6 +60,34 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
       return getRowIdentity(row, rowKey)
     }
     return index
+  }
+  // 已被合并的单元格会被顺延到后面的空列，顺延后超出列数时返回 -1（不渲染该单元格），
+  // 否则返回实际列下标并记录该单元格覆盖的列，供同行及下方行判断是否已被合并
+  const resolveColumnIndex = (
+    cellIndex: number,
+    rowspan: number,
+    colspan: number,
+    renderIndex: number
+  ) => {
+    const columnCount = props.store!.states.columns.value.length
+    let columnIndex = cellIndex
+    while (
+      columnIndex < columnCount &&
+      occupiedUntilRow[columnIndex] >= renderIndex
+    ) {
+      columnIndex++
+    }
+    if (columnIndex >= columnCount) {
+      return -1
+    }
+    for (let i = 0; i < colspan; i++) {
+      const index = columnIndex + i
+      occupiedUntilRow[index] = Math.max(
+        occupiedUntilRow[index] ?? -1,
+        renderIndex + rowspan - 1
+      )
+    }
+    return columnIndex
   }
   const rowRender = (
     row: T,
@@ -73,7 +105,10 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     }
     if ($index === 0) {
       displayIndex = -1
+      renderedRowIndex = 0
+      occupiedUntilRow = []
     }
+    const renderIndex = renderedRowIndex++
     if (props.stripe && display) {
       displayIndex++
     }
@@ -94,6 +129,15 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
       columns.value.map((column, cellIndex) => {
         const { rowspan, colspan } = getSpan(row, column, $index, cellIndex)
         if (!rowspan || !colspan) {
+          return null
+        }
+        const columnIndex = resolveColumnIndex(
+          cellIndex,
+          rowspan,
+          colspan,
+          renderIndex
+        )
+        if (columnIndex < 0) {
           return null
         }
         const columnData = Object.assign({}, column)
