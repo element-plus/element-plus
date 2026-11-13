@@ -1243,6 +1243,74 @@ describe('Table.vue', () => {
       wrapper.unmount()
     })
 
+    it('default-sort should work with dynamically inserted columns', async () => {
+      const wrapper = mount({
+        components: {
+          ElTableColumn,
+          ElTable,
+        },
+        template: `
+          <el-table ref="table" :data="testData" :default-sort="{ prop: 'runtime', order: 'ascending' }">
+            <el-table-column v-for="column in columns" :key="column" :prop="column" />
+          </el-table>
+        `,
+        data() {
+          return { testData: getTestData(), columns: [] as string[] }
+        },
+      })
+
+      const vm = wrapper.vm
+      await doubleWait()
+      // the columns are created after the table (and its header) is mounted
+      vm.columns = ['name', 'release', 'director', 'runtime']
+      await doubleWait()
+
+      const lastCells = wrapper.findAll(
+        '.el-table__body-wrapper tbody tr td:last-child'
+      )
+      expect(lastCells.map((node) => node.text())).toEqual([
+        '80',
+        '92',
+        '92',
+        '95',
+        '100',
+      ])
+      expect(wrapper.findAll('th.ascending')).toHaveLength(1)
+      wrapper.unmount()
+    })
+
+    it('default-sort should not override the sorting chosen by the user when inserting columns', async () => {
+      const wrapper = mount({
+        components: {
+          ElTableColumn,
+          ElTable,
+        },
+        template: `
+          <el-table ref="table" :data="testData" :default-sort="{ prop: 'runtime', order: 'ascending' }">
+            <el-table-column prop="name" sortable />
+            <el-table-column v-if="showRuntime" prop="runtime" sortable />
+          </el-table>
+        `,
+        data() {
+          return { testData: getTestData(), showRuntime: false }
+        },
+      })
+
+      const vm = wrapper.vm
+      await doubleWait()
+      vm.$refs.table.sort('name', 'descending')
+      await doubleWait()
+      vm.showRuntime = true
+      await doubleWait()
+
+      const firstCells = wrapper.findAll(
+        '.el-table__body-wrapper tbody tr td:first-child'
+      )
+      const names = firstCells.map((node) => node.text())
+      expect(names).toEqual([...names].sort().reverse())
+      wrapper.unmount()
+    })
+
     it('sort correct change icon', async () => {
       function assertSortIconCount($el, msg, count = 1) {
         const sortIconCount = $el.querySelectorAll(
