@@ -6,7 +6,7 @@ export const head: HeadConfig[] = [
     {
       rel: 'icon',
       href: '/images/element-plus-logo-small.svg',
-      type: 'image/svg+xm',
+      type: 'image/svg+xml',
     },
   ],
   [

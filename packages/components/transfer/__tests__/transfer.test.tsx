@@ -1,9 +1,11 @@
 import { nextTick, reactive, ref } from 'vue'
-import { mount } from '@vue/test-utils'
-import { describe, expect, it } from 'vitest'
+import { enableAutoUnmount, mount } from '@vue/test-utils'
+import { afterEach, describe, expect, it } from 'vitest'
 import Transfer from '../src/transfer.vue'
 
 import type { TransferDataItem, renderContent } from '../src/transfer'
+
+enableAutoUnmount(afterEach)
 
 describe('Transfer', () => {
   const getTestData = (size = 15) => {
