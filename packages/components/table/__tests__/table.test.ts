@@ -3296,6 +3296,35 @@ describe('Table.vue', () => {
     wrapper.unmount()
   })
 
+  it('show-overflow-tooltip should show when scrollWidth exceeds clientWidth', async () => {
+    // text fits the cell, so only the scrollWidth/clientWidth check can
+    // detect the overflow
+    const mockRangeRect = vi
+      .spyOn(Range.prototype, 'getBoundingClientRect')
+      .mockReturnValue({
+        width: 100,
+        height: 23,
+      } as DOMRect)
+    const wrapper = mountOverflowTooltipTable()
+
+    await doubleWait()
+    const tr = wrapper.findAll('.overflow_tooltip')
+    const cellEl = tr[1].find('.cell').element as HTMLElement
+    const mocks = mockScaledCell(cellEl)
+    mocks[2].mockReturnValue(300)
+
+    await tr[1].trigger('mouseenter')
+    await rAF()
+
+    expect(wrapper.find('.el-popper span').text()).toContain(
+      (getTestData() as any)[0].name
+    )
+
+    mockRangeRect.mockRestore()
+    mocks.forEach((mock) => mock.mockRestore())
+    wrapper.unmount()
+  })
+
   // Fractional layout width must not be mistaken for a CSS transform.
   it('show-overflow-tooltip should not show on narrow cells due to offsetWidth rounding', async () => {
     const mockRangeRect = vi

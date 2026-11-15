@@ -1,5 +1,6 @@
 import { h, inject, ref } from 'vue'
 import { debounce } from 'lodash-unified'
+import { platform } from '@floating-ui/dom'
 import {
   addClass,
   hasClass,
@@ -14,6 +15,7 @@ import {
 } from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'
 
+import type { Coords } from '@floating-ui/dom'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type { TableBodyProps } from './defaults'
 import type { TableOverflowTooltipOptions } from '../util'
@@ -22,42 +24,6 @@ import type { DefaultRow, Table } from '../table/defaults'
 interface HandleEvent<T> {
   (event: PointerEvent, row: T, name: 'click' | 'contextmenu'): void
   (event: MouseEvent, row: T, name: 'dblclick'): void
-}
-
-// Keep in sync with the default epsilon of isGreaterThan (@element-plus/utils).
-const SIZE_EPSILON = 0.03
-
-// Use the fractional layout size when available; offsetWidth/offsetHeight round to integers.
-function getScaleFactor(el: HTMLElement, axis: 'width' | 'height') {
-  const offsetSize = axis === 'width' ? el.offsetWidth : el.offsetHeight
-  if (offsetSize <= 0) return { scale: 1, maxScaleError: 0 }
-
-  const style = window.getComputedStyle(el)
-  const computedSize = style[axis]
-  let layoutSize =
-    computedSize.endsWith('px') && Number.parseFloat(computedSize)
-      ? Number.parseFloat(computedSize)
-      : 0
-  if (layoutSize > 0 && style.boxSizing !== 'border-box') {
-    const start = axis === 'width' ? 'Left' : 'Top'
-    const end = axis === 'width' ? 'Right' : 'Bottom'
-    layoutSize +=
-      (Number.parseFloat(style[`padding${start}`]) || 0) +
-      (Number.parseFloat(style[`padding${end}`]) || 0) +
-      (Number.parseFloat(style[`border${start}Width`]) || 0) +
-      (Number.parseFloat(style[`border${end}Width`]) || 0)
-  }
-  const usesRoundedSize =
-    layoutSize <= 0 || Math.abs(layoutSize - offsetSize) > 0.5
-  if (usesRoundedSize) layoutSize = offsetSize
-
-  const rect = el.getBoundingClientRect()
-  const visualSize = axis === 'width' ? rect.width : rect.height
-  const scale = visualSize / layoutSize
-  return {
-    scale,
-    maxScaleError: usesRoundedSize ? (0.5 / layoutSize) * scale : 0,
-  }
 }
 
 function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
@@ -205,21 +171,20 @@ function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     const { top, left, right, bottom } = getPadding(cellChild)
     const horizontalPadding = left + right
     const verticalPadding = top + bottom
-    // Scale layout-space padding to match the visual rect measurements.
-    const { scale: horizontalScale, maxScaleError: horizontalScaleError } =
-      getScaleFactor(cellChild, 'width')
-    const { scale: verticalScale, maxScaleError: verticalScaleError } =
-      getScaleFactor(cellChild, 'height')
+    // The rect measurements above are visual sizes that shrink under an
+    // ancestor CSS transform (e.g. autofit.js), while the computed paddings
+    // stay in layout space, so scale the paddings before comparing. #25034
+    const { x: horizontalScale, y: verticalScale } = platform.getScale(
+      cellChild
+    ) as Coords
     if (
       isGreaterThan(
         rangeWidth + horizontalPadding * horizontalScale,
-        cellChildWidth,
-        SIZE_EPSILON + horizontalPadding * horizontalScaleError
+        cellChildWidth
       ) ||
       isGreaterThan(
         rangeHeight + verticalPadding * verticalScale,
-        cellChildHeight,
-        SIZE_EPSILON + verticalPadding * verticalScaleError
+        cellChildHeight
       ) ||
       // scrollWidth and clientWidth are both layout measurements and, unlike
       // the rect-based cellChildWidth above, are unaffected by ancestor CSS
