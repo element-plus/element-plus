@@ -1,5 +1,6 @@
 import { h, inject, ref } from 'vue'
 import { debounce } from 'lodash-unified'
+import { platform } from '@floating-ui/dom'
 import {
   addClass,
   hasClass,
@@ -14,6 +15,7 @@ import {
 } from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'
 
+import type { Coords } from '@floating-ui/dom'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type { TableBodyProps } from './defaults'
 import type { TableOverflowTooltipOptions } from '../util'
@@ -169,12 +171,27 @@ function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     const { top, left, right, bottom } = getPadding(cellChild)
     const horizontalPadding = left + right
     const verticalPadding = top + bottom
+    // The rect measurements above are visual sizes that shrink under an
+    // ancestor CSS transform (e.g. autofit.js), while the computed paddings
+    // stay in layout space, so scale the paddings before comparing. #25034
+    const { x: horizontalScale, y: verticalScale } = platform.getScale(
+      cellChild
+    ) as Coords
     if (
-      isGreaterThan(rangeWidth + horizontalPadding, cellChildWidth) ||
-      isGreaterThan(rangeHeight + verticalPadding, cellChildHeight) ||
-      // When using a high-resolution screen, it is possible that a returns cellChild.scrollWidth value of 1921 and
-      // cellChildWidth returns a value of 1920.994140625. #16856 #16673
-      isGreaterThan(cellChild.scrollWidth, cellChildWidth)
+      isGreaterThan(
+        rangeWidth + horizontalPadding * horizontalScale,
+        cellChildWidth
+      ) ||
+      isGreaterThan(
+        rangeHeight + verticalPadding * verticalScale,
+        cellChildHeight
+      ) ||
+      // scrollWidth and clientWidth are both layout measurements and, unlike
+      // the rect-based cellChildWidth above, are unaffected by ancestor CSS
+      // transforms, so they must be compared with each other instead of with
+      // cellChildWidth. #25034 Both round to integers the same way, which also
+      // avoids the sub-pixel mismatch seen in #16856 #16673
+      isGreaterThan(cellChild.scrollWidth, cellChild.clientWidth)
     ) {
       createTablePopper(
         tooltipOptions,
