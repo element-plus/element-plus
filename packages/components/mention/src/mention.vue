@@ -6,7 +6,7 @@
       :model-value="modelValue"
       :disabled="disabled"
       :role="dropdownVisible ? 'combobox' : undefined"
-      :aria-activedescendant="dropdownVisible ? hoveringId || '' : undefined"
+      :aria-activedescendant="(dropdownVisible && hoveringId) || undefined"
       :aria-controls="dropdownVisible ? contentId : undefined"
       :aria-expanded="dropdownVisible || undefined"
       :aria-label="ariaLabel"
@@ -163,7 +163,9 @@ const dropdownVisible = computed(() => {
 })
 
 const hoveringId = computed(() => {
-  return `${contentId.value}-${dropdownRef.value?.hoveringIndex}`
+  const index = dropdownRef.value?.hoveringIndex
+  if (index === undefined || index < 0) return undefined
+  return `${contentId.value}-${index}`
 })
 
 const handleInputChange = (value: string) => {
