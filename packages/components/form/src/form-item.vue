@@ -100,6 +100,7 @@ const validateState = ref<FormItemValidateState>('')
 const validateStateDebounced = refDebounced(validateState, 100)
 const validateMessage = ref('')
 const formItemRef = ref<HTMLDivElement>()
+const isShouldAssociated = ref(false)
 // special inline value.
 let initialValue: any = undefined
 let isResettingField = false
@@ -169,10 +170,24 @@ const hasLabel = computed<boolean>(() => {
 })
 
 const labelFor = computed<string | undefined>(() => {
-  return (
-    props.for ?? (inputIds.value.length === 1 ? inputIds.value[0] : undefined)
-  )
+  if (props.for !== undefined) return props.for
+  return isShouldAssociated.value && inputIds.value.length === 1
+    ? inputIds.value[0]
+    : undefined
 })
+
+const associatedElement = () => {
+  const id = inputIds.value[0]
+  if (!id || !formItemRef.value) return
+  const el = Array.from(formItemRef.value.querySelectorAll('*')).find(
+    (node) => node.id === id
+  )
+  if (el) {
+    isShouldAssociated.value = el.tagName.toLowerCase() !== 'div'
+  }
+}
+
+watch(() => inputIds.value.join(','), associatedElement, { flush: 'post' })
 
 const isGroup = computed<boolean>(() => {
   return !labelFor.value && hasLabel.value
@@ -423,6 +438,7 @@ onMounted(() => {
     setInitialValue(fieldValue.value)
     formContext?.addField(context)
   }
+  nextTick(associatedElement)
 })
 
 onBeforeUnmount(() => {
