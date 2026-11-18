@@ -18,7 +18,7 @@ export interface SkeletonProps {
    */
   rows?: number
   /**
-   * @description whether showing the real DOM
+   * @description whether showing the skeleton, the real DOM is rendered when `false`
    */
   loading?: boolean
   /**
@@ -50,7 +50,7 @@ export const skeletonProps = buildProps({
     default: 3,
   },
   /**
-   * @description whether showing the real DOM
+   * @description whether showing the skeleton, the real DOM is rendered when `false`
    */
   loading: {
     type: Boolean,
