@@ -33,7 +33,6 @@ export const sliderProps = buildProps({
    */
   modelValue: {
     type: definePropType<Arrayable<number>>([Number, Array]),
-    default: 0,
   },
   id: {
     type: String,

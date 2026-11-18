@@ -54,5 +54,4 @@ export interface SliderButtonInitData {
   currentY: number
   startPosition: number
   newPosition: number
-  oldValue: number
 }
