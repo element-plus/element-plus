@@ -19,14 +19,21 @@
       <slot :file="file" :index="index">
         <img
           v-if="
-            listType === 'picture' ||
-            (file.status !== 'uploading' && listType === 'picture-card')
+            file.url &&
+            (listType === 'picture' ||
+              (file.status !== 'uploading' && listType === 'picture-card'))
           "
           :class="nsUpload.be('list', 'item-thumbnail')"
           :src="file.url"
           :crossorigin="crossorigin"
           alt=""
         />
+        <el-icon
+          v-if="!file.url && listType !== 'text'"
+          :class="[nsUpload.be('list', 'loading-icon'), nsUpload.is('loading')]"
+        >
+          <Loading />
+        </el-icon>
         <div
           v-if="file.status === 'uploading' || listType !== 'picture-card'"
           :class="nsUpload.be('list', 'item-info')"
@@ -117,6 +124,7 @@ import {
   Close,
   Delete,
   Document,
+  Loading,
   ZoomIn,
 } from '@element-plus/icons-vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
