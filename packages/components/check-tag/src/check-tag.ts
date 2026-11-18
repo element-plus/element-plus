@@ -1,6 +1,7 @@
 import { buildProps, isBoolean } from '@element-plus/utils'
-import { CHANGE_EVENT } from '@element-plus/constants'
+import { CHANGE_EVENT, componentSizes } from '@element-plus/constants'
 
+import type { ComponentSize } from '@element-plus/constants'
 import type CheckTag from './check-tag.vue'
 import type { ExtractPublicPropTypes } from 'vue'
 
@@ -14,9 +15,13 @@ export interface CheckTagProps {
    */
   disabled?: boolean
   /**
-   * @description type of Tag
+   * @description type of check-tag
    */
   type?: 'primary' | 'success' | 'info' | 'warning' | 'danger'
+  /**
+   * @description size of check-tag
+   */
+  size?: ComponentSize
 }
 
 /**
@@ -32,12 +37,19 @@ export const checkTagProps = buildProps({
    */
   disabled: Boolean,
   /**
-   * @description type of Tag
+   * @description type of check-tag
    */
   type: {
     type: String,
     values: ['primary', 'success', 'info', 'warning', 'danger'],
     default: 'primary',
+  },
+  /**
+   * @description size of check-tag
+   */
+  size: {
+    type: String,
+    values: componentSizes,
   },
 } as const)
 
