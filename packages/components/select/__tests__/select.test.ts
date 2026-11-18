@@ -3401,7 +3401,7 @@ describe('Select', () => {
     expect(input.attributes('aria-controls')).toBe(list.attributes('id'))
     expect(input.attributes('aria-expanded')).toBe('false')
     expect(input.attributes('aria-haspopup')).toBe('listbox')
-    expect(input.attributes('aria-activedescendant')).toBe('')
+    expect(input.attributes('aria-activedescendant')).toBe(undefined)
 
     expect(list.attributes('id')).toBeTruthy()
     expect(list.attributes('role')).toBe('listbox')
