@@ -45,6 +45,10 @@
         "promotion": "2.3.0"
       },
       {
+        "link": "/marquee",
+        "text": "Marquee"
+      },
+      {
         "link": "/scrollbar",
         "text": "Scrollbar"
       },
