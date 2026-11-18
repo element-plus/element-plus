@@ -107,7 +107,6 @@ const handleScroll = (el: InfiniteScrollEl, cb: InfiniteScrollCallback) => {
 function checkFull(el: InfiniteScrollEl, cb: InfiniteScrollCallback) {
   const { containerEl, instance } = el[SCOPE]
   const { disabled } = getScrollOptions(el, instance)
-
   if (disabled || containerEl.clientHeight === 0) return
 
   if (containerEl.scrollHeight <= containerEl.clientHeight) {
@@ -185,7 +184,12 @@ const InfiniteScroll: ObjectDirective<
       await nextTick()
     } else {
       const { containerEl, cb, observer } = el[SCOPE]
-      if (containerEl.clientHeight && observer) {
+      if (containerEl && observer) {
+        if (containerEl.clientHeight === 0) {
+          // Make sure to get the style changes caused by the parent element or its own display state switching
+          await nextTick()
+          if (containerEl.clientHeight === 0) return
+        }
         checkFull(el, cb)
       }
     }
