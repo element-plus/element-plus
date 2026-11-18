@@ -334,7 +334,7 @@ const handleInput = (value: string) => {
     newVal = null
   }
   emit(INPUT_EVENT, newVal)
-  setCurrentValue(newVal, false)
+  setCurrentValue(newVal)
 }
 const handleInputChange = (value: string) => {
   const newVal = value !== '' ? Number.parseFloat(value) : ''
