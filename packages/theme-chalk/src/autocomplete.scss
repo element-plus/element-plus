@@ -65,22 +65,26 @@
     padding: 10px 0;
   }
 
-  @include e(virtual-list) {
-    li {
-      box-sizing: border-box;
-    }
+  @include e(item-content) {
+    flex: 1;
+    min-width: 0;
+    line-height: normal;
+    @include utils-ellipsis;
   }
 
   & li {
+    display: flex;
+    align-items: center;
+    min-height: 34px;
+    box-sizing: border-box;
     padding: 0 20px;
     margin: 0;
-    line-height: 34px;
     cursor: pointer;
     color: getCssVar('text-color', 'regular');
     font-size: getCssVar('font-size', 'base');
     list-style: none;
     text-align: left;
-    @include utils-ellipsis;
+    overflow: hidden;
 
     &.highlighted {
       background-color: map.get($select-option, 'hover-background');
@@ -93,6 +97,12 @@
 
     &.divider:last-child {
       margin-bottom: -6px;
+    }
+  }
+
+  @include e(virtual-list) {
+    li {
+      min-height: 0;
     }
   }
 }

@@ -116,7 +116,9 @@
                 @[mouseMoveEventName]="handleSuggestionMouseMove(index)"
                 @click="handleSelect(data[index])"
               >
-                <slot :item="data[index]">{{ data[index][valueKey] }}</slot>
+                <div :class="ns.be('suggestion', 'item-content')">
+                  <slot :item="data[index]">{{ data[index][valueKey] }}</slot>
+                </div>
               </li>
             </template>
           </el-fixed-size-list>
@@ -139,7 +141,9 @@
             @[mouseMoveEventName]="handleSuggestionMouseMove(index)"
             @click="handleSelect(item)"
           >
-            <slot :item="item">{{ item[valueKey] }}</slot>
+            <div :class="ns.be('suggestion', 'item-content')">
+              <slot :item="item">{{ item[valueKey] }}</slot>
+            </div>
           </li>
         </el-scrollbar>
         <div
