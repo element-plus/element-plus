@@ -37,6 +37,7 @@
               :class="ns.be('footer', 'link-btn')"
               text
               size="small"
+              :disabled="colorDisabled"
               @click="clear"
             >
               {{ t('el.colorpicker.clear') }}
@@ -45,6 +46,7 @@
               plain
               size="small"
               :class="ns.be('footer', 'btn')"
+              :disabled="colorDisabled"
               @click="confirmValue"
             >
               {{ t('el.colorpicker.confirm') }}
@@ -263,6 +265,7 @@ function handleTrigger() {
 }
 
 function confirmValue() {
+  if (colorDisabled.value) return
   const value = isEmptyValue(color.value) ? valueOnClear.value : color.value
   emit(UPDATE_MODEL_EVENT, value)
   emit(CHANGE_EVENT, value)
@@ -284,6 +287,7 @@ function confirmValue() {
 }
 
 function clear() {
+  if (colorDisabled.value) return
   debounceSetShowPicker(false)
   emit(UPDATE_MODEL_EVENT, valueOnClear.value)
   emit(CHANGE_EVENT, valueOnClear.value)
@@ -335,6 +339,15 @@ function focus() {
 function blur() {
   triggerRef.value.blur()
 }
+
+watch(colorDisabled, (disabled) => {
+  if (!disabled) return
+  debounceSetShowPicker.cancel()
+  if (showPicker.value) {
+    setShowPicker(false)
+    resetColor()
+  }
+})
 
 watch(
   () => currentColor.value,
