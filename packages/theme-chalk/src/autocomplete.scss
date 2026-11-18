@@ -47,6 +47,30 @@
     padding: 0;
   }
 
+  @include e(loading) {
+    height: 120px;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: default;
+    font-size: 20px;
+    line-height: 34px;
+    color: getCssVar('text-color', 'secondary');
+    @include utils-ellipsis;
+  }
+
+  @include e(virtual-wrap) {
+    padding: 10px 0;
+  }
+
+  @include e(virtual-list) {
+    li {
+      box-sizing: border-box;
+    }
+  }
+
   & li {
     padding: 0 20px;
     margin: 0;
@@ -57,10 +81,6 @@
     list-style: none;
     text-align: left;
     @include utils-ellipsis;
-
-    &:hover {
-      background-color: map.get($select-option, 'hover-background');
-    }
 
     &.highlighted {
       background-color: map.get($select-option, 'hover-background');
@@ -73,23 +93,6 @@
 
     &.divider:last-child {
       margin-bottom: -6px;
-    }
-  }
-
-  @include when(loading) {
-    li {
-      cursor: default;
-      height: 100px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      font-size: 20px;
-      color: getCssVar('text-color', 'secondary');
-
-      &:hover {
-        background-color: getCssVar('bg-color', 'overlay');
-      }
     }
   }
 }

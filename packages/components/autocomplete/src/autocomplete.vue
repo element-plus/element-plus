@@ -74,33 +74,73 @@
         >
           <slot name="header" />
         </div>
+        <div
+          v-if="suggestionLoading"
+          :id="listboxId"
+          :class="ns.be('suggestion', 'loading')"
+          role="listbox"
+        >
+          <slot name="loading">
+            <el-icon :class="ns.is('loading')">
+              <Loading />
+            </el-icon>
+          </slot>
+        </div>
+        <div
+          v-else-if="virtualScroll"
+          :class="ns.be('suggestion', 'virtual-wrap')"
+        >
+          <el-fixed-size-list
+            ref="virtualListRef"
+            :data="suggestions"
+            :total="suggestions.length"
+            :height="virtualListHeight"
+            :item-size="itemSize"
+            :class-name="ns.be('suggestion', 'virtual-list')"
+            inner-element="ul"
+            :inner-props="{
+              id: listboxId,
+              role: 'listbox',
+              class: ns.be('suggestion', 'list'),
+            }"
+          >
+            <template #default="{ data, index, style }">
+              <li
+                :id="`${listboxId}-item-${index}`"
+                :style="style"
+                :class="{ highlighted: highlightedIndex === index }"
+                role="option"
+                :aria-selected="highlightedIndex === index"
+                :aria-posinset="index + 1"
+                :aria-setsize="suggestions.length"
+                @[mouseMoveEventName]="handleSuggestionMouseMove(index)"
+                @click="handleSelect(data[index])"
+              >
+                <slot :item="data[index]">{{ data[index][valueKey] }}</slot>
+              </li>
+            </template>
+          </el-fixed-size-list>
+        </div>
         <el-scrollbar
+          v-else
           :id="listboxId"
           tag="ul"
           :wrap-class="ns.be('suggestion', 'wrap')"
           :view-class="ns.be('suggestion', 'list')"
           role="listbox"
         >
-          <li v-if="suggestionLoading">
-            <slot name="loading">
-              <el-icon :class="ns.is('loading')">
-                <Loading />
-              </el-icon>
-            </slot>
+          <li
+            v-for="(item, index) in suggestions"
+            :id="`${listboxId}-item-${index}`"
+            :key="index"
+            :class="{ highlighted: highlightedIndex === index }"
+            role="option"
+            :aria-selected="highlightedIndex === index"
+            @[mouseMoveEventName]="handleSuggestionMouseMove(index)"
+            @click="handleSelect(item)"
+          >
+            <slot :item="item">{{ item[valueKey] }}</slot>
           </li>
-          <template v-else>
-            <li
-              v-for="(item, index) in suggestions"
-              :id="`${listboxId}-item-${index}`"
-              :key="index"
-              :class="{ highlighted: highlightedIndex === index }"
-              role="option"
-              :aria-selected="highlightedIndex === index"
-              @click="handleSelect(item)"
-            >
-              <slot :item="item">{{ item[valueKey] }}</slot>
-            </li>
-          </template>
         </el-scrollbar>
         <div
           v-if="$slots.footer"
@@ -126,12 +166,19 @@ import {
   onMounted,
   ref,
   useAttrs as useRawAttrs,
+  watch,
 } from 'vue'
 import { pick } from 'lodash-unified'
 import { onClickOutside, useDebounceFn } from '@vueuse/core'
 import { Loading } from '@element-plus/icons-vue'
 import { useId, useNamespace } from '@element-plus/hooks'
-import { NOOP, getEventCode, isArray, throwError } from '@element-plus/utils'
+import {
+  NOOP,
+  getEventCode,
+  isArray,
+  isIOS,
+  throwError,
+} from '@element-plus/utils'
 import {
   CHANGE_EVENT,
   EVENT_CODE,
@@ -140,6 +187,7 @@ import {
 } from '@element-plus/constants'
 import ElInput, { inputPropsDefaults } from '@element-plus/components/input'
 import ElScrollbar from '@element-plus/components/scrollbar'
+import { FixedSizeList as ElFixedSizeList } from '@element-plus/components/virtual-list'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElIcon from '@element-plus/components/icon'
 import { useFormDisabled } from '@element-plus/components/form'
@@ -153,6 +201,7 @@ import type {
 import type { Ref, StyleValue } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { InputInstance } from '@element-plus/components/input'
+import type { FixedSizeListInstance } from '@element-plus/components/virtual-list'
 
 const COMPONENT_NAME = 'ElAutocomplete'
 defineOptions({
@@ -169,6 +218,9 @@ const props = withDefaults(defineProps<AutocompleteProps<T>>(), {
   fetchSuggestions: NOOP,
   triggerOnFocus: true,
   loopNavigation: true,
+  virtualScroll: false,
+  itemSize: 34,
+  height: 280,
   teleported: true,
   showArrow: true,
   popperClass: undefined,
@@ -185,11 +237,13 @@ const passInputProps = computed(() => {
 const rawAttrs = useRawAttrs()
 const disabled = useFormDisabled()
 const ns = useNamespace('autocomplete')
+const mouseMoveEventName = isIOS ? null : 'mousemove'
 
 const inputRef = ref<InputInstance>()
 const regionRef = ref<HTMLElement>()
 const popperRef = ref<TooltipInstance>()
 const listboxRef = ref<HTMLElement>()
+const virtualListRef = ref<FixedSizeListInstance>()
 
 let readonly = false
 let ignoreFocusEvent = false
@@ -209,6 +263,49 @@ const suggestionVisible = computed(() => {
 })
 
 const suggestionLoading = computed(() => !props.hideLoading && loading.value)
+const virtualListHeight = computed(() =>
+  Math.min(
+    suggestions.value.length * props.itemSize,
+    Math.max(1, props.height - 20)
+  )
+)
+
+const syncActiveDescendant = () => {
+  if (!props.virtualScroll) return
+  const input = inputRef.value?.ref
+  const id = `${listboxId.value}-item-${highlightedIndex.value}`
+  if (
+    suggestionVisible.value &&
+    !suggestionLoading.value &&
+    regionRef.value?.querySelector(`[id="${id}"]`)
+  ) {
+    input?.setAttribute('aria-activedescendant', id)
+  } else {
+    input?.removeAttribute('aria-activedescendant')
+  }
+}
+
+watch(
+  [
+    highlightedIndex,
+    suggestionVisible,
+    suggestionLoading,
+    virtualListHeight,
+    () => virtualListRef.value?.states.scrollOffset,
+  ],
+  syncActiveDescendant,
+  { flush: 'post' }
+)
+
+watch(
+  [virtualListHeight, suggestionLoading, virtualListRef],
+  () => {
+    if (props.virtualScroll && suggestionVisible.value) {
+      popperRef.value?.updatePopper?.()
+    }
+  },
+  { flush: 'post' }
+)
 
 const refInput = computed<HTMLInputElement[]>(() => {
   if (inputRef.value) {
@@ -239,6 +336,9 @@ const getData = async (queryString: string) => {
     if (isArray(suggestionList)) {
       suggestions.value = suggestionList
       highlightedIndex.value = props.highlightFirstItem ? 0 : -1
+      if (props.virtualScroll) {
+        virtualListRef.value?.scrollTo(0)
+      }
     } else {
       throwError(COMPONENT_NAME, 'autocomplete suggestions must be an array')
     }
@@ -372,6 +472,15 @@ const handleSelect = async (item: T) => {
   highlightedIndex.value = -1
 }
 
+const handleSuggestionMouseMove = (index: number) => {
+  if (!suggestionVisible.value || loading.value) return
+  highlightedIndex.value = index
+  inputRef.value?.ref?.setAttribute(
+    'aria-activedescendant',
+    `${listboxId.value}-item-${index}`
+  )
+}
+
 const highlight = (index: number) => {
   if (!suggestionVisible.value || loading.value) return
 
@@ -385,6 +494,11 @@ const highlight = (index: number) => {
 
   if (index >= suggestions.value.length) {
     index = props.loopNavigation ? 0 : suggestions.value.length - 1
+  }
+  if (props.virtualScroll) {
+    highlightedIndex.value = index
+    virtualListRef.value?.scrollToItem(index)
+    return
   }
   const [suggestion, suggestionList] = getSuggestionContext()
   const highlightItem = suggestionList[index]
@@ -487,6 +601,7 @@ onMounted(() => {
   ].forEach(({ key, value }) => inputElement.setAttribute(key, value))
   // get readonly attr
   readonly = inputElement.hasAttribute('readonly')
+  syncActiveDescendant()
 })
 
 defineExpose({

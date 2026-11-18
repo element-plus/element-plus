@@ -112,6 +112,12 @@ export interface AutocompleteProps<
    * @description whether keyboard navigation loops from end to start
    */
   loopNavigation?: boolean
+  /** @description whether to enable virtual scrolling */
+  virtualScroll?: boolean
+  /** @description suggestion item height in virtual scrolling mode (px) */
+  itemSize?: number
+  /** @description maximum list height including vertical padding in virtual scrolling mode (px) */
+  height?: number
 }
 
 /**
@@ -218,6 +224,18 @@ export const autocompleteProps = buildProps({
   loopNavigation: {
     type: Boolean,
     default: true,
+  },
+  /** @description whether to enable virtual scrolling */
+  virtualScroll: Boolean,
+  /** @description suggestion item height in virtual scrolling mode (px) */
+  itemSize: {
+    type: Number,
+    default: 34,
+  },
+  /** @description maximum list height including vertical padding in virtual scrolling mode (px) */
+  height: {
+    type: Number,
+    default: 280,
   },
 } as const)
 
