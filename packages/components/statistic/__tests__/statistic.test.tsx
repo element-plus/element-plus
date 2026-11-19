@@ -45,6 +45,19 @@ describe('Statistic.vue', () => {
     expect(large.find(CONTENT_CLASS).text()).toBe(
       '1,500,000,000,000,000,000,000'
     )
+
+    const negative = mount(() => <Statistic precision={8} value={-1.2e-7} />)
+    expect(negative.find(CONTENT_CLASS).text()).toBe('-0.00000012')
+  })
+
+  it('value written with an exponent is not rounded', () => {
+    const tiny = mount(() => <Statistic precision={21} value={1e-21} />)
+    expect(tiny.find(CONTENT_CLASS).text()).toBe('0.000000000000000000001')
+
+    const truncated = mount(() => (
+      <Statistic precision={6} value={9.99999999999999e-7} />
+    ))
+    expect(truncated.find(CONTENT_CLASS).text()).toBe('0.000000')
   })
 
   it('prefix & suffix', () => {
