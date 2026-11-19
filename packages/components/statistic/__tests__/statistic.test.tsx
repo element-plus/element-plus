@@ -34,6 +34,19 @@ describe('Statistic.vue', () => {
     expect(wrapper.find(CONTENT_CLASS).text()).toBe('268,500.1234')
   })
 
+  it('value written with an exponent', () => {
+    const small = mount(() => <Statistic precision={8} value={0.00000012} />)
+    expect(small.find(CONTENT_CLASS).text()).toBe('0.00000012')
+
+    const smaller = mount(() => <Statistic precision={2} value={1e-7} />)
+    expect(smaller.find(CONTENT_CLASS).text()).toBe('0.00')
+
+    const large = mount(() => <Statistic value={1.5e21} />)
+    expect(large.find(CONTENT_CLASS).text()).toBe(
+      '1,500,000,000,000,000,000,000'
+    )
+  })
+
   it('prefix & suffix', () => {
     const slots = {
       prefix: () => 'prefix',

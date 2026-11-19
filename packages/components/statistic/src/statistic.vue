@@ -52,7 +52,16 @@ const displayValue = computed(() => {
   // https://github.com/element-plus/element-plus/issues/17784
   if (!isNumber(value) || Number.isNaN(value)) return value
 
-  let [integer, decimal = ''] = String(value).split('.')
+  let text = String(value)
+  // very small and very large numbers are written with an exponent, e.g. 1.2e-7
+  if (text.includes('e')) {
+    text = value.toLocaleString('en-US', {
+      useGrouping: false,
+      maximumFractionDigits: 20,
+    })
+  }
+
+  let [integer, decimal = ''] = text.split('.')
   decimal = decimal
     .padEnd(precision, '0')
     .slice(0, precision > 0 ? precision : 0)
