@@ -1,16 +1,11 @@
 <template>
-  <thumb :move="moveX" :ratio="ratioX" :size="sizeWidth" :always="always" />
-  <thumb
-    :move="moveY"
-    :ratio="ratioY"
-    :size="sizeHeight"
-    vertical
-    :always="always"
-  />
+  <thumb :move="moveX" :size="sizeWidth" :always="always" />
+  <thumb :move="moveY" :size="sizeHeight" vertical :always="always" />
 </template>
 
 <script lang="ts" setup>
 import { inject, ref } from 'vue'
+import { clamp } from '@vueuse/core'
 import { GAP } from './util'
 import Thumb from './thumb.vue'
 import { scrollbarContextKey } from './constants'
@@ -27,41 +22,51 @@ const moveX = ref(0)
 const moveY = ref(0)
 const sizeWidth = ref('')
 const sizeHeight = ref('')
-const ratioY = ref(1)
-const ratioX = ref(1)
+
+// Scroll progress in percent. It keeps the sign of the scroll offset, which
+// is negative for horizontal scrolling in RTL.
+const getMove = (scroll: number, scrollSize: number, clientSize: number) => {
+  const maxScroll = scrollSize - clientSize
+  if (maxScroll <= 0) return 0
+  return clamp((scroll * 100) / maxScroll, -100, 100)
+}
+
+// The thumb size is a percentage of the track, so it adapts to the actual
+// track size even when it has been changed with CSS.
+const getSize = (
+  offsetSize: number,
+  clientSize: number,
+  scrollSize: number
+) => {
+  // Hide the thumb when it would not fit in the default track size
+  const trackSize = offsetSize - GAP
+  const size = Math.max(trackSize ** 2 / scrollSize, props.minSize)
+  if (size + GAP >= trackSize) return ''
+
+  return `max(${props.minSize}px, ${(clientSize * 100) / scrollSize}%)`
+}
 
 const handleScroll = (wrap: HTMLDivElement) => {
   if (wrap) {
-    const offsetHeight = wrap.offsetHeight - GAP
-    const offsetWidth = wrap.offsetWidth - GAP
-
-    moveY.value = ((wrap.scrollTop * 100) / offsetHeight) * ratioY.value
-    moveX.value = ((wrap.scrollLeft * 100) / offsetWidth) * ratioX.value
+    moveY.value = getMove(wrap.scrollTop, wrap.scrollHeight, wrap.clientHeight)
+    moveX.value = getMove(wrap.scrollLeft, wrap.scrollWidth, wrap.clientWidth)
   }
 }
 
 const update = () => {
   const wrap = scrollbar?.wrapElement
   if (!wrap) return
-  const offsetHeight = wrap.offsetHeight - GAP
-  const offsetWidth = wrap.offsetWidth - GAP
 
-  const originalHeight = offsetHeight ** 2 / wrap.scrollHeight
-  const originalWidth = offsetWidth ** 2 / wrap.scrollWidth
-  const height = Math.max(originalHeight, props.minSize)
-  const width = Math.max(originalWidth, props.minSize)
-
-  ratioY.value =
-    originalHeight /
-    (offsetHeight - originalHeight) /
-    (height / (offsetHeight - height))
-  ratioX.value =
-    originalWidth /
-    (offsetWidth - originalWidth) /
-    (width / (offsetWidth - width))
-
-  sizeHeight.value = height + GAP < offsetHeight ? `${height}px` : ''
-  sizeWidth.value = width + GAP < offsetWidth ? `${width}px` : ''
+  sizeHeight.value = getSize(
+    wrap.offsetHeight,
+    wrap.clientHeight,
+    wrap.scrollHeight
+  )
+  sizeWidth.value = getSize(
+    wrap.offsetWidth,
+    wrap.clientWidth,
+    wrap.scrollWidth
+  )
 }
 
 defineExpose({
