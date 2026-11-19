@@ -77,6 +77,9 @@ export const useSliderButton = (
 
   const button = ref<HTMLDivElement>()
 
+  let isUnmounted = false
+  let dragEndTimer: ReturnType<typeof setTimeout> | undefined
+
   const currentPosition = computed(() => {
     return `${
       ((props.modelValue - min.value) / (max.value - min.value)) * 100
@@ -298,7 +301,7 @@ export const useSliderButton = (
        * 防止在 mouseup 后立即触发 click，导致滑块有几率产生一小段位移
        * 不使用 preventDefault 是因为 mouseup 和 click 没有注册在同一个 DOM 上
        */
-      setTimeout(() => {
+      dragEndTimer = setTimeout(() => {
         initData.dragging = false
         if (!initData.hovering) {
           hideTooltip()
@@ -324,7 +327,19 @@ export const useSliderButton = (
   // released when the button goes away: a slider removed while its button is
   // still pressed (v-if, closing dialog, ...) would otherwise keep handling
   // every subsequent mouse move of the page.
-  onBeforeUnmount(stopDragging)
+  onBeforeUnmount(() => {
+    isUnmounted = true
+    clearTimeout(dragEndTimer)
+    stopDragging()
+    // an interrupted drag never reaches the `dragging = false` in `onDragEnd`,
+    // so release the parent slider's dragging state here: a range slider's
+    // second button unmounts on `range` toggle while the slider itself stays
+    // alive, and a stuck `dragging` makes it ignore runway clicks
+    if (initData.dragging) {
+      initData.dragging = false
+      updateDragging(false)
+    }
+  })
 
   const setPosition = async (newPosition: number) => {
     if (newPosition === null || Number.isNaN(+newPosition)) return
@@ -370,6 +385,9 @@ export const useSliderButton = (
     }
 
     await nextTick()
+    // the emitted update may have unmounted the button while this
+    // continuation was queued (e.g. a v-if toggled from a modelValue handler)
+    if (isUnmounted) return
     initData.dragging && displayTooltip()
     tooltip.value!.updatePopper()
   }
