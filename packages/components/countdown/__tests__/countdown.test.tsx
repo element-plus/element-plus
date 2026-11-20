@@ -59,6 +59,21 @@ describe('Countdown.vue', () => {
     expect(onChange).toHaveBeenCalledTimes(1)
   })
 
+  it('keeps a finished countdown stopped when the format changes', async () => {
+    wrapper = mount(Countdown, { props: { value: Date.now() + 100 } })
+    vi.runAllTimers()
+    expect(wrapper.emitted('finish')).toHaveLength(1)
+
+    await wrapper.setProps({ format: 'mm:ss' })
+    vi.runAllTimers()
+    expect(wrapper.emitted('finish')).toHaveLength(1)
+    expect(wrapper.find(CONTENT_CLASS).text()).toBe('00:00')
+
+    await wrapper.setProps({ value: Date.now() + 1000 })
+    vi.runAllTimers()
+    expect(wrapper.emitted('finish')).toHaveLength(2)
+  })
+
   it('finish event', () => {
     const onFinish = vi.fn()
     wrapper = mount(() => (
