@@ -43,6 +43,19 @@ const props = withDefaults(defineProps<StatisticProps>(), {
 })
 const ns = useNamespace('statistic')
 
+// writes a number such as 1.2e-7 as plain digits, without rounding
+const expandExponent = (text: string) => {
+  const [coefficient, exponent] = text.split('e')
+  const sign = coefficient.startsWith('-') ? '-' : ''
+  const [integer, decimal = ''] = coefficient.replace('-', '').split('.')
+  const digits = integer + decimal
+  const point = integer.length + Number(exponent)
+
+  if (point <= 0) return `${sign}0.${'0'.repeat(-point)}${digits}`
+  if (point >= digits.length) return sign + digits.padEnd(point, '0')
+  return `${sign}${digits.slice(0, point)}.${digits.slice(point)}`
+}
+
 const displayValue = computed(() => {
   const { value, formatter, precision, decimalSeparator, groupSeparator } =
     props
@@ -52,7 +65,11 @@ const displayValue = computed(() => {
   // https://github.com/element-plus/element-plus/issues/17784
   if (!isNumber(value) || Number.isNaN(value)) return value
 
-  let [integer, decimal = ''] = String(value).split('.')
+  let text = String(value)
+  // very small and very large numbers are written with an exponent, e.g. 1.2e-7
+  if (text.includes('e')) text = expandExponent(text)
+
+  let [integer, decimal = ''] = text.split('.')
   decimal = decimal
     .padEnd(precision, '0')
     .slice(0, precision > 0 ? precision : 0)
