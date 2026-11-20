@@ -1042,6 +1042,26 @@ describe('Tree.vue', () => {
     expect(tree.getNode(sibling).data).toEqual(sibling)
   })
 
+  test('looks up a moved branch by its data without a node-key', async () => {
+    const { wrapper } = getTreeVm('draggable')
+    const tree = wrapper.getComponent(Tree).vm
+    const [branch, target] = tree.data
+    const child = branch.children[0]
+    const [sourceEl, targetEl] = wrapper.findAll('[role="treeitem"]')
+    const dataTransfer = { setData: vi.fn() }
+
+    await sourceEl.trigger('dragstart', { dataTransfer })
+    await targetEl.trigger('dragover', { dataTransfer, clientY: 0 })
+    await sourceEl.trigger('dragend', { dataTransfer })
+
+    expect(tree.getNode(branch)?.parent).toBe(tree.getNode(target))
+    expect(tree.getNode(child)?.parent).toBe(tree.getNode(branch))
+    tree.remove(branch)
+    expect(tree.getNode(branch)).toBeNull()
+    expect(tree.getNode(child)).toBeNull()
+    expect(target.children).not.toContain(branch)
+  })
+
   test('remove', async () => {
     const { wrapper } = getTreeVm(`:props="defaultProps" node-key="id"`)
     const treeWrapper = wrapper.findComponent(Tree)
