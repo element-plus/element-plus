@@ -89,6 +89,25 @@ describe('Calendar.vue', () => {
     expect(cell?.classList.contains('is-selected')).toBeTruthy()
   })
 
+  it('renders adjacent months when both boundary weeks cross into another month', () => {
+    const wrapper = mount(() => (
+      <Calendar
+        range={[new Date(2021, 1, 1), new Date(2021, 2, 31)]}
+        v-slots={{
+          'date-cell': ({ data }: { data: { day: string } }) => data.day,
+        }}
+      />
+    ))
+
+    const days = wrapper
+      .findAll('.el-calendar-table td')
+      .map((cell) => cell.text())
+    expect(days).toHaveLength(63)
+    expect(new Set(days).size).toBe(days.length)
+    expect(days[0]).toBe('2021-01-31')
+    expect(days[days.length - 1]).toBe('2021-04-03')
+  })
+
   it('falls back to normal calendar when range crosses years by more than two months', () => {
     const wrapper = mount(() => (
       <Calendar
