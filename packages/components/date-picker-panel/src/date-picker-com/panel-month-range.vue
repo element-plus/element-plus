@@ -138,6 +138,7 @@ import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
 import { PICKER_BASE_INJECTION_KEY } from '@element-plus/components/time-picker'
 import {
   correctlyParseUserInput,
+  datesInMonth,
   getDefaultValue,
   isValidRange,
 } from '../utils'
@@ -255,6 +256,20 @@ const parseUserInput = (value: Dayjs | Dayjs[]) => {
   return correctlyParseUserInput(value, format.value, lang.value)
 }
 
+const isMonthDisabled = (date: Dayjs) =>
+  datesInMonth(date, date.year(), date.month(), lang.value).every(
+    disabledDate.value
+  )
+
+const isValidValue = (date: [Dayjs, Dayjs]) => {
+  return (
+    isValidRange(date) &&
+    (disabledDate.value
+      ? !isMonthDisabled(date[0]) && !isMonthDisabled(date[1])
+      : true)
+  )
+}
+
 function sortDates(minDate: Dayjs | undefined, maxDate: Dayjs | undefined) {
   if (props.unlinkPanels && maxDate) {
     const minDateYear = minDate?.year() || 0
@@ -278,7 +293,7 @@ watch(
   }
 )
 
-emit('set-picker-option', ['isValidValue', isValidRange])
+emit('set-picker-option', ['isValidValue', isValidValue])
 emit('set-picker-option', ['parseUserInput', parseUserInput])
 emit('set-picker-option', ['handleClear', handleClear])
 </script>
