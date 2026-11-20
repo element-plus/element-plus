@@ -8,49 +8,6 @@ import type { ComputedRef, SetupContext } from 'vue'
 import type { Dayjs } from 'dayjs'
 import type { CalendarDateType, CalendarEmits, CalendarProps } from './calendar'
 
-const adjacentMonth = (start: Dayjs, end: Dayjs): [Dayjs, Dayjs][] => {
-  const firstMonthLastDay = start.endOf('month')
-  const lastMonthFirstDay = end.startOf('month')
-
-  // Whether the last day of the first month and the first day of the last month is in the same week
-  const isSameWeek = firstMonthLastDay.isSame(lastMonthFirstDay, 'week')
-  const lastMonthStartDay = isSameWeek
-    ? lastMonthFirstDay.add(1, 'week')
-    : lastMonthFirstDay
-
-  return [
-    [start, firstMonthLastDay],
-    [lastMonthStartDay.startOf('week'), end],
-  ]
-}
-
-const threeConsecutiveMonth = (start: Dayjs, end: Dayjs): [Dayjs, Dayjs][] => {
-  const firstMonthLastDay = start.endOf('month')
-  const secondMonthFirstDay = start.add(1, 'month').startOf('month')
-
-  // Whether the last day of the first month and the second month is in the same week
-  const secondMonthStartDay = firstMonthLastDay.isSame(
-    secondMonthFirstDay,
-    'week'
-  )
-    ? secondMonthFirstDay.add(1, 'week')
-    : secondMonthFirstDay
-
-  const secondMonthLastDay = secondMonthStartDay.endOf('month')
-  const lastMonthFirstDay = end.startOf('month')
-
-  // Whether the last day of the second month and the last day of the last month is in the same week
-  const lastMonthStartDay = secondMonthLastDay.isSame(lastMonthFirstDay, 'week')
-    ? lastMonthFirstDay.add(1, 'week')
-    : lastMonthFirstDay
-
-  return [
-    [start, firstMonthLastDay],
-    [secondMonthStartDay.startOf('week'), secondMonthLastDay],
-    [lastMonthStartDay.startOf('week'), end],
-  ]
-}
-
 export const useCalendar = (
   props: CalendarProps,
   emit: SetupContext<CalendarEmits>['emit'],
@@ -87,24 +44,7 @@ export const useCalendar = (
       return []
     const rangeArrDayjs = props.range.map((_) => dayjs(_).locale(lang.value))
     const [startDayjs, endDayjs] = rangeArrDayjs
-    if (startDayjs.isAfter(endDayjs)) {
-      debugWarn(componentName, 'end time should be greater than start time')
-      return []
-    }
-    if (startDayjs.isSame(endDayjs, 'month')) {
-      // same month
-      return calculateValidatedDateRange(startDayjs, endDayjs)
-    } else {
-      // two months
-      if (!startDayjs.add(1, 'month').isSame(endDayjs, 'month')) {
-        debugWarn(
-          componentName,
-          'start time and end time interval must not exceed two months'
-        )
-        return []
-      }
-      return calculateValidatedDateRange(startDayjs, endDayjs)
-    }
+    return calculateValidatedDateRange(startDayjs, endDayjs)
   })
 
   const date: ComputedRef<Dayjs> = computed(() => {
@@ -128,34 +68,32 @@ export const useCalendar = (
     startDayjs: Dayjs,
     endDayjs: Dayjs
   ): [Dayjs, Dayjs][] => {
-    const firstDay = startDayjs.startOf('week')
-    const lastDay = endDayjs.endOf('week')
-    const firstMonth = firstDay.get('month')
-    const lastMonth = lastDay.get('month')
-
-    // Current month
-    if (firstMonth === lastMonth) {
-      return [[firstDay, lastDay]]
+    if (startDayjs.isAfter(endDayjs)) {
+      debugWarn(componentName, 'end time should be greater than start time')
+      return []
     }
-    // Two adjacent months
-    else if ((firstMonth + 1) % 12 === lastMonth) {
-      return adjacentMonth(firstDay, lastDay)
-    }
-    // Three consecutive months (compatible: 2021-01-30 to 2021-02-28)
-    else if (
-      firstMonth + 2 === lastMonth ||
-      (firstMonth + 1) % 11 === lastMonth
+    if (
+      !startDayjs.isSame(endDayjs, 'month') &&
+      !startDayjs.add(1, 'month').isSame(endDayjs, 'month')
     ) {
-      return threeConsecutiveMonth(firstDay, lastDay)
-    }
-    // Other cases
-    else {
       debugWarn(
         componentName,
         'start time and end time interval must not exceed two months'
       )
       return []
     }
+
+    const ranges: [Dayjs, Dayjs][] = []
+    const lastDay = endDayjs.endOf('week')
+    let start = startDayjs.startOf('week')
+    while (!start.isSame(lastDay, 'month')) {
+      const end = start.endOf('month')
+      ranges.push([start, end])
+      // The table fills out its last week with days from the following month.
+      start = end.startOf('week').add(1, 'week')
+    }
+    ranges.push([start, lastDay])
+    return ranges
   }
 
   const pickDay = (day: Dayjs) => {
