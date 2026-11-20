@@ -21,9 +21,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed, provide, ref } from 'vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
+import { formItemContextKey, useFormSize } from '@element-plus/components/form'
 import { usePagination } from '../usePagination'
 import { paginationJumperProps } from './jumper'
 
@@ -34,6 +35,9 @@ defineOptions({
 defineProps(paginationJumperProps)
 const { t } = useLocale()
 const ns = useNamespace('pagination')
+const size = useFormSize()
+// Pagination controls do not belong to the surrounding form field.
+provide(formItemContextKey, undefined)
 const { pageCount, disabled, currentPage, changeEvent } = usePagination()
 const userInput = ref<number | string>()
 const innerValue = computed(() => userInput.value ?? currentPage?.value)
