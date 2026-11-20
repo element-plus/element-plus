@@ -108,6 +108,109 @@ describe('Autocomplete.vue', () => {
     document.body.innerHTML = ''
   })
 
+  test('virtual scroll rendering and suggestion updates', async () => {
+    let resolve!: AutocompleteFetchSuggestionsCallback
+    let suggestions = Array.from({ length: 60 }, (_, index) => ({
+      value: `Item ${index}`,
+    }))
+    const wrapper = _mount(
+      {
+        virtualScroll: true,
+        debounce: 10,
+        itemSize: 50,
+        height: 120,
+        highlightFirstItem: true,
+        fetchSuggestions: (
+          _query: string,
+          cb: AutocompleteFetchSuggestionsCallback
+        ) => {
+          resolve = cb
+        },
+      },
+      'arr',
+      '',
+      {
+        default: ({ item }: { item: { value: string } }) => (
+          <span>{item.value}</span>
+        ),
+        loading: () => 'Loading results',
+      }
+    )
+    await wrapper.find('input').trigger('focus')
+    vi.runAllTimers()
+    await nextTick()
+
+    expect(document.body.textContent).toContain('Loading results')
+    expect(document.body.querySelectorAll('[role="option"]')).toHaveLength(0)
+    resolve(suggestions)
+    await nextTick()
+
+    const options = () =>
+      document.body.querySelectorAll<HTMLElement>('[role="option"]')
+    expect(options().length).toBeGreaterThan(0)
+    expect(options().length).toBeLessThan(10)
+    expect(options()[0].querySelector('span')?.textContent).toBe('Item 0')
+    expect(options()[0].style.height).toBe('50px')
+    expect(
+      (document.body.querySelector('.el-vl__window') as HTMLElement).style
+        .height
+    ).toBe('100px')
+
+    const target = getAutocompleteVm(wrapper)
+    target.highlight(59)
+    await nextTick()
+    suggestions = [{ value: 'New result' }]
+    await target.getData('new')
+    expect(document.body.textContent).toContain('Loading results')
+    resolve(suggestions)
+    await nextTick()
+    expect(options()).toHaveLength(1)
+    expect(options()[0].textContent).toBe('New result')
+    expect(wrapper.find('input').attributes('aria-activedescendant')).toBe(
+      options()[0].id
+    )
+    wrapper.unmount()
+  })
+
+  test('virtual scroll mouse and keyboard navigation', async () => {
+    const suggestions = Array.from({ length: 60 }, (_, index) => ({
+      value: `Item ${index}`,
+    }))
+    const wrapper = _mount({
+      virtualScroll: true,
+      debounce: 10,
+      fetchSuggestions: suggestions,
+    })
+    const input = wrapper.find('input')
+    await input.trigger('focus')
+    vi.runAllTimers()
+    await nextTick()
+    await input.trigger('keydown', { code: EVENT_CODE.end })
+    const target = getAutocompleteVm(wrapper)
+    expect(target.highlightedIndex).toBe(59)
+
+    const row = document.body.querySelectorAll('[role="option"]')[1]
+    const index = Number(row.getAttribute('aria-posinset')) - 1
+    const window = document.body.querySelector('.el-vl__window') as HTMLElement
+    const scrollTop = window.scrollTop
+    row.dispatchEvent(new MouseEvent('mousemove', { bubbles: true }))
+    await nextTick()
+    expect(index).toBeGreaterThan(0)
+    expect(target.highlightedIndex).toBe(index)
+    expect(window.scrollTop).toBe(scrollTop)
+    await input.trigger('keydown', { code: EVENT_CODE.down })
+    row.dispatchEvent(new MouseEvent('mouseenter'))
+    await nextTick()
+    expect(target.highlightedIndex).toBe(index + 1)
+    expect(document.body.querySelectorAll('.highlighted')).toHaveLength(1)
+    await input.trigger('keydown', { code: EVENT_CODE.enter })
+    expect(input.element.value).toBe(`Item ${index + 1}`)
+    expect(
+      wrapper.findComponent({ name: 'ElAutocomplete' }).emitted('select')?.[0]
+    ).toEqual([suggestions[index + 1]])
+    wrapper.unmount()
+  })
+
   test('placeholder', async () => {
     const wrapper = _mount()
     await nextTick()
