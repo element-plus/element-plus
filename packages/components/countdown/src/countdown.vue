@@ -67,7 +67,7 @@ onMounted(() => {
   rawValue.value = getTime(props.value) - Date.now()
 
   watch(
-    () => [props.value, props.format],
+    () => props.value,
     () => {
       stopTimer()
       startTimer()
