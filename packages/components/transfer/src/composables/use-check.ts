@@ -62,18 +62,17 @@ export const useCheck = <T extends TransferDataItem = TransferDataItem>(
     }
   })
 
-  const isIndeterminate = computed(() => {
-    const checkedLength = panelState.checked.length
-    return checkedLength > 0 && checkedLength < checkableData.value.length
-  })
+  const checkedKeys = computed(() => new Set(panelState.checked))
+  const isChecked = (item: T) =>
+    checkedKeys.value.has(item[propsAlias.value.key])
+
+  const isIndeterminate = computed(
+    () => !panelState.allChecked && checkableData.value.some(isChecked)
+  )
 
   const updateAllChecked = () => {
-    const checkableDataKeys = checkableData.value.map(
-      (item) => item[propsAlias.value.key]
-    )
     panelState.allChecked =
-      checkableDataKeys.length > 0 &&
-      checkableDataKeys.every((item) => panelState.checked.includes(item))
+      checkableData.value.length > 0 && checkableData.value.every(isChecked)
   }
 
   const handleAllCheckedChange = (value: CheckboxValueType) => {
