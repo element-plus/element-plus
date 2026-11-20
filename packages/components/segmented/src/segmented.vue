@@ -19,6 +19,7 @@
           :class="ns.e('item-input')"
           type="radio"
           :name="name"
+          :value="getValue(item)"
           :disabled="getDisabled(item)"
           :checked="getSelected(item)"
           @change="handleChange($event, item)"
