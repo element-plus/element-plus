@@ -291,6 +291,7 @@ import type {
   MonthsPickerEmits,
   QuartersPickerEmits,
   WeekPickerEmits,
+  WeeksPickerEmits,
   YearsPickerEmits,
 } from '../props/basic-date-table'
 
@@ -394,6 +395,11 @@ const handleDatePick = async (value: DateTableEmits, keepOpen?: boolean) => {
     emit(newDate, showTime.value || keepOpen)
   } else if (selectionMode.value === 'week') {
     emit((value as WeekPickerEmits).date)
+  } else if (selectionMode.value === 'weeks') {
+    emit(
+      (value as WeeksPickerEmits).map((item) => item.date),
+      true
+    )
   } else if (selectionMode.value === 'dates') {
     emit(value as DatesPickerEmits, true) // set true to keep panel open
   }
@@ -461,6 +467,7 @@ const selectionMode = computed<DatePickType>(() => {
   if (
     [
       'week',
+      'weeks',
       'month',
       'months',
       'year',
@@ -479,7 +486,8 @@ const isMultipleType = computed(() => {
     selectionMode.value === 'dates' ||
     selectionMode.value === 'months' ||
     selectionMode.value === 'years' ||
-    selectionMode.value === 'quarters'
+    selectionMode.value === 'quarters' ||
+    selectionMode.value === 'weeks'
   )
 })
 
@@ -583,7 +591,10 @@ const showTime = computed(
 )
 
 const footerVisible = computed(() => {
-  const showDateFooter = showTime.value || selectionMode.value === 'dates'
+  const showDateFooter =
+    showTime.value ||
+    selectionMode.value === 'dates' ||
+    selectionMode.value === 'weeks'
   const showYearFooter = selectionMode.value === 'years'
   const showMonthFooter = selectionMode.value === 'months'
   const showQuarterFooter = selectionMode.value === 'quarters'
