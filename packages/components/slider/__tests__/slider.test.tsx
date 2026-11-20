@@ -25,6 +25,18 @@ const mockBoundingClientRect = (el: Element, rect: Partial<DOMRect> = {}) => {
     .mockReturnValue(Object.assign(defaultRect, rect))
 }
 
+const observeUnhandledRejections = () => {
+  const reasons: unknown[] = []
+  const listener = (reason: unknown) => {
+    reasons.push(reason)
+  }
+  process.on('unhandledRejection', listener)
+  return {
+    reasons,
+    release: () => process.off('unhandledRejection', listener),
+  }
+}
+
 vi.mock('lodash-unified', async () => {
   return {
     ...((await vi.importActual('lodash-unified')) as Record<string, any>),
@@ -204,6 +216,174 @@ describe('Slider', () => {
       window.dispatchEvent(mouseup)
       await nextTick()
       expect(value.value).toBe(50)
+      mockRect.mockRestore()
+    })
+
+    it('should release the window drag listeners when unmounted mid-drag', async () => {
+      vi.useRealTimers()
+      const value = ref(0)
+      const wrapper = mount(
+        () => (
+          <div style="width: 200px;">
+            <Slider v-model={value.value} />
+          </div>
+        ),
+        {
+          attachTo: document.body,
+        }
+      )
+
+      const slider = wrapper.findComponent({ name: 'ElSliderButton' })
+
+      const mockRect = mockBoundingClientRect(
+        wrapper.find('.el-slider__runway').element,
+        { width: 200 }
+      )
+
+      const removeListener = vi.spyOn(window, 'removeEventListener')
+
+      // The drag starts and the slider is removed from the tree while the mouse
+      // button is still down, so no `mouseup` ever releases the listeners.
+      slider.trigger('mousedown', { clientX: 0 })
+      await nextTick()
+      wrapper.unmount()
+
+      expect(removeListener.mock.calls.map(([type]) => type)).toEqual(
+        expect.arrayContaining([
+          'mousemove',
+          'mouseup',
+          'touchmove',
+          'touchend',
+          'contextmenu',
+        ])
+      )
+
+      removeListener.mockRestore()
+      mockRect.mockRestore()
+    })
+
+    it('should release the dragging state when the dragged button unmounts mid-drag', async () => {
+      vi.useRealTimers()
+      const value = ref<number | number[]>([10, 50])
+      const range = ref(true)
+      const wrapper = mount(
+        () => (
+          <div style="width: 200px;">
+            <Slider v-model={value.value} range={range.value} />
+          </div>
+        ),
+        {
+          attachTo: document.body,
+        }
+      )
+
+      const mockRect = mockBoundingClientRect(
+        wrapper.find('.el-slider__runway').element,
+        { width: 200, left: 0 }
+      )
+
+      const buttons = wrapper.findAllComponents({ name: 'ElSliderButton' })
+      await buttons[1].trigger('mousedown', { clientX: 100 })
+
+      // switching range off unmounts the second button mid-drag while the
+      // slider itself stays alive
+      value.value = 10
+      range.value = false
+      await nextTick()
+
+      // a stuck `dragging` state would make the runway ignore this click
+      const slider = wrapper.getComponent({ name: 'ElSlider' })
+      slider.vm.onSliderClick(new MouseEvent('mousedown', { clientX: 40 }))
+      await nextTick()
+      expect(value.value).toBe(20)
+
+      mockRect.mockRestore()
+    })
+
+    it('should not throw when unmounted while a drag move is in flight', async () => {
+      vi.useRealTimers()
+      const visible = ref(true)
+      const value = ref<SliderProps['modelValue']>(0)
+      const wrapper = mount(
+        () => (
+          <div style="width: 200px;">
+            {visible.value && (
+              <Slider
+                modelValue={value.value}
+                {...{
+                  // hiding the slider from the update handler unmounts it
+                  // while `setPosition` is awaiting its nextTick continuation
+                  'onUpdate:modelValue': (val: SliderProps['modelValue']) => {
+                    value.value = val
+                    visible.value = false
+                  },
+                }}
+              />
+            )}
+          </div>
+        ),
+        {
+          attachTo: document.body,
+        }
+      )
+
+      const slider = wrapper.findComponent({ name: 'ElSliderButton' })
+      const mockRect = mockBoundingClientRect(
+        wrapper.find('.el-slider__runway').element,
+        { width: 200, left: 0 }
+      )
+
+      const unhandled = observeUnhandledRejections()
+
+      await slider.trigger('mousedown', { clientX: 0 })
+      window.dispatchEvent(new MouseEvent('mousemove', { clientX: 100 }))
+      await nextTick()
+      // let the post-unmount `setPosition` continuation settle
+      await new Promise((resolve) => setTimeout(resolve, 10))
+
+      expect(value.value).toBe(50)
+      expect(
+        wrapper.findComponent({ name: 'ElSliderButton' }).exists()
+      ).toBeFalsy()
+      unhandled.release()
+      expect(unhandled.reasons).toEqual([])
+
+      mockRect.mockRestore()
+    })
+
+    it('should not run the deferred drag end when unmounted right after mouseup', async () => {
+      vi.useRealTimers()
+      const value = ref(0)
+      const wrapper = mount(
+        () => (
+          <div style="width: 200px;">
+            <Slider v-model={value.value} />
+          </div>
+        ),
+        {
+          attachTo: document.body,
+        }
+      )
+
+      const slider = wrapper.findComponent({ name: 'ElSliderButton' })
+      const mockRect = mockBoundingClientRect(
+        wrapper.find('.el-slider__runway').element,
+        { width: 200, left: 0 }
+      )
+
+      const unhandled = observeUnhandledRejections()
+
+      await slider.trigger('mousedown', { clientX: 0 })
+      window.dispatchEvent(new MouseEvent('mousemove', { clientX: 100 }))
+      await nextTick()
+      window.dispatchEvent(new MouseEvent('mouseup'))
+      // unmount before the deferred `onDragEnd` callback fires
+      wrapper.unmount()
+      await new Promise((resolve) => setTimeout(resolve, 10))
+
+      unhandled.release()
+      expect(unhandled.reasons).toEqual([])
+
       mockRect.mockRestore()
     })
 
