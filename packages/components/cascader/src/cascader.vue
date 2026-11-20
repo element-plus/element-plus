@@ -163,6 +163,7 @@
         v-show="!filtering"
         ref="cascaderPanelRef"
         v-model="checkedValue"
+        :inert="isDisabled"
         :options="options"
         :props="props.props"
         :border="false"
@@ -182,6 +183,7 @@
           v-if="!virtualScroll"
           v-show="filtering"
           :ref="(ref) => (suggestionPanel = (ref as ScrollbarInstance)?.$el)"
+          :inert="isDisabled"
           tag="ul"
           :class="nsCascader.e('suggestion-panel')"
           :wrap-class="nsCascader.e('suggestion-wrap')"
@@ -217,6 +219,7 @@
           v-else
           v-show="filtering"
           ref="suggestionPanel"
+          :inert="isDisabled"
           :class="nsCascader.e('suggestion-panel')"
           @keydown="handleSuggestionKeyDown"
         >
@@ -524,6 +527,8 @@ const checkedValue = computed<CascaderValue>({
     return cloneDeep(props.modelValue) as CascaderValue
   },
   set(val) {
+    if (isDisabled.value) return
+
     // https://github.com/element-plus/element-plus/issues/17647
     const value = val ?? valueOnClear.value
     emit(UPDATE_MODEL_EVENT, value)
@@ -566,9 +571,8 @@ const handleClickOutside = (event: Event) => {
 }
 
 const togglePopperVisible = (visible?: boolean) => {
-  if (isDisabled.value) return
-
   visible = visible ?? !popperVisible.value
+  if (visible && isDisabled.value) return
 
   if (visible !== popperVisible.value) {
     popperVisible.value = visible
@@ -850,6 +854,8 @@ const syncPresentTextValue = () => {
 }
 
 const handleSuggestionClick = (node: CascaderNode) => {
+  if (isDisabled.value) return
+
   const { checked } = node
 
   if (multiple.value) {
@@ -988,6 +994,10 @@ const blur = () => {
 }
 
 watch(filtering, updatePopperPosition)
+
+watch(isDisabled, (disabled) => {
+  if (disabled) togglePopperVisible(false)
+})
 
 watch(
   [
