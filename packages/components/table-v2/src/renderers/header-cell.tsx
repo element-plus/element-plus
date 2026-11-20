@@ -84,7 +84,7 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
 
   const cellWrapperProps = {
     ...tryCall(headerCellProps, props),
-    onClick: column.sortable ? onColumnSorted : undefined,
+    onClick: column.sortable ? () => onColumnSorted(column) : undefined,
     ariaSort: sortable ? ariaSort : undefined,
     class: cellKls,
     style: cellStyle,
