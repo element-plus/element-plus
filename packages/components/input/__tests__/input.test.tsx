@@ -1357,6 +1357,53 @@ describe('Input.vue', () => {
     expect(wordLimit.element.className.includes('is-outside')).toBeTruthy()
   })
 
+  test('clearable only reserves space when there is a value', async () => {
+    const content = ref('')
+    const textareaContent = ref('')
+    const wrapper = mount(() => (
+      <>
+        <Input v-model={content.value} clearable placeholder="请输入内容" />
+        <Input
+          v-model={textareaContent.value}
+          type="textarea"
+          clearable
+          placeholder="请输入内容"
+        />
+      </>
+    ))
+
+    expect(wrapper.find('.el-input__clear').exists()).toBe(false)
+    expect(wrapper.find('.el-input__suffix').exists()).toBe(false)
+    expect(wrapper.find('textarea').classes()).not.toContain('is-clearable')
+    expect(wrapper.find('.el-textarea__clear').exists()).toBe(false)
+
+    content.value = 'test'
+    textareaContent.value = 'test'
+    await nextTick()
+
+    const clearIcon = wrapper.find('.el-input__clear')
+    expect(clearIcon.exists()).toBe(true)
+    expect(clearIcon.attributes('style')).toContain('visibility: hidden')
+    expect(wrapper.find('textarea').classes()).toContain('is-clearable')
+    expect(wrapper.find('.el-textarea__clear').exists()).toBe(false)
+
+    await wrapper.find('input').trigger('focus')
+    await nextTick()
+    expect(clearIcon.attributes('style')).toContain('visibility: visible')
+
+    await wrapper.find('textarea').trigger('focus')
+    await nextTick()
+    expect(wrapper.find('.el-textarea__clear').exists()).toBe(true)
+
+    content.value = ''
+    textareaContent.value = ''
+    await nextTick()
+    expect(wrapper.find('.el-input__clear').exists()).toBe(false)
+    expect(wrapper.find('.el-input__suffix').exists()).toBe(false)
+    expect(wrapper.find('textarea').classes()).not.toContain('is-clearable')
+    expect(wrapper.find('.el-textarea__clear').exists()).toBe(false)
+  })
+
   // TODO: validateEvent & input containes select cases should be added after the rest components finished
   // ...
 })
