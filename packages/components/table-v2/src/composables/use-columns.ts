@@ -83,10 +83,6 @@ function useColumns(
     )
   })
 
-  const getColumn = (key: KeyType) => {
-    return unref(_columns).find((column) => column.key === key)
-  }
-
   const getColumnStyle = (key: KeyType) => {
     return unref(columnsStyles)[key]
   }
@@ -95,9 +91,9 @@ function useColumns(
     column.width = width
   }
 
-  function onColumnSorted(e: MouseEvent) {
-    const { key } = (e.currentTarget as HTMLElement).dataset
-    if (!key) return
+  function onColumnSorted(column: Column<any>) {
+    const { key } = column
+    if (key === undefined) return
     const { sortState, sortBy } = props
 
     let order = SortOrder.ASC
@@ -108,7 +104,7 @@ function useColumns(
       order = oppositeOrderMap[sortBy.order]
     }
 
-    props.onColumnSort?.({ column: getColumn(key)!, key, order })
+    props.onColumnSort?.({ column, key, order })
   }
 
   return {
@@ -122,7 +118,6 @@ function useColumns(
     normalColumns,
     visibleColumns,
 
-    getColumn,
     getColumnStyle,
     updateColumnWidth,
     onColumnSorted,

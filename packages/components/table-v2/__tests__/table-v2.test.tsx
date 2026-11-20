@@ -1,6 +1,6 @@
 import { h, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import TableV2, { type TableV2Instance } from '../src/table-v2'
 import { TableV2SortOrder } from '../index'
 
@@ -350,6 +350,28 @@ describe('TableV2.vue', () => {
       expect(header.attributes('ariasort')).toBe('ascending')
       expect(header.attributes('role')).toBe('columnheader')
     })
+  })
+
+  test('passes the numeric column key and column to the sort handler', async () => {
+    const column = { key: 0, dataKey: 'price', width: 120, sortable: true }
+    const onColumnSort = vi.fn()
+    const wrapper = mount(() => (
+      <TableV2
+        columns={[column]}
+        data={[{ id: 1, price: 5 }]}
+        width={200}
+        height={100}
+        onColumnSort={onColumnSort}
+      />
+    ))
+
+    await wrapper.get('.el-table-v2__header-cell.is-sortable').trigger('click')
+    expect(onColumnSort).toHaveBeenCalledWith(
+      expect.objectContaining({
+        key: 0,
+        column: expect.objectContaining(column),
+      })
+    )
   })
 
   test('expand button of sub-row should not apply margin style of icon', async () => {
