@@ -1029,6 +1029,19 @@ describe('Tree.vue', () => {
     expect(node.data.id).toEqual(111)
   })
 
+  test('forgets removed nodes and descendants without a node-key', () => {
+    const { wrapper } = getTreeVm()
+    const tree = wrapper.getComponent(Tree).vm
+    const [parent, sibling] = tree.data
+    const child = parent.children[0]
+
+    expect(tree.getNode(child).data).toEqual(child)
+    tree.remove(parent)
+    expect(tree.getNode(parent)).toBeNull()
+    expect(tree.getNode(child)).toBeNull()
+    expect(tree.getNode(sibling).data).toEqual(sibling)
+  })
+
   test('remove', async () => {
     const { wrapper } = getTreeVm(`:props="defaultProps" node-key="id"`)
     const treeWrapper = wrapper.findComponent(Tree)
