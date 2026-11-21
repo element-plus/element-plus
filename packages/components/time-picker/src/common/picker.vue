@@ -265,6 +265,7 @@ const inputRef = ref<InputInstance>()
 const valueOnOpen = ref<TimePickerDefaultProps['modelValue'] | null>(null)
 let hasJustTabExitedInput = false
 let isClearIconMousedown = false
+let preserveRangeInputOnClose = false
 
 const pickerDisabled = useFormDisabled()
 
@@ -303,11 +304,17 @@ const { isFocused, handleFocus, handleBlur } = useFocusController(inputRef, {
     )
   },
   afterBlur() {
+    normalizeDateRangeInput()
+    const preserveRangeInput = shouldPreserveIncompleteRangeInput()
+    // Keep the first blur decision until the close watcher consumes it.
+    if (pickerVisible.value) {
+      preserveRangeInputOnClose = preserveRangeInput
+    }
     if (isTimePicker.value && !props.saveOnBlur) {
       if (!valueIsEmpty.value) {
         pickerOptions.value.handleCancel?.()
       }
-    } else {
+    } else if (!preserveRangeInput) {
       handleChange()
     }
     pickerVisible.value = false
@@ -338,7 +345,10 @@ const clearIconKls = computed(() => [
 
 watch(pickerVisible, (val) => {
   if (!val) {
-    userInput.value = null
+    if (!preserveRangeInputOnClose) {
+      userInput.value = null
+    }
+    preserveRangeInputOnClose = false
     nextTick(() => {
       emitChange(props.modelValue)
     })
@@ -350,6 +360,17 @@ watch(pickerVisible, (val) => {
     })
   }
 })
+
+watch(
+  () => props.modelValue,
+  () => {
+    if (props.type === 'daterange' && !pickerVisible.value) {
+      userInput.value = null
+    }
+  },
+  { deep: true }
+)
+
 const emitChange = (
   val: TimePickerDefaultProps['modelValue'] | null,
   isClear?: boolean
@@ -551,11 +572,45 @@ onBeforeUnmount(() => {
   stophandle?.()
 })
 
+const normalizeDateRangeInput = () => {
+  if (props.type !== 'daterange' || !isArray(userInput.value)) return
+
+  userInput.value = userInput.value.map((value) => {
+    if (value === null) return null
+    const date = parseUserInputToDayjs(value)
+    if (
+      !date ||
+      isArray(date) ||
+      !date.isValid() ||
+      props.disabledDate?.(date.toDate())
+    ) {
+      return ''
+    }
+    return date.format(props.format)
+  }) as [string | null, string | null]
+}
+
+const shouldPreserveIncompleteRangeInput = () => {
+  if (props.type !== 'daterange' || !isArray(userInput.value)) return false
+
+  const [start, end] = displayValue.value as [string, string]
+  if (Boolean(start) === Boolean(end)) return false
+
+  const dates = parseUserInputToDayjs(displayValue.value)
+  if (!isArray(dates)) return false
+  const date = dates[start ? 0 : 1]
+  if (!date?.isValid()) return false
+
+  return !props.disabledDate?.(date.toDate())
+}
+
 const handleChange = () => {
   if (isTimePicker.value && !props.saveOnBlur) return
+  normalizeDateRangeInput()
+  if (shouldPreserveIncompleteRangeInput()) return
 
   const isRangeEmpty =
-    isArray(userInput.value) && userInput.value.every((v) => v === '')
+    isArray(displayValue.value) && displayValue.value.every((v) => v === '')
 
   if (userInput.value && !isRangeEmpty) {
     const value = parseUserInputToDayjs(displayValue.value)
@@ -575,7 +630,21 @@ const handleChange = () => {
 
 const parseUserInputToDayjs = (value: UserInput) => {
   if (!value) return null
-  return pickerOptions.value.parseUserInput!(value)
+  const parsed = pickerOptions.value.parseUserInput!(value)
+  const input = userInput.value
+  const committedValue = parsedValue.value
+  if (
+    props.type === 'daterange' &&
+    isArray(value) &&
+    isArray(parsed) &&
+    isArray(input) &&
+    isArray(committedValue)
+  ) {
+    return parsed.map((date, index) =>
+      input[index] === null ? committedValue[index] : date
+    ) as [Dayjs, Dayjs]
+  }
+  return parsed
 }
 
 const formatToString = (value: DayOrDays) => {
@@ -625,6 +694,7 @@ const handleKeydownInput = async (event: Event | KeyboardEvent) => {
   }
 
   if (code === EVENT_CODE.enter || code === EVENT_CODE.numpadEnter) {
+    normalizeDateRangeInput()
     if (!pickerVisible.value) {
       pickerVisible.value = true
     } else if (
@@ -636,6 +706,7 @@ const handleKeydownInput = async (event: Event | KeyboardEvent) => {
       pickerVisible.value = false
     } else {
       if (
+        !shouldPreserveIncompleteRangeInput() &&
         !isValidValue(parseUserInputToDayjs(displayValue.value) as DayOrDays)
       ) {
         debugWarn(
@@ -686,6 +757,10 @@ const handleEndInput = (event: Event) => {
 }
 
 const handleStartChange = () => {
+  if (props.type === 'daterange') {
+    handleChange()
+    return
+  }
   const values = userInput.value as string[]
   const value = parseUserInputToDayjs(values && values[0]) as Dayjs
   const parsedVal = unref(parsedValue) as [Dayjs, Dayjs]
@@ -703,6 +778,10 @@ const handleStartChange = () => {
 }
 
 const handleEndChange = () => {
+  if (props.type === 'daterange') {
+    handleChange()
+    return
+  }
   const values = unref(userInput) as string[]
   const value = parseUserInputToDayjs(values && values[1]) as Dayjs
   const parsedVal = unref(parsedValue) as [Dayjs, Dayjs]

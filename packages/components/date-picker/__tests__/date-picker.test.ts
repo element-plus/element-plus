@@ -1999,6 +1999,569 @@ describe('DatePicker keyboard events', () => {
 })
 
 describe('DateRangePicker', () => {
+  it.each([0, 1])(
+    'should preserve the untouched endpoint timestamp when editing input %i',
+    async (inputIndex) => {
+      const initialValue = [
+        new Date(2026, 10, 5, 8, 30, 15, 123),
+        new Date(2026, 10, 9, 23, 59, 59, 456),
+      ]
+      const wrapper = _mount(
+        `<el-date-picker v-model="value" type="daterange" />
+         <button>Outside</button>`,
+        () => ({ value: initialValue })
+      )
+      const inputs = wrapper.findAll('input')
+      const dates = ['2026-11-06', '2026-11-10']
+      const untouchedIndex = 1 - inputIndex
+
+      inputs[inputIndex].element.focus()
+      await nextTick()
+      await inputs[inputIndex].setValue(dates[inputIndex])
+      wrapper.find('button').element.focus()
+      await nextTick()
+
+      expect(wrapper.vm.value[untouchedIndex].getTime()).toBe(
+        initialValue[untouchedIndex].getTime()
+      )
+      expect(dayjs(wrapper.vm.value[inputIndex]).format('YYYY-MM-DD')).toBe(
+        dates[inputIndex]
+      )
+      wrapper.unmount()
+    }
+  )
+
+  it('should preserve the untouched timestamp when confirming with Enter', async () => {
+    const initialValue = [
+      new Date(2026, 10, 5, 8),
+      new Date(2026, 10, 9, 23, 59, 59),
+    ]
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        type="daterange"
+        :disabled-date="disabledDate"
+      />`,
+      () => ({
+        value: initialValue,
+        disabledDate: (date: Date) =>
+          date.getDate() === 9 && date.getHours() !== 23,
+      })
+    )
+    const input = wrapper.find('input')
+
+    input.element.focus()
+    await nextTick()
+    input.element.value = '2026-11-06'
+    await input.trigger('input')
+    await input.trigger('keydown', { code: EVENT_CODE.enter })
+    await nextTick()
+
+    expect(dayjs(wrapper.vm.value[0]).format('YYYY-MM-DD')).toBe('2026-11-06')
+    expect(wrapper.vm.value[1].getTime()).toBe(initialValue[1].getTime())
+    expect(wrapper.findAll('input')[1].element.value).toBe('2026-11-09')
+    wrapper.unmount()
+  })
+
+  it('should retain the untouched timestamp when the other endpoint is cleared', async () => {
+    const initialValue = [
+      new Date(2026, 10, 5, 8),
+      new Date(2026, 10, 9, 23, 59, 59),
+    ]
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        type="daterange"
+        :disabled-date="disabledDate"
+      />
+      <button>Outside</button>`,
+      () => ({
+        value: initialValue,
+        disabledDate: (date: Date) =>
+          date.getDate() === 9 && date.getHours() !== 23,
+      })
+    )
+    const inputs = wrapper.findAll('input')
+
+    inputs[0].element.focus()
+    await nextTick()
+    await inputs[0].setValue('abc123')
+    wrapper.find('button').element.focus()
+    await nextTick()
+
+    expect(inputs.map((input) => input.element.value)).toEqual([
+      '',
+      '2026-11-09',
+    ])
+    expect(wrapper.vm.value[1].getTime()).toBe(initialValue[1].getTime())
+
+    inputs[0].element.focus()
+    await nextTick()
+    await inputs[0].setValue('2026-11-06')
+    expect(dayjs(wrapper.vm.value[0]).format('YYYY-MM-DD')).toBe('2026-11-06')
+    expect(wrapper.vm.value[1].getTime()).toBe(initialValue[1].getTime())
+    wrapper.unmount()
+  })
+
+  it.each([0, 1])(
+    'should keep both calendar endpoints while editing input %i of an existing range',
+    async (inputIndex) => {
+      const wrapper = _mount(
+        `<el-date-picker
+          ref="picker"
+          v-model="value"
+          type="daterange"
+          value-format="YYYY-MM-DD"
+        />`,
+        () => ({ value: ['2026-11-05', '2026-11-09'] })
+      )
+      const input = wrapper.findAll('input')[inputIndex]
+      const dates = ['2026-11-05', '2026-11-09']
+      dates[inputIndex] = inputIndex === 0 ? '2026-11-06' : '2026-11-10'
+
+      input.element.focus()
+      wrapper.vm.$refs.picker.handleOpen()
+      await nextTick()
+      input.element.value = dates[inputIndex]
+      await input.trigger('input')
+
+      const panel = wrapper.findComponent(DatePickerRange)
+      expect(panel.find('td.start-date').text()).toBe(
+        dayjs(dates[0]).date().toString()
+      )
+      expect(panel.find('td.end-date').text()).toBe(
+        dayjs(dates[1]).date().toString()
+      )
+      expect(wrapper.vm.value).toEqual(['2026-11-05', '2026-11-09'])
+      const updatedValue = [...wrapper.vm.value]
+      updatedValue[1 - inputIndex] =
+        inputIndex === 0 ? '2026-11-12' : '2026-11-04'
+      wrapper.vm.value = updatedValue
+      await nextTick()
+      dates[1 - inputIndex] = updatedValue[1 - inputIndex]
+      expect(panel.find('td.start-date').text()).toBe(
+        dayjs(dates[0]).date().toString()
+      )
+      expect(panel.find('td.end-date').text()).toBe(
+        dayjs(dates[1]).date().toString()
+      )
+      wrapper.unmount()
+    }
+  )
+
+  it.each([
+    { inputIndex: 0, event: 'change' },
+    { inputIndex: 1, event: 'change' },
+    { inputIndex: 0, event: 'keydown' },
+    { inputIndex: 1, event: 'keydown' },
+    { inputIndex: 0, event: 'blur' },
+    { inputIndex: 1, event: 'blur' },
+  ])(
+    'should complete year-month input in endpoint $inputIndex on $event',
+    async ({ inputIndex, event }) => {
+      const wrapper = _mount(
+        `<el-date-picker
+          v-model="value"
+          type="daterange"
+          value-format="YYYY-MM-DD"
+        />
+        <button>Outside</button>`,
+        () => ({ value: null })
+      )
+      const inputs = wrapper.findAll('input')
+
+      inputs[inputIndex].element.focus()
+      await nextTick()
+      inputs[inputIndex].element.value = '2026-11'
+      await inputs[inputIndex].trigger('input')
+      if (event === 'blur') {
+        wrapper.find('button').element.focus()
+        await nextTick()
+      } else {
+        await inputs[inputIndex].trigger(event, { code: EVENT_CODE.enter })
+      }
+
+      expect(inputs[inputIndex].element.value).toBe('2026-11-01')
+      expect(inputs[1 - inputIndex].element.value).toBe('')
+      expect(wrapper.vm.value).toBeNull()
+
+      inputs[1 - inputIndex].element.focus()
+      await nextTick()
+      await inputs[1 - inputIndex].setValue('2026-11')
+      wrapper.find('button').element.focus()
+      await nextTick()
+      expect(inputs.map((input) => input.element.value)).toEqual([
+        '2026-11-01',
+        '2026-11-01',
+      ])
+      expect(wrapper.vm.value).toEqual(['2026-11-01', '2026-11-01'])
+      wrapper.unmount()
+    }
+  )
+
+  it.each([
+    { invalidIndex: 0, initialValue: null },
+    { invalidIndex: 1, initialValue: null },
+    { invalidIndex: 0, initialValue: ['2026-11-01', '2026-11-09'] },
+    { invalidIndex: 1, initialValue: ['2026-11-01', '2026-11-09'] },
+  ])(
+    'should clear invalid input $invalidIndex and keep the other date with model $initialValue',
+    async ({ invalidIndex, initialValue }) => {
+      const onUpdate = vi.fn()
+      const wrapper = _mount(
+        `<el-date-picker
+          v-model="value"
+          type="daterange"
+          value-format="YYYY-MM-DD"
+          @update:model-value="onUpdate"
+        />
+        <button>Outside</button>`,
+        () => ({ value: initialValue }),
+        { methods: { onUpdate } }
+      )
+      const inputs = wrapper.findAll('input')
+      const dates = ['2026-11-05', '2026-11-09']
+
+      inputs[invalidIndex].element.focus()
+      await nextTick()
+      for (const index of [0, 1]) {
+        inputs[index].element.value =
+          index === invalidIndex ? 'abc123' : dates[index]
+        await inputs[index].trigger('input')
+      }
+      await inputs[invalidIndex].trigger('change')
+
+      expect(inputs[invalidIndex].element.value).toBe('')
+      expect(inputs[1 - invalidIndex].element.value).toBe(
+        dates[1 - invalidIndex]
+      )
+      expect(wrapper.vm.value).toEqual(initialValue)
+      expect(onUpdate).not.toHaveBeenCalled()
+
+      wrapper.find('button').element.focus()
+      await nextTick()
+      expect(inputs[invalidIndex].element.value).toBe('')
+      expect(inputs[1 - invalidIndex].element.value).toBe(
+        dates[1 - invalidIndex]
+      )
+
+      inputs[invalidIndex].element.focus()
+      await nextTick()
+      await inputs[invalidIndex].setValue(dates[invalidIndex])
+      wrapper.find('button').element.focus()
+      await nextTick()
+      expect(wrapper.vm.value).toEqual(dates)
+      expect(onUpdate).toHaveBeenCalledTimes(1)
+      wrapper.unmount()
+    }
+  )
+
+  it.each([
+    { invalidIndex: 0, event: 'Enter' },
+    { invalidIndex: 1, event: 'Enter' },
+    { invalidIndex: 0, event: 'blur' },
+    { invalidIndex: 1, event: 'blur' },
+  ])(
+    'should clear invalid date input $invalidIndex on $event before validating the range',
+    async ({ invalidIndex, event }) => {
+      const wrapper = _mount(
+        `<el-date-picker v-model="value" type="daterange" />
+         <button>Outside</button>`,
+        () => ({ value: null })
+      )
+      const inputs = wrapper.findAll('input')
+      inputs[invalidIndex].element.focus()
+      await nextTick()
+      for (const index of [0, 1]) {
+        inputs[index].element.value =
+          index === invalidIndex ? 'abc123' : '2026-11-05'
+        await inputs[index].trigger('input')
+      }
+      if (event === 'Enter') {
+        await inputs[invalidIndex].trigger('keydown', {
+          code: EVENT_CODE.enter,
+        })
+      } else {
+        wrapper.find('button').element.focus()
+        await nextTick()
+      }
+      expect(inputs[invalidIndex].element.value).toBe('')
+      expect(inputs[1 - invalidIndex].element.value).toBe('2026-11-05')
+      expect(wrapper.vm.value).toBeNull()
+      wrapper.unmount()
+    }
+  )
+
+  it.each(['2026-11-05', '2027-03-05'])(
+    'should select the typed start date %s in the calendar and complete the range',
+    async (startDate) => {
+      const wrapper = _mount(
+        `<el-date-picker
+          v-model="value"
+          type="daterange"
+          value-format="YYYY-MM-DD"
+        />
+        <button>Outside</button>`,
+        () => ({ value: null })
+      )
+      const input = wrapper.find('input')
+
+      input.element.focus()
+      await nextTick()
+      input.element.value = startDate
+      await input.trigger('input')
+
+      const panel = wrapper.findComponent(DatePickerRange)
+      const header = panel.find('.el-date-range-picker__header')
+      expect(header.text()).toContain(dayjs(startDate).format('YYYY'))
+      expect(header.text()).toContain(
+        dayjs(startDate).locale('en').format('MMMM')
+      )
+      expect(panel.find('td.start-date').text()).toBe('5')
+      expect(wrapper.vm.value).toBeNull()
+
+      wrapper.find('button').element.focus()
+      await nextTick()
+      input.element.focus()
+      await nextTick()
+      expect(panel.find('td.start-date').text()).toBe('5')
+
+      const endDate = panel
+        .findAll('td.available:not(.prev-month):not(.next-month)')
+        .find((cell) => cell.text() === '9')!
+      await endDate.trigger('click')
+      await nextTick()
+      expect(wrapper.vm.value).toEqual([
+        startDate,
+        dayjs(startDate).date(9).format('YYYY-MM-DD'),
+      ])
+      wrapper.unmount()
+    }
+  )
+
+  it.each([0, 1])(
+    'should preserve an incomplete date range after input %i loses focus',
+    async (inputIndex) => {
+      const onChange = vi.fn()
+      const onUpdate = vi.fn()
+      const wrapper = _mount(
+        `<el-date-picker
+          v-model="value"
+          type="daterange"
+          value-format="YYYY-MM-DD"
+          @change="onChange"
+          @update:model-value="onUpdate"
+        />
+        <button>Outside</button>`,
+        () => ({ value: null }),
+        { methods: { onChange, onUpdate } }
+      )
+      const inputs = wrapper.findAll('input')
+      const dates = ['2026-10-23', '2026-10-25']
+
+      inputs[inputIndex].element.focus()
+      await nextTick()
+      await inputs[inputIndex].setValue(dates[inputIndex])
+      wrapper.find('button').element.focus()
+      await nextTick()
+      await nextTick()
+
+      expect(inputs[inputIndex].element.value).toBe(dates[inputIndex])
+      expect(inputs[1 - inputIndex].element.value).toBe('')
+      expect(wrapper.vm.value).toBeNull()
+      expect(onUpdate).not.toHaveBeenCalled()
+      expect(onChange).not.toHaveBeenCalled()
+
+      inputs[1 - inputIndex].element.focus()
+      await nextTick()
+      await inputs[1 - inputIndex].setValue(dates[1 - inputIndex])
+      wrapper.find('button').element.focus()
+      await nextTick()
+      await nextTick()
+
+      expect(wrapper.vm.value).toEqual(dates)
+      expect(onUpdate).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenCalledTimes(1)
+
+      inputs[0].element.focus()
+      await nextTick()
+      await wrapper.find('.el-range__close-icon').trigger('click')
+      expect(wrapper.vm.value).toBeNull()
+      expect(inputs.map((input) => input.element.value)).toEqual(['', ''])
+      wrapper.unmount()
+    }
+  )
+
+  it('should discard the retained date range input on Escape', async () => {
+    const wrapper = _mount(
+      `<el-date-picker v-model="value" type="daterange" />
+       <button>Outside</button>`,
+      () => ({ value: null })
+    )
+    const input = wrapper.find('input')
+
+    input.element.focus()
+    await nextTick()
+    await input.setValue('2026-10-23')
+    wrapper.find('button').element.focus()
+    await nextTick()
+    expect(input.element.value).toBe('2026-10-23')
+
+    input.element.focus()
+    await nextTick()
+    await input.trigger('keydown', { code: EVENT_CODE.esc })
+    await nextTick()
+
+    expect(input.element.value).toBe('')
+    expect(wrapper.vm.value).toBeNull()
+    wrapper.unmount()
+  })
+
+  it.each(['abc123', '2026-10-24'])(
+    'should discard invalid or disabled incomplete date input %s on blur',
+    async (value) => {
+      const wrapper = _mount(
+        `<el-date-picker
+          v-model="value"
+          type="daterange"
+          :disabled-date="disabledDate"
+        />
+        <button>Outside</button>`,
+        () => ({
+          value: null,
+          disabledDate: (date: Date) =>
+            dayjs(date).format('YYYY-MM-DD') === '2026-10-24',
+        })
+      )
+      const input = wrapper.find('input')
+
+      input.element.focus()
+      await nextTick()
+      await input.setValue('2026-10-23')
+      const panel = wrapper.findComponent(DatePickerRange)
+      expect(panel.find('td.start-date').text()).toBe('23')
+      await input.setValue(value)
+      expect(panel.find('td.start-date').exists()).toBe(false)
+      wrapper.find('button').element.focus()
+      await nextTick()
+
+      expect(input.element.value).toBe('')
+      expect(wrapper.vm.value).toBeNull()
+      wrapper.unmount()
+    }
+  )
+
+  it.each(['splice', 'index'])(
+    'should replace retained date range input after an in-place model update using %s',
+    async (method) => {
+      const onUpdate = vi.fn()
+      const wrapper = _mount(
+        `<el-date-picker
+          ref="picker"
+          v-model="value"
+          type="daterange"
+          value-format="YYYY-MM-DD"
+          @update:model-value="onUpdate"
+        />
+        <button>Outside</button>`,
+        () => ({ value: [] }),
+        { methods: { onUpdate } }
+      )
+      const inputs = wrapper.findAll('input')
+      const model = wrapper.vm.value
+
+      inputs[0].element.focus()
+      await nextTick()
+      await inputs[0].setValue('2026-11-05')
+      wrapper.find('button').element.focus()
+      await nextTick()
+      expect(inputs[0].element.value).toBe('2026-11-05')
+
+      if (method === 'splice') {
+        model.splice(0, 0, '2026-11-01', '2026-11-03')
+      } else {
+        model[0] = '2026-11-01'
+        model[1] = '2026-11-03'
+      }
+      await nextTick()
+
+      expect(wrapper.vm.value).toBe(model)
+      expect(inputs.map((input) => input.element.value)).toEqual([
+        '2026-11-01',
+        '2026-11-03',
+      ])
+      expect(onUpdate).not.toHaveBeenCalled()
+
+      wrapper.vm.$refs.picker.handleOpen()
+      await nextTick()
+      const panel = wrapper.findComponent(DatePickerRange)
+      expect(panel.find('td.start-date').text()).toBe('1')
+      expect(panel.find('td.end-date').text()).toBe('3')
+      wrapper.unmount()
+    }
+  )
+
+  it('should discard retained date range input when the model array is cleared in place', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        type="daterange"
+        value-format="YYYY-MM-DD"
+      />
+      <button>Outside</button>`,
+      () => ({ value: ['2026-11-01', '2026-11-03'] })
+    )
+    const inputs = wrapper.findAll('input')
+    const model = wrapper.vm.value
+
+    inputs[0].element.focus()
+    await nextTick()
+    await inputs[1].setValue('')
+    await inputs[0].setValue('2026-11-05')
+    wrapper.find('button').element.focus()
+    await nextTick()
+    expect(inputs.map((input) => input.element.value)).toEqual([
+      '2026-11-05',
+      '',
+    ])
+
+    model.splice(0)
+    await nextTick()
+    expect(wrapper.vm.value).toBe(model)
+    expect(inputs.map((input) => input.element.value)).toEqual(['', ''])
+    wrapper.unmount()
+  })
+
+  it.each([{ dates: [] }, { dates: ['2026-11-01', '2026-11-03'] }])(
+    'should replace retained date range input when the model changes to $dates',
+    async ({ dates }) => {
+      const wrapper = _mount(
+        `<el-date-picker
+          v-model="value"
+          type="daterange"
+          value-format="YYYY-MM-DD"
+        />
+        <button>Outside</button>`,
+        () => ({ value: null })
+      )
+      const inputs = wrapper.findAll('input')
+
+      inputs[0].element.focus()
+      await nextTick()
+      await inputs[0].setValue('2026-10-23')
+      wrapper.find('button').element.focus()
+      await nextTick()
+      expect(inputs[0].element.value).toBe('2026-10-23')
+
+      wrapper.vm.value = dates
+      await nextTick()
+      expect(inputs.map((input) => input.element.value)).toEqual(
+        dates.length ? dates : ['', '']
+      )
+      wrapper.unmount()
+    }
+  )
+
   it('should accept and normalize flexible date input formats', async () => {
     const wrapper = _mount(
       `<el-date-picker
