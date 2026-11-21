@@ -37,7 +37,9 @@
             nsSelect.is('hovering', states.inputHovering),
             nsSelect.is('filterable', filterable),
             nsSelect.is('disabled', selectDisabled),
+            wrapperClass,
           ]"
+          :style="wrapperStyle"
           @click.prevent="toggleMenu"
         >
           <div
