@@ -39,9 +39,20 @@ const markCurrentItem = () => {
     (item) => item.closest(`.${ns.b()}`) === breadcrumb.value
   )
   const lastItem = ownedItems[ownedItems.length - 1]
-  if (lastItem === currentItem) return
 
-  currentItem?.removeAttribute('aria-current')
+  // The item may have moved to another breadcrumb since this observer was queued.
+  if (
+    currentItem &&
+    currentItem !== lastItem &&
+    currentItem.closest(`.${ns.b()}`) === breadcrumb.value
+  ) {
+    currentItem.removeAttribute('aria-current')
+  }
+  ownedItems.forEach((item) => {
+    if (item !== lastItem) {
+      item.removeAttribute('aria-current')
+    }
+  })
   lastItem?.setAttribute('aria-current', 'page')
   currentItem = lastItem
 }

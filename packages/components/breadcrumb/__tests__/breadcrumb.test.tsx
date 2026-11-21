@@ -89,6 +89,87 @@ describe('Breadcrumb.vue', () => {
       ).toBe('page')
     })
 
+    it('keeps aria-current when an item moves into a nested breadcrumb', async () => {
+      const wrapper = _mount(() => (
+        <Breadcrumb>
+          <BreadcrumbItem>outer A</BreadcrumbItem>
+          <BreadcrumbItem>
+            outer B
+            <Breadcrumb>
+              <BreadcrumbItem>inner A</BreadcrumbItem>
+              <BreadcrumbItem>inner B</BreadcrumbItem>
+            </Breadcrumb>
+          </BreadcrumbItem>
+          <BreadcrumbItem>outer C</BreadcrumbItem>
+        </Breadcrumb>
+      ))
+      const navs = wrapper.findAll('[role="navigation"]')
+      const outerItems = navs[0]
+        .findAll('.el-breadcrumb__item')
+        .filter(
+          (item) => item.element.closest('.el-breadcrumb') === navs[0].element
+        )
+      const innerItems = navs[1].findAll('.el-breadcrumb__item')
+      const innerRoot = navs[1].element
+      const movedItem = outerItems.at(2)!.element
+
+      expect(movedItem.getAttribute('aria-current')).toBe('page')
+      expect(innerItems.at(1)!.element.getAttribute('aria-current')).toBe(
+        'page'
+      )
+      innerRoot.insertBefore(
+        innerItems.at(1)!.element,
+        innerItems.at(0)!.element
+      )
+      innerRoot.appendChild(movedItem)
+      await new Promise((resolve) => setTimeout(resolve, 0))
+
+      expect(innerItems.at(0)!.element.getAttribute('aria-current')).toBeNull()
+      expect(innerItems.at(1)!.element.getAttribute('aria-current')).toBeNull()
+      expect(movedItem.getAttribute('aria-current')).toBe('page')
+      expect(outerItems.at(1)!.element.getAttribute('aria-current')).toBe(
+        'page'
+      )
+    })
+
+    it('clears a moved item inserted before the last nested breadcrumb item', async () => {
+      const wrapper = _mount(() => (
+        <Breadcrumb>
+          <BreadcrumbItem>outer A</BreadcrumbItem>
+          <BreadcrumbItem>
+            outer B
+            <Breadcrumb>
+              <BreadcrumbItem>inner X</BreadcrumbItem>
+              <BreadcrumbItem>inner Y</BreadcrumbItem>
+            </Breadcrumb>
+          </BreadcrumbItem>
+          <BreadcrumbItem>outer C</BreadcrumbItem>
+        </Breadcrumb>
+      ))
+      const navs = wrapper.findAll('[role="navigation"]')
+      const outerItems = navs[0]
+        .findAll('.el-breadcrumb__item')
+        .filter(
+          (item) => item.element.closest('.el-breadcrumb') === navs[0].element
+        )
+      const innerItems = navs[1].findAll('.el-breadcrumb__item')
+      const innerRoot = navs[1].element
+      const movedItem = outerItems.at(2)!.element
+      const innerX = innerItems.at(0)!.element
+      const innerY = innerItems.at(1)!.element
+
+      expect(movedItem.getAttribute('aria-current')).toBe('page')
+      expect(innerY.getAttribute('aria-current')).toBe('page')
+      innerRoot.insertBefore(movedItem, innerX)
+      await new Promise((resolve) => setTimeout(resolve, 0))
+
+      expect(movedItem.getAttribute('aria-current')).toBeNull()
+      expect(innerY.getAttribute('aria-current')).toBe('page')
+      expect(outerItems.at(1)!.element.getAttribute('aria-current')).toBe(
+        'page'
+      )
+    })
+
     it('should set the last item as current page', () => {
       const wrapper = _mount(() => (
         <Breadcrumb>
