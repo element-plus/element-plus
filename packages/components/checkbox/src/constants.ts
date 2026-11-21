@@ -17,5 +17,6 @@ type CheckboxGroupContext = {
   >
 >
 
-export const checkboxGroupContextKey: InjectionKey<CheckboxGroupContext> =
-  Symbol('checkboxGroupContextKey')
+export const checkboxGroupContextKey: InjectionKey<
+  CheckboxGroupContext | undefined
+> = Symbol('checkboxGroupContextKey')
