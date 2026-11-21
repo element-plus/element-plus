@@ -30,9 +30,16 @@
         ref="checkboxGroupRef"
         v-model="checked"
         :validate-event="false"
-        :class="[ns.is('filterable', filterable), ns.be('panel', 'list')]"
+        :class="[
+          ns.is('filterable', filterable),
+          ns.is('virtual', virtualScroll),
+          ns.be('panel', 'list'),
+        ]"
       >
-        <template v-if="!virtualScroll">
+        <el-scrollbar
+          v-if="!virtualScroll"
+          :view-class="ns.be('panel', 'content')"
+        >
           <el-checkbox
             v-for="item in filteredData"
             :key="item[propsAlias.key]"
@@ -43,7 +50,7 @@
           >
             <option-content :option="optionRender?.(item)" />
           </el-checkbox>
-        </template>
+        </el-scrollbar>
         <el-fixed-size-list
           v-else
           ref="virtualListRef"
@@ -87,6 +94,7 @@ import { isEmpty, mutable } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { ElCheckbox, ElCheckboxGroup } from '@element-plus/components/checkbox'
 import { ElInput } from '@element-plus/components/input'
+import { ElScrollbar } from '@element-plus/components/scrollbar'
 import { FixedSizeList as ElFixedSizeList } from '@element-plus/components/virtual-list'
 import { Search } from '@element-plus/icons-vue'
 import { transferPanelEmits } from './transfer-panel'
