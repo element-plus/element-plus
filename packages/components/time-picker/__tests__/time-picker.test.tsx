@@ -8,6 +8,7 @@ import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { rAF } from '@element-plus/test-utils/tick'
 import { ElFormItem } from '@element-plus/components/form'
 import { EVENT_CODE } from '@element-plus/constants'
+import sleep from '@element-plus/test-utils/sleep'
 import TimePicker from '../src/time-picker'
 import Picker from '../src/common/picker.vue'
 import PanelTimePick from '../src/time-picker-com/panel-time-pick.vue'
@@ -1032,8 +1033,7 @@ describe('TimePicker(range)', () => {
           <TimePicker />
         </ElFormItem>
       ))
-
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const formItemLabel = formItem.find('.el-form-item__label')
       const timePickerInput = wrapper.find('.el-input__inner')
@@ -1049,8 +1049,7 @@ describe('TimePicker(range)', () => {
           <TimePicker id="foobar" />
         </ElFormItem>
       ))
-
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const formItemLabel = formItem.find('.el-form-item__label')
       const timePickerInput = wrapper.find('.el-input__inner')
@@ -1069,7 +1068,7 @@ describe('TimePicker(range)', () => {
         </ElFormItem>
       ))
 
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
     })

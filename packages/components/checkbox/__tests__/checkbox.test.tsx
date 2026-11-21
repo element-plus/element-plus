@@ -2,6 +2,7 @@ import { nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import { ElForm, ElFormItem } from '@element-plus/components/form'
+import sleep from '@element-plus/test-utils/sleep'
 import Checkbox from '../src/checkbox.vue'
 import CheckboxButton from '../src/checkbox-button.vue'
 import CheckboxGroup from '../src/checkbox-group.vue'
@@ -805,9 +806,9 @@ describe('check-button', () => {
           <Checkbox />
         </ElFormItem>
       ))
-
-      const formItem = await wrapper.findComponent(ElFormItem)
-      const checkbox = await wrapper.findComponent(Checkbox)
+      await sleep()
+      const formItem = wrapper.findComponent(ElFormItem)
+      const checkbox = wrapper.findComponent(Checkbox)
       const formItemLabel = formItem.find('.el-form-item__label')
       const checkboxInput = checkbox.find('.el-checkbox__original')
       expect(checkboxInput.attributes('id')).toBe(
@@ -841,14 +842,13 @@ describe('check-button', () => {
         </ElFormItem>
       ))
 
-      const formItem = await wrapper.findComponent(ElFormItem)
-      const checkboxGroup = await wrapper.findComponent(CheckboxGroup)
+      await sleep()
+      const formItem = wrapper.findComponent(ElFormItem)
+      const checkboxGroup = wrapper.findComponent(CheckboxGroup)
       const formItemLabel = formItem.find('.el-form-item__label')
-      expect(formItem.attributes('role')).toBeFalsy()
+      expect(formItem.attributes('role')).toBe('group')
       expect(checkboxGroup.attributes('role')).toBe('group')
-      expect(formItemLabel.attributes('for')).toBe(
-        checkboxGroup.attributes('id')
-      )
+      expect(formItemLabel.attributes('for')).toBeFalsy()
       expect(formItemLabel.attributes('id')).toBe(
         checkboxGroup.attributes('aria-labelledby')
       )
@@ -864,12 +864,11 @@ describe('check-button', () => {
         </ElFormItem>
       ))
 
-      const formItem = await wrapper.findComponent(ElFormItem)
-      const checkboxGroup = await wrapper.findComponent(CheckboxGroup)
+      await sleep()
+      const formItem = wrapper.findComponent(ElFormItem)
+      const checkboxGroup = wrapper.findComponent(CheckboxGroup)
       const formItemLabel = formItem.find('.el-form-item__label')
-      expect(formItemLabel.attributes('for')).toBe(
-        checkboxGroup.attributes('id')
-      )
+      expect(formItemLabel.attributes('for')).toBeFalsy()
       expect(checkboxGroup.attributes('role')).toBe('group')
       expect(checkboxGroup.attributes()['aria-label']).toBe('Foo')
       expect(checkboxGroup.attributes()['aria-labelledby']).toBeFalsy()
@@ -893,11 +892,12 @@ describe('check-button', () => {
         },
       })
 
-      const formItem = await wrapper.findComponent(ElFormItem)
-      const checkboxGroup1 = await wrapper.findComponent({
+      await sleep()
+      const formItem = wrapper.findComponent(ElFormItem)
+      const checkboxGroup1 = wrapper.findComponent({
         ref: 'checkboxGroup1',
       })
-      const checkboxGroup2 = await wrapper.findComponent({
+      const checkboxGroup2 = wrapper.findComponent({
         ref: 'checkboxGroup2',
       })
       const formItemLabel = formItem.find('.el-form-item__label')
