@@ -433,9 +433,10 @@ export const useSelect = (props: SelectProps, emit: SelectEmits) => {
   const getOption = (value: OptionValue) => {
     let option
     const isObjectValue = isPlainObject(value)
+    const cachedOptions = cachedOptionsArray.value
 
-    for (let i = states.cachedOptions.size - 1; i >= 0; i--) {
-      const cachedOption = cachedOptionsArray.value[i]
+    for (let i = cachedOptions.length - 1; i >= 0; i--) {
+      const cachedOption = cachedOptions[i]
       const isEqualValue = isObjectValue
         ? get(cachedOption.value, props.valueKey) === get(value, props.valueKey)
         : cachedOption.value === value
