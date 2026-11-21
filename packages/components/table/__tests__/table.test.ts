@@ -1568,6 +1568,54 @@ describe('Table.vue', () => {
     wrapper.unmount()
   })
 
+  it('span-method which covers the cell of the row below', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+        <el-table
+          :data="testData"
+          :span-method="objectSpanMethod"
+          border
+          style="width: 100%; margin-top: 20px"
+        >
+          <el-table-column prop="id" label="ID" width="180" />
+          <el-table-column prop="name" label="片名" />
+          <el-table-column prop="release" label="发行日期" />
+        </el-table>
+      `,
+      data() {
+        return {
+          testData: getTestData(),
+        }
+      },
+      methods: {
+        objectSpanMethod({ rowIndex, columnIndex }) {
+          // 最后一列的前两行合并，被合并的单元格依旧返回 [1, 1]
+          if (columnIndex === 2 && rowIndex === 0) {
+            return {
+              rowspan: 2,
+              colspan: 1,
+            }
+          }
+          return [1, 1]
+        },
+      },
+    })
+    await doubleWait()
+    const rows = wrapper.vm.$el.querySelectorAll(
+      '.el-table__body-wrapper tbody tr'
+    )
+    const cellsOfFirstRow = rows[0].querySelectorAll('.el-table__cell')
+    expect(cellsOfFirstRow).toHaveLength(3)
+    expect(cellsOfFirstRow[2].getAttribute('rowspan')).toEqual('2')
+    // 已被合并的单元格不再渲染，否则表格会多出一列
+    expect(rows[1].querySelectorAll('.el-table__cell')).toHaveLength(2)
+    wrapper.unmount()
+  })
+
   it('highlight-current-row', async () => {
     const wrapper = mount({
       components: {
