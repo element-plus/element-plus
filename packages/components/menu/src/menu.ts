@@ -17,6 +17,7 @@ import { isNil } from 'lodash-unified'
 import ElIcon from '@element-plus/components/icon'
 import { More } from '@element-plus/icons-vue'
 import {
+  NOOP,
   buildProps,
   definePropType,
   flattedChildren,
@@ -460,9 +461,12 @@ export default defineComponent({
         }) as unknown as MenuProvider // Avoid TS2589
       )
 
+      // Every sub-menu already registers itself through `rootMenu.addSubMenu`.
+      // Registering direct children here as well would add top-level menu
+      // items to `subMenus`, so `initMenu` would open them and emit `open`.
       provide<SubMenuProvider>(`${SUB_MENU_INJECTION_KEY}${instance.uid}`, {
-        addSubMenu,
-        removeSubMenu,
+        addSubMenu: NOOP,
+        removeSubMenu: NOOP,
         mouseInChild,
         level: 0,
       })
