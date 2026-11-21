@@ -591,4 +591,80 @@ describe('other', () => {
     styleSpy.mockRestore()
     menuItemSpy.mockRestore()
   })
+
+  describe('nested sub-menu opened state, issue 23210', () => {
+    const nestedMenu = (attrs: string) => `<el-menu ${attrs}>
+      <el-sub-menu index="1" ref="one">
+        <template #title>Navigator One</template>
+        <el-menu-item index="1-1">Item One</el-menu-item>
+        <el-sub-menu index="1-4" ref="four">
+          <template #title>Item Four</template>
+          <el-menu-item index="1-4-1" ref="fourItem">Item Four One</el-menu-item>
+        </el-sub-menu>
+      </el-sub-menu>
+      <el-sub-menu index="2" ref="two">
+        <template #title>Navigator Two</template>
+        <el-menu-item index="2-1">Item Two</el-menu-item>
+      </el-sub-menu>
+    </el-menu>`
+
+    const setup = (attrs: string) => {
+      const wrapper = _mount(nestedMenu(attrs))
+      const one = wrapper.findComponent({ ref: 'one' })
+      const four = wrapper.findComponent({ ref: 'four' })
+      const two = wrapper.findComponent({ ref: 'two' })
+      const clickTitle = async (submenu: typeof one) => {
+        submenu.vm.$el.querySelector('.el-sub-menu__title').click()
+        await nextTick()
+      }
+      return { wrapper, one, four, two, clickTitle }
+    }
+
+    test('re-expanding a parent restores its nested sub-menu', async () => {
+      const { one, four, clickTitle } = setup('')
+
+      await clickTitle(one)
+      await clickTitle(four)
+      expect(one.classes()).toContain('is-opened')
+      expect(four.classes()).toContain('is-opened')
+
+      await clickTitle(one)
+      expect(one.classes()).not.toContain('is-opened')
+      expect(four.classes()).toContain('is-opened')
+
+      await clickTitle(one)
+      expect(one.classes()).toContain('is-opened')
+      expect(four.classes()).toContain('is-opened')
+    })
+
+    test('re-expanding a parent restores its nested sub-menu with unique-opened', async () => {
+      const { one, four, clickTitle } = setup('unique-opened')
+
+      await clickTitle(one)
+      await clickTitle(four)
+      expect(one.classes()).toContain('is-opened')
+      expect(four.classes()).toContain('is-opened')
+
+      await clickTitle(one)
+      expect(one.classes()).not.toContain('is-opened')
+      expect(four.classes()).toContain('is-opened')
+
+      await clickTitle(one)
+      expect(one.classes()).toContain('is-opened')
+      expect(four.classes()).toContain('is-opened')
+    })
+
+    test('unique-opened still collapses the whole sibling branch', async () => {
+      const { one, four, two, clickTitle } = setup('unique-opened')
+
+      await clickTitle(one)
+      await clickTitle(four)
+      expect(two.classes()).not.toContain('is-opened')
+
+      await clickTitle(two)
+      expect(two.classes()).toContain('is-opened')
+      expect(one.classes()).not.toContain('is-opened')
+      expect(four.classes()).not.toContain('is-opened')
+    })
+  })
 })
