@@ -45,16 +45,16 @@ columns[rowSpanIndex].rowSpan = ({ rowIndex }) =>
 
 const Row = ({ rowData, rowIndex, cells, columns }) => {
   const rowSpan = columns[rowSpanIndex].rowSpan({ rowData, rowIndex })
-  if (rowSpan > 1) {
-    const cell = cells[rowSpanIndex]
+  const firstRowSpanCell = cells[rowSpanIndex]
+  if (rowSpan > 1 && firstRowSpanCell) {
     const style = {
-      ...cell.props.style,
+      ...firstRowSpanCell.props.style,
       backgroundColor: 'var(--el-color-primary-light-3)',
       height: `${rowSpan * 50 - 1}px`,
       alignSelf: 'flex-start',
       zIndex: 1,
     }
-    cells[rowSpanIndex] = cloneVNode(cell, { style })
+    cells[rowSpanIndex] = cloneVNode(firstRowSpanCell, { style })
   }
   return cells
 }
