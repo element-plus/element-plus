@@ -153,14 +153,13 @@ describe('Breadcrumb.vue', () => {
           (item) => item.element.closest('.el-breadcrumb') === navs[0].element
         )
       const innerItems = navs[1].findAll('.el-breadcrumb__item')
-      const innerRoot = navs[1].element
       const movedItem = outerItems.at(2)!.element
       const innerX = innerItems.at(0)!.element
       const innerY = innerItems.at(1)!.element
 
       expect(movedItem.getAttribute('aria-current')).toBe('page')
       expect(innerY.getAttribute('aria-current')).toBe('page')
-      innerRoot.insertBefore(movedItem, innerX)
+      innerX.before(movedItem)
       await new Promise((resolve) => setTimeout(resolve, 0))
 
       expect(movedItem.getAttribute('aria-current')).toBeNull()
