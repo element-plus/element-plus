@@ -77,7 +77,6 @@
         <el-scrollbar
           :id="listboxId"
           tag="ul"
-          :inert="disabled"
           :wrap-class="ns.be('suggestion', 'wrap')"
           :view-class="ns.be('suggestion', 'list')"
           role="listbox"
