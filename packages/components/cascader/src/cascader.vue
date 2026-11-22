@@ -163,7 +163,6 @@
         v-show="!filtering"
         ref="cascaderPanelRef"
         v-model="checkedValue"
-        :inert="isDisabled"
         :options="options"
         :props="props.props"
         :border="false"
@@ -183,7 +182,6 @@
           v-if="!virtualScroll"
           v-show="filtering"
           :ref="(ref) => (suggestionPanel = (ref as ScrollbarInstance)?.$el)"
-          :inert="isDisabled"
           tag="ul"
           :class="nsCascader.e('suggestion-panel')"
           :wrap-class="nsCascader.e('suggestion-wrap')"
@@ -219,7 +217,6 @@
           v-else
           v-show="filtering"
           ref="suggestionPanel"
-          :inert="isDisabled"
           :class="nsCascader.e('suggestion-panel')"
           @keydown="handleSuggestionKeyDown"
         >
