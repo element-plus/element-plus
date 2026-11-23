@@ -78,8 +78,9 @@
               </el-icon>
             </template>
             <el-icon
-              v-if="showPwdVisible"
+              v-if="renderPassword"
               :class="[nsInput.e('icon'), nsInput.e('password')]"
+              :style="{ visibility: showPwdVisible ? 'visible' : 'hidden' }"
               @click="handlePasswordVisible"
               @mousedown.prevent="NOOP"
               @mouseup.prevent="NOOP"
@@ -361,8 +362,11 @@ const showClear = computed(
     !!nativeInputValue.value &&
     (isFocused.value || hovering.value)
 )
+const renderPassword = computed(
+  () => props.showPassword && !inputDisabled.value
+)
 const showPwdVisible = computed(
-  () => props.showPassword && !inputDisabled.value && !!nativeInputValue.value
+  () => renderPassword.value && !!nativeInputValue.value
 )
 const isWordLimitVisible = computed(
   () =>
