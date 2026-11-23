@@ -301,6 +301,11 @@
       );
     }
 
+    // show ellipsis when placeholder overflows
+    &:placeholder-shown {
+      text-overflow: ellipsis;
+    }
+
     // override edge default style
     &[type='password']::-ms-reveal {
       display: none;
