@@ -628,7 +628,8 @@ const onConfirm = () => {
     let result = extractFirst(props.parsedValue)
     if (!result) {
       const defaultValueD = getDefaultValue()
-      result = defaultTimeD.value
+      result = dayjs(defaultTime.value)
+        .locale(lang.value)
         .year(defaultValueD.year())
         .month(defaultValueD.month())
         .date(defaultValueD.date())

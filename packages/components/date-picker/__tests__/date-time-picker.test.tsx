@@ -445,6 +445,32 @@ describe('Datetime Picker', () => {
     expect(timeInput.value).toBe('08:30:15')
   })
 
+  it('confirm without selection should use the current time', async () => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date(2000, 0, 1, 10, 0, 0))
+    const value = ref('')
+    const wrapper = _mount(() => (
+      <DatePicker v-model={value.value} type="datetime" />
+    ))
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+
+    vi.setSystemTime(new Date(2000, 0, 1, 10, 5, 0))
+    ;(
+      document.querySelectorAll(
+        '.el-picker-panel__footer .el-button'
+      )[1] as HTMLElement
+    ).click()
+    await nextTick()
+
+    expect(dayjs(value.value).format('YYYY-MM-DD HH:mm:ss')).toBe(
+      '2000-01-01 10:05:00'
+    )
+    vi.useRealTimers()
+  })
+
   it('inherit time across different picker view', async () => {
     const value = ref(new Date(2000, 10, 8, 10, 10))
     const wrapper = _mount(() => (
