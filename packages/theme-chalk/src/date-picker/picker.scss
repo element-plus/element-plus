@@ -106,6 +106,10 @@
     }
   }
 
+  .#{$namespace}-input__inner:placeholder-shown {
+    text-overflow: ellipsis;
+  }
+
   .#{$namespace}-range-input {
     appearance: none;
     border: none;
@@ -123,6 +127,10 @@
 
     &::placeholder {
       color: getCssVar('text-color', 'placeholder');
+    }
+
+    &:placeholder-shown {
+      text-overflow: ellipsis;
     }
   }
 
