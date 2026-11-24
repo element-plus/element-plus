@@ -8,6 +8,10 @@
   position: relative;
   width: 100%;
 
+  .#{$namespace}-input__inner:placeholder-shown {
+    text-overflow: ellipsis;
+  }
+
   @include e(popper) {
     @include picker-popper(
       map.get($mention, 'bg-color'),
