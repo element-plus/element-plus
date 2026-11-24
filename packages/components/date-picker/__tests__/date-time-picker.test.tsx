@@ -418,6 +418,33 @@ describe('Datetime Picker', () => {
     expect(timeInput.value).toBe('13:00:00')
   })
 
+  it('defaultTime should be reactive', async () => {
+    const value = ref('')
+    const defaultTime = ref(new Date(2000, 1, 1, 12, 0, 0))
+    const wrapper = _mount(() => (
+      <DatePicker
+        v-model={value.value}
+        type="datetime"
+        default-time={defaultTime.value}
+      />
+    ))
+    await nextTick()
+    defaultTime.value = new Date(2000, 1, 1, 8, 30, 15)
+    await nextTick()
+
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const cells = document.querySelectorAll('.available .el-date-table-cell')
+    ;(cells[0] as HTMLElement).click()
+    await nextTick()
+    const timeInput: HTMLInputElement = document.querySelector(
+      '.el-date-picker__time-header > span:nth-child(2) input'
+    )!
+    expect(timeInput.value).toBe('08:30:15')
+  })
+
   it('inherit time across different picker view', async () => {
     const value = ref(new Date(2000, 10, 8, 10, 10))
     const wrapper = _mount(() => (
@@ -1002,6 +1029,52 @@ describe('Datetimerange', () => {
     expect(dayjs(value.value).format('YYYY-MM-DD HH:mm:ss')).toStrictEqual(
       '2023-01-01 12:00:00'
     )
+  })
+
+  it('defaultTime should be reactive', async () => {
+    const value = ref<Date[]>([])
+    const defaultTime = ref([
+      new Date(2000, 1, 1, 1, 1, 1),
+      new Date(2000, 1, 1, 2, 2, 2),
+    ])
+    const wrapper = _mount(() => (
+      <DatePicker
+        v-model={value.value}
+        type="datetimerange"
+        default-time={defaultTime.value}
+      />
+    ))
+    await nextTick()
+    defaultTime.value = [
+      new Date(2000, 1, 1, 8, 30, 15),
+      new Date(2000, 1, 1, 20, 45, 30),
+    ]
+    await nextTick()
+
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const pickers = document.querySelectorAll('.el-date-range-picker__content')
+    const leftCell = pickers[0].querySelector('td.available')!
+    const rightCell = pickers[1].querySelector('td.available')!
+    triggerEvent(leftCell, 'mousemove', true)
+    triggerEvent(leftCell, 'click', true)
+    await nextTick()
+    triggerEvent(rightCell, 'mousemove', true)
+    triggerEvent(rightCell, 'click', true)
+    await nextTick()
+    ;(
+      document.querySelectorAll(
+        '.el-picker-panel__footer .el-button'
+      )[1] as HTMLElement
+    ).click()
+    await nextTick()
+
+    expect(value.value.map((_) => dayjs(_).format('HH:mm:ss'))).toStrictEqual([
+      '08:30:15',
+      '20:45:30',
+    ])
   })
 
   it('shows weekNumber', async () => {
