@@ -1134,6 +1134,34 @@ describe('Input.vue', () => {
     expect(wrapper.find('.custom-password-icon').text()).toBe('Show')
   })
 
+  test('show-password reserves icon space like clearable', async () => {
+    const password = ref('')
+    const wrapper = mount(() => (
+      <Input
+        v-model={password.value}
+        type="password"
+        show-password
+        placeholder="Please input password"
+      />
+    ))
+
+    const icon = wrapper.find('.el-input__password')
+    expect(icon.exists()).toBe(true)
+    expect(icon.attributes('style')).toContain('visibility: hidden')
+    expect(wrapper.find('.el-input__suffix').exists()).toBe(true)
+
+    password.value = '123456'
+    await nextTick()
+    expect(icon.attributes('style')).toContain('visibility: visible')
+
+    password.value = ''
+    await nextTick()
+    expect(wrapper.find('.el-input__password').exists()).toBe(true)
+    expect(wrapper.find('.el-input__password').attributes('style')).toContain(
+      'visibility: hidden'
+    )
+  })
+
   describe('form item accessibility integration', () => {
     test('automatic id attachment', async () => {
       const wrapper = mount(() => (
