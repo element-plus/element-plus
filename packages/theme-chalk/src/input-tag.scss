@@ -203,6 +203,10 @@
     &::placeholder {
       color: getCssVar('input-tag-placeholder-color');
     }
+
+    &:placeholder-shown {
+      text-overflow: ellipsis;
+    }
   }
 
   @include e(input-calculator) {
