@@ -50,13 +50,6 @@
       rx="2"
       fill="url(#paint3_linear_12777_163851)"
     />
-    <path
-      d="M104.6 45.2002C104.067 45.7335 103 46.8002 103 46.8002L101.4 45.2002"
-      stroke="white"
-      stroke-width="0.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
     <defs>
       <filter
         id="filter0_d_12777_163851"

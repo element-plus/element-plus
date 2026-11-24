@@ -21,10 +21,10 @@ export const useGridWheel = (
 
   const hasReachedEdge = (x: number, y: number) => {
     const xEdgeReached =
-      (x <= 0 && atXStartEdge.value) || (x >= 0 && atXEndEdge.value)
+      (x < 0 && atXStartEdge.value) || (x > 0 && atXEndEdge.value)
     const yEdgeReached =
-      (y <= 0 && atYStartEdge.value) || (y >= 0 && atYEndEdge.value)
-    return xEdgeReached && yEdgeReached
+      (y < 0 && atYStartEdge.value) || (y > 0 && atYEndEdge.value)
+    return xEdgeReached || yEdgeReached
   }
 
   const onWheel = (e: WheelEvent) => {
@@ -45,11 +45,15 @@ export const useGridWheel = (
       y = 0
     }
 
-    if (
-      hasReachedEdge(xOffset, yOffset) &&
-      hasReachedEdge(xOffset + x, yOffset + y)
-    )
+    if (hasReachedEdge(x, y)) {
+      // #23524
+      // Prevent browser back navigation when the table can still scroll
+      // horizontally but the Y-axis normalization dropped the X delta and the Y edge was hit instead.
+      if (e.deltaX !== 0 && x === 0) {
+        e.preventDefault()
+      }
       return
+    }
 
     xOffset += x
     yOffset += y

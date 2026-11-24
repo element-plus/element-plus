@@ -1,10 +1,10 @@
 import { defineComponent, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { afterEach, describe, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import Options from '../src/options'
 import Select from '../src/select.vue'
 
-import type { PropType } from 'vue'
+import type { PropType, Slots } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
 
 describe('options', () => {
@@ -35,7 +35,7 @@ describe('options', () => {
 
   const createWrapper = (slots = {}) => {
     wrapper = mount(
-      (_, { slots }) => (
+      (_: unknown, { slots }: { slots: Slots }) => (
         <Select>
           <Options>{slots?.default?.()}</Options>
         </Select>
@@ -57,15 +57,18 @@ describe('options', () => {
   })
 
   it('renders emit correct options', async () => {
+    const mockWarn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     createWrapper({
       default: () =>
         samples.map((_, i) => <ElOptionStub label={getLabel(i)} />),
     })
-
+    expect(mockWarn).not.toHaveBeenCalled()
+    vi.resetAllMocks()
     await nextTick()
   })
 
   it('renders emit correct options with option group', async () => {
+    const spy = vi.spyOn(console, 'warn').mockImplementation(() => {})
     createWrapper({
       default: () =>
         samples.map((_, i) => (
@@ -82,5 +85,7 @@ describe('options', () => {
           </ElOptionGroupStub>
         )),
     })
+    expect(spy).not.toHaveBeenCalled()
+    vi.resetAllMocks()
   })
 })

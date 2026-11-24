@@ -48,10 +48,17 @@
     height: var(#{getCssVarName('input-height')}, getCssVar('component-size'));
   }
 
-  @include m((monthrange)) {
+  @include m(monthrange) {
     @include css-var-from-global(
       'date-editor-width',
       'date-editor-monthrange-width'
+    );
+  }
+
+  @include m(quarterrange) {
+    @include css-var-from-global(
+      'date-editor-width',
+      'date-editor-quarterrange-width'
     );
   }
 

@@ -5,7 +5,13 @@ import {
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { debugWarn, ensureArray, isUndefined } from '@element-plus/utils'
+import {
+  NOOP,
+  ensureArray,
+  getEventCode,
+  isAndroid,
+  isUndefined,
+} from '@element-plus/utils'
 import { useComposition, useFocusController } from '@element-plus/hooks'
 import { useFormDisabled, useFormSize } from '@element-plus/components/form'
 
@@ -61,14 +67,34 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
   }
 
   const getDelimitedTags = (input: string) => {
-    const tags = input
-      .split(props.delimiter)
-      .filter((val) => val && val !== input)
+    const parts = input.split(props.delimiter!)
+    const tags =
+      parts.length > 1 ? parts.map((val) => val.trim()).filter(Boolean) : []
     if (props.max) {
       const maxInsert = props.max - (props.modelValue?.length ?? 0)
       tags.splice(maxInsert)
     }
     return tags.length === 1 ? tags[0] : tags
+  }
+
+  const handlePaste = (event: ClipboardEvent) => {
+    const pasted = event.clipboardData?.getData('text')
+    if (props.readonly || inputLimit.value || !props.delimiter || !pasted) {
+      return
+    }
+    const {
+      selectionStart = 0,
+      selectionEnd = 0,
+      value,
+    } = event.target as HTMLInputElement
+    const nextValue =
+      value.slice(0, selectionStart!) + pasted + value.slice(selectionEnd!)
+    const tags = getDelimitedTags(nextValue)
+    if (tags.length) {
+      addTagsEmit(tags)
+      emit(INPUT_EVENT, nextValue)
+      event.preventDefault()
+    }
   }
 
   const handleInput = (event: Event) => {
@@ -89,7 +115,9 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
 
   const handleKeydown = (event: KeyboardEvent) => {
     if (isComposing.value) return
-    switch (event.code) {
+    const code = getEventCode(event)
+
+    switch (code) {
       case props.trigger:
         event.preventDefault()
         event.stopPropagation()
@@ -112,6 +140,21 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
     }
   }
 
+  const handleKeyup = (event: KeyboardEvent) => {
+    if (isComposing.value || !isAndroid()) return
+    const code = getEventCode(event)
+
+    switch (code) {
+      case EVENT_CODE.space:
+        if (props.trigger === EVENT_CODE.space) {
+          event.preventDefault()
+          event.stopPropagation()
+          handleAddTag()
+        }
+        break
+    }
+  }
+
   const handleAddTag = () => {
     const value = inputValue.value?.trim()
     if (!value || inputLimit.value) return
@@ -124,7 +167,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
 
     emit(UPDATE_MODEL_EVENT, value)
     emit(CHANGE_EVENT, value)
-    emit('remove-tag', item)
+    emit('remove-tag', item, index)
   }
 
   const handleClear = () => {
@@ -145,12 +188,13 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
       dropIndex > draggingIndex && type === 'before'
         ? -1
         : dropIndex < draggingIndex && type === 'after'
-        ? 1
-        : 0
+          ? 1
+          : 0
 
     value.splice(dropIndex + step, 0, draggedItem)
     emit(UPDATE_MODEL_EVENT, value)
     emit(CHANGE_EVENT, value)
+    emit('drag-tag', draggingIndex, dropIndex + step, draggedItem)
   }
 
   const focus = () => {
@@ -174,7 +218,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
       }
 
       if (props.validateEvent) {
-        formItem?.validate?.('blur').catch((err) => debugWarn(err))
+        formItem?.validate?.('blur').catch(NOOP)
       }
     },
   })
@@ -190,7 +234,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
     () => props.modelValue,
     () => {
       if (props.validateEvent) {
-        formItem?.validate?.(CHANGE_EVENT).catch((err) => debugWarn(err))
+        formItem?.validate?.(CHANGE_EVENT).catch(NOOP)
       }
     }
   )
@@ -211,8 +255,10 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
     showTagList,
     collapseTagList,
     handleDragged,
+    handlePaste,
     handleInput,
     handleKeydown,
+    handleKeyup,
     handleAddTag,
     handleRemoveTag,
     handleClear,

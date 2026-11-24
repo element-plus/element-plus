@@ -13,6 +13,7 @@ import { omit } from 'lodash-unified'
 import {
   buildProps,
   definePropType,
+  getEventCode,
   isNumber,
   isString,
   isUndefined,
@@ -24,7 +25,7 @@ import { useNamespace, useOrderedChildren } from '@element-plus/hooks'
 import { tabsRootContextKey } from './constants'
 import TabNav from './tab-nav'
 
-import type { ExtractPropTypes, VNode, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes, VNode } from 'vue'
 import type { Awaitable } from '@element-plus/utils'
 import type { TabNavInstance } from './tab-nav'
 import type { TabPaneName, TabsPaneContext } from './constants'
@@ -53,6 +54,12 @@ export const tabsProps = buildProps({
     type: [String, Number],
   },
   /**
+   * @description initial value when `model-value` is not set
+   */
+  defaultValue: {
+    type: [String, Number],
+  },
+  /**
    * @description whether Tab is addable and closable
    */
   editable: Boolean,
@@ -77,9 +84,16 @@ export const tabsProps = buildProps({
    * @description whether width of tab automatically fits its container
    */
   stretch: Boolean,
+  /**
+   * @description tabs tabindex
+   */
+  tabindex: {
+    type: [String, Number],
+    default: 0,
+  },
 } as const)
 export type TabsProps = ExtractPropTypes<typeof tabsProps>
-export type TabsPropsPublic = __ExtractPublicPropTypes<typeof tabsProps>
+export type TabsPropsPublic = ExtractPublicPropTypes<typeof tabsProps>
 
 const isPaneName = (value: unknown): value is string | number =>
   isString(value) || isNumber(value)
@@ -118,7 +132,10 @@ const Tabs = defineComponent({
     } = useOrderedChildren<TabsPaneContext>(getCurrentInstance()!, 'ElTabPane')
 
     const nav$ = ref<TabNavInstance>()
-    const currentName = ref<TabPaneName>(props.modelValue ?? '0')
+    const currentName = ref<TabPaneName>(
+      (isUndefined(props.modelValue) ? props.defaultValue : props.modelValue) ??
+        '0'
+    )
 
     const setCurrentName = async (value?: TabPaneName, trigger = false) => {
       // should do nothing.
@@ -174,6 +191,12 @@ const Tabs = defineComponent({
       emit('tabAdd')
     }
 
+    const handleKeydown = (event: KeyboardEvent) => {
+      const code = getEventCode(event)
+      if ([EVENT_CODE.enter, EVENT_CODE.numpadEnter].includes(code))
+        handleTabAdd()
+    }
+
     const swapChildren = (
       vnode: VNode & {
         el: HTMLDivElement
@@ -224,12 +247,9 @@ const Tabs = defineComponent({
               ns.e('new-tab'),
               isVertical.value && ns.e('new-tab-vertical'),
             ]}
-            tabindex="0"
+            tabindex={props.tabindex}
             onClick={handleTabAdd}
-            onKeydown={(ev: KeyboardEvent) => {
-              if ([EVENT_CODE.enter, EVENT_CODE.numpadEnter].includes(ev.code))
-                handleTabAdd()
-            }}
+            onKeydown={handleKeydown}
           >
             {addSlot ? (
               renderSlot(slots, 'add-icon')

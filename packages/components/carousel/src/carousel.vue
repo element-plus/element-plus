@@ -7,9 +7,7 @@
   >
     <transition v-if="arrowDisplay" name="carousel-arrow-left">
       <button
-        v-show="
-          (arrow === 'always' || hover) && (props.loop || activeIndex > 0)
-        "
+        v-show="(arrow === 'always' || hover) && (loop || activeIndex > 0)"
         type="button"
         :class="[ns.e('arrow'), ns.em('arrow', 'left')]"
         :aria-label="t('el.carousel.leftArrow')"
@@ -26,7 +24,7 @@
       <button
         v-show="
           (arrow === 'always' || hover) &&
-          (props.loop || activeIndex < items.length - 1)
+          (loop || activeIndex < items.length - 1)
         "
         type="button"
         :class="[ns.e('arrow'), ns.em('arrow', 'right')]"
@@ -73,7 +71,7 @@
       </ul>
     </items-sorter>
     <svg
-      v-if="props.motionBlur"
+      v-if="motionBlur"
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
       style="display: none"
@@ -95,15 +93,30 @@ import { computed, unref } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { carouselEmits, carouselProps } from './carousel'
+import { carouselEmits } from './carousel'
 import { useCarousel } from './use-carousel'
+
+import type { CarouselProps } from './carousel'
 
 const COMPONENT_NAME = 'ElCarousel'
 defineOptions({
   name: COMPONENT_NAME,
 })
 
-const props = defineProps(carouselProps)
+const props = withDefaults(defineProps<CarouselProps>(), {
+  initialIndex: 0,
+  height: '',
+  trigger: 'hover',
+  autoplay: true,
+  interval: 3000,
+  indicatorPosition: '',
+  arrow: 'hover',
+  type: '',
+  cardScale: 0.83,
+  loop: true,
+  direction: 'horizontal',
+  pauseOnHover: true,
+})
 const emit = defineEmits(carouselEmits)
 const {
   root,
@@ -139,6 +152,13 @@ const carouselClasses = computed(() => {
   if (unref(isCardType)) {
     classes.push(ns.m('card'))
   }
+  // When vertical with outside indicators, add modifier for flex layout
+  classes.push(
+    ns.is(
+      'vertical-outside',
+      unref(isVertical) && props.indicatorPosition === 'outside'
+    )
+  )
   return classes
 })
 

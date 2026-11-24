@@ -1,4 +1,4 @@
-import { nextTick, ref } from 'vue'
+import { defineComponent, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { usePopperContainerId, useZIndex } from '@element-plus/hooks'
@@ -13,7 +13,7 @@ const AXIOM = 'Rem is the best girl'
 
 const _mount = (props?: Partial<PopoverProps>) =>
   mount(
-    {
+    defineComponent<Partial<PopoverProps>>({
       setup() {
         const slots = {
           default: () => AXIOM,
@@ -21,7 +21,7 @@ const _mount = (props?: Partial<PopoverProps>) =>
         }
         return () => <Popover {...props} v-slots={slots} />
       },
-    },
+    }),
     {
       attachTo: document.body,
     }
@@ -77,8 +77,6 @@ describe('Popover.vue', () => {
       <Popover
         content={content}
         teleported={false}
-        // type checking failed as `virtualRef` is a fallthrough attribute
-        // @ts-ignore
         virtualRef={virtualRef}
         virtualTriggering
       />

@@ -5,9 +5,7 @@ import { debugWarn } from '@element-plus/utils'
 import { FORWARD_REF_INJECTION_KEY } from '@element-plus/hooks'
 import { OnlyChild } from '../src/only-child'
 
-import type { MountingOptions } from '@vue/test-utils'
-
-type Slot = NonNullable<NonNullable<MountingOptions<any>['slots']>['default']>
+import type { VNodeArrayChildren } from 'vue'
 
 vi.mock('@element-plus/utils/error', () => ({
   debugWarn: vi.fn(),
@@ -20,7 +18,7 @@ const defaultProvide = {
     forwardRef: ref(null),
   },
 }
-const createComponent = (slot: Slot) => {
+const createComponent = (slot?: () => VNodeArrayChildren) => {
   return shallowMount(OnlyChild, {
     global: {
       provide: defaultProvide,
@@ -123,7 +121,7 @@ describe('ElOnlyChild', () => {
   })
 
   it('should render nothing when no children provided', async () => {
-    wrapper = createComponent(null as any)
+    wrapper = createComponent()
     await nextTick()
 
     expect(debugWarn).not.toHaveBeenCalled()

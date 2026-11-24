@@ -43,7 +43,7 @@
     <el-input
       :id="id"
       ref="input"
-      type="number"
+      :type="formatter ? 'text' : 'number'"
       :step="step"
       :model-value="displayValue"
       :placeholder="placeholder"
@@ -56,6 +56,9 @@
       :aria-label="ariaLabel"
       :validate-event="false"
       :inputmode="inputmode"
+      :formatter="formatter"
+      :parser="parser"
+      :tabindex="tabindex"
       @keydown="handleKeydown"
       @blur="handleBlur"
       @focus="handleFocus"
@@ -85,7 +88,10 @@ import {
 import { vRepeatClick } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import {
+  NOOP,
   debugWarn,
+  getEventCode,
+  getEventKey,
   isNumber,
   isString,
   isUndefined,
@@ -98,15 +104,31 @@ import {
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { inputNumberEmits, inputNumberProps } from './input-number'
+import { inputNumberEmits } from './input-number'
 
 import type { InputInstance } from '@element-plus/components/input'
+import type { InputNumberProps } from './input-number'
 
 defineOptions({
   name: 'ElInputNumber',
 })
 
-const props = defineProps(inputNumberProps)
+const props = withDefaults(defineProps<InputNumberProps>(), {
+  id: undefined,
+  disabled: undefined,
+  step: 1,
+  max: Number.MAX_SAFE_INTEGER,
+  min: Number.MIN_SAFE_INTEGER,
+  stepStrictly: false,
+  readonly: false,
+  controls: true,
+  controlsPosition: '',
+  valueOnClear: null,
+  validateEvent: true,
+  inputmode: undefined,
+  align: 'center',
+  tabindex: 0,
+})
 const emit = defineEmits(inputNumberEmits)
 
 const { t } = useLocale()
@@ -210,23 +232,27 @@ const ensurePrecision = (val: number, coefficient: 1 | -1 = 1) => {
   // Solve the accuracy problem of JS decimal calculation by converting the value to integer.
   return toPrecision(val + props.step * coefficient)
 }
-const handleKeydown = (event: Event) => {
-  const e = event as KeyboardEvent
-  if (props.disabledScientific && ['e', 'E'].includes(e.key)) {
-    e.preventDefault()
+const handleKeydown = (event: KeyboardEvent | Event) => {
+  const code = getEventCode(event as KeyboardEvent)
+  const key = getEventKey(event as KeyboardEvent)
+
+  if (props.disabledScientific && ['e', 'E'].includes(key)) {
+    event.preventDefault()
     return
   }
-  const keyHandlers = {
-    [EVENT_CODE.up]: () => {
-      e.preventDefault()
+
+  switch (code) {
+    case EVENT_CODE.up: {
+      event.preventDefault()
       increase()
-    },
-    [EVENT_CODE.down]: () => {
-      e.preventDefault()
+      break
+    }
+    case EVENT_CODE.down: {
+      event.preventDefault()
       decrease()
-    },
+      break
+    }
   }
-  keyHandlers[e.key]?.()
 }
 const increase = () => {
   if (props.readonly || inputNumberDisabled.value || maxDisabled.value) return
@@ -252,7 +278,7 @@ const verifyValue = (
   if (max < min) {
     throwError('InputNumber', 'min should not be greater than max.')
   }
-  let newVal = Number(value)
+  let newVal = !value ? Number(value) : Number.parseFloat(String(value))
   if (isNil(value) || Number.isNaN(newVal)) {
     return null
   }
@@ -263,7 +289,10 @@ const verifyValue = (
     newVal = isString(valueOnClear) ? { min, max }[valueOnClear] : valueOnClear
   }
   if (stepStrictly) {
-    newVal = toPrecision(Math.round(newVal / step) * step, precision)
+    newVal = toPrecision(
+      Math.round(toPrecision(newVal / step)) * step,
+      precision
+    )
     if (newVal !== value) {
       update && emit(UPDATE_MODEL_EVENT, newVal)
     }
@@ -287,26 +316,33 @@ const setCurrentValue = (
     emit(UPDATE_MODEL_EVENT, newVal!)
     return
   }
-  if (oldVal === newVal && value) return
   data.userInput = null
+  if (oldVal === newVal && value) return
   emit(UPDATE_MODEL_EVENT, newVal!)
   if (oldVal !== newVal) {
     emit(CHANGE_EVENT, newVal!, oldVal!)
   }
   if (props.validateEvent) {
-    formItem?.validate?.('change').catch((err) => debugWarn(err))
+    formItem?.validate?.('change').catch(NOOP)
   }
   data.currentValue = newVal
 }
 const handleInput = (value: string) => {
   data.userInput = value
-  const newVal = value === '' ? null : Number(value)
+  let newVal = value === '' ? null : Number.parseFloat(value)
+  if (Number.isNaN(newVal)) {
+    newVal = null
+  }
   emit(INPUT_EVENT, newVal)
   setCurrentValue(newVal, false)
 }
 const handleInputChange = (value: string) => {
-  const newVal = value !== '' ? Number(value) : ''
-  if ((isNumber(newVal) && !Number.isNaN(newVal)) || value === '') {
+  const newVal = value !== '' ? Number.parseFloat(value) : ''
+  if (
+    (isNumber(newVal) && !Number.isNaN(newVal)) ||
+    (props.formatter && Number.isNaN(newVal)) ||
+    newVal === ''
+  ) {
     setCurrentValue(newVal)
   }
   setCurrentValueToModelValue()
@@ -331,11 +367,11 @@ const handleBlur = (event: MouseEvent | FocusEvent) => {
   // the content displayed on the page is not cleared after the value is cleared. #18533
   // https://bugzilla.mozilla.org/show_bug.cgi?id=1398528
   if (data.currentValue === null && input.value?.input) {
-    input.value.input.value = ''
+    input.value.input.value = props.formatter?.('') ?? ''
   }
   emit('blur', event)
   if (props.validateEvent) {
-    formItem?.validate?.('blur').catch((err) => debugWarn(err))
+    formItem?.validate?.('blur').catch(NOOP)
   }
 }
 
@@ -346,6 +382,30 @@ const setCurrentValueToModelValue = () => {
 }
 const handleWheel = (e: WheelEvent) => {
   if (document.activeElement === e.target) e.preventDefault()
+}
+
+const updateAriaAttributes = () => {
+  const innerInput = input.value?.input as HTMLInputElement | undefined
+  if (!innerInput) return
+
+  const { min, max } = props
+  if (Number.isFinite(max)) {
+    innerInput.setAttribute('aria-valuemax', String(max))
+  } else {
+    innerInput.removeAttribute('aria-valuemax')
+  }
+  if (Number.isFinite(min)) {
+    innerInput.setAttribute('aria-valuemin', String(min))
+  } else {
+    innerInput.removeAttribute('aria-valuemin')
+  }
+  innerInput.setAttribute(
+    'aria-valuenow',
+    data.currentValue || data.currentValue === 0
+      ? String(data.currentValue)
+      : ''
+  )
+  innerInput.setAttribute('aria-disabled', String(inputNumberDisabled.value))
 }
 
 watch(
@@ -366,26 +426,10 @@ watch(
   }
 )
 onMounted(() => {
-  const { min, max, modelValue } = props
+  const { modelValue } = props
   const innerInput = input.value?.input as HTMLInputElement
   innerInput.setAttribute('role', 'spinbutton')
-  if (Number.isFinite(max)) {
-    innerInput.setAttribute('aria-valuemax', String(max))
-  } else {
-    innerInput.removeAttribute('aria-valuemax')
-  }
-  if (Number.isFinite(min)) {
-    innerInput.setAttribute('aria-valuemin', String(min))
-  } else {
-    innerInput.removeAttribute('aria-valuemin')
-  }
-  innerInput.setAttribute(
-    'aria-valuenow',
-    data.currentValue || data.currentValue === 0
-      ? String(data.currentValue)
-      : ''
-  )
-  innerInput.setAttribute('aria-disabled', String(inputNumberDisabled.value))
+  updateAriaAttributes()
   if (!isNumber(modelValue) && modelValue != null) {
     let val: number | null = Number(modelValue)
     if (Number.isNaN(val)) {
@@ -396,8 +440,7 @@ onMounted(() => {
   innerInput.addEventListener('wheel', handleWheel, { passive: false })
 })
 onUpdated(() => {
-  const innerInput = input.value?.input
-  innerInput?.setAttribute('aria-valuenow', `${data.currentValue ?? ''}`)
+  updateAriaAttributes()
 })
 defineExpose({
   /** @description get focus the input component */

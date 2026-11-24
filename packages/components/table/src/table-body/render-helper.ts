@@ -42,6 +42,9 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     getSpan,
     getColspanRealWidth,
   } = useStyles(props)
+
+  let displayIndex = -1
+
   const firstDefaultColumnIndex = computed(() => {
     return props.store?.states.columns.value.findIndex(
       ({ type }) => type === 'default'
@@ -62,12 +65,19 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
   ) => {
     const { tooltipEffect, tooltipOptions, store } = props
     const { indent, columns } = store!.states
-    const rowClasses = getRowClass(row, $index)
+    const rowClasses: string[] = []
     let display = true
     if (treeRowData) {
       rowClasses.push(ns.em('row', `level-${treeRowData.level}`))
       display = !!treeRowData.display
     }
+    if ($index === 0) {
+      displayIndex = -1
+    }
+    if (props.stripe && display) {
+      displayIndex++
+    }
+    rowClasses.push(...getRowClass(row, $index, displayIndex))
     const displayStyle = display ? null : { display: 'none' }
     return h(
       'tr',
@@ -75,9 +85,9 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
         style: [displayStyle, getRowStyle(row, $index)],
         class: rowClasses,
         key: getKeyOfRow(row, $index),
-        onDblclick: ($event: Event) => handleDoubleClick($event, row),
-        onClick: ($event: Event) => handleClick($event, row),
-        onContextmenu: ($event: Event) => handleContextMenu($event, row),
+        onDblclick: ($event: MouseEvent) => handleDoubleClick($event, row),
+        onClick: ($event: PointerEvent) => handleClick($event, row),
+        onContextmenu: ($event: PointerEvent) => handleContextMenu($event, row),
         onMouseenter: () => handleMouseEnter($index),
         onMouseleave: handleMouseLeave,
       },
@@ -210,7 +220,7 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
       // 在调用 rowRender 函数时，仍然会计算 rowKey，不太好的操作
       const key = getRowIdentity(row, rowKey.value)
       let cur = treeData.value[key]
-      let treeRowData = null
+      let treeRowData: TreeNode | null = null
       if (cur) {
         treeRowData = {
           expanded: cur.expanded,

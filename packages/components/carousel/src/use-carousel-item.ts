@@ -11,7 +11,7 @@ import { CAROUSEL_ITEM_NAME, carouselContextKey } from './constants'
 
 import type { CarouselItemProps } from './carousel-item'
 
-export const useCarouselItem = (props: CarouselItemProps) => {
+export const useCarouselItem = (props: Required<CarouselItemProps>) => {
   const carouselContext = inject(carouselContextKey)!
   // instance
   const instance = getCurrentInstance()!

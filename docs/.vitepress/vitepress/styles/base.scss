@@ -89,7 +89,8 @@ h4:focus .header-anchor,
 h5:hover .header-anchor,
 h5:focus .header-anchor,
 h6:hover .header-anchor,
-h6:focus .header-anchor {
+h6:focus .header-anchor,
+.header-anchor:focus {
   opacity: 1;
 }
 
@@ -184,11 +185,6 @@ figure {
 
 img {
   max-width: 100%;
-}
-
-ul,
-ol {
-  padding-left: 1.25em;
 }
 
 li > ul,
@@ -328,10 +324,36 @@ details[open]::details-content {
   z-index: 2147483646;
 }
 
-.dark::view-transition-old(root) {
+html[data-theme-transition='to-dark']::view-transition-old(root) {
   z-index: 2147483646;
+  animation: theme-change 400ms ease-in both;
 }
 
-.dark::view-transition-new(root) {
+html[data-theme-transition='to-dark']::view-transition-new(root) {
   z-index: 1;
+}
+
+html[data-theme-transition='to-light']::view-transition-old(root) {
+  z-index: 1;
+}
+
+html[data-theme-transition='to-light']::view-transition-new(root) {
+  z-index: 2147483646;
+  animation: theme-change 400ms ease-in both;
+  animation-direction: reverse;
+}
+
+@keyframes theme-change {
+  from {
+    clip-path: circle(
+      var(--theme-transition-radius) at var(--theme-transition-x)
+        var(--theme-transition-y)
+    );
+  }
+
+  to {
+    clip-path: circle(
+      0% at var(--theme-transition-x) var(--theme-transition-y)
+    );
+  }
 }

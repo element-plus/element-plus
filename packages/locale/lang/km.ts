@@ -11,6 +11,13 @@ export default {
       description:
         '{color} ជាពណ៌បច្ចុប្បន្ន។ សូមចុច Enter ដើម្បីជ្រើសរើសពណ៌ថ្មី',
       alphaLabel: 'ជ្រើសរើសភាពស្រអាប់',
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
+      svLabel: 'pick saturation and brightness value', // to be translated
+      svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
+      predefineDescription: 'select {value} as the color', // to be translated
     },
     datepicker: {
       now: 'ឥឡូវនេះ',
@@ -22,6 +29,8 @@ export default {
         'ប្រើគ្រាប់ចុចដើម្បីរំកិល និងចុច Enter ដើម្បីជ្រើសរើសកាលបរិច្ឆេទ',
       monthTablePrompt:
         'ប្រើគ្រាប់ចុចដើម្បីរំកិល និងចុច Enter ដើម្បីជ្រើសរើសខែ',
+      quarterTablePrompt:
+        'ប្រើគ្រាប់ចុចដើម្បីរំកិល និងចុច Enter ដើម្បីជ្រើសរើសត្រីមាស',
       yearTablePrompt:
         'ប្រើគ្រាប់ចុចដើម្បីរំកិល និងចុច Enter ដើម្បីជ្រើសរើសឆ្នាំ',
       selectedDate: 'កាលបរិច្ឆេទដែលបានជ្រើសរើស',
@@ -80,6 +89,9 @@ export default {
         nov: 'វិច្ឆិកា',
         dec: 'ធ្នូ',
       },
+    },
+    input: {
+      characters: '{count} / {max} តួអក្សរ',
     },
     inputNumber: {
       decrease: 'បន្ថយតម្លៃ',
@@ -147,6 +159,15 @@ export default {
       resetFilter: 'កំណត់ឡើងវិញ',
       clearFilter: 'ទាំងអស់',
       sumText: 'សរុប',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
+      sortLabel: 'Sort by {column}', // to be translated
+      filterLabel: 'Filter by {column}', // to be translated
+    },
+    tag: {
+      close: 'Close this tag', // to be translated
     },
     tour: {
       next: 'បន្ទាប់',
@@ -179,6 +200,10 @@ export default {
       leftArrow: 'ស្លាយមុន',
       rightArrow: 'ស្លាយបន្ទាប់',
       indicator: 'ប្តូរទៅស្លាយទី {index}',
+    },
+    inputOTP: {
+      groupLabel: 'OTP Input', // to be translated
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
     },
   },
 }

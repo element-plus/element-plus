@@ -64,7 +64,7 @@ $ pnpm install -D unplugin-vue-components unplugin-auto-import
 
 Then add the code below into your `Vite` or `Webpack` config file.
 
-##### Vite
+::: code-group
 
 ```ts [vite.config.ts]
 import { defineConfig } from 'vite'
@@ -86,8 +86,6 @@ export default defineConfig({
 })
 ```
 
-##### Webpack
-
 ```js [webpack.config.js]
 const AutoImport = require('unplugin-auto-import/webpack')
 const Components = require('unplugin-vue-components/webpack')
@@ -105,6 +103,8 @@ module.exports = {
   ],
 }
 ```
+
+:::
 
 For more bundlers ([Rollup](https://rollupjs.org/), [Vue CLI](https://cli.vuejs.org/)) and configs please reference [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components#installation) and [unplugin-auto-import](https://github.com/antfu/unplugin-auto-import#install).
 
@@ -136,7 +136,34 @@ export default defineNuxtConfig({
 })
 ```
 
-Refer to the [docs](https://github.com/element-plus/element-plus-nuxt#readme) for how to configure it.
+::: tip
+If you are using `pnpm`, please note that the [dayjs](https://github.com/iamkun/dayjs) package used internally by Element Plus is not a [JavaScript modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules).
+
+In order to ensure that it can be converted into a JavaScript modules before startup, you need to configure pnpm to hoist dependencies.
+
+For pnpm 10.5.x and earlier, add the following configuration to a `.npmrc` file in the project root:
+
+```ini
+shamefully-hoist=true
+node-linker=hoisted
+```
+
+For pnpm 10.6.x and later, add the following configuration to `pnpm-workspace.yaml`:
+
+```yaml
+shamefullyHoist: true
+nodeLinker: hoisted
+```
+
+Alternatively, you can install the dayjs dependency explicitly in your project:
+
+```bash
+pnpm add dayjs
+```
+
+:::
+
+For more configuration options, please refer to the [docs](https://github.com/element-plus/element-plus-nuxt#readme).
 
 ### Manually import
 
@@ -151,12 +178,8 @@ And refer to the [docs](https://github.com/element-plus/unplugin-element-plus#re
   <el-button>I am ElButton</el-button>
 </template>
 
-<script>
+<script setup lang="ts">
 import { ElButton } from 'element-plus'
-
-export default {
-  components: { ElButton },
-}
 </script>
 ```
 
@@ -204,33 +227,19 @@ On-demand:
   </el-config-provider>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
+<script setup lang="ts">
 import { ElConfigProvider } from 'element-plus'
 
-export default defineComponent({
-  components: {
-    ElConfigProvider,
-  },
-  setup() {
-    return {
-      zIndex: 3000,
-      size: 'small',
-    }
-  },
-})
+const zIndex = 3000
+const size = 'small'
 </script>
 ```
 
 ## Using Nuxt.js
 
-We can also use [Nuxt.js](https://nuxt.com):
-
-<div class="glitch-embed-wrap" style="height: 420px; width: 100%;">
-  <iframe src="https://glitch.com/edit/#!/element-plus-nuxt-starter?path=components%2FExamples.vue%3A1%3A0" alt="nuxt-element-plus on glitch" style="height: 100%; width: 100%; border: 0;"></iframe>
-</div>
+We can also use [Nuxt.js](https://nuxt.com). Please refer to [Element Plus Nuxt.js starter template](https://github.com/element-plus/element-plus-nuxt-starter) for more details.
 
 ## Let's Get Started
 
 You can bootstrap your project from now on. For each components usage, please
-refer to [the individual component documentation](https://element-plus.org/en-US/component/button.html).
+refer to [the individual component documentation](../component/button.md).

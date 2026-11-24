@@ -17,12 +17,12 @@ export const useStops = (
 ): Stops => {
   const stops = computed(() => {
     if (!props.showStops || props.min > props.max) return []
-    if (props.step === 0) {
-      debugWarn('ElSlider', 'step should not be 0.')
+    if (props.step === 'mark' || props.step === 0) {
+      if (props.step === 0) debugWarn('ElSlider', 'step should not be 0.')
       return []
     }
 
-    const stopCount = (props.max - props.min) / props.step
+    const stopCount = Math.ceil((props.max - props.min) / props.step)
     const stepWidth = (100 * props.step) / (props.max - props.min)
     const result = Array.from<number>({ length: stopCount - 1 }).map(
       (_, index) => (index + 1) * stepWidth

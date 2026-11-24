@@ -2,10 +2,10 @@ import path from 'path'
 import { PKG_NAME } from '@element-plus/build-constants'
 import { epOutput } from '@element-plus/build-utils'
 
-import type { ModuleFormat } from 'rollup'
+import type { ModuleFormat } from 'rolldown'
 
 export const modules = ['esm', 'cjs'] as const
-export type Module = typeof modules[number]
+export type Module = (typeof modules)[number]
 export interface BuildInfo {
   module: 'ESNext' | 'CommonJS'
   format: ModuleFormat

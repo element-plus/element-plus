@@ -1,6 +1,12 @@
 import { computed, ref, watch } from 'vue'
-import { getPct, getPx, isPct, isPx } from './useSize'
-import { NOOP } from '@element-plus/utils'
+import { clamp } from 'lodash-unified'
+import {
+  NOOP,
+  isPercent,
+  isPx,
+  parsePx,
+  percentToRatio,
+} from '@element-plus/utils'
 
 import type { ComputedRef, Ref } from 'vue'
 import type { PanelItemState } from '../type'
@@ -17,10 +23,10 @@ export function useResize(
     str: string | number | undefined,
     defaultLimit: number
   ) {
-    if (isPct(str)) {
-      return ptg2px(getPct(str))
+    if (isPercent(str)) {
+      return ptg2px(percentToRatio(str))
     } else if (isPx(str)) {
-      return getPx(str)
+      return parsePx(str)
     }
     return str ?? defaultLimit
   }
@@ -130,7 +136,11 @@ export function useResize(
   const cacheCollapsedSize: number[] = []
   const onCollapse = (index: number, type: 'start' | 'end') => {
     if (!cacheCollapsedSize.length) {
-      cacheCollapsedSize.push(...pxSizes.value)
+      cacheCollapsedSize.push(
+        ...pxSizes.value.map((size, i) =>
+          size <= 0 ? getLimitSize(limitSizes.value[i]?.[0], 0) : size
+        )
+      )
     }
 
     const currentSizes = pxSizes.value
@@ -148,7 +158,11 @@ export function useResize(
     } else {
       const totalSize = currentSize + targetSize
 
-      const targetCacheCollapsedSize = cacheCollapsedSize[index]
+      const targetCacheCollapsedSize = clamp(
+        cacheCollapsedSize[index],
+        0,
+        totalSize
+      )
       const currentCacheCollapsedSize = totalSize - targetCacheCollapsedSize
 
       currentSizes[targetIndex] = targetCacheCollapsedSize

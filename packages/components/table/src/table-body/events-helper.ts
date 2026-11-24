@@ -1,6 +1,12 @@
 import { h, inject, ref } from 'vue'
 import { debounce } from 'lodash-unified'
-import { addClass, hasClass, removeClass } from '@element-plus/utils'
+import { platform } from '@floating-ui/dom'
+import {
+  addClass,
+  hasClass,
+  isGreaterThan,
+  removeClass,
+} from '@element-plus/utils'
 import {
   createTablePopper,
   getCell,
@@ -9,20 +15,22 @@ import {
 } from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'
 
+import type { Coords } from '@floating-ui/dom'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type { TableBodyProps } from './defaults'
 import type { TableOverflowTooltipOptions } from '../util'
-import type { DefaultRow } from '../table/defaults'
+import type { DefaultRow, Table } from '../table/defaults'
 
-function isGreaterThan(a: number, b: number, epsilon = 0.03) {
-  return a - b > epsilon
+interface HandleEvent<T> {
+  (event: PointerEvent, row: T, name: 'click' | 'contextmenu'): void
+  (event: MouseEvent, row: T, name: 'dblclick'): void
 }
 
 function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
-  const parent = inject(TABLE_INJECTION_KEY)
+  const parent = inject(TABLE_INJECTION_KEY) as Table<T>
   const tooltipContent = ref('')
   const tooltipTrigger = ref(h('div'))
-  const handleEvent = (event: Event, row: T, name: string) => {
+  const handleEvent: HandleEvent<T> = (event, row, name) => {
     const table = parent
     const cell = getCell(event)
     let column: TableColumnCtx<T> | null = null
@@ -36,19 +44,21 @@ function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
         namespace
       )
       if (column) {
+        // @ts-expect-error
         table?.emit(`cell-${name}`, row, column, cell, event)
       }
     }
+    // @ts-expect-error
     table?.emit(`row-${name}`, row, column, event)
   }
-  const handleDoubleClick = (event: Event, row: T) => {
+  const handleDoubleClick = (event: MouseEvent, row: T) => {
     handleEvent(event, row, 'dblclick')
   }
-  const handleClick = (event: Event, row: T) => {
+  const handleClick = (event: PointerEvent, row: T) => {
     props.store?.commit('setCurrentRow', row)
     handleEvent(event, row, 'click')
   }
-  const handleContextMenu = (event: Event, row: T) => {
+  const handleContextMenu = (event: PointerEvent, row: T) => {
     handleEvent(event, row, 'contextmenu')
   }
   const handleMouseEnter = debounce((index: number) => {
@@ -135,12 +145,11 @@ function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     const cellChild = (event.target as HTMLElement).querySelector(
       '.cell'
     ) as HTMLElement
-    if (
-      !(
-        hasClass(cellChild, `${namespace}-tooltip`) &&
-        cellChild.childNodes.length
-      )
-    ) {
+    if (!(
+      hasClass(cellChild, `${namespace}-tooltip`) &&
+      cellChild.childNodes.length &&
+      cellChild.textContent?.trim()
+    )) {
       return
     }
     // use range width instead of scrollWidth to determine whether the text is overflowing
@@ -162,12 +171,27 @@ function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     const { top, left, right, bottom } = getPadding(cellChild)
     const horizontalPadding = left + right
     const verticalPadding = top + bottom
+    // The rect measurements above are visual sizes that shrink under an
+    // ancestor CSS transform (e.g. autofit.js), while the computed paddings
+    // stay in layout space, so scale the paddings before comparing. #25034
+    const { x: horizontalScale, y: verticalScale } = platform.getScale(
+      cellChild
+    ) as Coords
     if (
-      isGreaterThan(rangeWidth + horizontalPadding, cellChildWidth) ||
-      isGreaterThan(rangeHeight + verticalPadding, cellChildHeight) ||
-      // When using a high-resolution screen, it is possible that a returns cellChild.scrollWidth value of 1921 and
-      // cellChildWidth returns a value of 1920.994140625. #16856 #16673
-      isGreaterThan(cellChild.scrollWidth, cellChildWidth)
+      isGreaterThan(
+        rangeWidth + horizontalPadding * horizontalScale,
+        cellChildWidth
+      ) ||
+      isGreaterThan(
+        rangeHeight + verticalPadding * verticalScale,
+        cellChildHeight
+      ) ||
+      // scrollWidth and clientWidth are both layout measurements and, unlike
+      // the rect-based cellChildWidth above, are unaffected by ancestor CSS
+      // transforms, so they must be compared with each other instead of with
+      // cellChildWidth. #25034 Both round to integers the same way, which also
+      // avoids the sub-pixel mismatch seen in #16856 #16673
+      isGreaterThan(cellChild.scrollWidth, cellChild.clientWidth)
     ) {
       createTablePopper(
         tooltipOptions,
@@ -187,12 +211,13 @@ function useEvents<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     if (cell.rowSpan > 1) {
       toggleRowClassByCell(cell.rowSpan, event, removeClass)
     }
-    const oldHoverState = parent?.hoverState
+    // From the normal user interaction flow, it should never be empty. However, to avoid potential runtime errors, we still keep this defensive optional handling.
+    const oldHoverState = parent?.hoverState as NonNullable<Table['hoverState']>
     parent?.emit(
       'cell-mouse-leave',
       oldHoverState?.row,
       oldHoverState?.column,
-      oldHoverState?.cell,
+      oldHoverState?.cell as HTMLTableCellElement,
       event
     )
   }

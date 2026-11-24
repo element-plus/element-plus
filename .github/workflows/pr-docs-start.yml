@@ -1,15 +1,18 @@
 name: PR Docs Start
 
 on:
+  # zizmor: ignore[dangerous-triggers] target-context workflow only creates a PR preview comment and never checks out code
   pull_request_target:
     types: [opened]
 
 jobs:
   preview:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       - name: create
-        uses: actions-cool/maintain-one-comment@v3.1.1
+        uses: actions-cool/maintain-one-comment-backup@17f644ff1665b05890083f7c1091fef135bce5e4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           body: |

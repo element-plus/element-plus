@@ -1,26 +1,33 @@
 <template>
   <div
     ref="barRef"
-    :class="[ns.e('active-bar'), ns.is(rootTabs!.props.tabPosition)]"
-    :style="barStyle"
+    :class="[
+      ns.e('active-bar'),
+      ns.is(rootTabs!.props.tabPosition),
+      ns.is('hidden', !barVisible),
+    ]"
+    :style="mergedBarStyle"
   />
 </template>
 
 <script lang="ts" setup>
-import { inject, nextTick, onBeforeUnmount, ref, watch } from 'vue'
+import { computed, inject, nextTick, onBeforeUnmount, ref, watch } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
-import { capitalize, isUndefined, throwError } from '@element-plus/utils'
+import { capitalize, isUndefined, rAF, throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { tabsRootContextKey } from './constants'
-import { tabBarProps } from './tab-bar'
 
+import type { TabBarProps } from './tab-bar'
 import type { CSSProperties } from 'vue'
 
 const COMPONENT_NAME = 'ElTabBar'
 defineOptions({
   name: COMPONENT_NAME,
 })
-const props = defineProps(tabBarProps)
+const props = withDefaults(defineProps<TabBarProps>(), {
+  tabs: () => [],
+  tabRefs: () => ({}),
+})
 
 const rootTabs = inject(tabsRootContextKey)
 if (!rootTabs) throwError(COMPONENT_NAME, '<el-tabs><el-tab-bar /></el-tabs>')
@@ -29,6 +36,24 @@ const ns = useNamespace('tabs')
 
 const barRef = ref<HTMLDivElement>()
 const barStyle = ref<CSSProperties>()
+const barReady = ref(false)
+const mergedBarStyle = computed(() => {
+  if (barReady.value) {
+    return barStyle.value
+  }
+  return { ...barStyle.value, transition: 'none' }
+})
+/**
+ * when defaultValue is not set, the bar is always shown.
+ *
+ * when defaultValue is set, the bar will be hidden until style is calculated
+ * to avoid the bar showing in the wrong position on initial render.
+ */
+const barVisible = computed(
+  () =>
+    isUndefined(rootTabs.props.defaultValue) ||
+    Boolean(barStyle.value?.transform)
+)
 
 const getBarStyle = (): CSSProperties => {
   let offset = 0
@@ -69,7 +94,16 @@ const getBarStyle = (): CSSProperties => {
   }
 }
 
-const update = () => (barStyle.value = getBarStyle())
+const update = () => {
+  barStyle.value = getBarStyle()
+  if (!barReady.value) {
+    rAF(() =>
+      rAF(() => {
+        barReady.value = true
+      })
+    )
+  }
+}
 
 const tabObservers = [] as ReturnType<typeof useResizeObserver>[]
 const observerTabs = () => {
@@ -102,7 +136,7 @@ onBeforeUnmount(() => {
 defineExpose({
   /** @description tab root html element */
   ref: barRef,
-  /** @description method to manually update tab bar style */
+  /** @description method to manually update tab bar style, return the updated style */
   update,
 })
 </script>

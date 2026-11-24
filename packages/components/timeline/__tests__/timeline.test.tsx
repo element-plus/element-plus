@@ -1,4 +1,4 @@
-import { markRaw } from 'vue'
+import { markRaw, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import { MoreFilled } from '@element-plus/icons-vue'
@@ -60,6 +60,80 @@ describe('TimeLine.vue', () => {
     const timestampWrapper = wrapper.findAll('.el-timeline-item__timestamp')[0]
 
     expect(timestampWrapper.classes('is-top')).toBe(true)
+  })
+
+  describe('mode', () => {
+    test('mode-start', () => {
+      const wrapper = mount(() => (
+        <TimeLine>
+          {activities.map((activity, index) => (
+            <TimeLineItem key={index}>{activity.content}</TimeLineItem>
+          ))}
+        </TimeLine>
+      ))
+
+      const timeline = wrapper.find('.el-timeline')
+      const timelineItems = wrapper.findAll('.el-timeline-item')
+
+      expect(timeline.classes('is-start')).toBe(true)
+      timelineItems.forEach((item) => {
+        expect(item.classes('is-start')).toBe(true)
+      })
+    })
+
+    test('mode-alternate', () => {
+      const wrapper = mount(() => (
+        <TimeLine mode="alternate">
+          {activities.map((activity, index) => (
+            <TimeLineItem key={index}>{activity.content}</TimeLineItem>
+          ))}
+        </TimeLine>
+      ))
+
+      const timeline = wrapper.find('.el-timeline')
+      const timelineItems = wrapper.findAll('.el-timeline-item')
+
+      expect(timeline.classes('is-alternate')).toBe(true)
+      timelineItems.forEach((item) => {
+        expect(item.classes('is-alternate')).toBe(true)
+      })
+    })
+
+    test('mode-alternate-reverse', () => {
+      const wrapper = mount(() => (
+        <TimeLine mode="alternate-reverse">
+          {activities.map((activity, index) => (
+            <TimeLineItem key={index}>{activity.content}</TimeLineItem>
+          ))}
+        </TimeLine>
+      ))
+
+      const timeline = wrapper.find('.el-timeline')
+      const timelineItems = wrapper.findAll('.el-timeline-item')
+
+      expect(timeline.classes('is-alternate-reverse')).toBe(true)
+      timelineItems.forEach((item) => {
+        expect(item.classes('is-alternate-reverse')).toBe(true)
+      })
+    })
+
+    test('mode-end', () => {
+      const wrapper = mount(() => (
+        <TimeLine mode="end">
+          {activities.map((activity, index) => (
+            <TimeLineItem key={index}>{activity.content}</TimeLineItem>
+          ))}
+        </TimeLine>
+      ))
+
+      const timeline = wrapper.find('.el-timeline')
+      const timelineItems = wrapper.findAll('.el-timeline-item')
+
+      expect(timeline.classes('is-end')).toBe(true)
+      timelineItems.forEach((item) => {
+        expect(item.classes('is-end')).toBe(true)
+      })
+    })
   })
 
   test('hide-timestamp', () => {
@@ -167,5 +241,69 @@ describe('TimeLine.vue', () => {
     const timestampWrappers = wrapper.findAll('.el-timeline-item')
 
     expect(timestampWrappers[1].classes()).toContain('el-timeline-item__center')
+  })
+
+  test('The content that is not a timeline item in the sub-slot should be rendered', () => {
+    const wrapper = mount(() => (
+      <TimeLine>
+        <div class="custom-content">Custom Content</div>
+      </TimeLine>
+    ))
+
+    // It appears there's a problem with the DOM hierarchy structure being rendered by the test framework.
+    expect(wrapper.element.innerHTML).toBe('Custom Content')
+  })
+
+  describe('reverse', () => {
+    test('v-for children', async () => {
+      const wrapper = mount({
+        template: `
+          <TimeLine :reverse="reverse">
+            <TimeLineItem
+              v-for="(item, index) in activities"
+              :key="index"
+            >
+              {{ item.content }}
+            </TimeLineItem>
+          </TimeLine>
+        `,
+        components: {
+          TimeLine,
+          TimeLineItem,
+        },
+        data() {
+          return {
+            reverse: true,
+            activities,
+          }
+        },
+      })
+
+      let firstTimelineItem = wrapper.find('.el-timeline-item__content')
+      expect(firstTimelineItem.text()).toMatchInlineSnapshot(`"Step 3: xxxxxx"`)
+
+      await wrapper.setData({ reverse: false })
+      firstTimelineItem = wrapper.find('.el-timeline-item__content')
+      expect(firstTimelineItem.text()).toMatchInlineSnapshot(`"Step 1: xxxxxx"`)
+    })
+
+    test('manual children', async () => {
+      const reverse = ref(true)
+      const wrapper = mount(() => (
+        <TimeLine reverse={reverse.value}>
+          <TimeLineItem>Step 1: xxxxxx</TimeLineItem>
+          <TimeLineItem>Step 2: xxxxxx</TimeLineItem>
+          <TimeLineItem>Step 3: xxxxxx</TimeLineItem>
+        </TimeLine>
+      ))
+
+      let firstTimelineItem = wrapper.find('.el-timeline-item__content')
+      expect(firstTimelineItem.text()).toMatchInlineSnapshot(`"Step 3: xxxxxx"`)
+
+      reverse.value = false
+      await nextTick()
+      firstTimelineItem = wrapper.find('.el-timeline-item__content')
+      expect(firstTimelineItem.text()).toMatchInlineSnapshot(`"Step 1: xxxxxx"`)
+    })
   })
 })

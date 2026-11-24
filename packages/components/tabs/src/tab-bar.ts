@@ -1,9 +1,12 @@
 import { buildProps, definePropType, mutable } from '@element-plus/utils'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPublicPropTypes } from 'vue'
 import type { TabPaneName, TabsPaneContext } from './constants'
 import type TabBar from './tab-bar.vue'
 
+/**
+ * @deprecated Removed after 3.0.0, Use `TabBarProps` instead.
+ */
 export const tabBarProps = buildProps({
   tabs: {
     type: definePropType<TabsPaneContext[]>(Array),
@@ -15,6 +18,13 @@ export const tabBarProps = buildProps({
   },
 } as const)
 
-export type TabBarProps = ExtractPropTypes<typeof tabBarProps>
-export type TabBarPropsPublic = __ExtractPublicPropTypes<typeof tabBarProps>
+export type TabBarProps = {
+  tabs?: TabsPaneContext[]
+  tabRefs?: { [key: TabPaneName]: HTMLDivElement }
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `TabBarProps` instead.
+ */
+export type TabBarPropsPublic = ExtractPublicPropTypes<typeof tabBarProps>
 export type TabBarInstance = InstanceType<typeof TabBar> & unknown

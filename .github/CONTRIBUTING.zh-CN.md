@@ -12,14 +12,13 @@ Element Plus 的成长离不开大家的支持，如果你愿意为 Element Plus
 
 - 在提交 issue 之前，请搜索相关内容是否已被提出。
 
-- 请说明 Element Plus 和 Vue 的版本号，并提供操作系统和浏览器信息。推荐使用 [Playground](https://element-plus.run/) 生成在线 demo，这能够更直观地重现问题。
+- 请说明 Element Plus 和 Vue 的版本号，并提供操作系统和浏览器信息。推荐使用 [Playground](https://run.element-plus.org/) 生成在线 demo，这能够更直观地重现问题。
 
 ## Pull Request 规范
 
 - 请先 fork 一份到自己的项目下，不要直接在仓库下建分支。
 
 - commit 信息要以 `type(scope): 描述信息` 的形式填写，例如 `fix(components): [scrollbar] fix xxx bug`。
-
   1. type: 必须是 build, chore, ci, docs, feat, fix, perf, refactor, revert, release, style, test, improvement 其中的一个。
 
   2. scope: 必须是 components, directives, element-plus, hooks, locale, test-utils, theme-chalk, tokens, utils, project, core, style, docs, ci, dev, build, deploy, other, typography, color, border, var 其中的一个。

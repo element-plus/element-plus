@@ -14,7 +14,7 @@ import {
 import { tableV2HeaderProps } from './header'
 import { tableV2RowProps } from './row'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type { ItemSize } from '@element-plus/components/virtual-list'
 
 export type onRowRenderedParams = {
@@ -76,6 +76,6 @@ export const tableV2GridProps = buildProps({
 } as const)
 
 export type TableV2GridProps = ExtractPropTypes<typeof tableV2GridProps>
-export type TableV2GridPropsPublic = __ExtractPublicPropTypes<
+export type TableV2GridPropsPublic = ExtractPublicPropTypes<
   typeof tableV2GridProps
 >

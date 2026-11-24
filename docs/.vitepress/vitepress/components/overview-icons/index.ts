@@ -76,6 +76,7 @@ import OvWatermark from './ov-watermark.vue'
 import OvMention from './ov-mention.vue'
 import OvInputTag from './ov-input-tag.vue'
 import OvSplitter from './ov-splitter.vue'
+import OvInputOtp from './ov-input-otp.vue'
 
 export default {
   button: OvButton,
@@ -102,6 +103,7 @@ export default {
   input: OvInput,
   'input-number': OvInputNumber,
   'input-tag': OvInputTag,
+  'input-otp': OvInputOtp,
   radio: OvRadio,
   rate: OvRate,
   select: OvSelect,

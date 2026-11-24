@@ -8,6 +8,7 @@
     :preserve-expanded-content="preserveExpanded"
     style="width: 100%"
   >
+    <!-- @vue-generic {typeof tableData[number]} -->
     <el-table-column type="expand">
       <template #default="props">
         <div m="4">

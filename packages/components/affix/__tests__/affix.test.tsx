@@ -1,11 +1,21 @@
 import { nextTick } from 'vue'
-import { mount } from '@vue/test-utils'
-import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest'
+import { enableAutoUnmount, mount } from '@vue/test-utils'
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  describe,
+  expect,
+  test,
+  vi,
+} from 'vitest'
 import defineGetter from '@element-plus/test-utils/define-getter'
 import makeScroll from '@element-plus/test-utils/make-scroll'
 import Affix from '../src/affix.vue'
 
 import type { VNode } from 'vue'
+
+enableAutoUnmount(afterEach)
 
 let clientHeightRestore: () => void
 
@@ -189,6 +199,43 @@ describe('Affix.vue', () => {
     expect(wrapper.find('.el-affix--fixed').attributes('style')).toContain(
       'z-index: 1000;'
     )
+    mockAffixRect.mockRestore()
+    mockDocumentRect.mockRestore()
+  })
+
+  test('should render append-to props', async () => {
+    const wrapper = _mount(() => (
+      <>
+        <div class="teleport-target"></div>
+        <Affix teleported appendTo=".teleport-target">
+          {AXIOM}
+        </Affix>
+      </>
+    ))
+    const teleportTarget = wrapper.find('.teleport-target')
+    await nextTick()
+
+    expect(wrapper.text()).toEqual(AXIOM)
+    const mockAffixRect = vi
+      .spyOn(wrapper.find('.el-affix').element, 'getBoundingClientRect')
+      .mockReturnValue({
+        height: 40,
+        width: 1000,
+        top: -100,
+        bottom: -80,
+      } as DOMRect)
+    const mockDocumentRect = vi
+      .spyOn(document.documentElement, 'getBoundingClientRect')
+      .mockReturnValue({
+        height: 200,
+        width: 1000,
+        top: 0,
+        bottom: 200,
+      } as DOMRect)
+    expect(wrapper.find('.el-affix--fixed').exists()).toBe(false)
+    expect(teleportTarget.find('.el-affix--fixed').exists()).toBe(false)
+    await makeScroll(document.documentElement, 'scrollTop', 200)
+    expect(teleportTarget.find('.el-affix--fixed').exists()).toBe(true)
     mockAffixRect.mockRestore()
     mockDocumentRect.mockRestore()
   })

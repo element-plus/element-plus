@@ -12,14 +12,13 @@ We are excited that you are interested in contributing to Element Plus. Before s
 
 - Before submitting an issue, please check if similar problems have already been issued.
 
-- Please specify which version of `Element Plus` and `Vue` you are using, and provide OS and browser information. [Playground](https://element-plus.run/) is recommended to build a live demo so that your issue can be reproduced clearly.
+- Please specify which version of `Element Plus` and `Vue` you are using, and provide OS and browser information. [Playground](https://run.element-plus.org/) is recommended to build a live demo so that your issue can be reproduced clearly.
 
 ## Pull Request Guidelines
 
 - Fork this repository to your own account. Do not create branches here.
 
 - Commit info should be formatted as `type(scope): info about commit`. (e.g. `fix(components): [scrollbar] fix xxx bug`)
-
   1. type: type must be one of [build, chore, ci, docs, feat, fix, perf, refactor, revert, release, style, test, improvement].
 
   2. scope: scope must be one of [components, directives, element-plus, hooks, locale, test-utils, theme-chalk, tokens, utils, project, core, style, docs, ci, dev, build, deploy, other, typography, color, border, var].

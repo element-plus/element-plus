@@ -21,7 +21,7 @@ import type {
 
 // constants
 export const ROOT_TREE_INJECTION_KEY: InjectionKey<TreeContext> = Symbol()
-const EMPTY_NODE = {
+export const EMPTY_NODE = {
   key: -1,
   level: -1,
   data: {},
@@ -46,7 +46,9 @@ const itemSize = {
   default: 26,
 }
 
-// props
+/**
+ * @deprecated Removed after 3.0.0, Use `TreeProps` instead.
+ */
 export const treeProps = buildProps({
   data: {
     type: definePropType<TreeData>(Array),
@@ -119,6 +121,9 @@ export const treeProps = buildProps({
   scrollbarAlwaysOn: Boolean,
 } as const)
 
+/**
+ * @deprecated Removed after 3.0.0, Use `TreeNodeProps` instead.
+ */
 export const treeNodeProps = buildProps({
   node: {
     type: definePropType<TreeNode>(Object),

@@ -91,6 +91,12 @@ steps/simple
 | align-center   | center title and description                                                  | ^[boolean]                                                       | —          |
 | simple         | whether to apply simple theme                                                 | ^[boolean]                                                       | —          |
 
+### Steps Events
+
+| Name   | Description                           | Parameters                                            |
+| ------ | ------------------------------------- | ----------------------------------------------------- |
+| change | triggers when the active step changes | ^[Function]`(newVal: number, oldVal: number) => void` |
+
 ### Steps Slots
 
 | Name    | Description               | Subtags |

@@ -16,7 +16,9 @@
     vertical-align: top;
     position: relative;
 
-    &.#{$namespace}-scrollbar__wrap:not(.#{$namespace}-scrollbar__wrap--hidden-default) {
+    &.#{$namespace}-scrollbar__wrap:not(
+        .#{$namespace}-scrollbar__wrap--hidden-default
+      ) {
       padding-bottom: 15px;
     }
 
@@ -29,7 +31,9 @@
         transform: translateY(-32px);
       }
 
-      .#{$namespace}-time-spinner__item:hover:not(.is-disabled):not(.is-active) {
+      .#{$namespace}-time-spinner__item:hover:not(.is-disabled):not(
+          .is-active
+        ) {
         background: getCssVar('fill-color', 'light');
         cursor: default;
       }

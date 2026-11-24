@@ -35,6 +35,7 @@ import ElSubMenu from './sub-menu'
 import { useMenuCssVar } from './use-menu-css-var'
 import { MENU_INJECTION_KEY, SUB_MENU_INJECTION_KEY } from './tokens'
 
+import type { ClassValue } from '@element-plus/utils'
 import type { PopperEffect } from '@element-plus/components/popper'
 import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
@@ -42,9 +43,10 @@ import type {
   Component,
   DirectiveArguments,
   ExtractPropTypes,
+  ExtractPublicPropTypes,
+  StyleValue,
   VNode,
   VNodeArrayChildren,
-  __ExtractPublicPropTypes,
 } from 'vue'
 import type { UseResizeObserverReturn } from '@vueuse/core'
 
@@ -148,7 +150,17 @@ export const menuProps = buildProps({
   /**
    * @description custom class name for all popup menus
    */
-  popperClass: String,
+  popperClass: {
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
+    default: undefined,
+  },
+  /**
+   * @description custom style for all popup menus
+   */
+  popperStyle: {
+    type: definePropType<StyleValue>([String, Array, Object, Boolean]),
+    default: undefined,
+  },
   /**
    * @description control timeout for all menus before showing
    */
@@ -172,7 +184,7 @@ export const menuProps = buildProps({
   },
 } as const)
 export type MenuProps = ExtractPropTypes<typeof menuProps>
-export type MenuPropsPublic = __ExtractPublicPropTypes<typeof menuProps>
+export type MenuPropsPublic = ExtractPublicPropTypes<typeof menuProps>
 
 const checkIndexPath = (indexPath: unknown): indexPath is string[] =>
   isArray(indexPath) && indexPath.every((path) => isString(path))
@@ -197,6 +209,8 @@ export const menuEmits = {
 }
 export type MenuEmits = typeof menuEmits
 
+const DEFAULT_MORE_ITEM_WIDTH = 64
+
 export default defineComponent({
   name: 'ElMenu',
 
@@ -210,7 +224,7 @@ export default defineComponent({
     const subMenu = ref<HTMLElement>()
     const nsMenu = useNamespace('menu')
     const nsSubMenu = useNamespace('sub-menu')
-    let moreItemWidth = 64
+    let moreItemWidth = DEFAULT_MORE_ITEM_WIDTH
 
     // data
     const sliceIndex = ref(-1)
@@ -327,15 +341,18 @@ export default defineComponent({
 
     const calcSliceIndex = () => {
       if (!menu.value) return -1
-      const items = Array.from(menu.value?.childNodes ?? []).filter(
+
+      const items = Array.from(menu.value.childNodes).filter(
         (item) =>
           item.nodeName !== '#comment' &&
           (item.nodeName !== '#text' || item.nodeValue)
       ) as HTMLElement[]
-      const computedMenuStyle = getComputedStyle(menu.value!)
+
+      const computedMenuStyle = getComputedStyle(menu.value)
       const paddingLeft = Number.parseInt(computedMenuStyle.paddingLeft, 10)
       const paddingRight = Number.parseInt(computedMenuStyle.paddingRight, 10)
-      const menuWidth = menu.value!.clientWidth - paddingLeft - paddingRight
+      const menuWidth = menu.value.clientWidth - paddingLeft - paddingRight
+
       let calcWidth = 0
       let sliceIndex = 0
       items.forEach((item, index) => {
@@ -363,7 +380,7 @@ export default defineComponent({
     let isFirstTimeRender = true
     const handleResize = () => {
       const el = unrefElement(subMenu)
-      if (el) moreItemWidth = calcMenuItemWidth(el) || 64
+      if (el) moreItemWidth = calcMenuItemWidth(el) || DEFAULT_MORE_ITEM_WIDTH
       if (sliceIndex.value === calcSliceIndex()) return
       const callback = () => {
         sliceIndex.value = -1
@@ -440,7 +457,7 @@ export default defineComponent({
           closeMenu,
           handleMenuItemClick,
           handleSubMenuClick,
-        })
+        }) as unknown as MenuProvider // Avoid TS2589
       )
 
       provide<SubMenuProvider>(`${SUB_MENU_INJECTION_KEY}${instance.uid}`, {

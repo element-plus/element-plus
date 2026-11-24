@@ -1,6 +1,6 @@
 {
   "cSpell.words": ["Element Plus", "element-plus", "vnode"],
-  "typescript.tsdk": "node_modules/typescript/lib",
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
@@ -38,6 +38,9 @@
   "i18n-ally.keystyle": "nested",
   "iconify.includes": ["ep"],
   "unocss.root": "./docs",
+  "files.associations": {
+    "**/renovate.json": "jsonc"
+  },
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.patterns": {
     "package.json": "pnpm-lock.yaml, pnpm-workspace.yaml",

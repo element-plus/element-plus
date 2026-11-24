@@ -43,6 +43,11 @@ type TextAreaHeight = {
   minHeight?: string
 }
 
+export const looseToNumber = (val: any): any => {
+  const n = Number.parseFloat(val)
+  return Number.isNaN(n) ? val : n
+}
+
 function calculateNodeStyling(targetElement: Element): NodeStyle {
   const style = window.getComputedStyle(targetElement)
 
@@ -71,7 +76,12 @@ export function calcTextareaHeight(
 ): TextAreaHeight {
   if (!hiddenTextarea) {
     hiddenTextarea = document.createElement('textarea')
-    ;(targetElement.parentNode ?? document.body).appendChild(hiddenTextarea)
+    let hostNode = document.body
+    // #23575
+    if (!isFirefox() && targetElement.parentNode) {
+      hostNode = targetElement.parentNode as HTMLElement
+    }
+    hostNode.appendChild(hiddenTextarea)
   }
 
   const { paddingSize, borderSize, boxSizing, contextStyle } =

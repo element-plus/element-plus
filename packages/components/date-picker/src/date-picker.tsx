@@ -1,4 +1,4 @@
-import { computed, defineComponent, provide, reactive, ref, toRef } from 'vue'
+import { defineComponent, provide, reactive, ref, toRef } from 'vue'
 import {
   CommonPicker,
   DEFAULT_FORMATS_DATE,
@@ -6,10 +6,7 @@ import {
   PICKER_POPPER_OPTIONS_INJECTION_KEY,
 } from '@element-plus/components/time-picker'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import {
-  ElDatePickerPanel,
-  ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY,
-} from '@element-plus/components/date-picker-panel'
+import { ElDatePickerPanel } from '@element-plus/components/date-picker-panel'
 import { datePickerProps } from './props'
 
 import type {
@@ -24,15 +21,10 @@ export default defineComponent({
   props: datePickerProps,
   emits: [UPDATE_MODEL_EVENT],
   setup(props, { expose, emit, slots }) {
-    const isDefaultFormat = computed(() => {
-      return !props.format
-    })
-    provide(ROOT_PICKER_IS_DEFAULT_FORMAT_INJECTION_KEY, isDefaultFormat)
     provide(
       PICKER_POPPER_OPTIONS_INJECTION_KEY,
       reactive(toRef(props, 'popperOptions'))
     )
-
     const commonPicker = ref<InstanceType<typeof CommonPicker>>()
     const refProps: DatePickerExpose = {
       focus: () => {
@@ -72,7 +64,12 @@ export default defineComponent({
         >
           {{
             default: (scopedProps: /**FIXME: remove any type */ any) => (
-              <ElDatePickerPanel border={false} {...scopedProps}>
+              <ElDatePickerPanel
+                disabled={props.disabled}
+                editable={props.editable}
+                border={false}
+                {...scopedProps}
+              >
                 {slots}
               </ElDatePickerPanel>
             ),

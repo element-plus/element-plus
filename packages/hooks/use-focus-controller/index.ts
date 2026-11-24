@@ -9,8 +9,7 @@ import {
 import { useEventListener } from '@vueuse/core'
 import { isElement, isFocusable, isFunction } from '@element-plus/utils'
 
-import type { ShallowRef } from 'vue'
-import type { MaybeRef } from '@vueuse/core'
+import type { MaybeRef, ShallowRef } from 'vue'
 
 interface UseFocusControllerOptions {
   disabled?: MaybeRef<boolean>
@@ -54,8 +53,10 @@ export function useFocusController<T extends { focus: () => void }>(
 
   const handleBlur = (event: FocusEvent) => {
     const cancelBlur = isFunction(beforeBlur) ? beforeBlur(event) : false
+    // Not guarded by `disabled`: disabling a focused target makes the browser
+    // fire a native blur after `disabled` is already true, and that blur must
+    // still clear the focus state and be emitted.
     if (
-      unref(disabled) ||
       (event.relatedTarget &&
         wrapperRef.value?.contains(event.relatedTarget as Node)) ||
       cancelBlur

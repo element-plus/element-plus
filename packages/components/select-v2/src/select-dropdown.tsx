@@ -8,7 +8,7 @@ import {
   watch,
 } from 'vue'
 import { get } from 'lodash-unified'
-import { isIOS, isObject, isUndefined } from '@element-plus/utils'
+import { getEventCode, isIOS, isObject, isUndefined } from '@element-plus/utils'
 import {
   DynamicSizeList,
   FixedSizeList,
@@ -19,7 +19,9 @@ import GroupItem from './group-item.vue'
 import OptionItem from './option-item.vue'
 import { useProps } from './useProps'
 import { selectV2InjectionKey } from './token'
+import { scrollbarEmits } from '@element-plus/components/scrollbar'
 
+import type { ScrollbarDirection } from '@element-plus/components/scrollbar'
 import type {
   DynamicSizeListInstance,
   FixedSizeListInstance,
@@ -41,6 +43,8 @@ const props = {
   },
   hoveringIndex: Number,
   width: Number,
+  id: String,
+  ariaLabel: String,
 }
 interface SelectDropdownExposed {
   listRef: Ref<FixedSizeListInstance | DynamicSizeListInstance | undefined>
@@ -58,7 +62,10 @@ export type SelectDropdownInstance = ComponentPublicInstance<
 export default defineComponent({
   name: 'ElSelectDropdown',
   props,
-  setup(props, { slots, expose }) {
+  emits: {
+    'end-reached': scrollbarEmits['end-reached'],
+  },
+  setup(props, { slots, expose, emit }) {
     const select = inject(selectV2InjectionKey)!
     const ns = useNamespace('select')
     const { getLabel, getValue, getDisabled } = useProps(select.props)
@@ -224,7 +231,7 @@ export default defineComponent({
     }
 
     const onKeydown = (e: KeyboardEvent) => {
-      const { code } = e
+      const code = getEventCode(e)
       const { tab, esc, down, up, enter, numpadEnter } = EVENT_CODE
       if ([esc, down, up, enter, numpadEnter].includes(code)) {
         e.preventDefault()
@@ -249,13 +256,16 @@ export default defineComponent({
       }
     }
 
+    const onEndReached = (direction: ScrollbarDirection) => {
+      emit('end-reached', direction)
+    }
+
     return () => {
       const { data, width } = props
       const { height, multiple, scrollbarAlwaysOn } = select.props
-      const isScrollbarAlwaysOn = computed(() => {
-        // fix https://github.com/element-plus/element-plus/issues/19127
-        return isIOS ? true : scrollbarAlwaysOn
-      })
+
+      // fix https://github.com/element-plus/element-plus/issues/19127
+      const isScrollbarAlwaysOn = isIOS ? true : scrollbarAlwaysOn
 
       const List = unref(isSized) ? FixedSizeList : DynamicSizeList
 
@@ -272,11 +282,20 @@ export default defineComponent({
               ref={listRef}
               {...unref(listProps)}
               className={ns.be('dropdown', 'list')}
-              scrollbarAlwaysOn={isScrollbarAlwaysOn.value}
+              scrollbarAlwaysOn={isScrollbarAlwaysOn}
               data={data}
               height={height}
               width={width}
               total={data.length}
+              innerElement="ul"
+              innerProps={{
+                id: props.id,
+                role: 'listbox',
+                'aria-label': props.ariaLabel,
+                'aria-orientation': 'vertical',
+              }}
+              // @ts-ignore - dts problem
+              onEndReached={onEndReached}
               // @ts-ignore - dts problem
               onKeydown={onKeydown}
             >

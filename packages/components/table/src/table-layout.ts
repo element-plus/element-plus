@@ -16,6 +16,7 @@ class TableLayout<T extends DefaultRow> {
   columns: TableColumnCtx<T>[]
   fit: boolean
   showHeader: boolean
+  heightMap: Record<string, string | number | null>
 
   height: Ref<null | number>
   scrollX: Ref<boolean>
@@ -35,6 +36,7 @@ class TableLayout<T extends DefaultRow> {
     this.columns = []
     this.fit = true
     this.showHeader = true
+    this.heightMap = {}
     this.height = ref(null)
     this.scrollX = ref(false)
     this.scrollY = ref(false)
@@ -83,9 +85,14 @@ class TableLayout<T extends DefaultRow> {
     const el = this.table.vnode.el
     value = parseHeight(value)
     this.height.value = Number(value)
+    this.heightMap[prop] = value
 
     if (!el && (value || value === 0)) {
-      nextTick(() => this.setHeight(value, prop))
+      nextTick(() => {
+        if (this.heightMap[prop] === value) {
+          this.setHeight(value, prop)
+        }
+      })
       return
     }
 

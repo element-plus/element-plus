@@ -1,4 +1,5 @@
-import { nextTick } from 'vue'
+import { createSSRApp, h, nextTick, ref } from 'vue'
+import { renderToString } from '@vue/server-renderer'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
 import Space from '../src/space'
@@ -94,6 +95,25 @@ describe('Space.vue', () => {
 
     expect(wrapper.findAll(`.${testSpacerCls}`)).toHaveLength(1)
     expect(wrapper.element.children).toHaveLength(3)
+  })
+
+  it('should render every component vnode spacer after hydration', async () => {
+    const showSpace = ref(false)
+    const spacer = h(() => h('i', { class: 'test-spacer' }))
+    const App = () =>
+      showSpace.value
+        ? h(Space, { spacer }, () => [1, 2, 3].map((item) => h('div', item)))
+        : null
+    const container = document.createElement('div')
+    container.innerHTML = await renderToString(h(App))
+    const app = createSSRApp(App)
+
+    app.mount(container)
+    showSpace.value = true
+    await nextTick()
+
+    expect(container.querySelectorAll('.test-spacer')).toHaveLength(2)
+    app.unmount()
   })
 
   it('fill', async () => {

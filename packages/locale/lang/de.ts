@@ -11,6 +11,13 @@ export default {
       description:
         'current color is {color}. press enter to select a new color.', // to be translated
       alphaLabel: 'pick alpha value', // to be translated
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
+      svLabel: 'pick saturation and brightness value', // to be translated
+      svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
+      predefineDescription: 'select {value} as the color', // to be translated
     },
     datepicker: {
       now: 'Jetzt',
@@ -21,6 +28,7 @@ export default {
       dateTablePrompt:
         'Use the arrow keys and enter to select the day of the month', // to be translated
       monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
+      quarterTablePrompt: 'Use the arrow keys and enter to select the quarter', // to be translated
       yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
       selectedDate: 'Selected date', // to be translated
       selectDate: 'Datum wählen',
@@ -80,6 +88,9 @@ export default {
       },
       day: 'Tag',
       month: 'Monat',
+    },
+    input: {
+      characters: '{count} / {max} Zeichen',
     },
     inputNumber: {
       decrease: 'decrease number', // to be translated
@@ -147,6 +158,15 @@ export default {
       resetFilter: 'Zurücksetzen',
       clearFilter: 'Alles ',
       sumText: 'Summe',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
+      sortLabel: 'Sort by {column}', // to be translated
+      filterLabel: 'Filter by {column}', // to be translated
+    },
+    tag: {
+      close: 'Close this tag', // to be translated
     },
     tour: {
       next: 'Weiter',
@@ -179,6 +199,10 @@ export default {
       leftArrow: 'Karussell-Pfeil links',
       rightArrow: 'Karussell-Pfeil rechts',
       indicator: 'Karussell zu Index {index} wechseln',
+    },
+    inputOTP: {
+      groupLabel: 'OTP Input', // to be translated
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
     },
   },
 }

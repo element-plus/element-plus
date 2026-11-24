@@ -1,5 +1,4 @@
-import { PopperProps } from '@element-plus/components/popper'
-
+import type { PopperProps } from '@element-plus/components/popper'
 import type { ComputedRef, InjectionKey, Ref } from 'vue'
 
 export type ElDropdownInjectionContext = {
@@ -9,6 +8,7 @@ export type ElDropdownInjectionContext = {
   isUsingKeyboard: Ref<boolean>
   onItemLeave: (e: PointerEvent) => void
   onItemEnter: (e: PointerEvent) => void
+  handleClose: () => void
 }
 
 export const DROPDOWN_INJECTION_KEY: InjectionKey<ElDropdownInjectionContext> =

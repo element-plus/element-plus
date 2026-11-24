@@ -1,0 +1,25 @@
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+
+@include b(avatar-group) {
+  @include set-component-css-var('avatar-group', $avatar-group);
+
+  display: inline-flex;
+
+  .#{$namespace}-avatar {
+    border: 1px solid getCssVar('border-color-extra-light');
+  }
+
+  .#{$namespace}-avatar:not(:first-child) {
+    margin-left: getCssVar('avatar-group', 'item-gap');
+  }
+
+  @include e(collapse-avatars) {
+    @include set-component-css-var('avatar-group', $avatar-group);
+
+    .#{$namespace}-avatar:not(:first-child) {
+      margin-left: getCssVar('avatar-group', 'collapse-item-gap');
+    }
+  }
+}

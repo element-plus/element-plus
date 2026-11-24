@@ -15,6 +15,7 @@ import type { AppContext, ComponentPublicInstance, VNode } from 'vue'
 import type {
   Action,
   Callback,
+  CloseFn,
   ElMessageBoxOptions,
   ElMessageBoxShortcutMethod,
   IElMessageBox,
@@ -25,7 +26,7 @@ import type {
 // component default merge props & data
 
 const messageInstance = new Map<
-  ComponentPublicInstance<{ doClose: () => void }>, // marking doClose as function
+  ComponentPublicInstance<{ doClose: CloseFn }>, // marking doClose as function
   {
     options: any
     callback: Callback | undefined
@@ -56,6 +57,13 @@ const getAppendToElement = (props: any): HTMLElement => {
   return appendTo
 }
 
+const handleAction = (vnode: VNode, action: Action) => {
+  const vm = vnode.component?.proxy as ComponentPublicInstance<{
+    handleAction: (action: Action) => void
+  }>
+  return () => vm.handleAction(action)
+}
+
 const initInstance = (
   props: any,
   container: HTMLElement,
@@ -67,7 +75,12 @@ const initInstance = (
     isFunction(props.message) || isVNode(props.message)
       ? {
           default: isFunction(props.message)
-            ? props.message
+            ? () =>
+                props.message({
+                  confirm: handleAction(vnode, 'confirm'),
+                  cancel: handleAction(vnode, 'cancel'),
+                  close: handleAction(vnode, 'close'),
+                })
             : () => props.message,
         }
       : null
@@ -126,7 +139,7 @@ const showMessage = (options: any, appContext?: AppContext | null) => {
   const vm = instance.proxy as ComponentPublicInstance<
     {
       visible: boolean
-      doClose: () => void
+      doClose: CloseFn
     } & MessageBoxState
   >
 
@@ -152,7 +165,7 @@ async function MessageBox(
 function MessageBox(
   options: ElMessageBoxOptions | string | VNode,
   appContext: AppContext | null = null
-): Promise<{ value: string; action: Action } | Action> {
+): Promise<MessageBoxData> {
   if (!isClient) return Promise.reject()
   let callback: Callback | undefined
   if (isString(options) || isVNode(options)) {
@@ -180,7 +193,7 @@ function MessageBox(
 
 const MESSAGE_BOX_VARIANTS = ['alert', 'confirm', 'prompt'] as const
 const MESSAGE_BOX_DEFAULT_OPTS: Record<
-  typeof MESSAGE_BOX_VARIANTS[number],
+  (typeof MESSAGE_BOX_VARIANTS)[number],
   Partial<ElMessageBoxOptions>
 > = {
   alert: { closeOnPressEscape: false, closeOnClickModal: false },
@@ -194,7 +207,7 @@ MESSAGE_BOX_VARIANTS.forEach((boxType) => {
   ) as ElMessageBoxShortcutMethod
 })
 
-function messageBoxFactory(boxType: typeof MESSAGE_BOX_VARIANTS[number]) {
+function messageBoxFactory(boxType: (typeof MESSAGE_BOX_VARIANTS)[number]) {
   return (
     message: string | VNode,
     title: string | ElMessageBoxOptions,

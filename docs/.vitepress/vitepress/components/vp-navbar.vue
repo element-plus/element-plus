@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { inBrowser, useData } from 'vitepress'
+import { computed, onMounted, ref } from 'vue'
+import { inBrowser, useData, withBase } from 'vitepress'
 import { version as epVersion } from 'element-plus'
 import VPNavbarSearch from './navbar/vp-search.vue'
 import VPNavbarMenu from './navbar/vp-menu.vue'
@@ -15,17 +15,31 @@ defineProps<{
 
 defineEmits(['toggle'])
 
-const { theme, page } = useData()
+const { theme, page, site } = useData()
 
 const currentLink = computed(() => {
   if (!inBrowser) {
     return `/${page.value?.frontmatter?.lang || ''}/`
   }
   const existLangIndex = theme.value.langs.findIndex((lang) =>
-    window?.location?.pathname.startsWith(`/${lang}`)
+    window?.location?.pathname.startsWith(`${site.value.base}${lang}`)
   )
 
   return existLangIndex === -1 ? '/' : `/${theme.value.langs[existLangIndex]}/`
+})
+
+const showVersion = ref(epVersion.replace('0.0.0-staging.', ''))
+const showPrNumber = ref('')
+
+onMounted(() => {
+  const isPreview = window.location?.host.startsWith('preview-')
+  if (isPreview) {
+    const prNumber = window.location?.host.split('-', 2)[1]
+    if (prNumber) {
+      showPrNumber.value = prNumber
+      showVersion.value = `PR ${prNumber}`
+    }
+  }
 })
 </script>
 
@@ -33,16 +47,28 @@ const currentLink = computed(() => {
   <div class="navbar-wrapper">
     <div class="header-container">
       <div class="logo-container">
-        <a :href="currentLink">
+        <a :href="withBase(currentLink)">
           <img
             class="logo"
             src="/images/element-plus-logo.svg"
             alt="Element Plus Logo"
           />
         </a>
-        <el-tag round size="small" title="latest version">{{
-          epVersion.replace('0.0.0-staging.', '')
-        }}</el-tag>
+
+        <el-tag round size="small" title="latest version">
+          <el-link
+            v-if="showPrNumber"
+            :href="`https://github.com/element-plus/element-plus/pull/${showPrNumber}`"
+            target="_blank"
+            rel="noopener noreferrer"
+            type="primary"
+          >
+            {{ showVersion }}
+          </el-link>
+          <span v-else>
+            {{ showVersion }}
+          </span>
+        </el-tag>
       </div>
       <div class="content">
         <VPNavbarSearch class="search" :options="theme.agolia" multilang />

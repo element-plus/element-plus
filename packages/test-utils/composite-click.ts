@@ -4,7 +4,7 @@ import triggerEvent from './trigger-event'
 import type { DOMWrapper, VueWrapper } from '@vue/test-utils'
 
 const triggerCompositeClick = async <
-  T extends VueWrapper<any> | DOMWrapper<Element>
+  T extends VueWrapper<any> | DOMWrapper<Element>,
 >(
   wrapper: T
 ) => {

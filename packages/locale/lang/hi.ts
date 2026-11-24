@@ -11,6 +11,13 @@ export default {
       description:
         'मौजूदा रंग {color} है. कोई नया रंग चुनने के लिए एंटर दबाएँ.',
       alphaLabel: 'अल्फा मान चुनें',
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
+      svLabel: 'pick saturation and brightness value', // to be translated
+      svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
+      predefineDescription: 'select {value} as the color', // to be translated
     },
     datepicker: {
       now: 'अभी',
@@ -22,6 +29,8 @@ export default {
         'महीने का दिन चुनने के लिए एरो कुंजी का इस्तेमाल करें और एंटर करें',
       monthTablePrompt:
         'महीने चुनने के लिए एरो कुंजी का इस्तेमाल करें और एंटर करें ',
+      quarterTablePrompt:
+        'तिमाही चुनने के लिए एरो कुंजी का इस्तेमाल करें और एंटर करें',
       yearTablePrompt:
         'साल चुनने के लिए एरो कुंजी का इस्तेमाल करें और एंटर करें',
       selectedDate: 'चुनी गई तारीख',
@@ -80,6 +89,9 @@ export default {
         nov: 'नवं.',
         dec: 'दिसं.',
       },
+    },
+    input: {
+      characters: '{count} / {max} वर्ण',
     },
     inputNumber: {
       decrease: 'संख्या घटाएँ',
@@ -147,6 +159,15 @@ export default {
       resetFilter: 'रीसेट करें',
       clearFilter: 'सभी',
       sumText: 'जोड़े',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
+      sortLabel: 'Sort by {column}', // to be translated
+      filterLabel: 'Filter by {column}', // to be translated
+    },
+    tag: {
+      close: 'Close this tag', // to be translated
     },
     tour: {
       next: 'अगला',
@@ -179,6 +200,10 @@ export default {
       leftArrow: 'कैरोसेल तीर बाएँ',
       rightArrow: 'कैरोसेल तीर दाएँ',
       indicator: 'कैरोसेल इंडेक्स {index} पर स्विच करें',
+    },
+    inputOTP: {
+      groupLabel: 'OTP Input', // to be translated
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
     },
   },
 }

@@ -11,6 +11,8 @@
       :filter-method="filterMethod"
       :default-checked="leftDefaultChecked"
       :props="props.props"
+      :virtual-scroll="virtualScroll"
+      :item-size="itemSize"
       @checked-change="onSourceCheckedChange"
     >
       <template #empty>
@@ -49,6 +51,8 @@
       :title="rightPanelTitle"
       :default-checked="rightDefaultChecked"
       :props="props.props"
+      :virtual-scroll="virtualScroll"
+      :item-size="itemSize"
       @checked-change="onTargetCheckedChange"
     >
       <template #empty>
@@ -59,15 +63,15 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import { Comment, computed, h, reactive, ref, useSlots, watch } from 'vue'
-import { debugWarn, isEmpty, isUndefined } from '@element-plus/utils'
+<script lang="ts" setup generic="T extends TransferDataItem = TransferDataItem">
+import { Comment, computed, h, reactive, ref, watch } from 'vue'
+import { NOOP, isEmpty, isUndefined } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { ElButton } from '@element-plus/components/button'
 import { ElIcon } from '@element-plus/components/icon'
 import { useFormItem } from '@element-plus/components/form'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
-import { transferEmits, transferProps } from './transfer'
+import { transferEmits } from './transfer'
 import {
   useCheckedChange,
   useComputedData,
@@ -76,10 +80,12 @@ import {
 } from './composables'
 import TransferPanel from './transfer-panel.vue'
 
+import type { VNode } from 'vue'
 import type {
   TransferCheckedState,
   TransferDataItem,
   TransferDirection,
+  TransferProps,
 } from './transfer'
 import type { TransferPanelInstance } from './transfer-panel'
 
@@ -87,9 +93,32 @@ defineOptions({
   name: 'ElTransfer',
 })
 
-const props = defineProps(transferProps)
+const props = withDefaults(defineProps<TransferProps<T>>(), {
+  data: () => [],
+  titles: () => [] as unknown as [string, string],
+  buttonTexts: () => [] as unknown as [string, string],
+  leftDefaultChecked: () => [],
+  rightDefaultChecked: () => [],
+  modelValue: () => [],
+  format: () => ({}),
+  props: () => ({
+    label: 'label',
+    key: 'key',
+    disabled: 'disabled',
+  }),
+  targetOrder: 'original',
+  validateEvent: true,
+  virtualScroll: false,
+  itemSize: 30,
+})
 const emit = defineEmits(transferEmits)
-const slots = useSlots()
+const slots = defineSlots<{
+  default?: (props: { option: T }) => VNode[]
+  'left-empty'?: () => VNode[]
+  'left-footer'?: () => VNode[]
+  'right-empty'?: () => VNode[]
+  'right-footer'?: () => VNode[]
+}>()
 
 const { t } = useLocale()
 const ns = useNamespace('transfer')
@@ -143,12 +172,12 @@ watch(
   () => props.modelValue,
   () => {
     if (props.validateEvent) {
-      formItem?.validate?.('change').catch((err) => debugWarn(err))
+      formItem?.validate?.('change').catch(NOOP)
     }
   }
 )
 
-const optionRender = computed(() => (option: TransferDataItem) => {
+const optionRender = computed(() => (option: T) => {
   if (props.renderContent) return props.renderContent(h, option)
 
   const defaultSlotVNodes = (slots.default?.({ option }) || []).filter(

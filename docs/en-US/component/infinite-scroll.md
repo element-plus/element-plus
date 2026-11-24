@@ -3,6 +3,12 @@ title: Infinite
 lang: en-US
 ---
 
+:::warning Deprecated directive
+
+We no longer maintain this directive. It will be **removed** in ^(3.0.0), please use the [el-scrollbar infinite scroll](./scrollbar#infinite-scroll) instead.
+
+:::
+
 # Infinite Scroll
 
 Load more data while reach bottom of the page

@@ -1,18 +1,22 @@
 <template>
-  <div :class="[ns.b(), ns.is('disabled', disabled), ns.is('border', border)]">
+  <div
+    :class="[ns.b(), ns.is('disabled', disabled), ns.is('border', border)]"
+    @focusout="handleFocusout"
+  >
     <div :class="ns.e('wrapper')">
       <hue-slider
-        ref="hue"
-        class="hue-slider"
+        ref="hueRef"
         :color="color"
         vertical
         :disabled="disabled"
+        :class="['hue-slider', hueSliderClass]"
+        :style="hueSliderStyle"
       />
-      <sv-panel ref="sv" :color="color" :disabled="disabled" />
+      <sv-panel ref="svRef" :color="color" :disabled="disabled" />
     </div>
     <alpha-slider
       v-if="showAlpha"
-      ref="alpha"
+      ref="alphaRef"
       :color="color"
       :disabled="disabled"
     />
@@ -41,8 +45,9 @@
 <script lang="ts" setup>
 import { computed, inject, nextTick, onMounted, provide, ref, watch } from 'vue'
 import { ElInput } from '@element-plus/components/input'
-import { useFormDisabled } from '@element-plus/components/form'
+import { useFormDisabled, useFormItem } from '@element-plus/components/form'
 import { useNamespace } from '@element-plus/hooks'
+import { NOOP } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import AlphaSlider from './components/alpha-slider.vue'
 import HueSlider from './components/hue-slider.vue'
@@ -52,23 +57,31 @@ import {
   ROOT_COMMON_COLOR_INJECTION_KEY,
   colorPickerPanelContextKey,
   colorPickerPanelEmits,
-  colorPickerPanelProps,
 } from './color-picker-panel'
 import { useCommonColor } from './composables/use-common-color'
 
+import type { ColorPickerPanelProps } from './color-picker-panel'
 import type { InputInstance } from '@element-plus/components/input'
 
 defineOptions({
   name: 'ElColorPickerPanel',
 })
-const props = defineProps(colorPickerPanelProps)
+const props = withDefaults(defineProps<ColorPickerPanelProps>(), {
+  modelValue: undefined,
+  border: true,
+  validateEvent: true,
+  showAlpha: false,
+  hueSliderClass: undefined,
+  hueSliderStyle: undefined,
+})
 const emit = defineEmits(colorPickerPanelEmits)
 
 const ns = useNamespace('color-picker-panel')
+const { formItem } = useFormItem()
 const disabled = useFormDisabled()
-const hue = ref<InstanceType<typeof HueSlider>>()
-const sv = ref<InstanceType<typeof SvPanel>>()
-const alpha = ref<InstanceType<typeof AlphaSlider>>()
+const hueRef = ref<InstanceType<typeof HueSlider>>()
+const svRef = ref<InstanceType<typeof SvPanel>>()
+const alphaRef = ref<InstanceType<typeof AlphaSlider>>()
 const inputRef = ref<InputInstance>()
 const customInput = ref('')
 
@@ -85,22 +98,30 @@ function handleConfirm() {
   }
 }
 
+function handleFocusout() {
+  if (props.validateEvent) {
+    formItem?.validate?.('blur').catch(NOOP)
+  }
+}
+
+function update() {
+  hueRef.value?.update()
+  svRef.value?.update()
+  alphaRef.value?.update()
+}
+
 onMounted(() => {
   if (props.modelValue) {
     customInput.value = color.value
   }
-  nextTick(() => {
-    hue.value?.update()
-    sv.value?.update()
-    alpha.value?.update()
-  })
+  nextTick(update)
 })
 
 watch(
   () => props.modelValue,
   (newVal) => {
-    if (newVal && newVal !== color.value) {
-      color.fromString(newVal)
+    if (newVal !== color.value) {
+      newVal ? color.fromString(newVal) : color.clear()
     }
   }
 )
@@ -110,6 +131,9 @@ watch(
   (val) => {
     emit(UPDATE_MODEL_EVENT, val)
     customInput.value = val
+    if (props.validateEvent) {
+      formItem?.validate('change').catch(NOOP)
+    }
   }
 )
 
@@ -126,5 +150,9 @@ defineExpose({
    * @description custom input ref
    */
   inputRef,
+  /**
+   * @description update sub components
+   */
+  update,
 })
 </script>

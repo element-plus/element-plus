@@ -1,4 +1,4 @@
-import { createVNode, isVNode, render } from 'vue'
+import { Comment, Fragment, createVNode, isVNode, render } from 'vue'
 import { flatMap, get, isNull, merge } from 'lodash-unified'
 import {
   ensureArray,
@@ -13,28 +13,34 @@ import {
   isUndefined,
   throwError,
 } from '@element-plus/utils'
-import ElTooltip, {
-  type ElTooltipProps,
-} from '@element-plus/components/tooltip'
+import ElTooltip from '@element-plus/components/tooltip'
 
+import type { UseTooltipProps } from '@element-plus/components/tooltip'
 import type { DefaultRow, Table, TreeProps } from './table/defaults'
 import type { TableColumnCtx } from './table-column/defaults'
-import type { CSSProperties, VNode } from 'vue'
+import type { CSSProperties, VNode, VNodeArrayChildren } from 'vue'
+
+let tableIdSeed = 1
+let columnIdSeed = 1
+
+export const createTableId = (namespace: string) =>
+  `${namespace}-table_${tableIdSeed++}`
+
+export const createTableColumnId = (parentId: string) =>
+  `${parentId}_column_${columnIdSeed++}`
 
 export type TableOverflowTooltipOptions = Partial<
-  Pick<
-    ElTooltipProps,
-    | 'appendTo'
-    | 'effect'
-    | 'enterable'
-    | 'hideAfter'
-    | 'offset'
-    | 'placement'
-    | 'popperClass'
-    | 'popperOptions'
-    | 'showAfter'
-    | 'showArrow'
-    | 'transition'
+  Omit<
+    UseTooltipProps,
+    | 'content'
+    | 'rawContent'
+    | 'persistent'
+    | 'visible'
+    | 'autoClose'
+    | 'referenceEl'
+    | 'triggerTargetEl'
+    | 'virtualRef'
+    | 'virtualTriggering'
   >
 >
 
@@ -136,7 +142,7 @@ export const getColumnById = function <T extends DefaultRow>(
   },
   columnId: string
 ): null | TableColumnCtx<T> {
-  let column = null
+  let column: TableColumnCtx<T> | null = null
   table.columns.forEach((item) => {
     if (item.id === columnId) {
       column = item
@@ -151,7 +157,7 @@ export const getColumnByKey = function <T extends DefaultRow>(
   },
   columnKey: string
 ): TableColumnCtx<T> {
-  let column = null
+  let column: TableColumnCtx<T> | null = null
   for (let i = 0; i < table.columns.length; i++) {
     const item = table.columns[i]
     if (item.columnKey === columnKey) {
@@ -421,12 +427,6 @@ const getTableOverflowTooltipProps = <T extends DefaultRow>(
   row: T,
   column: TableColumnCtx<T> | null
 ) => {
-  // merge popperOptions
-  const popperOptions = {
-    strategy: 'fixed',
-    ...props.popperOptions,
-  }
-
   const tooltipFormatterContent = isFunction(column?.tooltipFormatter)
     ? column.tooltipFormatter({
         row,
@@ -439,16 +439,16 @@ const getTableOverflowTooltipProps = <T extends DefaultRow>(
     return {
       slotContent: tooltipFormatterContent,
       content: null,
+      strategy: 'fixed',
       ...props,
-      popperOptions,
     }
   }
 
   return {
     slotContent: null,
     content: tooltipFormatterContent ?? innerText,
+    strategy: 'fixed',
     ...props,
-    popperOptions,
   }
 }
 
@@ -539,12 +539,16 @@ function getColSpan<T extends DefaultRow>(
   return colSpan + column.colSpan
 }
 
+type FixedColumn =
+  | { direction: 'left' | 'right'; start: number; after: number }
+  | { direction?: undefined; start?: undefined; after?: undefined }
+
 export const isFixedColumn = <T extends DefaultRow>(
   index: number,
   fixed: string | boolean | undefined,
   store: any,
   realColumns?: TableColumnCtx<T>[]
-) => {
+): FixedColumn => {
   let start = 0
   let after = index
   const columns = store.states.columns.value
@@ -558,7 +562,7 @@ export const isFixedColumn = <T extends DefaultRow>(
   } else {
     start = index
   }
-  let fixedLayout
+  let fixedLayout: 'left' | 'right' | undefined
   switch (fixed) {
     case 'left':
       if (after < store.states.fixedLeafColumnsLength.value) {
@@ -667,12 +671,30 @@ export const getFixedColumnOffset = <T extends DefaultRow>(
   return styles
 }
 
-export const ensurePosition = (
-  style: CSSProperties | undefined,
-  key: keyof CSSProperties
+export const ensurePosition = <T extends CSSProperties>(
+  style: T | undefined,
+  key: keyof T
 ) => {
   if (!style) return
   if (!Number.isNaN(style[key])) {
     style[key] = `${style[key]}px` as any
   }
+}
+
+export function ensureValidVNode(
+  vnodes: VNodeArrayChildren
+): VNodeArrayChildren | null {
+  return vnodes.some((child) => {
+    if (!isVNode(child)) return true
+    if (child.type === Comment) return false
+    if (
+      child.type === Fragment &&
+      !ensureValidVNode(child.children as VNodeArrayChildren)
+    ) {
+      return false
+    }
+    return true
+  })
+    ? vnodes
+    : null
 }

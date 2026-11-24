@@ -4,15 +4,19 @@
     trigger="click"
     :effect="effect"
     v-bind="$attrs"
+    :virtual-triggering="virtualTriggering"
+    :virtual-ref="virtualRef"
     :popper-class="`${ns.namespace.value}-popover`"
     :popper-style="style"
     :teleported="teleported"
     :fallback-placements="['bottom', 'top', 'right', 'left']"
     :hide-after="hideAfter"
     :persistent="persistent"
+    loop
+    @show="showPopper"
   >
     <template #content>
-      <div :class="ns.b()">
+      <div ref="rootRef" tabindex="-1" :class="ns.b()">
         <div :class="ns.e('main')">
           <el-icon
             v-if="!hideIcon && icon"
@@ -58,23 +62,40 @@ import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { addUnit } from '@element-plus/utils'
-import { popconfirmEmits, popconfirmProps } from './popconfirm'
+import { QuestionFilled } from '@element-plus/icons-vue'
+import { popconfirmEmits } from './popconfirm'
 
 import type { TooltipInstance } from '@element-plus/components/tooltip'
+import type { PopconfirmProps } from './popconfirm'
 
 defineOptions({
   name: 'ElPopconfirm',
 })
 
-const props = defineProps(popconfirmProps)
+const props = withDefaults(defineProps<PopconfirmProps>(), {
+  confirmButtonType: 'primary',
+  cancelButtonType: 'text',
+  icon: () => QuestionFilled,
+  iconColor: '#f90',
+  hideAfter: 200,
+  effect: 'light',
+  teleported: true,
+  width: 150,
+})
 const emit = defineEmits(popconfirmEmits)
 
 const { t } = useLocale()
 const ns = useNamespace('popconfirm')
 const tooltipRef = ref<TooltipInstance>()
+const rootRef = ref<HTMLElement>()
+
 const popperRef = computed(() => {
   return unref(tooltipRef)?.popperRef
 })
+
+const showPopper = () => {
+  rootRef.value?.focus?.()
+}
 
 const hidePopper = () => {
   tooltipRef.value?.onClose?.()

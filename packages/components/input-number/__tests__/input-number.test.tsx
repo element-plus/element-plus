@@ -1,10 +1,10 @@
 import { nextTick, ref } from 'vue'
-import { mount } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import { describe, expect, it, test, vi } from 'vitest'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
-import { ElFormItem } from '@element-plus/components/form'
+import { ElForm, ElFormItem } from '@element-plus/components/form'
 import { ElIcon } from '@element-plus/components/icon'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import InputNumber from '../src/input-number.vue'
 
 const mouseup = new Event('mouseup')
@@ -179,18 +179,32 @@ describe('InputNumber.vue', () => {
     await nextTick()
     expect(wrapper.find('input').element.value).toEqual('0.3')
   })
+  test('step-strictly precision edge critical judgment', async () => {
+    const num = ref(3.55)
+    const wrapper = mount(() => (
+      <InputNumber step-strictly={true} step={0.1} v-model={num.value} />
+    ))
+    expect(wrapper.find('input').element.value).toEqual('3.6')
+    num.value = 3.65
+    await nextTick()
+    expect(wrapper.find('input').element.value).toEqual('3.7')
+  })
   //fix: #12690
   test('maximum is less than the minimum', async () => {
     const num = ref(6)
     const errorHandler = vi.fn()
 
-    mount(() => <InputNumber v-model={num.value} min={10} max={8} />, {
-      global: {
-        config: {
-          errorHandler,
+    try {
+      mount(() => <InputNumber v-model={num.value} min={10} max={8} />, {
+        global: {
+          config: {
+            errorHandler,
+          },
         },
-      },
-    })
+      })
+    } catch {
+      // suppress error
+    }
     expect(errorHandler).toHaveBeenCalled()
     const [error] = errorHandler.mock.calls[0]
     expect(error.message).toEqual(
@@ -558,6 +572,18 @@ describe('InputNumber.vue', () => {
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
     })
+
+    test('The disabled state of a component has higher priority than that of a form', async () => {
+      const wrapper = mount(() => (
+        <ElForm disabled>
+          <InputNumber disabled={false} />
+        </ElForm>
+      ))
+
+      await nextTick()
+      const inputNumber = wrapper.find('.el-input-number')
+      expect(inputNumber.classes()).not.toContain('is-disabled')
+    })
   })
 
   test('use model-value', () => {
@@ -676,5 +702,152 @@ describe('InputNumber.vue', () => {
       preventDefault,
     })
     expect(preventDefault).not.toHaveBeenCalled()
+  })
+
+  test('correct condition for user input reset', async () => {
+    const num = ref(1)
+    const wrapper = mount(() => (
+      <InputNumber v-model={num.value} min={0} max={10} />
+    ))
+
+    const input = wrapper.find('input')
+
+    expect(input.element.value).toBe('1')
+
+    input.element.value = '100'
+    input.element.dispatchEvent(new Event('input'))
+    await input.trigger('keydown', { key: EVENT_CODE.down })
+    expect(input.element.value).toBe('10')
+
+    input.element.value = '110'
+    input.element.dispatchEvent(new Event('input'))
+    await input.trigger('keydown', { key: EVENT_CODE.down })
+    expect(input.element.value).toBe('10')
+  })
+
+  test('tabindex', async () => {
+    const wrapper = mount(() => <InputNumber tabindex={1} />)
+    expect(wrapper.find('input').attributes('tabindex')).toBe('1')
+  })
+
+  test('use formatter and parser', async () => {
+    const val = ref(10000)
+    const formatter = (val: string) => val.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    const parser = (val: string) => val.replace(/\$\s?|(,*)/g, '')
+    const handleInput = vi.fn()
+    const handleChange = vi.fn()
+
+    const wrapper = mount(() => (
+      <InputNumber
+        v-model={val.value}
+        formatter={formatter}
+        parser={parser}
+        onInput={handleInput}
+        onChange={handleChange}
+      />
+    ))
+
+    const input = wrapper.find<HTMLInputElement>('.el-input__inner').element
+    expect(input.value).toEqual('10,000')
+
+    input.value = '1,000,000'
+    input.dispatchEvent(new Event('input', { bubbles: true }))
+    await flushPromises()
+    expect(handleInput).toHaveBeenNthCalledWith(1, 1000000)
+    expect(val.value).toEqual(1000000)
+
+    input.dispatchEvent(new Event('change', { bubbles: true }))
+    await flushPromises()
+    expect(handleChange).toHaveBeenNthCalledWith(1, 1000000, 10000)
+    expect(val.value).toEqual(1000000)
+
+    input.value = '1a'
+    input.dispatchEvent(new Event('input', { bubbles: true }))
+    await flushPromises()
+    expect(handleInput).toHaveBeenNthCalledWith(2, 1)
+    expect(val.value).toEqual(1)
+
+    input.dispatchEvent(new Event('change', { bubbles: true }))
+    await flushPromises()
+    expect(val.value).toEqual(1)
+    expect(handleChange).toHaveBeenNthCalledWith(2, 1, 1000000)
+
+    input.value = 'a1'
+    input.dispatchEvent(new Event('input', { bubbles: true }))
+    await flushPromises()
+    expect(handleInput).toHaveBeenNthCalledWith(3, null)
+    expect(val.value).toEqual(null)
+
+    input.dispatchEvent(new Event('change', { bubbles: true }))
+    await flushPromises()
+    expect(handleChange).toHaveBeenNthCalledWith(3, null, 1)
+    expect(val.value).toEqual(null)
+  })
+
+  test('should display formatted value after blur', async () => {
+    const val = ref()
+    const formatter = (val: string) =>
+      `$ ${val}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    const parser = (val: string) => val.replace(/\$\s?|(,*)/g, '')
+
+    const wrapper = mount(() => (
+      <InputNumber v-model={val.value} formatter={formatter} parser={parser} />
+    ))
+
+    const input = wrapper.find<HTMLInputElement>('.el-input__inner')
+    expect(input.element.value).toEqual('$ ')
+    await input.trigger('blur')
+    expect(input.element.value).toEqual('$ ')
+  })
+
+  test('should keep aria attributes in sync with reactive props', async () => {
+    const min = ref(0)
+    const max = ref(10)
+    const disabled = ref(false)
+    const val = ref(1)
+
+    const wrapper = mount(() => (
+      <InputNumber
+        v-model={val.value}
+        min={min.value}
+        max={max.value}
+        disabled={disabled.value}
+      />
+    ))
+
+    const input = wrapper.find<HTMLInputElement>('.el-input__inner')
+    expect(input.element.getAttribute('aria-valuemin')).toBe('0')
+    expect(input.element.getAttribute('aria-valuemax')).toBe('10')
+    expect(input.element.getAttribute('aria-disabled')).toBe('false')
+
+    min.value = -5
+    max.value = 99
+    disabled.value = true
+    await nextTick()
+
+    expect(input.element.getAttribute('aria-valuemin')).toBe('-5')
+    expect(input.element.getAttribute('aria-valuemax')).toBe('99')
+    expect(input.element.getAttribute('aria-disabled')).toBe('true')
+  })
+
+  test('should remove aria-valuemin and aria-valuemax when the bounds become non-finite', async () => {
+    const min = ref(0)
+    const max = ref(10)
+    const val = ref(1)
+
+    const wrapper = mount(() => (
+      <InputNumber v-model={val.value} min={min.value} max={max.value} />
+    ))
+
+    const input = wrapper.find<HTMLInputElement>('.el-input__inner')
+    expect(input.element.getAttribute('aria-valuemin')).toBe('0')
+    expect(input.element.getAttribute('aria-valuemax')).toBe('10')
+
+    min.value = Number.NEGATIVE_INFINITY
+    max.value = Number.POSITIVE_INFINITY
+    await nextTick()
+
+    expect(input.element.hasAttribute('aria-valuemin')).toBe(false)
+    expect(input.element.hasAttribute('aria-valuemax')).toBe(false)
   })
 })

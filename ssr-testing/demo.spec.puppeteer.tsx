@@ -3,8 +3,11 @@ import { createApp } from 'vue'
 import { renderToString } from '@vue/server-renderer'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import puppeteer from 'puppeteer'
-import glob from 'fast-glob'
-import ElementPlus, { ID_INJECTION_KEY } from '../dist/element-plus'
+import { globSync } from 'tinyglobby'
+import ElementPlus, {
+  ID_INJECTION_KEY,
+  ZINDEX_INJECTION_KEY,
+} from '../dist/element-plus'
 
 import type { Browser } from 'puppeteer'
 
@@ -26,9 +29,9 @@ describe('Cypress Button', () => {
   })
 
   describe('when initialized', () => {
-    const demoPaths = glob
-      .sync(`${demoRoot}/*.vue`)
-      .map((demo) => demo.slice(demoRoot.length + 1))
+    const demoPaths = globSync(`${demoRoot}/*.vue`, { absolute: true }).map(
+      (demo) => demo.slice(demoRoot.length + 1)
+    )
 
     it.each(demoPaths)(`render %s correctly`, async (demoPath) => {
       const page = await browser.newPage()
@@ -50,22 +53,15 @@ describe('Cypress Button', () => {
           prefix: 100,
           current: 0,
         })
+        .provide(ZINDEX_INJECTION_KEY, {
+          current: 0,
+        })
 
       const html = await renderToString(app)
 
       await page.evaluate((innerHTML) => {
         document.querySelector('#root')!.innerHTML = innerHTML
       }, html)
-
-      // SSR testing don't need screenshots.
-      // const screenshotPath = demoPath
-      //   .split('/')
-      //   .join('-')
-      //   .replace(/\.vue$/, '.png')
-      // await page.screenshot({
-      //   path: path.join(testRoot, 'screenshots', screenshotPath),
-      //   fullPage: true,
-      // })
 
       await page.close()
       expect(true).toBe(true)

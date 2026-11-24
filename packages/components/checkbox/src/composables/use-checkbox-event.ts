@@ -1,6 +1,6 @@
 import { computed, getCurrentInstance, inject, nextTick, watch } from 'vue'
 import { useFormItem } from '@element-plus/components/form'
-import { debugWarn } from '@element-plus/utils'
+import { NOOP } from '@element-plus/utils'
 import { CHANGE_EVENT } from '@element-plus/constants'
 import { checkboxGroupContextKey } from '../constants'
 
@@ -31,8 +31,8 @@ export const useCheckboxEvent = (
 
   function getLabeledValue(value: string | number | boolean) {
     return [true, props.trueValue, props.trueLabel].includes(value)
-      ? props.trueValue ?? props.trueLabel ?? true
-      : props.falseValue ?? props.falseLabel ?? false
+      ? (props.trueValue ?? props.trueLabel ?? true)
+      : (props.falseValue ?? props.falseLabel ?? false)
   }
 
   function emitChangeEvent(
@@ -76,7 +76,7 @@ export const useCheckboxEvent = (
     () => props.modelValue,
     () => {
       if (validateEvent.value) {
-        formItem?.validate('change').catch((err) => debugWarn(err))
+        formItem?.validate('change').catch(NOOP)
       }
     }
   )

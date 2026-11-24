@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { withBase } from 'vitepress'
 import { leftCustomImgSponsors } from '../../config/sponsors'
 import { sendEvent } from '../../config/analytics'
 
@@ -20,14 +21,14 @@ const onItemClick = (item: Sponsor) => {
     <a
       v-for="item in leftCustomImgSponsors"
       :key="item.name"
-      :href="item.url"
+      :href="withBase(item.url)"
       :title="`${item.name_cn || item.name} - ${item.slogan_cn || item.slogan}`"
       :class="['sponsor-large inline-flex', itemClass]"
       :style="itemStyle"
       target="_blank"
       @click="onItemClick(item)"
     >
-      <img :src="item.banner_img" :alt="item.name" />
+      <img :src="withBase(item.banner_img ?? '')" :alt="item.name" />
     </a>
   </div>
 </template>

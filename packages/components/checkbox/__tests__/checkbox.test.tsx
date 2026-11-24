@@ -75,6 +75,23 @@ describe('Checkbox', () => {
       expect(wrapper.classes()).toContain('is-disabled')
       expect(checked.value).toBe(false)
     })
+
+    test('The disabled state of a component has higher priority than that of a form', async () => {
+      const checked = ref(false)
+      const wrapper = mount(() => (
+        <ElForm disabled>
+          <Checkbox v-model={checked.value} disabled={false} />
+        </ElForm>
+      ))
+
+      const checkbox = wrapper.findComponent(Checkbox)
+      expect(checkbox.classes()).not.toContain('is-disabled')
+      expect(checked.value).toBe(false)
+      await checkbox.trigger('click')
+      await nextTick()
+      expect(checkbox.classes()).not.toContain('is-disabled')
+      expect(checked.value).toBe(true)
+    })
   })
 
   describe('change event', () => {
@@ -184,6 +201,49 @@ describe('Checkbox', () => {
     await checkboxes[2].trigger('click')
     expect(checkedValues.value).toEqual(['a'])
     expect(checkboxes[2].classes()).toContain('is-disabled')
+  })
+
+  test('checkbox group renders from options with checkbox-button', async () => {
+    const checkedValues = ref(['b'])
+    const options = [
+      { value: 'a', label: 'Option A' },
+      { value: 'b', label: 'Option B' },
+      { value: 'c', label: 'Option C', disabled: true },
+    ]
+    const wrapper = mount(() => (
+      <CheckboxGroup
+        v-model={checkedValues.value}
+        options={options}
+        type="button"
+      />
+    ))
+    await nextTick()
+    const checkboxes = wrapper.findAll('.el-checkbox-button')
+    expect(checkboxes[1].classes()).toContain('is-checked')
+    await checkboxes[0].trigger('click')
+    expect(checkedValues.value).toEqual(['b', 'a'])
+    expect(checkboxes[0].classes()).toContain('is-checked')
+    await checkboxes[1].trigger('click')
+    expect(checkedValues.value).toEqual(['a'])
+    expect(checkboxes[1].classes()).not.toContain('is-checked')
+    await checkboxes[2].trigger('click')
+    expect(checkedValues.value).toEqual(['a'])
+    expect(checkboxes[2].classes()).toContain('is-disabled')
+  })
+
+  test('should avoid passing alias fields to el-checkbox', async () => {
+    const modelValue = ref(1)
+    const options = [{ value: '3', name: 'Option A' }]
+    const wrapper = mount(() => (
+      <CheckboxGroup
+        v-model={modelValue.value}
+        options={options}
+        props={{ label: 'name' }}
+      />
+    ))
+    await nextTick()
+    const checkbox = wrapper.find('.el-checkbox')
+    expect(checkbox.find('input').attributes('name')).not.toBe('Option A')
   })
 
   test('checkbox group with dynamic modelValue', async () => {
@@ -493,6 +553,36 @@ describe('Checkbox', () => {
     await checkboxA1.trigger('click')
     expect(checklist.value).toEqual([{ a: 2 }])
     expect(checkboxA1.classes()).not.contains('is-checked')
+  })
+  test('should clear checked status when v-model is set to null', async () => {
+    const checked = ref<boolean | null>(false)
+    const wrapper = mount(() => (
+      <Checkbox v-model={checked.value}>Option</Checkbox>
+    ))
+
+    const checkbox = wrapper.findComponent(Checkbox)
+    await checkbox.trigger('click')
+    expect(checkbox.classes()).toContain('is-checked')
+    expect(wrapper.find('input').element.checked).toBe(true)
+    checked.value = null
+    await nextTick()
+    expect(checkbox.classes()).not.toContain('is-checked')
+    expect(wrapper.find('input').element.checked).toBe(false)
+  })
+  test('should clear checked status when v-model is set to undefined', async () => {
+    const checked = ref<boolean | undefined>(false)
+    const wrapper = mount(() => (
+      <Checkbox v-model={checked.value}>Option</Checkbox>
+    ))
+
+    const checkbox = wrapper.findComponent(Checkbox)
+    await checkbox.trigger('click')
+    expect(checkbox.classes()).toContain('is-checked')
+    expect(wrapper.find('input').element.checked).toBe(true)
+    checked.value = undefined
+    await nextTick()
+    expect(checkbox.classes()).not.toContain('is-checked')
+    expect(wrapper.find('input').element.checked).toBe(false)
   })
 })
 

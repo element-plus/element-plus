@@ -18,7 +18,7 @@ const popperInjection = {
 const TestComponent = defineComponent({
   setup() {
     return {
-      contentRef: ref(),
+      contentRef: ref<PopperContentInstance>(),
     }
   },
   render() {
@@ -37,7 +37,7 @@ const mountContent = (props = {}) =>
         [POPPER_INJECTION_KEY as symbol]: popperInjection,
       },
     },
-  })
+  }) as unknown as VueWrapper<PopperContentInstance>
 
 const mountWrappedContent = (props = {}) =>
   mount(<TestComponent {...props} />, {
@@ -46,7 +46,7 @@ const mountWrappedContent = (props = {}) =>
         [POPPER_INJECTION_KEY as symbol]: popperInjection,
       },
     },
-  })
+  }) as unknown as VueWrapper<InstanceType<typeof TestComponent>>
 
 describe('<ElPopperContent />', () => {
   describe('with triggerRef provided', () => {
@@ -102,7 +102,7 @@ describe('<ElPopperContent />', () => {
       await nextTick()
 
       const style = {
-        position: 'absolute',
+        position: 'absolute' as const,
       }
       await wrapper.setProps({
         popperStyle: style,
@@ -149,7 +149,7 @@ describe('<ElPopperContent />', () => {
         await nextTick()
 
         const { contentRef } = w.vm
-        const oldInstance = contentRef.popperInstanceRef
+        const oldInstance = contentRef!.popperInstanceRef
 
         const newRef = document.createElement('div')
         newRef.classList.add('new-ref')
@@ -157,13 +157,13 @@ describe('<ElPopperContent />', () => {
         popperInjection.triggerRef.value = newRef
         await nextTick()
 
-        expect(contentRef.popperInstanceRef).not.toStrictEqual(oldInstance)
+        expect(contentRef!.popperInstanceRef).not.toStrictEqual(oldInstance)
 
         popperInjection.triggerRef.value = undefined
 
         await nextTick()
 
-        expect(contentRef.popperInstanceRef).toBeUndefined()
+        expect(contentRef!.popperInstanceRef).toBeUndefined()
       })
     })
   })

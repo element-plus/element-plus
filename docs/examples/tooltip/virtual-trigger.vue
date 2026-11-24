@@ -1,6 +1,6 @@
 <template>
   <el-tooltip
-    v-model:visible="visible"
+    :visible="visible"
     content="Bottom center"
     placement="bottom"
     effect="light"

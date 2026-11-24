@@ -1,8 +1,3 @@
-import fs from 'fs'
-import path from 'path'
-import { vpRoot } from '@element-plus/build-utils'
-import { languages } from '../utils/lang'
-
 import type { HeadConfig } from 'vitepress'
 
 export const head: HeadConfig[] = [
@@ -11,7 +6,7 @@ export const head: HeadConfig[] = [
     {
       rel: 'icon',
       href: '/images/element-plus-logo-small.svg',
-      type: 'image/svg+xm',
+      type: 'image/svg+xml',
     },
   ],
   [
@@ -49,15 +44,6 @@ export const head: HeadConfig[] = [
       content: 'codeva-q5gBxYcfOs',
     },
   ],
-  [
-    'script',
-    {},
-    `;(() => {
-      window.supportedLangs = ${JSON.stringify(languages)}
-    })()`,
-  ],
-
-  ['script', {}, fs.readFileSync(path.resolve(vpRoot, 'lang.js'), 'utf-8')],
   [
     'script',
     {

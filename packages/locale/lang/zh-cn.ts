@@ -10,6 +10,12 @@ export default {
       defaultLabel: '颜色选择器',
       description: '当前颜色 {color}，按 Enter 键选择新颜色',
       alphaLabel: '选择透明度的值',
+      alphaDescription: '透明度 {alpha}, 当前颜色 {color}',
+      hueLabel: '选择色相值',
+      hueDescription: '色相 {hue}, 当前颜色 {color}',
+      svLabel: '选择饱和度与明度的值',
+      svDescription: '饱和度 {saturation}, 明度 {brightness}, 当前颜色 {color}',
+      predefineDescription: '选择 {value} 作为颜色',
     },
     datepicker: {
       now: '此刻',
@@ -19,6 +25,7 @@ export default {
       confirm: '确定',
       dateTablePrompt: '使用方向键与 Enter 键可选择日期',
       monthTablePrompt: '使用方向键与 Enter 键可选择月份',
+      quarterTablePrompt: '使用方向键与 Enter 键可选择季度',
       yearTablePrompt: '使用方向键与 Enter 键可选择年份',
       selectedDate: '已选日期',
       selectDate: '选择日期',
@@ -44,7 +51,6 @@ export default {
       month10: '10 月',
       month11: '11 月',
       month12: '12 月',
-      // week: '周次',
       weeks: {
         sun: '日',
         mon: '一',
@@ -78,6 +84,9 @@ export default {
         dec: '十二月',
       },
     },
+    input: {
+      characters: '{count} / {max} 个字符',
+    },
     inputNumber: {
       decrease: '减少数值',
       increase: '增加数值',
@@ -88,11 +97,11 @@ export default {
       noData: '无数据',
       placeholder: '请选择',
     },
-    dropdown: {
-      toggleDropdown: '切换下拉选项',
-    },
     mention: {
       loading: '加载中',
+    },
+    dropdown: {
+      toggleDropdown: '切换下拉选项',
     },
     cascader: {
       noMatch: '无匹配数据',
@@ -144,6 +153,15 @@ export default {
       resetFilter: '重置',
       clearFilter: '全部',
       sumText: '合计',
+      selectAllLabel: '选择所有行',
+      selectRowLabel: '选择当前行',
+      expandRowLabel: '展开当前行',
+      collapseRowLabel: '收起当前行',
+      sortLabel: '按 {column} 排序',
+      filterLabel: '按 {column} 过滤',
+    },
+    tag: {
+      close: '关闭此标签',
     },
     tour: {
       next: '下一步',
@@ -176,6 +194,10 @@ export default {
       leftArrow: '上一张幻灯片',
       rightArrow: '下一张幻灯片',
       indicator: '幻灯片切换至索引 {index}',
+    },
+    inputOTP: {
+      groupLabel: '一次性密码输入框',
+      defaultLabel: '请输入第 {index} 位 OTP 字符',
     },
   },
 }

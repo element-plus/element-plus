@@ -1,6 +1,6 @@
 import { watch } from 'vue'
 import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { debugWarn, isArray, isNumber, throwError } from '@element-plus/utils'
+import { NOOP, isArray, isNumber, throwError } from '@element-plus/utils'
 
 import type { ComputedRef, SetupContext } from 'vue'
 import type { Arrayable } from '@element-plus/utils'
@@ -49,7 +49,7 @@ export const useWatch = (
         initData.secondValue = val[1]
         if (valueChanged()) {
           if (props.validateEvent) {
-            elFormItem?.validate?.('change').catch((err) => debugWarn(err))
+            elFormItem?.validate?.('change').catch(NOOP)
           }
           initData.oldValue = val.slice()
         }
@@ -63,7 +63,7 @@ export const useWatch = (
         initData.firstValue = val
         if (valueChanged()) {
           if (props.validateEvent) {
-            elFormItem?.validate?.('change').catch((err) => debugWarn(err))
+            elFormItem?.validate?.('change').catch(NOOP)
           }
           initData.oldValue = val
         }

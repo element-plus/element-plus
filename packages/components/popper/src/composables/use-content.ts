@@ -1,4 +1,13 @@
-import { computed, inject, onMounted, ref, unref, watch } from 'vue'
+import {
+  computed,
+  inject,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  unref,
+  watch,
+} from 'vue'
+import { useResizeObserver } from '@vueuse/core'
 import { isUndefined } from 'lodash-unified'
 import { usePopper } from '@element-plus/hooks'
 import { POPPER_INJECTION_KEY } from '../constants'
@@ -67,11 +76,30 @@ export const usePopperContent = (props: PopperContentProps) => {
 
   onMounted(() => {
     watch(
-      () => unref(computedReference)?.getBoundingClientRect(),
+      () => unref(computedReference)?.getBoundingClientRect?.(),
       () => {
         update()
       }
     )
+  })
+
+  // todo: Replace with onCleanup when vue in peerDependencies is ^3.5.0.
+  let stopResizeObserver: (() => void) | undefined
+  watch(
+    () => props.visible,
+    (visible) => {
+      stopResizeObserver?.()
+      stopResizeObserver = undefined
+      if (visible) {
+        stopResizeObserver = useResizeObserver(contentRef, update).stop
+      }
+    }
+  )
+
+  onBeforeUnmount(() => {
+    popperInstanceRef.value = undefined
+    stopResizeObserver?.()
+    stopResizeObserver = undefined
   })
 
   return {

@@ -137,6 +137,7 @@ input-tag/prefix-suffix
 | max                             | max number tags that can be enter                                                                              | ^[number]                                                   | —           |
 | tag-type                        | tag type                                                                                                       | ^[enum]`'' \| 'success' \| 'info' \| 'warning' \| 'danger'` | info        |
 | tag-effect                      | tag effect                                                                                                     | ^[enum]`'' \| 'light' \| 'dark' \| 'plain'`                 | light       |
+| effect ^(2.13.2)                | tooltip theme, built-in theme: `dark` / `light`                                                                | ^[enum]`'dark' \| 'light'` / ^[string]                      | light       |
 | trigger                         | the key to trigger input tag                                                                                   | ^[enum]`'Enter' \| 'Space'`                                 | Enter       |
 | draggable                       | whether tags can be dragged                                                                                    | ^[boolean]                                                  | false       |
 | delimiter ^(2.9.9)              | add a tag when a delimiter is matched                                                                          | ^[string] / ^[regex]                                        | —           |
@@ -161,15 +162,16 @@ input-tag/prefix-suffix
 
 ### Events
 
-| Name       | Description                             | Type                                              |
-| ---------- | --------------------------------------- | ------------------------------------------------- |
-| change     | triggers when the modelValue change     | ^[Function]`(value: string[]) => void`            |
-| input      | triggers when the input value change    | ^[Function]`(value: string) => void`              |
-| add-tag    | triggers when a tag is added            | ^[Function]`(value: string \| string []) => void` |
-| remove-tag | triggers when a tag is removed          | ^[Function]`(value: string) => void`              |
-| focus      | triggers when InputTag focuses          | ^[Function]`(event: FocusEvent) => void`          |
-| blur       | triggers when InputTag blurs            | ^[Function]`(event: FocusEvent) => void`          |
-| clear      | triggers when the clear icon is clicked | ^[Function]`() => void`                           |
+| Name               | Description                             | Type                                                                     |
+| ------------------ | --------------------------------------- | ------------------------------------------------------------------------ |
+| change             | triggers when the modelValue change     | ^[Function]`(value: string[]) => void`                                   |
+| input              | triggers when the input value change    | ^[Function]`(value: string) => void`                                     |
+| add-tag            | triggers when a tag is added            | ^[Function]`(value: string \| string []) => void`                        |
+| remove-tag         | triggers when a tag is removed          | ^[Function]`(value: string, index: number) => void`                      |
+| drag-tag ^(2.11.3) | triggers when a tag is dragged          | ^[Function]`(oldIndex: number, newIndex: number, value: string) => void` |
+| focus              | triggers when InputTag focuses          | ^[Function]`(event: FocusEvent) => void`                                 |
+| blur               | triggers when InputTag blurs            | ^[Function]`(event: FocusEvent) => void`                                 |
+| clear              | triggers when the clear icon is clicked | ^[Function]`() => void`                                                  |
 
 ### Slots
 

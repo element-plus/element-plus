@@ -27,7 +27,7 @@ function useStyles<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     return rowStyle || null
   }
 
-  const getRowClass = (row: T, rowIndex: number) => {
+  const getRowClass = (row: T, rowIndex: number, displayIndex: number) => {
     const classes = [ns.e('row')]
     if (
       parent?.props.highlightCurrentRow &&
@@ -35,8 +35,7 @@ function useStyles<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
     ) {
       classes.push('current-row')
     }
-
-    if (props.stripe && rowIndex % 2 === 1) {
+    if (props.stripe && displayIndex % 2 === 1) {
       classes.push(ns.em('row', 'striped'))
     }
     const rowClassName = parent?.props.rowClassName

@@ -19,6 +19,13 @@ const Comp = defineComponent({
   },
 })
 
+vi.mock('@element-plus/utils', async (importOriginal) => {
+  return {
+    ...((await importOriginal()) as Record<string, any>),
+    getScrollBarWidth: vi.fn(() => 16),
+  }
+})
+
 describe('useLockscreen', () => {
   beforeEach(() => {
     vi.useFakeTimers()
@@ -46,7 +53,7 @@ describe('useLockscreen', () => {
   it('should cleanup when unmounted', async () => {
     const shouldRender = ref(true)
     mount({
-      setup: () => () => shouldRender.value ? <Comp /> : undefined,
+      setup: () => () => (shouldRender.value ? <Comp /> : undefined),
     })
 
     await nextTick()
@@ -104,5 +111,83 @@ describe('useLockscreen', () => {
     )
 
     wrapper.unmount()
+  })
+
+  it('should not cleanup when newly created during the closing process', async () => {
+    const wrapper1 = mount({
+      setup: () => () => <Comp />,
+    })
+
+    await nextTick()
+    expect(hasClass(document.body, kls)).toBe(true)
+
+    wrapper1.unmount()
+    const wrapper2 = mount({
+      setup: () => () => <Comp />,
+    })
+    vi.advanceTimersByTime(250)
+    await nextTick()
+    expect(hasClass(document.body, kls)).toBe(true)
+
+    wrapper2.unmount()
+    vi.advanceTimersByTime(250)
+    await nextTick()
+    expect(hasClass(document.body, kls)).toBe(false)
+  })
+
+  it('should clean up body.width only once', async () => {
+    const scrollHeightSpy = vi
+      .spyOn(document.body, 'scrollHeight', 'get')
+      .mockReturnValue(200)
+    const clientHeightSpy = vi
+      .spyOn(document.documentElement, 'clientHeight', 'get')
+      .mockReturnValue(100)
+
+    const parentTrigger = ref(false)
+    const childTrigger = ref(false)
+
+    mount({
+      setup() {
+        const ns = useNamespace(
+          'lock',
+          computed(() => 'test-kls-1')
+        )
+        useLockscreen(parentTrigger, { ns })
+        onMounted(() => {
+          parentTrigger.value = true
+        })
+        return () => undefined
+      },
+    })
+
+    const childWrapper = mount({
+      setup() {
+        const ns = useNamespace(
+          'lock',
+          computed(() => 'test-kls-2')
+        )
+        useLockscreen(childTrigger, { ns })
+        onMounted(() => {
+          childTrigger.value = true
+        })
+        return () => undefined
+      },
+    })
+
+    vi.advanceTimersByTime(250)
+    await nextTick()
+    expect(document.body.style.width).toBe('calc(100% - 16px)')
+
+    childTrigger.value = false
+    await nextTick()
+    parentTrigger.value = false
+    await nextTick()
+    childWrapper.unmount()
+    vi.advanceTimersByTime(250)
+    expect(document.body.style.width).toBe('')
+
+    scrollHeightSpy.mockRestore()
+    clientHeightSpy.mockRestore()
+    vi.useRealTimers()
   })
 })

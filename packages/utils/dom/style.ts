@@ -3,6 +3,7 @@ import { isClient } from '../browser'
 import { camelize } from '../strings'
 import { entriesOf, keysOf } from '../objects'
 import { debugWarn } from '../error'
+import { isShadowRoot } from './aria'
 
 import type { CSSProperties } from 'vue'
 
@@ -31,7 +32,7 @@ export const getStyle = (
   element: HTMLElement,
   styleName: keyof CSSProperties
 ): string => {
-  if (!isClient || !element || !styleName) return ''
+  if (!isClient || !element || !styleName || isShadowRoot(element)) return ''
 
   let key = camelize(styleName)
   if (key === 'float') key = 'cssFloat'
@@ -76,11 +77,31 @@ export const removeStyle = (
 }
 
 export function addUnit(value?: string | number, defaultUnit = 'px') {
-  if (!value) return ''
+  if (!value && value !== 0) return ''
   if (isNumber(value) || isStringNumber(value)) {
     return `${value}${defaultUnit}`
   } else if (isString(value)) {
     return value
   }
   debugWarn(SCOPE, 'binding value must be a string or number')
+}
+
+/** Converts a percentage string to a ratio, e.g. '50%' to 0.5. */
+export function percentToRatio(value: string) {
+  return Number(value.slice(0, -1)) / 100
+}
+
+/** Parses the numeric value of a pixel string, e.g. '100px' to 100. */
+export function parsePx(value: string) {
+  return Number(value.slice(0, -2))
+}
+
+/** Checks for a '%' suffix without validating the numeric value. */
+export function isPercent(value: string | number | undefined): value is string {
+  return isString(value) && value.endsWith('%')
+}
+
+/** Checks for a 'px' suffix without validating the numeric value. */
+export function isPx(value: string | number | undefined): value is string {
+  return isString(value) && value.endsWith('px')
 }

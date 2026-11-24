@@ -10,6 +10,13 @@ export default {
       defaultLabel: 'ເຄື່ອງມືເລືອກສີ',
       description: 'ສີປັດຈຸບັນແມ່ນ {color}. ກົດ enter ເພື່ອເລືອກສີໃໝ່.',
       alphaLabel: 'ເລືອກຄ່າຄວາມໂປ່ງໃສ',
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
+      svLabel: 'pick saturation and brightness value', // to be translated
+      svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
+      predefineDescription: 'select {value} as the color', // to be translated
     },
     datepicker: {
       now: 'ຕອນນີ້',
@@ -19,6 +26,7 @@ export default {
       confirm: 'ຕົກລົງ',
       dateTablePrompt: 'ໃຊ້ປຸ່ມລູກສອນ ແລະ ປຸ່ມ enter ເພື່ອເລືອກວັນທີຂອງເດືອນ',
       monthTablePrompt: 'ໃຊ້ປຸ່ມລູກສອນ ແລະ ປຸ່ມ enter ເພື່ອເລືອກເດືອນ',
+      quarterTablePrompt: 'ໃຊ້ປຸ່ມລູກສອນ ແລະ ປຸ່ມ enter ເພື່ອເລືອກຮອບໄຕມາດ',
       yearTablePrompt: 'ໃຊ້ປຸ່ມລູກສອນ ແລະ ປຸ່ມ enter ເພື່ອເລືອກປີ',
       selectedDate: 'ວັນທີທີ່ເລືອກ',
       selectDate: 'ເລືອກວັນທີ',
@@ -76,6 +84,9 @@ export default {
         nov: 'ພະຈິກ',
         dec: 'ທັນວາ',
       },
+    },
+    input: {
+      characters: '{count} / {max} ຕົວອັກສອນ',
     },
     inputNumber: {
       decrease: 'ຫຼຸດຈຳນວນ',
@@ -143,6 +154,15 @@ export default {
       resetFilter: 'ຄືນຄ່າໃໝ່',
       clearFilter: 'ທັງໝົດ',
       sumText: 'ຜົນລວມ',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
+      sortLabel: 'Sort by {column}', // to be translated
+      filterLabel: 'Filter by {column}', // to be translated
+    },
+    tag: {
+      close: 'Close this tag', // to be translated
     },
     tour: {
       next: 'ຖັດໄປ',
@@ -175,6 +195,10 @@ export default {
       leftArrow: 'ລູກສອນເບື້ອງຊ້າຍຂອງ Carousel',
       rightArrow: 'ລູກສອນເບື້ອງຂວາຂອງ Carousel',
       indicator: 'Carousel ສະຫຼັບໄປລຳດັບທີ {index}',
+    },
+    inputOTP: {
+      groupLabel: 'OTP Input', // to be translated
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
     },
   },
 }

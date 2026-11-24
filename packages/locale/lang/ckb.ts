@@ -11,6 +11,13 @@ export default {
       description:
         'ڕەنگی ئێستا {color}. ئینتەر دابگرە بۆ هەڵبژاردنی ڕەنگی نوێ.',
       alphaLabel: 'pick alpha value', // to be translated
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
+      svLabel: 'pick saturation and brightness value', // to be translated
+      svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
+      predefineDescription: 'select {value} as the color', // to be translated
     },
     datepicker: {
       now: 'ئێستا',
@@ -21,6 +28,8 @@ export default {
       dateTablePrompt:
         'کلیلی ئاراستەکان بەکاربهێنەر بۆ هەڵبژاردنی ڕۆژی مانگەکە',
       monthTablePrompt: 'کلیلی ئاراستەکان بەکاربهێنەر بۆ هەڵبژاردنی مانگ',
+      quarterTablePrompt:
+        'کلیلی ئاراستەکان بەکاربهێنەر بۆ هەڵبژاردنی چارەکی ساڵ',
       yearTablePrompt: 'کلیلی ئاراستەکان بەکاربهێنەر بۆ هەڵبژاردنی ساڵ',
       selectedDate: 'بەرواری هەڵبژێردراو',
       selectDate: 'هەڵبژاردنی بەروار',
@@ -78,6 +87,9 @@ export default {
         nov: 'سەرماوەز',
         dec: 'بەفرانبار',
       },
+    },
+    input: {
+      characters: '{count} / {max} پیت',
     },
     inputNumber: {
       decrease: 'کەمکردنەوەی ژمارە',
@@ -145,6 +157,15 @@ export default {
       resetFilter: 'جێگیرکردنەوە',
       clearFilter: 'هەموو',
       sumText: 'کۆ',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
+      sortLabel: 'Sort by {column}', // to be translated
+      filterLabel: 'Filter by {column}', // to be translated
+    },
+    tag: {
+      close: 'Close this tag', // to be translated
     },
     tour: {
       next: 'Next', // to be translated
@@ -177,6 +198,10 @@ export default {
       leftArrow: 'Carousel arrow left', // to be translated
       rightArrow: 'Carousel arrow right', // to be translated
       indicator: 'Carousel switch to index {index}', // to be translated
+    },
+    inputOTP: {
+      groupLabel: 'OTP Input', // to be translated
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
     },
   },
 }

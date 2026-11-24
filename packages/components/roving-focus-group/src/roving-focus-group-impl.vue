@@ -7,6 +7,7 @@ import {
   computed,
   defineComponent,
   inject,
+  nextTick,
   provide,
   readonly,
   ref,
@@ -21,14 +22,14 @@ import {
   rovingFocusGroupProps,
 } from './roving-focus-group'
 import { ROVING_FOCUS_GROUP_INJECTION_KEY } from './tokens'
-import { focusFirst } from './utils'
+import { focusFirst, getFocusIntent, reorderArray } from './utils'
 
 import type { StyleValue } from 'vue'
 
 const CURRENT_TAB_ID_CHANGE_EVT = 'currentTabIdChange'
-
 const ENTRY_FOCUS_EVT = 'rovingFocusGroup.entryFocus'
 const EVT_OPTS: EventInit = { bubbles: false, cancelable: true }
+
 export default defineComponent({
   name: 'ElRovingFocusGroupImpl',
   inheritAttrs: false,
@@ -123,6 +124,46 @@ export default defineComponent({
       emit('entryFocus', ...args)
     }
 
+    const onKeydown = (e: KeyboardEvent) => {
+      const focusIntent = getFocusIntent(e as KeyboardEvent)
+
+      if (focusIntent) {
+        e.preventDefault()
+        const items = getItems<{
+          id: string
+          focusable: boolean
+          active: boolean
+        }>().filter((item) => item.focusable)
+
+        let elements = items.map((item) => item.ref!)
+
+        switch (focusIntent) {
+          case 'last': {
+            elements.reverse()
+            break
+          }
+          case 'prev':
+          case 'next': {
+            if (focusIntent === 'prev') {
+              elements.reverse()
+            }
+            const currentIdx = elements.indexOf(e.currentTarget as HTMLElement)
+            elements = props.loop
+              ? reorderArray(elements, currentIdx + 1)
+              : elements.slice(currentIdx + 1)
+            break
+          }
+          default: {
+            break
+          }
+        }
+
+        nextTick(() => {
+          focusFirst(elements)
+        })
+      }
+    }
+
     provide(ROVING_FOCUS_GROUP_INJECTION_KEY, {
       currentTabbedId: readonly(currentTabbedId),
       loop: toRef(props, 'loop'),
@@ -138,6 +179,7 @@ export default defineComponent({
       onBlur,
       onFocus,
       onMousedown,
+      onKeydown,
     })
 
     watch(

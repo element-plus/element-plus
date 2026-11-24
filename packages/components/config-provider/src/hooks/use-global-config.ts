@@ -12,10 +12,10 @@ import {
   useZIndex,
   zIndexContextKey,
 } from '@element-plus/hooks'
+import { isNil } from 'lodash-unified'
 import { configProviderContextKey } from '../constants'
 
-import type { MaybeRef } from '@vueuse/core'
-import type { App, Ref } from 'vue'
+import type { App, MaybeRef, Ref } from 'vue'
 import type { ConfigProviderContext } from '../constants'
 
 // this is meant to fix global methods like `ElMessage(opts)`, this way we can inject current locale
@@ -25,7 +25,7 @@ const globalConfig = ref<ConfigProviderContext>()
 
 export function useGlobalConfig<
   K extends keyof ConfigProviderContext,
-  D extends ConfigProviderContext[K]
+  D extends ConfigProviderContext[K],
 >(
   key: K,
   defaultValue?: D
@@ -59,7 +59,12 @@ export function useGlobalComponentSettings(
 
   const locale = useLocale(computed(() => config.value?.locale))
   const zIndex = useZIndex(
-    computed(() => config.value?.zIndex || defaultInitialZIndex)
+    computed(() => {
+      const zIndex = config.value?.zIndex
+      return isNil(zIndex) || Number.isNaN(zIndex)
+        ? defaultInitialZIndex
+        : zIndex
+    })
   )
   const size = computed(() => unref(sizeFallback) || config.value?.size || '')
   provideGlobalConfig(computed(() => unref(config) || {}))

@@ -1,5 +1,6 @@
 <template>
   <el-table :data="tableData" style="width: 100%">
+    <!-- @vue-generic {User} -->
     <el-table-column label="Date" width="180">
       <template #default="scope">
         <div style="display: flex; align-items: center">
@@ -8,6 +9,7 @@
         </div>
       </template>
     </el-table-column>
+    <!-- @vue-generic {User} -->
     <el-table-column label="Name" width="180">
       <template #default="scope">
         <el-popover effect="light" trigger="hover" placement="top" width="auto">
@@ -21,6 +23,7 @@
         </el-popover>
       </template>
     </el-table-column>
+    <!-- @vue-generic {User} -->
     <el-table-column label="Operations">
       <template #default="scope">
         <el-button size="small" @click="handleEdit(scope.$index, scope.row)">

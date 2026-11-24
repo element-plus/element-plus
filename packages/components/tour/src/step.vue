@@ -34,7 +34,7 @@
         <span
           v-for="(item, index) in total"
           :key="item"
-          :class="[ns.b('indicator'), index === current ? 'is-active' : '']"
+          :class="[ns.b('indicator'), ns.is('active', index === current)]"
         />
       </template>
     </div>
@@ -70,18 +70,25 @@ import { EVENT_CODE } from '@element-plus/constants'
 import { omit } from 'lodash-unified'
 import { ElButton } from '@element-plus/components/button'
 import { ElIcon } from '@element-plus/components/icon'
-import { CloseComponents } from '@element-plus/utils'
+import { CloseComponents, getEventCode } from '@element-plus/utils'
 import { useLocale } from '@element-plus/hooks'
-import { tourStepEmits, tourStepProps } from './step'
+import { tourStepEmits } from './step'
 import { tourKey } from './helper'
 
 import type { TourBtnProps } from './types'
+import type { TourStepProps } from './step'
 
 defineOptions({
   name: 'ElTourStep',
 })
 
-const props = defineProps(tourStepProps)
+const props = withDefaults(defineProps<TourStepProps>(), {
+  showClose: undefined,
+  showArrow: undefined,
+  placement: 'bottom',
+  mask: undefined,
+  scrollIntoViewOptions: undefined,
+})
 const emit = defineEmits(tourStepEmits)
 
 const { Close } = CloseComponents
@@ -100,7 +107,6 @@ const {
   updateModelValue,
   onClose: tourOnClose,
   onFinish: tourOnFinish,
-  onChange,
 } = inject(tourKey)!
 
 watch(
@@ -128,7 +134,6 @@ const onPrev = () => {
   if (props.prevButtonProps?.onClick) {
     props.prevButtonProps?.onClick()
   }
-  onChange()
 }
 
 const onNext = () => {
@@ -140,7 +145,6 @@ const onNext = () => {
   if (props.nextButtonProps?.onClick) {
     props.nextButtonProps.onClick()
   }
-  onChange()
 }
 
 const onFinish = () => {
@@ -157,16 +161,17 @@ const onClose = () => {
 const handleKeydown = (e: KeyboardEvent) => {
   const target = e.target as HTMLElement | null
   if (target?.isContentEditable) return
+  const code = getEventCode(e)
 
-  const actions: Record<string, () => void> = {
-    [EVENT_CODE.left]: () => current.value > 0 && onPrev(),
-    [EVENT_CODE.right]: onNext,
-  }
-
-  const action = actions[e.code]
-  if (action) {
-    e.preventDefault()
-    action()
+  switch (code) {
+    case EVENT_CODE.left:
+      e.preventDefault()
+      current.value > 0 && onPrev()
+      break
+    case EVENT_CODE.right:
+      e.preventDefault()
+      onNext()
+      break
   }
 }
 

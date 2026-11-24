@@ -2,12 +2,12 @@ import { ensureArray, isFirefox } from '@element-plus/utils'
 
 import type { MentionCtx, MentionOption } from './types'
 
-export const filterOption = (
+export const filterOption = <T extends MentionOption = MentionOption>(
   pattern: string,
-  option: MentionOption
+  option: T & MentionOption
 ): boolean => {
   const lowerCase = pattern.toLowerCase()
-  const label = option.label || option.value
+  const label = option.label || option.value || ''
   return label.toLowerCase().includes(lowerCase)
 }
 
@@ -24,7 +24,10 @@ export const getMentionCtx = (
   let mentionCtx: MentionCtx | undefined
   for (let i = selectionEnd - 1; i >= 0; --i) {
     const char = inputValue[i]
-    if (char === split || char === '\n' || char === '\r') {
+    if (
+      splitIndex === -1 &&
+      (char === split || char === '\n' || char === '\r')
+    ) {
       splitIndex = i
       continue
     }

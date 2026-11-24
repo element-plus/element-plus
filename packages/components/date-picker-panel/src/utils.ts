@@ -2,7 +2,6 @@ import dayjs from 'dayjs'
 import { isArray, isString } from '@element-plus/utils'
 import { rangeArr } from '@element-plus/components/time-picker'
 
-import type { ComputedRef } from 'vue'
 import type { Dayjs } from 'dayjs'
 import type { DateCell } from './types'
 import type { DisabledDateType } from './props/shared'
@@ -160,6 +159,42 @@ export const datesInMonth = (
   return rangeArr(numOfDays).map((n) => firstDay.add(n, 'day').toDate())
 }
 
+export const datesInQuarter = (
+  date: Dayjs,
+  year: number,
+  quarter: number,
+  lang: string
+) => {
+  const firstMonth = quarter * 3
+  return [0, 1, 2].reduce<Date[]>(
+    (acc, i) => acc.concat(datesInMonth(date, year, firstMonth + i, lang)),
+    []
+  )
+}
+
+export const isQuarterFullyDisabled = (
+  value: Dayjs,
+  lang: string,
+  disabledDate?: DisabledDateType
+) => {
+  if (!disabledDate) return false
+
+  return datesInQuarter(value, value.year(), value.quarter() - 1, lang).every(
+    disabledDate
+  )
+}
+
+export const isSelectableQuarterDate = (
+  value: Dayjs,
+  lang: string,
+  disabledDate?: DisabledDateType
+) => {
+  return (
+    (disabledDate ? !disabledDate(value.toDate()) : true) &&
+    !isQuarterFullyDisabled(value, lang, disabledDate)
+  )
+}
+
 export const getValidDateOfMonth = (
   date: Dayjs,
   year: number,
@@ -181,6 +216,50 @@ export const getValidDateOfMonth = (
     return dayjs(_date).locale(lang)
   }
   return _value.locale(lang)
+}
+
+export const getValidDateOfQuarter = (
+  date: Dayjs,
+  year: number,
+  quarter: number,
+  lang: string,
+  disabledDate?: DisabledDateType
+) => {
+  const firstMonth = quarter * 3
+  for (let i = 0; i < 3; i++) {
+    const month = firstMonth + i
+    if (
+      !datesInMonth(date, year, month, lang).every((d) => disabledDate?.(d))
+    ) {
+      return getValidDateOfMonth(date, year, month, lang, disabledDate)
+    }
+  }
+  return dayjs()
+    .year(year)
+    .month(firstMonth)
+    .startOf('month')
+    .hour(date.hour())
+    .minute(date.minute())
+    .second(date.second())
+    .locale(lang)
+}
+
+export const normalizeQuarterDate = (
+  value: Dayjs,
+  lang: string,
+  disabledDate?: DisabledDateType
+) => {
+  if (!dayjs.isDayjs(value) || !value.isValid()) {
+    return value
+  }
+
+  return getValidDateOfQuarter(
+    value.startOf('day'),
+    value.year(),
+    value.quarter() - 1,
+    lang,
+    disabledDate
+  )
 }
 
 export const getValidDateOfYear = (
@@ -207,22 +286,26 @@ export const getValidDateOfYear = (
 export const correctlyParseUserInput = (
   value: string | Dayjs | Dayjs[],
   format: string,
-  lang: string,
-  defaultFormat: ComputedRef<boolean> | undefined
+  lang: string
 ): Dayjs | Dayjs[] => {
   if (isArray(value)) {
-    return value.map(
-      (v) => correctlyParseUserInput(v, format, lang, defaultFormat) as Dayjs
-    )
+    return value.map((v) => correctlyParseUserInput(v, format, lang) as Dayjs)
   }
   if (isString(value)) {
-    const dayjsValue = defaultFormat?.value
-      ? dayjs(value)
-      : dayjs(value, format)
+    let dayjsValue = dayjs(value, format)
+    if (!dayjsValue.isValid()) {
+      dayjsValue = dayjs(value)
+    }
     if (!dayjsValue.isValid()) {
       // return directly if not valid
       return dayjsValue
     }
+    const formatValue = dayjsValue.format(format)
+    // Strictly validate date validity
+    if (!dayjs(formatValue, format, true).isValid()) {
+      return dayjs('')
+    }
+    return dayjs(formatValue, format).locale(lang)
   }
   return dayjs(value, format).locale(lang)
 }

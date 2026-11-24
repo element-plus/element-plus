@@ -3,7 +3,7 @@
     Open the modal Dialog
   </el-button>
 
-  <el-dialog v-model="dialogVisible" :modal="false">
+  <el-dialog v-model="dialogVisible" :modal="false" modal-penetrable>
     <span>It's a modal Dialog</span>
     <template #footer>
       <div class="dialog-footer">

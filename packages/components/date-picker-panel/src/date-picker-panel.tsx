@@ -1,4 +1,5 @@
 import { defineComponent, inject, provide, reactive, toRefs } from 'vue'
+import { omit } from 'lodash-unified'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 import advancedFormat from 'dayjs/plugin/advancedFormat.js'
@@ -6,6 +7,7 @@ import localeData from 'dayjs/plugin/localeData.js'
 import weekOfYear from 'dayjs/plugin/weekOfYear.js'
 import weekYear from 'dayjs/plugin/weekYear.js'
 import dayOfYear from 'dayjs/plugin/dayOfYear.js'
+import quarterOfYear from 'dayjs/plugin/quarterOfYear.js'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter.js'
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore.js'
 import {
@@ -26,21 +28,23 @@ dayjs.extend(customParseFormat)
 dayjs.extend(weekOfYear)
 dayjs.extend(weekYear)
 dayjs.extend(dayOfYear)
+dayjs.extend(quarterOfYear)
 dayjs.extend(isSameOrAfter)
 dayjs.extend(isSameOrBefore)
 
 export default defineComponent({
   name: 'ElDatePickerPanel',
   install: null,
+  inheritAttrs: false,
   props: datePickerPanelProps,
   emits: [
     UPDATE_MODEL_EVENT,
     'calendar-change',
     'panel-change',
     'visible-change',
-    'pick',
+    'clear',
   ],
-  setup(props, { slots, emit }) {
+  setup(props, { slots, emit, attrs }) {
     const ns = useNamespace('picker-panel')
     const pickerInjection = inject(PICKER_BASE_INJECTION_KEY, undefined)
     if (isUndefined(pickerInjection)) {
@@ -72,11 +76,13 @@ export default defineComponent({
       const Component = getPanel(props.type)
       return (
         <Component
+          {...omit(attrs, 'onPick')}
           {...props}
           parsedValue={parsedValue.value}
           onSet-picker-option={onSetPickerOption}
           onCalendar-change={onCalendarChange}
           onPanel-change={onPanelChange}
+          onClear={() => emit('clear')}
           onPick={onPick}
         >
           {slots}

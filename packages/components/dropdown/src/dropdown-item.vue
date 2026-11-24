@@ -1,44 +1,32 @@
 <template>
-  <el-dropdown-collection-item
-    :disabled="disabled"
-    :text-value="textValue ?? textContent"
-  >
-    <el-roving-focus-item :focusable="!disabled">
-      <el-dropdown-item-impl
-        v-bind="propsAndAttrs"
-        @pointerleave="handlePointerLeave"
-        @pointermove="handlePointerMove"
-        @clickimpl="handleClick"
-      >
-        <slot />
-      </el-dropdown-item-impl>
-    </el-roving-focus-item>
-  </el-dropdown-collection-item>
+  <el-roving-focus-item :focusable="!disabled">
+    <el-dropdown-item-impl
+      v-bind="propsAndAttrs"
+      @pointerleave="handlePointerLeave"
+      @pointermove="handlePointerMove"
+      @clickimpl="handleClick"
+    >
+      <template v-if="$slots.icon" #icon>
+        <slot name="icon" />
+      </template>
+
+      <slot />
+    </el-dropdown-item-impl>
+  </el-roving-focus-item>
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  getCurrentInstance,
-  inject,
-  ref,
-  unref,
-} from 'vue'
+import { computed, defineComponent, getCurrentInstance, inject } from 'vue'
 import { ElRovingFocusItem } from '@element-plus/components/roving-focus-group'
 import { composeEventHandlers, whenMouse } from '@element-plus/utils'
 import ElDropdownItemImpl from './dropdown-item-impl.vue'
 import { useDropdown } from './useDropdown'
-import {
-  ElCollectionItem as ElDropdownCollectionItem,
-  dropdownItemProps,
-} from './dropdown'
+import { dropdownItemProps } from './dropdown'
 import { DROPDOWN_INJECTION_KEY } from './tokens'
 
 export default defineComponent({
   name: 'ElDropdownItem',
   components: {
-    ElDropdownCollectionItem,
     ElRovingFocusItem,
     ElDropdownItemImpl,
   },
@@ -48,8 +36,6 @@ export default defineComponent({
   setup(props, { emit, attrs }) {
     const { elDropdown } = useDropdown()
     const _instance = getCurrentInstance()
-    const itemRef = ref<HTMLElement | null>(null)
-    const textContent = computed(() => unref(itemRef)?.textContent ?? '')
     const { onItemEnter, onItemLeave } = inject(
       DROPDOWN_INJECTION_KEY,
       undefined
@@ -122,7 +108,6 @@ export default defineComponent({
       handleClick,
       handlePointerMove,
       handlePointerLeave,
-      textContent,
       propsAndAttrs,
     }
   },

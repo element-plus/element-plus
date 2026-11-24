@@ -25,17 +25,25 @@
       <tr
         v-for="(row, rowKey) in rows"
         :key="rowKey"
-        :class="getRowKls(row[1])"
+        :class="getRowKls(showWeekNumber ? row[2] : row[1])"
       >
         <td
           v-for="(cell, columnKey) in row"
           :key="`${rowKey}.${columnKey}`"
-          :ref="(el) => !isUnmounting && cell.isSelected && (currentCellRef = el as HTMLElement)"
+          :ref="
+            (el) =>
+              !isUnmounting &&
+              isSelectedCell(cell) &&
+              (currentCellRef = el as HTMLElement)
+          "
           :class="getCellClasses(cell)"
           :aria-current="cell.isCurrent ? 'date' : undefined"
           :aria-selected="cell.isCurrent"
-          :tabindex="cell.isSelected ? 0 : -1"
+          :tabindex="disabled ? undefined : isSelectedCell(cell) ? 0 : -1"
+          :aria-disabled="disabled"
           @focus="handleFocus"
+          @keydown.enter="handleKeydown"
+          @keydown.space="handleKeydown"
         >
           <el-date-picker-cell :cell="cell" />
         </td>
@@ -68,12 +76,14 @@ const {
   focus,
   isCurrent,
   isWeekActive,
+  isSelectedCell,
 
   handlePickDate,
   handleMouseUp,
   handleMouseDown,
   handleMouseMove,
   handleFocus,
+  handleKeydown,
 } = useBasicDateTable(props, emit)
 const { tableLabel, tableKls, getCellClasses, getRowKls, weekHeaderClass, t } =
   useBasicDateTableDOM(props, {

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import {
   computed,
   getCurrentInstance,
@@ -11,12 +11,19 @@ import {
   watch,
 } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { throwError } from '@element-plus/utils'
+import {
+  isPercent,
+  isPx,
+  parsePx,
+  percentToRatio,
+  throwError,
+} from '@element-plus/utils'
 import { getCollapsible, isCollapsible } from './hooks/usePanel'
 import SplitBar from './split-bar.vue'
-import { splitterPanelProps } from './split-panel'
-import { getPct, getPx, isPct, isPx } from './hooks'
+import { splitterPanelEmits } from './split-panel'
 import { splitterRootContextKey } from './type'
+
+import type { SplitterPanelProps } from './split-panel'
 
 const ns = useNamespace('splitter-panel')
 
@@ -25,11 +32,11 @@ defineOptions({
   name: COMPONENT_NAME,
 })
 
-const props = defineProps(splitterPanelProps)
+const props = withDefaults(defineProps<SplitterPanelProps>(), {
+  resizable: true,
+})
 
-const emits = defineEmits<{
-  (e: 'update:size', value: number): void
-}>()
+const emits = defineEmits(splitterPanelEmits)
 const splitterContext = inject(splitterRootContextKey)
 if (!splitterContext)
   throwError(
@@ -102,10 +109,10 @@ const endCollapsible = computed(() =>
 )
 
 function sizeToPx(str: string | number | undefined) {
-  if (isPct(str)) {
-    return getPct(str) * containerSize.value || 0
+  if (isPercent(str)) {
+    return percentToRatio(str) * containerSize.value || 0
   } else if (isPx(str)) {
-    return getPx(str)
+    return parsePx(str)
   }
   return str ?? 0
 }
@@ -158,7 +165,6 @@ watch(
 )
 
 const _panel = reactive({
-  el: panelEl.value!,
   uid,
   getVnode: () => instance.vnode,
   setIndex,
@@ -169,6 +175,11 @@ const _panel = reactive({
 registerPanel(_panel)
 
 onBeforeUnmount(() => unregisterPanel(_panel))
+
+defineExpose({
+  /** @description splitter-panel html element */
+  splitterPanelRef: panelEl,
+})
 </script>
 
 <template>

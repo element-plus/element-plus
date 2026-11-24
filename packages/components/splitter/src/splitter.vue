@@ -1,7 +1,8 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import {
   computed,
   getCurrentInstance,
+  nextTick,
   provide,
   reactive,
   toRef,
@@ -9,8 +10,11 @@ import {
 } from 'vue'
 import { useNamespace, useOrderedChildren } from '@element-plus/hooks'
 import { useContainer, useResize, useSize } from './hooks'
-import { splitterProps } from './splitter'
-import { type PanelItemState, splitterRootContextKey } from './type'
+import { splitterEmits } from './splitter'
+import { splitterRootContextKey } from './type'
+
+import type { PanelItemState } from './type'
+import type { SplitterProps } from './splitter'
 
 const ns = useNamespace('splitter')
 
@@ -18,14 +22,11 @@ defineOptions({
   name: 'ElSplitter',
 })
 
-const emits = defineEmits<{
-  (e: 'resizeStart', index: number, sizes: number[]): void
-  (e: 'resize', index: number, sizes: number[]): void
-  (e: 'resizeEnd', index: number, sizes: number[]): void
-  (e: 'collapse', index: number, type: 'start' | 'end', sizes: number[]): void
-}>()
+const emits = defineEmits(splitterEmits)
 
-const props = defineProps(splitterProps)
+const props = withDefaults(defineProps<SplitterProps>(), {
+  layout: 'horizontal',
+})
 const layout = toRef(props, 'layout')
 const lazy = toRef(props, 'lazy')
 
@@ -39,6 +40,7 @@ const {
 } = useOrderedChildren<PanelItemState>(getCurrentInstance()!, 'ElSplitterPanel')
 
 watch(panels, () => {
+  movingIndex.value = null
   panels.value.forEach((instance: PanelItemState, index: number) => {
     instance.setIndex(index)
   })
@@ -57,7 +59,7 @@ const {
 
 const splitterStyles = computed(() => {
   return {
-    [`--${ns.b()}-bar-offset`]: lazy.value
+    [ns.cssVarBlockName('bar-offset')]: lazy.value
       ? `${lazyOffset.value}px`
       : undefined,
   }
@@ -76,8 +78,9 @@ const onResize = (index: number, offset: number) => {
   }
 }
 
-const onResizeEnd = (index: number) => {
+const onResizeEnd = async (index: number) => {
   onMoveEnd()
+  await nextTick()
   emits('resizeEnd', index, pxSizes.value)
 }
 

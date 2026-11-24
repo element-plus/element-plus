@@ -25,13 +25,18 @@
 <script lang="ts" setup>
 import { toRef } from 'vue'
 import { useNamespace, useThrottleRender } from '@element-plus/hooks'
-import { skeletonProps } from './skeleton'
 import ElSkeletonItem from './skeleton-item.vue'
+
+import type { SkeletonProps } from './skeleton.ts'
 
 defineOptions({
   name: 'ElSkeleton',
 })
-const props = defineProps(skeletonProps)
+const props = withDefaults(defineProps<SkeletonProps>(), {
+  loading: true,
+  count: 1,
+  rows: 3,
+})
 
 const ns = useNamespace('skeleton')
 const uiLoading = useThrottleRender(toRef(props, 'loading'), props.throttle)

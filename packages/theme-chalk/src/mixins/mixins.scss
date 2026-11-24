@@ -238,3 +238,20 @@ $E: null;
     box-shadow: 0 0 0 1px $color inset;
   }
 }
+
+@mixin reset-button($outline-offset: 2px) {
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  appearance: none;
+  border: none;
+  border-radius: getCssVar('border-radius', 'base');
+  outline: none;
+  transition: transform getCssVar('transition-duration-fast') ease-in-out;
+
+  &:focus-visible {
+    outline: 2px solid getCssVar('color-primary');
+    outline-offset: $outline-offset;
+  }
+}

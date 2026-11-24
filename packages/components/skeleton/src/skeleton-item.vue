@@ -7,11 +7,14 @@
 <script lang="ts" setup>
 import { useNamespace } from '@element-plus/hooks'
 import { PictureFilled } from '@element-plus/icons-vue'
-import { skeletonItemProps } from './skeleton-item'
+
+import type { SkeletonItemProps } from './skeleton-item.ts'
 
 defineOptions({
   name: 'ElSkeletonItem',
 })
-defineProps(skeletonItemProps)
+withDefaults(defineProps<SkeletonItemProps>(), {
+  variant: 'text',
+})
 const ns = useNamespace('skeleton')
 </script>

@@ -7,10 +7,17 @@ export default {
     colorpicker: {
       confirm: 'Confirmer',
       clear: 'Effacer',
-      defaultLabel: 'color picker',
+      defaultLabel: 'Sélecteur de couleurs',
       description:
         'La couleur actuelle est {color}. Appuyer sur Entrée pour sélectionner une nouvelle couleur.',
-      alphaLabel: 'pick alpha value', // to be translated
+      alphaLabel: 'Choisir la valeur alpha',
+      alphaDescription: 'alpha {alpha}, couleur actuelle  {color}',
+      hueLabel: 'Choisir la veleur hue',
+      hueDescription: 'hue {hue}, couleur actuelle {color}',
+      svLabel: 'Choisir la valeur de saturation et de luminosité',
+      svDescription:
+        'saturation {saturation}, luminosité {brightness}, couleur actuelle {color}',
+      predefineDescription: 'Choisir {value} comme couleur actuelle',
     },
     datepicker: {
       now: 'Maintenant',
@@ -22,6 +29,8 @@ export default {
         'Utiliser les touches fléchées et appuyer sur Entrée pour sélectionner le jour du mois',
       monthTablePrompt:
         'Utiliser les touches fléchées et appuyer sur Entrée pour sélectionner le mois',
+      quarterTablePrompt:
+        'Utiliser les touches fléchées et appuyer sur Entrée pour sélectionner le trimestre',
       yearTablePrompt:
         "Utiliser les touches fléchées et appuyer sur Entrée pour sélectionner l'année",
       selectedDate: 'Date sélectionnée',
@@ -81,9 +90,12 @@ export default {
         dec: 'Déc',
       },
     },
+    input: {
+      characters: '{count} / {max} caractères',
+    },
     inputNumber: {
-      decrease: 'décrémenter',
-      increase: 'incrémenter',
+      decrease: 'Décrémenter',
+      increase: 'Incrémenter',
     },
     select: {
       loading: 'Chargement',
@@ -95,7 +107,7 @@ export default {
       loading: 'Chargement',
     },
     dropdown: {
-      toggleDropdown: 'Toggle Dropdown', // to be translated
+      toggleDropdown: 'Basculer la liste déroulante',
     },
     cascader: {
       noMatch: 'Aucune correspondance',
@@ -147,12 +159,21 @@ export default {
       resetFilter: 'Réinitialiser',
       clearFilter: 'Tous',
       sumText: 'Somme',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
+      sortLabel: 'Sort by {column}', // to be translated
+      filterLabel: 'Filter by {column}', // to be translated
+    },
+    tag: {
+      close: 'Fermer le tag',
     },
     tour: {
-      next: 'suivant',
-      previous: 'précédent',
-      finish: 'fin',
-      close: 'Close this dialog', // to be translated
+      next: 'Suivant',
+      previous: 'Précédent',
+      finish: 'Fin',
+      close: 'Fermer la boîte de dialogue',
     },
     tree: {
       emptyText: 'Aucune donnée',
@@ -166,7 +187,7 @@ export default {
       hasCheckedFormat: '{checked}/{total} coché(s)',
     },
     image: {
-      error: 'ECHEC',
+      error: 'Echec',
     },
     pageHeader: {
       title: 'Retour',
@@ -179,6 +200,10 @@ export default {
       leftArrow: 'Flèche du carrousel vers la gauche',
       rightArrow: 'Flèche du carrousel vers la droite',
       indicator: 'Passer au carrousel index {index}',
+    },
+    inputOTP: {
+      groupLabel: 'OTP Input', // to be translated
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
     },
   },
 }

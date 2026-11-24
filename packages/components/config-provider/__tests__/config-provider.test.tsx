@@ -1,7 +1,11 @@
 import { computed, defineComponent, nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { useLocale, useNamespace } from '@element-plus/hooks'
+import {
+  defaultInitialZIndex,
+  useLocale,
+  useNamespace,
+} from '@element-plus/hooks'
 import Chinese from '@element-plus/locale/lang/zh-cn'
 import English from '@element-plus/locale/lang/en'
 import {
@@ -140,7 +144,8 @@ describe('config-provider', () => {
         round: true,
         autoInsertSpace: true,
         text: true,
-      })
+        dashed: true,
+      } as const)
 
       const wrapper = mount(() => (
         <ConfigProvider button={config}>
@@ -151,7 +156,7 @@ describe('config-provider', () => {
       expect(
         wrapper
           .find(
-            '.el-button.el-button--warning.is-plain.is-round.is-text .el-button__text--expand'
+            '.el-button.el-button--warning.is-plain.is-round.is-text.is-dashed .el-button__text--expand'
           )
           .exists()
       ).toBe(true)
@@ -162,7 +167,7 @@ describe('config-provider', () => {
     it('should have shadow="hover" instead of \'always\'', async () => {
       const config = reactive({
         shadow: 'hover',
-      })
+      } as const)
       const overrideShadow = ref('')
 
       const wrapper = mount(() => (
@@ -183,7 +188,7 @@ describe('config-provider', () => {
       const config = reactive({
         type: 'success',
         underline: 'always',
-      })
+      } as const)
 
       const wrapper = mount(() => (
         <ConfigProvider link={config}>
@@ -504,6 +509,42 @@ describe('config-provider', () => {
       await nextTick()
 
       expect(vm.size).toBe('small')
+    })
+
+    it('should respect zero as global configured zIndex', () => {
+      const receiverRef = ref()
+      const ReceiverComponent = defineComponent({
+        setup() {
+          receiverRef.value = useGlobalComponentSettings('button')
+        },
+        template: '<div></div>',
+      })
+
+      mount(() => (
+        <ConfigProvider zIndex={0}>
+          <ReceiverComponent />
+        </ConfigProvider>
+      ))
+
+      expect(receiverRef.value.zIndex.initialZIndex).toBe(0)
+    })
+
+    it('should fall back to default zIndex for NaN global configuration', () => {
+      const receiverRef = ref()
+      const ReceiverComponent = defineComponent({
+        setup() {
+          receiverRef.value = useGlobalComponentSettings('button')
+        },
+        template: '<div></div>',
+      })
+
+      mount(() => (
+        <ConfigProvider zIndex={Number.NaN}>
+          <ReceiverComponent />
+        </ConfigProvider>
+      ))
+
+      expect(receiverRef.value.zIndex.initialZIndex).toBe(defaultInitialZIndex)
     })
 
     // #18004

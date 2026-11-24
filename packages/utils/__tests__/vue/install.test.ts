@@ -1,6 +1,10 @@
 import { createApp } from 'vue'
 import { describe, expect, it } from 'vitest'
-import { withInstall, withInstallDirective } from '../..'
+import {
+  withInstall,
+  withInstallDirective,
+  withPropsDefaultsSetter,
+} from '../..'
 
 describe('withInstall', () => {
   it('it should add an install method to the main component', () => {
@@ -26,6 +30,7 @@ describe('withInstall', () => {
       },
     }
 
+    // eslint-disable-next-line vue/one-component-per-file
     const app = createApp({})
     const componentWithInstall = withInstall(mainComponent, extraComponents)
 
@@ -85,6 +90,7 @@ describe('withInstallDirective', () => {
       unmounted: () => null,
     }
 
+    // eslint-disable-next-line vue/one-component-per-file
     const app = createApp({})
     const directiveWithInstall = withInstallDirective(
       directive,
@@ -94,5 +100,75 @@ describe('withInstallDirective', () => {
     directiveWithInstall.install?.(app)
 
     expect(app.directive('test-directive')).toBeTruthy()
+  })
+})
+
+describe('withPropsDefaultsSetter', () => {
+  it('basic', () => {
+    const component: Record<string, any> = {
+      name: 'MainComponent',
+      props: {
+        foo: String,
+        bar: Boolean,
+        baz: {
+          type: Number,
+          default: 0,
+        },
+      },
+      render: () => null,
+    }
+
+    withPropsDefaultsSetter(component)
+
+    component.setPropsDefaults({
+      foo: 'default',
+      bar: true,
+      baz: 1,
+      nonExist: true,
+    })
+
+    expect(component.props).toStrictEqual({
+      foo: {
+        type: String,
+        default: 'default',
+      },
+      bar: {
+        type: Boolean,
+        default: true,
+      },
+      baz: {
+        type: Number,
+        default: 1,
+      },
+    })
+  })
+
+  it('array props', () => {
+    const component: Record<string, any> = {
+      name: 'MainComponent',
+      props: ['foo', 'bar', 'baz'],
+      render: () => null,
+    }
+
+    withPropsDefaultsSetter(component)
+
+    component.setPropsDefaults({
+      foo: 'default',
+      bar: true,
+      baz: 1,
+      nonExist: true,
+    })
+
+    expect(component.props).toStrictEqual({
+      foo: {
+        default: 'default',
+      },
+      bar: {
+        default: true,
+      },
+      baz: {
+        default: 1,
+      },
+    })
   })
 })

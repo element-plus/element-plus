@@ -11,6 +11,13 @@ export default {
       description:
         'current color is {color}. press enter to select a new color.', // to be translated
       alphaLabel: 'pick alpha value', // to be translated
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
+      svLabel: 'pick saturation and brightness value', // to be translated
+      svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
+      predefineDescription: 'select {value} as the color', // to be translated
     },
     datepicker: {
       now: 'ตอนนี้',
@@ -21,6 +28,7 @@ export default {
       dateTablePrompt:
         'Use the arrow keys and enter to select the day of the month', // to be translated
       monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
+      quarterTablePrompt: 'Use the arrow keys and enter to select the quarter', // to be translated
       yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
       selectedDate: 'Selected date', // to be translated
       selectDate: 'เลือกวันที่',
@@ -78,6 +86,9 @@ export default {
         nov: 'พ.ย.',
         dec: 'ธ.ค.',
       },
+    },
+    input: {
+      characters: '{count} / {max} ตัวอักษร',
     },
     inputNumber: {
       decrease: 'decrease number', // to be translated
@@ -145,6 +156,15 @@ export default {
       resetFilter: 'รีเซ็ต',
       clearFilter: 'ทั้งหมด',
       sumText: 'รวม',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
+      sortLabel: 'Sort by {column}', // to be translated
+      filterLabel: 'Filter by {column}', // to be translated
+    },
+    tag: {
+      close: 'Close this tag', // to be translated
     },
     tour: {
       next: 'ถัดไป',
@@ -177,6 +197,10 @@ export default {
       leftArrow: 'Carousel arrow left', // to be translated
       rightArrow: 'Carousel arrow right', // to be translated
       indicator: 'Carousel switch to index {index}', // to be translated
+    },
+    inputOTP: {
+      groupLabel: 'OTP Input', // to be translated
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
     },
   },
 }

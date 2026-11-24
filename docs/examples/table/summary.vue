@@ -37,7 +37,7 @@ interface Product {
   amount3: number
 }
 
-interface SummaryMethodProps<T = Product> {
+interface SummaryMethodProps<T extends Product = Product> {
   columns: TableColumnCtx<T>[]
   data: T[]
 }

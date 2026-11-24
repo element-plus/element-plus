@@ -10,7 +10,7 @@
 <script lang="ts" setup>
 import { reactive, toRefs } from 'vue'
 
-import type { ObjectFitProperty } from 'csstype'
+import type { CSSProperties } from 'vue'
 
 const state = reactive({
   fits: [
@@ -19,7 +19,7 @@ const state = reactive({
     'cover',
     'none',
     'scale-down',
-  ] as ObjectFitProperty[],
+  ] as CSSProperties['object-fit'][],
   url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
 })
 

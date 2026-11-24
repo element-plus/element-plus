@@ -46,6 +46,11 @@
         "promotion": "2.2.0"
       },
       {
+        "text": "Custom Defaults",
+        "link": "/guide/custom-defaults",
+        "promotion": "2.13.3"
+      },
+      {
         "text": "SSR",
         "link": "/guide/ssr"
       },

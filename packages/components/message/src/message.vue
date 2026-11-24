@@ -32,13 +32,16 @@
       <el-icon v-if="iconComponent" :class="[ns.e('icon'), typeClass]">
         <component :is="iconComponent" />
       </el-icon>
-      <slot>
-        <p v-if="!dangerouslyUseHTMLString" :class="ns.e('content')">
+      <p
+        v-if="!dangerouslyUseHTMLString || $slots.default"
+        :class="ns.e('content')"
+      >
+        <slot>
           {{ message }}
-        </p>
-        <!-- Caution here, message could've been compromised, never use user's input as message -->
-        <p v-else :class="ns.e('content')" v-html="message" />
-      </slot>
+        </slot>
+      </p>
+      <!-- Caution here, message could've been compromised, never use user's input as message -->
+      <p v-else :class="ns.e('content')" v-html="message" />
       <el-icon v-if="showClose" :class="ns.e('closeBtn')" @click.stop="close">
         <Close />
       </el-icon>
@@ -49,20 +52,26 @@
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { useEventListener, useResizeObserver, useTimeoutFn } from '@vueuse/core'
-import { TypeComponents, TypeComponentsMap } from '@element-plus/utils'
+import {
+  TypeComponents,
+  TypeComponentsMap,
+  getEventCode,
+} from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import ElBadge from '@element-plus/components/badge'
 import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
 import { ElIcon } from '@element-plus/components/icon'
 import {
   MESSAGE_DEFAULT_PLACEMENT,
+  messageDefaults,
   messageEmits,
-  messageProps,
 } from './message'
 import { getLastOffset, getOffsetOrSpace } from './instance'
+import { omit } from 'lodash-unified'
 
 import type { BadgeProps } from '@element-plus/components/badge'
 import type { CSSProperties } from 'vue'
+import type { MessageProps } from './message'
 
 const { Close } = TypeComponents
 
@@ -70,7 +79,10 @@ defineOptions({
   name: 'ElMessage',
 })
 
-const props = defineProps(messageProps)
+const props = withDefaults(
+  defineProps<MessageProps>(),
+  omit(messageDefaults, 'appendTo')
+)
 const emit = defineEmits(messageEmits)
 
 const isStartTransition = ref(false)
@@ -99,8 +111,10 @@ const placement = computed(() => props.placement || MESSAGE_DEFAULT_PLACEMENT)
 
 const lastOffset = computed(() => getLastOffset(props.id, placement.value))
 const offset = computed(() => {
-  return (
-    getOffsetOrSpace(props.id, props.offset, placement.value) + lastOffset.value
+  return Math.max(
+    getOffsetOrSpace(props.id, props.offset, placement.value) +
+      lastOffset.value,
+    props.offset
   )
 })
 const bottom = computed(() => height.value + offset.value)
@@ -142,7 +156,8 @@ function close() {
   })
 }
 
-function keydown({ code }: KeyboardEvent) {
+function keydown(event: KeyboardEvent) {
+  const code = getEventCode(event)
   if (code === EVENT_CODE.esc) {
     // press esc to close the message
     close()

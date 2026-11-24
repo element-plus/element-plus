@@ -2,8 +2,9 @@ import path from 'path'
 import Inspect from 'vite-plugin-inspect'
 import UnoCSS from 'unocss/vite'
 import mkcert from 'vite-plugin-mkcert'
-import glob from 'fast-glob'
+import { glob } from 'tinyglobby'
 import vueJsx from '@vitejs/plugin-vue-jsx'
+import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 import Components from 'unplugin-vue-components/vite'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
@@ -16,6 +17,7 @@ import {
   projRoot,
 } from '@element-plus/build-utils'
 import { MarkdownTransform } from '../plugins/markdown-transform'
+import { ComponentChangelogPlugin } from '../plugins/component-changelog'
 
 import type { Plugin, UserConfig } from 'vitepress'
 
@@ -23,13 +25,19 @@ type ViteConfig = Required<UserConfig>['vite']
 type ResolveOptions = Required<ViteConfig>['resolve']
 type AliasOptions = Required<ResolveOptions>['alias']
 
+const IGNORED_DEPENDENCIES = [
+  'normalize.css',
+  'vue-component-type-helpers',
+  '@docsearch/css',
+]
+
 const { dependencies: epDeps } = getPackageDependencies(epPackage)
 const { dependencies: docsDeps } = getPackageDependencies(docPackage)
 const optimizeDeps = [...new Set([...epDeps, ...docsDeps])].filter(
   (dep) =>
     !dep.startsWith('@types/') &&
     !['@element-plus/metadata', 'element-plus'].includes(dep) &&
-    !['normalize.css'].includes(dep)
+    !IGNORED_DEPENDENCIES.includes(dep)
 )
 optimizeDeps.push(
   ...(await glob(['dayjs/plugin/*.js'], {
@@ -57,7 +65,7 @@ const alias: AliasOptions = [
       ]),
 ]
 
-export const getViteConfig = ({ mode }: { mode: string }): ViteConfig => {
+export const getViteConfig = ({ mode }: { mode: string }) => {
   const env = loadEnv(mode, process.cwd(), '')
   return {
     css: {
@@ -77,8 +85,24 @@ export const getViteConfig = ({ mode }: { mode: string }): ViteConfig => {
     resolve: {
       alias,
     },
+    ssr: {
+      noExternal: ['vue-i18n'],
+    },
     plugins: [
       vueJsx(),
+
+      {
+        name: 'docs-favicon',
+        configureServer(server) {
+          // Browsers request the default icon before VitePress updates the head.
+          server.middlewares.use('/favicon.ico', (_request, response) => {
+            response.writeHead(302, {
+              Location: '/images/element-plus-logo-small.svg',
+            })
+            response.end()
+          })
+        },
+      } as Plugin,
 
       // https://github.com/antfu/unplugin-vue-components
       Components({
@@ -106,7 +130,14 @@ export const getViteConfig = ({ mode }: { mode: string }): ViteConfig => {
         inspector: false,
       }),
 
+      VueI18n({
+        runtimeOnly: true,
+        compositionOnly: true,
+        include: [path.resolve(__dirname, '../locales/**')],
+      }) as Plugin,
+
       MarkdownTransform() as Plugin,
+      ComponentChangelogPlugin() as Plugin,
       Inspect(),
       groupIconVitePlugin() as Plugin,
       env.HTTPS ? (mkcert() as Plugin) : undefined,
@@ -114,5 +145,5 @@ export const getViteConfig = ({ mode }: { mode: string }): ViteConfig => {
     optimizeDeps: {
       include: optimizeDeps,
     },
-  }
+  } as ViteConfig
 }

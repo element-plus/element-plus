@@ -61,23 +61,26 @@ import ElIcon from '@element-plus/components/icon'
 import { CaretRight } from '@element-plus/icons-vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { useNamespace } from '@element-plus/hooks'
-import { isFunction, isString } from '@element-plus/utils'
+import { isFunction, isString, mutable } from '@element-plus/utils'
 import ElNodeContent from './tree-node-content'
 import {
+  EMPTY_NODE,
   NODE_CONTEXTMENU,
   ROOT_TREE_INJECTION_KEY,
   treeNodeEmits,
-  treeNodeProps,
 } from './virtual-tree'
 
+import type { TreeNode, TreeNodeProps } from './types'
 import type { CheckboxValueType } from '@element-plus/components/checkbox'
-import type { TreeNode } from './types'
 
 defineOptions({
   name: 'ElTreeNode',
 })
 
-const props = defineProps(treeNodeProps)
+const props = withDefaults(defineProps<TreeNodeProps>(), {
+  node: () => mutable(EMPTY_NODE),
+  itemSize: 26,
+})
 const emit = defineEmits(treeNodeEmits)
 
 const tree = inject(ROOT_TREE_INJECTION_KEY)
@@ -87,7 +90,7 @@ const indent = computed(() => tree?.props.indent ?? 16)
 const icon = computed(() => tree?.props.icon ?? CaretRight)
 
 const getNodeClass = (node: TreeNode) => {
-  const nodeClassFunc = tree?.props.props.class
+  const nodeClassFunc = tree?.props.props?.class
   if (!nodeClassFunc) return {}
 
   let className

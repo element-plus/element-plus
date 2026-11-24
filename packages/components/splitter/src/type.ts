@@ -5,7 +5,6 @@ export type Layout = 'horizontal' | 'vertical'
 export type PanelItemState = UnwrapRef<{
   uid: number
   getVnode: () => VNode
-  el: HTMLElement
   collapsible: { start?: boolean; end?: boolean }
   max?: number | string
   min?: number | string
@@ -25,7 +24,7 @@ export interface SplitterRootContext {
   registerPanel: (pane: PanelItemState) => void
   unregisterPanel: (pane: PanelItemState) => void
   onCollapse: (index: number, type: 'start' | 'end') => void
-  onMoveEnd: () => void
+  onMoveEnd: (index: number) => Promise<void>
   onMoveStart: (index: number) => void
   onMoving: (index: number, offset: number) => void
 }

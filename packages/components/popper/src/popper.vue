@@ -5,16 +5,18 @@
 <script lang="ts" setup>
 import { computed, provide, ref } from 'vue'
 import { POPPER_INJECTION_KEY } from './constants'
-import { popperProps } from './popper'
 
 import type { Instance as PopperInstance } from '@popperjs/core'
 import type { ElPopperInjectionContext } from './constants'
+import type { PopperProps } from './popper'
 
 defineOptions({
   name: 'ElPopper',
   inheritAttrs: false,
 })
-const props = defineProps(popperProps)
+const props = withDefaults(defineProps<PopperProps>(), {
+  role: 'tooltip',
+})
 
 const triggerRef = ref<HTMLElement>()
 const popperInstanceRef = ref<PopperInstance>()

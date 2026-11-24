@@ -11,6 +11,13 @@ export default {
       description:
         'current color is {color}. press enter to select a new color.',
       alphaLabel: 'pick alpha value',
+      alphaDescription: 'alpha {alpha}, current color is {color}',
+      hueLabel: 'pick hue value',
+      hueDescription: 'hue {hue}, current color is {color}',
+      svLabel: 'pick saturation and brightness value',
+      svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}',
+      predefineDescription: 'select {value} as the color',
     },
     datepicker: {
       now: 'Now',
@@ -21,6 +28,7 @@ export default {
       dateTablePrompt:
         'Use the arrow keys and enter to select the day of the month',
       monthTablePrompt: 'Use the arrow keys and enter to select the month',
+      quarterTablePrompt: 'Use the arrow keys and enter to select the quarter',
       yearTablePrompt: 'Use the arrow keys and enter to select the year',
       selectedDate: 'Selected date',
       selectDate: 'Select date',
@@ -78,6 +86,9 @@ export default {
         nov: 'Nov',
         dec: 'Dec',
       },
+    },
+    input: {
+      characters: '{count} / {max} characters',
     },
     inputNumber: {
       decrease: 'decrease number',
@@ -145,6 +156,15 @@ export default {
       resetFilter: 'Reset',
       clearFilter: 'All',
       sumText: 'Sum',
+      selectAllLabel: 'Select all rows',
+      selectRowLabel: 'Select this row',
+      expandRowLabel: 'Expand this row',
+      collapseRowLabel: 'Collapse this row',
+      sortLabel: 'Sort by {column}',
+      filterLabel: 'Filter by {column}',
+    },
+    tag: {
+      close: 'Close this tag',
     },
     tour: {
       next: 'Next',
@@ -177,6 +197,10 @@ export default {
       leftArrow: 'Carousel arrow left',
       rightArrow: 'Carousel arrow right',
       indicator: 'Carousel switch to index {index}',
+    },
+    inputOTP: {
+      groupLabel: 'OTP Input',
+      defaultLabel: 'Please enter OTP character {index}',
     },
   },
 }

@@ -10,6 +10,13 @@ export default {
       defaultLabel: 'Fargevelger',
       description: 'Nåværende farge {color}, velg ny farge med Enter-tasten',
       alphaLabel: 'Velg verdi for gjennomsiktighet',
+      alphaDescription: 'gjennomsiktighet {alpha}, nåværende farge er {color}',
+      hueLabel: 'Velg fargetone-verdi',
+      hueDescription: 'fargetone {hue}, nåværende farge er {color}',
+      svLabel: 'Velg metnings- og lysstyrkeverdi',
+      svDescription:
+        'metning {saturation}, lysstyrke {brightness}, nåværende farge er {color}',
+      predefineDescription: 'velg {value} som farge',
     },
     datepicker: {
       now: 'Nå',
@@ -19,6 +26,7 @@ export default {
       confirm: 'Bekreft',
       dateTablePrompt: 'Bruk piltastene og Enter-tasten for å velge dato',
       monthTablePrompt: 'Bruk piltastene og Enter-tasten for å velge måned',
+      quarterTablePrompt: 'Bruk piltastene og Enter-tasten for å velge kvartal',
       yearTablePrompt: 'Bruk piltastene og Enter-tasten for å velge år',
       selectedDate: 'Valgt dato',
       selectDate: 'Velg dato',
@@ -76,6 +84,9 @@ export default {
         nov: 'November',
         dec: 'Desember',
       },
+    },
+    input: {
+      characters: '{count} / {max} tegn',
     },
     inputNumber: {
       decrease: 'Minsk verdi',
@@ -143,12 +154,21 @@ export default {
       resetFilter: 'Tilbakestill',
       clearFilter: 'Alle',
       sumText: 'Sum',
+      selectAllLabel: 'Velg alle rader',
+      selectRowLabel: 'Velg denne raden',
+      expandRowLabel: 'Utvid denne raden',
+      collapseRowLabel: 'Skjul denne raden',
+      sortLabel: 'Sorter etter {column}',
+      filterLabel: 'Filtrer etter {column}',
+    },
+    tag: {
+      close: 'Lukk denne taggen',
     },
     tour: {
       next: 'Neste',
       previous: 'Forrige',
       finish: 'Avslutt omvisning',
-      close: 'Close this dialog', // to be translated
+      close: 'Lukk denne dialogboksen',
     },
     tree: {
       emptyText: 'Ingen data',
@@ -175,6 +195,10 @@ export default {
       leftArrow: 'Forrige bilde',
       rightArrow: 'Neste bilde',
       indicator: 'Bytt bilde til indeks {index}',
+    },
+    inputOTP: {
+      groupLabel: 'OTP-inndata',
+      defaultLabel: 'Skriv inn OTP-tegn {index}',
     },
   },
 }

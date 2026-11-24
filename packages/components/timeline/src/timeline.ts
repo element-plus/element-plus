@@ -1,36 +1,50 @@
-import { defineComponent, h, provide, renderSlot } from 'vue'
+import { computed, defineComponent, h, provide } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { TIMELINE_INJECTION_KEY } from './tokens'
+import { buildProps, flattedChildren } from '@element-plus/utils'
+
+import type { VNodeChildAtom } from '@element-plus/utils'
+import type { ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
+import type { TimelineProvider } from './tokens'
+
+export const timelineProps = buildProps({
+  /**
+   * @description relative position of timeline and content
+   */
+  mode: {
+    type: String,
+    values: ['start', 'alternate', 'alternate-reverse', 'end'],
+    default: 'start',
+  },
+  /**
+   * @description whether reverse order
+   */
+  reverse: Boolean,
+} as const)
+export type TimelineProps = ExtractPropTypes<typeof timelineProps>
+export type TimelinePropsPublic = ExtractPublicPropTypes<typeof timelineProps>
 
 const Timeline = defineComponent({
   name: 'ElTimeline',
-  setup(_, { slots }) {
+  props: timelineProps,
+
+  setup(props, { slots }) {
     const ns = useNamespace('timeline')
 
-    provide(TIMELINE_INJECTION_KEY, slots)
+    provide<TimelineProvider>(TIMELINE_INJECTION_KEY, { props, slots })
 
-    /**
-     *  Maybe ,this component will not support prop 'reverse', why ?
-     *
-     *  Example 1:
-     *   <component-a>
-     *     <div>1</div>
-     *     <div>2</div>
-     *   </component-a>
-     *
-     *  Example 2:
-     *   <component-a>
-     *     <div v-for="i in 2" :key="i">{{ i }}</div>
-     *   </component-a>
-     *
-     *  'slots.default()' value in example 1 just like [Vnode, Vnode]
-     *  'slots.default()' value in example 2 just like [Vnode]
-     *
-     *   so i can't reverse the slots, when i use 'v-for' directive.
-     */
+    const timelineKls = computed(() => [ns.b(), ns.is(props.mode)])
 
     return () => {
-      return h('ul', { class: [ns.b()] }, [renderSlot(slots, 'default')])
+      const children = flattedChildren(
+        slots.default?.() ?? []
+      ) as VNodeChildAtom[]
+
+      return h(
+        'ul',
+        { class: timelineKls.value },
+        props.reverse ? children.reverse() : children
+      )
     }
   },
 })

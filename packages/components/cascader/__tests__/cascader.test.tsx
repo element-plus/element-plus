@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
+import { rAF } from '@element-plus/test-utils/tick'
 import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
 import { usePopperContainerId } from '@element-plus/hooks'
 import { hasClass } from '@element-plus/utils'
@@ -21,6 +22,15 @@ vi.mock('lodash-unified', async () => {
     debounce: vi.fn((fn) => {
       fn.cancel = vi.fn()
       fn.flush = vi.fn()
+      return fn
+    }),
+  }
+})
+
+vi.mock('@vueuse/core', async () => {
+  return {
+    ...((await vi.importActual('@vueuse/core')) as Record<string, any>),
+    useDebounceFn: vi.fn((fn) => {
       return fn
     }),
   }
@@ -50,6 +60,7 @@ const OPTIONS = [
 const AXIOM = 'Rem is the best girl'
 
 const TRIGGER = '.el-cascader'
+const MENU = '.el-cascader-menu'
 const NODE = '.el-cascader-node'
 const NODE_LABEL = '.el-cascader-node__label'
 const TAG = '.el-tag'
@@ -70,7 +81,10 @@ describe('Cascader.vue', () => {
   test('toggle popper visible', async () => {
     const handleVisibleChange = vi.fn()
     const wrapper = _mount(() => (
-      <Cascader onVisibleChange={handleVisibleChange} />
+      <>
+        <Cascader onVisibleChange={handleVisibleChange} />
+        <button></button>
+      </>
     ))
 
     const trigger = wrapper.find(TRIGGER)
@@ -78,12 +92,14 @@ describe('Cascader.vue', () => {
 
     await trigger.trigger('click')
     expect(dropdown.style.display).not.toBe('none')
-    expect(handleVisibleChange).toBeCalledWith(true)
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(1, true)
     await trigger.trigger('click')
-    expect(handleVisibleChange).toBeCalledWith(false)
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(2, false)
     await trigger.trigger('click')
-    document.body.click()
-    expect(handleVisibleChange).toBeCalledWith(false)
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(3, true)
+    await wrapper.find('button').trigger('mousedown')
+    await wrapper.find('button').trigger('mouseup')
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(4, false)
   })
 
   test('expand and check', async () => {
@@ -307,6 +323,48 @@ describe('Cascader.vue', () => {
     expect(tooltipTags[1].textContent).toBe('Zhejiang / Wenzhou')
   })
 
+  test('dynamic max collapse tags', async () => {
+    const props = { multiple: true }
+    const max = ref(2)
+    const wrapper = _mount(() => (
+      <Cascader
+        modelValue={[
+          ['zhejiang', 'hangzhou'],
+          ['zhejiang', 'ningbo'],
+          ['zhejiang', 'wenzhou'],
+        ]}
+        collapseTags
+        collapseTagsTooltip
+        props={props}
+        options={OPTIONS}
+        maxCollapseTags={max.value}
+      />
+    ))
+
+    await nextTick()
+    const tags = wrapper.findAll(TAG)
+    const [firstTag, secondTag, thirdTag] = tags
+    expect(tags.length).toBe(3)
+    expect(firstTag.text()).toBe('Zhejiang / Hangzhou')
+    expect(secondTag.text()).toBe('Zhejiang / Ningbo')
+    expect(thirdTag.text()).toBe('+ 1')
+    const tooltipTags = document.querySelectorAll(
+      `.el-cascader__collapse-tags ${TAG}`
+    )
+    expect(tooltipTags.length).toBe(1)
+    max.value = 1
+    await nextTick()
+    const _tags = wrapper.findAll(TAG)
+    const [_firstTag, _secondTag] = _tags
+    expect(_tags.length).toBe(2)
+    expect(_firstTag.text()).toBe('Zhejiang / Hangzhou')
+    expect(_secondTag.text()).toBe('+ 2')
+    const _tooltipTags = document.querySelectorAll(
+      `.el-cascader__collapse-tags ${TAG}`
+    )
+    expect(_tooltipTags.length).toBe(2)
+  })
+
   test('max collapse tags', async () => {
     const props = { multiple: true }
     const wrapper = _mount(() => (
@@ -418,7 +476,7 @@ describe('Cascader.vue', () => {
     const scrollbar = scrollbars[0]
     expect(scrollbar).toBeDefined()
     expect(scrollbar?.vm.maxHeight).toBe(200)
-    const tooltip = await collapseTag.getComponent(ElTooltip)
+    const tooltip = wrapper.findComponent(ElTooltip)
     expect(tooltip).toBeDefined()
     await tooltip.trigger('hover')
     expect(
@@ -531,6 +589,29 @@ describe('Cascader.vue', () => {
     expect(value.value).toEqual(['zhejiang', 'hangzhou'])
   })
 
+  test('fitInputWidth', async () => {
+    const wrapper = _mount(() => (
+      <Cascader filterable fitInputWidth options={OPTIONS} />
+    ))
+    const inputWrapperEl = wrapper.find('.el-input').element as HTMLElement
+    const mockGetBoundingClientRect = vi
+      .spyOn(inputWrapperEl, 'getBoundingClientRect')
+      .mockReturnValue({ width: 221 } as DOMRect)
+
+    const input = wrapper.find('input')
+    input.element.value = 'Ni'
+    await input.trigger('compositionstart')
+    await input.trigger('input')
+    await input.trigger('compositionend')
+    await nextTick()
+
+    const suggestionPanel = document.querySelector(
+      SUGGESTION_PANEL
+    ) as HTMLElement
+    expect(suggestionPanel.style.width).toBe('221px')
+    mockGetBoundingClientRect.mockRestore()
+  })
+
   test('filterable in multiple mode', async () => {
     const value = ref([])
     const props = { multiple: true }
@@ -554,6 +635,26 @@ describe('Cascader.vue', () => {
     hzSuggestion.click()
     await nextTick()
     expect(value.value).toEqual([])
+  })
+
+  test('before-filter should be called when search keyword is cleared', async () => {
+    const beforeFilter = vi.fn(() => true)
+    const wrapper = _mount(() => (
+      <Cascader
+        filterable
+        options={OPTIONS}
+        beforeFilter={beforeFilter}
+        teleported={false}
+      />
+    ))
+
+    const input = wrapper.find('input')
+
+    await input.setValue('Ha')
+    expect(beforeFilter).toHaveBeenNthCalledWith(1, 'Ha')
+
+    await input.setValue('')
+    expect(beforeFilter).toHaveBeenNthCalledWith(2, '')
   })
 
   test('filter method', async () => {
@@ -597,6 +698,90 @@ describe('Cascader.vue', () => {
     triggerEvent(hzSuggestion, 'keydown', EVENT_CODE.enter)
     await nextTick()
     expect(value.value).toEqual(['zhejiang', 'hangzhou'])
+  })
+
+  test('filterable keyboard navigation in virtual scroll mode', async () => {
+    const value = ref([])
+    const options = [
+      {
+        value: 'root',
+        label: 'Root',
+        children: Array.from({ length: 60 }).map((_, index) => ({
+          value: `child-${index}`,
+          label: `Child ${index}`,
+        })),
+      },
+    ]
+    const wrapper = _mount(() => (
+      <Cascader
+        v-model={value.value}
+        filterable
+        virtualScroll
+        height={68}
+        options={options}
+      />
+    ))
+
+    const input = wrapper.find('input')
+    input.element.value = 'Child'
+    await input.trigger('input')
+    await nextTick()
+
+    const dropdown = document.querySelector(DROPDOWN)!
+    const suggestions = dropdown.querySelectorAll(
+      SUGGESTION_ITEM
+    ) as NodeListOf<HTMLElement>
+    const current = suggestions[suggestions.length - 1]
+    const getSuggestionIndex = (el: HTMLElement) =>
+      Number.parseInt(el.dataset.suggestionIndex || '-1', 10)
+    const currentIndex = getSuggestionIndex(current)
+
+    current.focus()
+    triggerEvent(current, 'keydown', EVENT_CODE.down)
+    await nextTick()
+    await nextTick()
+
+    const active = document.activeElement as HTMLElement
+    const activeIndex = getSuggestionIndex(active)
+    expect(activeIndex).toBe(currentIndex + 1)
+  })
+
+  test('virtual scroll should apply inner width with suggestion-item slot', async () => {
+    const value = ref([])
+    const options = [
+      {
+        value: 'root',
+        label: 'Root',
+        children: Array.from({ length: 60 }).map((_, index) => ({
+          value: `child-${index}`,
+          label: `Child ${index}`,
+        })),
+      },
+    ]
+    const wrapper = _mount(() => (
+      <Cascader
+        v-model={value.value}
+        filterable
+        virtualScroll
+        height={68}
+        options={options}
+      >
+        {{
+          'suggestion-item': ({ item }: any) => (
+            <span>{`${item.text} - custom-content`}</span>
+          ),
+        }}
+      </Cascader>
+    ))
+
+    const input = wrapper.find('input')
+    input.element.value = 'Child'
+    await input.trigger('input')
+    await nextTick()
+
+    const cascader = wrapper.findComponent(Cascader).vm as any
+    expect(cascader.hasCustomSuggestionItemSlot).toBe(true)
+    expect(cascader.suggestionListWidth).toBeDefined()
   })
 
   describe('teleported API', () => {
@@ -657,6 +842,24 @@ describe('Cascader.vue', () => {
     wrapper.findComponent(ElForm).vm.$.exposed!.resetFields()
     await nextTick()
     expect(wrapper.find('input').element.placeholder).toBe(AXIOM)
+  })
+
+  test('The disabled state of a component has higher priority than that of a form', async () => {
+    const model = reactive({
+      name: new Array<string>(),
+    })
+
+    const wrapper = _mount(() => (
+      <ElForm model={model} disabled>
+        <ElFormItem>
+          <Cascader disabled={false} v-model={model.name} options={OPTIONS} />
+        </ElFormItem>
+      </ElForm>
+    ))
+
+    model.name = ['zhejiang', 'hangzhou']
+    await nextTick()
+    expect(wrapper.find('input').attributes('disabled')).toBeUndefined()
   })
 
   test('should be able to trigger togglePopperVisible outside the component', async () => {
@@ -903,7 +1106,7 @@ describe('Cascader.vue', () => {
       const wrapper = _mount(() => (
         <Cascader options={OPTIONS}>
           {{
-            default: () => false && <div>{AXIOM}</div>,
+            default: () => false,
           }}
         </Cascader>
       ))
@@ -1149,5 +1352,98 @@ describe('Cascader.vue', () => {
     rootNode?.click()
     await nextTick()
     expect(visibleChange).toBeCalledTimes(1)
+  })
+
+  it('should fully expand the panel after filter when checkStrictly=true', async () => {
+    const value = ref([])
+    const props = { checkStrictly: true }
+    const wrapper = _mount(() => (
+      <Cascader
+        v-model={value.value}
+        filterable
+        props={props}
+        options={OPTIONS}
+      />
+    ))
+    const input = wrapper.find('input')
+    await input.setValue('Wen')
+    const rootNode = document.querySelector(SUGGESTION_ITEM) as HTMLInputElement
+    rootNode?.click()
+    await nextTick()
+    expect(value.value).toStrictEqual(['zhejiang', 'wenzhou'])
+
+    const trigger = wrapper.find(TRIGGER)
+    await trigger.trigger('blur')
+    await trigger.trigger('focus')
+    expect(document.querySelectorAll(MENU)).toHaveLength(2)
+  })
+
+  it('should not select the first node when it is a leaf node', async () => {
+    const value = ref<string[]>([])
+    const options = [
+      { value: 'a', label: 'Node A' },
+      { value: 'b', label: 'Node B' },
+    ]
+    let visible = false
+
+    const visibleChange = vi.fn((v: boolean) => (visible = v))
+
+    const wrapper = mount(() => (
+      <Cascader
+        v-model={value.value}
+        options={options}
+        onVisibleChange={visibleChange}
+      />
+    ))
+    await nextTick()
+
+    const input = wrapper.find('.el-input__inner')
+    await input.trigger('click')
+
+    const firstNode = document.querySelector(NODE)!
+
+    await input.trigger('keydown', { code: EVENT_CODE.down })
+    await nextTick()
+    await rAF()
+
+    expect(visible).toBeTruthy()
+    expect(firstNode.matches(':focus')).toBeTruthy()
+    expect(value.value).toEqual([])
+  })
+
+  test('should not reload lazy root nodes while initial load is pending', async () => {
+    vi.useFakeTimers()
+    try {
+      const lazyLoad = vi.fn((_, resolve) => {
+        setTimeout(() => {
+          resolve([
+            {
+              value: 'loaded',
+              label: 'Loaded',
+              leaf: true,
+            },
+          ])
+        }, 1000)
+      })
+      const props = {
+        lazy: true,
+        lazyLoad,
+      }
+      const wrapper = mount(() => <Cascader props={props} />)
+      const vm = wrapper.findComponent(Cascader).vm
+
+      await nextTick()
+      expect(lazyLoad).toHaveBeenCalledTimes(1)
+
+      vm.togglePopperVisible(true)
+      await nextTick()
+
+      expect(lazyLoad).toHaveBeenCalledTimes(1)
+      vi.runAllTimers()
+      await nextTick()
+      expect(lazyLoad).toHaveBeenCalledTimes(1)
+    } finally {
+      vi.useRealTimers()
+    }
   })
 })

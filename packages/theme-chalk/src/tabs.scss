@@ -23,11 +23,64 @@
     height: 2px;
     background-color: getCssVar('color-primary');
     z-index: 1;
-    transition: width getCssVar('transition-duration')
+    transition:
+      width getCssVar('transition-duration')
         getCssVar('transition-function-ease-in-out-bezier'),
       transform getCssVar('transition-duration')
         getCssVar('transition-function-ease-in-out-bezier');
     list-style: none;
+    &.is-bottom {
+      bottom: auto;
+    }
+    @include when(hidden) {
+      visibility: hidden;
+
+      & ~ .is-active::after {
+        content: '';
+        position: absolute;
+        left: 20px;
+        right: 20px;
+        height: 2px;
+        bottom: 0;
+        z-index: 1;
+        background-color: getCssVar('color-primary');
+      }
+
+      &.is-bottom ~ .is-active::after {
+        top: 0;
+        bottom: auto;
+      }
+
+      &.is-left ~ .is-active::after,
+      &.is-right ~ .is-active::after {
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        height: auto;
+      }
+
+      &.is-left ~ .is-active::after {
+        left: auto;
+        right: 0;
+      }
+
+      &.is-right ~ .is-active::after {
+        left: 0;
+        right: auto;
+      }
+
+      // the first and last items of horizontal tabs have their outer
+      // padding removed, so the fallback line should not be inset there.
+      &.is-top ~ .is-active:nth-child(2)::after,
+      &.is-bottom ~ .is-active:nth-child(2)::after {
+        left: 0;
+      }
+
+      &.is-top ~ .is-active:last-child::after,
+      &.is-bottom ~ .is-active:last-child::after {
+        right: 0;
+      }
+    }
   }
   @include e(new-tab) {
     display: flex;
@@ -80,6 +133,11 @@
       z-index: getCssVar('index-normal');
     }
 
+    &.is-bottom::after {
+      top: 0;
+      bottom: auto;
+    }
+
     @include when(scrollable) {
       padding: 0 20px;
       box-sizing: border-box;
@@ -96,6 +154,11 @@
     color: getCssVar('text-color', 'secondary');
     width: 20px;
     text-align: center;
+
+    @include when(disabled) {
+      color: getCssVar('text-color', 'disabled');
+      cursor: not-allowed;
+    }
   }
   @include e(nav-next) {
     right: 0;
@@ -233,7 +296,8 @@
       margin-top: -1px;
       border-bottom: 1px solid transparent;
       border-left: 1px solid getCssVar('border-color-light');
-      transition: color getCssVar('transition-duration')
+      transition:
+        color getCssVar('transition-duration')
           getCssVar('transition-function-ease-in-out-bezier'),
         padding getCssVar('transition-duration')
           getCssVar('transition-function-ease-in-out-bezier');
@@ -346,6 +410,14 @@
       }
     }
   }
+
+  @include m((card, border-card)) {
+    & > .#{$namespace}-tabs__header.is-left,
+    & > .#{$namespace}-tabs__header.is-right {
+      border-bottom: none;
+    }
+  }
+
   @include m((left, right)) {
     overflow: hidden;
 
@@ -379,6 +451,10 @@
 
         i {
           transform: rotateZ(90deg);
+        }
+
+        @include when(disabled) {
+          cursor: not-allowed;
         }
       }
 

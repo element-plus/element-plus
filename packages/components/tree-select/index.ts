@@ -7,3 +7,5 @@ export const ElTreeSelect: SFCWithInstall<typeof TreeSelect> =
   withInstall(TreeSelect)
 
 export default ElTreeSelect
+
+export type { TreeSelectInstance } from './src/instance'

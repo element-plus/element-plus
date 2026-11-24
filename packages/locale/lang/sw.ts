@@ -11,6 +11,13 @@ export default {
       description:
         'rangi ya sasa ni {color}. bonyeza kitufe cha kuingia ili kuchagua rangi mpya.',
       alphaLabel: 'pick alpha value', // to be translated
+      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
+      hueLabel: 'pick hue value', // to be translated
+      hueDescription: 'hue {hue}, current color is {color}', // to be translated
+      svLabel: 'pick saturation and brightness value', // to be translated
+      svDescription:
+        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
+      predefineDescription: 'select {value} as the color', // to be translated
     },
     datepicker: {
       now: 'sasa',
@@ -22,6 +29,8 @@ export default {
         'Tumia vitufe vya vishale na uweke ili kuchagua siku katika mwezi',
       monthTablePrompt:
         'Tumia vitufe vya vishale na uingize ili kuchagua mwezi',
+      quarterTablePrompt:
+        'Tumia vitufe vya vishale na uingize ili kuchagua robo',
       yearTablePrompt: 'Tumia vitufe vya vishale na uingize ili kuchagua mwaka',
       selectedDate: 'tarehe iliyochaguliwa',
       selectDate: 'chagua tarehe',
@@ -79,6 +88,9 @@ export default {
         nov: 'mwezi 11',
         dec: 'mwezi 12',
       },
+    },
+    input: {
+      characters: '{count} / {max} herufi',
     },
     inputNumber: {
       decrease: 'kupunguza idadi',
@@ -146,6 +158,15 @@ export default {
       resetFilter: 'weka upya',
       clearFilter: 'zote',
       sumText: 'jumla',
+      selectAllLabel: 'Select all rows', // to be translated
+      selectRowLabel: 'Select this row', // to be translated
+      expandRowLabel: 'Expand this row', // to be translated
+      collapseRowLabel: 'Collapse this row', // to be translated
+      sortLabel: 'Sort by {column}', // to be translated
+      filterLabel: 'Filter by {column}', // to be translated
+    },
+    tag: {
+      close: 'Close this tag', // to be translated
     },
     tour: {
       next: 'Next', // to be translated
@@ -178,6 +199,10 @@ export default {
       leftArrow: 'Carousel arrow left', // to be translated
       rightArrow: 'Carousel arrow right', // to be translated
       indicator: 'Carousel switch to index {index}', // to be translated
+    },
+    inputOTP: {
+      groupLabel: 'OTP Input', // to be translated
+      defaultLabel: 'Please enter OTP character {index}', // to be translated
     },
   },
 }

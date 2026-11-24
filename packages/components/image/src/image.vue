@@ -33,6 +33,7 @@
         :max-scale="maxScale"
         :show-progress="showProgress"
         :url-list="previewSrcList"
+        :scale="scale"
         :crossorigin="crossorigin"
         :hide-on-click-modal="hideOnClickModal"
         :teleported="previewTeleported"
@@ -48,6 +49,15 @@
         </template>
         <template #toolbar="toolbar">
           <slot name="toolbar" v-bind="toolbar" />
+        </template>
+        <template
+          v-if="$slots['viewer-placeholder']"
+          #viewer-placeholder="viewerPlaceholder"
+        >
+          <slot name="viewer-placeholder" v-bind="viewerPlaceholder" />
+        </template>
+        <template v-if="$slots['viewer-error']" #viewer-error="viewerError">
+          <slot name="viewer-error" v-bind="viewerError" />
         </template>
       </image-viewer>
     </template>
@@ -75,8 +85,9 @@ import {
   isString,
   isWindow,
 } from '@element-plus/utils'
-import { imageEmits, imageProps } from './image'
+import { imageEmits } from './image'
 
+import type { ImageProps } from './image'
 import type { CSSProperties } from 'vue'
 
 defineOptions({
@@ -84,7 +95,18 @@ defineOptions({
   inheritAttrs: false,
 })
 
-const props = defineProps(imageProps)
+const props = withDefaults(defineProps<ImageProps>(), {
+  src: '',
+  fit: '',
+  previewSrcList: () => [],
+  initialIndex: 0,
+  infinite: true,
+  closeOnPressEscape: true,
+  zoomRate: 1.2,
+  scale: 1,
+  minScale: 0.2,
+  maxScale: 7,
+})
 const emit = defineEmits(imageEmits)
 
 const { t } = useLocale()

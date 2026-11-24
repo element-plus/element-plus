@@ -32,7 +32,7 @@
     height: calc(100vh - var(--header-height) - 32px);
     overflow-y: auto;
     scrollbar-width: none;
-    padding-bottom: 30px;
+    padding: 0 3px 30px;
 
     &__heading {
       font-size: 12px;
@@ -56,7 +56,7 @@
     bottom: 30px;
     height: 32px;
     width: 200px;
-    z-index: 10;
+    z-index: 4;
     background: linear-gradient(transparent, var(--bg-color) 70%);
   }
 }

@@ -9,27 +9,15 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  inject,
-  nextTick,
-  provide,
-  ref,
-  unref,
-} from 'vue'
+import { computed, defineComponent, inject, provide, ref, unref } from 'vue'
 import { useId } from '@element-plus/hooks'
-import { composeEventHandlers } from '@element-plus/utils'
+import { composeEventHandlers, getEventCode } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
-import {
-  ElCollectionItem as ElRovingFocusCollectionItem,
-  ROVING_FOCUS_COLLECTION_INJECTION_KEY,
-} from './roving-focus-group'
+import { ElCollectionItem as ElRovingFocusCollectionItem } from './roving-focus-group'
 import {
   ROVING_FOCUS_GROUP_INJECTION_KEY,
   ROVING_FOCUS_GROUP_ITEM_INJECTION_KEY,
 } from './tokens'
-import { focusFirst, getFocusIntent, reorderArray } from './utils'
 
 export default defineComponent({
   components: {
@@ -44,13 +32,8 @@ export default defineComponent({
   },
   emits: ['mousedown', 'focus', 'keydown'],
   setup(props, { emit }) {
-    const { currentTabbedId, loop, onItemFocus, onItemShiftTab } = inject(
+    const { currentTabbedId, onItemFocus, onItemShiftTab, onKeydown } = inject(
       ROVING_FOCUS_GROUP_INJECTION_KEY,
-      undefined
-    )!
-
-    const { getItems } = inject(
-      ROVING_FOCUS_COLLECTION_INJECTION_KEY,
       undefined
     )!
 
@@ -84,47 +67,15 @@ export default defineComponent({
         emit('keydown', e)
       },
       (e) => {
-        const { code, shiftKey, target, currentTarget } = e as KeyboardEvent
+        const { shiftKey, target, currentTarget } = e as KeyboardEvent
+        const code = getEventCode(e as KeyboardEvent)
+
         if (code === EVENT_CODE.tab && shiftKey) {
           onItemShiftTab()
           return
         }
         if (target !== currentTarget) return
-        const focusIntent = getFocusIntent(e as KeyboardEvent)
-
-        if (focusIntent) {
-          e.preventDefault()
-          const items = getItems<typeof props>().filter(
-            (item) => item.focusable
-          )
-
-          let elements = items.map((item) => item.ref!)
-
-          switch (focusIntent) {
-            case 'last': {
-              elements.reverse()
-              break
-            }
-            case 'prev':
-            case 'next': {
-              if (focusIntent === 'prev') {
-                elements.reverse()
-              }
-              const currentIdx = elements.indexOf(currentTarget as HTMLElement)
-              elements = loop.value
-                ? reorderArray(elements, currentIdx + 1)
-                : elements.slice(currentIdx + 1)
-              break
-            }
-            default: {
-              break
-            }
-          }
-
-          nextTick(() => {
-            focusFirst(elements)
-          })
-        }
+        onKeydown(e as KeyboardEvent)
       }
     )
 

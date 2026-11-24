@@ -1,4 +1,4 @@
-import type { MaybeRef } from '@vueuse/core'
+import type { MaybeRef, VNode } from 'vue'
 
 export type LoadingOptionsResolved = {
   parent: LoadingParentElement
@@ -15,7 +15,7 @@ export type LoadingOptionsResolved = {
   /**
    * @description loading text that displays under the spinner
    */
-  text: MaybeRef<string>
+  text: MaybeRef<string | VNode | VNode[]>
   /**
    * @description same as the `fullscreen` modifier of `v-loading`
    */

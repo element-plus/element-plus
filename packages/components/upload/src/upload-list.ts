@@ -1,16 +1,39 @@
 import { NOOP, buildProps, definePropType, mutable } from '@element-plus/utils'
 import { uploadListTypes } from './upload'
 
-import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
-import type { UploadFile, UploadFiles, UploadHooks } from './upload'
+import type { ExtractPublicPropTypes } from 'vue'
+import type {
+  Crossorigin,
+  ListType,
+  UploadFile,
+  UploadFiles,
+  UploadHooks,
+} from './upload'
 import type UploadList from './upload-list.vue'
 
+export interface UploadListProps {
+  files?: UploadFiles
+  disabled?: boolean
+  handlePreview?: UploadHooks['onPreview']
+  listType?: ListType
+  /**
+   * @description set HTML attribute: crossorigin.
+   */
+  crossorigin?: Crossorigin
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `UploadListProps` instead.
+ */
 export const uploadListProps = buildProps({
   files: {
     type: definePropType<UploadFiles>(Array),
     default: () => mutable([]),
   },
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   handlePreview: {
     type: definePropType<UploadHooks['onPreview']>(Function),
     default: NOOP,
@@ -28,8 +51,10 @@ export const uploadListProps = buildProps({
   },
 } as const)
 
-export type UploadListProps = ExtractPropTypes<typeof uploadListProps>
-export type UploadListPropsPublic = __ExtractPublicPropTypes<
+/**
+ * @deprecated Removed after 3.0.0, Use `UploadListProps` instead.
+ */
+export type UploadListPropsPublic = ExtractPublicPropTypes<
   typeof uploadListProps
 >
 export const uploadListEmits = {

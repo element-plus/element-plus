@@ -60,6 +60,30 @@ export function useButtonCustomStyle(props: ButtonProps) {
             ? darken(color, 80)
             : color.tint(80).toString()
         }
+      } else if (props.link || props.text) {
+        const hoverColor = props.dark
+          ? darken(color, 30)
+          : color.tint(30).toString()
+
+        styles = ns.cssVarBlock({
+          'text-color': buttonColor,
+          'hover-text-color': hoverColor,
+          'active-text-color': activeBgColor,
+        })
+
+        if (props.link) {
+          styles[ns.cssVarBlockName('hover-link-text-color')] = hoverColor
+          styles[ns.cssVarBlockName('active-color')] = activeBgColor
+        }
+
+        if (_disabled.value) {
+          const disabledColor = props.dark
+            ? darken(color, 50)
+            : color.tint(50).toString()
+          styles[ns.cssVarBlockName('disabled-bg-color')] = 'transparent'
+          styles[ns.cssVarBlockName('disabled-text-color')] = disabledColor
+          styles[ns.cssVarBlockName('disabled-border-color')] = 'transparent'
+        }
       } else {
         const hoverBgColor = props.dark
           ? darken(color, 30)

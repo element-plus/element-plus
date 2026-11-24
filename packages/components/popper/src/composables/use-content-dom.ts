@@ -26,7 +26,7 @@ export const usePopperContentDOM = (
   const contentClass = computed(() => [
     ns.b(),
     ns.is('pure', props.pure),
-    ns.is(props.effect),
+    ns.is(props.effect!),
     props.popperClass,
   ])
   const contentStyle = computed<StyleValue[]>(() => {

@@ -13,11 +13,19 @@
       </el-image>
     </div>
   </div>
+  <el-button @click="reloadImages">Reload images</el-button>
 </template>
 
 <script lang="ts" setup>
-const src =
+import { ref } from 'vue'
+
+const url =
   'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg'
+const src = ref(url)
+
+const reloadImages = () => {
+  src.value = `${url}?reload=${Date.now()}`
+}
 </script>
 
 <style scoped>
@@ -42,7 +50,7 @@ const src =
   max-height: 200px;
 }
 
-.demo-image__placeholder.image-slot {
+.demo-image__placeholder .image-slot {
   display: flex;
   justify-content: center;
   align-items: center;

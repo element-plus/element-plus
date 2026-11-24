@@ -9,14 +9,14 @@ import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
 import { disabledTimeListsProps } from '../props/shared'
 
-import type { Component, ExtractPropTypes, __ExtractPublicPropTypes } from 'vue'
+import type { Component, ExtractPropTypes, ExtractPublicPropTypes } from 'vue'
 import type { Options } from '@popperjs/core'
 import type { Dayjs } from 'dayjs'
 import type { Placement } from '@element-plus/components/popper'
 
 export type SingleOrRange<T> = T | [T, T]
 export type DateModelType = number | string | Date
-export type ModelValueType = SingleOrRange<DateModelType> | string[]
+export type ModelValueType = DateModelType | number[] | string[] | Date[]
 export type DayOrDays = SingleOrRange<Dayjs>
 export type DateOrDates = SingleOrRange<Date>
 export type UserInput = SingleOrRange<string | null>
@@ -34,6 +34,13 @@ export type GetDisabledSeconds = (
 ) => number[]
 
 export const timePickerDefaultProps = buildProps({
+  /**
+   * @description this prop decides if the date picker panel pops up when the input is focused
+   */
+  automaticDropdown: {
+    type: Boolean,
+    default: true,
+  },
   /**
    * @description same as `id` in native input
    */
@@ -99,6 +106,13 @@ export const timePickerDefaultProps = buildProps({
     default: true,
   },
   /**
+   * @description Whether to auto-fill the input with the current time on focus when no value is selected.
+   */
+  saveOnBlur: {
+    type: Boolean,
+    default: true,
+  },
+  /**
    * @description Custom prefix icon component
    */
   prefixIcon: {
@@ -116,7 +130,10 @@ export const timePickerDefaultProps = buildProps({
   /**
    * @description whether TimePicker is disabled
    */
-  disabled: Boolean,
+  disabled: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description placeholder in non-range mode
    */
@@ -212,6 +229,10 @@ export const timePickerDefaultProps = buildProps({
    */
   unlinkPanels: Boolean,
   /**
+   * @description show only one panel in range-picker
+   */
+  singlePanel: Boolean,
+  /**
    * @description position of dropdown
    */
   placement: {
@@ -258,7 +279,7 @@ export const timePickerDefaultProps = buildProps({
 export type TimePickerDefaultProps = ExtractPropTypes<
   typeof timePickerDefaultProps
 >
-export type TimePickerDefaultPropsPublic = __ExtractPublicPropTypes<
+export type TimePickerDefaultPropsPublic = ExtractPublicPropTypes<
   typeof timePickerDefaultProps
 >
 
@@ -266,12 +287,12 @@ export interface PickerOptions {
   isValidValue: (date: DayOrDays) => boolean
   handleKeydownInput: (event: KeyboardEvent) => void
   parseUserInput: (value: UserInput) => DayOrDays
-  formatToString: (value: DayOrDays) => UserInput
   getRangeAvailableTime: (date: DayOrDays) => DayOrDays
   getDefaultValue: () => DayOrDays
   panelReady: boolean
   handleClear: () => void
   handleFocusPicker?: () => void
+  handleCancel?: () => void
 }
 
 export const timePickerRangeTriggerProps = buildProps({

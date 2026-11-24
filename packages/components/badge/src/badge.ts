@@ -1,11 +1,54 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
-import type {
-  ExtractPropTypes,
-  StyleValue,
-  __ExtractPublicPropTypes,
-} from 'vue'
+import type { ExtractPublicPropTypes, StyleValue } from 'vue'
+import type { ClassValue } from '@element-plus/utils'
 
+export interface BadgeProps {
+  /**
+   * @description display value.
+   */
+  value?: string | number
+  /**
+   * @description maximum value, shows `{max}+` when exceeded. Only works if value is a number.
+   */
+  max?: number
+  /**
+   * @description if a little dot is displayed.
+   */
+  isDot?: boolean
+  /**
+   * @description hidden badge.
+   */
+  hidden?: boolean
+  /**
+   * @description badge type.
+   */
+  type?: 'primary' | 'success' | 'warning' | 'info' | 'danger'
+  /**
+   * @description whether to show badge when value is zero.
+   */
+  showZero?: boolean
+  /**
+   * @description customize dot background color
+   */
+  color?: string
+  /**
+   * @description CSS style of badge
+   */
+  badgeStyle?: StyleValue
+  /**
+   * @description set offset of the badge
+   */
+  offset?: [number, number]
+  /**
+   * @description custom class name of badge
+   */
+  badgeClass?: ClassValue
+}
+
+/**
+ * @deprecated Removed after 3.0.0, Use `BadgeProps` instead.
+ */
 export const badgeProps = buildProps({
   /**
    * @description display value.
@@ -52,21 +95,26 @@ export const badgeProps = buildProps({
    * @description CSS style of badge
    */
   badgeStyle: {
-    type: definePropType<StyleValue>([String, Object, Array]),
+    type: definePropType<StyleValue>([String, Object, Array, Boolean]),
+    default: undefined,
   },
   /**
    * @description set offset of the badge
    */
   offset: {
     type: definePropType<[number, number]>(Array),
-    default: [0, 0],
+    default: () => [0, 0],
   },
   /**
    * @description custom class name of badge
    */
   badgeClass: {
-    type: String,
+    type: definePropType<ClassValue>([String, Array, Object, Boolean]),
+    default: undefined,
   },
 } as const)
-export type BadgeProps = ExtractPropTypes<typeof badgeProps>
-export type BadgePropsPublic = __ExtractPublicPropTypes<typeof badgeProps>
+
+/**
+ * @deprecated Removed after 3.0.0, Use `BadgeProps` instead.
+ */
+export type BadgePropsPublic = ExtractPublicPropTypes<typeof badgeProps>

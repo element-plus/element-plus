@@ -17,7 +17,10 @@ import type { AppContext, CSSProperties } from 'vue'
 
 let fullscreenInstance: LoadingInstance | undefined = undefined
 
-const Loading = function (options: LoadingOptions = {}): LoadingInstance {
+const Loading = function (
+  options: LoadingOptions = {},
+  context?: AppContext | null
+): LoadingInstance {
   if (!isClient) return undefined as any
 
   const resolved = resolveOptions(options)
@@ -34,7 +37,7 @@ const Loading = function (options: LoadingOptions = {}): LoadingInstance {
         if (resolved.fullscreen) fullscreenInstance = undefined
       },
     },
-    Loading._context
+    context ?? Loading._context
   )
 
   addStyle(resolved, resolved.parent, instance)
@@ -60,7 +63,7 @@ const Loading = function (options: LoadingOptions = {}): LoadingInstance {
   }
   resolved.parent.setAttribute('loading-number', loadingNumber)
 
-  resolved.parent.appendChild(instance.$el)
+  resolved.parent.appendChild(instance.$el!)
 
   // after instance render, then modify visible to trigger transition
   nextTick(() => (instance.visible.value = resolved.visible))
@@ -137,7 +140,7 @@ const addStyle = async (
     instance.originalPosition.value = getStyle(parent, 'position')
   }
   for (const [key, value] of Object.entries(maskStyle)) {
-    instance.$el.style[key] = value
+    instance.$el!.style[key] = value
   }
 }
 

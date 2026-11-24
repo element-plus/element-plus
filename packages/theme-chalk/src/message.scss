@@ -7,7 +7,7 @@
 }
 
 @include b(message) {
-  width: fit-content;
+  width: max-content;
   max-width: calc(100% - 32px);
   box-sizing: border-box;
   border-radius: getCssVar('border-radius-base');
@@ -16,7 +16,10 @@
   border-color: getCssVar('message', 'border-color');
   position: fixed;
   background-color: getCssVar('message', 'bg-color');
-  transition: opacity getCssVar('transition-duration'), transform 0.4s, top 0.4s,
+  transition:
+    opacity getCssVar('transition-duration'),
+    transform 0.4s,
+    top 0.4s,
     bottom 0.4s;
   padding: getCssVar('message', 'padding');
   display: flex;
@@ -101,8 +104,8 @@
 .#{$namespace}-message-fade-enter-from,
 .#{$namespace}-message-fade-leave-to {
   opacity: 0;
-
-  &:is(.is-left, .is-right) {
+  &.is-left,
+  &.is-right {
     transform: translateY(-100%);
 
     &.is-bottom {

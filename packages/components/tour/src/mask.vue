@@ -11,20 +11,25 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed, inject, toRef } from 'vue'
 import { useLockscreen } from '@element-plus/hooks'
-import { maskProps } from './mask'
+import { useWindowSize } from '@vueuse/core'
 import { tourKey } from './helper'
 
 import type { CSSProperties } from 'vue'
+import type { MaskProps } from './mask'
 
 defineOptions({
   name: 'ElTourMask',
   inheritAttrs: false,
 })
 
-const props = defineProps(maskProps)
+const props = withDefaults(defineProps<MaskProps>(), {
+  zIndex: 1001,
+  fill: 'rgba(0,0,0,0.5)',
+  targetAreaClickable: true,
+})
 
 const { ns } = inject(tourKey)!
 const radius = computed(() => props.pos?.radius ?? 2)
@@ -39,9 +44,11 @@ const roundInfo = computed(() => {
   }
 })
 
+const { width: windowWidth, height: windowHeight } = useWindowSize()
+
 const path = computed(() => {
-  const width = window.innerWidth
-  const height = window.innerHeight
+  const width = windowWidth.value
+  const height = windowHeight.value
   const info = roundInfo.value
   const _path = `M${width},0 L0,0 L0,${height} L${width},${height} L${width},0 Z`
   const _radius = radius.value

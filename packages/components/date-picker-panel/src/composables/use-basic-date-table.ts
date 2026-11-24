@@ -76,10 +76,8 @@ export const useBasicDateTable = (
     }
   })
 
-  const selectedDate = computed(() => {
-    return props.selectionMode === 'dates'
-      ? (castArray(props.parsedValue) as Dayjs[])
-      : ([] as Dayjs[])
+  const selectedDate = computed<Dayjs[]>(() => {
+    return props.selectionMode === 'dates' ? castArray(props.parsedValue!) : []
   })
 
   // Return value indicates should the counter be incremented
@@ -224,9 +222,18 @@ export const useBasicDateTable = (
   }
 
   const getDateOfCell = (row: number, column: number) => {
-    const offsetFromStart =
-      row * 7 + (column - (props.showWeekNumber ? 1 : 0)) - unref(offsetDay)
-    return unref(startDate).add(offsetFromStart, 'day')
+    //NOTE: because relying of startDate is not reliable in every weekStart (especially 2, 3); we re-create it
+    const startOfMonthDay = unref(days).startOfMonthDay
+    const offset = unref(offsetDay)
+    const numberOfDaysFromPreviousMonth =
+      startOfMonthDay + offset < 0
+        ? 7 + startOfMonthDay + offset
+        : startOfMonthDay + offset
+    const offsetFromStart = row * 7 + (column - (props.showWeekNumber ? 1 : 0))
+    return props.date
+      .startOf('month')
+      .subtract(numberOfDaysFromPreviousMonth, 'day')
+      .add(offsetFromStart, 'day')
   }
 
   const handleMouseMove = (event: MouseEvent) => {
@@ -257,6 +264,13 @@ export const useBasicDateTable = (
         endDate: getDateOfCell(row, column),
       })
     }
+  }
+
+  const isSelectedCell = (cell: DateCell) => {
+    return (
+      (!unref(hasCurrent) && cell?.text === 1 && isNormalDay(cell.type)) ||
+      cell.isCurrent
+    )
   }
 
   const handleFocus = (event: FocusEvent) => {
@@ -312,7 +326,7 @@ export const useBasicDateTable = (
   }
 
   const handlePickDate = (
-    event: FocusEvent | MouseEvent,
+    event: FocusEvent | KeyboardEvent | MouseEvent,
     isKeyboardMovement = false
   ) => {
     if (props.disabled) return
@@ -373,6 +387,12 @@ export const useBasicDateTable = (
     return false
   }
 
+  const handleKeydown = (event: KeyboardEvent) => {
+    if (props.selectionMode !== 'dates') return
+    event.preventDefault()
+    event.stopPropagation()
+    handlePickDate(event)
+  }
   return {
     WEEKS,
     rows,
@@ -384,12 +404,14 @@ export const useBasicDateTable = (
     focus,
     isCurrent,
     isWeekActive,
+    isSelectedCell,
 
     handlePickDate,
     handleMouseUp,
     handleMouseDown,
     handleMouseMove,
     handleFocus,
+    handleKeydown,
   }
 }
 
@@ -405,7 +427,7 @@ export const useBasicDateTableDOM = (
 
   const tableKls = computed(() => [
     ns.b(),
-    { 'is-week-mode': props.selectionMode === 'week' && !props.disabled },
+    ns.is('week-mode', props.selectionMode === 'week' && !props.disabled),
   ])
 
   const tableLabel = computed(() => t('el.datepicker.dateTablePrompt'))

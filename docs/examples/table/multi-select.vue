@@ -7,6 +7,7 @@
     @selection-change="handleSelectionChange"
   >
     <el-table-column type="selection" :selectable="selectable" width="55" />
+    <!-- @vue-generic {User} -->
     <el-table-column label="Date" width="120">
       <template #default="scope">{{ scope.row.date }}</template>
     </el-table-column>

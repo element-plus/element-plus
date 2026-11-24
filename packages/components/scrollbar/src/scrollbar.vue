@@ -6,6 +6,8 @@
       :style="wrapStyle"
       :tabindex="tabindex"
       @scroll="handleScroll"
+      @transitionend="updateBar"
+      @animationend="updateBar"
     >
       <component
         :is="tag"
@@ -20,6 +22,9 @@
         <slot />
       </component>
     </div>
+    <transition :name="ns.b('mask-fade')">
+      <scrollbar-mask v-if="mask" ref="maskRef" :mask="mask" />
+    </transition>
     <template v-if="!native">
       <bar ref="barRef" :always="always" :min-size="minSize" />
     </template>
@@ -39,13 +44,20 @@ import {
   watch,
 } from 'vue'
 import { useEventListener, useResizeObserver } from '@vueuse/core'
-import { addUnit, debugWarn, isNumber, isObject } from '@element-plus/utils'
+import {
+  addUnit,
+  debugWarn,
+  isGreaterThan,
+  isNumber,
+  isObject,
+} from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import Bar from './bar.vue'
+import ScrollbarMask from './mask.vue'
 import { scrollbarContextKey } from './constants'
-import { scrollbarEmits, scrollbarProps } from './scrollbar'
+import { scrollbarEmits } from './scrollbar'
 
-import type { ScrollbarDirection } from './scrollbar'
+import type { ScrollbarDirection, ScrollbarProps } from './scrollbar'
 import type { BarInstance } from './bar'
 import type { CSSProperties, StyleValue } from 'vue'
 
@@ -55,7 +67,19 @@ defineOptions({
   name: COMPONENT_NAME,
 })
 
-const props = defineProps(scrollbarProps)
+const props = withDefaults(defineProps<ScrollbarProps>(), {
+  distance: 0,
+  height: '',
+  maxHeight: '',
+  wrapStyle: '',
+  wrapClass: '',
+  viewStyle: '',
+  viewClass: '',
+  tag: 'div',
+  mask: false,
+  minSize: 20,
+  tabindex: undefined,
+})
 const emit = defineEmits(scrollbarEmits)
 
 const ns = useNamespace('scrollbar')
@@ -63,6 +87,7 @@ const ns = useNamespace('scrollbar')
 let stopResizeObserver: (() => void) | undefined = undefined
 let stopWrapResizeObserver: (() => void) | undefined = undefined
 let stopResizeListener: (() => void) | undefined = undefined
+let rafId = 0
 let wrapScrollTop = 0
 let wrapScrollLeft = 0
 let direction = '' as ScrollbarDirection
@@ -77,11 +102,14 @@ const scrollbarRef = ref<HTMLDivElement>()
 const wrapRef = ref<HTMLDivElement>()
 const resizeRef = ref<HTMLElement>()
 const barRef = ref<BarInstance>()
+const maskRef = ref<InstanceType<typeof ScrollbarMask>>()
 
 const wrapStyle = computed<StyleValue>(() => {
   const style: CSSProperties = {}
-  if (props.height) style.height = addUnit(props.height)
-  if (props.maxHeight) style.maxHeight = addUnit(props.maxHeight)
+  const height = addUnit(props.height)
+  const maxHeight = addUnit(props.maxHeight)
+  if (height) style.height = height
+  if (maxHeight) style.maxHeight = maxHeight
   return [props.wrapStyle, style]
 })
 
@@ -126,20 +154,23 @@ const updateTriggerStatus = (arrivedStates: Record<string, boolean>) => {
 const handleScroll = () => {
   if (wrapRef.value) {
     barRef.value?.handleScroll(wrapRef.value)
+    maskRef.value?.handleScroll()
     const prevTop = wrapScrollTop
     const prevLeft = wrapScrollLeft
     wrapScrollTop = wrapRef.value.scrollTop
     wrapScrollLeft = wrapRef.value.scrollLeft
 
     const arrivedStates = {
-      bottom:
-        wrapScrollTop + wrapRef.value.clientHeight >=
+      bottom: !isGreaterThan(
         wrapRef.value.scrollHeight - props.distance,
+        wrapRef.value.clientHeight + wrapScrollTop
+      ),
       top: wrapScrollTop <= props.distance && prevTop !== 0,
       right:
-        wrapScrollLeft + wrapRef.value.clientWidth >=
-          wrapRef.value.scrollWidth - props.distance &&
-        prevLeft !== wrapScrollLeft,
+        !isGreaterThan(
+          wrapRef.value.scrollWidth - props.distance,
+          wrapRef.value.clientWidth + wrapScrollLeft
+        ) && prevLeft !== wrapScrollLeft,
       left: wrapScrollLeft <= props.distance && prevLeft !== 0,
     }
 
@@ -192,7 +223,27 @@ const setScrollLeft = (value: number) => {
 
 const update = () => {
   barRef.value?.update()
+  maskRef.value?.update()
   distanceScrollState[direction] = false
+  if (wrapRef.value) barRef.value?.handleScroll(wrapRef.value)
+}
+
+// Transform-driven overflow (e.g. slide transitions) is not observable via
+// resize observers, so refresh the bar when transitions/animations end —
+// this applies even when `noresize` is set.
+const updateBar = () => {
+  if (rafId) return
+  rafId = requestAnimationFrame(() => {
+    rafId = 0
+    if (!wrapRef.value) return
+
+    // Bar state may be stale even when the final scroll dimensions match a
+    // previously seen value (e.g. `onUpdated` measured the transient
+    // overflow mid-transition), so always refresh the bar here.
+    barRef.value?.update()
+    barRef.value?.handleScroll(wrapRef.value)
+    maskRef.value?.update()
+  })
 }
 
 watch(
@@ -214,12 +265,9 @@ watch(
 watch(
   () => [props.maxHeight, props.height],
   () => {
-    if (!props.native)
+    if (!props.native || props.mask)
       nextTick(() => {
         update()
-        if (wrapRef.value) {
-          barRef.value?.handleScroll(wrapRef.value)
-        }
       })
   }
 )
@@ -236,11 +284,12 @@ onActivated(() => {
   if (wrapRef.value) {
     wrapRef.value.scrollTop = wrapScrollTop
     wrapRef.value.scrollLeft = wrapScrollLeft
+    maskRef.value?.update()
   }
 })
 
 onMounted(() => {
-  if (!props.native)
+  if (!props.native || props.mask)
     nextTick(() => {
       update()
     })

@@ -193,10 +193,107 @@ describe('Table.vue', () => {
       wrapper.unmount()
     })
 
+    it('updates height and maxHeight sequentially without recursive error', async () => {
+      const errorSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      const wrapper = createTable(':height="height" :max-height="maxHeight"', {
+        data() {
+          return {
+            height: 200,
+            maxHeight: 400,
+          }
+        },
+      })
+
+      await doubleWait()
+      wrapper.vm.maxHeight = 500
+      await doubleWait()
+      wrapper.vm.height = 250
+      await doubleWait()
+
+      wrapper.unmount()
+      const hasRecursiveError = errorSpy.mock.calls.some((call) =>
+        call.some(
+          (msg) =>
+            typeof msg === 'string' &&
+            msg.includes('Maximum recursive updates exceeded')
+        )
+      )
+      errorSpy.mockRestore()
+      expect(hasRecursiveError).toBe(false)
+    })
+
+    it('rapidly update height should apply latest value, not stale callbacks', async () => {
+      const wrapper = createTable(':height="height"', {
+        data() {
+          return {
+            height: 0,
+          }
+        },
+        mounted() {
+          this.height = 200
+        },
+      })
+
+      await doubleWait()
+      const style = wrapper.attributes('style')
+      expect(style).toContain('height: 200px')
+      wrapper.unmount()
+    })
+
     it('stripe', async () => {
       const wrapper = createTable('stripe')
       await doubleWait()
       expect(wrapper.classes()).toContain('el-table--striped')
+      wrapper.unmount()
+    })
+
+    it('should display stripe correctly when row is expanded and closed', async () => {
+      const tableData = [
+        {
+          id: '1',
+          children: [
+            {
+              id: '1-1',
+            },
+          ],
+        },
+        {
+          id: '2',
+        },
+      ]
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table
+            :data="tableData"
+            row-key="id"
+            stripe
+            default-expand-all
+          >
+            <el-table-column prop="id" label="id" sortable />
+          </el-table>
+        `,
+        data() {
+          return {
+            tableData,
+          }
+        },
+      })
+      await doubleWait()
+      const expandTrigger = wrapper.find('.el-table__expand-icon')
+      const rows = wrapper.findAll('.el-table__row')
+      expect(rows.length).toBe(3)
+      expect(rows[0].classes()).not.toContain('el-table__row--striped')
+      expect(rows[1].classes()).toContain('el-table__row--striped')
+      expect(rows[2].classes()).not.toContain('el-table__row--striped')
+      expandTrigger.trigger('click')
+      await doubleWait()
+      expect(rows[0].classes()).not.toContain('el-table__row--striped')
+      expect(rows[1].classes()).not.toContain('el-table__row--striped')
+      expect(rows[2].classes()).toContain('el-table__row--striped')
       wrapper.unmount()
     })
 
@@ -306,6 +403,93 @@ describe('Table.vue', () => {
       expect(rows[1].classes()).toContain('current-row')
       wrapper.unmount()
     })
+
+    it('current-change event should pass correct oldCurrentRow when using current-row-key', async () => {
+      const currentChangeCalls: Array<[any, any]> = []
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+        <el-table
+          :data="testData"
+          row-key="id"
+          highlight-current-row
+          :current-row-key="currentRowKey"
+          @current-change="handleCurrentChange">
+          <el-table-column prop="name" label="片名" />
+          <el-table-column prop="release" label="发行日期" />
+          <el-table-column prop="director" label="导演" />
+          <el-table-column prop="runtime" label="时长（分）" />
+        </el-table>
+      `,
+        created() {
+          this.testData = getTestData()
+        },
+        data() {
+          return { currentRowKey: null }
+        },
+        methods: {
+          handleCurrentChange(currentRow, oldCurrentRow) {
+            currentChangeCalls.push([currentRow, oldCurrentRow])
+          },
+        },
+      })
+
+      await doubleWait()
+
+      // 第一次设置 current-row-key: oldCurrentRow 应该为 null
+      wrapper.vm.currentRowKey = 1
+      await doubleWait()
+      expect(currentChangeCalls.length).toBe(1)
+      expect(currentChangeCalls[0][0]).toMatchObject({
+        id: 1,
+        name: 'Toy Story',
+      })
+      expect(currentChangeCalls[0][1]).toBeNull()
+
+      // 从第1行切到第2行: oldCurrentRow 应该是第1行的数据
+      wrapper.vm.currentRowKey = 2
+      await doubleWait()
+      expect(currentChangeCalls.length).toBe(2)
+      expect(currentChangeCalls[1][0]).toMatchObject({
+        id: 2,
+        name: "A Bug's Life",
+      })
+      expect(currentChangeCalls[1][1]).toMatchObject({
+        id: 1,
+        name: 'Toy Story',
+      })
+
+      // 从第2行切到第3行: oldCurrentRow 应该是第2行的数据
+      wrapper.vm.currentRowKey = 3
+      await doubleWait()
+      expect(currentChangeCalls.length).toBe(3)
+      expect(currentChangeCalls[2][0]).toMatchObject({
+        id: 3,
+        name: 'Toy Story 2',
+      })
+      expect(currentChangeCalls[2][1]).toMatchObject({
+        id: 2,
+        name: "A Bug's Life",
+      })
+
+      // 从第3行切到第4行: oldCurrentRow 应该是第3行的数据
+      wrapper.vm.currentRowKey = 4
+      await doubleWait()
+      expect(currentChangeCalls.length).toBe(4)
+      expect(currentChangeCalls[3][0]).toMatchObject({
+        id: 4,
+        name: 'Monsters, Inc.',
+      })
+      expect(currentChangeCalls[3][1]).toMatchObject({
+        id: 3,
+        name: 'Toy Story 2',
+      })
+
+      wrapper.unmount()
+    })
   })
   describe('filter', () => {
     let wrapper: VueWrapper<ComponentPublicInstance>
@@ -392,6 +576,82 @@ describe('Table.vue', () => {
       expect(
         wrapper.findAll('.el-table__body-wrapper tbody tr').length
       ).toEqual(3)
+      filter.parentNode.removeChild(filter)
+    })
+
+    it('does not highlight an unconfirmed multiple filter', async () => {
+      const btn = wrapper.find('.el-table__column-filter-trigger')
+
+      await btn.trigger('click')
+      await doubleWait()
+      const filter = document.body.querySelector('.el-table-filter')
+
+      triggerEvent(filter.querySelector('.el-checkbox'), 'click', true, false)
+      await doubleWait()
+      await btn.trigger('click')
+      await doubleWait()
+
+      expect(wrapper.find('thead .cell.highlight').exists()).toBe(false)
+      expect(wrapper.findAll('.el-table__body-wrapper tbody tr')).toHaveLength(
+        5
+      )
+      filter.parentNode.removeChild(filter)
+    })
+
+    it('applies a single filter from an initially unfiltered column', async () => {
+      wrapper.unmount()
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table :data="testData" @filter-change="handleFilterChange">
+            <el-table-column
+              prop="director"
+              column-key="director"
+              :filters="[
+                { text: 'John Lasseter', value: 'John Lasseter' },
+                { text: 'Peter Docter', value: 'Peter Docter' }
+              ]"
+              :filter-method="filterMethod"
+              :filter-multiple="false"
+            />
+          </el-table>
+        `,
+        data() {
+          return {
+            testData: getTestData(),
+            filters: {},
+          }
+        },
+        methods: {
+          filterMethod(value, row) {
+            return value === row.director
+          },
+          handleFilterChange(filters) {
+            this.filters = filters
+          },
+        },
+      })
+      await doubleWait()
+      await wrapper.find('.el-table__column-filter-trigger').trigger('click')
+      await doubleWait()
+
+      const filter = document.body.querySelector('.el-table-filter')
+      const filterItems = filter.querySelectorAll('.el-table-filter__list-item')
+      triggerEvent(filterItems[1], 'click', true, false)
+      await doubleWait()
+
+      expect(
+        (wrapper.vm as ComponentPublicInstance & { filters: any }).filters[
+          'director'
+        ]
+      ).toEqual(['John Lasseter'])
+      expect(wrapper.find('thead .cell.highlight').exists()).toBe(true)
+      expect(wrapper.findAll('.el-table__body-wrapper tbody tr')).toHaveLength(
+        3
+      )
       filter.parentNode.removeChild(filter)
     })
 
@@ -1890,6 +2150,25 @@ describe('Table.vue', () => {
       childRows.forEach((item) => {
         expect(item.attributes('style')).toContain('')
       })
+
+      // #23759
+      wrapper.vm.expandRowKeys.splice(1, 1)
+      await doubleWait()
+      childRows = wrapper.findAll('.el-table__row--level-1')
+      childRows.forEach((item, index) => {
+        if (index < 2) {
+          expect(item.attributes('style')).not.toContain('display: none')
+        } else {
+          expect(item.attributes('style')).toContain('display: none')
+        }
+      })
+
+      wrapper.vm.expandRowKeys.push('1999-3-31')
+      await doubleWait()
+      childRows = wrapper.findAll('.el-table__row--level-1')
+      childRows.forEach((item) => {
+        expect(item.attributes('style')).not.toContain('display: none')
+      })
     })
 
     it('expand-row-keys & toggleRowExpansion', async () => {
@@ -2077,6 +2356,590 @@ describe('Table.vue', () => {
       wrapper.findAll('.el-checkbox')[0].trigger('click')
       await doubleWait()
       expect(wrapper.vm.selected.length).toEqual(getTestData().length + 2)
+    })
+
+    it('lazy tree selection linkage', async () => {
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table
+            :data="testData"
+            row-key="id"
+            lazy
+            :load="load"
+            :tree-props="treeProps"
+          >
+            <el-table-column type="selection" />
+            <el-table-column prop="name" label="name" />
+          </el-table>
+        `,
+        data() {
+          return {
+            treeProps: {
+              children: 'children',
+              hasChildren: 'hasChildren',
+              checkStrictly: false,
+            },
+            testData: [{ id: 1, name: 'parent', hasChildren: true }],
+          }
+        },
+        methods: {
+          load(row, treeNode, resolve) {
+            if (row.id === 1) {
+              resolve([
+                { id: 11, name: 'child-1', hasChildren: true },
+                { id: 12, name: 'child-2' },
+              ])
+              return
+            }
+            if (row.id === 11) {
+              resolve([{ id: 111, name: 'grand-child-1' }])
+              return
+            }
+            resolve([])
+          },
+        },
+      })
+      await doubleWait()
+      const parentCheckbox = wrapper.findAll('.el-table__body .el-checkbox')[0]
+      // select parent before any lazy load
+      await parentCheckbox.trigger('click')
+      await doubleWait()
+      const expandIcons = wrapper.findAll('.el-table__expand-icon')
+      await expandIcons[0].trigger('click')
+      await doubleWait()
+      const childCheckboxes = wrapper.findAll('.el-table__body .el-checkbox')
+      const childCheckbox1 = childCheckboxes[1]
+      const childCheckbox2 = childCheckboxes[2]
+      // first level lazy children should inherit selection
+      expect(childCheckbox1.classes()).toContain('is-checked')
+      expect(childCheckbox2.classes()).toContain('is-checked')
+      const childExpandIcons = wrapper.findAll('.el-table__expand-icon')
+      await childExpandIcons[1].trigger('click')
+      await doubleWait()
+      const allCheckboxes = wrapper.findAll('.el-table__body .el-checkbox')
+      const grandchildCheckbox = allCheckboxes[3]
+      // nested lazy child should inherit selection
+      expect(grandchildCheckbox.classes()).toContain('is-checked')
+      await grandchildCheckbox.trigger('click')
+      await doubleWait()
+      const parentInput = parentCheckbox.find('.el-checkbox__input')
+      // deselect nested child -> parent indeterminate
+      expect(parentInput.classes()).toContain('is-indeterminate')
+      expect(parentCheckbox.classes()).not.toContain('is-checked')
+    })
+
+    it('eager parent select cascades to lazy grandchildren on expand', async () => {
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table
+            ref="table"
+            :data="testData"
+            row-key="id"
+            lazy
+            :load="load"
+            :tree-props="treeProps"
+            @selection-change="onSelect"
+          >
+            <el-table-column type="selection" />
+            <el-table-column prop="name" label="name" />
+          </el-table>
+        `,
+        data() {
+          return {
+            selectedIds: [],
+            treeProps: {
+              children: 'children',
+              hasChildren: 'hasChildren',
+            },
+            testData: [
+              {
+                id: 3,
+                name: 'Row 3 (eager parent)',
+                children: [
+                  { id: 31, name: 'Eager child 3-1' },
+                  {
+                    id: 32,
+                    name: 'Child 3-2 (lazy grandparent)',
+                    hasChildren: true,
+                  },
+                  { id: 33, name: 'Eager child 3-3' },
+                ],
+              },
+            ],
+          }
+        },
+        methods: {
+          load(row, treeNode, resolve) {
+            if (row.id === 32) {
+              resolve([
+                { id: 321, name: 'Lazy grandchild 3-2-1' },
+                { id: 322, name: 'Lazy grandchild 3-2-2' },
+              ])
+              return
+            }
+            resolve([])
+          },
+          onSelect(rows) {
+            this.selectedIds = rows.map((r) => r.id)
+          },
+        },
+      })
+      await doubleWait()
+      const parentCheckbox = wrapper.findAll('.el-table__body .el-checkbox')[0]
+      await parentCheckbox.trigger('click')
+      await doubleWait()
+      expect((wrapper.vm as any).selectedIds).toContain(3)
+      expect((wrapper.vm as any).selectedIds).toContain(32)
+      const expandIcons = wrapper.findAll('.el-table__expand-icon')
+      await expandIcons[0].trigger('click')
+      await doubleWait()
+      const expandIcons2 = wrapper.findAll('.el-table__expand-icon')
+      await expandIcons2[1].trigger('click')
+      await doubleWait()
+      const ids = (wrapper.vm as any).selectedIds
+      expect(ids).toContain(321)
+      expect(ids).toContain(322)
+    })
+
+    it('select-all includes loaded lazy children', async () => {
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table
+            :data="testData"
+            row-key="id"
+            lazy
+            :load="load"
+            :tree-props="treeProps"
+          >
+            <el-table-column type="selection" />
+            <el-table-column prop="name" label="name" />
+          </el-table>
+        `,
+        data() {
+          return {
+            treeProps: {
+              children: 'children',
+              hasChildren: 'hasChildren',
+              checkStrictly: false,
+            },
+            testData: [
+              { id: 1, name: 'parent-1', hasChildren: true },
+              { id: 2, name: 'parent-2' },
+            ],
+          }
+        },
+        methods: {
+          load(row, treeNode, resolve) {
+            if (row.id === 1) {
+              resolve([
+                { id: 11, name: 'child-1' },
+                { id: 12, name: 'child-2' },
+              ])
+              return
+            }
+            resolve([])
+          },
+        },
+      })
+      await doubleWait()
+      const expandIcons = wrapper.findAll('.el-table__expand-icon')
+      await expandIcons[0].trigger('click')
+      await doubleWait()
+      const headerCheckbox = wrapper.find('.el-table__header .el-checkbox')
+      await headerCheckbox.trigger('click')
+      await doubleWait()
+      const bodyCheckboxes = wrapper.findAll('.el-table__body .el-checkbox')
+      bodyCheckboxes.forEach((cb) => {
+        expect(cb.classes()).toContain('is-checked')
+      })
+      expect(headerCheckbox.classes()).toContain('is-checked')
+    })
+
+    it('updateAllSelected reflects lazy children state', async () => {
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table
+            :data="testData"
+            row-key="id"
+            lazy
+            :load="load"
+            :tree-props="treeProps"
+          >
+            <el-table-column type="selection" />
+            <el-table-column prop="name" label="name" />
+          </el-table>
+        `,
+        data() {
+          return {
+            treeProps: {
+              children: 'children',
+              hasChildren: 'hasChildren',
+              checkStrictly: false,
+            },
+            testData: [{ id: 1, name: 'parent', hasChildren: true }],
+          }
+        },
+        methods: {
+          load(row, treeNode, resolve) {
+            if (row.id === 1) {
+              resolve([
+                { id: 11, name: 'child-1' },
+                { id: 12, name: 'child-2' },
+              ])
+              return
+            }
+            resolve([])
+          },
+        },
+      })
+      await doubleWait()
+      const parentCheckbox = wrapper.findAll('.el-table__body .el-checkbox')[0]
+      await parentCheckbox.trigger('click')
+      await doubleWait()
+      const expandIcons = wrapper.findAll('.el-table__expand-icon')
+      await expandIcons[0].trigger('click')
+      await doubleWait()
+      const headerCheckbox = wrapper.find('.el-table__header .el-checkbox')
+      expect(headerCheckbox.classes()).toContain('is-checked')
+      const childCheckboxes = wrapper.findAll('.el-table__body .el-checkbox')
+      await childCheckboxes[2].trigger('click')
+      await doubleWait()
+      expect(headerCheckbox.classes()).not.toContain('is-checked')
+    })
+
+    it('cleanSelection preserves valid lazy children', async () => {
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table
+            ref="table"
+            :data="testData"
+            row-key="id"
+            lazy
+            :load="load"
+            :tree-props="treeProps"
+          >
+            <el-table-column type="selection" />
+            <el-table-column prop="name" label="name" />
+          </el-table>
+        `,
+        data() {
+          return {
+            treeProps: {
+              children: 'children',
+              hasChildren: 'hasChildren',
+              checkStrictly: false,
+            },
+            testData: [
+              { id: 1, name: 'parent', hasChildren: true },
+              { id: 2, name: 'sibling' },
+            ],
+          }
+        },
+        methods: {
+          load(row, treeNode, resolve) {
+            if (row.id === 1) {
+              resolve([{ id: 11, name: 'child-1' }])
+              return
+            }
+            resolve([])
+          },
+        },
+      })
+      await doubleWait()
+      const parentCheckbox = wrapper.findAll('.el-table__body .el-checkbox')[0]
+      await parentCheckbox.trigger('click')
+      await doubleWait()
+      const expandIcons = wrapper.findAll('.el-table__expand-icon')
+      await expandIcons[0].trigger('click')
+      await doubleWait()
+      const childCheckboxes = wrapper.findAll('.el-table__body .el-checkbox')
+      expect(childCheckboxes[1].classes()).toContain('is-checked')
+      const tableRef = wrapper.findComponent({ ref: 'table' })
+      const selectionBefore = (tableRef.vm as any).getSelectionRows()
+      const selectedIds = selectionBefore.map((r: any) => r.id)
+      expect(selectedIds).toContain(1)
+      expect(selectedIds).toContain(11)
+      const vm = wrapper.vm as any
+      vm.testData.push({ id: 3, name: 'new-row' })
+      await doubleWait()
+      await doubleWait()
+      const selectionAfter = (tableRef.vm as any).getSelectionRows()
+      const idsAfter = selectionAfter.map((r: any) => r.id)
+      expect(idsAfter).toContain(1)
+      expect(idsAfter).toContain(11)
+    })
+
+    it('selectable tree linkage parent status with children', async () => {
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table
+            :data="testData"
+            :tree-props="treeProps"
+            row-key="id"
+            default-expand-all
+          >
+            <el-table-column type="selection" :selectable="selectable" />
+            <el-table-column prop="name" label="name" />
+          </el-table>
+        `,
+        data() {
+          return {
+            checkStrictly: false,
+            testData: [
+              {
+                id: 1,
+                name: 'parent',
+                childrenTest: [
+                  { id: 11, name: 'child-1' },
+                  { id: 12, name: 'child-2' },
+                  { id: 13, name: 'child-3' },
+                ],
+              },
+            ],
+          }
+        },
+        computed: {
+          treeProps() {
+            return {
+              children: 'childrenTest',
+              checkStrictly: this.checkStrictly,
+            }
+          },
+        },
+        methods: {
+          selectable: (row) => row.id !== 12,
+        },
+      })
+      await doubleWait()
+      const bodyCheckboxes = wrapper.findAll('.el-table__body .el-checkbox')
+      const parentCheckbox = bodyCheckboxes[0]
+      const childCheckbox1 = bodyCheckboxes[1]
+      const childCheckbox2 = bodyCheckboxes[2]
+      const childCheckbox3 = bodyCheckboxes[3]
+      const parentInput = parentCheckbox.find('.el-checkbox__input')
+
+      expect(childCheckbox2.classes()).toContain('is-disabled')
+
+      await childCheckbox1.trigger('click')
+      await doubleWait()
+      // partial selectable children selected -> parent indeterminate
+      expect(parentInput.classes()).toContain('is-indeterminate')
+
+      await childCheckbox3.trigger('click')
+      await doubleWait()
+      // all selectable children selected -> parent checked
+      expect(parentCheckbox.classes()).toContain('is-checked')
+      expect(parentInput.classes()).not.toContain('is-indeterminate')
+
+      await childCheckbox3.trigger('click')
+      await doubleWait()
+      // deselect one child -> parent indeterminate again
+      expect(parentInput.classes()).toContain('is-indeterminate')
+
+      await childCheckbox1.trigger('click')
+      await doubleWait()
+      // no selectable children selected -> parent unchecked
+      expect(parentCheckbox.classes()).not.toContain('is-checked')
+      expect(parentInput.classes()).not.toContain('is-indeterminate')
+
+      await (wrapper.vm.checkStrictly = true)
+      await doubleWait()
+      await childCheckbox1.trigger('click')
+      await doubleWait()
+      // Strict mode: child select should not update parent
+      expect(childCheckbox1.classes()).toContain('is-checked')
+      expect(parentCheckbox.classes()).not.toContain('is-checked')
+      expect(parentInput.classes()).not.toContain('is-indeterminate')
+
+      await (wrapper.vm.checkStrictly = false)
+      await doubleWait()
+      // Switch to non-strict: parent should reflect child selection
+      expect(parentInput.classes()).toContain('is-indeterminate')
+    })
+
+    it('cleanSelection removes lazy children when parent is removed', async () => {
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table
+            ref="table"
+            :data="testData"
+            row-key="id"
+            lazy
+            :load="load"
+            :tree-props="treeProps"
+          >
+            <el-table-column type="selection" />
+            <el-table-column prop="name" label="name" />
+          </el-table>
+        `,
+        data() {
+          return {
+            treeProps: {
+              children: 'children',
+              hasChildren: 'hasChildren',
+              checkStrictly: false,
+            },
+            testData: [
+              { id: 1, name: 'parent', hasChildren: true },
+              { id: 2, name: 'sibling' },
+            ],
+          }
+        },
+        methods: {
+          load(row, treeNode, resolve) {
+            if (row.id === 1) {
+              resolve([{ id: 11, name: 'child-1' }])
+              return
+            }
+            resolve([])
+          },
+        },
+      })
+      await doubleWait()
+      const tableRef = wrapper.findComponent({ ref: 'table' })
+      const parentCheckbox = wrapper.findAll('.el-table__body .el-checkbox')[0]
+      await parentCheckbox.trigger('click')
+      await doubleWait()
+      const expandIcons = wrapper.findAll('.el-table__expand-icon')
+      await expandIcons[0].trigger('click')
+      await doubleWait()
+      const selectedBefore = (tableRef.vm as any)
+        .getSelectionRows()
+        .map((row: any) => row.id)
+      expect(selectedBefore).toContain(1)
+      expect(selectedBefore).toContain(11)
+      const vm = wrapper.vm as any
+      vm.testData.splice(0, 1)
+      await doubleWait()
+      await doubleWait()
+
+      const selectedAfter = (tableRef.vm as any)
+        .getSelectionRows()
+        .map((row: any) => row.id)
+      expect(selectedAfter).not.toContain(1)
+      expect(selectedAfter).not.toContain(11)
+    })
+
+    it('a11y', async () => {
+      wrapper = mount({
+        components: {
+          ElTableColumn,
+          ElTable,
+        },
+        template: `
+          <el-table :data="testData" row-key="release">
+            <el-table-column prop="name" label="片名" />
+            <el-table-column prop="release" label="发行日期" />
+            <el-table-column prop="director" label="导演" />
+            <el-table-column prop="runtime" label="时长（分）" />
+          </el-table>
+        `,
+        data() {
+          const testData = getTestData() as any
+          testData[1].children = [
+            {
+              name: "A Bug's Life copy 1",
+              release: '1998-11-25-1',
+              director: 'John Lasseter',
+              runtime: 95,
+            },
+            {
+              name: "A Bug's Life copy 2",
+              release: '1998-11-25-2',
+              director: 'John Lasseter',
+              runtime: 95,
+            },
+          ]
+          return {
+            testData,
+          }
+        },
+      })
+      await doubleWait()
+      const button = wrapper.find('.el-table__expand-icon')
+      expect(button.attributes('aria-label')).toBe('Expand this row')
+      expect(button.attributes('aria-expanded')).toBe('false')
+
+      await button.trigger('click')
+      await doubleWait()
+      expect(button.attributes('aria-label')).toBe('Collapse this row')
+      expect(button.attributes('aria-expanded')).toBe('true')
+    })
+
+    it('getHalfSelectionRows', async () => {
+      wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table ref="table" :data="testData" row-key="id" default-expand-all>
+            <el-table-column type="selection" />
+            <el-table-column prop="name" label="name" />
+          </el-table>
+        `,
+        data() {
+          return {
+            testData: [
+              {
+                id: 1,
+                name: 'parent',
+                children: [
+                  { id: 11, name: 'child-1' },
+                  { id: 12, name: 'child-2' },
+                ],
+              },
+            ],
+          }
+        },
+      })
+      await doubleWait()
+      const checkboxes = wrapper.findAll('.el-table__body .el-checkbox')
+      const childCheckbox1 = checkboxes[1]
+
+      // Select childCheckbox1 to make parent indeterminate
+      await childCheckbox1.trigger('click')
+      await doubleWait()
+
+      const tableRef = wrapper.findComponent({ ref: 'table' })
+      const halfSelection = (tableRef.vm as any).getHalfSelectionRows()
+      expect(halfSelection.length).toEqual(1)
+      expect(halfSelection[0].id).toEqual(1)
+
+      // Select childCheckbox2 to make parent fully checked
+      const childCheckbox2 = checkboxes[2]
+      await childCheckbox2.trigger('click')
+      await doubleWait()
+
+      expect((tableRef.vm as any).getHalfSelectionRows().length).toEqual(0)
     })
   })
 
@@ -2337,6 +3200,356 @@ describe('Table.vue', () => {
     mockCellRect2.mockRestore()
   })
 
+  // https://github.com/element-plus/element-plus/issues/25034
+  // A container scaled down via CSS transform (e.g. autofit.js) shrinks
+  // getBoundingClientRect values but leaves scrollWidth/clientWidth and
+  // computed paddings in layout space, which used to make every cell look
+  // overflowing.
+  const mountOverflowTooltipTable = () =>
+    mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+
+      template: `
+    <el-table :data="testData" show-overflow-tooltip>
+      <el-table-column class-name="overflow_tooltip" prop="name" label="name"/>
+    </el-table>
+  `,
+
+      data() {
+        return {
+          testData: getTestData() as any,
+        }
+      },
+    })
+
+  // Simulate a cell laid out at 200px (176px content + 2 * 12px padding)
+  // inside a container scaled to 80%, so the visual (rect) width is 160px.
+  const mockScaledCell = (cellEl: HTMLElement) => {
+    cellEl.style.paddingLeft = '12px'
+    cellEl.style.paddingRight = '12px'
+    const mocks = [
+      vi.spyOn(cellEl, 'getBoundingClientRect').mockReturnValue({
+        width: 160,
+        height: 23,
+      } as DOMRect),
+      vi.spyOn(cellEl, 'offsetWidth', 'get').mockReturnValue(200),
+      vi.spyOn(cellEl, 'scrollWidth', 'get').mockReturnValue(200),
+      vi.spyOn(cellEl, 'clientWidth', 'get').mockReturnValue(200),
+    ]
+    return mocks
+  }
+
+  it('show-overflow-tooltip should not show when scaled container makes rect smaller than scrollWidth', async () => {
+    // text laid out at 173px (< 176px content) fits, visual width 138.4px;
+    // picked so the tooltip would also wrongly appear if the padding was not
+    // shrunk by the 0.8 scale factor (138.4 + 24 > 160 but 138.4 + 19.2 < 160)
+    const mockRangeRect = vi
+      .spyOn(Range.prototype, 'getBoundingClientRect')
+      .mockReturnValue({
+        width: 138.4,
+        height: 23,
+      } as DOMRect)
+    const wrapper = mountOverflowTooltipTable()
+
+    await doubleWait()
+    const tr = wrapper.findAll('.overflow_tooltip')
+    const cellEl = tr[1].find('.cell').element as HTMLElement
+    const mocks = mockScaledCell(cellEl)
+
+    await tr[1].trigger('mouseenter')
+    await rAF()
+
+    expect(wrapper.find('.el-popper').exists()).toBeFalsy()
+
+    mockRangeRect.mockRestore()
+    mocks.forEach((mock) => mock.mockRestore())
+    wrapper.unmount()
+  })
+
+  it('show-overflow-tooltip should still show overflowing text in scaled container', async () => {
+    // text laid out at 200px (> 176px content) overflows, its visual width is 160px
+    const mockRangeRect = vi
+      .spyOn(Range.prototype, 'getBoundingClientRect')
+      .mockReturnValue({
+        width: 160,
+        height: 23,
+      } as DOMRect)
+    const wrapper = mountOverflowTooltipTable()
+
+    await doubleWait()
+    const tr = wrapper.findAll('.overflow_tooltip')
+    const cellEl = tr[1].find('.cell').element as HTMLElement
+    const mocks = mockScaledCell(cellEl)
+
+    await tr[1].trigger('mouseenter')
+    await rAF()
+
+    expect(wrapper.find('.el-popper span').text()).toContain(
+      (getTestData() as any)[0].name
+    )
+
+    mockRangeRect.mockRestore()
+    mocks.forEach((mock) => mock.mockRestore())
+    wrapper.unmount()
+  })
+
+  it('show-overflow-tooltip should show when scrollWidth exceeds clientWidth', async () => {
+    // text fits the cell, so only the scrollWidth/clientWidth check can
+    // detect the overflow
+    const mockRangeRect = vi
+      .spyOn(Range.prototype, 'getBoundingClientRect')
+      .mockReturnValue({
+        width: 100,
+        height: 23,
+      } as DOMRect)
+    const wrapper = mountOverflowTooltipTable()
+
+    await doubleWait()
+    const tr = wrapper.findAll('.overflow_tooltip')
+    const cellEl = tr[1].find('.cell').element as HTMLElement
+    const mocks = mockScaledCell(cellEl)
+    mocks[2].mockReturnValue(300)
+
+    await tr[1].trigger('mouseenter')
+    await rAF()
+
+    expect(wrapper.find('.el-popper span').text()).toContain(
+      (getTestData() as any)[0].name
+    )
+
+    mockRangeRect.mockRestore()
+    mocks.forEach((mock) => mock.mockRestore())
+    wrapper.unmount()
+  })
+
+  // Fractional layout width must not be mistaken for a CSS transform.
+  it('show-overflow-tooltip should not show on narrow cells due to offsetWidth rounding', async () => {
+    const mockRangeRect = vi
+      .spyOn(Range.prototype, 'getBoundingClientRect')
+      .mockReturnValue({
+        width: 16.3,
+        height: 23,
+      } as DOMRect)
+    const wrapper = mountOverflowTooltipTable()
+
+    await doubleWait()
+    const tr = wrapper.findAll('.overflow_tooltip')
+    const cellEl = tr[1].find('.cell').element as HTMLElement
+    cellEl.style.width = '40.49px'
+    cellEl.style.boxSizing = 'border-box'
+    cellEl.style.paddingLeft = '12px'
+    cellEl.style.paddingRight = '12px'
+    const mocks = [
+      vi.spyOn(cellEl, 'getBoundingClientRect').mockReturnValue({
+        width: 40.49,
+        height: 23,
+      } as DOMRect),
+      vi.spyOn(cellEl, 'offsetWidth', 'get').mockReturnValue(40),
+      vi.spyOn(cellEl, 'scrollWidth', 'get').mockReturnValue(40),
+      vi.spyOn(cellEl, 'clientWidth', 'get').mockReturnValue(40),
+    ]
+
+    await tr[1].trigger('mouseenter')
+    await rAF()
+
+    expect(wrapper.find('.el-popper').exists()).toBeFalsy()
+
+    mockRangeRect.mockRestore()
+    mocks.forEach((mock) => mock.mockRestore())
+    wrapper.unmount()
+  })
+
+  it('show-overflow-tooltip should detect overflow under a subtle transform', async () => {
+    const mockRangeRect = vi
+      .spyOn(Range.prototype, 'getBoundingClientRect')
+      .mockReturnValue({
+        width: 36.2805, // 36.1px text at 1.005x
+        height: 23,
+      } as DOMRect)
+    const wrapper = mountOverflowTooltipTable()
+
+    await doubleWait()
+    const tr = wrapper.findAll('.overflow_tooltip')
+    const cellEl = tr[1].find('.cell').element as HTMLElement
+    cellEl.style.width = '60px'
+    cellEl.style.boxSizing = 'border-box'
+    cellEl.style.paddingLeft = '12px'
+    cellEl.style.paddingRight = '12px'
+    const mocks = [
+      vi.spyOn(cellEl, 'getBoundingClientRect').mockReturnValue({
+        width: 60.3, // 60px layout width at 1.005x
+        height: 23,
+      } as DOMRect),
+      vi.spyOn(cellEl, 'offsetWidth', 'get').mockReturnValue(60),
+      vi.spyOn(cellEl, 'scrollWidth', 'get').mockReturnValue(60),
+      vi.spyOn(cellEl, 'clientWidth', 'get').mockReturnValue(60),
+    ]
+
+    await tr[1].trigger('mouseenter')
+    await rAF()
+
+    expect(wrapper.find('.el-popper').exists()).toBe(true)
+
+    mockRangeRect.mockRestore()
+    mocks.forEach((mock) => mock.mockRestore())
+    wrapper.unmount()
+  })
+
+  // PR #25049 review feedback: non-uniform ancestor scale (width 0.8,
+  // height 1.5) must scale the vertical padding by the vertical ratio. The
+  // mocked text is 16.67px tall (visual 25px) inside a 15px content box, so
+  // it is clipped vertically and the tooltip must appear; applying the
+  // horizontal ratio (0.8) instead would hide it.
+  it('show-overflow-tooltip should show vertically clipped text under non-uniform scale', async () => {
+    const mockRangeRect = vi
+      .spyOn(Range.prototype, 'getBoundingClientRect')
+      .mockReturnValue({
+        width: 138.4,
+        height: 25,
+      } as DOMRect)
+    const wrapper = mountOverflowTooltipTable()
+
+    await doubleWait()
+    const tr = wrapper.findAll('.overflow_tooltip')
+    const cellEl = tr[1].find('.cell').element as HTMLElement
+    cellEl.style.paddingLeft = '12px'
+    cellEl.style.paddingRight = '12px'
+    cellEl.style.paddingTop = '4px'
+    cellEl.style.paddingBottom = '4px'
+    const mocks = [
+      vi.spyOn(cellEl, 'getBoundingClientRect').mockReturnValue({
+        width: 160, // 200px layout width * 0.8
+        height: 34.5, // 23px layout height * 1.5
+      } as DOMRect),
+      vi.spyOn(cellEl, 'offsetWidth', 'get').mockReturnValue(200),
+      vi.spyOn(cellEl, 'offsetHeight', 'get').mockReturnValue(23),
+      vi.spyOn(cellEl, 'scrollWidth', 'get').mockReturnValue(200),
+      vi.spyOn(cellEl, 'clientWidth', 'get').mockReturnValue(200),
+    ]
+
+    await tr[1].trigger('mouseenter')
+    await rAF()
+
+    expect(wrapper.find('.el-popper').exists()).toBe(true)
+
+    mockRangeRect.mockRestore()
+    mocks.forEach((mock) => mock.mockRestore())
+    wrapper.unmount()
+  })
+
+  it('should not show tooltip when cell content is empty', async () => {
+    const testData = [
+      {
+        id: 1,
+        date: '2016-05-02',
+        name: '', // 空值 - 不应该显示 tooltip
+        address: 'No. 189, Grove St, Los Angeles',
+      },
+      {
+        id: 2,
+        date: '2016-05-04',
+        name: '   ', // 只有空格 - 不应该显示 tooltip
+        address: 'No. 189, Grove St, Los Angeles',
+      },
+      {
+        id: 3,
+        date: '2016-05-01',
+        name: 'wangxiaohu',
+        address: 'No. 189, Grove St, Los Angeles',
+        children: [
+          {
+            id: 31,
+            date: '2016-05-01',
+            name: 'wangxiaohu',
+            address: 'No. 189, Grove St, Los Angeles',
+          },
+          {
+            id: 32,
+            date: '2016-05-01',
+            name: 'wangxiaohu',
+            address: 'No. 189, Grove St, Los Angeles',
+          },
+        ],
+      },
+      {
+        id: 4,
+        date: '2016-05-03',
+        name: 'wangxiaohu',
+        address: 'No. 189, Grove St, Los Angeles',
+      },
+    ]
+
+    const mockRangeRect = vi
+      .spyOn(Range.prototype, 'getBoundingClientRect')
+      .mockReturnValue({
+        width: 150,
+        height: 30,
+      } as DOMRect)
+
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+           <el-table
+              :data="testData"
+              style="width: 100%; margin-bottom: 20px"
+              row-key="id"
+              border
+              default-expand-all
+            >
+              <el-table-column
+                class-name="empty_cell"
+                align="right"
+                width="60"
+                label="行号"
+                :show-overflow-tooltip="true"
+              >
+                <template v-slot>
+                  <span></span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="date" label="Date" sortable />
+              <el-table-column
+                :show-overflow-tooltip="true"
+                width="20"
+                prop="address"
+                label="address"
+                sortable
+              />
+            </el-table>
+      `,
+      data() {
+        return {
+          testData,
+        }
+      },
+    })
+    await doubleWait()
+    const emptyCells = wrapper.findAll('.el-table__body-wrapper .empty_cell')
+    expect(emptyCells.length).toBeGreaterThan(0)
+    for (const cell of emptyCells) {
+      const cellElement = cell.find('.cell')
+      expect(cellElement.exists()).toBe(true)
+      const mockCellRect = vi
+        .spyOn(cellElement.element, 'getBoundingClientRect')
+        .mockReturnValue({
+          width: 100,
+          height: 30,
+        } as DOMRect)
+      await cell.trigger('mouseenter')
+      await rAF()
+      expect(wrapper.find('.el-popper').exists()).toBeFalsy()
+      mockCellRect.mockRestore()
+    }
+    mockRangeRect.mockRestore()
+    wrapper.unmount()
+  })
+
   it('should cleanup tooltip dynamically', async () => {
     const mockRangeRect = vi
       .spyOn(Range.prototype, 'getBoundingClientRect')
@@ -2512,5 +3725,74 @@ describe('Table.vue', () => {
     expect(wrapper.find('div.cell.el-tooltip').exists()).toBe(false)
     await wrapper.setProps({ showOverflowTooltip: true })
     expect(wrapper.find('div.cell.el-tooltip').exists()).toBe(true)
+  })
+
+  it('does not mutate filtered-value when filter-multiple is false', async () => {
+    const filteredValue = []
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+          <el-table>
+            <el-table-column
+              prop="director"
+              :filters="[
+                { text: 'John Lasseter', value: 'John Lasseter' }
+              ]"
+              :filter-multiple="false"
+              :filtered-value="filteredValue"
+            />
+          </el-table>
+        `,
+      setup: () => ({ filteredValue }),
+    })
+    await doubleWait()
+    await wrapper.find('.el-table__column-filter-trigger').trigger('click')
+    await doubleWait()
+
+    const filter = document.body.querySelector('.el-table-filter')
+    const filterItems = filter.querySelectorAll('.el-table-filter__list-item')
+    triggerEvent(filterItems[1], 'click', true, false)
+    await doubleWait()
+
+    expect(filteredValue).toEqual([])
+    filter.parentNode.removeChild(filter)
+    wrapper.unmount()
+  })
+
+  it('should not throw when unmounted with a pending fixed column style update', async () => {
+    // https://github.com/element-plus/element-plus/issues/24540
+    vi.useFakeTimers()
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+        <el-table :data="testData" table-layout="auto">
+          <el-table-column prop="name" label="片名" />
+          <el-table-column v-if="showExtra" prop="director" label="导演" />
+          <el-table-column prop="release" label="发行日期" fixed="right" />
+        </el-table>
+      `,
+      data() {
+        return {
+          testData: getTestData(),
+          showExtra: false,
+        }
+      },
+    })
+    await doubleWait()
+    // trigger a header re-render so another fixed column style update is
+    // scheduled while the previous one is still pending
+    await wrapper.setData({ showExtra: true })
+    await doubleWait()
+    wrapper.unmount()
+    // pending timers must be cleared on unmount and never touch the
+    // destroyed thead
+    expect(() => vi.runAllTimers()).not.toThrow()
+    vi.useRealTimers()
   })
 })

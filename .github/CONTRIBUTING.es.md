@@ -12,14 +12,13 @@ Estamos orgullosos de que usted esta interesado en contribuir al proyecto `Eleme
 
 - Antes de someter un informe sobre algún problema, sírvase de revisar sí ya hubo un informe.
 
-- Por favor especifique que versión de `Element Plus` y `Vue` que esta utilizando, y que versión de sistema operativo y que versión de navegador web que está utilizando. [Playground](https://element-plus.run/) esta recomendado para crear un entorno para reproducir el problema claramente.
+- Por favor especifique que versión de `Element Plus` y `Vue` que esta utilizando, y que versión de sistema operativo y que versión de navegador web que está utilizando. [Playground](https://run.element-plus.org/) esta recomendado para crear un entorno para reproducir el problema claramente.
 
 ## Guías para un “Pull Request (PR)”
 
 - Crea una bifurcación (“fork”) del repositorio a su propia cuenta en github.com. Por favor no crea ramas nuevas aquí.
 
 - El formato de la información de envío debe ser `type(scope): info about commit`. (por ejemplo, `fix(components): [scrollbar] fix xxx bug`)
-
   1. Tipo: el tipo debe ser uno de [build, chore, ci, docs, feat, fix, perf, refactor, revert, release, style, test, improvement].
 
   2. Ámbito de aplicación: el ámbito de aplicación debe ser uno de [components, directives, element-plus, hooks, locale, test-utils, theme-chalk, tokens, utils, project, core, style, docs, ci, dev, build, deploy, other, typography, color, border, var].

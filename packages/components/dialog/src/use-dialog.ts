@@ -46,6 +46,7 @@ export const useDialog = (
   const closed = ref(false)
   const rendered = ref(false) // when destroyOnClose is true, we initialize it as false vise versa
   const zIndex = ref(props.zIndex ?? nextZIndex())
+  const closing = ref(false)
 
   let openTimer: (() => void) | undefined = undefined
   let closeTimer: (() => void) | undefined = undefined
@@ -62,8 +63,9 @@ export const useDialog = (
       if (props.top) {
         style[`${varPrefix}-margin-top`] = props.top
       }
-      if (props.width) {
-        style[`${varPrefix}-width`] = addUnit(props.width)
+      const width = addUnit(props.width)
+      if (width) {
+        style[`${varPrefix}-width`] = width
       }
     }
     return style
@@ -83,6 +85,10 @@ export const useDialog = (
     () => props.overflow ?? globalConfig.value?.overflow ?? false
   )
 
+  const penetrable = computed(
+    () => props.modalPenetrable && !props.modal && !props.fullscreen
+  )
+
   const overlayDialogStyle = computed<CSSProperties>(() => {
     if (_alignCenter.value) {
       return { display: 'flex' }
@@ -96,7 +102,7 @@ export const useDialog = (
       globalConfig.value?.transition ??
       DEFAULT_DIALOG_TRANSITION
     const baseConfig = {
-      name: transition,
+      name: transition as string,
       onAfterEnter: afterEnter,
       onBeforeLeave: beforeLeave,
       onAfterLeave: afterLeave,
@@ -144,9 +150,11 @@ export const useDialog = (
     if (props.destroyOnClose) {
       rendered.value = false
     }
+    closing.value = false
   }
 
   function beforeLeave() {
+    closing.value = true
     emit('close')
   }
 
@@ -225,6 +233,14 @@ export const useDialog = (
     }
   }
 
+  function bringToFront() {
+    if (!visible.value || !penetrable.value || props.zIndex !== undefined) {
+      return
+    }
+
+    zIndex.value = nextZIndex()
+  }
+
   watch(
     () => props.zIndex,
     () => {
@@ -237,6 +253,7 @@ export const useDialog = (
     (val) => {
       if (val) {
         closed.value = false
+        closing.value = false
         open()
         rendered.value = true // enables lazy rendering
         zIndex.value = props.zIndex ?? nextZIndex()
@@ -291,6 +308,7 @@ export const useDialog = (
     onCloseAutoFocus,
     onCloseRequested,
     onFocusoutPrevented,
+    bringToFront,
     titleId,
     bodyId,
     closed,
@@ -303,5 +321,7 @@ export const useDialog = (
     _draggable,
     _alignCenter,
     _overflow,
+    closing,
+    penetrable,
   }
 }

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { withBase } from 'vitepress'
 import { isExternal } from '../../utils'
 
 defineProps<{
@@ -12,12 +13,12 @@ defineProps<{
     :is="href ? 'a' : 'span'"
     class="link-item"
     :class="{ link: href }"
-    :href="href"
-    :target="isExternal(href) ? '_blank' : undefined"
-    :rel="isExternal(href) ? 'noopener noreferrer' : undefined"
+    :href="withBase(href ?? '')"
+    :target="isExternal(href ?? '') ? '_blank' : undefined"
+    :rel="isExternal(href ?? '') ? 'noopener noreferrer' : undefined"
   >
     <slot />
-    <ElIcon v-if="isExternal(href) && !noIcon">
+    <ElIcon v-if="isExternal(href ?? '') && !noIcon">
       <i-ri-external-link-line class="link-icon" />
     </ElIcon>
   </component>

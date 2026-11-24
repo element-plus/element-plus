@@ -1,5 +1,5 @@
 <template>
-  <el-teleport to="body" :disabled="!teleported">
+  <teleport to="body" :disabled="!teleported">
     <transition name="viewer-fade" appear>
       <div
         ref="wrapper"
@@ -83,25 +83,44 @@
           </div>
           <!-- CANVAS -->
           <div :class="ns.e('canvas')">
-            <template v-for="(url, i) in urlList" :key="i">
-              <img
-                v-if="i === activeIndex"
-                :ref="(el) => (imgRefs[i] = el as HTMLImageElement)"
-                :src="url"
-                :style="imgStyle"
-                :class="ns.e('img')"
-                :crossorigin="crossorigin"
-                @load="handleImgLoad"
-                @error="handleImgError"
-                @mousedown="handleMouseDown"
+            <slot
+              v-if="loadError && $slots['viewer-error']"
+              name="viewer-error"
+              :active-index="activeIndex"
+              :src="currentImg"
+            />
+            <img
+              v-else
+              ref="imgRef"
+              :key="currentImg"
+              :src="currentImg"
+              :style="imgStyle"
+              :class="[
+                ns.e('img'),
+                ns.is('loading', loading && !!$slots['viewer-placeholder']),
+              ]"
+              :crossorigin="crossorigin"
+              @load="handleImgLoad"
+              @error="handleImgError"
+              @mousedown="handleMouseDown"
+              @touchstart="handleTouchStart"
+            />
+            <div
+              v-if="loading && $slots['viewer-placeholder']"
+              :class="ns.e('placeholder')"
+            >
+              <slot
+                name="viewer-placeholder"
+                :active-index="activeIndex"
+                :src="currentImg"
               />
-            </template>
+            </div>
           </div>
           <slot />
         </el-focus-trap>
       </div>
     </transition>
-  </el-teleport>
+  </teleport>
 </template>
 
 <script lang="ts" setup>
@@ -115,13 +134,17 @@ import {
   shallowRef,
   watch,
 } from 'vue'
-import { useEventListener } from '@vueuse/core'
+import { clamp, useEventListener } from '@vueuse/core'
 import { throttle } from 'lodash-unified'
-import { useLocale, useNamespace, useZIndex } from '@element-plus/hooks'
+import {
+  useLocale,
+  useLockscreen,
+  useNamespace,
+  useZIndex,
+} from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
-import { keysOf } from '@element-plus/utils'
+import { getEventCode, keysOf } from '@element-plus/utils'
 import ElFocusTrap from '@element-plus/components/focus-trap'
-import ElTeleport from '@element-plus/components/teleport'
 import ElIcon from '@element-plus/components/icon'
 import {
   ArrowLeft,
@@ -134,10 +157,14 @@ import {
   ZoomIn,
   ZoomOut,
 } from '@element-plus/icons-vue'
-import { imageViewerEmits, imageViewerProps } from './image-viewer'
+import { imageViewerEmits } from './image-viewer'
 
 import type { CSSProperties } from 'vue'
-import type { ImageViewerAction, ImageViewerMode } from './image-viewer'
+import type {
+  ImageViewerAction,
+  ImageViewerMode,
+  ImageViewerProps,
+} from './image-viewer'
 
 const modes: Record<'CONTAIN' | 'ORIGINAL', ImageViewerMode> = {
   CONTAIN: {
@@ -154,31 +181,48 @@ defineOptions({
   name: 'ElImageViewer',
 })
 
-const props = defineProps(imageViewerProps)
+const props = withDefaults(defineProps<ImageViewerProps>(), {
+  urlList: () => [],
+  initialIndex: 0,
+  infinite: true,
+  closeOnPressEscape: true,
+  zoomRate: 1.2,
+  scale: 1,
+  minScale: 0.2,
+  maxScale: 7,
+})
 const emit = defineEmits(imageViewerEmits)
 
 let stopWheelListener: (() => void) | undefined
-let prevOverflow = ''
 
 const { t } = useLocale()
 const ns = useNamespace('image-viewer')
 const { nextZIndex } = useZIndex()
 const wrapper = ref<HTMLDivElement>()
-const imgRefs = ref<HTMLImageElement[]>([])
+const imgRef = ref<HTMLImageElement>()
 
 const scopeEventListener = effectScope()
 
+const scaleClamped = computed(() => {
+  const { scale, minScale, maxScale } = props
+  return clamp(scale, minScale, maxScale)
+})
+
 const loading = ref(true)
+const loadError = ref(false)
+const visible = ref(false)
 const activeIndex = ref(props.initialIndex)
 const mode = shallowRef<ImageViewerMode>(modes.CONTAIN)
 const transform = ref({
-  scale: 1,
+  scale: scaleClamped.value,
   deg: 0,
   offsetX: 0,
   offsetY: 0,
   enableTransition: false,
 })
 const zIndex = ref(props.zIndex ?? nextZIndex())
+
+useLockscreen(visible, { ns })
 
 const isSingle = computed(() => {
   const { urlList } = props
@@ -231,13 +275,15 @@ const progress = computed(
 function hide() {
   unregisterEventListener()
   stopWheelListener?.()
-  document.body.style.overflow = prevOverflow
+  visible.value = false
   emit('close')
 }
 
 function registerEventListener() {
   const keydownHandler = throttle((e: KeyboardEvent) => {
-    switch (e.code) {
+    const code = getEventCode(e)
+
+    switch (code) {
       // ESC
       case EVENT_CODE.esc:
         props.closeOnPressEscape && hide()
@@ -274,7 +320,7 @@ function registerEventListener() {
 
   scopeEventListener.run(() => {
     useEventListener(document, 'keydown', keydownHandler)
-    useEventListener(document, 'wheel', mousewheelHandler)
+    useEventListener(wrapper, 'wheel', mousewheelHandler)
   })
 }
 
@@ -287,7 +333,9 @@ function handleImgLoad() {
 }
 
 function handleImgError(e: Event) {
+  loadError.value = true
   loading.value = false
+  emit('error', e)
   ;(e.target as HTMLImageElement).alt = t('el.image.error')
 }
 
@@ -307,8 +355,33 @@ function handleMouseDown(e: MouseEvent) {
     }
   })
   const removeMousemove = useEventListener(document, 'mousemove', dragHandler)
-  useEventListener(document, 'mouseup', () => {
+  const removeMouseup = useEventListener(document, 'mouseup', () => {
     removeMousemove()
+    removeMouseup()
+  })
+
+  e.preventDefault()
+}
+
+function handleTouchStart(e: TouchEvent) {
+  if (loading.value || !wrapper.value || e.touches.length !== 1) return
+  transform.value.enableTransition = false
+
+  const { offsetX, offsetY } = transform.value
+  const { pageX: startX, pageY: startY } = e.touches[0]
+
+  const dragHandler = throttle((ev: TouchEvent) => {
+    const targetTouch = ev.touches[0]
+    transform.value = {
+      ...transform.value,
+      offsetX: offsetX + targetTouch.pageX - startX,
+      offsetY: offsetY + targetTouch.pageY - startY,
+    }
+  })
+  const removeTouchmove = useEventListener(document, 'touchmove', dragHandler)
+  const removeTouchend = useEventListener(document, 'touchend', () => {
+    removeTouchmove()
+    removeTouchend()
   })
 
   e.preventDefault()
@@ -316,7 +389,7 @@ function handleMouseDown(e: MouseEvent) {
 
 function reset() {
   transform.value = {
-    scale: 1,
+    scale: scaleClamped.value,
     deg: 0,
     offsetX: 0,
     offsetY: 0,
@@ -325,7 +398,7 @@ function reset() {
 }
 
 function toggleMode() {
-  if (loading.value) return
+  if (loading.value || loadError.value) return
 
   const modeNames = keysOf(modes)
   const modeValues = Object.values(modes)
@@ -337,6 +410,7 @@ function toggleMode() {
 }
 
 function setActiveItem(index: number) {
+  loadError.value = false
   const len = props.urlList.length
   activeIndex.value = (index + len) % len
 }
@@ -352,7 +426,7 @@ function next() {
 }
 
 function handleActions(action: ImageViewerAction, options = {}) {
-  if (loading.value) return
+  if (loading.value || loadError.value) return
   const { minScale, maxScale } = props
   const { zoomRate, rotateDeg, enableTransition } = {
     zoomRate: props.zoomRate,
@@ -411,9 +485,16 @@ function wheelHandler(e: WheelEvent) {
   }
 }
 
+watch(
+  () => scaleClamped.value,
+  (val) => {
+    transform.value.scale = val
+  }
+)
+
 watch(currentImg, () => {
   nextTick(() => {
-    const $img = imgRefs.value[0]
+    const $img = imgRef.value
     if (!$img?.complete) {
       loading.value = true
     }
@@ -426,15 +507,12 @@ watch(activeIndex, (val) => {
 })
 
 onMounted(() => {
+  visible.value = true
   registerEventListener()
 
   stopWheelListener = useEventListener('wheel', wheelHandler, {
     passive: false,
   })
-
-  // prevent body scroll
-  prevOverflow = document.body.style.overflow
-  document.body.style.overflow = 'hidden'
 })
 
 defineExpose({

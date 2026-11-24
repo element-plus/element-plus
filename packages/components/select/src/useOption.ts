@@ -46,7 +46,12 @@ export function useOption(props: OptionProps, states: OptionStates) {
   })
 
   const isDisabled = computed(() => {
-    return props.disabled || states.groupDisabled || limitReached.value
+    return (
+      select.selectDisabled ||
+      props.disabled ||
+      states.groupDisabled ||
+      limitReached.value
+    )
   })
 
   const instance = getCurrentInstance()! as OptionInternalInstance
@@ -65,7 +70,7 @@ export function useOption(props: OptionProps, states: OptionStates) {
   }
 
   const hoverItem = () => {
-    if (!props.disabled && !selectGroup.disabled) {
+    if (!isDisabled.value) {
       select.states.hoveringIndex = select.optionsArray.indexOf(instance.proxy)
     }
   }

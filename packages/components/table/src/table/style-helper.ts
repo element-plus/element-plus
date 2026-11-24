@@ -1,6 +1,7 @@
 import {
   computed,
   nextTick,
+  onBeforeUnmount,
   onMounted,
   ref,
   unref,
@@ -47,13 +48,25 @@ function useStyle<T extends DefaultRow>(
   const headerScrollHeight = ref(0)
   const footerScrollHeight = ref(0)
   const appendScrollHeight = ref(0)
+  let isUnmounted = false
+  let layoutFrame: number | null = null
+  let syncFrame: number | null = null
+  const stopFns: Array<() => void> = []
 
-  watchEffect(() => {
-    layout.setHeight(props.height ?? null)
-  })
-  watchEffect(() => {
-    layout.setMaxHeight(props.maxHeight ?? null)
-  })
+  watch(
+    () => props.height,
+    (value) => {
+      layout.setHeight(value ?? null)
+    },
+    { immediate: true }
+  )
+  watch(
+    () => props.maxHeight,
+    (value) => {
+      layout.setMaxHeight(value ?? null)
+    },
+    { immediate: true }
+  )
   watch(
     () => [props.currentRowKey, store.states.rowKey],
     ([currentRowKey, rowKey]) => {
@@ -108,6 +121,7 @@ function useStyle<T extends DefaultRow>(
   })
 
   const doLayout = () => {
+    if (isUnmounted) return
     if (shouldUpdateHeight.value) {
       layout.updateElsHeight()
     }
@@ -116,13 +130,22 @@ function useStyle<T extends DefaultRow>(
     // When the test case is running, the context environment simulated by jsdom may have been destroyed,
     // and window.requestAnimationFrame does not exist at this time.
     if (typeof window === 'undefined') return
-    requestAnimationFrame(syncPosition)
+    if (syncFrame === null) {
+      syncFrame = requestAnimationFrame(() => {
+        syncFrame = null
+        if (!isUnmounted) syncPosition()
+      })
+    }
   }
   onMounted(async () => {
     await nextTick()
+    if (isUnmounted) return
     store.updateColumns()
     bindEvents()
-    requestAnimationFrame(doLayout)
+    layoutFrame = requestAnimationFrame(() => {
+      layoutFrame = null
+      doLayout()
+    })
 
     const el: HTMLElement = table.vnode.el as HTMLElement
     const tableHeader: HTMLElement = table.refs.headerWrapper
@@ -193,31 +216,38 @@ function useStyle<T extends DefaultRow>(
   }
 
   const bindEvents = () => {
-    if (!table.refs.scrollBarRef) return
+    if (isUnmounted || !table.refs.scrollBarRef) return
     if (table.refs.scrollBarRef.wrapRef) {
-      useEventListener(
-        table.refs.scrollBarRef.wrapRef,
-        'scroll',
-        syncPosition,
-        {
-          passive: true,
-        }
+      stopFns.push(
+        useEventListener(
+          table.refs.scrollBarRef.wrapRef,
+          'scroll',
+          syncPosition,
+          {
+            passive: true,
+          }
+        )
       )
     }
     if (props.fit) {
-      useResizeObserver(table.vnode.el as HTMLElement, resizeListener)
+      const { stop } = useResizeObserver(
+        table.vnode.el as HTMLElement,
+        resizeListener
+      )
+      stopFns.push(stop)
     } else {
-      useEventListener(window, 'resize', resizeListener)
+      stopFns.push(useEventListener(window, 'resize', resizeListener))
     }
 
-    useResizeObserver(table.refs.bodyWrapper, () => {
+    const { stop } = useResizeObserver(table.refs.tableInnerWrapper, () => {
       resizeListener()
       table.refs?.scrollBarRef?.update()
     })
+    stopFns.push(stop)
   }
   const resizeListener = () => {
     const el = table.vnode.el
-    if (!table.$ready || !el) return
+    if (isUnmounted || !table.$ready || !el) return
 
     let shouldUpdateLayout = false
     const {
@@ -273,7 +303,7 @@ function useStyle<T extends DefaultRow>(
 
   const tableLayout = computed(() => {
     if (props.maxHeight) return 'fixed'
-    return props.tableLayout
+    return props.tableLayout!
   })
 
   const emptyBlockStyle = computed(() => {
@@ -287,6 +317,19 @@ function useStyle<T extends DefaultRow>(
       width: width ? `${width}px` : '',
       height,
     }
+  })
+
+  onBeforeUnmount(() => {
+    isUnmounted = true
+    if (layoutFrame !== null) {
+      cancelAnimationFrame(layoutFrame)
+      layoutFrame = null
+    }
+    if (syncFrame !== null) {
+      cancelAnimationFrame(syncFrame)
+      syncFrame = null
+    }
+    stopFns.forEach((stop) => stop())
   })
 
   const scrollbarStyle = computed(() => {

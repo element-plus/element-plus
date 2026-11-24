@@ -542,6 +542,19 @@ describe('table column', () => {
 
           wrapper.unmount()
         })
+
+        it('a11y', async () => {
+          const wrapper = createTable('selection')
+          await doubleWait()
+          const checkboxs = wrapper.findAll('.el-checkbox')
+          expect(checkboxs[0].attributes('aria-label')).toBe('Select all rows')
+          expect(checkboxs[0].attributes('for')).toBeDefined()
+          expect(checkboxs[0].attributes('for')).toBe(
+            checkboxs[0].find('input').attributes('id')
+          )
+          expect(checkboxs[1].attributes('aria-label')).toBe('Select this row')
+          wrapper.unmount()
+        })
       })
 
       describe('= index', () => {
@@ -603,6 +616,27 @@ describe('table column', () => {
           await doubleWait()
           expect(wrapper.findAll('td.el-table__expand-column').length).toEqual(
             5
+          )
+          wrapper.unmount()
+        })
+
+        it('a11y', async () => {
+          const wrapper = createInstance()
+          await doubleWait()
+          const buttons = wrapper.findAll(
+            'td.el-table__expand-column .el-table__expand-icon'
+          )
+          expect(buttons[0].attributes('aria-label')).toBe('Expand this row')
+          expect(buttons[0].attributes('aria-expanded')).toBe('false')
+
+          await buttons[0].trigger('click')
+          await doubleWait()
+          expect(wrapper.vm.expandCount).toEqual(1)
+          expect(buttons[0].attributes('aria-label')).toBe('Collapse this row')
+          expect(buttons[0].attributes('aria-expanded')).toBe('true')
+          expect(wrapper.findAll('.el-table__expanded-cell').length).toEqual(1)
+          expect(wrapper.find('.el-table__expanded-cell').text()).toContain(
+            'Toy Story'
           )
           wrapper.unmount()
         })
@@ -835,6 +869,49 @@ describe('table column', () => {
       await doubleWait()
       expect(wrapper.findAll('.el-table__header-wrapper th').length).toEqual(3)
     })
+
+    it('updates the header slot when the columns are replaced', async () => {
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table :data="data">
+            <el-table-column
+              v-for="col of cols"
+              :key="col.prop"
+              :prop="col.prop"
+            >
+              <template #header>
+                <span class="header-label">{{ col.label }}</span>
+              </template>
+            </el-table-column>
+          </el-table>
+        `,
+        data() {
+          return {
+            cols: [
+              { prop: 'name', label: 'Name' },
+              { prop: 'age', label: 'Age' },
+            ],
+            data: [{ name: 'Tom', age: 20 }],
+          }
+        },
+      })
+
+      await doubleWait()
+      const labels = () =>
+        wrapper.findAll('.header-label').map((label) => label.text())
+      expect(labels()).toEqual(['Name', 'Age'])
+
+      wrapper.vm.cols = wrapper.vm.cols.map((col) => ({
+        ...col,
+        label: `${col.label}!`,
+      }))
+      await doubleWait()
+      expect(labels()).toEqual(['Name!', 'Age!'])
+    })
   })
 
   describe('column expand', () => {
@@ -873,6 +950,9 @@ describe('table column', () => {
           refreshData() {
             this.testData = getTestData()
           },
+          expandable(row) {
+            return row.id % 2 === 0
+          },
         },
       })
     }
@@ -881,6 +961,20 @@ describe('table column', () => {
       const wrapper = createInstance()
       await doubleWait()
       expect(wrapper.findAll('td.el-table__expand-column').length).toEqual(5)
+      wrapper.unmount()
+    })
+
+    it('should respect row-expandable prop', async () => {
+      const wrapper = createInstance(
+        ':row-expandable="expandable" default-expand-all'
+      )
+      await doubleWait()
+      expect(
+        wrapper.findAll('.el-table__expand-icon--expanded').length
+      ).toEqual(2)
+      expect(
+        wrapper.findAll('.el-table__expand-icon.is-disabled').length
+      ).toEqual(3)
       wrapper.unmount()
     })
 

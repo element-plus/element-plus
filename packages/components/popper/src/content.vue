@@ -9,6 +9,7 @@
     @mouseleave="(e) => $emit('mouseleave', e)"
   >
     <el-focus-trap
+      :loop="loop"
       :trapped="trapped"
       :trap-on-focus-in="true"
       :focus-trap-el="contentRef"
@@ -31,7 +32,7 @@ import { NOOP, isElement } from '@element-plus/utils'
 import ElFocusTrap from '@element-plus/components/focus-trap'
 import { formItemContextKey } from '@element-plus/components/form'
 import { POPPER_CONTENT_INJECTION_KEY } from './constants'
-import { popperContentEmits, popperContentProps } from './content'
+import { popperContentEmits, popperContentPropsDefaults } from './content'
 import {
   usePopperContent,
   usePopperContentDOM,
@@ -39,6 +40,7 @@ import {
 } from './composables'
 
 import type { WatchStopHandle } from 'vue'
+import type { PopperContentProps } from './content'
 
 defineOptions({
   name: 'ElPopperContent',
@@ -46,7 +48,10 @@ defineOptions({
 
 const emit = defineEmits(popperContentEmits)
 
-const props = defineProps(popperContentProps)
+const props = withDefaults(
+  defineProps<PopperContentProps>(),
+  popperContentPropsDefaults
+)
 
 const {
   focusStartRef,
@@ -145,6 +150,7 @@ onMounted(() => {
 onBeforeUnmount(() => {
   triggerTargetAriaStopWatch?.()
   triggerTargetAriaStopWatch = undefined
+  contentRef.value = undefined
 })
 
 defineExpose({

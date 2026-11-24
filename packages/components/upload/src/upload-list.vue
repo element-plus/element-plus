@@ -8,10 +8,12 @@
         nsUpload.is(file.status),
         { focusing },
       ]"
-      tabindex="0"
+      :tabindex="disabled ? undefined : 0"
+      :aria-disabled="disabled"
+      role="button"
       @keydown.delete="!disabled && handleRemove(file)"
       @focus="focusing = true"
-      @blur="focusing = false"
+      @blur="handleBlur"
       @click="focusing = false"
     >
       <slot :file="file" :index="index">
@@ -69,13 +71,14 @@
         <el-icon
           v-if="!disabled"
           :class="nsIcon.m('close')"
+          :aria-label="t('el.upload.delete')"
+          role="button"
+          tabindex="0"
           @click="handleRemove(file)"
+          @keydown.enter.space.prevent="handleRemove(file)"
         >
           <Close />
         </el-icon>
-        <!-- Due to close btn only appears when li gets focused disappears after li gets blurred, thus keyboard navigation can never reach close btn-->
-        <!-- This is a bug which needs to be fixed -->
-        <!-- TODO: Fix the incorrect navigation interaction -->
         <i v-if="!disabled" :class="nsIcon.m('close-tip')">{{
           t('el.upload.deleteTip')
         }}</i>
@@ -106,7 +109,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed, nextTick, ref } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import {
   Check,
@@ -119,15 +122,22 @@ import {
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElProgress from '@element-plus/components/progress'
 import { useFormDisabled } from '@element-plus/components/form'
-import { uploadListEmits, uploadListProps } from './upload-list'
+import { uploadListEmits } from './upload-list'
+import { NOOP, mutable } from '@element-plus/utils'
 
+import type { UploadListProps } from './upload-list'
 import type { UploadFile } from './upload'
 
 defineOptions({
   name: 'ElUploadList',
 })
 
-const props = defineProps(uploadListProps)
+const props = withDefaults(defineProps<UploadListProps>(), {
+  files: () => mutable([]),
+  disabled: undefined,
+  handlePreview: NOOP,
+  listType: 'text',
+})
 const emit = defineEmits(uploadListEmits)
 
 const { t } = useLocale()
@@ -141,8 +151,18 @@ const focusing = ref(false)
 const containerKls = computed(() => [
   nsUpload.b('list'),
   nsUpload.bm('list', props.listType),
-  nsUpload.is('disabled', props.disabled),
+  nsUpload.is('disabled', disabled.value),
 ])
+
+const handleBlur = async (event: FocusEvent) => {
+  const nextTarget = event.relatedTarget as HTMLElement | null
+
+  await nextTick()
+
+  if (!nextTarget?.classList.contains(nsUpload.be('list', 'item'))) {
+    focusing.value = false
+  }
+}
 
 const handleRemove = (file: UploadFile) => {
   emit('remove', file)

@@ -1,8 +1,7 @@
 import { unrefElement } from '@vueuse/core'
 import { isClient } from '@element-plus/utils'
 
-import type { ComponentPublicInstance } from 'vue'
-import type { MaybeRef } from '@vueuse/core'
+import type { ComponentPublicInstance, MaybeRef } from 'vue'
 import type { Modifier } from '@popperjs/core'
 import type { Measurable } from './constants'
 import type { PopperCoreConfigProps } from './content'
@@ -68,7 +67,7 @@ function genModifiers(options: PopperCoreConfigProps) {
 
 function deriveExtraModifiers(
   options: any,
-  modifiers: PopperCoreConfigProps['popperOptions']['modifiers']
+  modifiers: NonNullable<PopperCoreConfigProps['popperOptions']>['modifiers']
 ) {
   if (modifiers) {
     options.modifiers = [...options.modifiers, ...(modifiers ?? [])]

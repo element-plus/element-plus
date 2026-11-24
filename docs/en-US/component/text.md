@@ -25,7 +25,7 @@ text/sizes
 
 ## Ellipsis
 
-:::demo Pass the `truncated` prop to render an ellipsis when the text exceeds the width of the viewport or max-width set. `line-clamp` prop to render multiline ellipsis.
+:::demo Pass the `truncated` prop to render an ellipsis when the text exceeds the width of the viewport or max-width set. `line-clamp` prop to render multiline ellipsis. Starting from version ^(2.14.6), `isTruncated` is exposed to indicate whether the text is truncated. You can use it to show a tooltip only when truncation occurs.
 
 text/truncated
 
@@ -64,3 +64,9 @@ text/mixed
 | Name    | Description     |
 | ------- | --------------- |
 | default | default content |
+
+### Exposes
+
+| Name                  | Description                   | Type                    |
+| --------------------- | ----------------------------- | ----------------------- |
+| isTruncated ^(2.14.6) | whether the text is truncated | ^[object]`Ref<boolean>` |
