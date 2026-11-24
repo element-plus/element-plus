@@ -19,12 +19,14 @@
 
 <script lang="ts" setup>
 import { computed, inject, onBeforeUnmount, ref, toRef } from 'vue'
+import { platform } from '@floating-ui/dom'
 import { useEventListener } from '@vueuse/core'
 import { isClient, throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { scrollbarContextKey } from './constants'
 import { BAR_MAP, renderThumbStyle } from './util'
 
+import type { Coords } from '@floating-ui/dom'
 import type { ThumbProps } from './thumb'
 
 const COMPONENT_NAME = 'Thumb'
@@ -68,18 +70,12 @@ const offsetRatio = computed(
     instance.value![bar.value.offset] ** 2 /
     scrollbar.wrapElement![bar.value.scrollSize] /
     props.ratio /
-    thumb.value![bar.value.offset] /
-    getScaleRatio()
+    thumb.value![bar.value.offset]
 )
 
-const getScaleRatio = () => {
-  const el = scrollbar.wrapElement
-  if (!el || !el[bar.value.offset]) {
-    return 1
-  }
-
-  const rect = el.getBoundingClientRect()
-  return rect[bar.value.size] / el[bar.value.offset]
+const getScale = () => {
+  const { x, y } = platform.getScale(instance.value!) as Coords
+  return props.vertical ? y : x
 }
 
 const clickThumbHandler = (e: MouseEvent) => {
@@ -94,16 +90,18 @@ const clickThumbHandler = (e: MouseEvent) => {
   if (!el) return
   thumbState.value[bar.value.axis] =
     el[bar.value.offset] -
-    (e[bar.value.client] - el.getBoundingClientRect()[bar.value.direction])
+    (e[bar.value.client] - el.getBoundingClientRect()[bar.value.direction]) /
+      getScale()
 }
 
 const clickTrackHandler = (e: MouseEvent) => {
   if (!thumb.value || !instance.value || !scrollbar.wrapElement) return
 
-  const offset = Math.abs(
-    (e.target as HTMLElement).getBoundingClientRect()[bar.value.direction] -
-      e[bar.value.client]
-  )
+  const offset =
+    Math.abs(
+      (e.target as HTMLElement).getBoundingClientRect()[bar.value.direction] -
+        e[bar.value.client]
+    ) / getScale()
   const thumbHalf = thumb.value[bar.value.offset] / 2
   const thumbPositionPercentage =
     ((offset - thumbHalf) * 100 * offsetRatio.value) /
@@ -133,9 +131,9 @@ const mouseMoveDocumentHandler = (e: MouseEvent) => {
   if (!prevPage) return
 
   const offset =
-    (instance.value.getBoundingClientRect()[bar.value.direction] -
-      e[bar.value.client]) *
-    -1
+    (e[bar.value.client] -
+      instance.value.getBoundingClientRect()[bar.value.direction]) /
+    getScale()
   const thumbClickPosition = thumb.value[bar.value.offset] - prevPage
   const thumbPositionPercentage =
     ((offset - thumbClickPosition) * 100 * offsetRatio.value) /
