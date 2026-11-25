@@ -8,6 +8,7 @@ import useEvents from './events-helper'
 import useStyles from './styles-helper'
 import TdWrapper from './td-wrapper.vue'
 
+import type { VNode } from 'vue'
 import type { TableBodyProps } from './defaults'
 import type {
   DefaultRow,
@@ -44,6 +45,15 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
   } = useStyles(props)
 
   let displayIndex = -1
+  let rootIndex = 0
+  let rootSpanEnd = 0
+  let pendingTreeRows: ((rows: VNode[], index: number) => void)[] | undefined
+  // Reuse rendered spans so span-method is only called once per cell.
+  const getRowspan = (row: VNode) =>
+    (row.children as (VNode | null)[]).reduce(
+      (span, cell) => Math.max(span, cell?.props?.rowspan || 1),
+      1
+    )
 
   const firstDefaultColumnIndex = computed(() => {
     return props.store?.states.columns.value.findIndex(
@@ -237,13 +247,39 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
         }
       }
       const tmp = [rowRender(row, $index, treeRowData ?? undefined)]
+      const hasSpanMethod = !!parent.props.spanMethod
+      if (hasSpanMethod) {
+        if ($index === 0) {
+          rootIndex = 0
+          rootSpanEnd = 0
+          pendingTreeRows = undefined
+        }
+        rootIndex++
+        rootSpanEnd = Math.max(rootSpanEnd, rootIndex + getRowspan(tmp[0]) - 1)
+      }
+      // Keep merged siblings adjacent before inserting descendants.
+      // Flush at the last sibling even if rowspan exceeds the remaining rows.
+      const deferChildren =
+        hasSpanMethod &&
+        rootIndex < rootSpanEnd &&
+        rootIndex < store.states.data.value.length
+      if (hasSpanMethod && !deferChildren && pendingTreeRows) {
+        for (const render of pendingTreeRows) {
+          render(tmp, $index + tmp.length)
+        }
+        pendingTreeRows = undefined
+      }
       // 渲染嵌套数据
       if (cur) {
+        const root = cur
+        let childrenRows = tmp
         // currentRow 记录的是 index，所以还需主动增加 TreeTable 的 index
-        let i = 0
+        let i = tmp.length - 1
         const traverse = (children: T[], parent: TreeData) => {
           if (!(children && children.length && parent)) return
-          children.forEach((node) => {
+          let spanEnd = 0
+          let pendingChildren: (() => void)[] | undefined
+          children.forEach((node, index) => {
             // 父节点的 display 状态影响子节点的显示状态
             const innerTreeRowData: Partial<Record<string, any>> = {
               display: parent.display && parent.expanded,
@@ -275,20 +311,54 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
               }
             }
             i++
-            tmp.push(rowRender(node, $index + i, innerTreeRowData))
-            if (cur) {
-              const nodes =
-                lazyTreeNodeMap.value[childKey] ||
-                node[childrenColumnName.value]
-              traverse(nodes, cur)
+            const tr = rowRender(node, $index + i, innerTreeRowData)
+            childrenRows.push(tr)
+            // Queued traversals overwrite cur, so retain this sibling's tree state.
+            const childTree = cur
+            const nodes =
+              childTree &&
+              (lazyTreeNodeMap.value[childKey] ||
+                node[childrenColumnName.value])
+            if (hasSpanMethod) {
+              spanEnd = Math.max(spanEnd, index + getRowspan(tr))
+              if (
+                pendingChildren &&
+                (index + 1 >= spanEnd || index === children.length - 1)
+              ) {
+                for (const render of pendingChildren) render()
+                pendingChildren = undefined
+              }
+            }
+            if (childTree) {
+              if (
+                hasSpanMethod &&
+                index + 1 < spanEnd &&
+                index < children.length - 1 &&
+                nodes?.length
+              ) {
+                pendingChildren ??= []
+                pendingChildren.push(() => traverse(nodes, childTree))
+              } else {
+                traverse(nodes, childTree)
+              }
             }
           })
         }
         // 对于 root 节点，display 一定为 true
-        cur.display = true
+        root.display = true
         const nodes =
           lazyTreeNodeMap.value[key] || row[childrenColumnName.value]
-        traverse(nodes, cur)
+        if (deferChildren && nodes?.length) {
+          pendingTreeRows ??= []
+          pendingTreeRows.push((rows, startIndex) => {
+            childrenRows = rows
+            // traverse increments i before rendering; hidden rows still count toward indices.
+            i = startIndex - $index - 1
+            traverse(nodes, root)
+          })
+        } else {
+          traverse(nodes, root)
+        }
       }
       return tmp
     } else {
