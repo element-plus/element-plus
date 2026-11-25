@@ -273,3 +273,34 @@ el.style['--el-color-primary'] = 'red'
 
 If you want a more elegant way, check this out.
 [useCssVar | VueUse](https://vueuse.org/core/usecssvar/)
+
+### RGB channel variables ^(2.14.9)
+
+Every theme color and its light/dark variants have a companion RGB channel
+variable, generated for both light and dark themes. They can be composed with
+`rgba()` to build translucent colors that follow the theme:
+
+```css
+/* --el-color-primary-light-9 is #ecf5ff */
+--el-color-primary-light-9-rgb: 236, 245, 255;
+
+.custom-class {
+  /* 10% translucent primary */
+  background-color: rgba(var(--el-color-primary-rgb), 0.1);
+  /* translucent primary-light-9 */
+  border-color: rgba(var(--el-color-primary-light-9-rgb), 0.5);
+}
+```
+
+The `-rgb` variables are generated from the same color map as their hex
+counterparts, so customizing colors with SCSS variables updates them too. In
+dark mode they are regenerated with the dark values, so translucent colors
+adapt to dark themes automatically.
+
+:::warning
+
+Overriding `--el-color-primary` at runtime does not cascade to its variants,
+including their `-rgb` counterparts. Override the specific variables you need,
+or customize colors through SCSS variables at compile time.
+
+:::
