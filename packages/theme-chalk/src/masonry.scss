@@ -1,0 +1,15 @@
+@use 'mixins/mixins' as *;
+
+@include b(masonry) {
+  position: relative;
+
+  @include e(content) {
+    position: relative;
+    width: 100%;
+  }
+
+  @include e(item) {
+    box-sizing: border-box;
+    position: absolute;
+  }
+}
