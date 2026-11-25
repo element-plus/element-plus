@@ -281,8 +281,9 @@ variable, generated for both light and dark themes. They can be composed with
 `rgba()` to build translucent colors that follow the theme:
 
 ```css
-/* --el-color-primary-light-9 is #ecf5ff */
---el-color-primary-light-9-rgb: 236, 245, 255;
+/* shipped by Element Plus in both light and dark themes, e.g.
+   --el-color-primary-light-9 is #ecf5ff, so its channel variable is
+   --el-color-primary-light-9-rgb: 236, 245, 255 */
 
 .custom-class {
   /* 10% translucent primary */
