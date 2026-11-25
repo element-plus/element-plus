@@ -33,20 +33,26 @@ export const useTree = (
     key: Ref<string>
   }
 ) => {
+  // 最后一次真正同步到树里的 modelValue。空树的 checked keys 恒为空，
+  // 与 modelValue 的比较说明不了任何问题，所以只在树里有节点时记录
+  // the last `modelValue` that was actually synced into the tree. An empty tree
+  // always reports no checked keys, so comparing them with `modelValue` proves
+  // nothing there, and the snapshot is only taken while the tree has nodes
+  let syncedKeys = toValidArray(props.modelValue)
+
   watch(
     [() => props.modelValue, tree],
     () => {
       if (props.showCheckbox) {
         nextTick(() => {
           const treeInstance = tree.value
-          if (
-            treeInstance &&
-            !isEqual(
-              treeInstance.getCheckedKeys(),
-              toValidArray(props.modelValue)
-            )
-          ) {
-            treeInstance.setCheckedKeys(toValidArray(props.modelValue))
+          if (!treeInstance) return
+          const checkedKeys = toValidArray(props.modelValue)
+          if (!isEqual(treeInstance.getCheckedKeys(), checkedKeys)) {
+            treeInstance.setCheckedKeys(checkedKeys)
+          }
+          if (isValidArray(props.data)) {
+            syncedKeys = checkedKeys
           }
         })
       }
@@ -54,6 +60,28 @@ export const useTree = (
     {
       immediate: true,
       deep: true,
+    }
+  )
+
+  // modelValue 在树里没有节点时发生变化，这次同步无处可做，而 tree store 仍保留着
+  // 之前写入的 checked keys，数据回来时会把它们重新应用。因此数据回来后，
+  // 只要 modelValue 与最后一次同步的值不同，就再同步一次
+  // a `modelValue` change that lands while the tree has no nodes cannot be
+  // applied, while the tree store still holds the checked keys written into it
+  // earlier and re-applies them once the data is back. So when the data returns,
+  // sync again whenever `modelValue` differs from the last synced value
+  watch(
+    () => props.data,
+    () => {
+      if (!props.showCheckbox) return
+      nextTick(() => {
+        const treeInstance = tree.value
+        if (!treeInstance || !isValidArray(props.data)) return
+        const checkedKeys = toValidArray(props.modelValue)
+        if (isEqual(checkedKeys, syncedKeys)) return
+        treeInstance.setCheckedKeys(checkedKeys)
+        syncedKeys = checkedKeys
+      })
     }
   )
 
