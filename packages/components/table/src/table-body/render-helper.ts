@@ -48,12 +48,73 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
   let rootIndex = 0
   let rootSpanEnd = 0
   let pendingTreeRows: ((rows: VNode[], index: number) => void)[] | undefined
-  // Reuse rendered spans so span-method is only called once per cell.
-  const getRowspan = (row: VNode) =>
-    (row.children as (VNode | null)[]).reduce(
-      (span, cell) => Math.max(span, cell?.props?.rowspan || 1),
-      1
+  type CellSpan = ReturnType<typeof getSpan>
+  let spanCache: Map<T, Map<number, (CellSpan | undefined)[]>> | undefined
+  const getSiblingSpan = (row: T, rowIndex: number, columnIndex: number) => {
+    const cached = spanCache?.get(row)?.get(rowIndex)?.[columnIndex]
+    if (cached) return cached
+    const span = getSpan(
+      row,
+      props.store!.states.columns.value[columnIndex],
+      rowIndex,
+      columnIndex
     )
+    // Lookahead is position-dependent and is discarded after each body render.
+    spanCache ??= new Map()
+    let rowCache = spanCache.get(row)
+    if (!rowCache) {
+      rowCache = new Map()
+      spanCache.set(row, rowCache)
+    }
+    let cells = rowCache.get(rowIndex)
+    if (!cells) {
+      cells = []
+      rowCache.set(rowIndex, cells)
+    }
+    cells[columnIndex] = span
+    return span
+  }
+  const getSiblingSpanEnd = (
+    siblings: T[],
+    start: number,
+    rowIndex: number,
+    rendered: VNode
+  ) => {
+    const firstCells = rendered.children as (VNode | null)[]
+    if (!firstCells.some((cell) => cell?.props?.rowspan > 1)) return start + 1
+    const columns = props.store!.states.columns.value
+    const coveredUntil: number[] = []
+    let end = start + 1
+    for (let index = start; index < end; index++) {
+      for (let columnIndex = 0; columnIndex < columns.length; columnIndex++) {
+        const { rowspan, colspan } =
+          index === start
+            ? {
+                rowspan: firstCells[columnIndex]?.props?.rowspan ?? 0,
+                colspan: firstCells[columnIndex]?.props?.colspan ?? 0,
+              }
+            : getSiblingSpan(
+                siblings[index],
+                rowIndex + index - start,
+                columnIndex
+              )
+        if (!rowspan || !colspan) continue
+        const rowEnd = index + Math.max(1, rowspan)
+        if (rowEnd > siblings.length) return start + 1
+        for (
+          let column = columnIndex;
+          column < Math.min(columns.length, columnIndex + colspan);
+          column++
+        ) {
+          // Independent cells in a covered column rule out a sibling merge.
+          if (coveredUntil[column] > index) return start + 1
+          coveredUntil[column] = rowEnd
+        }
+        end = Math.max(end, rowEnd)
+      }
+    }
+    return end
+  }
 
   const firstDefaultColumnIndex = computed(() => {
     return props.store?.states.columns.value.findIndex(
@@ -102,7 +163,9 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
         onMouseleave: handleMouseLeave,
       },
       columns.value.map((column, cellIndex) => {
-        const { rowspan, colspan } = getSpan(row, column, $index, cellIndex)
+        const { rowspan, colspan } =
+          spanCache?.get(row)?.get($index)?.[cellIndex] ??
+          getSpan(row, column, $index, cellIndex)
         if (!rowspan || !colspan) {
           return null
         }
@@ -246,6 +309,7 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
           treeRowData.loading = cur.loading
         }
       }
+      if ($index === 0) spanCache = undefined
       const tmp = [rowRender(row, $index, treeRowData ?? undefined)]
       const hasSpanMethod = !!parent.props.spanMethod
       if (hasSpanMethod) {
@@ -255,10 +319,16 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
           pendingTreeRows = undefined
         }
         rootIndex++
-        rootSpanEnd = Math.max(rootSpanEnd, rootIndex + getRowspan(tmp[0]) - 1)
+        if (rootIndex > rootSpanEnd) {
+          rootSpanEnd = getSiblingSpanEnd(
+            store.states.data.value,
+            rootIndex - 1,
+            $index,
+            tmp[0]
+          )
+        }
       }
-      // Keep merged siblings adjacent before inserting descendants.
-      // Flush at the last sibling even if rowspan exceeds the remaining rows.
+      // Defer descendants only for a confirmed merge between siblings.
       const deferChildren =
         hasSpanMethod &&
         rootIndex < rootSpanEnd &&
@@ -320,7 +390,9 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
               (lazyTreeNodeMap.value[childKey] ||
                 node[childrenColumnName.value])
             if (hasSpanMethod) {
-              spanEnd = Math.max(spanEnd, index + getRowspan(tr))
+              if (index >= spanEnd) {
+                spanEnd = getSiblingSpanEnd(children, index, $index + i, tr)
+              }
               if (
                 pendingChildren &&
                 (index + 1 >= spanEnd || index === children.length - 1)
@@ -359,6 +431,9 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
         } else {
           traverse(nodes, root)
         }
+      }
+      if (hasSpanMethod && rootIndex === store.states.data.value.length) {
+        spanCache = undefined
       }
       return tmp
     } else {
