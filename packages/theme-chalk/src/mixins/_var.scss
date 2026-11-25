@@ -20,18 +20,24 @@
 }
 
 @mixin set-css-color-type($colors, $type) {
-  @include set-css-var-value(('color', $type), map.get($colors, $type, 'base'));
+  $base-color: map.get($colors, $type, 'base');
+  @include set-css-var-value(('color', $type), $base-color);
+  @include set-css-color-rgb-value(('color', $type, 'rgb'), $base-color);
 
   @each $i in (3, 5, 7, 8, 9) {
-    @include set-css-var-value(
-      ('color', $type, 'light', $i),
-      map.get($colors, $type, 'light-#{$i}')
+    $light-color: map.get($colors, $type, 'light-#{$i}');
+    @include set-css-var-value(('color', $type, 'light', $i), $light-color);
+    @include set-css-color-rgb-value(
+      ('color', $type, 'light-#{$i}', 'rgb'),
+      $light-color
     );
   }
 
-  @include set-css-var-value(
-    ('color', $type, 'dark-2'),
-    map.get($colors, $type, 'dark-2')
+  $dark-color: map.get($colors, $type, 'dark-2');
+  @include set-css-var-value(('color', $type, 'dark-2'), $dark-color);
+  @include set-css-color-rgb-value(
+    ('color', $type, 'dark-2', 'rgb'),
+    $dark-color
   );
 }
 
@@ -46,10 +52,9 @@
   }
 }
 
-@mixin set-css-color-rgb($type) {
-  $color: map.get($colors, $type, 'base');
+@mixin set-css-color-rgb-value($name, $color) {
   @include set-css-var-value(
-    ('color', $type, 'rgb'),
+    $name,
     #{color.channel($color, 'red', $space: rgb),
     color.channel($color, 'green', $space: rgb),
     color.channel($color, 'blue', $space: rgb)}

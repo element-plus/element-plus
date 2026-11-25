@@ -50,11 +50,13 @@
 // joinVarName(('button', 'text-color')) => '--el-button-text-color'
 @function joinVarName($list) {
   $name: '--' + config.$namespace;
+
   @each $item in $list {
     @if $item != '' {
       $name: $name + '-' + $item;
     }
   }
+
   @return $name;
 }
 
@@ -96,4 +98,11 @@
   $a: color.channel($color, 'alpha');
 
   @return rgba($r, $g, $b, $a);
+}
+
+// mix base color with $mix-color by $number/10 ratio，used by set-color-mix-level to generate color light/dark levels
+@function getColorMixLevel($base-color, $number, $mix-color) {
+  @return roundColor(
+    color.mix($mix-color, $base-color, math.percentage(math.div($number, 10)))
+  );
 }
