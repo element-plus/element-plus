@@ -171,7 +171,9 @@
 import {
   computed,
   mergeProps,
+  nextTick,
   onBeforeUnmount,
+  onBeforeUpdate,
   onMounted,
   ref,
   useAttrs as useRawAttrs,
@@ -179,7 +181,11 @@ import {
   watch,
 } from 'vue'
 import { pick } from 'lodash-unified'
-import { onClickOutside, useDebounceFn } from '@vueuse/core'
+import {
+  onClickOutside,
+  useDebounceFn,
+  useMutationObserver,
+} from '@vueuse/core'
 import { Loading } from '@element-plus/icons-vue'
 import { useId, useNamespace } from '@element-plus/hooks'
 import {
@@ -248,6 +254,7 @@ const passInputProps = computed(() => {
 
 const rawAttrs = useRawAttrs()
 const slots = useSlots()
+const hasCustomSlot = ref(!!slots.default)
 const disabled = useFormDisabled()
 const ns = useNamespace('autocomplete')
 const mouseMoveEventName = isIOS ? null : 'mousemove'
@@ -265,10 +272,22 @@ const highlightedIndex = ref(-1)
 const dropdownWidth = ref('')
 const virtualListWidth = ref<string | number>('100%')
 const suggestionsVersion = ref(0)
+const customSlotWidths = new Map<number, number>()
 let customSlotWidth = 0
+const resetCustomSlotWidths = () => {
+  customSlotWidths.clear()
+  customSlotWidth = 0
+}
 const activated = ref(false)
 const suggestionDisabled = ref(false)
 const loading = ref(false)
+
+// Slot presence is not reactive in production.
+onBeforeUpdate(() => {
+  if (hasCustomSlot.value === !!slots.default) return
+  hasCustomSlot.value = !!slots.default
+  resetCustomSlotWidths()
+})
 
 const listboxId = useId()
 const styles = computed(() => rawAttrs.style as StyleValue)
@@ -315,10 +334,16 @@ watch(
 )
 
 const suggestionLabels = computed(() =>
-  props.virtualScroll && props.fitInputWidth === false && !slots.default
+  props.virtualScroll && props.fitInputWidth === false && !hasCustomSlot.value
     ? suggestions.value.map((item) => String(item[props.valueKey] ?? ''))
     : []
 )
+
+const isContentMutation = ({ target }: MutationRecord) => {
+  const element =
+    target.nodeType === 1 ? (target as Element) : target.parentElement
+  return !!element?.closest(`.${ns.be('suggestion', 'item-content')}`)
+}
 
 const measureSlotWidth = () => {
   const items = virtualListRef.value?.innerRef?.children
@@ -337,19 +362,38 @@ const measureSlotWidth = () => {
       content.style.flex = 'none'
       content.style.width = 'max-content'
     })
-    let maxWidth = 0
+    let shouldRecalculate = false
     contents.forEach(({ item, content }) => {
       const style = getComputedStyle(item)
       const padding =
         Number.parseFloat(style.paddingLeft) +
         Number.parseFloat(style.paddingRight)
-      maxWidth = Math.max(maxWidth, content.scrollWidth + padding)
+      const contentWidth = Math.max(
+        content.scrollWidth,
+        Number.parseFloat(getComputedStyle(content).width) || 0
+      )
+      const index = Number(item.getAttribute('aria-posinset')) - 1
+      const previousWidth = customSlotWidths.get(index)
+      const width = contentWidth + padding
+      customSlotWidths.set(index, width)
+      if (previousWidth === customSlotWidth && width < previousWidth) {
+        shouldRecalculate = true
+      }
+      customSlotWidth = Math.max(customSlotWidth, width)
     })
-    return maxWidth
+    if (shouldRecalculate) {
+      customSlotWidth = 0
+      for (const width of customSlotWidths.values()) {
+        customSlotWidth = Math.max(customSlotWidth, width)
+      }
+    }
+    return customSlotWidth
   } finally {
     contents.forEach(({ content }, index) => {
       content.style.cssText = styles[index]
     })
+    // Discard only the temporary style mutations produced by this measurement.
+    takeRecords()
   }
 }
 
@@ -364,9 +408,23 @@ const measureTextWidth = (labels: string[]) => {
   if (!ctx) return 0
 
   ctx.font = contentStyle.font
+  const supportsLetterSpacing = 'letterSpacing' in ctx
+  const supportsWordSpacing = 'wordSpacing' in ctx
+  const letterSpacing = Number.parseFloat(contentStyle.letterSpacing) || 0
+  const wordSpacing = Number.parseFloat(contentStyle.wordSpacing) || 0
+  ctx.letterSpacing = `${letterSpacing}px`
+  ctx.wordSpacing = `${wordSpacing}px`
   let maxWidth = 0
   for (const label of labels) {
-    maxWidth = Math.max(maxWidth, ctx.measureText(label).width)
+    let width = ctx.measureText(label).width
+    // Keep the fallback wide enough on canvases without spacing support.
+    if (!supportsLetterSpacing && letterSpacing > 0) {
+      width += Array.from(label).length * letterSpacing
+    }
+    if (!supportsWordSpacing && wordSpacing > 0) {
+      width += (label.match(/[ \u00A0]/g)?.length ?? 0) * wordSpacing
+    }
+    maxWidth = Math.max(maxWidth, width)
   }
 
   const itemStyle = getComputedStyle(item)
@@ -377,17 +435,24 @@ const measureTextWidth = (labels: string[]) => {
 }
 
 const updateVirtualListWidth = () => {
-  if (!props.virtualScroll) return
+  if (!props.virtualScroll) {
+    resetCustomSlotWidths()
+    return
+  }
   if (props.fitInputWidth !== false || !suggestions.value.length) {
+    resetCustomSlotWidths()
     virtualListWidth.value = '100%'
     return
   }
+  if (!suggestionVisible.value || !regionRef.value?.getClientRects().length)
+    return
+
+  takeRecords()
 
   let contentWidth: number
-  if (slots.default) {
-    // Keep the widest mounted item until a new result set arrives.
-    customSlotWidth = Math.max(customSlotWidth, measureSlotWidth())
-    contentWidth = customSlotWidth
+  if (hasCustomSlot.value) {
+    // Preserve cached widths of items outside the rendered range.
+    contentWidth = measureSlotWidth()
   } else {
     contentWidth = measureTextWidth(suggestionLabels.value)
   }
@@ -395,6 +460,33 @@ const updateVirtualListWidth = () => {
     Math.max(Number.parseFloat(dropdownWidth.value) || 0, contentWidth)
   )
 }
+
+let widthUpdatePending = false
+const scheduleVirtualListWidthUpdate = () => {
+  if (widthUpdatePending) return
+  widthUpdatePending = true
+  nextTick(() => {
+    widthUpdatePending = false
+    updateVirtualListWidth()
+  })
+}
+
+const { takeRecords } = useMutationObserver(
+  () =>
+    props.virtualScroll && props.fitInputWidth === false
+      ? virtualListRef.value?.innerRef
+      : undefined,
+  (mutations) => {
+    if (!mutations.some(isContentMutation)) return
+    scheduleVirtualListWidthUpdate()
+  },
+  {
+    subtree: true,
+    childList: true,
+    characterData: true,
+    attributes: true,
+  }
+)
 
 watch(
   [
@@ -406,7 +498,7 @@ watch(
     dropdownWidth,
     virtualListRef,
     () =>
-      slots.default
+      hasCustomSlot.value
         ? [
             props.itemSize,
             virtualListHeight.value,
@@ -414,7 +506,7 @@ watch(
           ]
         : null,
   ],
-  updateVirtualListWidth,
+  scheduleVirtualListWidthUpdate,
   { flush: 'post' }
 )
 
@@ -440,6 +532,7 @@ const refInput = computed<HTMLInputElement[]>(() => {
 const onSuggestionShow = () => {
   if (suggestionVisible.value) {
     dropdownWidth.value = `${inputRef.value!.$el.offsetWidth}px`
+    scheduleVirtualListWidthUpdate()
   }
 }
 
@@ -455,7 +548,7 @@ const getData = async (queryString: string) => {
     if (suggestionDisabled.value) return
 
     if (isArray(suggestionList)) {
-      customSlotWidth = 0
+      resetCustomSlotWidths()
       suggestionsVersion.value++
       suggestions.value = suggestionList
       highlightedIndex.value = props.highlightFirstItem ? 0 : -1
