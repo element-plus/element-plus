@@ -94,19 +94,14 @@ const FixedSizeGrid = createGrid({
     { rowHeight, height, totalRow },
     rowIndex,
     align,
-    scrollTop,
-    _,
-    scrollBarWidth
+    scrollTop
   ): number => {
     height = Number(height)
     const lastRowOffset = Math.max(0, totalRow * (rowHeight as number) - height)
     const maxOffset = Math.min(lastRowOffset, rowIndex * (rowHeight as number))
     const minOffset = Math.max(
       0,
-      rowIndex * (rowHeight as number) -
-        height +
-        scrollBarWidth +
-        (rowHeight as number)
+      rowIndex * (rowHeight as number) - height + (rowHeight as number)
     )
 
     if (align === SMART_ALIGNMENT) {
