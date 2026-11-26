@@ -2385,6 +2385,80 @@ describe('Table.vue', () => {
       expect(table.getSelectionRows()).toEqual([])
     })
 
+    it('uses top-level selection indices when an expand column renders the rows', async () => {
+      const rows = [{ id: 1, children: [{ id: 2 }] }, { id: 3 }]
+      wrapper = mount({
+        components: { ElTable, ElTableColumn },
+        setup: () => ({
+          rows,
+          selectable: (row, index) => row.id === 3 && index === 1,
+        }),
+        template: `
+          <el-table :data="rows" row-key="id" default-expand-all>
+            <el-table-column type="selection" :selectable="selectable" />
+            <el-table-column type="expand"><template #default>Details</template></el-table-column>
+          </el-table>
+        `,
+      })
+      await doubleWait()
+
+      const checkboxes = wrapper.findAll('.el-table__body .el-checkbox')
+      expect(checkboxes).toHaveLength(2)
+      expect(checkboxes[1].classes()).not.toContain('is-disabled')
+      await checkboxes[1].trigger('click')
+      const table = wrapper.getComponent(ElTable)
+      expect(table.vm.getSelectionRows()).toEqual([rows[1]])
+      expect(table.emitted('select')?.[0]).toEqual([[rows[1]], rows[1]])
+      table.vm.clearSelection()
+      table.vm.toggleAllSelection()
+      await doubleWait()
+      expect(table.vm.getSelectionRows()).toEqual([rows[1]])
+    })
+
+    it('counts loaded lazy descendants when checking later siblings', async () => {
+      const rows = [
+        { id: 'A', children: [{ id: 'a' }] },
+        { id: 'B', children: [{ id: 'b', hasChildren: true }, { id: 'c' }] },
+      ]
+      wrapper = mount({
+        components: { ElTable, ElTableColumn },
+        setup: () => ({
+          rows,
+          load: (_row, _node, resolve) => resolve([{ id: 'd' }]),
+          selectable: (_row, index) => index !== 4,
+        }),
+        template: `
+          <el-table :data="rows" row-key="id" lazy :load="load" :expand-row-keys="['B']">
+            <el-table-column type="selection" :selectable="selectable" />
+            <el-table-column prop="id" />
+          </el-table>
+        `,
+      })
+      await doubleWait()
+      const rowById = (id: string) =>
+        wrapper.findAll('.el-table__row').find((row) => row.text() === id)!
+      await rowById('b').get('.el-table__expand-icon').trigger('click')
+      await doubleWait()
+
+      // Row order is A, a, B, b, d, c. Only the lazy child d is disabled.
+      expect(rowById('d').get('.el-checkbox').classes()).toContain(
+        'is-disabled'
+      )
+      const table = wrapper.getComponent(ElTable).vm
+      const selectedIds = () =>
+        table
+          .getSelectionRows()
+          .map((row) => row.id)
+          .sort()
+      await rowById('B').get('.el-checkbox').trigger('click')
+      expect(selectedIds()).toEqual(['B', 'b', 'c'])
+
+      table.clearSelection()
+      table.toggleAllSelection()
+      await doubleWait()
+      expect(selectedIds()).toEqual(['A', 'B', 'a', 'b', 'c'])
+    })
+
     it('lazy tree selection linkage', async () => {
       wrapper = mount({
         components: {
