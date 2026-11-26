@@ -62,7 +62,11 @@
         ref="regionRef"
         :class="[ns.b('suggestion'), ns.is('loading', suggestionLoading)]"
         :style="{
-          [fitInputWidth ? 'width' : 'minWidth']: dropdownWidth,
+          [fitInputWidth === false ? 'minWidth' : 'width']: isNumber(
+            fitInputWidth
+          )
+            ? `${fitInputWidth}px`
+            : dropdownWidth,
           outline: 'none',
         }"
         role="region"
@@ -96,6 +100,7 @@
             :total="suggestions.length"
             :height="virtualListHeight"
             :item-size="itemSize"
+            :inner-width="virtualListWidth"
             :class-name="ns.be('suggestion', 'virtual-list')"
             inner-element="ul"
             :inner-props="{
@@ -170,7 +175,9 @@ import {
   onMounted,
   ref,
   useAttrs as useRawAttrs,
+  useSlots,
   watch,
+  watchPostEffect,
 } from 'vue'
 import { pick } from 'lodash-unified'
 import { onClickOutside, useDebounceFn } from '@vueuse/core'
@@ -181,6 +188,7 @@ import {
   getEventCode,
   isArray,
   isIOS,
+  isNumber,
   throwError,
 } from '@element-plus/utils'
 import {
@@ -222,6 +230,7 @@ const props = withDefaults(defineProps<AutocompleteProps<T>>(), {
   fetchSuggestions: NOOP,
   triggerOnFocus: true,
   loopNavigation: true,
+  fitInputWidth: false,
   virtualScroll: false,
   itemSize: 34,
   height: 280,
@@ -239,6 +248,7 @@ const passInputProps = computed(() => {
 })
 
 const rawAttrs = useRawAttrs()
+const slots = useSlots()
 const disabled = useFormDisabled()
 const ns = useNamespace('autocomplete')
 const mouseMoveEventName = isIOS ? null : 'mousemove'
@@ -254,6 +264,7 @@ let ignoreFocusEvent = false
 const suggestions = ref([]) as Ref<AutocompleteData<T>>
 const highlightedIndex = ref(-1)
 const dropdownWidth = ref('')
+const virtualListWidth = ref<string | number>('100%')
 const activated = ref(false)
 const suggestionDisabled = ref(false)
 const loading = ref(false)
@@ -301,8 +312,44 @@ watch(
   { flush: 'post' }
 )
 
+const calculateVirtualListWidth = () => {
+  const data = suggestions.value
+  if (props.fitInputWidth !== false || slots.default || !data.length)
+    return '100%'
+
+  const item = virtualListRef.value?.innerRef?.querySelector('li')
+  const content = item?.querySelector(`.${ns.be('suggestion', 'item-content')}`)
+  if (!item || !content) return '100%'
+
+  const contentStyle = getComputedStyle(content)
+  if (!contentStyle.font) return '100%'
+  const ctx = document.createElement('canvas').getContext('2d')
+  if (!ctx) return '100%'
+
+  ctx.font = contentStyle.font
+  let maxWidth = 0
+  for (const suggestion of data) {
+    const label = String(suggestion[props.valueKey] ?? '')
+    maxWidth = Math.max(maxWidth, ctx.measureText(label).width)
+  }
+
+  const itemStyle = getComputedStyle(item)
+  const padding =
+    Number.parseFloat(itemStyle.paddingLeft) +
+    Number.parseFloat(itemStyle.paddingRight)
+  return Math.ceil(
+    Math.max(Number.parseFloat(dropdownWidth.value) || 0, maxWidth + padding)
+  )
+}
+
+watchPostEffect(() => {
+  if (props.virtualScroll) {
+    virtualListWidth.value = calculateVirtualListWidth()
+  }
+})
+
 watch(
-  [virtualListHeight, suggestionLoading, virtualListRef],
+  [virtualListHeight, virtualListWidth, suggestionLoading, virtualListRef],
   () => {
     if (props.virtualScroll && suggestionVisible.value) {
       popperRef.value?.updatePopper?.()

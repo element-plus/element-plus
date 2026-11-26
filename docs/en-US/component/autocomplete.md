@@ -67,6 +67,14 @@ autocomplete/virtual-scroll
 
 :::
 
+## Custom Width ^(2.14.9)
+
+:::demo Set `fit-input-width` to `false` to size the dropdown based on its content, `true` to match the input width, or a number to specify a fixed width in pixels.
+
+autocomplete/custom-width
+
+:::
+
 ## API
 
 ### Attributes
@@ -93,7 +101,7 @@ autocomplete/virtual-scroll
 | teleported                           | whether select dropdown is teleported to the body                                                                          | ^[boolean]                                                                               | true         |
 | append-to ^(2.9.9)                   | which select dropdown appends to                                                                                           | ^[CSSSelector] / ^[HTMLElement]                                                          | —            |
 | highlight-first-item                 | whether to highlight first item in remote search suggestions by default                                                    | ^[boolean]                                                                               | false        |
-| fit-input-width                      | whether the width of the dropdown is the same as the input                                                                 | ^[boolean]                                                                               | false        |
+| fit-input-width ^(2.14.9)            | whether the width of the dropdown is the same as the input; a number sets a fixed width in pixels                          | ^[boolean] / ^[number]                                                                   | false        |
 | popper-append-to-body ^(deprecated)  | whether to append the dropdown to body. If the positioning of the dropdown is wrong, you can try to set this prop to false | ^[boolean]                                                                               | false        |
 | loop-navigation ^(2.11.4)            | whether keyboard navigation loops from end to start                                                                        | ^[boolean]                                                                               | true         |
 | [input props](./input.md#attributes) | —                                                                                                                          | —                                                                                        | —            |

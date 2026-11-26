@@ -105,9 +105,9 @@ export interface AutocompleteProps<
    */
   highlightFirstItem?: boolean
   /**
-   * @description whether the width of the dropdown is the same as the input
+   * @description whether the width of the dropdown is the same as the input; a number sets a fixed width in pixels
    */
-  fitInputWidth?: boolean
+  fitInputWidth?: boolean | number
   /**
    * @description whether keyboard navigation loops from end to start
    */
@@ -215,9 +215,12 @@ export const autocompleteProps = buildProps({
    */
   highlightFirstItem: Boolean,
   /**
-   * @description whether the width of the dropdown is the same as the input
+   * @description whether the width of the dropdown is the same as the input; a number sets a fixed width in pixels
    */
-  fitInputWidth: Boolean,
+  fitInputWidth: {
+    type: [Boolean, Number],
+    default: false,
+  },
   /**
    * @description whether keyboard navigation loops from end to start
    */
