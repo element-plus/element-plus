@@ -97,6 +97,14 @@ export interface NotificationProps {
    * @description whether to pause the timer when hovering over the notification
    */
   pauseOnHover?: boolean
+  /**
+   * @description whether the Notification can be closed by pressing ESC
+   */
+  closeOnPressEscape?: boolean
+  /**
+   * @description whether to pause the timer when pressing Delete or Backspace (and resume on other keys)
+   */
+  pauseOnKeydown?: boolean
 }
 
 /**
@@ -218,6 +226,20 @@ export const notificationProps = buildProps({
    * @description whether to pause the timer when hovering over the notification
    */
   pauseOnHover: {
+    type: Boolean,
+    default: true,
+  },
+  /**
+   * @description whether the Notification can be closed by pressing ESC
+   */
+  closeOnPressEscape: {
+    type: Boolean,
+    default: true,
+  },
+  /**
+   * @description whether to pause the timer when pressing Delete or Backspace (and resume on other keys)
+   */
+  pauseOnKeydown: {
     type: Boolean,
     default: true,
   },
