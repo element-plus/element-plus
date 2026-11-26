@@ -11,7 +11,7 @@
     >
       <component
         :is="labelFor ? 'label' : 'div'"
-        v-if="!!(label || $slots.label)"
+        v-if="hasLabel"
         :id="labelId"
         :for="labelFor"
         :class="ns.e('label')"
@@ -42,6 +42,7 @@ import {
   inject,
   nextTick,
   onBeforeUnmount,
+  onBeforeUpdate,
   onMounted,
   provide,
   reactive,
@@ -164,9 +165,11 @@ const propString = computed(() => {
   return isArray(props.prop) ? props.prop.join('.') : props.prop
 })
 
-const hasLabel = computed<boolean>(() => {
-  return !!(props.label || slots.label)
+const hasLabelSlot = ref(!!slots.label)
+onBeforeUpdate(() => {
+  hasLabelSlot.value = !!slots.label
 })
+const hasLabel = computed(() => !!props.label || hasLabelSlot.value)
 
 const labelFor = computed<string | undefined>(() => {
   return (
