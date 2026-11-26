@@ -2459,6 +2459,51 @@ describe('Table.vue', () => {
       expect(selectedIds()).toEqual(['A', 'B', 'a', 'b', 'c'])
     })
 
+    it("indexes loaded children in place of a lazy row's inline children", async () => {
+      const rows = [
+        { id: 'parent', hasChildren: true, children: [{ id: 'inline' }] },
+        { id: 'next' },
+      ]
+      wrapper = mount({
+        components: { ElTable, ElTableColumn },
+        setup: () => ({
+          rows,
+          load: (_row, _node, resolve) => resolve([{ id: 'loaded' }]),
+          selectable: (_row, index) => index === 2,
+        }),
+        template: `
+          <el-table :data="rows" row-key="id" lazy :load="load" :tree-props="{ checkStrictly: true }">
+            <el-table-column type="selection" :selectable="selectable" />
+            <el-table-column prop="id" />
+          </el-table>
+        `,
+      })
+      await doubleWait()
+      await wrapper.get('.el-table__expand-icon').trigger('click')
+      await doubleWait()
+
+      const bodyRows = wrapper.findAll('.el-table__row')
+      expect(bodyRows.map((row) => row.text())).toEqual([
+        'parent',
+        'loaded',
+        'next',
+      ])
+      const checkbox = bodyRows[2].get('.el-checkbox')
+      expect(checkbox.classes()).not.toContain('is-disabled')
+      await checkbox.trigger('click')
+      const table = wrapper.getComponent(ElTable).vm
+      expect(table.getSelectionRows()).toEqual([rows[1]])
+
+      table.clearSelection()
+      table.updateKeyChildren('parent', [])
+      await doubleWait()
+      expect(
+        wrapper.findAll('.el-table__row').map((row) => row.text())
+      ).toEqual(['parent', 'next'])
+      table.toggleRowSelection(rows[1], true, false)
+      expect(table.getSelectionRows()).toEqual([])
+    })
+
     it('lazy tree selection linkage', async () => {
       wrapper = mount({
         components: {
