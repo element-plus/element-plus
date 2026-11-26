@@ -490,6 +490,88 @@ describe('Notification.vue', () => {
         vi.useRealTimers()
       }
     })
+
+    test('should resume timer with remaining duration when pauseOnKeydown changes from true to false after Backspace pause', async () => {
+      vi.useFakeTimers()
+      try {
+        const wrapper = _mount({
+          props: {
+            duration: 1000,
+            pauseOnKeydown: true,
+          },
+        })
+
+        vi.advanceTimersByTime(200)
+        document.dispatchEvent(
+          new KeyboardEvent('keydown', {
+            code: EVENT_CODE.backspace,
+            bubbles: true,
+          })
+        )
+
+        vi.advanceTimersByTime(2000)
+        expect(wrapper.vm.visible).toBe(true)
+
+        await wrapper.setProps({ pauseOnKeydown: false })
+        vi.advanceTimersByTime(799)
+        expect(wrapper.vm.visible).toBe(true)
+
+        vi.advanceTimersByTime(1)
+        expect(wrapper.vm.visible).toBe(false)
+        wrapper.unmount()
+
+        // Disabling pauseOnKeydown while timer is running must not reset elapsed time
+        const runningWrapper = _mount({
+          props: {
+            duration: 1000,
+            pauseOnKeydown: true,
+          },
+        })
+        vi.advanceTimersByTime(600)
+        await runningWrapper.setProps({ pauseOnKeydown: false })
+        vi.advanceTimersByTime(400)
+        expect(runningWrapper.vm.visible).toBe(false)
+        runningWrapper.unmount()
+      } finally {
+        vi.useRealTimers()
+      }
+    })
+
+    test('should keep timer paused when hovered even if pauseOnKeydown changes to false', async () => {
+      vi.useFakeTimers()
+      try {
+        const wrapper = _mount({
+          props: {
+            duration: 1000,
+            pauseOnHover: true,
+            pauseOnKeydown: true,
+          },
+        })
+
+        vi.advanceTimersByTime(200)
+        document.dispatchEvent(
+          new KeyboardEvent('keydown', {
+            code: EVENT_CODE.backspace,
+            bubbles: true,
+          })
+        )
+        await wrapper.find('[role=alert]').trigger('mouseenter')
+        await wrapper.setProps({ pauseOnKeydown: false })
+
+        vi.advanceTimersByTime(2000)
+        expect(wrapper.vm.visible).toBe(true)
+
+        await wrapper.find('[role=alert]').trigger('mouseleave')
+        vi.advanceTimersByTime(799)
+        expect(wrapper.vm.visible).toBe(true)
+
+        vi.advanceTimersByTime(1)
+        expect(wrapper.vm.visible).toBe(false)
+        wrapper.unmount()
+      } finally {
+        vi.useRealTimers()
+      }
+    })
   })
 
   describe('progress bar', () => {

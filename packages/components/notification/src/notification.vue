@@ -149,6 +149,7 @@ const { pause: pauseProgress, resume: resumeProgress } = useIntervalFn(
 )
 
 function startTimer() {
+  isPausedByKeydown = false
   if (props.duration <= 0) return
 
   timer?.()
@@ -179,6 +180,7 @@ function clearTimer() {
 }
 
 let isHovered = false
+let isPausedByKeydown = false
 
 function onMouseEnter() {
   isHovered = true
@@ -202,6 +204,7 @@ function onKeydown(event: KeyboardEvent) {
     case EVENT_CODE.delete:
     case EVENT_CODE.backspace:
       if (props.pauseOnKeydown) {
+        isPausedByKeydown = true
         clearTimer() // press delete/backspace clear timer
       }
       break
@@ -239,6 +242,18 @@ watch(
     }
   },
   { immediate: true }
+)
+
+watch(
+  () => props.pauseOnKeydown,
+  (pauseOnKeydown) => {
+    if (!pauseOnKeydown && isPausedByKeydown) {
+      isPausedByKeydown = false
+      if (visible.value && !(isHovered && props.pauseOnHover)) {
+        startTimer()
+      }
+    }
+  }
 )
 
 onScopeDispose(() => {
