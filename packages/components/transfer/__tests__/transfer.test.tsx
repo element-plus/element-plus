@@ -1,6 +1,6 @@
 import { nextTick, reactive, ref } from 'vue'
 import { enableAutoUnmount, mount } from '@vue/test-utils'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import Transfer from '../src/transfer.vue'
 
 import type { TransferDataItem, renderContent } from '../src/transfer'
@@ -52,6 +52,28 @@ describe('Transfer', () => {
     leftList.vm.query = '1'
     await leftList.find('input').setValue('1')
     expect(leftList.vm.filteredData.length).toBe(1)
+  })
+
+  it('passes the current panel to the filter method when an item moves', async () => {
+    const item = { key: 1, label: 'Apple' }
+    const value = ref<number[]>([])
+    const filterMethod = vi.fn(() => true)
+    const wrapper = mount(() => (
+      <Transfer
+        v-model={value.value}
+        data={[item]}
+        filterable
+        filterMethod={filterMethod}
+      />
+    ))
+    const [left, right] = wrapper.findAll('.el-transfer-panel')
+
+    await left.get('input[type="text"]').setValue('Apple')
+    expect(filterMethod).toHaveBeenCalledWith('Apple', item, 'left')
+
+    value.value = [item.key]
+    await right.get('input[type="text"]').setValue('Apple')
+    expect(filterMethod).toHaveBeenCalledWith('Apple', item, 'right')
   })
 
   it('transfer', async () => {

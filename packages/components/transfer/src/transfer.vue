@@ -2,6 +2,7 @@
   <div :class="ns.b()">
     <transfer-panel
       ref="leftPanel"
+      direction="left"
       :data="sourceData"
       :option-render="optionRender"
       :placeholder="panelFilterPlaceholder"
@@ -42,6 +43,7 @@
     </div>
     <transfer-panel
       ref="rightPanel"
+      direction="right"
       :data="targetData"
       :option-render="optionRender"
       :placeholder="panelFilterPlaceholder"
