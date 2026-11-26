@@ -2358,6 +2358,33 @@ describe('Table.vue', () => {
       expect(wrapper.vm.selected.length).toEqual(getTestData().length + 2)
     })
 
+    it('uses the flattened row index for selectable when toggling tree rows', async () => {
+      const child = { id: 2 }
+      const nextRoot = { id: 3 }
+      const rows = [{ id: 1, children: [child] }, nextRoot]
+      wrapper = mount({
+        components: { ElTable, ElTableColumn },
+        setup: () => ({ rows, selectable: (_row, index) => index === 1 }),
+        template: `
+          <el-table :data="rows" row-key="id" :tree-props="{ checkStrictly: true }" default-expand-all>
+            <el-table-column type="selection" :selectable="selectable" />
+          </el-table>
+        `,
+      })
+      await doubleWait()
+
+      const table = wrapper.getComponent(ElTable).vm
+      const childCheckbox = wrapper.get('.el-table__row--level-1 .el-checkbox')
+      expect(childCheckbox.classes()).not.toContain('is-disabled')
+      await childCheckbox.trigger('click')
+      expect(table.getSelectionRows()).toEqual([child])
+
+      table.toggleRowSelection(child, false, false)
+      expect(table.getSelectionRows()).toEqual([])
+      table.toggleRowSelection(nextRoot, true, false)
+      expect(table.getSelectionRows()).toEqual([])
+    })
+
     it('lazy tree selection linkage', async () => {
       wrapper = mount({
         components: {
