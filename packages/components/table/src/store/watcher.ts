@@ -437,13 +437,18 @@ function useWatcher<T extends DefaultRow>() {
       children: instance?.store?.states?.childrenColumnName.value,
       checkStrictly: instance?.store?.states?.checkStrictly.value,
     }
+    const selectableFn = ignoreSelectable ? undefined : selectable.value
+    const rowIndex =
+      selectableFn && rowKey.value
+        ? rowIndexMap.value.get(getRowIdentity(row, rowKey.value))
+        : undefined
     const changed = toggleRowStatus(
       selection.value,
       row,
       selected,
       treeProps,
-      ignoreSelectable ? undefined : selectable.value,
-      data.value.indexOf(row),
+      selectableFn,
+      rowIndex ?? data.value.indexOf(row),
       rowKey.value
     )
     if (changed) {
