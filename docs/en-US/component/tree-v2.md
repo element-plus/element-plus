@@ -44,6 +44,8 @@ tree-v2/disabled
 
 :::
 
+A recursive `setChecked` call can update disabled branches and their children. It skips disabled leaves. To change a disabled leaf directly, pass its key to `setChecked`.
+
 ## Default expanded and default checked
 
 Tree nodes can be initially expanded or checked
@@ -140,7 +142,7 @@ tree-v2/filter
 | getCheckedNodes       | If the node can be selected (`show-checkbox` is `true`), it returns the currently selected array of nodes                         | `(leafOnly: boolean)`                                                |
 | getCheckedKeys        | If the node can be selected (`show-checkbox` is `true`), it returns the currently selected array of node's keys                   | `(leafOnly: boolean)`                                                |
 | setCheckedKeys        | set certain nodes to be checked                                                                                                   | `(keys: TreeKey[])`                                                  |
-| setChecked            | set node to be checked or not, `deep` (added in ^(2.14.0)) indicates whether child nodes should be recursively checked/unchecked. | `(key: TreeKey, checked: boolean, deep?: boolean)`                   |
+| setChecked            | Set the node's checked state. Descendants are also updated when `check-strictly` is off or `deep` (added in ^(2.14.0)) is `true`. | `(key: TreeKey, checked: boolean, deep?: boolean)`                   |
 | setExpandedKeys       | set certain nodes to be expanded                                                                                                  | `(keys: TreeKey[])`                                                  |
 | getHalfCheckedNodes   | If the node can be selected (`show-checkbox` is `true`), it returns the currently half selected array of nodes                    | —                                                                    |
 | getHalfCheckedKeys    | If the node can be selected (`show-checkbox` is `true`), it returns the currently half selected array of node's keys              | —                                                                    |
