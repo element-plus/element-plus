@@ -103,8 +103,8 @@ function useWatcher<T extends DefaultRow>() {
     const inlineChildren = (row[childrenColumnName.value] ?? []) as T[]
     if (!rowKey.value) return inlineChildren
     const id = getRowIdentity(row, rowKey.value)
-    const lazyChildren = (lazyTreeNodeMap.value?.[id] ?? []) as T[]
-    return [...lazyChildren, ...inlineChildren]
+    // The table body renders loaded children in place of the inline children.
+    return (lazyTreeNodeMap.value?.[id] as T[] | undefined) ?? inlineChildren
   }
 
   watch(
