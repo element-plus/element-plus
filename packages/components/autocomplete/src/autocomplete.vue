@@ -177,7 +177,6 @@ import {
   useAttrs as useRawAttrs,
   useSlots,
   watch,
-  watchPostEffect,
 } from 'vue'
 import { pick } from 'lodash-unified'
 import { onClickOutside, useDebounceFn } from '@vueuse/core'
@@ -265,6 +264,8 @@ const suggestions = ref([]) as Ref<AutocompleteData<T>>
 const highlightedIndex = ref(-1)
 const dropdownWidth = ref('')
 const virtualListWidth = ref<string | number>('100%')
+const suggestionsVersion = ref(0)
+let customSlotWidth = 0
 const activated = ref(false)
 const suggestionDisabled = ref(false)
 const loading = ref(false)
@@ -306,30 +307,65 @@ watch(
     suggestionVisible,
     suggestionLoading,
     virtualListHeight,
+    () => props.itemSize,
     () => virtualListRef.value?.states.scrollOffset,
   ],
   syncActiveDescendant,
   { flush: 'post' }
 )
 
-const calculateVirtualListWidth = () => {
-  const data = suggestions.value
-  if (props.fitInputWidth !== false || slots.default || !data.length)
-    return '100%'
+const suggestionLabels = computed(() =>
+  props.virtualScroll && props.fitInputWidth === false && !slots.default
+    ? suggestions.value.map((item) => String(item[props.valueKey] ?? ''))
+    : []
+)
 
+const measureSlotWidth = () => {
+  const items = virtualListRef.value?.innerRef?.children
+  if (!items?.length) return 0
+
+  const contents = Array.from(items, (item) => ({
+    item,
+    content: item.querySelector<HTMLElement>(
+      `.${ns.be('suggestion', 'item-content')}`
+    )!,
+  }))
+  const styles = contents.map(({ content }) => content.style.cssText)
+  try {
+    // Batch style changes and reads; restore them before the browser paints.
+    contents.forEach(({ content }) => {
+      content.style.flex = 'none'
+      content.style.width = 'max-content'
+    })
+    let maxWidth = 0
+    contents.forEach(({ item, content }) => {
+      const style = getComputedStyle(item)
+      const padding =
+        Number.parseFloat(style.paddingLeft) +
+        Number.parseFloat(style.paddingRight)
+      maxWidth = Math.max(maxWidth, content.scrollWidth + padding)
+    })
+    return maxWidth
+  } finally {
+    contents.forEach(({ content }, index) => {
+      content.style.cssText = styles[index]
+    })
+  }
+}
+
+const measureTextWidth = (labels: string[]) => {
   const item = virtualListRef.value?.innerRef?.querySelector('li')
   const content = item?.querySelector(`.${ns.be('suggestion', 'item-content')}`)
-  if (!item || !content) return '100%'
+  if (!item || !content) return 0
 
   const contentStyle = getComputedStyle(content)
-  if (!contentStyle.font) return '100%'
+  if (!contentStyle.font) return 0
   const ctx = document.createElement('canvas').getContext('2d')
-  if (!ctx) return '100%'
+  if (!ctx) return 0
 
   ctx.font = contentStyle.font
   let maxWidth = 0
-  for (const suggestion of data) {
-    const label = String(suggestion[props.valueKey] ?? '')
+  for (const label of labels) {
     maxWidth = Math.max(maxWidth, ctx.measureText(label).width)
   }
 
@@ -337,16 +373,50 @@ const calculateVirtualListWidth = () => {
   const padding =
     Number.parseFloat(itemStyle.paddingLeft) +
     Number.parseFloat(itemStyle.paddingRight)
-  return Math.ceil(
-    Math.max(Number.parseFloat(dropdownWidth.value) || 0, maxWidth + padding)
+  return maxWidth + padding
+}
+
+const updateVirtualListWidth = () => {
+  if (!props.virtualScroll) return
+  if (props.fitInputWidth !== false || !suggestions.value.length) {
+    virtualListWidth.value = '100%'
+    return
+  }
+
+  let contentWidth: number
+  if (slots.default) {
+    // Keep the widest mounted item until a new result set arrives.
+    customSlotWidth = Math.max(customSlotWidth, measureSlotWidth())
+    contentWidth = customSlotWidth
+  } else {
+    contentWidth = measureTextWidth(suggestionLabels.value)
+  }
+  virtualListWidth.value = Math.ceil(
+    Math.max(Number.parseFloat(dropdownWidth.value) || 0, contentWidth)
   )
 }
 
-watchPostEffect(() => {
-  if (props.virtualScroll) {
-    virtualListWidth.value = calculateVirtualListWidth()
-  }
-})
+watch(
+  [
+    () => props.virtualScroll,
+    () => props.fitInputWidth,
+    () => suggestions.value.length,
+    suggestionsVersion,
+    suggestionLabels,
+    dropdownWidth,
+    virtualListRef,
+    () =>
+      slots.default
+        ? [
+            props.itemSize,
+            virtualListHeight.value,
+            virtualListRef.value?.states.scrollOffset,
+          ]
+        : null,
+  ],
+  updateVirtualListWidth,
+  { flush: 'post' }
+)
 
 watch(
   [virtualListHeight, virtualListWidth, suggestionLoading, virtualListRef],
@@ -385,6 +455,8 @@ const getData = async (queryString: string) => {
     if (suggestionDisabled.value) return
 
     if (isArray(suggestionList)) {
+      customSlotWidth = 0
+      suggestionsVersion.value++
       suggestions.value = suggestionList
       highlightedIndex.value = props.highlightFirstItem ? 0 : -1
       if (props.virtualScroll) {
