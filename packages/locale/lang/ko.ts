@@ -2,7 +2,7 @@ export default {
   name: 'ko',
   el: {
     breadcrumb: {
-      label: 'Breadcrumb', // to be translated
+      label: '브레드크럼',
     },
     colorpicker: {
       confirm: '확인',
@@ -10,14 +10,14 @@ export default {
       defaultLabel: '색상 선택기',
       description:
         '현재 색상은 {color}입니다. Enter 키를 눌러 새 색상을 선택합니다.',
-      alphaLabel: 'pick alpha value', // to be translated
-      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
-      hueLabel: 'pick hue value', // to be translated
-      hueDescription: 'hue {hue}, current color is {color}', // to be translated
-      svLabel: 'pick saturation and brightness value', // to be translated
+      alphaLabel: '투명도 선택',
+      alphaDescription: '투명도 {alpha}, 현재 색상은 {color}입니다.',
+      hueLabel: '색조 선택',
+      hueDescription: '색조 {hue}, 현재 색상은 {color}입니다.',
+      svLabel: '채도 및 명도 선택',
       svDescription:
-        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
-      predefineDescription: 'select {value} as the color', // to be translated
+        '채도 {saturation}, 명도 {brightness}, 현재 색상은 {color}입니다.',
+      predefineDescription: '{value} 색상 선택',
     },
     datepicker: {
       now: '지금',
@@ -31,7 +31,7 @@ export default {
         '화살표 키를 사용하고 Enter를 눌러 분기를 선택합니다.',
       yearTablePrompt:
         '화살표 키를 사용하고 Enter 키를 눌러 연도를 선택합니다.',
-      selectedDate: 'Selected date', // to be translated
+      selectedDate: '선택한 날짜',
       selectDate: '날짜 선택',
       selectTime: '시간 선택',
       startDate: '시작 날짜',
@@ -65,13 +65,13 @@ export default {
         sat: '토',
       },
       weeksFull: {
-        sun: 'Sunday', // to be translated
-        mon: 'Monday', // to be translated
-        tue: 'Tuesday', // to be translated
-        wed: 'Wednesday', // to be translated
-        thu: 'Thursday', // to be translated
-        fri: 'Friday', // to be translated
-        sat: 'Saturday', // to be translated
+        sun: '일요일',
+        mon: '월요일',
+        tue: '화요일',
+        wed: '수요일',
+        thu: '목요일',
+        fri: '금요일',
+        sat: '토요일',
       },
       months: {
         jan: '1월',
@@ -92,8 +92,8 @@ export default {
       characters: '{count} / {max} 자',
     },
     inputNumber: {
-      decrease: '값 증가',
-      increase: '값 감소',
+      decrease: '값 감소',
+      increase: '값 증가',
     },
     select: {
       loading: '불러오는 중',
@@ -157,21 +157,21 @@ export default {
       resetFilter: '초기화',
       clearFilter: '전체',
       sumText: '합계',
-      selectAllLabel: 'Select all rows', // to be translated
-      selectRowLabel: 'Select this row', // to be translated
-      expandRowLabel: 'Expand this row', // to be translated
-      collapseRowLabel: 'Collapse this row', // to be translated
-      sortLabel: 'Sort by {column}', // to be translated
-      filterLabel: 'Filter by {column}', // to be translated
+      selectAllLabel: '모든 행 선택',
+      selectRowLabel: '이 행 선택',
+      expandRowLabel: '이 행 펼치기',
+      collapseRowLabel: '이 행 접기',
+      sortLabel: '{column} 기준으로 정렬',
+      filterLabel: '{column} 기준으로 필터링',
     },
     tag: {
-      close: 'Close this tag', // to be translated
+      close: '태그 닫기',
     },
     tour: {
       next: '다음',
       previous: '이전',
       finish: '종료',
-      close: 'Close this dialog', // to be translated
+      close: '대화 상자 닫기',
     },
     tree: {
       emptyText: '데이터 없음',
@@ -195,13 +195,13 @@ export default {
       cancelButtonText: '아니오',
     },
     carousel: {
-      leftArrow: 'Carousel arrow left', // to be translated
-      rightArrow: 'Carousel arrow right', // to be translated
-      indicator: 'Carousel switch to index {index}', // to be translated
+      leftArrow: '캐러셀 왼쪽 화살표',
+      rightArrow: '캐러셀 오른쪽 화살표',
+      indicator: '캐러셀 {index}번 슬라이드로 전환',
     },
     inputOTP: {
-      groupLabel: 'OTP Input', // to be translated
-      defaultLabel: 'Please enter OTP character {index}', // to be translated
+      groupLabel: 'OTP 입력',
+      defaultLabel: 'OTP {index}번째 문자를 입력하세요',
     },
   },
 }

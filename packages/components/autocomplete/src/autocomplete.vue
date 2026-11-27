@@ -35,6 +35,14 @@
         v-bind="mergeProps(passInputProps, $attrs)"
         :model-value="modelValue"
         :disabled="disabled"
+        container-role="textbox"
+        aria-autocomplete="list"
+        :aria-controls="listboxId"
+        :aria-activedescendant="
+          highlightedIndex === -1
+            ? undefined
+            : `${listboxId}-item-${highlightedIndex}`
+        "
         @input="handleInput"
         @change="handleChange"
         @focus="handleFocus"
@@ -59,7 +67,6 @@
     </div>
     <template #content>
       <div
-        ref="regionRef"
         :class="[ns.b('suggestion'), ns.is('loading', suggestionLoading)]"
         :style="{
           [fitInputWidth ? 'width' : 'minWidth']: dropdownWidth,
@@ -76,6 +83,7 @@
         </div>
         <el-scrollbar
           :id="listboxId"
+          ref="scrollbarRef"
           tag="ul"
           :wrap-class="ns.be('suggestion', 'wrap')"
           :view-class="ns.be('suggestion', 'list')"
@@ -92,6 +100,9 @@
             <li
               v-for="(item, index) in suggestions"
               :id="`${listboxId}-item-${index}`"
+              :ref="
+                (el) => (suggestionRefs[index] = el as HTMLLIElement | null)
+              "
               :key="index"
               :class="{ highlighted: highlightedIndex === index }"
               role="option"
@@ -123,7 +134,6 @@ import {
   computed,
   mergeProps,
   onBeforeUnmount,
-  onMounted,
   ref,
   useAttrs as useRawAttrs,
 } from 'vue'
@@ -153,6 +163,7 @@ import type {
 import type { Ref, StyleValue } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { InputInstance } from '@element-plus/components/input'
+import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
 
 const COMPONENT_NAME = 'ElAutocomplete'
 defineOptions({
@@ -187,11 +198,11 @@ const disabled = useFormDisabled()
 const ns = useNamespace('autocomplete')
 
 const inputRef = ref<InputInstance>()
-const regionRef = ref<HTMLElement>()
+const scrollbarRef = ref<ScrollbarInstance>()
+const suggestionRefs = ref<(HTMLLIElement | null)[]>([])
 const popperRef = ref<TooltipInstance>()
 const listboxRef = ref<HTMLElement>()
 
-let readonly = false
 let ignoreFocusEvent = false
 const suggestions = ref([]) as Ref<AutocompleteData<T>>
 const highlightedIndex = ref(-1)
@@ -253,8 +264,7 @@ const getData = async (queryString: string) => {
   }
 }
 
-const debounce = computed(() => props.debounce)
-const debouncedGetData = useDebounceFn(getData, debounce)
+const debouncedGetData = useDebounceFn(getData, () => props.debounce)
 
 const handleInput = (value: string) => {
   const valuePresented = !!value
@@ -293,7 +303,7 @@ const handleFocus = (evt: FocusEvent) => {
     activated.value = true
     emit('focus', evt)
     const queryString = props.modelValue ?? ''
-    if (props.triggerOnFocus && !readonly) {
+    if (props.triggerOnFocus && !props.readonly) {
       suggestions.value = []
       highlightedIndex.value = -1
       debouncedGetData(String(queryString))
@@ -386,8 +396,8 @@ const highlight = (index: number) => {
   if (index >= suggestions.value.length) {
     index = props.loopNavigation ? 0 : suggestions.value.length - 1
   }
-  const [suggestion, suggestionList] = getSuggestionContext()
-  const highlightItem = suggestionList[index]
+  const suggestion = scrollbarRef.value!.wrapRef!
+  const highlightItem = suggestionRefs.value[index]!
   const scrollTop = suggestion.scrollTop
   const { offsetTop, scrollHeight } = highlightItem
 
@@ -398,19 +408,6 @@ const highlight = (index: number) => {
     suggestion.scrollTop = offsetTop
   }
   highlightedIndex.value = index
-  inputRef.value?.ref?.setAttribute(
-    'aria-activedescendant',
-    `${listboxId.value}-item-${highlightedIndex.value}`
-  )
-}
-const getSuggestionContext = () => {
-  const suggestion = regionRef.value!.querySelector(
-    `.${ns.be('suggestion', 'wrap')}`
-  )!
-  const suggestionList = suggestion.querySelectorAll<HTMLElement>(
-    `.${ns.be('suggestion', 'list')} li`
-  )
-  return [suggestion, suggestionList] as const
 }
 
 const stopHandle = onClickOutside(listboxRef, (event: FocusEvent) => {
@@ -471,22 +468,6 @@ const handleKeydown = (e: KeyboardEvent | Event) => {
 
 onBeforeUnmount(() => {
   stopHandle?.()
-})
-
-onMounted(() => {
-  const inputElement = inputRef.value?.ref
-  if (!inputElement) return
-  ;[
-    { key: 'role', value: 'textbox' },
-    { key: 'aria-autocomplete', value: 'list' },
-    { key: 'aria-controls', value: listboxId.value },
-    {
-      key: 'aria-activedescendant',
-      value: `${listboxId.value}-item-${highlightedIndex.value}`,
-    },
-  ].forEach(({ key, value }) => inputElement.setAttribute(key, value))
-  // get readonly attr
-  readonly = inputElement.hasAttribute('readonly')
 })
 
 defineExpose({

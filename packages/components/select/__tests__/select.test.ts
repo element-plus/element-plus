@@ -798,6 +798,64 @@ describe('Select', () => {
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('双皮奶')
   })
 
+  test.each(['index', 'item.id'])(
+    'replaces remote object options with %s keys',
+    async (key) => {
+      wrapper = _mount(
+        `
+        <el-select v-model="value" value-key="id" filterable remote>
+          <el-option
+            v-for="(item, index) in options"
+            :key="${key}"
+            :label="item.name"
+            :value="item"
+          />
+        </el-select>
+        `,
+        () => ({
+          options: [],
+          value: {},
+        })
+      )
+      await nextTick()
+
+      wrapper.vm.options = Array.from({ length: 100 }, (_, index) => ({
+        id: String(index + 1),
+        name: `Store ${index + 1}`,
+      }))
+      await nextTick()
+      await wrapper.find('input').setValue('201')
+      wrapper.vm.options = [{ id: '201', name: 'Store 201' }]
+      await nextTick()
+      await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+      getOptions()[0].click()
+      await nextTick()
+
+      expect(wrapper.vm.value).toEqual({ id: '201', name: 'Store 201' })
+      expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(
+        'Store 201'
+      )
+
+      wrapper.vm.value = { ...wrapper.vm.value }
+      await nextTick()
+      expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(
+        'Store 201'
+      )
+
+      wrapper.vm.options = [{ id: '202', name: 'Store 202' }]
+      await nextTick()
+      await wrapper.find(`.${WRAPPER_CLASS_NAME}`).trigger('click')
+      getOptions()[0].click()
+      await nextTick()
+
+      expect(wrapper.vm.value).toEqual({ id: '202', name: 'Store 202' })
+      expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(
+        'Store 202'
+      )
+      expect(wrapper.find('input').exists()).toBe(true)
+    }
+  )
+
   test('custom label', async () => {
     wrapper = _mount(
       `
@@ -3401,7 +3459,7 @@ describe('Select', () => {
     expect(input.attributes('aria-controls')).toBe(list.attributes('id'))
     expect(input.attributes('aria-expanded')).toBe('false')
     expect(input.attributes('aria-haspopup')).toBe('listbox')
-    expect(input.attributes('aria-activedescendant')).toBe('')
+    expect(input.attributes('aria-activedescendant')).toBe(undefined)
 
     expect(list.attributes('id')).toBeTruthy()
     expect(list.attributes('role')).toBe('listbox')
