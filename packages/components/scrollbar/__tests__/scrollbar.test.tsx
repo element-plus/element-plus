@@ -371,7 +371,9 @@ describe('ScrollBar', () => {
     const trackSize = 400
     const thumbSize = 40
 
-    const mountScrollbar = async (vertical: boolean) => {
+    // `scale` emulates a CSS transform: the track keeps its layout size and
+    // only its size on screen changes
+    const mountScrollbar = async (vertical: boolean, scale = 1) => {
       const wrapper = mount(
         () => (
           <Scrollbar style={`height: ${wrapSize}px; width: ${wrapSize}px;`}>
@@ -381,7 +383,6 @@ describe('ScrollBar', () => {
         { attachTo: document.body }
       )
       const size = vertical ? 'Height' : 'Width'
-      const rect = { top: trackStart, left: trackStart } as DOMRect
       const wrap = wrapper.find('.el-scrollbar__wrap').element
       const track = wrapper.find(
         `.el-scrollbar__bar.is-${vertical ? 'vertical' : 'horizontal'}`
@@ -392,9 +393,17 @@ describe('ScrollBar', () => {
       defineGetter(wrap, `client${size}`, wrapSize)
       defineGetter(wrap, `scroll${size}`, scrollSize)
       defineGetter(track.element, `client${size}`, trackSize)
+      defineGetter(track.element, `offset${size}`, trackSize)
       defineGetter(thumb.element, `offset${size}`, thumbSize)
-      vi.spyOn(track.element, 'getBoundingClientRect').mockReturnValue(rect)
-      vi.spyOn(thumb.element, 'getBoundingClientRect').mockReturnValue(rect)
+      vi.spyOn(track.element, 'getBoundingClientRect').mockReturnValue({
+        top: trackStart,
+        left: trackStart,
+        [size.toLowerCase()]: trackSize * scale,
+      } as unknown as DOMRect)
+      vi.spyOn(thumb.element, 'getBoundingClientRect').mockReturnValue({
+        top: trackStart,
+        left: trackStart,
+      } as DOMRect)
       await nextTick()
 
       return { wrapper, wrap, track, thumb }
@@ -417,6 +426,25 @@ describe('ScrollBar', () => {
 
       document.dispatchEvent(
         new MouseEvent('mousemove', { clientY: trackStart + 10 + 1000 })
+      )
+      expect(wrap.scrollTop).toBe(4500)
+
+      document.dispatchEvent(new MouseEvent('mouseup'))
+      wrapper.unmount()
+    })
+
+    test('should keep the thumb under the cursor in a scaled track', async () => {
+      const { wrapper, wrap, thumb } = await mountScrollbar(true, 0.5)
+      // 5px on screen are 10px of the track
+      await thumb.trigger('mousedown', { clientY: trackStart + 5 })
+
+      document.dispatchEvent(
+        new MouseEvent('mousemove', { clientY: trackStart + 5 + 90 })
+      )
+      expect(wrap.scrollTop).toBe(2250)
+
+      document.dispatchEvent(
+        new MouseEvent('mousemove', { clientY: trackStart + 5 + 180 })
       )
       expect(wrap.scrollTop).toBe(4500)
 
