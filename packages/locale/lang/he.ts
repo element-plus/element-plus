@@ -2,45 +2,45 @@ export default {
   name: 'he',
   el: {
     breadcrumb: {
-      label: 'Breadcrumb', // to be translated
+      label: 'נתיב ניווט',
     },
     colorpicker: {
       confirm: 'אישור',
-      clear: 'נקה',
-      defaultLabel: 'color picker', // to be translated
-      description:
-        'current color is {color}. press enter to select a new color.', // to be translated
-      alphaLabel: 'pick alpha value', // to be translated
-      alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
-      hueLabel: 'pick hue value', // to be translated
-      hueDescription: 'hue {hue}, current color is {color}', // to be translated
-      svLabel: 'pick saturation and brightness value', // to be translated
+      clear: 'ניקוי',
+      defaultLabel: 'בוחר צבעים',
+      description: 'הצבע הנוכחי הוא {color}. יש ללחוץ על Enter לבחירת צבע חדש.',
+      alphaLabel: 'בחירת ערך אלפא',
+      alphaDescription: 'אלפא {alpha}, הצבע הנוכחי הוא {color}',
+      hueLabel: 'בחירת ערך גוון',
+      hueDescription: 'גוון {hue}, הצבע הנוכחי הוא {color}',
+      svLabel: 'בחירת ערך רוויה ובהירות',
       svDescription:
-        'saturation {saturation}, brightness {brightness}, current color is {color}', // to be translated
-      predefineDescription: 'select {value} as the color', // to be translated
+        'רוויה {saturation}, בהירות {brightness}, הצבע הנוכחי הוא {color}',
+      predefineDescription: 'בחירת {value} כצבע',
     },
     datepicker: {
       now: 'כעת',
       today: 'היום',
-      cancel: 'בטל',
-      clear: 'נקה',
+      cancel: 'ביטול',
+      clear: 'ניקוי',
       confirm: 'אישור',
       dateTablePrompt:
-        'Use the arrow keys and enter to select the day of the month', // to be translated
-      monthTablePrompt: 'Use the arrow keys and enter to select the month', // to be translated
-      quarterTablePrompt: 'Use the arrow keys and enter to select the quarter', // to be translated
-      yearTablePrompt: 'Use the arrow keys and enter to select the year', // to be translated
-      selectedDate: 'Selected date', // to be translated
-      selectDate: 'בחר תאריך',
-      selectTime: 'בחר זמן',
+        'ניתן להשתמש במקשי החצים וב-Enter כדי לבחור את היום בחודש',
+      monthTablePrompt: 'ניתן להשתמש במקשי החצים וב-Enter כדי לבחור את החודש',
+      quarterTablePrompt:
+        'ניתן להשתמש במקשי החצים וב-Enter כדי לבחור את הרבעון',
+      yearTablePrompt: 'ניתן להשתמש במקשי החצים וב-Enter כדי לבחור את השנה',
+      selectedDate: 'התאריך שנבחר',
+      selectDate: 'בחירת תאריך',
+      selectTime: 'בחירת שעה',
       startDate: 'תאריך התחלה',
-      startTime: 'זמן התחלה',
+      startTime: 'שעת התחלה',
       endDate: 'תאריך סיום',
-      endTime: 'זמן סיום',
-      prevYear: 'שנה קודמת',
-      nextYear: 'שנה הבאה',
-      prevMonth: 'חודש קודם',
-      nextMonth: 'חודש הבא',
+      endTime: 'שעת סיום',
+      prevYear: 'השנה הקודמת',
+      nextYear: 'השנה הבאה',
+      prevMonth: 'החודש הקודם',
+      nextMonth: 'החודש הבא',
       year: 'שנה',
       month1: 'ינואר',
       month2: 'פברואר',
@@ -61,16 +61,16 @@ export default {
         wed: 'ד׳',
         thu: 'ה׳',
         fri: 'ו׳',
-        sat: 'שבת',
+        sat: 'ש׳',
       },
       weeksFull: {
-        sun: 'Sunday', // to be translated
-        mon: 'Monday', // to be translated
-        tue: 'Tuesday', // to be translated
-        wed: 'Wednesday', // to be translated
-        thu: 'Thursday', // to be translated
-        fri: 'Friday', // to be translated
-        sat: 'Saturday', // to be translated
+        sun: 'יום ראשון',
+        mon: 'יום שני',
+        tue: 'יום שלישי',
+        wed: 'יום רביעי',
+        thu: 'יום חמישי',
+        fri: 'יום שישי',
+        sat: 'יום שבת',
       },
       months: {
         jan: 'ינואר',
@@ -91,97 +91,97 @@ export default {
       characters: '{count} / {max} תווים',
     },
     inputNumber: {
-      decrease: 'decrease number', // to be translated
-      increase: 'increase number', // to be translated
+      decrease: 'הקטנת הערך',
+      increase: 'הגדלת הערך',
     },
     select: {
       loading: 'טוען',
-      noMatch: 'לא נמצאה התאמה',
+      noMatch: 'לא נמצאו נתונים תואמים',
       noData: 'אין נתונים',
-      placeholder: 'שומר מקום',
+      placeholder: 'בחירה',
     },
     mention: {
       loading: 'טוען',
     },
     dropdown: {
-      toggleDropdown: 'Toggle Dropdown', // to be translated
+      toggleDropdown: 'פתיחה או סגירה של התפריט',
     },
     cascader: {
-      noMatch: 'לא נמצאה התאמה',
+      noMatch: 'לא נמצאו נתונים תואמים',
       loading: 'טוען',
-      placeholder: 'שומר מקום',
+      placeholder: 'בחירה',
       noData: 'אין נתונים',
     },
     pagination: {
-      goto: 'עבור ל',
+      goto: 'מעבר ל',
       pagesize: '/עמוד',
-      total: 'כולל {total}',
+      total: 'סה״כ {total}',
       pageClassifier: '',
-      page: 'Page', // to be translated
-      prev: 'Go to previous page', // to be translated
-      next: 'Go to next page', // to be translated
-      currentPage: 'page {pager}', // to be translated
-      prevPages: 'Previous {pager} pages', // to be translated
-      nextPages: 'Next {pager} pages', // to be translated
+      page: 'עמוד',
+      prev: 'מעבר לעמוד הקודם',
+      next: 'מעבר לעמוד הבא',
+      currentPage: 'עמוד {pager}',
+      prevPages: '{pager} העמודים הקודמים',
+      nextPages: '{pager} העמודים הבאים',
       deprecationWarning:
-        'Deprecated usages detected, please refer to the el-pagination documentation for more details', // to be translated
+        'זוהו שימושים שהוצאו משימוש. לפרטים נוספים יש לעיין בתיעוד של el-pagination',
     },
     dialog: {
-      close: 'Close this dialog', // to be translated
+      close: 'סגירת החלון',
     },
     drawer: {
-      close: 'Close this dialog', // to be translated
+      close: 'סגירת החלון',
     },
     messagebox: {
       title: 'הודעה',
       confirm: 'אישור',
-      cancel: 'בטל',
+      cancel: 'ביטול',
       error: 'קלט לא תקין',
-      close: 'Close this dialog', // to be translated
+      close: 'סגירת החלון',
     },
     upload: {
-      deleteTip: 'לחץ כדי למחוק',
-      delete: 'מחק',
+      deleteTip: 'יש ללחוץ על Delete להסרה',
+      delete: 'מחיקה',
       preview: 'תצוגה מקדימה',
       continue: 'המשך',
     },
     slider: {
-      defaultLabel: 'slider between {min} and {max}', // to be translated
-      defaultRangeStartLabel: 'pick start value', // to be translated
-      defaultRangeEndLabel: 'pick end value', // to be translated
+      defaultLabel: 'מחוון בין {min} ל-{max}',
+      defaultRangeStartLabel: 'בחירת ערך התחלה',
+      defaultRangeEndLabel: 'בחירת ערך סיום',
     },
     table: {
       emptyText: 'אין נתונים',
       confirmFilter: 'אישור',
-      resetFilter: 'נקה',
-      clearFilter: 'הכל',
-      sumText: 'סך הכל',
-      selectAllLabel: 'Select all rows', // to be translated
-      selectRowLabel: 'Select this row', // to be translated
-      expandRowLabel: 'Expand this row', // to be translated
-      collapseRowLabel: 'Collapse this row', // to be translated
-      sortLabel: 'Sort by {column}', // to be translated
-      filterLabel: 'Filter by {column}', // to be translated
+      resetFilter: 'איפוס',
+      clearFilter: 'הכול',
+      sumText: 'סה״כ',
+      selectAllLabel: 'בחירת כל השורות',
+      selectRowLabel: 'בחירת שורה זו',
+      expandRowLabel: 'הרחבת שורה זו',
+      collapseRowLabel: 'כיווץ שורה זו',
+      sortLabel: 'מיון לפי {column}',
+      filterLabel: 'סינון לפי {column}',
     },
     tag: {
-      close: 'Close this tag', // to be translated
+      close: 'סגירת התגית',
     },
     tour: {
-      next: 'Next', // to be translated
-      previous: 'Previous', // to be translated
-      finish: 'Finish', // to be translated
-      close: 'Close this dialog', // to be translated
+      next: 'הבא',
+      previous: 'הקודם',
+      finish: 'סיום',
+      close: 'סגירת החלון',
     },
     tree: {
       emptyText: 'אין נתונים',
     },
     transfer: {
-      noMatch: 'לא נמצאה התאמה',
+      noMatch: 'לא נמצאו נתונים תואמים',
       noData: 'אין נתונים',
       titles: ['רשימה 1', 'רשימה 2'],
-      filterPlaceholder: 'סנן לפי...',
-      noCheckedFormat: 'פריטים {total}',
-      hasCheckedFormat: ' נבחרו {checked}/{total}',
+      filterPlaceholder: 'הזנת מילת חיפוש',
+      noCheckedFormat: '{total} פריטים',
+      hasCheckedFormat: 'נבחרו {checked} מתוך {total}',
     },
     image: {
       error: 'שגיאה',
@@ -194,13 +194,13 @@ export default {
       cancelButtonText: 'לא',
     },
     carousel: {
-      leftArrow: 'Carousel arrow left', // to be translated
-      rightArrow: 'Carousel arrow right', // to be translated
-      indicator: 'Carousel switch to index {index}', // to be translated
+      leftArrow: 'חץ שמאלי בקרוסלה',
+      rightArrow: 'חץ ימני בקרוסלה',
+      indicator: 'מעבר בקרוסלה לפריט {index}',
     },
     inputOTP: {
-      groupLabel: 'OTP Input', // to be translated
-      defaultLabel: 'Please enter OTP character {index}', // to be translated
+      groupLabel: 'הזנת קוד חד-פעמי',
+      defaultLabel: 'יש להזין את תו הקוד מספר {index}',
     },
   },
 }
