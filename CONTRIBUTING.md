@@ -124,4 +124,15 @@ We have a [commit template](https://element-plus.org/en-US/guide/commit-examples
 NOTE:
 **PRs with unformatted commit messages WILL NOT BE ACCEPTED.**
 
+## AI Policy
+
+<!-- Adapted from https://github.com/vitejs/vite/blob/main/CONTRIBUTING.md#ai-policy and https://github.com/nuxt/nuxt/blob/main/CONTRIBUTING.md#ai-assisted-contributions -->
+
+We welcome the thoughtful use of AI tools when contributing to Element Plus, but ask all contributors to follow [two core principles](https://roe.dev/blog/using-ai-in-open-source):
+
+1. **Never let an LLM speak for you** - all comments, issues, and PR descriptions should be written in your own words, reflecting your own understanding.
+2. **Never let an LLM think for you** - only submit contributions you fully understand and can explain.
+
+If these principles are not followed, we may close the issue or pull request directly. Issues and PRs flagged as likely to be created by a bot, LLM, or agent may also be closed automatically. If you believe this is a mistake, please leave a comment so the maintainers can review it.
+
 That's all, thanks for your contribution! 🤩
