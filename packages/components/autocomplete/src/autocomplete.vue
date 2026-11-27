@@ -38,7 +38,11 @@
         container-role="textbox"
         aria-autocomplete="list"
         :aria-controls="listboxId"
-        :aria-activedescendant="`${listboxId}-item-${highlightedIndex}`"
+        :aria-activedescendant="
+          highlightedIndex === -1
+            ? undefined
+            : `${listboxId}-item-${highlightedIndex}`
+        "
         @input="handleInput"
         @change="handleChange"
         @focus="handleFocus"
