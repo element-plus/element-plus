@@ -43,8 +43,9 @@ export const useOrderedChildren = <T extends ChildEssential>(
     triggerRef(children)
 
     onMounted(() => {
-      const childNode = child.getVnode().el! as Node
-      const parentNode = childNode.parentNode!
+      const childNode = child.getVnode().el as Node | null | undefined
+      const parentNode = childNode?.parentNode
+      if (!childNode || !parentNode) return
 
       if (!nodesMap.has(parentNode)) {
         nodesMap.set(parentNode, [])
@@ -56,8 +57,8 @@ export const useOrderedChildren = <T extends ChildEssential>(
         ) => {
           // Schedule a job to update `orderedChildren` if the root element of child components is moved
           const shouldSortChildren = nodesMap
-            .get(parentNode)!
-            .some((el) => node === el || anchor === el)
+            .get(parentNode)
+            ?.some((el) => node === el || anchor === el)
           if (shouldSortChildren) triggerRef(children)
 
           return originalFn(node, anchor)
@@ -72,11 +73,15 @@ export const useOrderedChildren = <T extends ChildEssential>(
     delete children.value[child.uid]
     triggerRef(children)
 
-    const childNode = child.getVnode().el! as Node
-    const parentNode = childNode.parentNode!
-    const childNodes = nodesMap.get(parentNode)!
+    const childNode = child.getVnode().el as Node | null | undefined
+    const parentNode = childNode?.parentNode
+    if (!childNode || !parentNode) return
+
+    const childNodes = nodesMap.get(parentNode)
+    if (!childNodes) return
+
     const index = childNodes.indexOf(childNode)
-    childNodes.splice(index, 1)
+    if (index > -1) childNodes.splice(index, 1)
   }
 
   const sortChildren = () => {
