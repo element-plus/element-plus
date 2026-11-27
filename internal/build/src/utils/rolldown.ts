@@ -22,7 +22,13 @@ export async function writeBundles(
   options: OutputOptions[]
 ) {
   try {
-    return await Promise.all(options.map((option) => bundle.write(option)))
+    const results = await Promise.allSettled(
+      options.map((option) => bundle.write(option))
+    )
+    return results.map((result) => {
+      if (result.status === 'rejected') throw result.reason
+      return result.value
+    })
   } finally {
     await bundle.close()
   }
