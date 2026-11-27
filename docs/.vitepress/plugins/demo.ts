@@ -1,7 +1,7 @@
 import path from 'path'
 import fs from 'fs'
 import { docRoot } from '@element-plus/build-utils'
-import { sfcTs2js } from '../utils/ts2js'
+import { sfcTs2js } from '../utils/ts2js.ts'
 
 import type { MarkdownRenderer } from 'vitepress'
 
