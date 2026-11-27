@@ -1,6 +1,29 @@
 ## Changelog
 
 
+### 2.14.9
+
+_2026-11-27_
+
+#### Bug fixes
+
+- Components [table] clean up listeners on unmount (#25020 by @MindOfqc)
+- Docs migrate to DocSearch 5 (#25068 by @YunYouJun)
+- Components [table] scale caused tooltip calc error (#25049 by @btea)
+- Components [mention/select/v2] avoid empty aria-activedescendant (#25083 by @rzzf)
+- Locale [uz-uz] translate missing strings (#25093 by @XakimovNosirbek)
+- Components [slider] release window drag listeners on unmount (#25023 by @MindOfqc)
+- Components [select] use one cached option snapshot (#25022 by @omerfarukgurbuz)
+- Theme-chalk [popper] don't cascade fill-color-blank to content (#24541 by @lazerg)
+- Locale [ko] translate missing strings (#25109 by @wonjangcloud9)
+- Components [input] reserve password icon space like clearable (#25114 by @LostElkByte)
+- Locale improve Hebrew translations (#25110 by @ItayShalomDev)
+- Components [scrollbar] correct size calc under transform scaling (#21979 by @cjn021)
+
+#### Refactors
+
+- Components [autocomplete] improve code (#25138 by @rzzf)
+
 ### 2.14.8
 
 _2026-11-06_
