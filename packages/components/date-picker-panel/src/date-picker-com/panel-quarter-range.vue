@@ -170,7 +170,7 @@ const unit = 'year'
 
 const { lang } = useLocale()
 const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
-const { cellClassName } = pickerBase.props
+const cellClassName = toRef(pickerBase.props, 'cellClassName')
 const shortcuts = toRef(pickerBase.props, 'shortcuts')
 const disabledDate = toRef(pickerBase.props, 'disabledDate')
 const format = toRef(pickerBase.props, 'format')

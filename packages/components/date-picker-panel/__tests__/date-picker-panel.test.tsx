@@ -159,6 +159,97 @@ describe('DatePickerPanel', () => {
     )
   })
 
+  describe('cellClassName should be reactive', () => {
+    it.each(types)(
+      ":type='%s' should react to cellClassName changes",
+      async (type) => {
+        const cellClassName = ref(() => 'old-cell')
+        const _wrapper = mount(() => (
+          <DatePickerPanel type={type} cellClassName={cellClassName.value} />
+        ))
+
+        const wrapper = _wrapper.findComponent(DatePickerPanel)
+
+        expect(wrapper.find('.old-cell').exists()).toBe(true)
+
+        cellClassName.value = () => 'new-cell'
+        await nextTick()
+
+        expect(wrapper.find('.old-cell').exists()).toBe(false)
+        expect(wrapper.find('.new-cell').exists()).toBe(true)
+      }
+    )
+  })
+
+  describe('defaultTime should be reactive', () => {
+    it("type='date' should pick with the latest defaultTime", async () => {
+      const modelValue = ref<Date>()
+      const defaultTime = ref(new Date(2000, 0, 1, 1, 2, 3))
+      const wrapper = mount(() => (
+        <DatePickerPanel
+          v-model={modelValue.value}
+          defaultTime={defaultTime.value}
+        />
+      ))
+
+      defaultTime.value = new Date(2000, 0, 1, 12, 30, 45)
+      await nextTick()
+      await wrapper.find('td.available').trigger('click')
+
+      expect(dayjs(modelValue.value).format('HH:mm:ss')).toBe('12:30:45')
+    })
+
+    it("type='daterange' should pick with the latest defaultTime", async () => {
+      const modelValue = ref<Date[]>()
+      const defaultTime = ref([
+        new Date(2000, 0, 1, 1, 2, 3),
+        new Date(2000, 0, 1, 4, 5, 6),
+      ])
+      const wrapper = mount(() => (
+        <DatePickerPanel
+          v-model={modelValue.value}
+          type="daterange"
+          defaultTime={defaultTime.value}
+        />
+      ))
+
+      defaultTime.value = [
+        new Date(2000, 0, 1, 7, 8, 9),
+        new Date(2000, 0, 1, 10, 11, 12),
+      ]
+      await nextTick()
+      const cells = wrapper.findAll('td.available')
+      await cells[0].trigger('click')
+      await cells[1].trigger('mousemove')
+      await cells[1].trigger('click')
+      await nextTick()
+
+      expect(modelValue.value!.map((d) => dayjs(d).format('HH:mm:ss'))).toEqual(
+        ['07:08:09', '10:11:12']
+      )
+    })
+  })
+
+  it('clearable should be reactive', async () => {
+    const clearable = ref(true)
+    const wrapper = mount(() => (
+      <DatePickerPanel
+        type="datetimerange"
+        showFooter
+        showConfirm
+        clearable={clearable.value}
+      />
+    ))
+    const clearButton = () => wrapper.find('.el-picker-panel__footer .is-text')
+
+    expect(clearButton().exists()).toBe(true)
+
+    clearable.value = false
+    await nextTick()
+
+    expect(clearButton().exists()).toBe(false)
+  })
+
   describe('should correctly select a date when weekStart change', () => {
     const weekStarts = Array.from({ length: 7 }, (_, idx) => idx)
 

@@ -471,7 +471,9 @@ const emit = defineEmits([
 const unit = 'month'
 // FIXME: fix the type for ep picker
 const pickerBase = inject(PICKER_BASE_INJECTION_KEY) as any
-const { cellClassName, defaultTime, clearable } = pickerBase.props
+const cellClassName = toRef(pickerBase.props, 'cellClassName')
+const defaultTime = toRef(pickerBase.props, 'defaultTime')
+const clearable = toRef(pickerBase.props, 'clearable')
 const disabledDate = toRef(pickerBase.props, 'disabledDate')
 const format: Ref<string | undefined> = toRef(pickerBase.props, 'format')
 const shortcuts = toRef(pickerBase.props, 'shortcuts')
@@ -712,9 +714,9 @@ const showTime = computed(
 
 const formatEmit = (emitDayjs: Dayjs | null, index?: number) => {
   if (!emitDayjs) return
-  if (defaultTime) {
+  if (defaultTime.value) {
     const defaultTimeD = dayjs(
-      defaultTime[index as number] || defaultTime
+      defaultTime.value[index as number] || defaultTime.value
     ).locale(lang.value)
     return defaultTimeD
       .year(emitDayjs.year())
