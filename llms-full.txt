@@ -18475,12 +18475,12 @@ Besides the native features of img, support lazy load, custom placeholder and lo
 
 ### Image Slots
 
-| Name                                      | Description                                                                             | Type |
-| ----------------------------------------- | --------------------------------------------------------------------------------------- | ---- |
-| placeholder                               | custom placeholder content when image hasn't loaded yet.                                | -    |
-| error                                     | custom image load failed content.                                                       | -    |
-| viewer                                    | custom content when image preview.                                                      | -    |
-| [image viewer slots](#image-viewer-slots) | when you allow big image preview, image viewer slots all can be used, except `default`. | -    |
+| Name                                      | Description                                                                                       | Type |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------- | ---- |
+| placeholder                               | custom placeholder content when image hasn't loaded yet.                                          | -    |
+| error                                     | custom image load failed content.                                                                 | -    |
+| viewer                                    | custom content when image preview (it does not replace the built-in `el-image-viewer` component). | -    |
+| [image viewer slots](#image-viewer-slots) | when you allow big image preview, image viewer slots all can be used, except `default`.           | -    |
 
 ### Image Exposes
 
@@ -31089,7 +31089,7 @@ Sometimes you want to render the business components more smoothly when loading 
 | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ------- |
 | animated | whether showing the animation                                                                                                                                                                                                               | ^[boolean]                                                                        | false   |
 | count    | how many fake items to render to the DOM                                                                                                                                                                                                    | ^[number]                                                                         | 1       |
-| loading  | whether showing the real DOM                                                                                                                                                                                                                | ^[boolean]                                                                        | false   |
+| loading  | whether showing the skeleton, the real DOM is rendered when `false`                                                                                                                                                                         | ^[boolean]                                                                        | true    |
 | rows     | numbers of the row, only useful when no template slot were given                                                                                                                                                                            | ^[number]                                                                         | 3       |
 | throttle | rendering delay in milliseconds. Numbers represent delayed display, and can also be set to delay hide, for example `{ leading: 500, trailing: 500 }`. When needing to control the initial value of loading, you can set `{ initVal: true }` | ^[number] / ^[object]`{ leading?: number, trailing?: number, initVal?: boolean }` | 0       |
 
