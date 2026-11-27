@@ -24,7 +24,7 @@
     <div
       ref="listboxRef"
       :class="[ns.b(), $attrs.class]"
-      :style="$attrs.style as StyleValue"
+      :style="styles"
       role="combobox"
       aria-haspopup="listbox"
       :aria-expanded="suggestionVisible"
@@ -126,7 +126,13 @@
   setup
   generic="T extends AutocompleteDataItem = AutocompleteDataItem"
 >
-import { computed, mergeProps, onBeforeUnmount, ref } from 'vue'
+import {
+  computed,
+  mergeProps,
+  onBeforeUnmount,
+  ref,
+  useAttrs as useRawAttrs,
+} from 'vue'
 import { pick } from 'lodash-unified'
 import { onClickOutside, useDebounceFn } from '@vueuse/core'
 import { Loading } from '@element-plus/icons-vue'
@@ -183,6 +189,7 @@ const passInputProps = computed(() => {
   return pick(props, keys)
 })
 
+const rawAttrs = useRawAttrs()
 const disabled = useFormDisabled()
 const ns = useNamespace('autocomplete')
 
@@ -201,6 +208,7 @@ const suggestionDisabled = ref(false)
 const loading = ref(false)
 
 const listboxId = useId()
+const styles = computed(() => rawAttrs.style as StyleValue)
 
 const suggestionVisible = computed(() => {
   const isValidData = suggestions.value.length > 0
