@@ -468,6 +468,34 @@ describe('ScrollBar', () => {
 
       wrapper.unmount()
     })
+
+    test('should use the track padding resolved to pixels', async () => {
+      const { wrapper, wrap, track } = await mountScrollbar(false)
+      ;(track.element as HTMLElement).style.padding = '0 1rem'
+      // jsdom doesn't resolve relative lengths, so emulate the browser
+      const { getComputedStyle } = window
+      const getComputedStyleSpy = vi
+        .spyOn(window, 'getComputedStyle')
+        .mockImplementation((el, pseudo) => {
+          const style = getComputedStyle(el, pseudo)
+          if (el !== track.element) return style
+          return new Proxy(style, {
+            get: (target, key) =>
+              key === 'paddingLeft' || key === 'paddingRight'
+                ? '16px'
+                : Reflect.get(target, key),
+          })
+        })
+
+      // the thumb travels 400 - 32 - 40 = 328px
+      await track.trigger('mousedown', {
+        clientX: trackStart + 16 + 82 + thumbSize / 2,
+      })
+      expect(wrap.scrollLeft).toBe(1125)
+
+      getComputedStyleSpy.mockRestore()
+      wrapper.unmount()
+    })
   })
 
   test('should render tag props', async () => {

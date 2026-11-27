@@ -21,7 +21,7 @@
 import { computed, inject, onBeforeUnmount, ref, toRef } from 'vue'
 import { platform } from '@floating-ui/dom'
 import { clamp, useEventListener } from '@vueuse/core'
-import { getStyle, isClient, throwError } from '@element-plus/utils'
+import { isClient, throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { scrollbarContextKey } from './constants'
 import { BAR_MAP } from './util'
@@ -81,10 +81,12 @@ const getCursorOffset = (e: MouseEvent, el: HTMLElement) =>
 // The track content box along the axis, which the thumb is laid out in: its
 // offset from the track border edge and its size, in layout pixels
 const getTrackBox = (track: HTMLDivElement) => {
+  // The computed style has the padding in pixels, whatever unit it is set in
+  const style = getComputedStyle(track)
   const [paddingStart, paddingEnd] = (
     props.vertical
-      ? [getStyle(track, 'paddingTop'), getStyle(track, 'paddingBottom')]
-      : [getStyle(track, 'paddingLeft'), getStyle(track, 'paddingRight')]
+      ? [style.paddingTop, style.paddingBottom]
+      : [style.paddingLeft, style.paddingRight]
   ).map((padding) => Number.parseFloat(padding) || 0)
   const [border, clientSize] = props.vertical
     ? [track.clientTop, track.clientHeight]
