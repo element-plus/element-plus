@@ -96,7 +96,9 @@
             <li
               v-for="(item, index) in suggestions"
               :id="`${listboxId}-item-${index}`"
-              ref="suggestionRefs"
+              :ref="
+                (el) => (suggestionRefs[index] = el as HTMLLIElement | null)
+              "
               :key="index"
               :class="{ highlighted: highlightedIndex === index }"
               role="option"
@@ -186,7 +188,7 @@ const ns = useNamespace('autocomplete')
 
 const inputRef = ref<InputInstance>()
 const scrollbarRef = ref<ScrollbarInstance>()
-const suggestionRefs = ref<(HTMLLIElement | undefined)[]>([])
+const suggestionRefs = ref<(HTMLLIElement | null)[]>([])
 const popperRef = ref<TooltipInstance>()
 const listboxRef = ref<HTMLElement>()
 
