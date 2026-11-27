@@ -67,7 +67,6 @@
     </div>
     <template #content>
       <div
-        ref="regionRef"
         :class="[ns.b('suggestion'), ns.is('loading', suggestionLoading)]"
         :style="{
           [fitInputWidth === false ? 'minWidth' : 'width']: isNumber(
@@ -262,7 +261,6 @@ const ns = useNamespace('autocomplete')
 const mouseMoveEventName = isIOS ? null : 'mousemove'
 
 const inputRef = ref<InputInstance>()
-const regionRef = ref<HTMLElement>()
 const scrollbarRef = ref<ScrollbarInstance>()
 const suggestionRefs = ref<(HTMLLIElement | null)[]>([])
 const popperRef = ref<TooltipInstance>()
@@ -329,7 +327,10 @@ const updateVirtualListWidth = () => {
     virtualListWidth.value = '100%'
     return
   }
-  if (!suggestionVisible.value || !regionRef.value?.getClientRects().length)
+  if (
+    !suggestionVisible.value ||
+    !virtualListRef.value?.windowRef?.getClientRects().length
+  )
     return
 
   virtualListWidth.value = Math.ceil(
