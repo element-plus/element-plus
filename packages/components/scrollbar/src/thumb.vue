@@ -19,6 +19,7 @@
 
 <script lang="ts" setup>
 import { computed, inject, onBeforeUnmount, ref, toRef } from 'vue'
+import { platform } from '@floating-ui/dom'
 import { clamp, useEventListener } from '@vueuse/core'
 import { getStyle, isClient, throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
@@ -26,6 +27,7 @@ import { scrollbarContextKey } from './constants'
 import { BAR_MAP } from './util'
 
 import type { CSSProperties } from 'vue'
+import type { Coords } from '@floating-ui/dom'
 import type { ThumbProps } from './thumb'
 
 const COMPONENT_NAME = 'Thumb'
@@ -65,7 +67,19 @@ const thumbStyle = computed<CSSProperties>(() => {
   }
 })
 
-// The track content box along the axis, which the thumb is laid out in
+const getScale = () => {
+  const { x, y } = platform.getScale(instance.value!) as Coords
+  return props.vertical ? y : x
+}
+
+// Cursor position from the start of the element, in layout pixels (the
+// distance on screen is scaled by any CSS transform on the track)
+const getCursorOffset = (e: MouseEvent, el: HTMLElement) =>
+  (e[bar.value.client] - el.getBoundingClientRect()[bar.value.direction]) /
+  getScale()
+
+// The track content box along the axis, which the thumb is laid out in: its
+// offset from the track border edge and its size, in layout pixels
 const getTrackBox = (track: HTMLDivElement) => {
   const [paddingStart, paddingEnd] = (
     props.vertical
@@ -77,10 +91,7 @@ const getTrackBox = (track: HTMLDivElement) => {
     : [track.clientLeft, track.clientWidth]
 
   return {
-    start:
-      track.getBoundingClientRect()[bar.value.direction] +
-      border +
-      paddingStart,
+    start: border + paddingStart,
     size: clientSize - paddingStart - paddingEnd,
   }
 }
@@ -112,15 +123,14 @@ const clickThumbHandler = (e: MouseEvent) => {
   const el = e.currentTarget as HTMLDivElement
   if (!el) return
   thumbState.value[bar.value.axis] =
-    el[bar.value.offset] -
-    (e[bar.value.client] - el.getBoundingClientRect()[bar.value.direction])
+    el[bar.value.offset] - getCursorOffset(e, el)
 }
 
 const clickTrackHandler = (e: MouseEvent) => {
   if (!thumb.value || !instance.value || !scrollbar.wrapElement) return
 
   const track = getTrackBox(instance.value)
-  const offset = e[bar.value.client] - track.start
+  const offset = getCursorOffset(e, instance.value) - track.start
   const thumbHalf = thumb.value[bar.value.offset] / 2
 
   scrollToThumbPosition(
@@ -149,7 +159,7 @@ const mouseMoveDocumentHandler = (e: MouseEvent) => {
   if (!prevPage) return
 
   const track = getTrackBox(instance.value)
-  const offset = e[bar.value.client] - track.start
+  const offset = getCursorOffset(e, instance.value) - track.start
   const thumbClickPosition = thumb.value[bar.value.offset] - prevPage
 
   scrollToThumbPosition(
