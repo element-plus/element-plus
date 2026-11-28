@@ -102,6 +102,7 @@ defineOptions({
 
 const props = withDefaults(defineProps<TransferPanelProps<T>>(), {
   data: () => [],
+  direction: 'left',
   format: () => ({}),
   defaultChecked: () => [],
   props: () =>

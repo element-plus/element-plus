@@ -21,6 +21,10 @@ export type TransferDirection = 'left' | 'right'
 
 export type TransferDataItem = Record<string, any>
 
+export type TransferFilterMethod<
+  T extends TransferDataItem = TransferDataItem,
+> = (query: string, item: T, direction: TransferDirection) => boolean
+
 export type renderContent<T extends TransferDataItem = TransferDataItem> = (
   h: typeof H,
   option: T
@@ -65,7 +69,7 @@ export interface TransferProps<T extends TransferDataItem = TransferDataItem> {
   /**
    * @description custom filter method
    */
-  filterMethod?: (query: string, item: T) => boolean
+  filterMethod?: TransferFilterMethod<T>
   /**
    * @description key array of initially checked data items of the left list
    */
@@ -145,9 +149,7 @@ export const transferProps = buildProps({
    * @description custom filter method
    */
   filterMethod: {
-    type: definePropType<(query: string, item: TransferDataItem) => boolean>(
-      Function
-    ),
+    type: definePropType<TransferFilterMethod>(Function),
   },
   /**
    * @description key array of initially checked data items of the left list

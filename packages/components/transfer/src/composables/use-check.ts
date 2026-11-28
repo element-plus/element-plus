@@ -21,7 +21,12 @@ export const useCheck = <T extends TransferDataItem = TransferDataItem>(
   props: Required<
     Pick<
       TransferPanelProps<T>,
-      'data' | 'format' | 'defaultChecked' | 'props' | 'virtualScroll' // 'props' needed by usePropsAlias
+      | 'data'
+      | 'direction'
+      | 'format'
+      | 'defaultChecked'
+      | 'props'
+      | 'virtualScroll' // 'props' needed by usePropsAlias
     >
   > & { filterMethod: TransferPanelProps<T>['filterMethod'] },
   panelState: TransferPanelState,
@@ -32,7 +37,7 @@ export const useCheck = <T extends TransferDataItem = TransferDataItem>(
   const filteredData = computed(() => {
     return props.data.filter((item) => {
       if (isFunction(props.filterMethod)) {
-        return props.filterMethod(panelState.query, item)
+        return props.filterMethod(panelState.query, item, props.direction)
       } else {
         const label = String(
           item[propsAlias.value.label] || item[propsAlias.value.key]

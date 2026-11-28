@@ -5,6 +5,8 @@ import type { ComponentInstance, ExtractPublicPropTypes, VNode } from 'vue'
 import type { ComponentExposed } from 'vue-component-type-helpers'
 import type {
   TransferDataItem,
+  TransferDirection,
+  TransferFilterMethod,
   TransferFormat,
   TransferKey,
   TransferPropsAlias,
@@ -24,12 +26,13 @@ export interface TransferPanelProps<
   T extends TransferDataItem = TransferDataItem,
 > {
   data?: T[]
+  direction?: TransferDirection
   optionRender?: (option: T) => VNode | VNode[]
   placeholder?: string
   title?: string
   filterable?: boolean
   format?: TransferFormat
-  filterMethod?: (query: string, item: T) => boolean
+  filterMethod?: TransferFilterMethod<T>
   defaultChecked?: TransferKey[]
   props?: TransferPropsAlias
   virtualScroll?: boolean
@@ -41,6 +44,10 @@ export interface TransferPanelProps<
  */
 export const transferPanelProps = buildProps({
   data: transferProps.data,
+  direction: {
+    type: definePropType<TransferDirection>(String),
+    default: 'left',
+  },
   optionRender: {
     type: definePropType<(option: TransferDataItem) => VNode | VNode[]>(
       Function
