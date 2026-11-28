@@ -57,6 +57,24 @@ autocomplete/custom-header-footer
 
 :::
 
+## Virtual Scroll ^(2.14.9)
+
+When dealing with large amounts of data, you can enable virtual scrolling to improve performance.
+
+:::demo Set `virtual-scroll` to `true` to enable virtual scrolling. Customize the maximum list height with `height` and the fixed item height with `item-size`. Default height is 280px and default item size is 34px.
+
+autocomplete/virtual-scroll
+
+:::
+
+## Custom Width ^(2.14.9)
+
+:::demo Set `fit-input-width` to `false` to size the dropdown based on its content, `true` to match the input width, or a number to specify a fixed width in pixels.
+
+autocomplete/custom-width
+
+:::
+
 ## API
 
 ### Attributes
@@ -83,10 +101,13 @@ autocomplete/custom-header-footer
 | teleported                           | whether select dropdown is teleported to the body                                                                          | ^[boolean]                                                                               | true         |
 | append-to ^(2.9.9)                   | which select dropdown appends to                                                                                           | ^[CSSSelector] / ^[HTMLElement]                                                          | —            |
 | highlight-first-item                 | whether to highlight first item in remote search suggestions by default                                                    | ^[boolean]                                                                               | false        |
-| fit-input-width                      | whether the width of the dropdown is the same as the input                                                                 | ^[boolean]                                                                               | false        |
+| fit-input-width ^(2.14.9)            | whether the width of the dropdown is the same as the input; a number sets a fixed width in pixels                          | ^[boolean] / ^[number]                                                                   | false        |
 | popper-append-to-body ^(deprecated)  | whether to append the dropdown to body. If the positioning of the dropdown is wrong, you can try to set this prop to false | ^[boolean]                                                                               | false        |
 | loop-navigation ^(2.11.4)            | whether keyboard navigation loops from end to start                                                                        | ^[boolean]                                                                               | true         |
 | [input props](./input.md#attributes) | —                                                                                                                          | —                                                                                        | —            |
+| virtual-scroll ^(2.14.9)             | whether to enable virtual scrolling                                                                                        | ^[boolean]                                                                               | false        |
+| item-size ^(2.14.9)                  | fixed suggestion item height in virtual scrolling mode (px)                                                                | ^[number]                                                                                | 34           |
+| height ^(2.14.9)                     | maximum list height including vertical padding in virtual scrolling mode (px)                                              | ^[number]                                                                                | 280          |
 
 ### Events
 

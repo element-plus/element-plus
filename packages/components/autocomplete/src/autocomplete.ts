@@ -105,13 +105,19 @@ export interface AutocompleteProps<
    */
   highlightFirstItem?: boolean
   /**
-   * @description whether the width of the dropdown is the same as the input
+   * @description whether the width of the dropdown is the same as the input; a number sets a fixed width in pixels
    */
-  fitInputWidth?: boolean
+  fitInputWidth?: boolean | number
   /**
    * @description whether keyboard navigation loops from end to start
    */
   loopNavigation?: boolean
+  /** @description whether to enable virtual scrolling */
+  virtualScroll?: boolean
+  /** @description suggestion item height in virtual scrolling mode (px) */
+  itemSize?: number
+  /** @description maximum list height including vertical padding in virtual scrolling mode (px) */
+  height?: number
 }
 
 /**
@@ -209,15 +215,30 @@ export const autocompleteProps = buildProps({
    */
   highlightFirstItem: Boolean,
   /**
-   * @description whether the width of the dropdown is the same as the input
+   * @description whether the width of the dropdown is the same as the input; a number sets a fixed width in pixels
    */
-  fitInputWidth: Boolean,
+  fitInputWidth: {
+    type: [Boolean, Number],
+    default: false,
+  },
   /**
    * @description whether keyboard navigation loops from end to start
    */
   loopNavigation: {
     type: Boolean,
     default: true,
+  },
+  /** @description whether to enable virtual scrolling */
+  virtualScroll: Boolean,
+  /** @description suggestion item height in virtual scrolling mode (px) */
+  itemSize: {
+    type: Number,
+    default: 34,
+  },
+  /** @description maximum list height including vertical padding in virtual scrolling mode (px) */
+  height: {
+    type: Number,
+    default: 280,
   },
 } as const)
 
