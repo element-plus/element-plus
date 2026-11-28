@@ -1,6 +1,7 @@
 @use 'sass:map';
 
 // CSS3 var
+@use '../common/var' as common;
 @use './var' as *;
 @use '../mixins/_var.scss' as *;
 @use '../mixins/mixins.scss' as *;
@@ -8,9 +9,9 @@
 html.dark {
   color-scheme: dark;
 
-  // hex colors
-  @each $type in (primary, success, warning, danger, error, info) {
-    @include set-css-color-type($colors, $type);
+  // hex colors & rgb channels
+  @each $type in common.$types {
+    @include set-css-color-type($colors, $type, $reset-missing-rgb: true);
   }
 
   // --el-box-shadow-#{$type}

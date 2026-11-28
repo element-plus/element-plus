@@ -273,3 +273,37 @@ el.style['--el-color-primary'] = 'red'
 
 If you want a more elegant way, check this out.
 [useCssVar | VueUse](https://vueuse.org/core/usecssvar/)
+
+### RGB channel variables ^(2.14.10)
+
+In both light and dark themes, Element Plus generates companion RGB channel
+variables for the base theme colors and shades `light-3`, `light-5`, `light-7`,
+`light-8`, `light-9`, and `dark-2`. Use them with `rgba()` to build translucent
+colors that follow the theme:
+
+```css
+/* Default light theme example:
+   --el-color-primary-light-9-rgb: 236, 245, 255 */
+
+.custom-class {
+  /* 10% translucent primary */
+  background-color: rgba(var(--el-color-primary-rgb), 0.1);
+  /* translucent primary-light-9 */
+  border-color: rgba(var(--el-color-primary-light-9-rgb), 0.5);
+}
+```
+
+When you customize a theme with Sass colors, the `-rgb` variables follow those
+values. If you configure a shade with a CSS expression such as
+`var(--brand-shade)`, define its companion `-rgb` variable with a comma-separated
+list of channels to use it with `rgba()`. For a dark theme override, set the
+companion on `html.dark` after loading the dark stylesheet, which clears the light
+theme's channels for that shade.
+
+:::warning
+
+Overriding a color CSS variable at runtime changes that variable alone. Set any
+shades and `-rgb` variables you use separately, or customize Sass colors at
+compile time.
+
+:::

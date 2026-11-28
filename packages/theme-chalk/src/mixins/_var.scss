@@ -1,5 +1,6 @@
 @use 'sass:map';
 @use 'sass:color';
+@use 'sass:meta';
 
 @use 'config';
 @use 'function' as *;
@@ -19,19 +20,31 @@
   #{getCssVarName($name, $type)}: #{map.get($variables, $type)};
 }
 
-@mixin set-css-color-type($colors, $type) {
-  @include set-css-var-value(('color', $type), map.get($colors, $type, 'base'));
+@mixin set-css-color-type($colors, $type, $reset-missing-rgb: false) {
+  $base-color: map.get($colors, $type, 'base');
+  @include set-css-var-value(('color', $type), $base-color);
+  @include set-css-color-rgb-value(
+    ('color', $type, 'rgb'),
+    $base-color,
+    $reset-missing-rgb
+  );
 
   @each $i in (3, 5, 7, 8, 9) {
-    @include set-css-var-value(
-      ('color', $type, 'light', $i),
-      map.get($colors, $type, 'light-#{$i}')
+    $light-color: map.get($colors, $type, 'light-#{$i}');
+    @include set-css-var-value(('color', $type, 'light', $i), $light-color);
+    @include set-css-color-rgb-value(
+      ('color', $type, 'light', $i, 'rgb'),
+      $light-color,
+      $reset-missing-rgb
     );
   }
 
-  @include set-css-var-value(
-    ('color', $type, 'dark-2'),
-    map.get($colors, $type, 'dark-2')
+  $dark-color: map.get($colors, $type, 'dark-2');
+  @include set-css-var-value(('color', $type, 'dark-2'), $dark-color);
+  @include set-css-color-rgb-value(
+    ('color', $type, 'dark-2', 'rgb'),
+    $dark-color,
+    $reset-missing-rgb
   );
 }
 
@@ -46,13 +59,24 @@
   }
 }
 
+@mixin set-css-color-rgb-value($name, $color, $reset-missing-rgb: false) {
+  @if meta.type-of($color) == 'color' {
+    @include set-css-var-value(
+      $name,
+      #{color.channel($color, 'red', $space: rgb),
+      color.channel($color, 'green', $space: rgb),
+      color.channel($color, 'blue', $space: rgb)}
+    );
+  } @else if $reset-missing-rgb {
+    // Clear the light theme's channels when the dark shade is a CSS expression.
+    @include set-css-var-value($name, initial);
+  }
+}
+
 @mixin set-css-color-rgb($type) {
-  $color: map.get($colors, $type, 'base');
-  @include set-css-var-value(
+  @include set-css-color-rgb-value(
     ('color', $type, 'rgb'),
-    #{color.channel($color, 'red', $space: rgb),
-    color.channel($color, 'green', $space: rgb),
-    color.channel($color, 'blue', $space: rgb)}
+    map.get($colors, $type, 'base')
   );
 }
 

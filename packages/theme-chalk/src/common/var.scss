@@ -60,12 +60,10 @@ $color-info: map.get($colors, 'info', 'base') !default;
   $colors: map.deep-merge(
     (
       $type: (
-        '#{$mode}-#{$number}': roundColor(
-            color.mix(
-              $mix-color,
-              map.get($colors, $type, 'base'),
-              math.percentage(math.div($number, 10))
-            )
+        '#{$mode}-#{$number}': getColorMixLevel(
+            map.get($colors, $type, 'base'),
+            $number,
+            $mix-color
           ),
       ),
     ),
