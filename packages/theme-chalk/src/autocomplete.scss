@@ -13,6 +13,10 @@
   position: relative;
   display: inline-block;
 
+  .#{$namespace}-input__inner:placeholder-shown {
+    text-overflow: ellipsis;
+  }
+
   @include e(popper) {
     @include picker-popper(
       getCssVar('bg-color', 'overlay'),
