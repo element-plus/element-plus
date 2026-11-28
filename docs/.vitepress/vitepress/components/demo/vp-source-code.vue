@@ -111,6 +111,10 @@ watch(decoded, async () => {
 :deep(.language-vue) {
   margin: 0 !important;
   border-radius: 0 !important;
+
+  .lang {
+    display: none;
+  }
 }
 
 :deep(.code-line) {

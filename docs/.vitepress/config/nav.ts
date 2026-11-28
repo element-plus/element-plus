@@ -1,4 +1,4 @@
-import { isExternal } from 'vitepress/dist/client/shared'
+import { isExternal } from 'vitepress/dist/client/shared.js'
 import { ensureLang } from '../utils/lang.ts'
 import navLocale from '../i18n/pages/sidebar.json' with { type: 'json' }
 
