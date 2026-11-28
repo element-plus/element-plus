@@ -102,6 +102,112 @@ describe('Cascader.vue', () => {
     expect(handleVisibleChange).toHaveBeenNthCalledWith(4, false)
   })
 
+  test('toggle popper visible when wrapped in a label', async () => {
+    const handleVisibleChange = vi.fn()
+    const wrapper = _mount(() => (
+      <label>
+        <span>label text</span>
+        <Cascader onVisibleChange={handleVisibleChange} />
+        <button></button>
+      </label>
+    ))
+
+    // the label must not forward a second click to the inner input
+    await wrapper.find(TRIGGER).trigger('click')
+    expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(1, true)
+
+    await wrapper.find('button').trigger('mousedown')
+    await wrapper.find('button').trigger('mouseup')
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(2, false)
+
+    await wrapper.find(TRIGGER).trigger('click')
+    expect(handleVisibleChange).toHaveBeenCalledTimes(3)
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(3, true)
+  })
+
+  test('suffix icons should not trigger the label when wrapped in a label', async () => {
+    const handleVisibleChange = vi.fn()
+    const value = ref<string[]>(['zhejiang', 'hangzhou'])
+    const wrapper = _mount(() => (
+      <label>
+        <Cascader
+          v-model={value.value}
+          options={OPTIONS}
+          clearable
+          onVisibleChange={handleVisibleChange}
+        />
+      </label>
+    ))
+
+    // the arrow icon (shown when not hovering) only toggles once
+    await wrapper.findComponent(ArrowDown).trigger('click')
+    expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(1, true)
+
+    // the clear icon clears and closes without being re-opened by the label
+    await wrapper.find(TRIGGER).trigger('mouseenter')
+    await wrapper.findComponent(CircleClose).trigger('click')
+    expect(value.value?.length ?? 0).toBe(0)
+    expect(handleVisibleChange).toHaveBeenCalledTimes(2)
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(2, false)
+  })
+
+  test('toggle multiple popper by clicking label text', async () => {
+    const handleVisibleChange = vi.fn()
+    const value = ref([['zhejiang', 'hangzhou']])
+    const wrapper = _mount(() => (
+      <label>
+        <span class="label-text">label text</span>
+        <Cascader
+          v-model={value.value}
+          options={OPTIONS}
+          props={{ multiple: true }}
+          onVisibleChange={handleVisibleChange}
+        />
+        <button class="outside"></button>
+      </label>
+    ))
+
+    await wrapper.find('.label-text').trigger('click')
+    expect(handleVisibleChange).toHaveBeenCalledTimes(1)
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(1, true)
+
+    await wrapper.find('.outside').trigger('mousedown')
+    await wrapper.find('.outside').trigger('mouseup')
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(2, false)
+
+    await wrapper.find('.label-text').trigger('click')
+    expect(handleVisibleChange).toHaveBeenCalledTimes(3)
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(3, true)
+
+    await wrapper.find('.outside').trigger('mousedown')
+    await wrapper.find('.outside').trigger('mouseup')
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(4, false)
+
+    // clicking the trigger toggles once, the label does not re-toggle it
+    await wrapper.find(TRIGGER).trigger('click')
+    expect(handleVisibleChange).toHaveBeenCalledTimes(5)
+    expect(handleVisibleChange).toHaveBeenNthCalledWith(5, true)
+  })
+
+  test('keep default action of interactive slot content', async () => {
+    const wrapper = _mount(() => (
+      <label>
+        <Cascader
+          options={OPTIONS}
+          v-slots={{
+            prefix: () => <input type="checkbox" class="prefix-checkbox" />,
+          }}
+        />
+      </label>
+    ))
+
+    const checkbox = wrapper.find<HTMLInputElement>('.prefix-checkbox')
+    await checkbox.trigger('click')
+    expect(checkbox.element.checked).toBe(true)
+  })
+
   test('expand and check', async () => {
     const handleChange = vi.fn()
     const handleExpandChange = vi.fn()

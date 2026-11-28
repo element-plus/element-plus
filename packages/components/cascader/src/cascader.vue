@@ -22,7 +22,7 @@
         v-clickoutside:[contentRef]="handleClickOutside"
         :class="cascaderKls"
         :style="cascaderStyle"
-        @click="() => togglePopperVisible(readonly ? undefined : true)"
+        @click="handleWrapperClick"
         @keydown="handleKeyDown"
         @mouseenter="inputHover = true"
         @mouseleave="inputHover = false"
@@ -50,7 +50,7 @@
               v-if="clearBtnVisible"
               key="clear"
               :class="[nsInput.e('icon'), 'icon-circle-close']"
-              @click.stop="handleClear"
+              @click.stop.prevent="handleClear"
             >
               <component :is="clearIcon" />
             </el-icon>
@@ -58,7 +58,7 @@
               v-else
               key="arrow-down"
               :class="cascaderIconKls"
-              @click.stop="togglePopperVisible()"
+              @click.stop.prevent="togglePopperVisible()"
             >
               <arrow-down />
             </el-icon>
@@ -584,6 +584,22 @@ const togglePopperVisible = (visible?: boolean) => {
 
     emit('visibleChange', visible)
   }
+}
+
+// clicks on interactive content (e.g. links or checkboxes in the prefix/tag
+// slots) keep their default action, a surrounding label ignores them anyway
+const INTERACTIVE_SELECTOR =
+  'a[href], button, input, select, textarea, label, [contenteditable]'
+
+const handleWrapperClick = (event: MouseEvent) => {
+  const interactive = (event.target as Element | null)?.closest?.(
+    INTERACTIVE_SELECTOR
+  )
+  // prevent a surrounding label from forwarding a second click to the input
+  if (!interactive || !wrapperRef.value?.contains(interactive)) {
+    event.preventDefault()
+  }
+  togglePopperVisible(readonly.value ? undefined : true)
 }
 
 const updatePopperPosition = () => {
