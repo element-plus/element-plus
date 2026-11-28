@@ -20,17 +20,22 @@
   #{getCssVarName($name, $type)}: #{map.get($variables, $type)};
 }
 
-@mixin set-css-color-type($colors, $type) {
+@mixin set-css-color-type($colors, $type, $reset-missing-rgb: false) {
   $base-color: map.get($colors, $type, 'base');
   @include set-css-var-value(('color', $type), $base-color);
-  @include set-css-color-rgb-value(('color', $type, 'rgb'), $base-color);
+  @include set-css-color-rgb-value(
+    ('color', $type, 'rgb'),
+    $base-color,
+    $reset-missing-rgb
+  );
 
   @each $i in (3, 5, 7, 8, 9) {
     $light-color: map.get($colors, $type, 'light-#{$i}');
     @include set-css-var-value(('color', $type, 'light', $i), $light-color);
     @include set-css-color-rgb-value(
-      ('color', $type, 'light-#{$i}', 'rgb'),
-      $light-color
+      ('color', $type, 'light', $i, 'rgb'),
+      $light-color,
+      $reset-missing-rgb
     );
   }
 
@@ -38,7 +43,8 @@
   @include set-css-var-value(('color', $type, 'dark-2'), $dark-color);
   @include set-css-color-rgb-value(
     ('color', $type, 'dark-2', 'rgb'),
-    $dark-color
+    $dark-color,
+    $reset-missing-rgb
   );
 }
 
@@ -53,9 +59,7 @@
   }
 }
 
-@mixin set-css-color-rgb-value($name, $color) {
-  // only extract rgb channels when the value is a sass color,
-  // so users can override color levels with non-color values like var(...)
+@mixin set-css-color-rgb-value($name, $color, $reset-missing-rgb: false) {
   @if meta.type-of($color) == 'color' {
     @include set-css-var-value(
       $name,
@@ -63,7 +67,17 @@
       color.channel($color, 'green', $space: rgb),
       color.channel($color, 'blue', $space: rgb)}
     );
+  } @else if $reset-missing-rgb {
+    // Clear the light theme's channels when the dark shade is a CSS expression.
+    @include set-css-var-value($name, initial);
   }
+}
+
+@mixin set-css-color-rgb($type) {
+  @include set-css-color-rgb-value(
+    ('color', $type, 'rgb'),
+    map.get($colors, $type, 'base')
+  );
 }
 
 // generate css var from existing css var

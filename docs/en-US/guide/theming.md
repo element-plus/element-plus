@@ -274,15 +274,15 @@ el.style['--el-color-primary'] = 'red'
 If you want a more elegant way, check this out.
 [useCssVar | VueUse](https://vueuse.org/core/usecssvar/)
 
-### RGB channel variables ^(2.14.9)
+### RGB channel variables ^(2.14.10)
 
-Every theme color and its light/dark variants have a companion RGB channel
-variable, generated for both light and dark themes. They can be composed with
-`rgba()` to build translucent colors that follow the theme:
+In both light and dark themes, Element Plus generates companion RGB channel
+variables for the base theme colors and shades `light-3`, `light-5`, `light-7`,
+`light-8`, `light-9`, and `dark-2`. Use them with `rgba()` to build translucent
+colors that follow the theme:
 
 ```css
-/* shipped by Element Plus in both light and dark themes, e.g.
-   --el-color-primary-light-9 is #ecf5ff, so its channel variable is
+/* Default light theme example:
    --el-color-primary-light-9-rgb: 236, 245, 255 */
 
 .custom-class {
@@ -293,15 +293,17 @@ variable, generated for both light and dark themes. They can be composed with
 }
 ```
 
-The `-rgb` variables are generated from the same color map as their hex
-counterparts, so customizing colors with SCSS variables updates them too. In
-dark mode they are regenerated with the dark values, so translucent colors
-adapt to dark themes automatically.
+When you customize a theme with Sass colors, the `-rgb` variables follow those
+values. If you configure a shade with a CSS expression such as
+`var(--brand-shade)`, define its companion `-rgb` variable with a comma-separated
+list of channels to use it with `rgba()`. For a dark theme override, set the
+companion on `html.dark` after loading the dark stylesheet, which clears the light
+theme's channels for that shade.
 
 :::warning
 
-Overriding `--el-color-primary` at runtime does not cascade to its variants,
-including their `-rgb` counterparts. Override the specific variables you need,
-or customize colors through SCSS variables at compile time.
+Overriding a color CSS variable at runtime changes that variable alone. Set any
+shades and `-rgb` variables you use separately, or customize Sass colors at
+compile time.
 
 :::

@@ -41,9 +41,7 @@
 :root {
   color-scheme: light;
 
-  // --el-color-#{$type}
-  // --el-color-#{$type}-light-{$i}
-  // --el-color-#{$type}-rgb
+  // Theme colors, shades, and RGB channels.
   @each $type in $types {
     @include set-css-color-type($colors, $type);
   }

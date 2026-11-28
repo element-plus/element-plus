@@ -100,7 +100,7 @@
   @return rgba($r, $g, $b, $a);
 }
 
-// mix base color with $mix-color by $number/10 ratio，used by set-color-mix-level to generate color light/dark levels
+// Mix the base color with $mix-color at the $number/10 ratio for each shade.
 @function getColorMixLevel($base-color, $number, $mix-color) {
   @return roundColor(
     color.mix($mix-color, $base-color, math.percentage(math.div($number, 10)))

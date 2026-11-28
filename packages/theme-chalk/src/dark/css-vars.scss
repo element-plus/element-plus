@@ -11,7 +11,7 @@ html.dark {
 
   // hex colors & rgb channels
   @each $type in common.$types {
-    @include set-css-color-type($colors, $type);
+    @include set-css-color-type($colors, $type, $reset-missing-rgb: true);
   }
 
   // --el-box-shadow-#{$type}
