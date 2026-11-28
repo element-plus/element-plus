@@ -103,8 +103,8 @@ function useWatcher<T extends DefaultRow>() {
     const inlineChildren = (row[childrenColumnName.value] ?? []) as T[]
     if (!rowKey.value) return inlineChildren
     const id = getRowIdentity(row, rowKey.value)
-    const lazyChildren = (lazyTreeNodeMap.value?.[id] ?? []) as T[]
-    return [...lazyChildren, ...inlineChildren]
+    // The table body renders loaded children in place of the inline children.
+    return (lazyTreeNodeMap.value?.[id] as T[] | undefined) ?? inlineChildren
   }
 
   watch(
@@ -205,6 +205,10 @@ function useWatcher<T extends DefaultRow>() {
     }
   }
 
+  const hasExpandColumn = computed(() =>
+    columns.value.some(({ type }) => type === 'expand')
+  )
+
   // Used by selectable to compute row indices in tree-shaped data
   const rowIndexMap = computed(() => {
     const map = new Map<string, number>()
@@ -224,6 +228,22 @@ function useWatcher<T extends DefaultRow>() {
     return map
   })
 
+  const selectableAtRowIndex = computed(() => {
+    const fn = selectable.value
+    const key = rowKey.value
+    if (!fn || !key) return fn
+
+    // Expand columns render only root rows. Tree rows include loaded lazy
+    // descendants, which can shift the index of a later inline sibling.
+    const indices = hasExpandColumn.value
+      ? new Map(
+          data.value?.map((row, index) => [getRowIdentity(row, key), index])
+        )
+      : rowIndexMap.value
+    return (row: T, index: number) =>
+      fn.call(null, row, indices.get(getRowIdentity(row, key)) ?? index)
+  })
+
   // Update parent selection and indeterminate state based on children selection
   const updateSelectionByChildren = (
     options: {
@@ -239,7 +259,9 @@ function useWatcher<T extends DefaultRow>() {
     }
     const rowKeyValue = rowKey.value
     const rowIndexMapValue = options.rowIndexMap ?? rowIndexMap.value
-    const selectableFn = selectable.value
+    const selectableFn = hasExpandColumn.value
+      ? selectableAtRowIndex.value
+      : selectable.value
     const rowIdCache = new WeakMap<T, string>()
     const getCachedRowId = (row: T) => {
       const cachedId = rowIdCache.get(row)
@@ -414,7 +436,7 @@ function useWatcher<T extends DefaultRow>() {
         child,
         selected,
         treeProps,
-        selectable.value,
+        selectableAtRowIndex.value,
         childIndex,
         rowKey.value
       )
@@ -442,7 +464,7 @@ function useWatcher<T extends DefaultRow>() {
       row,
       selected,
       treeProps,
-      ignoreSelectable ? undefined : selectable.value,
+      ignoreSelectable ? undefined : selectableAtRowIndex.value,
       data.value.indexOf(row),
       rowKey.value
     )
@@ -492,7 +514,7 @@ function useWatcher<T extends DefaultRow>() {
           row,
           value,
           treeProps,
-          selectable.value,
+          selectableAtRowIndex.value,
           rowIndex,
           rowKey
         )
@@ -515,7 +537,7 @@ function useWatcher<T extends DefaultRow>() {
               child,
               value,
               treeProps,
-              selectable.value,
+              selectableAtRowIndex.value,
               childIndex,
               rowKey
             )
@@ -549,14 +571,14 @@ function useWatcher<T extends DefaultRow>() {
 
     let rowIndex = 0
     let selectedCount = 0
+    const selectableFn = selectableAtRowIndex.value
 
     const checkSelectedStatus = (rows: T[]) => {
       for (const row of rows) {
-        const isRowSelectable =
-          selectable.value && selectable.value.call(null, row, rowIndex)
+        const isRowSelectable = selectableFn?.call(null, row, rowIndex)
 
         if (!isSelected(row)) {
-          if (!selectable.value || isRowSelectable) {
+          if (!selectableFn || isRowSelectable) {
             return false
           }
         } else {
@@ -753,8 +775,7 @@ function useWatcher<T extends DefaultRow>() {
 
   // Used for both expand rows and TreeTable
   const toggleRowExpansionAdapter = (row: T, expanded?: boolean) => {
-    const hasExpandColumn = columns.value.some(({ type }) => type === 'expand')
-    if (hasExpandColumn) {
+    if (hasExpandColumn.value) {
       toggleRowExpansion(row, expanded)
     } else {
       toggleTreeExpansion(row, expanded)
