@@ -1,5 +1,6 @@
 import { createApp, nextTick } from 'vue'
 import { afterEach, describe, expect, it, vi } from 'vitest'
+import { EVENT_CODE } from '@element-plus/constants'
 import { rAF } from '@element-plus/test-utils/tick'
 import Notification, { closeAll, updateOffsets } from '../src/notify'
 import defineGetter from '@element-plus/test-utils/define-getter'
@@ -229,5 +230,59 @@ describe('Notification on command', () => {
       document.querySelector('.el-notification__content')!.textContent
     ).toBe(text)
     close()
+  })
+
+  it('should not close on Escape when closeOnPressEscape is false', async () => {
+    const handle = Notification({
+      duration: 0,
+      closeOnPressEscape: false,
+    })
+
+    await rAF()
+    expect(document.querySelector(selector)).not.toBeNull()
+
+    document.dispatchEvent(
+      new KeyboardEvent('keydown', { code: EVENT_CODE.esc })
+    )
+    await rAF()
+    await nextTick()
+    expect(document.querySelector(selector)).not.toBeNull()
+
+    handle.close()
+    await rAF()
+    await nextTick()
+    expect(document.querySelector(selector)).toBeNull()
+  })
+
+  it('should not pause timer on Backspace when pauseOnKeydown is false', async () => {
+    vi.useFakeTimers()
+    const onClose = vi.fn()
+    try {
+      Notification({
+        duration: 100,
+        pauseOnKeydown: false,
+        onClose,
+      })
+
+      await nextTick()
+      expect(document.querySelector(selector)).not.toBeNull()
+
+      document.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          code: EVENT_CODE.backspace,
+          bubbles: true,
+        })
+      )
+
+      vi.advanceTimersByTime(100)
+      await nextTick()
+      expect(onClose).toHaveBeenCalledTimes(1)
+
+      vi.runAllTimers()
+      await nextTick()
+      expect(document.querySelector(selector)).toBeNull()
+    } finally {
+      vi.useRealTimers()
+    }
   })
 })

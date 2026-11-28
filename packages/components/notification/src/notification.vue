@@ -42,9 +42,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, markRaw, onMounted, ref } from 'vue'
+import { computed, markRaw, onMounted, onScopeDispose, ref, watch } from 'vue'
 import { useEventListener, useIntervalFn, useTimeoutFn } from '@vueuse/core'
-import { TypeComponentsMap, getEventCode } from '@element-plus/utils'
+import { TypeComponentsMap, getEventCode, isClient } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
 import { ElProgress } from '@element-plus/components/progress'
@@ -73,6 +73,8 @@ const props = withDefaults(defineProps<NotificationProps>(), {
   closeIcon: markRaw(Close),
   progress: false,
   pauseOnHover: true,
+  closeOnPressEscape: true,
+  pauseOnKeydown: true,
 })
 defineEmits(notificationEmits)
 
@@ -147,6 +149,7 @@ const { pause: pauseProgress, resume: resumeProgress } = useIntervalFn(
 )
 
 function startTimer() {
+  isPausedByKeydown = false
   if (props.duration <= 0) return
 
   timer?.()
@@ -177,6 +180,7 @@ function clearTimer() {
 }
 
 let isHovered = false
+let isPausedByKeydown = false
 
 function onMouseEnter() {
   isHovered = true
@@ -199,17 +203,20 @@ function onKeydown(event: KeyboardEvent) {
   switch (code) {
     case EVENT_CODE.delete:
     case EVENT_CODE.backspace:
-      clearTimer() // press delete/backspace clear timer
+      if (props.pauseOnKeydown) {
+        isPausedByKeydown = true
+        clearTimer() // press delete/backspace clear timer
+      }
       break
     case EVENT_CODE.esc:
       // press esc to close the notification
-      if (visible.value) {
+      if (props.closeOnPressEscape && visible.value) {
         close()
       }
       break
     default: // resume timer
       // keep the timer paused while the pointer is still over the notification
-      if (isHovered && props.pauseOnHover) break
+      if (!props.pauseOnKeydown || (isHovered && props.pauseOnHover)) break
       clearTimer()
       startTimer()
       break
@@ -223,7 +230,35 @@ onMounted(() => {
   visible.value = true
 })
 
-useEventListener(document, 'keydown', onKeydown)
+let stopKeydownListener: (() => void) | undefined
+
+watch(
+  () => props.closeOnPressEscape || props.pauseOnKeydown,
+  (shouldListen) => {
+    stopKeydownListener?.()
+    stopKeydownListener = undefined
+    if (isClient && shouldListen) {
+      stopKeydownListener = useEventListener(document, 'keydown', onKeydown)
+    }
+  },
+  { immediate: true }
+)
+
+watch(
+  () => props.pauseOnKeydown,
+  (pauseOnKeydown) => {
+    if (!pauseOnKeydown && isPausedByKeydown) {
+      isPausedByKeydown = false
+      if (visible.value && !(isHovered && props.pauseOnHover)) {
+        startTimer()
+      }
+    }
+  }
+)
+
+onScopeDispose(() => {
+  stopKeydownListener?.()
+})
 
 defineExpose({
   visible,

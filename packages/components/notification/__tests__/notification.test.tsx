@@ -292,6 +292,286 @@ describe('Notification.vue', () => {
       expect(wrapper.vm.visible).toBe(false)
       vi.useRealTimers()
     })
+
+    test('should not close on Escape when closeOnPressEscape is false and respond when re-enabled', async () => {
+      const wrapper = _mount({
+        props: {
+          duration: 0,
+          closeOnPressEscape: false,
+        },
+        slots: {
+          default: () => AXIOM,
+        },
+      })
+
+      try {
+        document.dispatchEvent(
+          new KeyboardEvent('keydown', { code: EVENT_CODE.esc })
+        )
+        expect(wrapper.vm.visible).toBe(true)
+
+        await wrapper.setProps({ closeOnPressEscape: true })
+        document.dispatchEvent(
+          new KeyboardEvent('keydown', { code: EVENT_CODE.esc })
+        )
+        expect(wrapper.vm.visible).toBe(false)
+      } finally {
+        wrapper.unmount()
+      }
+    })
+
+    test('should not pause timer on Backspace or Delete when pauseOnKeydown is false', async () => {
+      vi.useFakeTimers()
+      try {
+        const wrapper = _mount({
+          props: {
+            duration: 1000,
+            progress: true,
+            pauseOnKeydown: false,
+          },
+        })
+        await nextTick()
+
+        vi.advanceTimersByTime(200)
+        const progressBefore = wrapper.vm.percentage
+        expect(progressBefore).toBeLessThan(100)
+
+        document.dispatchEvent(
+          new KeyboardEvent('keydown', {
+            code: EVENT_CODE.backspace,
+            bubbles: true,
+          })
+        )
+        document.dispatchEvent(
+          new KeyboardEvent('keydown', {
+            code: EVENT_CODE.delete,
+            bubbles: true,
+          })
+        )
+
+        vi.advanceTimersByTime(300)
+        expect(wrapper.vm.percentage).toBeLessThan(progressBefore)
+        expect(wrapper.vm.visible).toBe(true)
+
+        vi.advanceTimersByTime(500)
+        expect(wrapper.vm.visible).toBe(false)
+        wrapper.unmount()
+      } finally {
+        vi.useRealTimers()
+      }
+    })
+
+    test('should keep ESC working while ignoring keydown timer control when pauseOnKeydown is false', async () => {
+      vi.useFakeTimers()
+      try {
+        const wrapper = _mount({
+          props: {
+            duration: 1000,
+            pauseOnKeydown: false,
+            closeOnPressEscape: true,
+          },
+        })
+
+        // Backspace should not pause the timer
+        document.dispatchEvent(
+          new KeyboardEvent('keydown', {
+            code: EVENT_CODE.backspace,
+            bubbles: true,
+          })
+        )
+        // Pressing an unrelated key should not reset elapsed time
+        vi.advanceTimersByTime(600)
+        document.dispatchEvent(
+          new KeyboardEvent('keydown', { code: 'KeyA', bubbles: true })
+        )
+        vi.advanceTimersByTime(400)
+        expect(wrapper.vm.visible).toBe(false)
+
+        // New instance with duration 0 still closes on Escape
+        const escWrapper = _mount({
+          props: {
+            duration: 0,
+            pauseOnKeydown: false,
+            closeOnPressEscape: true,
+          },
+        })
+        document.dispatchEvent(
+          new KeyboardEvent('keydown', { code: EVENT_CODE.esc })
+        )
+        expect(escWrapper.vm.visible).toBe(false)
+
+        wrapper.unmount()
+        escWrapper.unmount()
+      } finally {
+        vi.useRealTimers()
+      }
+    })
+
+    test('should pause timer on Backspace while ignoring ESC when closeOnPressEscape is false', async () => {
+      vi.useFakeTimers()
+      try {
+        const wrapper = _mount({
+          props: {
+            duration: 100,
+            closeOnPressEscape: false,
+            pauseOnKeydown: true,
+          },
+        })
+
+        document.dispatchEvent(
+          new KeyboardEvent('keydown', { code: EVENT_CODE.esc })
+        )
+        expect(wrapper.vm.visible).toBe(true)
+
+        document.dispatchEvent(
+          new KeyboardEvent('keydown', {
+            code: EVENT_CODE.backspace,
+            bubbles: true,
+          })
+        )
+        vi.runAllTimers()
+        expect(wrapper.vm.visible).toBe(true)
+        wrapper.unmount()
+      } finally {
+        vi.useRealTimers()
+      }
+    })
+
+    test('should not register document keydown listener when both options are false and toggle dynamically', async () => {
+      vi.useFakeTimers()
+      const addSpy = vi.spyOn(document, 'addEventListener')
+      const removeSpy = vi.spyOn(document, 'removeEventListener')
+
+      try {
+        const wrapper = _mount({
+          props: {
+            duration: 200,
+            closeOnPressEscape: false,
+            pauseOnKeydown: false,
+          },
+        })
+
+        expect(
+          addSpy.mock.calls.filter(([eventName]) => eventName === 'keydown')
+        ).toHaveLength(0)
+
+        document.dispatchEvent(
+          new KeyboardEvent('keydown', { code: EVENT_CODE.backspace })
+        )
+        document.dispatchEvent(
+          new KeyboardEvent('keydown', { code: EVENT_CODE.delete })
+        )
+        document.dispatchEvent(
+          new KeyboardEvent('keydown', { code: EVENT_CODE.esc })
+        )
+        expect(wrapper.vm.visible).toBe(true)
+
+        await wrapper.setProps({ closeOnPressEscape: true })
+        expect(
+          addSpy.mock.calls.filter(([eventName]) => eventName === 'keydown')
+        ).toHaveLength(1)
+
+        await wrapper.setProps({ closeOnPressEscape: false })
+        expect(
+          removeSpy.mock.calls.filter(([eventName]) => eventName === 'keydown')
+        ).toHaveLength(1)
+
+        document.dispatchEvent(
+          new KeyboardEvent('keydown', { code: EVENT_CODE.esc })
+        )
+        expect(wrapper.vm.visible).toBe(true)
+
+        vi.advanceTimersByTime(200)
+        expect(wrapper.vm.visible).toBe(false)
+        wrapper.unmount()
+      } finally {
+        addSpy.mockRestore()
+        removeSpy.mockRestore()
+        vi.useRealTimers()
+      }
+    })
+
+    test('should resume timer with remaining duration when pauseOnKeydown changes from true to false after Backspace pause', async () => {
+      vi.useFakeTimers()
+      try {
+        const wrapper = _mount({
+          props: {
+            duration: 1000,
+            pauseOnKeydown: true,
+          },
+        })
+
+        vi.advanceTimersByTime(200)
+        document.dispatchEvent(
+          new KeyboardEvent('keydown', {
+            code: EVENT_CODE.backspace,
+            bubbles: true,
+          })
+        )
+
+        vi.advanceTimersByTime(2000)
+        expect(wrapper.vm.visible).toBe(true)
+
+        await wrapper.setProps({ pauseOnKeydown: false })
+        vi.advanceTimersByTime(799)
+        expect(wrapper.vm.visible).toBe(true)
+
+        vi.advanceTimersByTime(1)
+        expect(wrapper.vm.visible).toBe(false)
+        wrapper.unmount()
+
+        // Disabling pauseOnKeydown while timer is running must not reset elapsed time
+        const runningWrapper = _mount({
+          props: {
+            duration: 1000,
+            pauseOnKeydown: true,
+          },
+        })
+        vi.advanceTimersByTime(600)
+        await runningWrapper.setProps({ pauseOnKeydown: false })
+        vi.advanceTimersByTime(400)
+        expect(runningWrapper.vm.visible).toBe(false)
+        runningWrapper.unmount()
+      } finally {
+        vi.useRealTimers()
+      }
+    })
+
+    test('should keep timer paused when hovered even if pauseOnKeydown changes to false', async () => {
+      vi.useFakeTimers()
+      try {
+        const wrapper = _mount({
+          props: {
+            duration: 1000,
+            pauseOnHover: true,
+            pauseOnKeydown: true,
+          },
+        })
+
+        vi.advanceTimersByTime(200)
+        document.dispatchEvent(
+          new KeyboardEvent('keydown', {
+            code: EVENT_CODE.backspace,
+            bubbles: true,
+          })
+        )
+        await wrapper.find('[role=alert]').trigger('mouseenter')
+        await wrapper.setProps({ pauseOnKeydown: false })
+
+        vi.advanceTimersByTime(2000)
+        expect(wrapper.vm.visible).toBe(true)
+
+        await wrapper.find('[role=alert]').trigger('mouseleave')
+        vi.advanceTimersByTime(799)
+        expect(wrapper.vm.visible).toBe(true)
+
+        vi.advanceTimersByTime(1)
+        expect(wrapper.vm.visible).toBe(false)
+        wrapper.unmount()
+      } finally {
+        vi.useRealTimers()
+      }
+    })
   })
 
   describe('progress bar', () => {
