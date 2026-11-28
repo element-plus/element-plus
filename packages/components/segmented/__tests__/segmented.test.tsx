@@ -16,6 +16,24 @@ describe('Segmented.vue', () => {
     expect(wrapper.find('.is-selected').text()).toEqual('Mon')
   })
 
+  test('submits the selected option value with a native form', async () => {
+    const value = ref(0)
+    const options = [
+      { label: 'Standard', value: 0 },
+      { label: 'Express', value: 2 },
+    ]
+    const wrapper = mount(() => (
+      <form>
+        <Segmented name="shipping" options={options} v-model={value.value} />
+      </form>
+    ))
+    const form = wrapper.get('form').element
+
+    expect(new FormData(form).get('shipping')).toBe('0')
+    await wrapper.findAll('input')[1].setValue()
+    expect(new FormData(form).get('shipping')).toBe('2')
+  })
+
   test('render v-model', async () => {
     const value = ref('Mon')
     const options = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
