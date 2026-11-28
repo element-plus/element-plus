@@ -38,6 +38,26 @@ describe('Color-picker', () => {
     wrapper.unmount()
   })
 
+  it.each(['Clear', 'OK'])(
+    'does not commit with %s after an open picker is disabled',
+    async (action) => {
+      const wrapper = mount(ColorPicker, {
+        props: { modelValue: '#ff0000', teleported: false },
+      })
+
+      await wrapper.find('.el-color-picker__trigger').trigger('click')
+      const button = wrapper
+        .findAll('button')
+        .find((button) => button.text() === action)!
+      await wrapper.setProps({ disabled: true })
+      await button.trigger('click')
+
+      expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+      expect(wrapper.emitted('change')).toBeUndefined()
+      wrapper.unmount()
+    }
+  )
+
   it('should show alpha slider when show-alpha=true', async () => {
     const color = ref('#20a0ff')
     const wrapper = mount(() => (
