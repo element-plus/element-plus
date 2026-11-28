@@ -78,7 +78,6 @@ const activeStyle = computed<CSSProperties>(() => {
     backgroundColor: fillValue,
     borderColor: fillValue,
     color: checkboxGroup?.textColor?.value ?? '',
-    boxShadow: fillValue ? `-1px 0 0 0 ${fillValue}` : undefined,
   }
 })
 
