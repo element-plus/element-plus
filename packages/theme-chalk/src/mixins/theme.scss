@@ -1,0 +1,14 @@
+$root-selector: ':root' !default;
+$dark-selector: 'html.dark' !default;
+
+@mixin root {
+  #{$root-selector} {
+    @content;
+  }
+}
+
+@mixin dark {
+  #{$dark-selector} {
+    @content;
+  }
+}

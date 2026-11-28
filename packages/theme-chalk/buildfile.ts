@@ -62,14 +62,14 @@ async function buildThemeChalk() {
   return Promise.all(chunks.map(processfiles))
 }
 
-async function buildDarkCssVars() {
-  const darkFile = path.resolve(__dirname, 'src/dark/css-vars.scss')
-  const cssResult = await compileAsync(darkFile)
-  const compressed = await compress(darkFile, cssResult.css)
+async function buildThemeEntry(entry: string) {
+  const source = path.resolve(__dirname, 'src', `${entry}.scss`)
+  const cssResult = await compileAsync(source)
+  const compressed = await compress(source, cssResult.css)
 
-  const outputDir = path.join(distFolder, 'dark')
-  await mkdir(outputDir, { recursive: true })
-  await writeFile(path.join(outputDir, 'css-vars.css'), compressed)
+  const output = path.join(distFolder, `${entry}.css`)
+  await mkdir(path.dirname(output), { recursive: true })
+  await writeFile(output, compressed)
 }
 
 async function copyThemeChalkBundle() {
@@ -98,7 +98,8 @@ const buildTheme = async () => {
   await execCommand(copyThemeChalkSource)
   await Promise.all([
     execCommand(buildThemeChalk),
-    execCommand(buildDarkCssVars),
+    execCommand(() => buildThemeEntry('dark/css-vars'), 'buildDarkCssVars'),
+    execCommand(() => buildThemeEntry('shadow/index'), 'buildShadowTheme'),
   ])
   await execCommand(copyThemeChalkBundle)
 }

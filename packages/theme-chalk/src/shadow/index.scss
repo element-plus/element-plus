@@ -1,0 +1,6 @@
+@use '../mixins/theme' with (
+  $root-selector: ':host',
+  $dark-selector: ':host(.dark)'
+);
+@use '../index';
+@use '../dark/css-vars';
