@@ -44,6 +44,10 @@ tree-v2/disabled
 
 :::
 
+Calling `setChecked` with a disabled leaf's key sets that leaf directly. A call that cascades from an ancestor traverses disabled branches and skips disabled leaves.
+
+With `check-strictly` off, `setChecked` cascades even when `deep` is `false`. The tree then derives each parent's checked or indeterminate state from its children. For example, a branch whose only child is an unchecked disabled leaf ends up unchecked. With `check-strictly` on, the call sets only the target by default. Passing `true` for `deep` also sets its descendants, skipping disabled leaves, and ancestors above the target keep their state.
+
 ## Default expanded and default checked
 
 Tree nodes can be initially expanded or checked
@@ -140,7 +144,7 @@ tree-v2/filter
 | getCheckedNodes       | If the node can be selected (`show-checkbox` is `true`), it returns the currently selected array of nodes                         | `(leafOnly: boolean)`                                                |
 | getCheckedKeys        | If the node can be selected (`show-checkbox` is `true`), it returns the currently selected array of node's keys                   | `(leafOnly: boolean)`                                                |
 | setCheckedKeys        | set certain nodes to be checked                                                                                                   | `(keys: TreeKey[])`                                                  |
-| setChecked            | set node to be checked or not, `deep` (added in ^(2.14.0)) indicates whether child nodes should be recursively checked/unchecked. | `(key: TreeKey, checked: boolean, deep?: boolean)`                   |
+| setChecked            | Cascade with `check-strictly` off or `deep` ^(2.14.0) on, skipping disabled leaves. Only non-strict mode recomputes parent state. | `(key: TreeKey, checked: boolean, deep?: boolean)`                   |
 | setExpandedKeys       | set certain nodes to be expanded                                                                                                  | `(keys: TreeKey[])`                                                  |
 | getHalfCheckedNodes   | If the node can be selected (`show-checkbox` is `true`), it returns the currently half selected array of nodes                    | —                                                                    |
 | getHalfCheckedKeys    | If the node can be selected (`show-checkbox` is `true`), it returns the currently half selected array of node's keys              | —                                                                    |
