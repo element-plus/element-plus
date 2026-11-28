@@ -524,6 +524,8 @@ const checkedValue = computed<CascaderValue>({
     return cloneDeep(props.modelValue) as CascaderValue
   },
   set(val) {
+    if (isDisabled.value) return
+
     // https://github.com/element-plus/element-plus/issues/17647
     const value = val ?? valueOnClear.value
     emit(UPDATE_MODEL_EVENT, value)
@@ -566,9 +568,8 @@ const handleClickOutside = (event: Event) => {
 }
 
 const togglePopperVisible = (visible?: boolean) => {
-  if (isDisabled.value) return
-
   visible = visible ?? !popperVisible.value
+  if (visible && isDisabled.value) return
 
   if (visible !== popperVisible.value) {
     popperVisible.value = visible
@@ -850,6 +851,8 @@ const syncPresentTextValue = () => {
 }
 
 const handleSuggestionClick = (node: CascaderNode) => {
+  if (isDisabled.value) return
+
   const { checked } = node
 
   if (multiple.value) {
@@ -988,6 +991,10 @@ const blur = () => {
 }
 
 watch(filtering, updatePopperPosition)
+
+watch(isDisabled, (disabled) => {
+  if (disabled) togglePopperVisible(false)
+})
 
 watch(
   [
