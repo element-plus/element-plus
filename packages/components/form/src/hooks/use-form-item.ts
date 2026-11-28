@@ -70,8 +70,7 @@ export const useFormItemInputId = (
   const isLabeledByFormItem = computed<boolean>(() => {
     return !!(
       !(props.label || props.ariaLabel) &&
-      formItemContext &&
-      formItemContext.inputIds &&
+      formItemContext?.hasLabel &&
       formItemContext.inputIds?.length <= 1
     )
   })

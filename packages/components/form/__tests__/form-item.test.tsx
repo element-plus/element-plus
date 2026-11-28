@@ -12,6 +12,8 @@ import {
 } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
 import Input from '@element-plus/components/input'
+import InputOtp from '@element-plus/components/input-otp'
+import Rate from '@element-plus/components/rate'
 import Form from '../src/form.vue'
 import FormItem from '../src/form-item.vue'
 import DynamicFormItem from './mock-data'
@@ -170,6 +172,54 @@ describe('ElFormItem', () => {
     expect(name).toBe('label')
     expect(email).toBe('div')
     expect(address).toBe('label')
+  })
+
+  it('keeps the control name when the form item has no label', async () => {
+    const ariaLabel = ref<string>()
+    const wrapper = mount(FormItem, {
+      slots: { default: () => <Rate aria-label={ariaLabel.value} /> },
+    })
+    const rate = wrapper.get('[role="slider"]')
+    await nextTick()
+    expect(rate.attributes('aria-label')).toBe('rating')
+    expect(rate.attributes('aria-labelledby')).toBeUndefined()
+
+    await wrapper.setProps({ label: 'Score' })
+    expect(rate.attributes('aria-labelledby')).toBe(
+      wrapper.get('.el-form-item__label').attributes('id')
+    )
+
+    ariaLabel.value = 'Your score'
+    await nextTick()
+    expect(rate.attributes('aria-label')).toBe('Your score')
+    expect(rate.attributes('aria-labelledby')).toBeUndefined()
+  })
+
+  it('uses the form item label slot only while it is present', async () => {
+    const showLabel = ref(false)
+    const wrapper = mount(() => (
+      <FormItem
+        v-slots={{
+          default: () => <InputOtp />,
+          ...(showLabel.value && { label: () => 'Verification code' }),
+        }}
+      />
+    ))
+    const otp = wrapper.get('.el-input-otp')
+    await nextTick()
+    expect(otp.attributes('aria-label')).toBe('OTP Input')
+    expect(otp.attributes('aria-labelledby')).toBeUndefined()
+
+    showLabel.value = true
+    await nextTick()
+    expect(otp.attributes('aria-labelledby')).toBe(
+      wrapper.get('.el-form-item__label').attributes('id')
+    )
+
+    showLabel.value = false
+    await nextTick()
+    expect(otp.attributes('aria-label')).toBe('OTP Input')
+    expect(otp.attributes('aria-labelledby')).toBeUndefined()
   })
 
   it('form-item label position', () => {
