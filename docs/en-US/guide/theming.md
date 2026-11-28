@@ -273,3 +273,26 @@ el.style['--el-color-primary'] = 'red'
 
 If you want a more elegant way, check this out.
 [useCssVar | VueUse](https://vueuse.org/core/usecssvar/)
+
+## Shadow DOM ^(2.14.10)
+
+Load `element-plus/theme-chalk/shadow/index.css` inside a shadow root to give it an independent theme. This stylesheet includes the component styles and both color schemes.
+
+With Vite, import the stylesheet as a string with `?inline` and add it to the shadow root.
+
+```ts
+import theme from 'element-plus/theme-chalk/shadow/index.css?inline'
+
+const host = document.createElement('div')
+const shadowRoot = host.attachShadow({ mode: 'open' })
+const style = document.createElement('style')
+style.textContent = theme
+shadowRoot.append(style)
+document.body.append(host)
+```
+
+Add custom styles after the theme stylesheet and use `:host` to override its variables. See [Dark Mode](./dark-mode.md#shadow-dom) for dark mode overrides.
+
+For popups such as Tooltip and Select, set `:teleported="false"` or pass an `HTMLElement` inside the shadow root to `append-to` so the popup uses the same theme.
+
+To inherit theme variables from the surrounding page, load the regular `element-plus/dist/index.css` inside the shadow root and keep the page's theme styles in the document.

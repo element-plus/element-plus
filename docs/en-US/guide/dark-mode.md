@@ -33,6 +33,14 @@ import 'element-plus/theme-chalk/dark/css-vars.css'
 
 > If you want an example, you can refer to [element-plus-vite-starter](https://github.com/element-plus/element-plus-vite-starter).
 
+## Shadow DOM
+
+The [Shadow DOM stylesheet](./theming.md#shadow-dom) includes dark mode. Toggle the `dark` class on the host element, the element that owns the shadow root.
+
+For dark mode overrides, add a stylesheet after it inside the shadow root and use `:host(.dark)`.
+
+With the regular stylesheet in the shadow root, components can inherit dark variables from page ancestors. Use the Shadow DOM stylesheet and the host's `dark` class to apply component-specific dark styles inside the shadow root.
+
 ## Custom variables
 
 ### By CSS

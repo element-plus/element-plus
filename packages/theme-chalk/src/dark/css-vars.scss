@@ -4,8 +4,9 @@
 @use './var' as *;
 @use '../mixins/_var.scss' as *;
 @use '../mixins/mixins.scss' as *;
+@use '../mixins/theme';
 
-html.dark {
+@include theme.dark {
   color-scheme: dark;
 
   // hex colors
@@ -26,20 +27,20 @@ html.dark {
   // Fill --el-fill-color-#{$type}
   @include set-component-css-var('fill-color', $fill-color);
   @include set-component-css-var('mask-color', $mask-color);
-}
 
-@include dark(button) {
-  @include set-component-css-var('button', $button);
-}
+  @include b(button) {
+    @include set-component-css-var('button', $button);
+  }
 
-@include dark(card) {
-  @include set-component-css-var('card', $card);
-  @include set-css-var-value(
-    ('fill-color', 'blank'),
-    getCssVar('card', 'bg-color')
-  );
-}
+  @include b(card) {
+    @include set-component-css-var('card', $card);
+    @include set-css-var-value(
+      ('fill-color', 'blank'),
+      getCssVar('card', 'bg-color')
+    );
+  }
 
-@include dark(empty) {
-  @include set-component-css-var('empty', $empty);
+  @include b(empty) {
+    @include set-component-css-var('empty', $empty);
+  }
 }

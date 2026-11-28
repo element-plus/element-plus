@@ -1,4 +1,5 @@
 @use 'mixins/mixins' as *;
+@use 'mixins/theme';
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 @use 'common/transition';
@@ -45,8 +46,8 @@
   }
 }
 
-:root {
-  // They are defined on :root so they can be inherited by sub-menu instead of overwritten
+@include theme.root {
+  // Define menu variables here so sub-menus inherit any overrides.
   @include set-component-css-var('menu', $menu);
 }
 

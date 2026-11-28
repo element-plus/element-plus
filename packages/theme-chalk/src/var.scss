@@ -2,13 +2,14 @@
 @use 'common/var' as *;
 @use 'mixins/var' as *;
 @use 'mixins/mixins' as *;
+@use 'mixins/theme';
 
 // for better performance do not dynamically change the root variable if you really
 // do not need that, since this could introduce recalculation overhead for rendering.
 // https://lisilinhart.info/posts/css-variables-performance/
 
 // common
-:root {
+@include theme.root {
   @include set-css-var-value('color-white', $color-white);
   @include set-css-var-value('color-black', $color-black);
 
@@ -43,7 +44,7 @@
 }
 
 // for light
-:root {
+@include theme.root {
   color-scheme: light;
 
   // --el-color-#{$type}

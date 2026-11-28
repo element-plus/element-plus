@@ -1,8 +1,9 @@
 @use 'mixins/mixins' as *;
+@use 'mixins/theme';
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 
-:root {
+@include theme.root {
   @include set-component-css-var('loading', $loading);
 }
 
