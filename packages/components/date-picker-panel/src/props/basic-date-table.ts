@@ -30,6 +30,11 @@ export type WeekPickerEmits = {
   value: string
   date: Dayjs
 }
+export type WeeksPickerEmits = WeekPickerEmits[]
 
 export type DateTableEmits =
-  RangePickerEmits | DatePickerEmits | DatesPickerEmits | WeekPickerEmits
+  | RangePickerEmits
+  | DatePickerEmits
+  | DatesPickerEmits
+  | WeekPickerEmits
+  | WeeksPickerEmits
