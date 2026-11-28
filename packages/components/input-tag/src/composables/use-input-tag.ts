@@ -131,7 +131,7 @@ export function useInputTag({ props, emit, formItem }: UseInputTagOptions) {
         }
         break
       case EVENT_CODE.backspace:
-        if (!inputValue.value && props.modelValue?.length) {
+        if (closable.value && !inputValue.value && props.modelValue?.length) {
           event.preventDefault()
           event.stopPropagation()
           handleRemoveTag(props.modelValue.length - 1)

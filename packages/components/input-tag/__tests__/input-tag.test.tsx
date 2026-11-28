@@ -157,18 +157,23 @@ describe('InputTag.vue', () => {
   })
 
   test('readonly', async () => {
-    const readonly = ref(true)
-    const wrapper = mount(() => (
-      <InputTag modelValue={[AXIOM]} readonly={readonly.value} />
-    ))
+    const wrapper = mount(InputTag, {
+      props: { modelValue: [AXIOM], readonly: true },
+    })
+    const input = wrapper.get('input')
 
-    expect(wrapper.find('input').attributes('readonly')).toBe('')
+    expect(input.attributes('readonly')).toBe('')
     expect(wrapper.find('.el-tag__close').exists()).toBe(false)
+    await input.trigger('keydown', { code: EVENT_CODE.backspace })
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    expect(wrapper.emitted('change')).toBeUndefined()
+    expect(wrapper.emitted('remove-tag')).toBeUndefined()
 
-    readonly.value = false
-    await nextTick()
-    expect(wrapper.find('input').attributes('readonly')).toBe(undefined)
+    await wrapper.setProps({ readonly: false })
+    expect(input.attributes('readonly')).toBeUndefined()
     expect(wrapper.find('.el-tag__close').exists()).toBe(true)
+    await input.trigger('keydown', { code: EVENT_CODE.backspace })
+    expect(wrapper.emitted('remove-tag')).toEqual([[AXIOM, 0]])
   })
 
   test('clearable', async () => {
