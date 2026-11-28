@@ -16,8 +16,8 @@ import {
   getPackageDependencies,
   projRoot,
 } from '@element-plus/build-utils'
-import { MarkdownTransform } from '../plugins/markdown-transform'
-import { ComponentChangelogPlugin } from '../plugins/component-changelog'
+import { MarkdownTransform } from '../plugins/markdown-transform.ts'
+import { ComponentChangelogPlugin } from '../plugins/component-changelog.ts'
 
 import type { Plugin, UserConfig } from 'vitepress'
 
@@ -49,7 +49,7 @@ optimizeDeps.push(
 const alias: AliasOptions = [
   {
     find: '~/',
-    replacement: `${path.resolve(__dirname, '../vitepress')}/`,
+    replacement: `${path.resolve(import.meta.dirname, '../vitepress')}/`,
   },
   ...(process.env.DOC_ENV === 'production'
     ? []
@@ -133,7 +133,7 @@ export const getViteConfig = ({ mode }: { mode: string }) => {
       VueI18n({
         runtimeOnly: true,
         compositionOnly: true,
-        include: [path.resolve(__dirname, '../locales/**')],
+        include: [path.resolve(import.meta.dirname, '../locales/**')],
       }) as Plugin,
 
       MarkdownTransform() as Plugin,

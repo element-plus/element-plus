@@ -1,6 +1,7 @@
 {
   "name": "@element-plus/docs",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "pnpm gen-locale && vitepress dev .",
     "build": "pnpm gen-locale && pnpm gen-llms && NODE_ENV=production vitepress build .",
@@ -45,7 +46,7 @@
     "unplugin-vue-components": "^32.1.0",
     "vite-plugin-inspect": "^0.8.7",
     "vite-plugin-mkcert": "^2.1.0",
-    "vitepress": "^1.6.4",
+    "vitepress": "^2.0.0-alpha.21",
     "vitepress-plugin-group-icons": "^1.8.2",
     "vue": "catalog:"
   }

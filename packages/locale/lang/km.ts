@@ -8,8 +8,7 @@ export default {
       confirm: 'យល់ព្រម',
       clear: 'លុបចោល',
       defaultLabel: 'ឧបករណ៍ជ្រើសរើសពណ៌',
-      description:
-        '{color} ជាពណ៌បច្ចុប្បន្ន។ សូមចុច Enter ដើម្បីជ្រើសរើសពណ៌ថ្មី',
+      description: '{color} ជាពណ៌បច្ចុប្បន្ន។ សូមចុច Enter ដើម្បីជ្រើសរើសពណ៌ថ្មី',
       alphaLabel: 'ជ្រើសរើសភាពស្រអាប់',
       alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
       hueLabel: 'pick hue value', // to be translated
@@ -25,14 +24,10 @@ export default {
       cancel: 'បោះបង់',
       clear: 'លុបចោល',
       confirm: 'យល់ព្រម',
-      dateTablePrompt:
-        'ប្រើគ្រាប់ចុចដើម្បីរំកិល និងចុច Enter ដើម្បីជ្រើសរើសកាលបរិច្ឆេទ',
-      monthTablePrompt:
-        'ប្រើគ្រាប់ចុចដើម្បីរំកិល និងចុច Enter ដើម្បីជ្រើសរើសខែ',
-      quarterTablePrompt:
-        'ប្រើគ្រាប់ចុចដើម្បីរំកិល និងចុច Enter ដើម្បីជ្រើសរើសត្រីមាស',
-      yearTablePrompt:
-        'ប្រើគ្រាប់ចុចដើម្បីរំកិល និងចុច Enter ដើម្បីជ្រើសរើសឆ្នាំ',
+      dateTablePrompt: 'ប្រើគ្រាប់ចុចដើម្បីរំកិល និងចុច Enter ដើម្បីជ្រើសរើសកាលបរិច្ឆេទ',
+      monthTablePrompt: 'ប្រើគ្រាប់ចុចដើម្បីរំកិល និងចុច Enter ដើម្បីជ្រើសរើសខែ',
+      quarterTablePrompt: 'ប្រើគ្រាប់ចុចដើម្បីរំកិល និងចុច Enter ដើម្បីជ្រើសរើសត្រីមាស',
+      yearTablePrompt: 'ប្រើគ្រាប់ចុចដើម្បីរំកិល និងចុច Enter ដើម្បីជ្រើសរើសឆ្នាំ',
       selectedDate: 'កាលបរិច្ឆេទដែលបានជ្រើសរើស',
       selectDate: 'ជ្រើសរើសកាលបរិច្ឆេទ',
       selectTime: 'ជ្រើសរើសម៉ោង',

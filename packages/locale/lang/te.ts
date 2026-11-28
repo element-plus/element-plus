@@ -8,8 +8,7 @@ export default {
       confirm: 'సరే',
       clear: 'తొలగించు',
       defaultLabel: 'రంగు ఎంచుకోండి',
-      description:
-        'ప్రస్తుత రంగు {color}. కొత్త రంగును ఎంచుకోవడానికి ఎంటర్ నొక్కండి.',
+      description: 'ప్రస్తుత రంగు {color}. కొత్త రంగును ఎంచుకోవడానికి ఎంటర్ నొక్కండి.',
       alphaLabel: 'అల్ఫా విలువను ఎంచుకోండి',
       alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
       hueLabel: 'pick hue value', // to be translated
@@ -25,13 +24,10 @@ export default {
       cancel: 'రద్దు',
       clear: 'తొలగించు',
       confirm: 'సరే',
-      dateTablePrompt:
-        'నెలలోని రోజును ఎంచుకోవడానికి ఈతలు మరియు ఎంటర్ ఉపయోగించండి',
+      dateTablePrompt: 'నెలలోని రోజును ఎంచుకోవడానికి ఈతలు మరియు ఎంటర్ ఉపయోగించండి',
       monthTablePrompt: 'నెలను ఎంచుకోవడానికి ఈతలు మరియు ఎంటర్ ఉపయోగించండి',
-      quarterTablePrompt:
-        'త్రైమాసికాన్ని ఎంచుకోవడానికి ఈతలు మరియు ఎంటర్ ఉపయోగించండి',
-      yearTablePrompt:
-        'సంవత్సరాన్ని ఎంచుకోవడానికి ఈతలు మరియు ఎంటర్ ఉపయోగించండి',
+      quarterTablePrompt: 'త్రైమాసికాన్ని ఎంచుకోవడానికి ఈతలు మరియు ఎంటర్ ఉపయోగించండి',
+      yearTablePrompt: 'సంవత్సరాన్ని ఎంచుకోవడానికి ఈతలు మరియు ఎంటర్ ఉపయోగించండి',
       selectedDate: 'ఎంచుకున్న తేదీ',
       selectDate: 'తేదీ ఎంచుకోండి',
       selectTime: 'సమయం ఎంచుకోండి',

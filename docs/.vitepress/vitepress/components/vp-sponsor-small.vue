@@ -55,9 +55,5 @@ div {
       width: 100%;
     }
   }
-
-  @include respond-to('xs') {
-    width: 196px;
-  }
 }
 </style>

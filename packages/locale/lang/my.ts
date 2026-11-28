@@ -25,14 +25,10 @@ export default {
       cancel: 'ပယ်ဖျက်',
       clear: 'ရှင်းမယ်',
       confirm: 'အိုကေ',
-      dateTablePrompt:
-        'arrow keys နှင့် enter ကိုအသုံးပြုပြီး နေ့ရက် ကိုရွေးချယ်ပါ',
-      monthTablePrompt:
-        'arrow keys နှင့် enter ကိုအသုံးပြုပြီး လ ကိုရွေးချယ်ပါ',
-      quarterTablePrompt:
-        'arrow keys နှင့် enter ကိုအသုံးပြုပြီး သုံးလပတ် ကိုရွေးချယ်ပါ',
-      yearTablePrompt:
-        'arrow keys နှင့် enter ကိုအသုံးပြုပြီး နှစ် ကိုရွေးချယ်ပါ',
+      dateTablePrompt: 'arrow keys နှင့် enter ကိုအသုံးပြုပြီး နေ့ရက် ကိုရွေးချယ်ပါ',
+      monthTablePrompt: 'arrow keys နှင့် enter ကိုအသုံးပြုပြီး လ ကိုရွေးချယ်ပါ',
+      quarterTablePrompt: 'arrow keys နှင့် enter ကိုအသုံးပြုပြီး သုံးလပတ် ကိုရွေးချယ်ပါ',
+      yearTablePrompt: 'arrow keys နှင့် enter ကိုအသုံးပြုပြီး နှစ် ကိုရွေးချယ်ပါ',
       selectedDate: 'ရွေးချယ်ထားသော ရက်စွဲ',
       selectDate: 'ရက်စွဲကို ရွေးချယ်ပါ',
       selectTime: 'အချိန်ကို ရွေးချယ်ပါ',
