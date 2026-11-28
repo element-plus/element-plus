@@ -181,6 +181,8 @@ If you want to support empty string, please set `empty-values` to `[null, undefi
 
 If you want to change the clear value to `null`, please set `value-on-clear` to `null`.
 
+By default, clearing a single Select sets its model value to `undefined`. If a form validation rule transforms the selected value, handle an empty value before converting it. For example, `transform: (value) => value?.toString()` preserves the empty value so a required rule can report it.
+
 :::demo
 
 select/empty-values
