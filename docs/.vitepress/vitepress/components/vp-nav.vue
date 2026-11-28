@@ -13,7 +13,7 @@ const close = () => toggleFullScreen(false)
 
 useToggleWidgets(isFullScreen, () => {
   if (!isClient) return
-  if (window.outerWidth >= breakpoints.md) {
+  if (window.outerWidth >= breakpoints.lg) {
     close()
   }
 })
