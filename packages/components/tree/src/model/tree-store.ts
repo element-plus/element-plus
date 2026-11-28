@@ -210,13 +210,13 @@ export default class TreeStore {
 
   deregisterNode(node: Node): void {
     const key = this.key
-    if (!key || !node || !node.data) return
+    if (!node || !node.data) return
 
     node.childNodes.forEach((child) => {
       this.deregisterNode(child)
     })
 
-    delete this.nodesMap[node.key!]
+    delete this.nodesMap[key ? node.key! : node.id]
   }
 
   getCheckedNodes(

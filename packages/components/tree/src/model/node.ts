@@ -139,7 +139,9 @@ class Node {
   isEffectivelyChecked: boolean = false
 
   constructor(options: TreeNodeOptions) {
-    this.id = nodeIdSeed++
+    // An unkeyed tree looks up data by the ID recorded on its first insertion.
+    const dataId = options.store.key ? undefined : options.data?.[NODE_KEY]
+    this.id = dataId ?? nodeIdSeed++
     this.text = null
     this.checked = false
     this.indeterminate = false

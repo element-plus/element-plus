@@ -224,17 +224,14 @@ export function useDragNodeHandler({
       } else if (dropType === 'inner') {
         dropNode.node.insertChild(draggingNodeCopy)
       }
-      if (dropType !== 'none') {
-        store.value.registerNode(draggingNodeCopy as any)
-        if (store.value.key) {
-          //restore checkbox state after dragging
-          draggingNode.node.eachNode((node) => {
-            store.value.nodesMap[node.data[store.value.key]]?.setChecked(
-              node.checked,
-              !store.value.checkStrictly
-            )
-          })
-        }
+      if (dropType !== 'none' && store.value.key) {
+        // Restore checkbox state on the nodes registered by insertChild.
+        draggingNode.node.eachNode((node) => {
+          store.value.nodesMap[node.data[store.value.key]]?.setChecked(
+            node.checked,
+            !store.value.checkStrictly
+          )
+        })
       }
 
       removeClass(dropNode.$el!, ns.is('drop-inner'))
