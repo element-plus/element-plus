@@ -80,7 +80,7 @@ export const useDateTable = (
   })
 
   const weekDays = computed(() => {
-    const start = firstDayOfWeek
+    const start = props.range?.[0]?.day() ?? firstDayOfWeek
     if (start === 0) {
       return WEEK_DAYS.map((_) => t(`el.datepicker.weeks.${_}`))
     } else {

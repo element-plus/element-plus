@@ -3,6 +3,9 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
 import updateLocale from 'dayjs/plugin/updateLocale'
 import dayjs from 'dayjs'
+import 'dayjs/locale/zh-cn'
+import { ElConfigProvider } from '@element-plus/components/config-provider'
+import zhCn from '@element-plus/locale/lang/zh-cn'
 import Calendar from '../src/calendar.vue'
 
 const AXIOM = 'Rem is the best girl'
@@ -187,6 +190,22 @@ describe('Calendar.vue', () => {
     const firstRow = wrapper.element.querySelector('.el-calendar-table__row')
     expect(firstRow?.firstElementChild?.innerHTML).toContain('3')
     expect(firstRow?.lastElementChild?.innerHTML).toContain('9')
+  })
+
+  it('aligns range headers with the first displayed day in each locale', () => {
+    const wrapper = mount(() => (
+      <div>
+        <Calendar range={[new Date(2025, 11, 7), new Date(2025, 11, 13)]} />
+        <ElConfigProvider locale={zhCn}>
+          <Calendar range={[new Date(2025, 11, 1), new Date(2025, 11, 7)]} />
+        </ElConfigProvider>
+      </div>
+    ))
+    const [english, chinese] = wrapper.findAll('.el-calendar-table')
+    expect(english.get('th').text()).toBe('Sun')
+    expect(english.get('td').text()).toBe('7')
+    expect(chinese.get('th').text()).toBe('一')
+    expect(chinese.get('td').text()).toBe('1')
   })
 
   it('click previous month or next month', async () => {
