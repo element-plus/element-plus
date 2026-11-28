@@ -2833,6 +2833,35 @@ describe('MonthRange', () => {
     expect(vm.value[0]).toBe('2015-01')
   })
 
+  it('should reject manually typed disabled months', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+      type='monthrange'
+      v-model="value"
+      valueFormat="YYYY-MM"
+      :disabledDate="disabledDate"
+    />`,
+      () => ({
+        value: ['2022-01', '2022-02'],
+        disabledDate: (time: Date) =>
+          time.getTime() < new Date(2021, 5, 15).getTime() ||
+          time.getFullYear() > 2022,
+      })
+    )
+
+    const [startInput, endInput] = wrapper.findAll('input')
+    await endInput.setValue('2023-01')
+    await nextTick()
+
+    const vm = wrapper.vm
+    expect(vm.value).toEqual(['2022-01', '2022-02'])
+
+    // June 2021 is only partly disabled, so it can be picked in the panel
+    await startInput.setValue('2021-06')
+    await nextTick()
+    expect(vm.value).toEqual(['2021-06', '2022-02'])
+  })
+
   describe('form item accessibility integration', () => {
     it('automatic id attachment', async () => {
       const wrapper = _mount(
