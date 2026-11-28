@@ -17,8 +17,21 @@ export const generateExternal = (options: { full: boolean }) => {
   }
 }
 
-export function writeBundles(bundle: RolldownBuild, options: OutputOptions[]) {
-  return Promise.all(options.map((option) => bundle.write(option)))
+export async function writeBundles(
+  bundle: RolldownBuild,
+  options: OutputOptions[]
+) {
+  try {
+    const results = await Promise.allSettled(
+      options.map((option) => bundle.write(option))
+    )
+    return results.map((result) => {
+      if (result.status === 'rejected') throw result.reason
+      return result.value
+    })
+  } finally {
+    await bundle.close()
+  }
 }
 
 export function formatBundleFilename(
