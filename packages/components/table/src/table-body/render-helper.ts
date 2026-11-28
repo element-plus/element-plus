@@ -8,6 +8,7 @@ import useEvents from './events-helper'
 import useStyles from './styles-helper'
 import TdWrapper from './td-wrapper.vue'
 
+import type { VNode } from 'vue'
 import type { TableBodyProps } from './defaults'
 import type {
   DefaultRow,
@@ -44,6 +45,151 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
   } = useStyles(props)
 
   let displayIndex = -1
+  let rootIndex = 0
+  let rootSpanEnd = 0
+  let pendingTreeRows: ((rows: VNode[], index: number) => void)[] | undefined
+  type CellSpan = ReturnType<typeof getSpan>
+  let spanCache: Map<T, Map<number, (CellSpan | undefined)[]>> | undefined
+  let rowCountCache: Map<T, number> | undefined
+  const getTreeRowCount = (row: T): number => {
+    const cached = rowCountCache?.get(row)
+    if (cached !== undefined) return cached
+    const { lazyTreeNodeMap, childrenColumnName, rowKey } = props.store!.states
+    const key = getRowIdentity(row, rowKey.value)
+    const children = lazyTreeNodeMap.value[key] || row[childrenColumnName.value]
+    const count =
+      1 +
+      (children?.reduce(
+        (total: number, child: T) => total + getTreeRowCount(child),
+        0
+      ) || 0)
+    rowCountCache ??= new Map()
+    rowCountCache.set(row, count)
+    return count
+  }
+  const getSiblingSpan = (row: T, rowIndex: number, columnIndex: number) => {
+    const cached = spanCache?.get(row)?.get(rowIndex)?.[columnIndex]
+    if (cached) return cached
+    const span = getSpan(
+      row,
+      props.store!.states.columns.value[columnIndex],
+      rowIndex,
+      columnIndex
+    )
+    // Lookahead is position-dependent and is discarded after each body render.
+    spanCache ??= new Map()
+    let rowCache = spanCache.get(row)
+    if (!rowCache) {
+      rowCache = new Map()
+      spanCache.set(row, rowCache)
+    }
+    let cells = rowCache.get(rowIndex)
+    if (!cells) {
+      cells = []
+      rowCache.set(rowIndex, cells)
+    }
+    cells[columnIndex] = span
+    return span
+  }
+  const getSiblingSpanEnd = (
+    siblings: T[],
+    start: number,
+    rowIndex: number,
+    rendered: VNode
+  ) => {
+    const firstCells = rendered.children as (VNode | null)[]
+    if (!firstCells.some((cell) => cell?.props?.rowspan > 1)) return start + 1
+    const columns = props.store!.states.columns.value
+    const coveredUntil: number[] = []
+    let end = start + 1
+    let renderedRowIndex = rowIndex
+    for (let index = start; index < end; index++) {
+      for (let columnIndex = 0; columnIndex < columns.length; columnIndex++) {
+        const { rowspan, colspan } =
+          index === start
+            ? {
+                rowspan: firstCells[columnIndex]?.props?.rowspan ?? 0,
+                colspan: firstCells[columnIndex]?.props?.colspan ?? 0,
+              }
+            : getSiblingSpan(siblings[index], renderedRowIndex, columnIndex)
+        if (!rowspan || !colspan) continue
+        const rowEnd = index + Math.max(1, rowspan)
+        if (rowEnd > siblings.length) return start + 1
+        for (
+          let column = columnIndex;
+          column < Math.min(columns.length, columnIndex + colspan);
+          column++
+        ) {
+          // Independent cells in a covered column rule out a sibling merge.
+          if (coveredUntil[column] > index) return start + 1
+          coveredUntil[column] = rowEnd
+        }
+        end = Math.max(end, rowEnd)
+      }
+      // Loaded descendants count toward callback indexes even while hidden.
+      renderedRowIndex += getTreeRowCount(siblings[index])
+    }
+    // Recheck the deferred order because spanMethod can depend on row indexes.
+    const plannedCoverage: number[] = []
+    for (let index = start; index < end; index++) {
+      for (let columnIndex = 0; columnIndex < columns.length; columnIndex++) {
+        const { rowspan, colspan } =
+          index === start
+            ? {
+                rowspan: firstCells[columnIndex]?.props?.rowspan ?? 0,
+                colspan: firstCells[columnIndex]?.props?.colspan ?? 0,
+              }
+            : getSiblingSpan(
+                siblings[index],
+                rowIndex + index - start,
+                columnIndex
+              )
+        if (!rowspan || !colspan) continue
+        const rowEnd = index + Math.max(1, rowspan)
+        if (rowEnd > end) return start + 1
+        for (
+          let column = columnIndex;
+          column < Math.min(columns.length, columnIndex + colspan);
+          column++
+        ) {
+          if (plannedCoverage[column] > index) return start + 1
+          plannedCoverage[column] = rowEnd
+        }
+      }
+    }
+    const { treeData, lazyTreeNodeMap, childrenColumnName, rowKey } =
+      props.store!.states
+    let descendantIndex = rowIndex + end - start
+    for (let index = start; index < end; index++) {
+      const row = siblings[index]
+      const key = getRowIdentity(row, rowKey.value)
+      const children =
+        lazyTreeNodeMap.value[key] || row[childrenColumnName.value]
+      if (
+        children?.length &&
+        treeData.value[key]?.expanded &&
+        rendered.props?.style?.display !== 'none'
+      ) {
+        // The first deferred row must not depend on a preceding parent cell.
+        let colspanEnd = 0
+        for (let columnIndex = 0; columnIndex < columns.length; columnIndex++) {
+          const { rowspan, colspan } = getSiblingSpan(
+            children[0],
+            descendantIndex,
+            columnIndex
+          )
+          if (!rowspan || !colspan) {
+            if (columnIndex >= colspanEnd) return start + 1
+          } else {
+            colspanEnd = columnIndex + colspan
+          }
+        }
+        break
+      }
+      descendantIndex += getTreeRowCount(row) - 1
+    }
+    return end
+  }
 
   const firstDefaultColumnIndex = computed(() => {
     return props.store?.states.columns.value.findIndex(
@@ -92,7 +238,9 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
         onMouseleave: handleMouseLeave,
       },
       columns.value.map((column, cellIndex) => {
-        const { rowspan, colspan } = getSpan(row, column, $index, cellIndex)
+        const { rowspan, colspan } =
+          spanCache?.get(row)?.get($index)?.[cellIndex] ??
+          getSpan(row, column, $index, cellIndex)
         if (!rowspan || !colspan) {
           return null
         }
@@ -236,14 +384,50 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
           treeRowData.loading = cur.loading
         }
       }
+      if ($index === 0) {
+        spanCache = undefined
+        rowCountCache = undefined
+      }
       const tmp = [rowRender(row, $index, treeRowData ?? undefined)]
+      const hasSpanMethod = !!parent.props.spanMethod
+      if (hasSpanMethod) {
+        if ($index === 0) {
+          rootIndex = 0
+          rootSpanEnd = 0
+          pendingTreeRows = undefined
+        }
+        rootIndex++
+        if (rootIndex > rootSpanEnd) {
+          rootSpanEnd = getSiblingSpanEnd(
+            store.states.data.value,
+            rootIndex - 1,
+            $index,
+            tmp[0]
+          )
+        }
+      }
+      // Defer descendants only for a confirmed merge between siblings.
+      const deferChildren =
+        hasSpanMethod &&
+        rootIndex < rootSpanEnd &&
+        rootIndex < store.states.data.value.length
+      if (hasSpanMethod && !deferChildren && pendingTreeRows) {
+        for (const render of pendingTreeRows) {
+          render(tmp, $index + tmp.length)
+        }
+        pendingTreeRows = undefined
+      }
       // 渲染嵌套数据
       if (cur) {
+        const root = cur
+        let childrenRows = tmp
         // currentRow 记录的是 index，所以还需主动增加 TreeTable 的 index
-        let i = 0
+        let i = tmp.length - 1
         const traverse = (children: T[], parent: TreeData) => {
           if (!(children && children.length && parent)) return
-          children.forEach((node) => {
+          let spanEnd = 0
+          let pendingChildren: (() => void)[] | undefined
+          children.forEach((node, index) => {
             // 父节点的 display 状态影响子节点的显示状态
             const innerTreeRowData: Partial<Record<string, any>> = {
               display: parent.display && parent.expanded,
@@ -275,20 +459,60 @@ function useRender<T extends DefaultRow>(props: Partial<TableBodyProps<T>>) {
               }
             }
             i++
-            tmp.push(rowRender(node, $index + i, innerTreeRowData))
-            if (cur) {
-              const nodes =
-                lazyTreeNodeMap.value[childKey] ||
-                node[childrenColumnName.value]
-              traverse(nodes, cur)
+            const tr = rowRender(node, $index + i, innerTreeRowData)
+            childrenRows.push(tr)
+            // Queued traversals overwrite cur, so retain this sibling's tree state.
+            const childTree = cur
+            const nodes =
+              childTree &&
+              (lazyTreeNodeMap.value[childKey] ||
+                node[childrenColumnName.value])
+            if (hasSpanMethod) {
+              if (index >= spanEnd) {
+                spanEnd = getSiblingSpanEnd(children, index, $index + i, tr)
+              }
+              if (
+                pendingChildren &&
+                (index + 1 >= spanEnd || index === children.length - 1)
+              ) {
+                for (const render of pendingChildren) render()
+                pendingChildren = undefined
+              }
+            }
+            if (childTree) {
+              if (
+                hasSpanMethod &&
+                index + 1 < spanEnd &&
+                index < children.length - 1 &&
+                nodes?.length
+              ) {
+                pendingChildren ??= []
+                pendingChildren.push(() => traverse(nodes, childTree))
+              } else {
+                traverse(nodes, childTree)
+              }
             }
           })
         }
         // 对于 root 节点，display 一定为 true
-        cur.display = true
+        root.display = true
         const nodes =
           lazyTreeNodeMap.value[key] || row[childrenColumnName.value]
-        traverse(nodes, cur)
+        if (deferChildren && nodes?.length) {
+          pendingTreeRows ??= []
+          pendingTreeRows.push((rows, startIndex) => {
+            childrenRows = rows
+            // traverse increments i before rendering; hidden rows still count toward indices.
+            i = startIndex - $index - 1
+            traverse(nodes, root)
+          })
+        } else {
+          traverse(nodes, root)
+        }
+      }
+      if (hasSpanMethod && rootIndex === store.states.data.value.length) {
+        spanCache = undefined
+        rowCountCache = undefined
       }
       return tmp
     } else {
