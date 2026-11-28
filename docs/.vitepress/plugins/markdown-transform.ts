@@ -4,8 +4,8 @@ import { camelize } from '@vue/shared'
 import { glob } from 'tinyglobby'
 import { docRoot, docsDirName, projRoot } from '@element-plus/build-utils'
 import { REPO_BRANCH, REPO_PATH } from '@element-plus/build-constants'
-import { getLang, languages } from '../utils/lang'
-import footerLocale from '../i18n/component/footer.json'
+import { getLang, languages } from '../utils/lang.ts'
+import footerLocale from '../i18n/component/footer.json' with { type: 'json' }
 
 import type { Plugin } from 'vitepress'
 

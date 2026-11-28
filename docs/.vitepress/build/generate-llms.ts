@@ -1,5 +1,6 @@
 import path from 'path'
 import fs from 'fs/promises'
+import { pathToFileURL } from 'url'
 import { glob } from 'tinyglobby'
 
 async function generateLLms() {
@@ -130,7 +131,7 @@ async function generateLLms() {
 }
 
 ;(async () => {
-  if (require.main === module) {
+  if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
     await generateLLms()
   }
 })().catch((e) => {
