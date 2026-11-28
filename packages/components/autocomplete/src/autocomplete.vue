@@ -136,6 +136,7 @@ import {
   onBeforeUnmount,
   ref,
   useAttrs as useRawAttrs,
+  watch,
 } from 'vue'
 import { pick } from 'lodash-unified'
 import { onClickOutside, useDebounceFn } from '@vueuse/core'
@@ -333,7 +334,7 @@ const handleClear = () => {
 }
 
 const handleKeyEnter = async () => {
-  if (inputRef.value?.isComposing) {
+  if (disabled.value || inputRef.value?.isComposing) {
     return
   }
 
@@ -366,6 +367,10 @@ const close = () => {
   activated.value = false
 }
 
+watch(disabled, (isDisabled) => {
+  if (isDisabled) close()
+})
+
 const focus = () => {
   inputRef.value?.focus()
 }
@@ -375,6 +380,8 @@ const blur = () => {
 }
 
 const handleSelect = async (item: T) => {
+  if (disabled.value) return
+
   emit(INPUT_EVENT, item[props.valueKey])
   emit(UPDATE_MODEL_EVENT, item[props.valueKey])
   emit('select', item)
