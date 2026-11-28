@@ -34,6 +34,29 @@ describe('Transfer', () => {
     expect(ElTransfer.vm.sourceData.length).toBe(13)
   })
 
+  it('shows a mixed header when only some filtered items are checked', async () => {
+    const wrapper = mount(() => (
+      <Transfer
+        filterable
+        data={[
+          { key: 1, label: 'Apple' },
+          { key: 2, label: 'Apricot' },
+          { key: 3, label: 'Pear' },
+        ]}
+        leftDefaultChecked={[1, 3]}
+      />
+    ))
+    const panel = wrapper.get('.el-transfer-panel')
+    const filter = panel.get('input[type="text"]')
+    const header = panel.get('.el-transfer-panel__header')
+
+    await filter.setValue('Ap')
+    expect(header.find('.is-indeterminate').exists()).toBe(true)
+    await filter.setValue('Apricot')
+    expect(header.find('.is-indeterminate').exists()).toBe(false)
+    expect(header.get('input').element.checked).toBe(false)
+  })
+
   it('filterable', async () => {
     const value = ref([])
     const method = (query: string, option: TransferDataItem) => {
