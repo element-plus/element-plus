@@ -212,8 +212,8 @@ catalogs:
       specifier: 2.4.6
       version: 2.4.6
     '@vueuse/core':
-      specifier: 15.0.0
-      version: 15.0.0
+      specifier: 15.1.0
+      version: 15.1.0
     lodash-unified:
       specifier: ^1.0.3
       version: 1.0.3
@@ -285,7 +285,7 @@ importers:
         version: 4.17.12
       '@vueuse/core':
         specifier: 'catalog:'
-        version: 15.0.0(vue@3.5.25)
+        version: 15.1.0(vue@3.5.25)
       async-validator:
         specifier: ^4.2.5
         version: 4.2.5(patch_hash=cc6d77b35ed2a1683012935ca9ed998d418912785fcf78c6497d3268ac596d23)
@@ -445,7 +445,7 @@ importers:
         version: 3.5.25
       '@vueuse/core':
         specifier: 'catalog:'
-        version: 15.0.0(vue@3.5.25)
+        version: 15.1.0(vue@3.5.25)
       apca-w3:
         specifier: ^0.1.9
         version: 0.1.9
@@ -716,7 +716,7 @@ importers:
         version: '@sxzz/popperjs-es@2.11.8'
       '@vueuse/core':
         specifier: 'catalog:'
-        version: 15.0.0(vue@3.5.25)
+        version: 15.1.0(vue@3.5.25)
       lodash-unified:
         specifier: 'catalog:'
         version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.18.1)(lodash@4.18.1)
@@ -777,7 +777,7 @@ importers:
         version: 4.17.12
       '@vueuse/core':
         specifier: 'catalog:'
-        version: 15.0.0(vue@3.5.25)
+        version: 15.1.0(vue@3.5.25)
       async-validator:
         specifier: ^4.2.5
         version: 4.2.5(patch_hash=cc6d77b35ed2a1683012935ca9ed998d418912785fcf78c6497d3268ac596d23)
@@ -823,7 +823,7 @@ importers:
         version: '@sxzz/popperjs-es@2.11.8'
       '@vueuse/core':
         specifier: 'catalog:'
-        version: 15.0.0(vue@3.5.25)
+        version: 15.1.0(vue@3.5.25)
       lodash-unified:
         specifier: 'catalog:'
         version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.18.1)(lodash@4.18.1)
@@ -877,7 +877,7 @@ importers:
         version: 2.3.2(vue@3.5.25)
       '@vueuse/core':
         specifier: 'catalog:'
-        version: 15.0.0(vue@3.5.25)
+        version: 15.1.0(vue@3.5.25)
       lodash-unified:
         specifier: 'catalog:'
         version: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.18.1)(lodash@4.18.1)
@@ -10090,12 +10090,12 @@ snapshots:
       '@vueuse/shared': 15.0.0(vue@3.5.25)
       vue: 3.5.25(typescript@6.0.3)
 
-  '@vueuse/core@15.0.0(vue@3.5.46)':
+  '@vueuse/core@15.1.0(vue@3.5.25)':
     dependencies:
-      '@types/web-bluetooth': 0.0.21
-      '@vueuse/metadata': 15.0.0
-      '@vueuse/shared': 15.0.0(vue@3.5.46)
-      vue: 3.5.46(typescript@6.0.3)
+      '@types/web-bluetooth': 0.0.22
+      '@vueuse/metadata': 15.1.0
+      '@vueuse/shared': 15.1.0(vue@3.5.25)
+      vue: 3.5.25(typescript@6.0.3)
 
   '@vueuse/core@15.1.0(vue@3.5.46)':
     dependencies:
@@ -10123,9 +10123,9 @@ snapshots:
     dependencies:
       vue: 3.5.25(typescript@6.0.3)
 
-  '@vueuse/shared@15.0.0(vue@3.5.46)':
+  '@vueuse/shared@15.1.0(vue@3.5.25)':
     dependencies:
-      vue: 3.5.46(typescript@6.0.3)
+      vue: 3.5.25(typescript@6.0.3)
 
   '@vueuse/shared@15.1.0(vue@3.5.46)':
     dependencies:
@@ -14274,7 +14274,7 @@ snapshots:
       '@vitejs/plugin-vue': 6.0.11(vite@8.4.0)(vue@3.5.46)
       '@vue/devtools-api': 8.2.1
       '@vue/shared': 3.5.46
-      '@vueuse/core': 15.0.0(vue@3.5.46)
+      '@vueuse/core': 15.1.0(vue@3.5.46)
       '@vueuse/integrations': 15.1.0(async-validator@4.2.5)(change-case@5.4.4)(focus-trap@8.2.6)(nprogress@0.2.0)(vue@3.5.46)
       focus-trap: 8.2.6
       mark.js: 8.11.1
