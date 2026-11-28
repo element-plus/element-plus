@@ -15,7 +15,12 @@ import type { TableV2Props } from '../table'
 type CellRendererProps = TableV2RowCellRenderParam &
   Pick<
     TableV2Props,
-    'cellProps' | 'expandColumnKey' | 'indentSize' | 'iconSize' | 'rowKey'
+    | 'cellProps'
+    | 'expandColumnKey'
+    | 'indentSize'
+    | 'iconSize'
+    | 'rowKey'
+    | 'border'
   > &
   UnwrapNestedRefs<Pick<UseTableReturn, 'expandedRowKeys'>> & {
     ns: UseNamespaceReturn
@@ -44,13 +49,16 @@ const CellRenderer: FunctionalComponent<CellRendererProps> = (
     indentSize,
     iconSize,
     rowKey,
+    border,
   },
   { slots }
 ) => {
   const cellStyle = enforceUnit(style)
 
   if (column.placeholderSign === placeholderSign) {
-    return <div class={ns.em('row-cell', 'placeholder')} style={cellStyle} />
+    const clz = [ns.em('row-cell', 'placeholder')]
+    if (border) clz.push(ns.is('bordered'))
+    return <div class={clz} style={cellStyle} />
   }
   const { cellRenderer, dataKey, dataGetter } = column
 
@@ -86,6 +94,7 @@ const CellRenderer: FunctionalComponent<CellRendererProps> = (
 
   const kls = [
     ns.e('row-cell'),
+    border && ns.is('bordered'),
     column.class,
     column.align === Alignment.CENTER && ns.is('align-center'),
     column.align === Alignment.RIGHT && ns.is('align-right'),

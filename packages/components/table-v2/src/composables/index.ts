@@ -1,4 +1,5 @@
 export * from './use-columns'
+export * from './use-column-resize'
 export * from './use-scrollbar'
 export * from './use-row'
 export * from './use-data'
