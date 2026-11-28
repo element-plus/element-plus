@@ -62,15 +62,27 @@
 
   @include e(list) {
     margin: 0;
-    padding: 6px 0;
+    padding: 0;
     list-style: none;
     height: getCssVar('transfer-panel-body-height');
-    overflow: auto;
+    overflow: hidden;
     box-sizing: border-box;
+    @include when(virtual) {
+      padding: 6px 0;
+      overflow: auto;
+    }
     @include when(filterable) {
       height: calc(100% - getCssVar('transfer-filter-height') - 30px);
       padding-top: 0;
+
+      .#{$namespace}-transfer-panel__content {
+        padding-top: 0;
+      }
     }
+  }
+
+  @include e(content) {
+    padding: 6px 0;
   }
 
   @include e(item) {
