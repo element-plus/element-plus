@@ -8,8 +8,7 @@ export default {
       confirm: 'ठीक है',
       clear: 'हटाएँ',
       defaultLabel: 'कलर पिकर',
-      description:
-        'मौजूदा रंग {color} है. कोई नया रंग चुनने के लिए एंटर दबाएँ.',
+      description: 'मौजूदा रंग {color} है. कोई नया रंग चुनने के लिए एंटर दबाएँ.',
       alphaLabel: 'अल्फा मान चुनें',
       alphaDescription: 'alpha {alpha}, current color is {color}', // to be translated
       hueLabel: 'pick hue value', // to be translated
@@ -25,14 +24,10 @@ export default {
       cancel: 'कैंसिल करें',
       clear: 'हटाएँ',
       confirm: 'ठीक है',
-      dateTablePrompt:
-        'महीने का दिन चुनने के लिए एरो कुंजी का इस्तेमाल करें और एंटर करें',
-      monthTablePrompt:
-        'महीने चुनने के लिए एरो कुंजी का इस्तेमाल करें और एंटर करें ',
-      quarterTablePrompt:
-        'तिमाही चुनने के लिए एरो कुंजी का इस्तेमाल करें और एंटर करें',
-      yearTablePrompt:
-        'साल चुनने के लिए एरो कुंजी का इस्तेमाल करें और एंटर करें',
+      dateTablePrompt: 'महीने का दिन चुनने के लिए एरो कुंजी का इस्तेमाल करें और एंटर करें',
+      monthTablePrompt: 'महीने चुनने के लिए एरो कुंजी का इस्तेमाल करें और एंटर करें ',
+      quarterTablePrompt: 'तिमाही चुनने के लिए एरो कुंजी का इस्तेमाल करें और एंटर करें',
+      yearTablePrompt: 'साल चुनने के लिए एरो कुंजी का इस्तेमाल करें और एंटर करें',
       selectedDate: 'चुनी गई तारीख',
       selectDate: 'तारीख चुनें',
       selectTime: 'समय चुनें',

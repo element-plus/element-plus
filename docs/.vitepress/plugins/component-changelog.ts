@@ -1,4 +1,4 @@
-import { loadChangelog } from '../utils/changelog-parser'
+import { loadChangelog } from '../utils/changelog-parser.ts'
 
 import type { Plugin } from 'vitepress'
 
