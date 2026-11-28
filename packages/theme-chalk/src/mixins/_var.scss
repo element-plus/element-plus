@@ -1,5 +1,6 @@
 @use 'sass:map';
 @use 'sass:color';
+@use 'sass:meta';
 
 @use 'config';
 @use 'function' as *;
@@ -53,12 +54,16 @@
 }
 
 @mixin set-css-color-rgb-value($name, $color) {
-  @include set-css-var-value(
-    $name,
-    #{color.channel($color, 'red', $space: rgb),
-    color.channel($color, 'green', $space: rgb),
-    color.channel($color, 'blue', $space: rgb)}
-  );
+  // only extract rgb channels when the value is a sass color,
+  // so users can override color levels with non-color values like var(...)
+  @if meta.type-of($color) == 'color' {
+    @include set-css-var-value(
+      $name,
+      #{color.channel($color, 'red', $space: rgb),
+      color.channel($color, 'green', $space: rgb),
+      color.channel($color, 'blue', $space: rgb)}
+    );
+  }
 }
 
 // generate css var from existing css var
